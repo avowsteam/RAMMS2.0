@@ -12109,6 +12109,7 @@ namespace RAMMS.Domain.Models
                 entity.HasOne(d => d.FmtvFmtdiPkRefNoNavigation)
                     .WithMany(p => p.RmFormTVechicle)
                     .HasForeignKey(d => d.FmtvFmtdiPkRefNo)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RM_FormT_Vechicle_RM_FormT_Daily_Inspection");
             });
 

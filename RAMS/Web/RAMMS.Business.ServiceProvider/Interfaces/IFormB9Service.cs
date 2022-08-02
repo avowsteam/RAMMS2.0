@@ -16,7 +16,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         //Task<FormF1ResponseDTO> FindFormF1ByID(int id);
         //Task<IEnumerable<FormF1DtlResponseDTO>> FindFormF1DtlByID(int id);
 
-        Task<PagingResult<FormB9ResponseDTO>> GetHeaderList(FilteredPagingDefinition<FormB9SearchGridDTO> filterOptions)
+        Task<PagingResult<FormB9ResponseDTO>> GetHeaderList(FilteredPagingDefinition<FormB9SearchGridDTO> filterOptions);
 
 
       //  Task<FormF1ResponseDTO> GetHeaderById(int id);

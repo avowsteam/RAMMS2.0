@@ -33,7 +33,8 @@ namespace RAMMS.Repository
 
             var query = (from hdr in _context.RmFormTHdr.Where(s => s.FmtActiveYn == true)
                          join r in _context.RmRoadMaster on hdr.FmtRdCode equals r.RdmRdCode
-                         let vehicle = _context.RmFormTVechicle.Where(r => r.FmtvFmtdiPkRefNo == hdr.FmtPkRefNo).DefaultIfEmpty()
+                         let DailyIns = (from d in _context.RmFormTDailyInspection where d.FmtdiFmtPkRefNo == hdr.FmtPkRefNo select d.FmtdiPkRefNo).DefaultIfEmpty()
+                         let vehicle = _context.RmFormTVechicle.Where(r => DailyIns.Contains(r.FmtvFmtdiPkRefNo)).DefaultIfEmpty()
 
                          select new
                          {
@@ -397,9 +398,9 @@ namespace RAMMS.Repository
 
         public async Task<FORMTRpt> GetReportData(int headerid)
         {
-            int ? pkrefno =  (from s in _context.RmFormTDailyInspection
-                                           where s.FmtdiPkRefNo == headerid
-                                           select s.FmtdiFmtPkRefNo).FirstOrDefault();
+            int? pkrefno = (from s in _context.RmFormTDailyInspection
+                            where s.FmtdiPkRefNo == headerid
+                            select s.FmtdiFmtPkRefNo).FirstOrDefault();
 
             FORMTRpt result = (from s in _context.RmFormTHdr
                                where s.FmtPkRefNo == pkrefno
