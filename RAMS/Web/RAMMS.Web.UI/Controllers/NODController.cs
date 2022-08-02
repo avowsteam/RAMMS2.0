@@ -418,7 +418,7 @@ namespace RAMMS.Web.UI.Controllers
                         List<FormAImageListRequestDTO> uploadedFiles = new List<FormAImageListRequestDTO>();
                         string photo_Type = Regex.Replace(photoType[j], @"[^a-zA-Z]", "");
                         string path = Path.Combine(wwwPath, Path.Combine("Uploads", "FormADetail", assetId.ToString(), photo_Type));
-                        int i = await _formaImgService.LastInsertedSRNO(assetId, photo_Type);
+                        int i = await _formaImgService.LastInsertedSRNO(assetId, photoType[j]);
                         i += 1;
                         if (!Directory.Exists(path))
                         {
@@ -432,7 +432,7 @@ namespace RAMMS.Web.UI.Controllers
                         using (FileStream stream = new FileStream(Path.Combine(path, filerename), FileMode.Create))
                         {
                             _rmAssetImageDtl.AssetId = assetId;
-                            _rmAssetImageDtl.ImageTypeCode = photo_Type;
+                            _rmAssetImageDtl.ImageTypeCode = photoType[j];
                             _rmAssetImageDtl.SNO = i;
                             _rmAssetImageDtl.FileName = postedFile.FileName;
                             _rmAssetImageDtl.ActiveYn = true;
@@ -1371,7 +1371,7 @@ namespace RAMMS.Web.UI.Controllers
             rowsAffected = await _formhImgService.DectivateAssetImage(assetPkId);
             return Json(rowsAffected);
         }
-                                               
+
         [HttpPost]
         public async Task<IActionResult> HGetImageList(int assetPk, string assetGroup)
         {
@@ -1485,7 +1485,6 @@ namespace RAMMS.Web.UI.Controllers
 
             return Json(new { draw = searchData.draw, recordsFiltered = result.TotalRecords, recordsTotal = result.TotalRecords, data = result.PageResult });
         }
-    
         public async Task<IActionResult> FormH([FromQuery(Name = "vid")] string viewId)
         {
             ViewBag.ViewId = viewId;

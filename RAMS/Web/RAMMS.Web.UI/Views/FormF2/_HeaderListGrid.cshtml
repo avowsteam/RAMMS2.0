@@ -68,7 +68,7 @@
     //var roadname = { data: "roadName", name: "Roadname", title: "Road Name", autoWidth: true, sortable: true,visible: false };
     //var year = { data: "yearOfInsp", name: "Year", title: "Year", autoWidth: true, sortable: true, visible: false };
     var crewLeader = { data: "crewLeaderName", name: "CrewLeaderName", title: "Crew Leader", autoWidth: true, sortable: true };
-
+    var proStatus = { data: "status", name: "status", title: "Status", autoWidth: true, sortable: true };
     var submitSts = {
         data: null, name: "submitSts", title: "Status", autoWidth: true, sortable: true, render: function (data) {
             if (data.submitSts) {
@@ -94,9 +94,9 @@
     table_columns.push(secname);
     table_columns.push(roadcode);
     //table_columns.push(roadname);
-    //table_columns.push(year);
-    //table_columns.push(submitSts);
+    //table_columns.push(year);    
     table_columns.push(crewLeader);
+    table_columns.push(proStatus);
     function PrintForm(id) {
         window.location.href = '/FormF2/FormF2Download?id=' + id;
     }
@@ -177,7 +177,7 @@
         oTable = $('#FormF2GridView').DataTable();
 
         $("#btnClearSearch").click(function () {
-            //debugger;
+            debugger;
             $("#txtSmartSearch").val('');
             $("#ddlSection").val('');
             $("#ddlSection").trigger("chosen:updated");
@@ -210,7 +210,7 @@
                 data: req,
                 type: 'Post',
                 success: function (data) {
-                    //debugger;
+                    debugger;
 
                     $("#ddlRMU").empty();
                     $("#ddlRMU").append($("<option></option>").val("").html("Select RMU"));
@@ -243,7 +243,7 @@
 
         });
         $('#btnSearch').click(function () {
-            //debugger;
+            debugger;
             var secCode = $("#ddlSection").find("option:selected").attr("code");
             oTable.columns(0).search($("#txtSmartSearch").val());
             oTable.columns(1).search($("#ddlRMU").val());

@@ -63,11 +63,7 @@ namespace RAMMS.Web.UI.Controllers
            IFormDService formDService,
             IFormJServices formJServices,
            IDDLookUpService ddLookupService,
-           ILogger logger, IRoadMasterService roadMaster, 
-           IUserService userService, 
-           IWebHostEnvironment webhostenvironment, 
-           IConfiguration configuration, 
-           IBridgeBO bridgeBO, ISecurity security)
+           ILogger logger, IRoadMasterService roadMaster, IUserService userService, IWebHostEnvironment webhostenvironment, IConfiguration configuration, IBridgeBO bridgeBO, ISecurity security)
         {
             _dDLookupBO = _ddLookupBO;
             Environment = _environment;
@@ -933,7 +929,7 @@ namespace RAMMS.Web.UI.Controllers
 
         }
 
-        [CAuthorize(ModuleName = ModuleNameList.Emergency_Response_Team)]
+        
         public async Task<IActionResult> FormD()
         {            
             await LoadDropDowns();
