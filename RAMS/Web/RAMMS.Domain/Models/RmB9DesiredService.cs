@@ -14,6 +14,8 @@ namespace RAMMS.Domain.Models
         public int? B9dsRevisionNo { get; set; }
         public DateTime? B9dsRevisionDate { get; set; }
         public int? B9dsRevisionYear { get; set; }
+        public int? B9dsUserId { get; set; }
+        public string B9dsUserName { get; set; }
         public int? B9dsCrBy { get; set; }
         public DateTime? B9dsCrDt { get; set; }
 
