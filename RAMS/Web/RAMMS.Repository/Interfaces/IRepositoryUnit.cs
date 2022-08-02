@@ -100,6 +100,7 @@ namespace RAMMS.Repository.Interfaces
         public FormF3Repository FormF3Repository { get; }
         public FormF1Repository FormF1Repository { get; }
         public FormTRepository FormTRepository { get; }
+        public FormB9Repository FormB9Repository { get; }
 
 
         int Commit();
