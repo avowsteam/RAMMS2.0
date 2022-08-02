@@ -592,11 +592,25 @@ function SaveFormTDtl() {
 }
 
 function NewFormTDtl() {
-     
+
+    $("#FormTDtl_PkRefNo").val(0);
+
+    var table = $('#FormTDtlGridView').dataTable();
+
+    if (table.fnGetData().length >= 6) {
+        app.ShowErrorMessage("Cannot add more than 6 rows");
+        $("#myModal").modal("hide");
+        return;
+    }
+    else {
+        $("#myModal").modal("show");
+    }
 
     $.get('/FrmT/GetFormTDtlById?id=' + 0, function (data) {
 
         $('#divVechicleDetails').html(data).promise().done(function () {
+
+          
 
             $('.editable').on('click', function (e) {
                 var $this = $(this);

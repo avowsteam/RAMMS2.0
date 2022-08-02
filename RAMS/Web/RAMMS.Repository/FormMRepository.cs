@@ -27,7 +27,7 @@ namespace RAMMS.Repository
         public async Task<RmFormMHdr> FindDetails(RmFormMHdr frmR1R2)
         {
             //return await _context.RmFormMHdr.Include(x => x.RmFormMAuditDetails).ThenInclude(x => x.FmadFmhPkRefNoNavigation).Where(x => x.Fr1hAssetId == frmR1R2.Fr1hAssetId && x.Fr1hYearOfInsp == frmR1R2.Fr1hYearOfInsp && x.Fr1hActiveYn == true).FirstOrDefaultAsync();
-            return await _context.RmFormMHdr.Include(x => x.RmFormMAuditDetails).ThenInclude(x => x.FmadFmhPkRefNoNavigation).Where(x => x.FmhRmuCode == frmR1R2.FmhRmuCode && x.FmhSecCode == frmR1R2.FmhSecCode && x.FmhRdCode == frmR1R2.FmhRdCode && x.FmhActCode == frmR1R2.FmhActCode && x.FmhAuditedDate == frmR1R2.FmhAuditedDate && x.FmhActiveYn == true).FirstOrDefaultAsync();
+            return await _context.RmFormMHdr.Include(x => x.RmFormMAuditDetails).ThenInclude(x => x.FmadFmhPkRefNoNavigation).Where(x => x.FmhRmuCode == frmR1R2.FmhRmuCode && x.FmhSecCode == frmR1R2.FmhSecCode && x.FmhRdCode == frmR1R2.FmhRdCode && x.FmhActCode == frmR1R2.FmhActCode && x.FmhAuditedDate == frmR1R2.FmhAuditedDate && x.FmhAuditTimeFrm == frmR1R2.FmhAuditTimeFrm && x.FmhAuditTimeTo==frmR1R2.FmhAuditTimeTo && x.FmhLocChM == frmR1R2.FmhLocChM && x.FmhLocChKm == frmR1R2.FmhLocChKm && x.FmhActiveYn == true).FirstOrDefaultAsync();
         }
 
         public async Task<RmFormMHdr> FindByHeaderID(int headerId)

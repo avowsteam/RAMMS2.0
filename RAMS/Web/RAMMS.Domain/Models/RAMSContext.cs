@@ -3372,6 +3372,13 @@ namespace RAMMS.Domain.Models
                 entity.Property(e => e.B9dsRevisionNo).HasColumnName("B9DS_Revision_No");
 
                 entity.Property(e => e.B9dsRevisionYear).HasColumnName("B9DS_Revision_Year");
+
+                entity.Property(e => e.B9dsUserId).HasColumnName("B9DS_UserId");
+
+                entity.Property(e => e.B9dsUserName)
+                    .HasColumnName("B9DS_UserName")
+                    .HasMaxLength(160)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<RmB9DesiredServiceHistory>(entity =>
@@ -12102,6 +12109,7 @@ namespace RAMMS.Domain.Models
                 entity.HasOne(d => d.FmtvFmtdiPkRefNoNavigation)
                     .WithMany(p => p.RmFormTVechicle)
                     .HasForeignKey(d => d.FmtvFmtdiPkRefNo)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RM_FormT_Vechicle_RM_FormT_Daily_Inspection");
             });
 

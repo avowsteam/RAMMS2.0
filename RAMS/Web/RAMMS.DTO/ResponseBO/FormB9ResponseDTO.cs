@@ -8,14 +8,16 @@ namespace RAMMS.DTO.ResponseBO
 {
     public class FormB9ResponseDTO
     {
-        public int B9dsPkRefNo { get; set; }
-        public int? B9dsRevisionNo { get; set; }
+        public int PkRefNo { get; set; }
+        public int? RevisionNo { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? B9dsRevisionDate { get; set; }
-        public int? B9dsRevisionYear { get; set; }
-        public int? B9dsCrBy { get; set; }
-        public DateTime? B9dsCrDt { get; set; }
+        public DateTime? RevisionDate { get; set; }
+        public int? RevisionYear { get; set; }
+        public int? UserId { get; set; }
+        public string UserName { get; set; }
+        public int? CrBy { get; set; }
+        public DateTime? CrDt { get; set; }
  
     }
 }
