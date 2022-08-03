@@ -219,7 +219,6 @@
             //alert($("#formDWeekNo").val());
             var maxcount = $("#hdnMaxNo").val();
             if ($("#FDHRef_No").val() != 0) {
-                //debugger;
                 $("#formDFindDetailsBtn").hide();
                 if ($("#hdnView").val() != "1") {
                     $("#saveFormDBtn").show();
@@ -341,7 +340,6 @@
         //        $("#formDCrewUnit").val(hdnCrewName.split("-")[0]);
         //    }
         //}
-        //debugger;
 
         if ($("#hdnView").val() == "1") {
             $("#saveFormDBtn").hide();
@@ -597,22 +595,13 @@
                                     <SelectListItem>)ViewData["Division"], "Select Division", new { @Id = "formDdivisionName", @class = "form-control  validate {required, Division}" })*@
                                         </div>
 
-                                        <div class="form-group col-lg-2">
-                                            @Html.Label("Crew Supervisor", "Crew Supervisor")
+                                        <div class="form-group col-lg-2 mb-0">
+                                            @Html.Label("Name of Crew Supervisor", "Crew Supervisor")
                                             @Html.DropDownListFor(Ahdr => Ahdr.SaveFormDModel.CrewUnit, (IEnumerable
                                                                    <SelectListItem>)ViewData["Supervisor"], "Select Users", new { @Id = "formDCrewUnit", @class = "form-control  validate {required, Name of Crew Supervisor}" })
 
                                             @*@Html.HiddenFor(Dhdr => Dhdr.SaveFormDModel.CrewUnit, new { @id = "hdnCrewUnit" })*@
                                         </div>
-                                        @*<div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">
-                                    <button id="formDFindDetailsBtn" type="button" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right disablebtn">Find Details</button>
-                                </div>*@
-                                        @*<div class="form-group col-lg-2 mb-0">
-                                    @Html.Label("Section Name", "Section Name")
-                                    @Html.TextBoxFor(m => m.DivisionDescription, new { @Id = "formDDivisionDesc", @readonly = "readonly", @class = "form-control " })
-                                </div>*@
-
-
                                         <div class="form-group col-lg-4 pl-lg-0">
                                             @Html.Label("Name of Crew Supervisor", "Name of Crew Supervisor")
                                             @Html.TextBoxFor(Dhdr => Dhdr.SaveFormDModel.CrewUnitName, "", new { @id = "formDCrewName", @class = "form-control" })
@@ -790,16 +779,8 @@
                         </div>
                     </div>
                 </div>
-                @{
-                    Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
-                    {
-                        Form = "FormD",
-                        RefId = Model.SaveFormDModel.No ,
-                        Stage = Model.SaveFormDModel.Status
-                    });
-                }
-            </div>
-
+                @if (Model.SaveFormDModel.No > 0) { await Html.RenderPartialAsync("_ProcessHistory", new RAMMS.DTO.RequestBO.ProcessDTO() { Form = "FormD", RefId = Model.SaveFormDModel.No, Stage = Model.SaveFormDModel.Status }); }
+            </div>            
         </div>
         @Html.HiddenFor(m => m.SaveFormDModel.No, new { @id = "FDHRef_No", @class = "form-control" })
         @Html.HiddenFor(m => m.viewm, new { @id = "hdnView", @class = "form-control" })
@@ -865,47 +846,47 @@
                 </div>
 
 
-                @* Patial View for add Class to bind data in partial view *@
-                <div id="div-equip-container">
-                    @{
-                        //Html.RenderPartial("_EquipAdd.cshtml", Model.FormDEquip);
-                    }
-                </div>
+            @* Patial View for add Class to bind data in partial view *@
+            <div id="div-equip-container">
+                @{
+                    //Html.RenderPartial("_EquipAdd.cshtml", Model.FormDEquip);
+                }
             </div>
         </div>
     </div>
-    <div class="modal fade" id="FormDLabourModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="FormDLabourModalid" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="FormDLabourModalid"> Add Labour </h5>
-                    <button type="button" class="close" onclick="GoBackLab()" aria-label="Close"><span aria-hidden="true"> &times;</span></button>
-                </div>
-                @* Patial View for add Class to bind data in partial view *@
-                <div id="div-lab-container">
-                    @{
-                        //Html.RenderPartial("_LabourAdd.cshtml", Model.FormDLabour);
-                    }
-                </div>
+</div>
+<div class="modal fade" id="FormDLabourModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="FormDLabourModalid" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="FormDLabourModalid">Add Labour</h5>
+                <button type="button" class="close" onclick="GoBackLab()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            @* Patial View for add Class to bind data in partial view *@
+            <div id="div-lab-container">
+                @{
+                    //Html.RenderPartial("_LabourAdd.cshtml", Model.FormDLabour);
+                }
             </div>
         </div>
     </div>
-    <div class="modal fade" id="FormDDetailsModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="FormDDetailsModalid" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-custom" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="FormDDetailsModalid"> Add Details </h5>
-                    <button type="button" class="close" onclick="GoBackDtl()" aria-label="Close"><span aria-hidden="true"> &times;</span></button>
-                </div>
-                @* Patial View for add Class to bind data in partial view *@
-                <div id="div-dtl-container">
-                    @{
-                        // Html.RenderPartial("_DetailsAdd.cshtml", Model.FormDDetails);
-                    }
-                </div>
+</div>
+<div class="modal fade" id="FormDDetailsModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="FormDDetailsModalid" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="FormDDetailsModalid">Add Details</h5>
+                <button type="button" class="close" onclick="GoBackDtl()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            @* Patial View for add Class to bind data in partial view *@
+            <div id="div-dtl-container">
+                @{
+                    // Html.RenderPartial("_DetailsAdd.cshtml", Model.FormDDetails);
+                }
             </div>
         </div>
     </div>
+</div>
 
     <div class="modal fade" id="WarPhotoModald" aria-hidden="true" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="WarPhotoModald">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -931,4 +912,3 @@
             </div>
         </div>
     </div>
-</div>

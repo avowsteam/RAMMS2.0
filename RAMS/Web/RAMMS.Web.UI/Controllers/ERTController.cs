@@ -929,7 +929,7 @@ namespace RAMMS.Web.UI.Controllers
 
         }
 
-        [CAuthorize(ModuleName = ModuleNameList.Emergency_Response_Team)]
+        
         public async Task<IActionResult> FormD()
         {            
             await LoadDropDowns();
@@ -1067,20 +1067,19 @@ namespace RAMMS.Web.UI.Controllers
             var day = await _ddLookupService.GetDdLookup(ddLookup);
             ViewData["Day"] = day.Select(l => new SelectListItem { Selected = (l.Value == DateTime.Now.DayOfWeek.ToString()), Text = l.Text, Value = l.Value });
 
-            //ddLookup.Type = "Week No";
+            ddLookup.Type = "Week No";
             var week = await _ddLookupService.GetDdDescValue(ddLookup);
             DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
             Calendar cal = dfi.Calendar;
             var weekno = cal.GetWeekOfYear(DateTime.Today, dfi.CalendarWeekRule,
                                          dfi.FirstDayOfWeek);
 
-            var weekNoLst = _dDLookupBO.GetWeekNo();
-            ViewData["WeekNo"] = weekNoLst.Select(l => new SelectListItem { Selected = (l.Value == weekno.ToString()), Text = l.Text, Value = l.Value });
+            ViewData["WeekNo"] = _dDLookupBO.GetWeekNo();
 
-            //var objdt = GetDateByWeekNo_WeeDay(DateTime.Today.Year.ToString(), weekno.ToString(), DateTime.Now.DayOfWeek.ToString());
-            //ViewData["weedate"] = objdt.Split("~")[0];
+            var objdt = GetDateByWeekNo_WeeDay(DateTime.Today.Year.ToString(), weekno.ToString(), DateTime.Now.DayOfWeek.ToString());
+            ViewData["weedate"] = objdt.Split("~")[0];
 
-            //ViewData["monthno"] = objdt.Split("~")[1];
+            ViewData["monthno"] = objdt.Split("~")[1];
 
             formDDetailsDtl.RoadCodeList = await _formDService.GetRoadCodeList();
 
@@ -1428,7 +1427,7 @@ namespace RAMMS.Web.UI.Controllers
             formD = header.SaveFormDModel;
             formD.DivisionName = header.DivisionName;
             formD.RoadCode = header.RoadCode;
-            formDRes = await _formDService.FindDetails(formD);
+            //formDRes = await _formDService.FindDetails(formD);
             if (formDRes == null || formDRes.No == 0)
             {
 
