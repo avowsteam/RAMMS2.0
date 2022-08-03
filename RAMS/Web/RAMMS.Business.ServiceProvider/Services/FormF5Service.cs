@@ -12,7 +12,7 @@ using RAMMS.DTO.Report;
 using ClosedXML.Excel;
 using System.Linq;
 using System.IO;
-
+using RAMMS.Common;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
@@ -22,12 +22,14 @@ namespace RAMMS.Business.ServiceProvider.Services
         private readonly IMapper _mapper;
         private readonly ISecurity _security;
         private IFormF5Repository _formF5Repository;
-        public FormF5Service(IRepositoryUnit repositoryUnit, IMapper mapper, ISecurity security, IFormF5Repository formF5Repository)
+        private readonly IProcessService processService;
+        public FormF5Service(IRepositoryUnit repositoryUnit, IMapper mapper, ISecurity security, IFormF5Repository formF5Repository, IProcessService proService)
         {
             _repoUint = repositoryUnit;
             _mapper = mapper;
             _security = security;
             _formF5Repository = formF5Repository;
+            processService = proService;
         }
         public async Task<GridWrapper<object>> GetFormF5HeaderGrid(DataTableAjaxPostModel searchData)
         {
@@ -56,6 +58,7 @@ namespace RAMMS.Business.ServiceProvider.Services
         public async Task<T> SaveHeader<T>(T header, bool updateSubmitSts)
         {
             RmFormF5InsHdr hdr = _mapper.Map<RmFormF5InsHdr>(header);
+            hdr.FvahStatus = StatusList.FormF5Init;
             if (hdr.FvahPkRefNo == 0)
             {
                 var masterData = await _repoUint.RoadmasterRepository.FindAsync(x => x.RdmRdCode == hdr.FvahRoadCode && x.RdmActiveYn == true);
@@ -65,7 +68,20 @@ namespace RAMMS.Business.ServiceProvider.Services
                     hdr.FvahDivCode = masterData.RdmDivCode;
                 }
             }
-            var result = _mapper.Map<T>(await _formF5Repository.saveFormF5Hdr(hdr, updateSubmitSts));
+            var form = await _formF5Repository.saveFormF5Hdr(hdr, updateSubmitSts);
+            if (form != null && form.FvahSubmitSts)
+            {
+                int iResult = processService.Save(new DTO.RequestBO.ProcessDTO()
+                {
+                    ApproveDate = DateTime.Now,
+                    Form = "FormF5",
+                    IsApprove = true,
+                    RefId = form.FvahPkRefNo,
+                    Remarks = "",
+                    Stage = form.FvahStatus
+                }).Result;
+            }
+            var result = _mapper.Map<T>(form);
             return result;
         }
         public async Task<int> SaveDetail(FormF5HeaderRequestDTO header)

@@ -191,6 +191,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             }
             return (await _repo.AddMultiImage(images), 1);
         }
+
         public async Task<IList<RmFormCvInsImage>> AddMultiImageTab(IList<FormC1C2ImageDTO> imagesDTO)
         {
             IList<RmFormCvInsImage> images = new List<RmFormCvInsImage>();

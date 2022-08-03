@@ -443,7 +443,6 @@ namespace RAMMS.Business.ServiceProvider.Services
                 {
                     var _ = _mapper.Map<FormDHeaderResponseDTO>(listData);
                     _.ProcessStatus = listData.FdhStatus;
-
                     formDList.Add(_);
                 }
 
@@ -1022,7 +1021,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             DateTime jan1 = new DateTime(year, 1, 1);
             int daysOffset = (int)CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek - (int)jan1.DayOfWeek;
 
-            DateTime firstMonday = jan1.AddDays(daysOffset);
+            DateTime firstMonday = jan1.AddDays(daysOffset + 1);
 
             return firstMonday.AddDays(weekOfYear * 7);
         }
@@ -1218,15 +1217,11 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 var codes = await _repoUnit.FormDRepository.GetLabourCode();
 
-                var result =  codes.OrderBy(s => s.DdlPkRefNo).Select(s => new SelectListItem
+                return codes.OrderBy(s => s.DdlPkRefNo).Select(s => new SelectListItem
                 {
                     Value = s.DdlTypeCode.ToString(),
                     Text = s.DdlTypeCode + "-" + s.DdlTypeValue.ToString()
-                }).ToList();
-
-                var other = new SelectListItem { Text = "99999999-Others", Value = "99999999" };
-                result.Add(other);
-                return result;
+                }).ToArray();
             }
             catch (Exception Ex)
             {
@@ -1241,15 +1236,11 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 var codes = await _repoUnit.FormDRepository.GetMaterialCode();
 
-                var result = codes.OrderBy(s => s.DdlPkRefNo).Select(s => new SelectListItem
+                return codes.OrderBy(s => s.DdlPkRefNo).Select(s => new SelectListItem
                 {
                     Value = s.DdlTypeCode.ToString(),
                     Text = s.DdlTypeCode + "-" + s.DdlTypeValue.ToString()
-                }).ToList();
-
-                var other = new SelectListItem { Text = "99999999-Others", Value = "99999999" };
-                result.Add(other);
-                return result;
+                }).ToArray();
             }
             catch (Exception Ex)
             {
@@ -1264,15 +1255,11 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 var codes = await _repoUnit.FormDRepository.GetEquipmentCode();
 
-                var result = codes.OrderBy(s => s.DdlPkRefNo).Select(s => new SelectListItem
+                return codes.OrderBy(s => s.DdlPkRefNo).Select(s => new SelectListItem
                 {
                     Value = s.DdlTypeCode.ToString(),
                     Text = s.DdlTypeCode + "-" + s.DdlTypeValue.ToString()
-                }).ToList();
-
-                var other = new SelectListItem { Text = "99999999-Others", Value = "99999999" };
-                result.Add(other);
-                return result;
+                }).ToArray();
             }
             catch (Exception Ex)
             {

@@ -42,7 +42,8 @@ namespace RAMMS.Web.UI.Controllers
             grid.Columns.Add(new CDataColumns() { data = "RoadCode", title = "Road Code" });
             grid.Columns.Add(new CDataColumns() { data = "RoadName", title = "Road Name" });
             grid.Columns.Add(new CDataColumns() { data = "CrewLeader", title = "Crew Leader" });
-            grid.Columns.Add(new CDataColumns() { data = "RoadId", title = "Road ID", visible = false });            
+            grid.Columns.Add(new CDataColumns() { data = "RoadId", title = "Road ID", visible = false });
+            grid.Columns.Add(new CDataColumns() { data = "ProcessStatus", title = "Status" });
             grid.columnDefs = new List<CDataColumnDefs>();
             grid.columnDefs.Add(new CDataColumnDefs("1", "12,2,3"));
             grid.columnDefs.Add(new CDataColumnDefs("2", "2,3"));

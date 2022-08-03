@@ -11,9 +11,8 @@ namespace RAMMS.Repository.Interfaces
     {
         Task<long> GetFilteredRecordCount(FilteredPagingDefinition<FormFSDetailRequestDTO> filterOptions);
         Task<List<FormFSDetailRequestDTO>> GetFilteredRecordList(FilteredPagingDefinition<FormFSDetailRequestDTO> filterOptions);
+        List<RmFormFsInsDtl> GetDetailsforInsert(int headerid, int userid, RmFormFsInsHdr hdr);
         int BulkInsert(List<RmFormFsInsDtl> details, int headerid);
-
-        List<RmFormFsInsDtl> GetDetailsforInsert( int headerid, int userid,RmFormFsInsHdr hdr);
         Task<List<FormFSDetailRequestDTO>> GetRecordList(int headerId);
     }
 }

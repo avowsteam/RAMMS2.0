@@ -15,6 +15,7 @@ using RAMMS.DTO.Report;
 using ClosedXML.Excel;
 using System.IO;
 using RAMMS.Domain.Models;
+using RAMMS.Common;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
@@ -26,13 +27,12 @@ namespace RAMMS.Business.ServiceProvider.Services
         private readonly IMapper _mapper;
         private readonly ISecurity _security;
         private readonly IProcessService processService;
-        public FormF2Service(IRepositoryUnit repoUnit, IMapper mapper, 
-            ISecurity security, IProcessService proService)
+        public FormF2Service(IRepositoryUnit repoUnit, IMapper mapper, ISecurity security, IProcessService proService)
         {
             _repoUnit = repoUnit ?? throw new ArgumentNullException(nameof(repoUnit));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _security = security ?? throw new ArgumentNullException(nameof(security));
-            this.processService = proService;
+            processService = proService;
         }
 
         #region Header
@@ -101,7 +101,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 string st = $"CI/Form F2/{model.RoadCode}/{model.YearOfInsp}";
                 var formf2 = _mapper.Map<Domain.Models.RmFormF2GrInsHdr>(model);
-                formf2.FgrihStatus = "Open";
+                formf2.FgrihStatus = StatusList.FormF2Init;
                 var alreadyexists = _repoUnit.FormF2Repository.IsExists(st);
                 formf2.FgrihPkRefNo = (alreadyexists == null ? 0 : alreadyexists.FgrihPkRefNo);
                 if (alreadyexists != null)
@@ -157,12 +157,11 @@ namespace RAMMS.Business.ServiceProvider.Services
                     }
 
                 }
-
                 if (formf2 != null && formf2.FgrihSubmitSts)
                 {
-                    int result = processService.Save(new ProcessDTO()
+                    int iResult = processService.Save(new DTO.RequestBO.ProcessDTO()
                     {
-                        ApproveDate = new System.DateTime?(DateTime.Now),
+                        ApproveDate = DateTime.Now,
                         Form = "FormF2",
                         IsApprove = true,
                         RefId = formf2.FgrihPkRefNo,

@@ -12,6 +12,7 @@ using RAMMS.DTO.Report;
 using ClosedXML.Excel;
 using System.Linq;
 using System.IO;
+using RAMMS.Common;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
@@ -22,12 +23,14 @@ namespace RAMMS.Business.ServiceProvider.Services
         private readonly IMapper _mapper;
         private readonly ISecurity _security;
         private IFormF4Repository _formF4Repository;
-        public FormF4Service(IRepositoryUnit repositoryUnit, IMapper mapper, ISecurity security, IFormF4Repository formF4Repository)
+        private readonly IProcessService processService;
+        public FormF4Service(IRepositoryUnit repositoryUnit, IMapper mapper, ISecurity security, IFormF4Repository formF4Repository, IProcessService proService)
         {
             _repoUint = repositoryUnit;
             _mapper = mapper;
             _security = security;
             _formF4Repository = formF4Repository;
+            processService = proService;
         }
         public async Task<GridWrapper<object>> GetFormF4HeaderGrid(DataTableAjaxPostModel searchData)
         {
@@ -56,6 +59,7 @@ namespace RAMMS.Business.ServiceProvider.Services
         public async Task<T> SaveHeader<T>(T header, bool updateSubmitSts)
         {
             RmFormF4InsHdr hdr = _mapper.Map<RmFormF4InsHdr>(header);
+            hdr.FivahStatus = StatusList.FormF4Init;
             if (hdr.FivahPkRefNo == 0)
             {
                 var masterData = await _repoUint.RoadmasterRepository.FindAsync(x => x.RdmRdCode == hdr.FivahRoadCode && x.RdmActiveYn == true);
@@ -65,7 +69,20 @@ namespace RAMMS.Business.ServiceProvider.Services
                     hdr.FivahDivCode = masterData.RdmDivCode;
                 }
             }
-            var result = _mapper.Map<T>(await _formF4Repository.saveFormF4Hdr(hdr, updateSubmitSts));
+            var form = await _formF4Repository.saveFormF4Hdr(hdr, updateSubmitSts);
+            if (form != null && form.FivahSubmitSts)
+            {
+                int iResult = processService.Save(new DTO.RequestBO.ProcessDTO()
+                {
+                    ApproveDate = DateTime.Now,
+                    Form = "FormF4",
+                    IsApprove = true,
+                    RefId = form.FivahPkRefNo,
+                    Remarks = "",
+                    Stage = form.FivahStatus
+                }).Result;
+            }
+            var result = _mapper.Map<T>(form);
             return result;
         }
         public async Task<int> SaveDetail(FormF4HeaderRequestDTO header)
