@@ -28,9 +28,6 @@ namespace RAMMS.Repository
 
         public async Task<List<FormTHeaderRequestDTO>> GetFilteredRecordList(FilteredPagingDefinition<FormTSearchGridDTO> filterOptions)
         {
-
-
-
             var query = (from hdr in _context.RmFormTHdr.Where(s => s.FmtActiveYn == true)
                          join r in _context.RmRoadMaster on hdr.FmtRdCode equals r.RdmRdCode
                          let DailyIns = (from d in _context.RmFormTDailyInspection where d.FmtdiFmtPkRefNo == hdr.FmtPkRefNo select d.FmtdiPkRefNo).DefaultIfEmpty()
@@ -425,6 +422,7 @@ namespace RAMMS.Repository
                               where d.FmtdiPkRefNo == headerid
                               select new FORMTRptDetail
                               {
+                                  
                                   Day = d.FmtdiDay,
                                   Description = d.FmtdiDescription,
                                   DescriptionHV = d.FmtdiDescriptionHv,
@@ -450,6 +448,22 @@ namespace RAMMS.Repository
                                            Time = Convert.ToInt32(v.FmtvTime),
                                            VechicleType = v.FmtvVechicleType
                                        }).ToArray();
+
+            var DailyIns = (from d in _context.RmFormTDailyInspection where d.FmtdiFmtPkRefNo == pkrefno && d.FmtdiPkRefNo < headerid select d.FmtdiPkRefNo).DefaultIfEmpty();
+
+            result.TotalPC = (from v in _context.RmFormTVechicle
+                               where DailyIns.Contains(v.FmtvFmtdiPkRefNo) && v.FmtvVechicleType == "PC" select v.FmtvCount).Sum();
+
+            result.TotalHV = (from v in _context.RmFormTVechicle
+                                       where DailyIns.Contains(v.FmtvFmtdiPkRefNo) && v.FmtvVechicleType == "HV"
+                                       select v.FmtvCount).Sum();
+            
+            result.TotalMC = (from v in _context.RmFormTVechicle
+                                       where DailyIns.Contains(v.FmtvFmtdiPkRefNo) && v.FmtvVechicleType == "MC"
+                                       select v.FmtvCount).Sum();
+
+            
+
             return result;
 
         }

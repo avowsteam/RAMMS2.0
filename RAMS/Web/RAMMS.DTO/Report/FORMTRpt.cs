@@ -12,18 +12,21 @@ namespace RAMMS.DTO.Report
         public string RefNo { get; set; }
         public string RoadCode { get; set; }
         public string RoadName { get; set; }
-         
+
         public string RecName { get; set; }
         public string RecDesg { get; set; }
         public DateTime? RecDate { get; set; }
         public string HdName { get; set; }
         public string HdDesg { get; set; }
         public DateTime? HdDate { get; set; }
-        public  FORMTRptDetail Details { get; set; }
-
+        public FORMTRptDetail Details { get; set; }
+        public int? TotalPC { get; set; }
+        public int? TotalHV { get; set; }
+        public int? TotalMC { get; set; }
     }
     public class FORMTRptDetail
     {
+ 
         public int? Day { get; set; }
         public int? TotalDay { get; set; }
         public decimal? HourlycountPerDay { get; set; }
@@ -46,4 +49,6 @@ namespace RAMMS.DTO.Report
         public int? Time { get; set; }
         public int? Count { get; set; }
     }
+
+    
 }

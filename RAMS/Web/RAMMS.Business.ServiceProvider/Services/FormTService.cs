@@ -344,6 +344,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(6, 6).Value = rpt.RoadName;
 
                             worksheet.Cell(7, 4).Value = rpt.Details.FromTime;
+                            worksheet.Cell(7, 38).Value = rpt.TotalPC;
+                            worksheet.Cell(25, 38).Value = rpt.TotalHV;
+                            worksheet.Cell(49, 38).Value = rpt.TotalMC;
 
                             int colindex = 8;
                             for (int i = 1; i <= 12; i++)
@@ -541,7 +544,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(67, 33).Value = rpt.HdName;
                             worksheet.Cell(68, 33).Value = rpt.HdDesg;
                             worksheet.Cell(69, 33).Value = rpt.HdDate.HasValue ? rpt.HdDate.Value.ToString("dd-MM-yyyy") : "";
- 
+
                         }
                     }
 

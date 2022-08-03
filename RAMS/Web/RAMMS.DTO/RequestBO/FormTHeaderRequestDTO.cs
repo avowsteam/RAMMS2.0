@@ -11,6 +11,7 @@ namespace RAMMS.DTO.RequestBO
         public string RMU { get; set; }
         public string RoadCode { get; set; }
         public string RoadName { get; set; }
+      
         public int? TotalPC { get; set; }
         public int? TotalHV { get; set; }
         public int? TotalMC { get; set; }

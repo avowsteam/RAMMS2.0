@@ -34,9 +34,9 @@ namespace RAMMS.Repository
 
             query = query.OrderByDescending(x => x.x.B9dsPkRefNo);
             var search = filterOptions.Filters;
-            if (search.Year.HasValue)
+            if (search.Year != null && search.Year != string.Empty)
             {
-                query = query.Where(s => s.x.B9dsRevisionYear == search.Year);
+                query = query.Where(s => s.x.B9dsRevisionYear == Convert.ToInt32(search.Year));
             }
 
             if (!string.IsNullOrEmpty(filterOptions.Filters.FromDate) && string.IsNullOrEmpty(filterOptions.Filters.ToDate))
