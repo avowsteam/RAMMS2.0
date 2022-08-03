@@ -19,7 +19,7 @@ using RAMMS.Repository.Interfaces;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
-    public class FormMService:IFormMService
+    public class FormMService : IFormMService
     {
         private readonly IFormMRepository _repo;
         private readonly IRepositoryUnit _repoUnit;
@@ -320,6 +320,19 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(32, 33).Value = rpt.G10total;
 
                             worksheet.Cell(34, 17).Value = rpt.Total;
+                            if (rpt.Total < 20)
+                            {
+                                worksheet.Cell(34, 22).Value = "Satisfactory";
+                            }
+                            else if (rpt.Total > 20 && rpt.Total < 45)
+                            {
+                                worksheet.Cell(34, 22).Value = "Needs Improvement";
+                            }
+                            else if (rpt.Total > 45)
+                            {
+                                worksheet.Cell(34, 22).Value = "Dangerous";
+                            }
+
                             worksheet.Cell(37, 17).Value = rpt.Findings;
                             worksheet.Cell(42, 1).Value = rpt.CorrectiveActions;
 
