@@ -14,9 +14,9 @@
 @inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
 <script src="~/js/CDTGrid.js"></script>
 <script>
-    var isModifyPerm = @security.IsPCModify(ModuleNameList.NOD).ToString().ToLowerInvariant()? "" : "hidden";
-    var isDeletePerm =@security.IsPCDelete(ModuleNameList.NOD).ToString().ToLowerInvariant()? "" : "hidden";
-    var isViewPerm = @security.IsPCView(ModuleNameList.NOD).ToString().ToLowerInvariant() ? "" : 'hidden';
+    var isModifyPerm = @security.IsPCModify(ModuleNameList.Condition_Inspection).ToString().ToLowerInvariant()? "" : "hidden";
+    var isDeletePerm =@security.IsPCDelete(ModuleNameList.Condition_Inspection).ToString().ToLowerInvariant()? "" : "hidden";
+    var isViewPerm = @security.IsPCView(ModuleNameList.Condition_Inspection).ToString().ToLowerInvariant() ? "" : 'hidden';
     var table_columns = [];
 
 
@@ -69,17 +69,19 @@
     table_columns.push(modBy); var modDt = { data: "modDt", name: "modDt", title: "ModDt", autoWidth: true, sortable: false, visible: false };
     table_columns.push(modDt); var crBy = { data: "crBy", name: "crBy", title: "CrBy", autoWidth: true, sortable: false, visible: false };
     table_columns.push(crBy); var crDt = { data: "crDt", name: "crDt", title: "CrDt", autoWidth: true, sortable: false, visible: false };
-    table_columns.push(crDt); var submitSts = {
+    table_columns.push(crDt);
+    /*var submitSts = {
         data: null, name: "submitSts", title: "Status", autoWidth: true, sortable: true, visible: true, render: function (data) {
             if (data.submitSts)
                 return "Submitted";
             else
                 return "Saved";
         }
-    };
+    };*/
+    var submitSts = { data: "status", name: "Status", title: "Status", autoWidth: true, sortable: true, visible: true };
     table_columns.push(submitSts);
 
-    function PrintForm(id) {debugger;
+    function PrintForm(id) {
         window.location.href = '/FormFS/Download?id=' + id;
     }
 

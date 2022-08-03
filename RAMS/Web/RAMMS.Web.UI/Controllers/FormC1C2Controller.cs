@@ -51,7 +51,7 @@ namespace RAMMS.Web.UI.Controllers
             grid.Columns.Add(new CDataColumns() { data = "InspectedBy", title = "Inspected By" });
             grid.Columns.Add(new CDataColumns() { data = "AuditedBy", title = "Audited By" });
             grid.Columns.Add(new CDataColumns() { data = "RoadId", title = "Road Id", visible = false });
-            grid.Columns.Add(new CDataColumns() { data = "ProcessStatus", title = "Status"});
+            grid.Columns.Add(new CDataColumns() { data = "ProcessStatus", title = "Status" });
             return View(grid);
         }
         public async Task<JsonResult> HeaderList(DataTableAjaxPostModel searchData)
@@ -243,6 +243,8 @@ namespace RAMMS.Web.UI.Controllers
                         ImageUserFilePath = strFileUploadDir,
                         SubmitSts = true
                     });
+
+                   
 
                 }
                 if (lstImages.Count > 0)

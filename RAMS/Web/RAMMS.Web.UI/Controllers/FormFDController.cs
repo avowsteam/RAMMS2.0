@@ -49,6 +49,7 @@ namespace RAMMS.Web.UI.Controllers
             grid.Columns.Add(new CDataColumns() { data = "RoadName", title = "Road Name" });
             grid.Columns.Add(new CDataColumns() { data = "CrewLeader", title = "Crew Leader" });
             grid.Columns.Add(new CDataColumns() { data = "RoadId", title = "Road ID", visible = false });
+            grid.Columns.Add(new CDataColumns() { data = "ProcessStatus", title = "Status" });
             grid.columnDefs = new List<CDataColumnDefs>();
             grid.columnDefs.Add(new CDataColumnDefs("1", "12,2"));
             grid.columnDefs.Add(new CDataColumnDefs("2", "2,3"));
@@ -143,12 +144,19 @@ namespace RAMMS.Web.UI.Controllers
         }
         private async Task<JsonResult> SaveAll(DTO.ResponseBO.FormFDDTO frmFD, bool updateSubmit)
         {
-            frmFD.CrBy = _security.UserID;
-            frmFD.ModBy = _security.UserID;
-            frmFD.ModDt = DateTime.UtcNow;
-            frmFD.CrDt = DateTime.UtcNow;
-            var result = await _formFDService.Save(frmFD, updateSubmit);
-            return Json(new { RefNo = result.FormRefId, Id = result.PkRefNo }, JsonOption());
+            try
+            {
+                frmFD.CrBy = _security.UserID;
+                frmFD.ModBy = _security.UserID;
+                frmFD.ModDt = DateTime.UtcNow;
+                frmFD.CrDt = DateTime.UtcNow;
+                var result = await _formFDService.Save(frmFD, updateSubmit);
+                return Json(new { RefNo = result.FormRefId, Id = result.PkRefNo }, JsonOption());
+            }
+            catch (Exception ex)
+            {
+                return Json(new { _error = ex.Message }, JsonOption());
+            }
         }
         [HttpPost]
         public IActionResult Delete(int id)

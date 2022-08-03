@@ -11,7 +11,7 @@ using RAMMS.DTO.Report;
 using ClosedXML.Excel;
 using System.IO;
 using System.Collections.Generic;
-using RAMMS.Domain.Models;
+using RAMMS.Common;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
@@ -21,11 +21,9 @@ namespace RAMMS.Business.ServiceProvider.Services
         private readonly IMapper _mapper;
         private readonly ISecurity _security;
         private readonly IProcessService processService;
-        public FormFSService(IRepositoryUnit repoUnit, IMapper mapper,
-            ISecurity security,  IProcessService proService)
+        public FormFSService(IRepositoryUnit repoUnit, IMapper mapper, ISecurity security, IProcessService proService)
         {
-            _repoUnit = repoUnit ?? throw new ArgumentNullException(nameof(repoUnit)); 
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _repoUnit = repoUnit ?? throw new ArgumentNullException(nameof(repoUnit)); _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _security = security ?? throw new ArgumentNullException(nameof(security));
             processService = proService;
         }
@@ -53,7 +51,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 bool IsAdd = false;
                 var form = _mapper.Map<Domain.Models.RmFormFsInsHdr>(model);
-                form.FshStatus = "Open";
+                form.FshStatus = StatusList.FormFSInit;
                 var road = _repoUnit.RoadmasterRepository.FindAll(s => s.RdmRdCode == form.FshRoadCode).FirstOrDefault();
                 if (road != null)
                 {
@@ -66,6 +64,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 {
                     form.FshModBy = _security.UserID;
                     form.FshModDt = DateTime.Now;
+
                     if (form.FshSubmitSts == true)
                     {
                         var count = _repoUnit.FormFSDetailRepository.FindAll(s => s.FsdFshPkRefNo == form.FshPkRefNo && (s.FsdRemarks == "" || s.FsdRemarks == null || s.FsdNeeded == "" || s.FsdNeeded == null) && s.FsdActiveYn == true).Count();
@@ -81,6 +80,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     details = _repoUnit.FormFSDetailRepository.GetDetailsforInsert(form.FshPkRefNo, _security.UserID, form);
                     if (details == null || details.Count == 0)
                         return -1;
+
                     form.FshCrBy = _security.UserID;
                     form.FshModBy = _security.UserID;
                     form.FshCrDt = DateTime.Now;
@@ -116,7 +116,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 bool IsAdd = false;
                 var form = _mapper.Map<Domain.Models.RmFormFsInsHdr>(model);
-                form.FshStatus = "Open";
+                form.FshStatus = StatusList.FormFSInit;
                 var exists = _repoUnit.FormFSHeaderRepository.Find(s => s.FshActiveYn == true && s.FshYearOfInsp == model.YearOfInsp && s.FshRoadCode == model.RoadCode);
                 if (exists != null)
                     return exists.FshPkRefNo;
@@ -128,7 +128,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     form.FshRoadLength = road.RdmLengthPaved;
                 }
                 form.FshActiveYn = true;
-                List<RmFormFsInsDtl> details = null;
+                List<Domain.Models.RmFormFsInsDtl> details = null;
                 if (form.FshPkRefNo != 0)
                 {
                     form.FshModBy = _security.UserID;
@@ -153,7 +153,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                 if (IsAdd)
                 {
-                    _repoUnit.FormFSDetailRepository.BulkInsert(details, form.FshPkRefNo );
+                    _repoUnit.FormFSDetailRepository.BulkInsert(details, form.FshPkRefNo);
                 }
                 if (form != null && form.FshSubmitSts)
                 {

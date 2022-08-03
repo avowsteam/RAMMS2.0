@@ -552,8 +552,8 @@ function assignValuetothegrid(data) {
 
                 tbl.find(`[${d.groupCode}${d.strucCode}Needed]`).text((d.needed != null ? d.needed : ""));
                 tbl.find(`[${d.groupCode}${d.strucCode}Remark]`).text((d.remarks != null ? d.remarks : ""));
-                tbl.find(`[${d.groupCode}${d.strucCode}Id`).attr('id', d.pkRefNo);
-                tbl.find(`[${d.groupCode}${d.strucCode}Id`).on("click", function () {
+                tbl.find(`[${d.groupCode}${d.strucCode}Id]`).attr('id', d.pkRefNo);
+                tbl.find(`[${d.groupCode}${d.strucCode}Id]`).on("click", function () {
                     var d = this;
                     var needed = tbl.find(`[${d.attributes[0].name.replace("id", "Needed")}]`).text();
                     var remark = tbl.find(`[${d.attributes[0].name.replace("id", "Remark")}]`).text();

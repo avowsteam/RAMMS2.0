@@ -165,6 +165,7 @@ namespace RAMS.Repository
                          + "/"
                          + (x.x.FahYear ?? 0).ToString()).Contains(filterOptions.Filters.SmartInputValue)
                          || (x.x.FahSubmitSts ? "Submitted" : "Saved").Contains(filterOptions.Filters.SmartInputValue)
+                         || (x.x.FahStatus ?? "").Contains(filterOptions.Filters.SmartInputValue)
                          );
             }
 
@@ -187,7 +188,7 @@ namespace RAMS.Repository
                 if (filterOptions.ColumnIndex == 9)
                     query = query.OrderBy(s => s.x.FahAssetGroupCode);
                 if (filterOptions.ColumnIndex == 10)
-                    query = query.OrderBy(s => s.x.FahSubmitSts);
+                    query = query.OrderBy(s => s.x.FahStatus);
                 if (filterOptions.ColumnIndex == 11)
                     query = query.OrderBy(s => s.x.FahUsernamePrp);
                 if (filterOptions.ColumnIndex == 12)
@@ -214,7 +215,7 @@ namespace RAMS.Repository
                 if (filterOptions.ColumnIndex == 9)
                     query = query.OrderByDescending(s => s.x.FahAssetGroupCode);
                 if (filterOptions.ColumnIndex == 10)
-                    query = query.OrderByDescending(s => s.x.FahSubmitSts);
+                    query = query.OrderByDescending(s => s.x.FahStatus);
                 if (filterOptions.ColumnIndex == 11)
                     query = query.OrderByDescending(s => s.x.FahUsernamePrp);
                 if (filterOptions.ColumnIndex == 12)

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RAMMS.Common;
 using RAMMS.Common.Extensions;
 using RAMMS.Common.RefNumber;
@@ -176,6 +175,7 @@ namespace RAMS.Repository
                                         || x.x.FdhUsernamePrp.Contains(filterOptions.Filters.SmartInputValue)
                                         || x.x.FdhUsernameVer.Contains(filterOptions.Filters.SmartInputValue)
                                         || x.x.FdhUsernamePrp.Contains(filterOptions.Filters.SmartInputValue)
+                                        || (x.x.FdhStatus ?? "").Contains(filterOptions.Filters.SmartInputValue)
                                         || (filterOptions.Filters.SmartInputValue.IsInt() && x.x.FdhPkRefNo.Equals(filterOptions.Filters.SmartInputValue.AsInt())));
 
                 }
@@ -204,7 +204,7 @@ namespace RAMS.Repository
                 if (filterOptions.ColumnIndex == 9)
                     query = query.OrderBy(x => x.x.FdhUsernameVer);
                 if (filterOptions.ColumnIndex == 10)
-                    query = query.OrderBy(x => x.x.FdhSubmitSts);
+                    query = query.OrderBy(x => x.x.FdhStatus);
 
 
             }
@@ -229,18 +229,18 @@ namespace RAMS.Repository
                 if (filterOptions.ColumnIndex == 9)
                     query = query.OrderByDescending(x => x.x.FdhUsernameVer);
                 if (filterOptions.ColumnIndex == 10)
-                    query = query.OrderByDescending(x => x.x.FdhSubmitSts);
+                    query = query.OrderByDescending(x => x.x.FdhStatus);
             }
-
 
             result = await query.Select(s => s.x)
                     .Skip(filterOptions.StartPageNo)
                     .Take(filterOptions.RecordsPerPage)
                     .ToListAsync();
+
             return result;
         }
 
- 
+
         public async Task<int> GetFilteredRecordCount(FilteredPagingDefinition<FormDSearchGridDTO> filterOptions)
         {
             var query = (from x in _context.RmFormDHdr
@@ -290,6 +290,7 @@ namespace RAMS.Repository
                                         || x.x.FdhUsernamePrp.Contains(filterOptions.Filters.SmartInputValue)
                                         || x.x.FdhUsernameVer.Contains(filterOptions.Filters.SmartInputValue)
                                         || x.x.FdhUsernamePrp.Contains(filterOptions.Filters.SmartInputValue)
+                                        || (x.x.FdhStatus ?? "").Contains(filterOptions.Filters.SmartInputValue)
                                         || (filterOptions.Filters.SmartInputValue.IsInt() && x.x.FdhPkRefNo.Equals(filterOptions.Filters.SmartInputValue.AsInt())));
                 }
             }
@@ -376,7 +377,7 @@ namespace RAMS.Repository
             int? result = await _context.RmAccUcuImageDtl.Where(x => x.FauFddPkRefNo == headerId && x.FauAccUcu == type).Select(x => x.FauImageSrno).MaxAsync();
             return result.HasValue ? result.Value : 0;
         }
-  
+
         public async Task<IEnumerable<RmDdLookup>> GetDivisions()
         {
             return await _context.RmDdLookup.Where(x => x.DdlActiveYn == true && x.DdlType == "Division").ToListAsync();
@@ -400,7 +401,6 @@ namespace RAMS.Repository
         public async Task<IEnumerable<RmDdLookup>> GetLabourCode()
         {
             return await _context.RmDdLookup.Where(x => x.DdlActiveYn == true && x.DdlType == "Labour_Code").ToListAsync();
-            
         }
 
         public async Task<IEnumerable<RmDdLookup>> GetMaterialCode()
