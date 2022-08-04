@@ -17,5 +17,6 @@ namespace RAMMS.Common
         public const string Management_and_Maintanence = "M&M";
         public const string Instructed_Works = "IW";
         public const string User_Management = "UM";
+        public const string Annual_Work_Planned_Budget = "AWPB";
     }
 }

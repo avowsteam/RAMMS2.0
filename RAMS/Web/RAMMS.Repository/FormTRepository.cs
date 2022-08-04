@@ -51,7 +51,7 @@ namespace RAMMS.Repository
 
 
 
-            query = query.OrderByDescending(x => x.RefNo);
+            query = query.OrderBy(x => x.RefNo);
             var search = filterOptions.Filters;
 
             if (!string.IsNullOrEmpty(search.RmuCode))

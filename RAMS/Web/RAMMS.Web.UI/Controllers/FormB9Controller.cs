@@ -44,7 +44,7 @@ namespace RAMMS.Web.UI.Controllers
         }
         public IActionResult Index()
         {
-            LoadLookupService("RMU", "Section Code", "Division", "RD_Code", "Year");
+            
             return View();
         }
 
