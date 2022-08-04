@@ -51,7 +51,7 @@ namespace RAMMS.Repository
 
 
 
-            query = query.OrderBy(x => x.RefNo);
+            query = query.OrderByDescending(x => x.RefNo);
             var search = filterOptions.Filters;
 
             if (!string.IsNullOrEmpty(search.RmuCode))
@@ -214,7 +214,7 @@ namespace RAMMS.Repository
                         let HV = (from p in _context.RmFormTVechicle where p.FmtvFmtdiPkRefNo == x.FmtdiPkRefNo && p.FmtvVechicleType == "HV" select p.FmtvCount ?? 0).DefaultIfEmpty().Sum()
                         let MC = (from p in _context.RmFormTVechicle where p.FmtvFmtdiPkRefNo == x.FmtdiPkRefNo && p.FmtvVechicleType == "MC" select p.FmtvCount ?? 0).DefaultIfEmpty().Sum()
                         where x.FmtdiFmtPkRefNo == filterOptions.Filters.FmtPkRefNo
-                        orderby x.FmtdiPkRefNo descending
+                        orderby x.FmtdiPkRefNo ascending
                         select new { x, PC, HV, MC };
 
 
