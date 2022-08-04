@@ -84,46 +84,25 @@ namespace RAMMS.Web.UI.Controllers
             return Json(new { draw = searchData.draw, recordsFiltered = result.TotalRecords, recordsTotal = result.TotalRecords, data = result.PageResult });
 
         }
- 
-
-        //public async Task<IActionResult> Add(int id, int view)
-        //{
-        //    LoadLookupService("Supervisor", "User");
-
-        //    FormASearchDropdown ddl = _formJService.GetDropdown(new RequestDropdownFormA { });
-        //    ViewData["SectionCode"] = ddl.Section.Select(s => new SelectListItem { Text = s.Text, Value = s.Value }).ToArray();
-
-        //    FormB9Model _model = new FormB9Model();
-        //    if (id > 0)
-        //    {
-        //        _model.FormB9 = await _FormB9Service.GetHeaderById(id);
-        //    }
-        //    else
-        //    {
-        //        _model.FormB9 = new FormB9ResponseDTO();
-        //    }
-
-        //    _model.FormB9Dtl = new FormB9DtlResponseDTO();
-        //    _model.FormB9 = _model.FormB9 ?? new FormB9ResponseDTO();
-        //    _model.view = view;
 
 
-        //    if (_model.FormB9.UseridRcd == 0)
-        //    {
-        //        _model.FormB9.UseridRcd = _security.UserID;
-        //        _model.FormB9.DateRcd = DateTime.Today;
-        //        _model.FormB9.SignRcd = true;
+        public async Task<IActionResult> Add(int id, int view)
+        {
+            
+            FormB9Model _model = new FormB9Model();
+            if (id > 0)
+            {
+              //  _model.FormB9 = await _FormB9Service.GetHeaderById(id);
+            }
+            else
+            {
+                _model.FormB9 = new FormB9ResponseDTO();
+            }
 
-        //    }
-        //    if (_model.FormB9.UseridHdd == 0 && _model.FormB9.Status == RAMMS.Common.StatusList.Submitted)
-        //    {
-        //        _model.FormB9.UseridHdd = _security.UserID;
-        //        _model.FormB9.DateHdd = DateTime.Today;
-        //        _model.FormB9.SignHdd = true;
-        //    }
+            
 
-        //    return PartialView("~/Views/FrmT/_AddFormB9.cshtml", _model);
-        //}
+            return PartialView("~/Views/FrmT/_AddFormB9.cshtml", _model);
+        }
 
 
 
@@ -148,7 +127,7 @@ namespace RAMMS.Web.UI.Controllers
 
         //}
 
-       
+
         //public async Task<IActionResult> SaveFormB9Dtl(FormB9DtlResponseDTO FormB9Dtl)
         //{
         //    int? refNo = 0;
@@ -184,13 +163,13 @@ namespace RAMMS.Web.UI.Controllers
 
         //}
 
-      
+
         //public async Task<IActionResult> FormB9Download(int id, [FromServices] IWebHostEnvironment _environment)
         //{
-            //var content1 = await _FormB9Service.FormDownload("FormB9", id, _environment.WebRootPath + "/Templates/FormB9.xlsx");
-            //string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            //return File(content1, contentType1, "FormB9" + ".xlsx");
-       // }
+        //var content1 = await _FormB9Service.FormDownload("FormB9", id, _environment.WebRootPath + "/Templates/FormB9.xlsx");
+        //string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        //return File(content1, contentType1, "FormB9" + ".xlsx");
+        // }
 
     }
 }

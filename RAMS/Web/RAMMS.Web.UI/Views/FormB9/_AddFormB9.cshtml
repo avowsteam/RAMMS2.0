@@ -1,0 +1,1109 @@
+﻿
+@{
+    ViewBag.TabTitle = "Form B9";
+    ViewData["Title"] = "Form B9";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+}
+
+<div class="row bg-white pt-3">
+    <div class="w-100">
+        <div class="body-header w-100">
+            <div class="col-lg-12">
+                <div class=" w-100 d-flex justify-content-center py-1">
+                    <p class="font-24 mb-0"> <span class="float-left w-100 text-center"> <b>APPENDIX B9:</b> DESIRED SERVICE LEVEL (FOR RMU BATU NIAH AND RMU MIRI)</span> </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-body mh-182 pt-4 pb-0">
+    <div class="bg-white rounded pt-3 pb-1 px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetailsFC1C2">
+         
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="w-100 bg-white py-0">
+                    <div id="accordion">
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="FormB1TabPage1">
+                                <div class="row">
+                                   
+                                    <div class="form-group col-3">
+                                        <label>Select Year  </label>
+                                        <select id="ddlFrom" class="form-control">
+                                            <option value="">Select Year</option>
+                                            <option value="2019">2019</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label> Select the Revision No. </label>
+                                        <select id="ddlFrom" disabled class="form-control">
+                                            <option value="">Select  Revision No</option>
+                                            <option value="2019">1</option>
+                                            <option value="2020">2</option>
+                                            <option value="2021">3</option>
+                                            <option value="2022">4</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label>Date </label>
+
+                                        <input type="date" value="" class="form-control">
+
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label>User Name </label>
+
+                                        <input type="text" disabled class="form-control">
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-12 bg-white px-0">
+                                        <!--form g1-->
+                                        <div id="content">
+                                            <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                @*<div class="grid-btns" style="top:auto;">
+                                                        <button type="button" id="btnLabourAdd" class="btn btn-sm btn-themebtn" data-toggle="modal" data-target="#myModal0">
+                                                            <span class="intbl-add-icon"></span>
+                                                        </button>
+                                                    </div>*@
+
+                                                <div id="myModal0" class="modal fade" role="dialog">
+                                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title w-100 float-left">
+                                                                    Appendix B9 Field Description
+                                                                    <button type="button" class="close float-right" data-dismiss="modal">&times;</button>
+
+                                                                </h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="row">
+
+
+                                                                    <div class="form-group col-md-3">
+                                                                        <label>
+                                                                            Features
+
+                                                                        </label>
+                                                                        <input type="text" class="form-control">
+                                                                    </div>
+                                                                    <div class="form-group col-md-3">
+                                                                        <label>
+                                                                            Activity Code
+
+                                                                        </label>
+                                                                        <input type="text" class="form-control">
+                                                                    </div>
+                                                                    <div class="form-group col-md-3">
+                                                                        <label>
+                                                                            Activity Name
+
+                                                                        </label>
+                                                                        <input type="text" class="form-control">
+                                                                    </div>
+                                                                    <div class="form-group col-md-3">
+                                                                        <label>
+                                                                            Service Level  Cond.1
+                                                                        </label>
+                                                                        <input type="text" class="form-control">
+                                                                    </div>
+                                                                    <div class="form-group col-md-3">
+                                                                        <label>
+                                                                            Service Level Code 2
+                                                                        </label>
+                                                                        <input type="text" class="form-control">
+                                                                    </div>
+                                                                    <div class="form-group col-md-3">
+                                                                        <label>
+                                                                            Service Level Code 3
+                                                                        </label>
+                                                                        <input type="text" class="form-control">
+                                                                    </div>
+                                                                    <div class="form-group col-md-3">
+                                                                        <label>
+                                                                            Unit of Service Level
+                                                                        </label>
+                                                                        <select class="form-control">
+                                                                            <option> Select Service Level</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group col-md-12">
+                                                                        <label>
+                                                                            Unit Description
+
+
+
+                                                                        </label>
+                                                                        <textarea class="form-control"></textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <div class="col-md-12 mb-2 float-right text-right">
+                                                                    <button class="btn btn-sm btn-outline-theme">Cancel</button>
+                                                                    <button class="btn btn-sm btn-themebtn">Save</button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="FormDLabourGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+
+                                                    <div class="dataTables_scroll">
+
+                                                        <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
+                                                            <table class="table w-100 nowrap dataTable no-footer">
+                                                                <thead style="background-color: #c8e1ff">
+                                                                    <tr>
+                                                                        <th colspan="1">
+                                                                            Features
+                                                                        </th>
+                                                                        <th colspan="1">
+                                                                            Action
+                                                                        </th>
+                                                                        <th colspan="1">
+                                                                            Activity Code
+                                                                        </th>
+                                                                        <th colspan="1">
+                                                                            Activity Name
+                                                                        </th>
+                                                                        <th colspan="1">
+                                                                            Service Level  Cond.1
+                                                                        </th>
+                                                                        <th colspan="1">
+                                                                            Service Level  Cond.2
+                                                                        </th>
+                                                                        <th colspan="1">
+                                                                            Service Level  Cond.3
+                                                                        </th>
+                                                                        <th colspan="1">
+                                                                            Unit of Service Level
+                                                                        </th>
+                                                                        <th colspan="1">
+                                                                            Remarks
+                                                                        </th>
+                                                                    </tr>
+
+                                                                </thead>
+                                                                <tbody>
+
+                                                                    <tr>
+                                                                        <td rowspan="10" style="background:#fff">
+                                                                            Paved Carriageway
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns" data-toggle="modal" data-target="#myModal0">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            1011
+                                                                        </td>
+                                                                        <td>
+                                                                            POTHOLE REPAIR
+                                                                        </td>
+                                                                        <td>
+                                                                            1
+                                                                        </td>
+                                                                        <td>
+                                                                            2
+                                                                        </td>
+                                                                        <td>
+                                                                            5
+                                                                        </td>
+                                                                        <td>
+                                                                            square metres/km
+                                                                        </td>
+                                                                        <td>
+                                                                            ---
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            1012
+                                                                        </td>
+                                                                        <td>
+                                                                            COLD PATCH
+                                                                        </td>
+                                                                        <td>
+                                                                            1
+                                                                        </td>
+                                                                        <td>
+                                                                            2
+                                                                        </td>
+                                                                        <td>
+                                                                            5
+                                                                        </td>
+                                                                        <td>
+                                                                            square metres/km
+                                                                        </td>
+                                                                        <td>--</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            3013
+                                                                        </td>
+                                                                        <td>
+                                                                            PAVEMENT RESURFACING
+                                                                        </td>
+                                                                        <td>
+                                                                            0.10
+                                                                        </td>
+                                                                        <td>
+                                                                            0.70
+                                                                        </td>
+                                                                        <td>
+                                                                            -
+                                                                        </td>
+                                                                        <td>
+                                                                            No. of Operation
+                                                                        </td>
+                                                                        <td>
+                                                                            --
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            3014
+                                                                        </td>
+                                                                        <td>
+                                                                            REGULATE EXISTING PAVEMENT FOR RESURFACING
+                                                                        </td>
+                                                                        <td>
+                                                                            -
+                                                                        </td>
+                                                                        <td>
+                                                                            30
+                                                                        </td>
+                                                                        <td>
+                                                                            90
+                                                                        </td>
+                                                                        <td>
+                                                                            cubic metres/km
+                                                                        </td>
+                                                                        <td>--</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            3015
+                                                                        </td>
+                                                                        <td>
+                                                                            CRACK SEALING
+                                                                        </td>
+                                                                        <td>
+                                                                            100
+                                                                        </td>
+                                                                        <td>
+                                                                            200
+                                                                        </td>
+                                                                        <td>
+                                                                            --
+                                                                        </td>
+                                                                        <td>
+                                                                            metre per km
+                                                                        </td>
+                                                                        <td>
+                                                                            --
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td width="96">3016</td>
+                                                                        <td width="233" style='width:116.50pt;'>MICRO SURFACING</td>
+                                                                        <td width="95" style='width:47.50pt;'>0.05</td>
+                                                                        <td width="97" style='width:48.50pt;'>0.15</td>
+                                                                        <td width="96" style='width:48.00pt;'></td>
+                                                                        <td width="185" style='width:92.50pt;'>square metres/km</td>
+                                                                        <td width="96" style='width:48.00pt;'></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style='height:14.50pt;'>3017</td>
+                                                                        <td>CHIP SEALING</td>
+                                                                        <td>0.05</td>
+                                                                        <td>0.15</td>
+                                                                        <td></td>
+                                                                        <td>No. of Operation</td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style='height:14.50pt;'>3018</td>
+                                                                        <td>SHALLOW PATCHING</td>
+                                                                        <td>30</td>
+                                                                        <td>150</td>
+                                                                        <td>60</td>
+                                                                        <td>square metres/km</td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style='height:14.50pt;'>3019</td>
+                                                                        <td>DEEP PATCHING</td>
+                                                                        <td>30</td>
+                                                                        <td>90</td>
+                                                                        <td>180</td>
+                                                                        <td>square metres/km</td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td rowspan="5" style="background:#fff">
+                                                                            Unpaved Carriageway
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            1021
+                                                                        </td>
+                                                                        <td>
+                                                                            PATCH UNPAVED ROADWAY
+
+                                                                        </td>
+                                                                        <td>
+                                                                            10
+                                                                        </td>
+                                                                        <td>
+                                                                            10
+                                                                        </td>
+                                                                        <td>
+                                                                            10
+
+                                                                        </td>
+                                                                        <td>
+                                                                            Cubic Metres of gravel/km
+
+                                                                        </td>
+                                                                        <td>
+                                                                            ---
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            3022
+                                                                        </td>
+                                                                        <td>
+                                                                            GRADE AND ROLL UNPAVED ROADWAY
+                                                                        </td>
+                                                                        <td>
+                                                                            2
+                                                                        </td>
+                                                                        <td>
+                                                                            2
+                                                                        </td>
+                                                                        <td>
+                                                                            2
+                                                                        </td>
+                                                                        <td>
+                                                                            No. of Operation
+                                                                        </td>
+                                                                        <td>--</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            3023
+                                                                        </td>
+                                                                        <td>
+                                                                            REGRAVEL UNPAVED ROADWAY
+                                                                        </td>
+                                                                        <td>
+                                                                            -
+                                                                        </td>
+                                                                        <td>
+                                                                            0.25
+                                                                        </td>
+                                                                        <td>
+                                                                            1
+                                                                        </td>
+
+                                                                        <td>
+                                                                            No. of Operation
+                                                                        </td>
+                                                                        <td>
+                                                                            --
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            3024
+                                                                        </td>
+                                                                        <td>
+                                                                            RESHAPE UNPAVED ROADWAY
+                                                                        </td>
+                                                                        <td>
+                                                                            2
+                                                                        </td>
+                                                                        <td>
+                                                                            2
+                                                                        </td>
+                                                                        <td>
+                                                                            2
+                                                                        </td>
+
+                                                                        <td>
+                                                                            No. of Operation
+                                                                        </td>
+                                                                        <td>
+                                                                            --
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td rowspan="6" style="background:#fff">
+                                                                            Ditch/Drain
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            1041
+                                                                        </td>
+                                                                        <td>
+                                                                            CLEAN, CLEAR DRAINS BY HAND
+
+                                                                        </td>
+                                                                        <td>
+                                                                            4
+                                                                        </td>
+                                                                        <td>
+                                                                            4
+                                                                        </td>
+                                                                        <td>
+                                                                            4
+
+                                                                        </td>
+                                                                        <td>
+                                                                            No. of Operation
+
+                                                                        </td>
+                                                                        <td>
+                                                                            ---
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            1042
+                                                                        </td>
+                                                                        <td>
+                                                                            DRAIN GRASS CUTTING
+                                                                        </td>
+                                                                        <td>
+                                                                            24
+                                                                        </td>
+                                                                        <td>
+                                                                            24
+                                                                        </td>
+                                                                        <td>
+                                                                            24
+                                                                        </td>
+                                                                        <td>
+                                                                            1000 sq. m / km of drain
+                                                                        </td>
+                                                                        <td>--</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            1043
+                                                                        </td>
+                                                                        <td>
+                                                                            CLEAN DRAINS ON SLOPE
+                                                                        </td>
+                                                                        <td>
+                                                                            4
+                                                                        </td>
+                                                                        <td>
+                                                                            4
+                                                                        </td>
+                                                                        <td>
+                                                                            4
+                                                                        </td>
+
+                                                                        <td>
+                                                                            No of Operation
+                                                                        </td>
+                                                                        <td>
+                                                                            --
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            4044
+                                                                        </td>
+                                                                        <td>
+                                                                            REINSTATE SIDE DITCH (MOTORGRADER)
+                                                                        </td>
+                                                                        <td>
+                                                                            1
+                                                                        </td>
+                                                                        <td>
+                                                                            1
+                                                                        </td>
+                                                                        <td>
+                                                                            1
+                                                                        </td>
+
+                                                                        <td>
+                                                                            No. of Operation
+                                                                        </td>
+                                                                        <td>
+                                                                            --
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            4045
+                                                                        </td>
+                                                                        <td>
+                                                                            CLEAN, CLEAR, RESHAPE EARTH DRAIN BY EXCAVATOR
+                                                                        </td>
+                                                                        <td>
+                                                                            1
+                                                                        </td>
+                                                                        <td>
+                                                                            1
+                                                                        </td>
+                                                                        <td>
+                                                                            1
+                                                                        </td>
+
+                                                                        <td>
+                                                                            No. of Operation
+                                                                        </td>
+                                                                        <td>
+                                                                            --
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td rowspan="5" style="background:#fff">
+                                                                            Shoulder
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr height="29" style='height:14.50pt;'>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td height="29" width="96" style='height:14.50pt;width:48.00pt;' x:num>1031</td>
+                                                                        <td width="366" style='width:183.00pt;' x:str>PATCH UNPAVED SHOULDER</td>
+                                                                        <td width="97" style='width:48.50pt;' x:num>3</td>
+                                                                        <td width="96" style='width:48.00pt;' x:num>5</td>
+                                                                        <td width="185" style='width:92.50pt;'></td>
+                                                                        <td width="233" style='width:116.50pt;' x:str>cubic metres of soil/km</td>
+                                                                        <td width="189" style='width:94.50pt;'></td>
+                                                                    </tr>
+                                                                    <tr height="29" style='height:14.50pt;'>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td height="29" style='height:14.50pt;' x:num>1032</td>
+                                                                        <td x:str>SHOULDER GRASS CUTTING</td>
+                                                                        <td x:num>12</td>
+                                                                        <td x:num>12</td>
+                                                                        <td x:num>12</td>
+                                                                        <td x:str>1000 sq. m / km</td>
+                                                                        <td x:str>each side 12 cycle</td>
+                                                                    </tr>
+                                                                    <tr height="29" style='height:14.50pt;'>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td height="29" style='height:14.50pt;' x:num>4033</td>
+                                                                        <td x:str>RESHAPE UNPAVED SHOULDER</td>
+                                                                        <td class="xl82"></td>
+                                                                        <td class="xl83" x:num>1</td>
+                                                                        <td class="xl84"></td>
+                                                                        <td class="xl85" x:str>No. of Operation</td>
+                                                                        <td class="xl86"></td>
+                                                                    </tr>
+                                                                    <tr height="29" style='height:14.50pt;'>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td height="29" style='height:14.50pt;' x:num>4034</td>
+                                                                        <td x:str>REPLENISH UNPAVED SHOULDER</td>
+                                                                        <td x:num>0.05</td>
+                                                                        <td x:num>0.15</td>
+                                                                        <td x:num>1</td>
+                                                                        <td x:str>No. of Operation</td>
+                                                                        <td></td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td rowspan="3" style="background:#fff">
+                                                                            Culverts
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr height="29" style='height:14.50pt;'>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="xl68" height="29" width="96" style='height:14.50pt;width:48.00pt;' x:num>1051</td>
+                                                                        <td class="xl69" width="325" style='width:162.50pt;' x:str>INSPECT &amp; CLEAR CULVERT</td>
+                                                                        <td class="xl70" width="96" style='width:48.00pt;' x:num>2</td>
+                                                                        <td class="xl71" width="185" style='width:92.50pt;' x:num>2</td>
+                                                                        <td class="xl72" width="233" style='width:116.50pt;' x:num>2</td>
+                                                                        <td class="xl73" width="189" style='width:94.50pt;' x:str>No. of Operation</td>
+                                                                        <td class="xl74" width="96" style='width:48.00pt;'></td>
+                                                                    </tr>
+                                                                    <tr height="29" style='height:14.50pt;'>
+                                                                        <td>
+                                                                            <div class="btn-group dropright" id="actiondropdown">
+                                                                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                                                    Click Me
+                                                                                </button>
+                                                                                <div class="dropdown-menu">
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="edit-icon"></span> Edit
+                                                                                    </button>
+
+                                                                                    <button type="button" class="dropdown-item editdel-btns">
+                                                                                        <span class="view-icon"></span> View
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="xl68" height="29" style='height:14.50pt;' x:num>6052</td>
+                                                                        <td class="xl75" x:str>CLEAR CULVERT WATERWAY</td>
+                                                                        <td class="xl76" x:num>0.1</td>
+                                                                        <td class="xl77" x:num>0.1</td>
+                                                                        <td class="xl78" x:num>0.1</td>
+                                                                        <td class="xl79" x:str>No. of Operation</td>
+                                                                        <td class="xl80"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--form g1 -->
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="col-md-12 mb-2 float-right text-right custom-footer">
+    <button type="button" class="btn btn-sm btn-outline-theme">Close</button>
+    <button type="button" class="btn btn-sm btn-themebtn">Save</button>
+</div>
+<style>
+    .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4) {
+        width: auto !important;
+        min-width: auto !important;
+    }
+
+    .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(2), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(2), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(3), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(3), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(5), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(5) {
+        width: auto !important;
+        min-width: auto !important;
+    }
+</style>
+
+
