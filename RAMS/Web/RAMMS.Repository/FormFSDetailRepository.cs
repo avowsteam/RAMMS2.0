@@ -979,7 +979,7 @@ namespace RAMMS.Repository
                          join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
                          join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo  equals r.Fr1hPkRefNo
                          where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear  == hdr.FshYearOfInsp
-                         && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode
+                         && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && h.Ff1hSubmitSts == true
                          select 1).Count();
        
             var Length = (from o in _context.RmFormF1Dtl
@@ -987,7 +987,7 @@ namespace RAMMS.Repository
                           join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
                           join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
                           where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
-                         && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode
+                         && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && h.Ff1hSubmitSts == true
                           select a.AiLength)?.Sum();
 
 
@@ -996,7 +996,7 @@ namespace RAMMS.Repository
                             join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
                             join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
                             where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
-                           && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode
+                           && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && h.Ff1hSubmitSts == true
                             select a.AiWidth)?.Sum();
 
             int? condition1 = (from o in _context.RmFormF1Dtl
@@ -1004,24 +1004,24 @@ namespace RAMMS.Repository
                               join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
                               join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
                               where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
-                             && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && o.Ff1dOverallCondition == 1
-                              select o.Ff1dOverallCondition)?.Sum();
+                             && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && o.Ff1dOverallCondition == 1 && h.Ff1hSubmitSts == true
+                               select 1)?.Count();
 
             int? condition2 = (from o in _context.RmFormF1Dtl
                                join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
                                join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
                                join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
                                where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
-                              && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && o.Ff1dOverallCondition == 2
-                               select o.Ff1dOverallCondition)?.Sum();
+                              && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && o.Ff1dOverallCondition == 2 && h.Ff1hSubmitSts == true
+                               select 1)?.Count();
 
             int? condition3 = (from o in _context.RmFormF1Dtl
                                join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
                                join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
                                join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
                                where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
-                              && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && o.Ff1dOverallCondition == 3
-                               select o.Ff1dOverallCondition)?.Sum();
+                              && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && o.Ff1dOverallCondition == 3 && h.Ff1hSubmitSts == true
+                               select 1)?.Count();
 
             if (count > 0)
             {
@@ -1056,7 +1056,7 @@ namespace RAMMS.Repository
             var count = (from o in _context.RmFormF3Dtl
                          join h in _context.RmFormF3Hdr on o.Ff3dFf3hPkRefNo equals h.Ff3hPkRefNo
                          where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp
-                         && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode
+                         && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode  && h.Ff3hSubmitSts == true
                          select 1).Count();
 
             var Length = count ;
@@ -1064,27 +1064,27 @@ namespace RAMMS.Repository
             var AvgWidth = (from o in _context.RmFormF3Dtl
                             join h in _context.RmFormF3Hdr on o.Ff3dFf3hPkRefNo equals h.Ff3hPkRefNo
                             join i in _context.RmAllassetInventory on o.Ff3dAssetId equals i.AiPkRefNo.ToString()
-                            where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp && i.AiActiveYn == true &&  o.Ff3dCode == StructureCode
+                            where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp && i.AiActiveYn == true &&  o.Ff3dCode == StructureCode && h.Ff3hSubmitSts == true
                             select i.AiWidth)?.Sum();
 
 
             int? condition1 = (from o in _context.RmFormF3Dtl
                                join h in _context.RmFormF3Hdr on o.Ff3dFf3hPkRefNo equals h.Ff3hPkRefNo
                                where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp
-                              && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode && o.Ff3dConditionI == 1
-                               select o.Ff3dConditionI)?.Sum();
+                              && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode && o.Ff3dConditionI == 1 && h.Ff3hSubmitSts == true
+                               select 1)?.Count();
 
             int? condition2 = (from o in _context.RmFormF3Dtl
                                join h in _context.RmFormF3Hdr on o.Ff3dFf3hPkRefNo equals h.Ff3hPkRefNo
                                where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp
-                              && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode && o.Ff3dConditionI == 2
-                              select o.Ff3dConditionI)?.Sum();
+                              && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode && o.Ff3dConditionI == 2 && h.Ff3hSubmitSts == true
+                               select 1)?.Count();
 
             int? condition3 = (from o in _context.RmFormF3Dtl
                                 join h in _context.RmFormF3Hdr on o.Ff3dFf3hPkRefNo equals h.Ff3hPkRefNo
                                 where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp
-                               && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode && o.Ff3dConditionI == 3
-                               select o.Ff3dConditionI)?.Sum();
+                               && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode && o.Ff3dConditionI == 3 && h.Ff3hSubmitSts == true
+                               select 1)?.Count();
 
 
             if (count > 0)
