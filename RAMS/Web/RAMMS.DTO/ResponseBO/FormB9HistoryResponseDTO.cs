@@ -16,7 +16,8 @@ namespace RAMMS.DTO.ResponseBO
         public decimal? Cond1 { get; set; }
         public decimal? Cond2 { get; set; }
         public decimal? Cond3 { get; set; }
-        public int? UnitOfService { get; set; }
+        public int? UnitOfServiceId { get; set; }
+        public string UnitOfService { get; set; }
 
         public string UnitDescription { get; set; }
         public string Remarks { get; set; }

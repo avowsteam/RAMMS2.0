@@ -70,6 +70,10 @@ namespace RAMMS.Business.ServiceProvider.Services
             return B9;
         }
 
+        public int? GetMaxRev(int Year)
+        {
+            return GetMaxRev(Year);
+        }
 
         public async Task<int> SaveFormB9(FormB9ResponseDTO FormB9, List<FormB9HistoryResponseDTO> FormB9History)
         {

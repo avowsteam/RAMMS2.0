@@ -2,10 +2,7 @@
 
 
 $(document).ready(function () {
-
-
-
-
+ 
     $('.typein').on('click', function (e) {
         var $this = $(this);
         typein($this);
@@ -13,6 +10,7 @@ $(document).ready(function () {
     });
 
     $('.dropdown').on('click', function (e) {
+        var $this = $(this);
         showComboBox($this);
         e.preventDefault();
         e.stopPropagation();
@@ -21,7 +19,7 @@ $(document).ready(function () {
 
 
     $("#ddlYear").on("change", function () {
-        generateHeaderReference();
+        getRevisionNo($("#ddlYear").val());
     });
 
 
@@ -29,16 +27,16 @@ $(document).ready(function () {
 });
 
 
-function getRevisionNo(id, callback) {
+function getRevisionNo(id) {
     var req = {};
-    req.id = id;
+    req.Year = id;
     $.ajax({
-        url: '/NOD/GetUserById',
+        url: '/FormB9/GetMaxRev',
         dataType: 'JSON',
         data: req,
         type: 'Post',
         success: function (data) {
-            callback(data);
+            $("#RevisionNo").val(data)
         },
         error: function (data) {
             console.error(data);
@@ -66,7 +64,7 @@ function Save() {
     FormB9.RevisionYear = $("#ddlYear").val()
     FormB9.RevisionNo = $("#RevisionNo").val()
     FormB9.RevisionDate = $("#FormB9_RevisionDate").val()
-    FormB9.UserId = $("#FormB9_UserId").val();
+    FormB9.UserId = $("#UserId").val();
     FormB9.UserName = $("#UserName").val();
 
 
@@ -82,7 +80,7 @@ function Save() {
         B9.Cond1 = $(this).find("td:nth-child(4)").html().trim();
         B9.Cond2 = $(this).find("td:nth-child(5)").html().trim();
         B9.Cond3 = $(this).find("td:nth-child(6)").html().trim();
-        B9.UnitOfService = $(this).find("td:nth-child(7)").html().trim();
+        B9.UnitOfService = $(this).find("td:nth-child(7)").attr("preval");
         B9.Remarks = $(this).find("td:nth-child(8)").html().trim();
 
         B9History.push(B9);
@@ -201,16 +199,26 @@ function SetCaretAtEnd(elem) {
 
 function showComboBox(obj) {
 
-    var oldstrText = $.trim($(obj).text());
-    if (oldstrText != "") oldstrText = $(obj).attr("itemid");
+    if (obj[0].childElementCount > 0)
+        return;
 
-    if ($(obj).attr("CellType").toLowerCase() == "propchoices") {
-        oldstrText = $.trim($(obj).html());
+    var selectHtml = "<select onchange='setSelected(this)'>";
+
+    if (UnitServiceLevelObj.length > 0) {
+        var selected = "";
+        var selectedvalue = $(obj).parent().attr("preval");
+        selectHtml = selectHtml + "<option value='0'></option>";
+
+        $.each(UnitServiceLevelObj, function (index, v) {
+            if (selectedvalue == v.value) { selected = "selected"; }
+            else { selected = ""; }
+            selectHtml = selectHtml + "<option value='" + v.Value + "' " + selected + " >" + v.Text + "</option>";
+        });
+
+        selectHtml = selectHtml + "</select>";
     }
 
-    $(obj).removeAttr("onclick");
-
-    $(obj).html().promise().done(function () {
+    $(obj).html(selectHtml).promise().done(function () {
 
         $($(obj).find('select')).focus();
         $($(obj).find('select')).blur(function () {
@@ -225,24 +233,16 @@ function showComboBox(obj) {
 
 
 
-    EditMode = true;
+
     return false;
 }
 
 function HideCombo(obj) {
-    var str;
+   
     var td = $(obj).parent();
 
-    //  str= $(obj).find("option:selected").val();
+    $(td).html($(obj).parent().attr("preval"));
 
-    if (typeof str == "undefined" || str == "" || typeof SymbolType != "undefined") {
-        str = $(td).attr("preval");
-    }
-
-    if (typeof str == "undefined" || str == "")
-        str = ""
-
-    $(td).html(str);
     return false;
 }
 
