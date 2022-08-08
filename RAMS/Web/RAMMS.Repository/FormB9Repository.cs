@@ -124,6 +124,80 @@ namespace RAMMS.Repository
         }
 
 
+        public async Task<List<FormB9HistoryResponseDTO>> GetFormB9HistoryGridList(FilteredPagingDefinition<FormB9HistoryResponseDTO> filterOptions)
+        {
+            List<FormB9HistoryResponseDTO> result = new List<FormB9HistoryResponseDTO>();
+
+            var query = from x in _context.RmB9DesiredServiceHistory
+                               where x.B9dshB9dsPkRefNo == filterOptions.Filters.B9dsPkRefNo
+                        orderby x.B9dshPkRefNo descending
+                        select new { x };
+
+
+            if (filterOptions.sortOrder == SortOrder.Ascending)
+            {
+                if (filterOptions.ColumnIndex == 1)
+                    query = query.OrderBy(x => x.x.B9dshFeature);
+                if (filterOptions.ColumnIndex == 2)
+                    query = query.OrderBy(x => x.x.B9dshCode);
+                if (filterOptions.ColumnIndex == 3)
+                    query = query.OrderBy(x => x.x.B9dshName);
+                if (filterOptions.ColumnIndex == 4)
+                    query = query.OrderBy(x => x.x.B9dshCond1);
+                if (filterOptions.ColumnIndex == 5)
+                    query = query.OrderBy(x => x.x.B9dshCond2);
+
+
+            }
+            else if (filterOptions.sortOrder == SortOrder.Descending)
+            {
+           
+                if (filterOptions.ColumnIndex == 1)
+                    query = query.OrderByDescending(x => x.x.B9dshFeature);
+                if (filterOptions.ColumnIndex == 2)
+                    query = query.OrderByDescending(x => x.x.B9dshCode);
+                if (filterOptions.ColumnIndex == 3)
+                    query = query.OrderByDescending(x => x.x.B9dshName);
+                if (filterOptions.ColumnIndex == 4)
+                    query = query.OrderByDescending(x => x.x.B9dshCond1);
+                if (filterOptions.ColumnIndex == 5)
+                    query = query.OrderByDescending(x => x.x.B9dshCond2);
+
+            }
+
+            var list = await query.ToListAsync();
+
+            
+            return list.Select(s => new FormB9HistoryResponseDTO
+            {
+              B9dsPkRefNo =s.x.B9dshPkRefNo,
+              Code=s.x.B9dshCode,
+              Cond1=s.x.B9dshCond1,
+              Cond2=s.x.B9dshCond2,
+              Cond3=s.x.B9dshCond3,
+              Feature=s.x.B9dshFeature,
+              Name=s.x.B9dshName,
+              Remarks=s.x.B9dshRemarks,
+              RevisionDate=s.x.B9dshRevisionDate,
+              RevisionNo=s.x.B9dshRevisionNo,
+              UnitOfService=s.x.B9dshUnitOfService,
+              UserId=s.x.B9dshUserId,
+              UserName=s.x.B9dshUserName
+            }).ToList();
+
+        }
+
+
+        public RmB9DesiredService GetHeaderById(int id)
+        {
+            RmB9DesiredService res = (from r in _context.RmB9DesiredService where r.B9dsPkRefNo == id select r).FirstOrDefault();
+
+            res.RmB9DesiredServiceHistory = (from r in _context.RmB9DesiredServiceHistory where r.B9dshB9dsPkRefNo == id select r).ToList();
+
+            return res;
+        }
+
+
         public async Task<int> SaveFormB9(RmB9DesiredService FormB9, List<RmB9DesiredServiceHistory> FormB9History)
         {
             try

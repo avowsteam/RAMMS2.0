@@ -44,25 +44,33 @@ namespace RAMMS.Business.ServiceProvider.Services
             PagingResult<FormB9ResponseDTO> result = new PagingResult<FormB9ResponseDTO>();
             List<FormB9ResponseDTO> formAlist = new List<FormB9ResponseDTO>();
             result.PageResult = await _repo.GetFilteredRecordList(filterOptions);
-            result.TotalRecords = result.PageResult.Count(); // await _repo.GetFilteredRecordCount(filterOptions);
+            result.TotalRecords = result.PageResult.Count();  
             result.PageNo = filterOptions.StartPageNo;
             result.FilteredRecords = result.PageResult != null ? result.PageResult.Count : 0;
             return result;
         }
 
-    
+        public async Task<PagingResult<FormB9HistoryResponseDTO>> GetFormB9HistoryGridList(FilteredPagingDefinition<FormB9HistoryResponseDTO> filterOptions)
+        {
+            PagingResult<FormB9HistoryResponseDTO> result = new PagingResult<FormB9HistoryResponseDTO>();
+            List<FormB9HistoryResponseDTO> formAlist = new List<FormB9HistoryResponseDTO>();
+            result.PageResult = await _repo.GetFormB9HistoryGridList(filterOptions);
+            result.TotalRecords = result.PageResult.Count(); 
+            result.PageNo = filterOptions.StartPageNo;
+            result.FilteredRecords = result.PageResult != null ? result.PageResult.Count : 0;
+            return result;
+        }
 
-        //public async Task<FormB9ResponseDTO> GetHeaderById(int id)
-        //{
-        //    var header = await _repoUnit.FormB9Repository.FindAsync(s => s.Ff1hPkRefNo == id && s.Ff1hActiveYn == true);
-        //    if (header == null)
-        //    {
-        //        return null;
-        //    }
-        //    return _mapper.Map<FormB9ResponseDTO>(header);
-        //}
+        public async Task<FormB9ResponseDTO> GetHeaderById(int id)
+        {
+            RmB9DesiredService res = _repo.GetHeaderById(id);
+            FormB9ResponseDTO B9 = new FormB9ResponseDTO();
+            B9 = _mapper.Map<FormB9ResponseDTO>(res);
+            B9.FormB9History = _mapper.Map<List<FormB9HistoryResponseDTO>>(res.RmB9DesiredServiceHistory);
+            return B9;
+        }
 
-      
+
         public async Task<int> SaveFormB9(FormB9ResponseDTO FormB9, List<FormB9HistoryResponseDTO> FormB9History)
         {
             try
