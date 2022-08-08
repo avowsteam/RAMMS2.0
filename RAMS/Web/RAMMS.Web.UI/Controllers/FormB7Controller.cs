@@ -90,7 +90,7 @@ namespace RAMMS.Web.UI.Controllers
 
         public async Task<IActionResult> Edit(int id, int view)
         {
-
+            LoadLookupService("Year");
             FormB7Model _model = new FormB7Model();
             if (id > 0)
             {
