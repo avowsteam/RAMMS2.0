@@ -33,7 +33,7 @@ namespace RAMMS.Web.UI.Controllers
         private readonly IFormJServices _formJService;
         private readonly IRoadMasterService _roadMasterService;
         private readonly IDDLookupBO _dDLookupBO;
-        private readonly IFormG1G2Service _formG1G2Service;
+        private readonly IFormB7Service _formB7Service;
         private readonly IAssetsService _AssetService;
 
         public FormB7Controller(IHostingEnvironment _environment,
@@ -46,7 +46,7 @@ namespace RAMMS.Web.UI.Controllers
           ISecurity security,
           IRoadMasterService roadMasterService,
           ILogger logger,
-          IFormG1G2Service formG1G2Service,
+          IFormB7Service formB7Service,
           IAssetsService assestService
           )
         {
@@ -60,7 +60,7 @@ namespace RAMMS.Web.UI.Controllers
             _formJService = formJServices ?? throw new ArgumentNullException(nameof(formJServices));
             _roadMasterService = roadMasterService ?? throw new ArgumentNullException(nameof(roadMasterService));
             _logger = logger;
-            _formG1G2Service = formG1G2Service ?? throw new ArgumentNullException(nameof(formG1G2Service));
+            _formB7Service = formB7Service ?? throw new ArgumentNullException(nameof(formB7Service));
             _AssetService = assestService;
         }
 
@@ -72,21 +72,21 @@ namespace RAMMS.Web.UI.Controllers
             grid.IsDelete = _security.IsPCDelete(ModuleNameList.Annual_Work_Planned_Budget) && _security.isOperRAMSExecutive;
             grid.IsView = _security.IsPCView(ModuleNameList.Annual_Work_Planned_Budget);
             grid.Columns.Add(new CDataColumns() { data = null, title = "Action", IsFreeze = true, sortable = false, render = "frmB7.HeaderGrid.ActionRender" });
-            grid.Columns.Add(new CDataColumns() { data = "B7lRevisionYear", title = "Year" });
-            grid.Columns.Add(new CDataColumns() { data = "B7lRevisionNo", title = "Revision Number" });
-            grid.Columns.Add(new CDataColumns() { data = "B7lRevisionDate", title = "Revision Date", render = "frmB7.HeaderGrid.DateOfIns" });
-            grid.Columns.Add(new CDataColumns() { data = "B7lCrByName", title = "User Name" });
+            grid.Columns.Add(new CDataColumns() { data = "RevisionYear", title = "Year" });
+            grid.Columns.Add(new CDataColumns() { data = "RevisionNo", title = "Revision Number" });
+            grid.Columns.Add(new CDataColumns() { data = "RevisionDate", title = "Revision Date", render = "frmB7.HeaderGrid.DateOfIns" });
+            grid.Columns.Add(new CDataColumns() { data = "CrByName", title = "User Name" });
             return View(grid);
         }
 
-        //public async Task<JsonResult> HeaderList(DataTableAjaxPostModel searchData)
-        //{
-        //    if (searchData.order != null && searchData.order.Count > 0)
-        //    {
-        //        searchData.order = searchData.order.Select(x => { if (x.column == 4 || x.column == 1 || x.column == 9) { x.column = 16; } return x; }).ToList();
-        //    }
-        //    return Json(await _C1C2Service.GetHeaderGrid(searchData), JsonOption());
-        //}
+        public async Task<JsonResult> HeaderList(DataTableAjaxPostModel searchData)
+        {
+            if (searchData.order != null && searchData.order.Count > 0)
+            {
+                searchData.order = searchData.order.Select(x => { if (x.column == 4 || x.column == 1 || x.column == 9) { x.column = 16; } return x; }).ToList();
+            }
+            return Json(await _formB7Service.GetHeaderGrid(searchData), JsonOption());
+        }
 
         public async Task<IActionResult> Edit(int id, int view)
         {
@@ -94,11 +94,11 @@ namespace RAMMS.Web.UI.Controllers
             FormB7Model _model = new FormB7Model();
             if (id > 0)
             {
-                //  _model.FormB9 = await _FormB9Service.GetHeaderById(id);
+                 _model.FormB7Header = await _formB7Service.GetHeaderById(id);
             }
             else
             {
-                _model.FormB7Labour  = new FormB7LabourDTO();
+                _model.FormB7Header  = new FormB7HeaderDTO();
             }
 
 

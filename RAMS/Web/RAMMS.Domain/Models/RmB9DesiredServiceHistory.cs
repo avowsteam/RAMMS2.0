@@ -13,7 +13,9 @@ namespace RAMMS.Domain.Models
         public decimal? B9dshCond1 { get; set; }
         public decimal? B9dshCond2 { get; set; }
         public decimal? B9dshCond3 { get; set; }
-        public int? B9dshUnitOfService { get; set; }
+        public int? B9dshUnitOfServiceId { get; set; }
+        public string B9dshUnitOfService { get; set; }
+        public string B9dshUnitDescription { get; set; }
         public string B9dshRemarks { get; set; }
         public int? B9dshRevisionNo { get; set; }
         public DateTime? B9dshRevisionDate { get; set; }

@@ -6,10 +6,10 @@ namespace RAMMS.Domain.Models
     public partial class RmB7MaterialHistory
     {
         public int B7mhPkRefNo { get; set; }
-        public int? B7mhB7mPkRefNo { get; set; }
+        public int? B7mhB7hPkRefNo { get; set; }
         public string B7mhCode { get; set; }
         public string B7mhName { get; set; }
-        public int? B7mhUnits { get; set; }
+        public string B7mhUnits { get; set; }
         public decimal? B7mhUnitPriceBatuNiah { get; set; }
         public decimal? B7mhUnitPriceMiri { get; set; }
         public int? B7mhRevisionNo { get; set; }
@@ -19,6 +19,6 @@ namespace RAMMS.Domain.Models
         public string B7mhCrByName { get; set; }
         public DateTime? B7mhCrDt { get; set; }
 
-        public virtual RmB7Material B7mhB7mPkRefNoNavigation { get; set; }
+        public virtual RmB7Hdr B7mhB7hPkRefNoNavigation { get; set; }
     }
 }
