@@ -6,7 +6,7 @@ namespace RAMMS.Domain.Models
     public partial class RmB7LabourHistory
     {
         public int B7lhPkRefNo { get; set; }
-        public int? B7lhB7lPkRefNo { get; set; }
+        public int? B7lhB7hPkRefNo { get; set; }
         public string B7lhCode { get; set; }
         public string B7lhName { get; set; }
         public int? B7lhUnitInHrs { get; set; }
@@ -19,6 +19,6 @@ namespace RAMMS.Domain.Models
         public string B7lhCrByName { get; set; }
         public DateTime? B7lhCrDt { get; set; }
 
-        public virtual RmB7Labour B7lhB7lPkRefNoNavigation { get; set; }
+        public virtual RmB7Hdr B7lhB7hPkRefNoNavigation { get; set; }
     }
 }

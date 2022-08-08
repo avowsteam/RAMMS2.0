@@ -1,6 +1,8 @@
 ﻿@model RAMMS.Web.UI.Models.FormB9Model;
+@using RAMMS.Business.ServiceProvider;
 @using RAMMS.DTO.RequestBO;
 @inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
 @{
     ViewBag.TabTitle = "Form B9";
     ViewData["Title"] = "Form B9";
@@ -13,6 +15,16 @@
     Text = s.DdlTypeValue,
     Value = s.DdlTypeValue
 }).ToArray();
+
+    IEnumerable<SelectListItem> UnitServiceLevel = (await ddlService
+.GetLookups(new DDLookUpDTO { Type = "UnitServiceLevel" }))
+.Select(s => new SelectListItem
+{
+    Text = s.DdlTypeDesc,
+    Value = s.DdlTypeValue
+}).ToArray();
+
+    
 }
 
 <script type="text/javascript" src="~/js/FormB9.js" asp-append-version="true"></script>
@@ -54,7 +66,7 @@
                                     </div>
                                     <div class="form-group col-3">
                                         <label>User Name </label>
-                                        <input type="number" id="UserName" disabled value="@Model.FormB9.UserName" class="form-control">
+                                        <input  id="UserName" disabled value="@Model.FormB9.UserName" class="form-control">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -127,7 +139,7 @@
                                                                                 <td class="typein" datatype="int">
                                                                                     @Model.FormB9.FormB9History[i].Cond3
                                                                                 </td>
-                                                                                <td class="dropdown">
+                                                                                <td class="dropdown" preval="@Model.FormB9.FormB9History[i].UnitOfService">
                                                                                     @Model.FormB9.FormB9History[i].UnitOfService
                                                                                 </td>
                                                                                 <td class="typein">
@@ -182,7 +194,10 @@
 </style>
 
 @Html.HiddenFor(m => m.FormB9.PkRefNo);
+<input type="hidden" id="UserId" value="@security.UserID" />
 
 <script>
+    var UnitServiceLevelObj = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(UnitServiceLevel));
 
+    $("#UserName").val("@security.UserName");
 </script>

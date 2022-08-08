@@ -23,6 +23,8 @@ namespace RAMMS.Repository.Interfaces
         Task<List<FormB9HistoryResponseDTO>> GetFormB9HistoryGridList(FilteredPagingDefinition<FormB9HistoryResponseDTO> filterOptions);
 
         RmB9DesiredService GetHeaderById(int id);
+
+        int? GetMaxRev(int Year);
         Task<int> SaveFormB9(RmB9DesiredService FormB9, List<RmB9DesiredServiceHistory> FormB9History);
 
       //  Task<FORMB9Rpt> GetReportData(int headerid);

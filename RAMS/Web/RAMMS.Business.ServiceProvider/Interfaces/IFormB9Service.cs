@@ -22,6 +22,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
 
        Task<FormB9ResponseDTO> GetHeaderById(int id);
 
+        int? GetMaxRev(int Year);
         Task<int> SaveFormB9(FormB9ResponseDTO FormB9, List<FormB9HistoryResponseDTO> FormB9History);
      // Task<byte[]> FormDownload(string formname, int id, string filepath);
 

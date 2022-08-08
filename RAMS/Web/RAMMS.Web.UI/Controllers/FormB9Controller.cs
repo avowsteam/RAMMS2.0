@@ -83,14 +83,19 @@ namespace RAMMS.Web.UI.Controllers
 
         }
 
- 
+
         public async Task<IActionResult> Add(int id, int view)
         {
+
             FormB9Model _model = new FormB9Model();
             _model.FormB9 = await _FormB9Service.GetHeaderById(id);
             return PartialView("~/Views/FormB9/_AddFormB9.cshtml", _model);
         }
 
+        public async Task<IActionResult> GetMaxRev(int Year)
+        {
+             return Json(await GetMaxRev(Year));
+        }
 
         public async Task<IActionResult> SaveFormB9(FormB9ResponseDTO FormB9)
         {
