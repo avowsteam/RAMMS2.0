@@ -18,8 +18,9 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
 
         Task<PagingResult<FormB9ResponseDTO>> GetHeaderList(FilteredPagingDefinition<FormB9SearchGridDTO> filterOptions);
 
+        Task<PagingResult<FormB9HistoryResponseDTO>> GetFormB9HistoryGridList(FilteredPagingDefinition<FormB9HistoryResponseDTO> filterOptions);
 
-      //  Task<FormF1ResponseDTO> GetHeaderById(int id);
+       Task<FormB9ResponseDTO> GetHeaderById(int id);
 
         Task<int> SaveFormB9(FormB9ResponseDTO FormB9, List<FormB9HistoryResponseDTO> FormB9History);
      // Task<byte[]> FormDownload(string formname, int id, string filepath);

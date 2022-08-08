@@ -20,6 +20,9 @@ namespace RAMMS.Repository.Interfaces
 
         Task<List<FormB9ResponseDTO>> GetFilteredRecordList(FilteredPagingDefinition<FormB9SearchGridDTO> filterOptions);
 
+        Task<List<FormB9HistoryResponseDTO>> GetFormB9HistoryGridList(FilteredPagingDefinition<FormB9HistoryResponseDTO> filterOptions);
+
+        RmB9DesiredService GetHeaderById(int id);
         Task<int> SaveFormB9(RmB9DesiredService FormB9, List<RmB9DesiredServiceHistory> FormB9History);
 
       //  Task<FORMB9Rpt> GetReportData(int headerid);

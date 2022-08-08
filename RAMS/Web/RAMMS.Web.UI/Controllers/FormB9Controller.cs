@@ -23,7 +23,6 @@ namespace RAMMS.Web.UI.Controllers
         private IFormB9Service _FormB9Service;
         private readonly IFormJServices _formJService;
         private ISecurity _security;
-        private IWebHostEnvironment _environment;
         private IUserService _userService;
         private IRoadMasterService _roadMasterService;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -44,13 +43,12 @@ namespace RAMMS.Web.UI.Controllers
         }
         public IActionResult Index()
         {
-            
             return View();
         }
 
         public async Task<IActionResult> GetHeaderList(DataTableAjaxPostModel<FormB9SearchGridDTO> searchData)
         {
-            
+
             FilteredPagingDefinition<FormB9SearchGridDTO> filteredPagingDefinition = new FilteredPagingDefinition<FormB9SearchGridDTO>();
             searchData.filterData = searchData.filterData ?? new FormB9SearchGridDTO();
             if (Request.Form.ContainsKey("columns[0][search][value]"))
@@ -85,91 +83,20 @@ namespace RAMMS.Web.UI.Controllers
 
         }
 
-
+ 
         public async Task<IActionResult> Add(int id, int view)
         {
-            
             FormB9Model _model = new FormB9Model();
-            if (id > 0)
-            {
-              //  _model.FormB9 = await _FormB9Service.GetHeaderById(id);
-            }
-            else
-            {
-                _model.FormB9 = new FormB9ResponseDTO();
-            }
-
-            
-
-            return PartialView("~/Views/FrmT/_AddFormB9.cshtml", _model);
+            _model.FormB9 = await _FormB9Service.GetHeaderById(id);
+            return PartialView("~/Views/FormB9/_AddFormB9.cshtml", _model);
         }
 
 
-
-        //public async Task<IActionResult> SaveFormB9(FormB9Model frm)
-        //{
-        //    int refNo = 0;
-        //    frm.FormB9.ActiveYn = true;
-        //    if (frm.FormB9.PkRefNo == 0)
-        //    {
-        //        frm.FormB9 = await _FormB9Service.SaveFormB9(frm.FormB9);
-
-        //        return Json(new { FormExist = frm.FormB9.FormExist, RefId = frm.FormB9.PkRefId, PkRefNo = frm.FormB9.PkRefNo, Status = frm.FormB9.Status });
-        //    }
-        //    else
-        //    {
-        //        if (frm.FormB9.Status == "Initialize")
-        //            frm.FormB9.Status = "Saved";
-        //        refNo = await _FormB9Service.Update(frm.FormB9);
-        //    }
-        //    return Json(refNo);
-
-
-        //}
-
-
-        //public async Task<IActionResult> SaveFormB9Dtl(FormB9DtlResponseDTO FormB9Dtl)
-        //{
-        //    int? refNo = 0;
-
-
-        //    if (FormB9Dtl.PkRefNo == 0)
-        //    {
-        //        refNo = _FormB9Service.SaveFormB9Dtl(FormB9Dtl);
-
-        //    }
-        //    else
-        //    {
-        //        _FormB9Service.UpdateFormB9Dtl(FormB9Dtl);
-        //    }
-
-
-        //    return Json(refNo);
-
-
-        //}
-
-
-        //public async Task<IActionResult> GetFormB9DtlById(int id)
-        //{
-        //    FormB9Model _model = new FormB9Model();
-        //    _model.FormB9Dtl = new FormB9DtlResponseDTO();
-        //    _model.FormB9Vechicle = new FormB9VehicleResponseDTO();
-        //    if (id > 0)
-        //    {
-        //        _model.FormB9Dtl = await _FormB9Service.GetFormB9DtlById(id);
-        //    }
-        //    return PartialView("~/Views/FrmT/_VechicleDetails.cshtml", _model);
-
-        //}
-
-
-        //public async Task<IActionResult> FormB9Download(int id, [FromServices] IWebHostEnvironment _environment)
-        //{
-        //var content1 = await _FormB9Service.FormDownload("FormB9", id, _environment.WebRootPath + "/Templates/FormB9.xlsx");
-        //string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        //return File(content1, contentType1, "FormB9" + ".xlsx");
-        // }
+        public async Task<IActionResult> SaveFormB9(FormB9ResponseDTO FormB9)
+        {
+            await _FormB9Service.SaveFormB9(FormB9, FormB9.FormB9History);
+            return Json(1);
+        }
 
     }
 }
