@@ -36,6 +36,12 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmAuditLogTransaction> RmAuditLogTransaction { get; set; }
         public virtual DbSet<RmB10DailyProduction> RmB10DailyProduction { get; set; }
         public virtual DbSet<RmB10DailyProductionHistory> RmB10DailyProductionHistory { get; set; }
+        public virtual DbSet<RmB7Equipments> RmB7Equipments { get; set; }
+        public virtual DbSet<RmB7EquipmentsHistory> RmB7EquipmentsHistory { get; set; }
+        public virtual DbSet<RmB7Labour> RmB7Labour { get; set; }
+        public virtual DbSet<RmB7LabourHistory> RmB7LabourHistory { get; set; }
+        public virtual DbSet<RmB7Material> RmB7Material { get; set; }
+        public virtual DbSet<RmB7MaterialHistory> RmB7MaterialHistory { get; set; }
         public virtual DbSet<RmB9DesiredService> RmB9DesiredService { get; set; }
         public virtual DbSet<RmB9DesiredServiceHistory> RmB9DesiredServiceHistory { get; set; }
         public virtual DbSet<RmDdLookup> RmDdLookup { get; set; }
@@ -3351,6 +3357,258 @@ namespace RAMMS.Domain.Models
                     .HasConstraintName("FK_RM_B10_Daily_Production_History_RM_B10_Daily_Production_History");
             });
 
+            modelBuilder.Entity<RmB7Equipments>(entity =>
+            {
+                entity.HasKey(e => e.B7ePkRefNo);
+
+                entity.ToTable("RM_B7_Equipments");
+
+                entity.Property(e => e.B7ePkRefNo).HasColumnName("B7E_PK_Ref_No");
+
+                entity.Property(e => e.B7eCrBy).HasColumnName("B7E_CR_By");
+
+                entity.Property(e => e.B7eCrByName)
+                    .HasColumnName("B7E_CR_By_Name")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B7eCrDt)
+                    .HasColumnName("B7E_CR_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B7eRevisionDate)
+                    .HasColumnName("B7E_Revision_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B7eRevisionNo).HasColumnName("B7E_Revision_No");
+
+                entity.Property(e => e.B7eRevisionYear).HasColumnName("B7E_Revision_Year");
+            });
+
+            modelBuilder.Entity<RmB7EquipmentsHistory>(entity =>
+            {
+                entity.HasKey(e => e.B7ehPkRefNo);
+
+                entity.ToTable("RM_B7_Equipments_History");
+
+                entity.Property(e => e.B7ehPkRefNo).HasColumnName("B7EH_PK_Ref_No");
+
+                entity.Property(e => e.B7ehB7ePkRefNo).HasColumnName("B7EH_B7E_PK_Ref_No");
+
+                entity.Property(e => e.B7ehCode)
+                    .HasColumnName("B7EH_Code")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B7ehCrBy).HasColumnName("B7EH_CR_By");
+
+                entity.Property(e => e.B7ehCrByName)
+                    .HasColumnName("B7EH_CR_By_Name")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B7ehCrDt)
+                    .HasColumnName("B7EH_CR_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B7ehName)
+                    .HasColumnName("B7EH_Name")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B7ehRevisionDate)
+                    .HasColumnName("B7EH_Revision_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B7ehRevisionNo).HasColumnName("B7EH_Revision_No");
+
+                entity.Property(e => e.B7ehRevisionYear).HasColumnName("B7EH_Revision_Year");
+
+                entity.Property(e => e.B7ehUnitInHrs).HasColumnName("B7EH_Unit_In_Hrs");
+
+                entity.Property(e => e.B7ehUnitPriceBatuNiah)
+                    .HasColumnName("B7EH_Unit_Price_Batu_Niah")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B7ehUnitPriceMiri)
+                    .HasColumnName("B7EH_Unit_Price_Miri")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.HasOne(d => d.B7ehB7ePkRefNoNavigation)
+                    .WithMany(p => p.RmB7EquipmentsHistory)
+                    .HasForeignKey(d => d.B7ehB7ePkRefNo)
+                    .HasConstraintName("FK_RM_B7_Equipments_History_RM_B7_Equipments");
+            });
+
+            modelBuilder.Entity<RmB7Labour>(entity =>
+            {
+                entity.HasKey(e => e.B7lPkRefNo);
+
+                entity.ToTable("RM_B7_Labour");
+
+                entity.Property(e => e.B7lPkRefNo).HasColumnName("B7L_PK_Ref_No");
+
+                entity.Property(e => e.B7lCrBy).HasColumnName("B7L_CR_By");
+
+                entity.Property(e => e.B7lCrByName)
+                    .HasColumnName("B7L_CR_By_Name")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B7lCrDt)
+                    .HasColumnName("B7L_CR_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B7lRevisionDate)
+                    .HasColumnName("B7L_Revision_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B7lRevisionNo).HasColumnName("B7L_Revision_No");
+
+                entity.Property(e => e.B7lRevisionYear).HasColumnName("B7L_Revision_Year");
+            });
+
+            modelBuilder.Entity<RmB7LabourHistory>(entity =>
+            {
+                entity.HasKey(e => e.B7lhPkRefNo);
+
+                entity.ToTable("RM_B7_Labour_History");
+
+                entity.Property(e => e.B7lhPkRefNo).HasColumnName("B7LH_PK_Ref_No");
+
+                entity.Property(e => e.B7lhB7lPkRefNo).HasColumnName("B7LH_B7L_PK_Ref_No");
+
+                entity.Property(e => e.B7lhCode)
+                    .HasColumnName("B7LH_Code")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B7lhCrBy).HasColumnName("B7LH_CR_By");
+
+                entity.Property(e => e.B7lhCrByName)
+                    .HasColumnName("B7LH_CR_By_Name")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B7lhCrDt)
+                    .HasColumnName("B7LH_CR_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B7lhName)
+                    .HasColumnName("B7LH_Name")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B7lhRevisionDate)
+                    .HasColumnName("B7LH_Revision_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B7lhRevisionNo).HasColumnName("B7LH_Revision_No");
+
+                entity.Property(e => e.B7lhRevisionYear).HasColumnName("B7LH_Revision_Year");
+
+                entity.Property(e => e.B7lhUnitInHrs).HasColumnName("B7LH_Unit_In_Hrs");
+
+                entity.Property(e => e.B7lhUnitPriceBatuNiah)
+                    .HasColumnName("B7LH_Unit_Price_Batu_Niah")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B7lhUnitPriceMiri)
+                    .HasColumnName("B7LH_Unit_Price_Miri")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.HasOne(d => d.B7lhB7lPkRefNoNavigation)
+                    .WithMany(p => p.RmB7LabourHistory)
+                    .HasForeignKey(d => d.B7lhB7lPkRefNo)
+                    .HasConstraintName("FK_RM_B7_Labour_History_RM_B7_Labour");
+            });
+
+            modelBuilder.Entity<RmB7Material>(entity =>
+            {
+                entity.HasKey(e => e.B7mPkRefNo);
+
+                entity.ToTable("RM_B7_Material");
+
+                entity.Property(e => e.B7mPkRefNo).HasColumnName("B7M_PK_Ref_No");
+
+                entity.Property(e => e.B7mCrBy).HasColumnName("B7M_CR_By");
+
+                entity.Property(e => e.B7mCrByName)
+                    .HasColumnName("B7M_CR_By_Name")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B7mCrDt)
+                    .HasColumnName("B7M_CR_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B7mRevisionDate)
+                    .HasColumnName("B7M_Revision_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B7mRevisionNo).HasColumnName("B7M_Revision_No");
+
+                entity.Property(e => e.B7mRevisionYear).HasColumnName("B7M_Revision_Year");
+            });
+
+            modelBuilder.Entity<RmB7MaterialHistory>(entity =>
+            {
+                entity.HasKey(e => e.B7mhPkRefNo);
+
+                entity.ToTable("RM_B7_Material_History");
+
+                entity.Property(e => e.B7mhPkRefNo).HasColumnName("B7MH_PK_Ref_No");
+
+                entity.Property(e => e.B7mhB7mPkRefNo).HasColumnName("B7MH_B7M_PK_Ref_No");
+
+                entity.Property(e => e.B7mhCode)
+                    .HasColumnName("B7MH_Code")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B7mhCrBy).HasColumnName("B7MH_CR_By");
+
+                entity.Property(e => e.B7mhCrByName)
+                    .HasColumnName("B7MH_CR_By_Name")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B7mhCrDt)
+                    .HasColumnName("B7MH_CR_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B7mhName)
+                    .HasColumnName("B7MH_Name")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B7mhRevisionDate)
+                    .HasColumnName("B7MH_Revision_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B7mhRevisionNo).HasColumnName("B7MH_Revision_No");
+
+                entity.Property(e => e.B7mhRevisionYear).HasColumnName("B7MH_Revision_Year");
+
+                entity.Property(e => e.B7mhUnits)
+                   .HasColumnName("B7MH_Units")
+                   .HasMaxLength(50)
+                   .IsUnicode(false);
+
+                entity.Property(e => e.B7mhUnitPriceBatuNiah)
+                    .HasColumnName("B7MH_Unit_Price_Batu_Niah")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B7mhUnitPriceMiri)
+                    .HasColumnName("B7MH_Unit_Price_Miri")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.HasOne(d => d.B7mhB7mPkRefNoNavigation)
+                    .WithMany(p => p.RmB7MaterialHistory)
+                    .HasForeignKey(d => d.B7mhB7mPkRefNo)
+                    .HasConstraintName("FK_RM_B7_Material_History_RM_B7_Material");
+            });
+
             modelBuilder.Entity<RmB9DesiredService>(entity =>
             {
                 entity.HasKey(e => e.B9dsPkRefNo);
@@ -5363,7 +5621,7 @@ namespace RAMMS.Domain.Models
                     .IsRequired()
                     .HasColumnName("FDH_Status")
                     .HasMaxLength(30)
-                    .HasDefaultValueSql("('Initialize')");
+                    .HasDefaultValueSql("(N'Supervisor')");
 
                 entity.Property(e => e.FdhSubAuthSts)
                     .HasColumnName("FDH_SUB_AUTH_STS")
