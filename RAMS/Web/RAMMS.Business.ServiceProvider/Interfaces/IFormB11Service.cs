@@ -14,11 +14,8 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
 {
     public interface IFormB11Service
     {
-        //Task<FormMDTO> FindByHeaderID(int headerId);
-        //Task<FormMDTO> FindDetails(FormMDTO frmM, int createdBy);
-        //Task<GridWrapper<object>> GetHeaderGrid(DataTableAjaxPostModel searchData);
-        //Task<FormMDTO> Save(FormMDTO frmMs, bool updateSubmit);
-        //int Delete(int id);
-        //Byte[] FormDownload(string formname, int id, string basepath, string filepath);
+        Task<FormB11DTO> GetHeaderById(int headerId);
+        Task<GridWrapper<object>> GetHeaderGrid(DataTableAjaxPostModel searchData);
+
     }
 }
