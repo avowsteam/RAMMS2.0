@@ -23,17 +23,23 @@
     int iPkRefNo = Model != null ? Model.PkRefNo : 0;
 
 }
-@section Scripts{
-    <script type="text/javascript" src="~/assets/js/Views/FormC1C2.js" asp-append-version="true"></script>
-    @if (Model != null)
-    {
-        <script type="text/javascript">
-            frmC1C2.HeaderData = @Html.Raw(RAMMS.Common.Utility.JSerialize(Model));
-            frmC1C2.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
-        </script>
-    }
-   
+<script type="text/javascript" src="~/assets/js/Views/FormC1C2.js" asp-append-version="true"></script>
+@if (Model != null)
+{
+    <script type="text/javascript">
+        frmC1C2.HeaderData = @Html.Raw(RAMMS.Common.Utility.JSerialize(Model));
+        frmC1C2.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
+    </script>
 }
+
+<script>
+    $(document).ready(function () {
+           process.Init("FormC1C2", "@strStatus", @iPkRefNo);
+         });
+
+        frmC1C2.Dis_Severity = @Html.Raw(RAMMS.Common.Utility.JSerialize(ViewBag.Dis_Severity));
+        frmC1C2.Pattern = "@RAMMS.Common.RefNumber.FormRefNumber.GetRawRefNumber(RAMMS.Common.RefNumber.FormType.FormC1C2)";
+</script>
 @{
     Html.RenderPartial("_breadcrumb", new BreadCrumb()
     {
@@ -816,11 +822,7 @@
     </div>
 </div>
  <script type="text/javascript">
-        $(document).ready(function () {
-            process.Init("FormC1C2", "@strStatus", @iPkRefNo);
-        });
-        frmC1C2.Dis_Severity = @Html.Raw(RAMMS.Common.Utility.JSerialize(ViewBag.Dis_Severity));
-        frmC1C2.Pattern = "@RAMMS.Common.RefNumber.FormRefNumber.GetRawRefNumber(RAMMS.Common.RefNumber.FormType.FormC1C2)";
+
         var filesToUpload = [];
         $.fn.fileUploader = function (filesToUpload, sectionIdentifier) {
             var fileIdCounter = 0;
