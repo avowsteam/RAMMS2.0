@@ -14,15 +14,11 @@ namespace RAMMS.Web.UI.Models
     public class FormB7Model
     {
 
-        public FormB7LabourDTO FormB7Labour { get; set; }
+        public FormB7HeaderDTO FormB7Header { get; set; }
 
         public FormB7LabourHistoryDTO FormB7LabourHistory { get; set; }
 
-        public FormB7MaterialDTO FormB7Material { get; set; }
-
         public FormB7MaterialHistoryDTO FormB7MaterialHistory { get; set; }
-
-        public FormB7EquipmentsDTO FormB7Equipments { get; set; }
 
         public FormB7EquipmentsHistoryDTO FormB7EquipmentsHistory { get; set; }
 

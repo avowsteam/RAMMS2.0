@@ -1,11 +1,32 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model RAMMS.Web.UI.Models.CDataTable
+
+@using RAMMS.Web.UI.Models;
+@using RAMMS.Business.ServiceProvider;
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
 @{
     ViewBag.TabTitle = "Form B7";
     ViewData["Title"] = "Form B7";
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
+    var isModifyPerm = security.IsPCModify(ModuleNameList.Annual_Work_Planned_Budget) ? "" : "hidden";
+    var isDeletePerm = security.IsPCDelete(ModuleNameList.Annual_Work_Planned_Budget) ? "" : "hidden";
 }
+
+@section Scripts{
+<script type="text/javascript" src="~/js/FormB7.js" asp-append-version="true"></script>
+}
+
+<script type="text/javascript">
+     $(document).ready(function () {
+        $("#formB7Year").chosen();
+     });
+    function clearHeaderSearch() {
+        $("#formB7SmartSearch").val('');
+        $("#formB7Year").val("").trigger("chosen:updated");
+        $("#fromRevDate").val("");
+        $("#toRevDate").val("");
+        $("[searchsectionbtn]").click();
+    }
+</script>
 
 <div class="container-fluid">
     <div class="row">
@@ -23,7 +44,7 @@
                         <ol class="breadcrumb breadcrumb-alt mb-0 bg-transparent">
                             <li class="breadcrumb-item">Home</li>
                             <li class="breadcrumb-item">
-                                AWBP 
+                                AWPB 
                             </li>
                             <li class="breadcrumb-item" aria-current="page">
                                 Appendix B7
@@ -39,14 +60,14 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <div class="search-section">
+            <div class="search-section" searchSection>
                 <div class="justify-content-center mb-1">
                     <div class="search-content">
                         <div class="input-group">
-                            <input autocomplete="off" class="form-control" id="txtSmartSearch" name="SearchObj.SmartInputValue" onfocus="this.removeAttribute('readonly')" placeholder="Search..." spellcheck="false" type="text" value="">
+                            <input autocomplete="off" class="form-control" id="formB7SmartSearch" name="SearchObj.SmartInputValue" onfocus="this.removeAttribute('readonly')" placeholder="Search..." spellcheck="false" type="text" value=""  param="KeySearch">
                             <div class="input-group-append">
                                 <div class="btn-group">
-                                    <button id="btnSearch" type="button" class="bg-theme-color js-tooltip-enabled px-2 border-0" style="line-height: 18px;"><span class="search-icon"></span></button>
+                                    <button  onclick="tblFB7HGrid.Search(this,'#formG1G2Search');" SearchSectionBtn type="button" class="bg-theme-color js-tooltip-enabled px-2 border-0" style="line-height: 18px;"><span class="search-icon"></span></button>
                                     <button id="btnAdvSearch" type="button" class="bg-theme-color js-tooltip-enabled px-3 border-0" data-toggle="collapse" data-target="#div_advsearch"><span class="filter-icon"></span></button>
                                     <button id="btnClearSearch" type="button" onclick="clearHeaderSearch()" class="bg-theme-color js-tooltip-enabled px-3 border-0 rounded-right">Clear</button>
                                 </div>
@@ -59,33 +80,18 @@
                             <div class="bg-white rounded float-left pt-3 pb-1 px-lg-4 px-md-3 advance-search-group w-100">
                                 <div class="row">
                                     <div class="form-group col-4">
-                                        <label>
-                                            Year
-                                        </label>
-                                        <select class="form-control" id="" name="SearchObj.RMU" style="display: none;">
-                                            <option value="">Select Year</option>
-                                            <option value="2019">2019</option>
-                                            <option value="2020">2020</option>
-                                            <option value="2021">2021</option>
-                                            <option value="2022">2022</option>
-                                            <option value="2023">2023</option>
-                                            <option value="2024">2024</option>
-                                        </select>
+                                         @Html.Label("Year", "Year")
+                                        @Html.DropDownList("FromRevisionYear", (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB7Year", @class = "form-control", @param = "Year", @clear = "rebind" })
                                     </div>
 
                                     <div class="form-group col-lg-4">
-                                        <label for="RMU">
-                                            Revision Date From
-                                        </label>
-                                        <input class="form-control"  type="date">
+                                       @Html.Label(" Revision Date From", " Revision Date From")
+                                    <input id="fromRevDate" type="date" class="form-control" param="fromRevDate" />
                                     </div>
                                     
                                     <div class="form-group col-3">
-                                        <label for="Name_of_Crew_Supervisor">
-                                            Revision Date To 
-
-                                        </label>
-                                        <input class="form-control" type="date">
+                                         @Html.Label("Revision Date To ", "Revision Date To ")
+                                        <input id="toRevDate" type="date" class="form-control" param="toRevDate" />
 
                                     </div>
                                 </div>
@@ -105,7 +111,7 @@
                      
                     <div id="headerListGrid" class="w-100 dt-tbl-section">
                       @{
-                     //   Html.RenderPartial("_CDataTable", Model);
+                        Html.RenderPartial("_CDataTable", Model);
                       }
                     </div>
                 </div>

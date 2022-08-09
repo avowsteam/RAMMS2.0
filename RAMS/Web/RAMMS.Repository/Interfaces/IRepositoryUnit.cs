@@ -102,6 +102,7 @@ namespace RAMMS.Repository.Interfaces
         public FormTRepository FormTRepository { get; }
         public FormB9Repository FormB9Repository { get; }
 
+        public FormB7Repository FormB7Repository { get; }
 
         int Commit();
         Task<int> CommitAsync();
