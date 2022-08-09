@@ -51,11 +51,33 @@ namespace RAMMS.Business.ServiceProvider.Services
             RmB7Hdr res = _repo.GetHeaderById(id);
             FormB7HeaderDTO FormB7 = new FormB7HeaderDTO();
             FormB7 = _mapper.Map<FormB7HeaderDTO>(res);
-            FormB7.LabourHistory = _mapper.Map<List<FormB7LabourHistoryDTO>>(res.RmB7LabourHistory);
-            FormB7.MaterialHistory = _mapper.Map<List<FormB7MaterialHistoryDTO>>(res.RmB7MaterialHistory);
-            FormB7.EquipmentsHistory = _mapper.Map<List<FormB7EquipmentsHistoryDTO>>(res.RmB7EquipmentsHistory);
+            FormB7.RmB7LabourHistory = _mapper.Map<List<FormB7LabourHistoryDTO>>(res.RmB7LabourHistory);
+            FormB7.RmB7MaterialHistory = _mapper.Map<List<FormB7MaterialHistoryDTO>>(res.RmB7MaterialHistory);
+            FormB7.RmB7EquipmentsHistory = _mapper.Map<List<FormB7EquipmentsHistoryDTO>>(res.RmB7EquipmentsHistory);
             return FormB7;
         }
+
+        public int? GetMaxRev(int Year)
+        {
+            return GetMaxRev(Year);
+        }
+
+        public async Task<int> SaveFormB7(FormB7HeaderDTO FormB7)
+        {
+            try
+            {
+                var domainModelFormB7 = _mapper.Map<RmB7Hdr>(FormB7);
+                domainModelFormB7.B7hPkRefNo = 0;
+
+                return await _repo.SaveFormB7(domainModelFormB7);
+            }
+            catch (Exception ex)
+            {
+                await _repoUnit.RollbackAsync();
+                throw ex;
+            }
+        }
+
 
     }
 }

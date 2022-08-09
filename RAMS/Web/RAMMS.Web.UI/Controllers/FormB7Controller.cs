@@ -105,5 +105,12 @@ namespace RAMMS.Web.UI.Controllers
 
             return PartialView("~/Views/FormB7/_AddFormB7.cshtml", _model);
         }
+
+        public async Task<IActionResult> SaveFormB7(FormB7HeaderDTO FormB7)
+        {
+            await _formB7Service.SaveFormB7(FormB7);
+            return Json(1);
+        }
+
     }
 }
