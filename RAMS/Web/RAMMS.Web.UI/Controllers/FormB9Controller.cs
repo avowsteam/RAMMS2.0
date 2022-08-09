@@ -94,7 +94,7 @@ namespace RAMMS.Web.UI.Controllers
 
         public async Task<IActionResult> GetMaxRev(int Year)
         {
-             return Json(await GetMaxRev(Year));
+            return Json(_FormB9Service.GetMaxRev(Year));
         }
 
         public async Task<IActionResult> SaveFormB9(FormB9ResponseDTO FormB9)

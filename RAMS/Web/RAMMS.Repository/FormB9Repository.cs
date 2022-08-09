@@ -212,7 +212,7 @@ namespace RAMMS.Repository
                                                  B9dshRevisionDate = r.B9dshRevisionDate,
                                                  B9dshRevisionNo = RevNo,
                                                  B9dshUnitOfServiceId = r.B9dshUnitOfServiceId,
-                                                 B9dshUnitOfService = (from s in _context.RmDdLookup where s.DdlType == "UnitServiceLevel" && s.DdlTypeValue == Convert.ToString(1) select s.DdlTypeDesc).FirstOrDefault()
+                                                 B9dshUnitOfService = (from s in _context.RmDdLookup where s.DdlType == "UnitServiceLevel" && s.DdlTypeValue == Convert.ToString(r.B9dshUnitOfServiceId) select s.DdlTypeDesc).FirstOrDefault()
                                              }).ToList();
 
             return res;
@@ -220,14 +220,16 @@ namespace RAMMS.Repository
 
         public int? GetMaxRev(int Year)
         {
-            return (from rn in _context.RmB9DesiredService where rn.B9dsRevisionYear == Year select rn.B9dsRevisionNo).DefaultIfEmpty().Max() + 1;
+            int? rev = (from rn in _context.RmB9DesiredService where rn.B9dsRevisionYear == Year select rn.B9dsRevisionNo).DefaultIfEmpty().Max() + 1;
+            if (rev == null)
+                rev = 1;
+            return rev;
         }
 
         public async Task<int> SaveFormB9(RmB9DesiredService FormB9, List<RmB9DesiredServiceHistory> FormB9History)
         {
             try
             {
-
 
                 _context.RmB9DesiredService.Add(FormB9);
                 _context.SaveChanges();

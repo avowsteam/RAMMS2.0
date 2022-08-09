@@ -3363,7 +3363,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11CrewDayCostHeader>(entity =>
             {
                 entity.HasKey(e => e.B11cdchPkRefNo)
-                    .HasName("PK__RM_B11_C__F2973CDF01E9A9BA");
+                    .HasName("PK__RM_B11_C__F2973CDFB2533DFC");
 
                 entity.ToTable("RM_B11_Crew_Day_Cost_Header");
 
@@ -3396,7 +3396,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11EquipmentCost>(entity =>
             {
                 entity.HasKey(e => e.B11ecPkRefNo)
-                    .HasName("PK__RM_B11_E__4DB7AF9D7DDC598C");
+                    .HasName("PK__RM_B11_E__4DB7AF9D9758447C");
 
                 entity.ToTable("RM_B11_Equipment_Cost");
 
@@ -3427,13 +3427,18 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11Hdr>(entity =>
             {
                 entity.HasKey(e => e.B11hPkRefNo)
-                    .HasName("PK__RM_B11_H__22D093C8E41836D5");
+                    .HasName("PK__RM_B11_H__22D093C859B74839");
 
                 entity.ToTable("RM_B11_HDR");
 
                 entity.Property(e => e.B11hPkRefNo).HasColumnName("B11H_PK_Ref_No");
 
                 entity.Property(e => e.B11hCrBy).HasColumnName("B11H_CR_By");
+
+                entity.Property(e => e.B11hCrByName)
+                    .HasColumnName("B11H_CR_By_Name")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.B11hCrDt)
                     .HasColumnName("B11H_CR_DT")
@@ -3461,7 +3466,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11LabourCost>(entity =>
             {
                 entity.HasKey(e => e.B11lcPkRefNo)
-                    .HasName("PK__RM_B11_L__5165648D0A774CDE");
+                    .HasName("PK__RM_B11_L__5165648DA83C9782");
 
                 entity.ToTable("RM_B11_Labour_Cost");
 
@@ -3492,7 +3497,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11MaterialCost>(entity =>
             {
                 entity.HasKey(e => e.B11mcPkRefNo)
-                    .HasName("PK__RM_B11_M__6EE89D69D69B6313");
+                    .HasName("PK__RM_B11_M__6EE89D69F39CF279");
 
                 entity.ToTable("RM_B11_Material_Cost");
 

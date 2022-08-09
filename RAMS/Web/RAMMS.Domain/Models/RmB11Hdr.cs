@@ -20,6 +20,7 @@ namespace RAMMS.Domain.Models
         public DateTime? B11hRevisionDate { get; set; }
         public int? B11hRevisionYear { get; set; }
         public int? B11hCrBy { get; set; }
+        public string B11hCrByName { get; set; }
         public DateTime? B11hCrDt { get; set; }
 
         public virtual ICollection<RmB11CrewDayCostHeader> RmB11CrewDayCostHeader { get; set; }
