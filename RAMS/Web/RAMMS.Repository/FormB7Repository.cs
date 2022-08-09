@@ -98,7 +98,8 @@ namespace RAMMS.Repository
         public  RmB7Hdr GetHeaderById(int id)
         {
             RmB7Hdr res = (from r in _context.RmB7Hdr where r.B7hPkRefNo == id select r).FirstOrDefault();
-            res.B7hRevisionNo = _context.RmB7Hdr.Max(r => r.B7hPkRefNo);
+            int? RevNo = (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == res.B7hRevisionYear select rn.B7hRevisionNo).DefaultIfEmpty().Max() + 1;
+            res.B7hRevisionNo = RevNo;
             res.RmB7LabourHistory = (from r in _context.RmB7LabourHistory where r.B7lhB7hPkRefNo == id select r).OrderBy(S => S.B7lhCode).ToList();
             res.RmB7MaterialHistory = (from r in _context.RmB7MaterialHistory where r.B7mhB7hPkRefNo == id select r).OrderBy(S => S.B7mhCode).ToList();
             res.RmB7EquipmentsHistory = (from r in _context.RmB7EquipmentsHistory where r.B7ehB7hPkRefNo == id select r).OrderBy(S => S.B7ehCode).ToList();
@@ -108,7 +109,10 @@ namespace RAMMS.Repository
 
         public int? GetMaxRev(int Year)
         {
-            return (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == Year select rn.B7hRevisionNo).DefaultIfEmpty().Max() + 1;
+            int? rev =  (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == Year select rn.B7hRevisionNo).DefaultIfEmpty().Max() + 1;
+            if (rev == null)
+                rev = 1;
+            return rev;
         }
 
         public async Task<int> SaveFormB7(RmB7Hdr FormB7)

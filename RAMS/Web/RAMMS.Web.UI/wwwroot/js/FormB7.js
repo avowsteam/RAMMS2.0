@@ -284,25 +284,47 @@ $(document).ready(function () {
     });
 
     $('.typein').on('click', function (e) {
-        var $this = $(this);
-        frmB7.typein($this);
+        if (frmG1G2.IsEdit) {
+            var $this = $(this);
+            frmB7.typein($this);
+        }
         e.preventDefault();
     });
 
     $('.dropdown').on('click', function (e) {
-        var $this = $(this);
-        showComboBox($this);
+        if (frmG1G2.IsEdit) {
+            var $this = $(this);
+            showComboBox($this);
+        }
         e.preventDefault();
         e.stopPropagation();
     });
 
 
 
-    $("#ddlYear").on("change", function () {
-        getRevisionNo($("#ddlYear").val());
+    $("#formB7Year").on("change", function () {
+        getRevisionNo($("#formB7Year").val());
     });
 
 });
+
+function getRevisionNo(id) {
+    var req = {};
+    req.Year = id;
+    $.ajax({
+        url: '/FormB7/GetMaxRev',
+        dataType: 'JSON',
+        data: req,
+        type: 'Post',
+        success: function (data) {
+            $("#RevisionNo").val(data)
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+}
+
 
 
 function SetCaretAtEnd(elem) {

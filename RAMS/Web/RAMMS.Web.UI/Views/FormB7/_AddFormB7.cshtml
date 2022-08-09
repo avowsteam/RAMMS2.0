@@ -9,7 +9,7 @@
     ViewData["Title"] = "Form B7 - Road Asset Management and Maintenance System";
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
     var username = security.UserName;
-    var newRevisionNo = Model.FormB7Header.B7hRevisionNo + 1;
+
     var today = DateTime.Today.ToString("yyyy-MM-dd");
 
         IEnumerable<SelectListItem> unit = (await ddlService
@@ -24,6 +24,10 @@
 
 @section Scripts{
 <script type="text/javascript" src="~/js/FormB7.js" asp-append-version="true"></script>
+<script type="text/javascript" >
+frmG1G2.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
+</script>
+
 }
 
 
@@ -51,7 +55,7 @@
             </div>
             <div class="form-group col-3">
                 <label> Select the Revision No. </label>
-                <input type="number" id="RevisionNo" disabled value="@newRevisionNo" class="form-control">
+                <input type="number" id="RevisionNo" disabled value="@Model.FormB7Header.B7hRevisionNo" class="form-control">
             </div>
             <div class="form-group col-3">
                 <label>Date </label>
@@ -332,8 +336,11 @@
     </div>
 </div>
 <div class="col-md-12 mb-2 float-right text-right custom-footer">
-    <button type="button" class="btn btn-sm btn-outline-theme">Close</button>
-    <button type="button" class="btn btn-sm btn-themebtn" onclick="frmB7.Save()">Save</button>
+    <button type="button" class="btn btn-sm btn-outline-theme" onclick="frmB7.Cancel()">Close</button>
+    @if (ViewBag.IsEdit)
+    {
+        <button type="button" class="btn btn-sm btn-themebtn" onclick="frmB7.Save()">Save</button>
+    }
 </div>
 
 @Html.HiddenFor(m => m.FormB7Header.B7hPkRefNo);

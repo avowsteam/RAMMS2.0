@@ -59,7 +59,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
         public int? GetMaxRev(int Year)
         {
-            return GetMaxRev(Year);
+            return _repo.GetMaxRev(Year);
         }
 
         public async Task<int> SaveFormB7(FormB7HeaderDTO FormB7)

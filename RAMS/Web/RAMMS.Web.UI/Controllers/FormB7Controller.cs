@@ -88,28 +88,44 @@ namespace RAMMS.Web.UI.Controllers
             return Json(await _formB7Service.GetHeaderGrid(searchData), JsonOption());
         }
 
+        public async Task<IActionResult> View(int id)
+        {
+            ViewBag.IsEdit = false;
+            return id > 0 ? await ViewRequest(id) : RedirectToAction("404", "Error");
+        }
+
         public async Task<IActionResult> Edit(int id, int view)
+        {
+            ViewBag.IsEdit = true;
+            return id > 0 ? await ViewRequest(id) : RedirectToAction("404", "Error");
+        }
+
+        private async Task<IActionResult> ViewRequest(int id)
         {
             LoadLookupService("Year");
             FormB7Model _model = new FormB7Model();
             if (id > 0)
             {
-                 _model.FormB7Header = await _formB7Service.GetHeaderById(id);
+                _model.FormB7Header = await _formB7Service.GetHeaderById(id);
             }
             else
             {
-                _model.FormB7Header  = new FormB7HeaderDTO();
+                _model.FormB7Header = new FormB7HeaderDTO();
             }
 
 
 
             return PartialView("~/Views/FormB7/_AddFormB7.cshtml", _model);
         }
-
         public async Task<IActionResult> SaveFormB7(FormB7HeaderDTO FormB7)
         {
             await _formB7Service.SaveFormB7(FormB7);
             return Json(1);
+        }
+
+        public async Task<IActionResult> GetMaxRev(int Year)
+        {
+            return Json(_formB7Service.GetMaxRev(Year));
         }
 
     }
