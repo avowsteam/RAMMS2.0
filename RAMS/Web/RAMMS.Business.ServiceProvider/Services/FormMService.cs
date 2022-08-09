@@ -202,7 +202,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(6, 15).Value = rpt.DivCode;
                             worksheet.Cell(6, 25).Value = rpt.CrewSup;
 
-                            worksheet.Cell(7, 5).Value = rpt.ActName;
+                            worksheet.Cell(7, 5).Value = rpt.ActCode;
+                            worksheet.Cell(7, 15).Value = rpt.ActName;
                             worksheet.Cell(8, 5).Value = rpt.AuditTimeFrm;
                             worksheet.Cell(8, 8).Value = rpt.AuditTimeTo;
                             worksheet.Cell(8, 15).Value = rpt.AuditedDate;

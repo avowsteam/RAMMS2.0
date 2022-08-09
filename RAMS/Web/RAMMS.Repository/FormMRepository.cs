@@ -243,6 +243,7 @@ namespace RAMMS.Repository
                                      where o.FmhPkRefNo == headerid
                                      orderby o.FmhAuditedDate ascending
                                      let formR2 = _context.RmFormMAuditDetails.FirstOrDefault(x => x.FmadFmhPkRefNo == o.FmhPkRefNo)
+                                     let formUsr=_context.RmUsers.FirstOrDefault(x=>x.UsrPkId==Convert.ToInt32(o.FmhCrewSup))
                                      select new FormMRpt
                                      {
                                          Type = o.FmhType,
@@ -252,7 +253,8 @@ namespace RAMMS.Repository
                                          RdName = o.FmhRdName,
                                          RmuName = o.FmhRmuName,
                                          DivCode = o.FmhDivCode,
-                                         CrewSup = o.FmhCrewSup,
+                                         CrewSup = formUsr.UsrUserName,
+                                         ActCode=o.FmhActCode,
                                          ActName = o.FmhActName,
                                          AuditTimeFrm = o.FmhAuditTimeFrm,
                                          AuditTimeTo = o.FmhAuditTimeTo,

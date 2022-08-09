@@ -14,6 +14,7 @@ namespace RAMMS.DTO.Report
         public string RmuName { get; set; }
         public string DivCode { get; set; }
         public string CrewSup { get; set; }
+        public string ActCode { get; set; }
         public string ActName { get; set; }
         public string AuditTimeFrm { get; set; }
         public string AuditTimeTo { get; set; }
