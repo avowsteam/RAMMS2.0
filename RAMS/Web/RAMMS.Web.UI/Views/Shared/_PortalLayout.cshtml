@@ -336,6 +336,26 @@
                             </ul>
                         </li>
                         }
+
+                         @if (security.IsPCView(ModuleNameList.Annual_Work_Planned_Budget) || security.HasGroup(GroupNameList.Admin))
+                        {
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="AWPBForm" href="javascript:;" title="Annual Work Planned Budget">
+                                    <i class="icon-activity nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">AWPB</span>
+                                </a>
+
+                                <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;">
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "FormB7")" class="nav-link"><span class="text-truncate">APPENDIX B7</span></a>
+                                        @*<a href="#" class="dropdown-item">Form D</a>*@
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "FormB9")" class="nav-link"><span class="text-truncate">APPENDIX B9</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
                             @*@if (security.IsPCView(ModuleNameList.User_Management) || security.HasGroup(GroupNameList.Admin))
                             {*@
                         <li class="navbar-vertical-aside-has-menu">

@@ -1,0 +1,330 @@
+﻿@model RAMMS.Web.UI.Models.FormB7Model;
+@using RAMMS.DTO.RequestBO;
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+@{
+    ViewBag.TabTitle = "Form B7 - Road Asset Management and Maintenance System";
+    ViewData["Title"] = "Form B7 - Road Asset Management and Maintenance System";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+    var username = security.UserName;
+    var newRevisionNo = @Model.FormB7Header.B7hRevisionNo + 1;
+    var today = DateTime.Today.ToString("yyyy-MM-dd");
+}
+
+@section Scripts{
+<script type="text/javascript" src="~/js/FormB7.js" asp-append-version="true"></script>
+}
+
+
+<div class="row bg-white pt-3">
+    <div class="w-100">
+        <div class="body-header w-100">
+            <div class="col-lg-12">
+                <div class=" w-100 d-flex justify-content-center py-1">
+                    <p class="font-20 mb-1">
+                        <span class="float-left"><b> APPENDIX B7:</b> </span>
+
+                        <span class="float-left">L.E.M Unit Price for RMU Batu Niah and RMU Miri</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-body mh-182 pt-4 pb-0">
+    <div class="container-fluid" id="divFindDetailsFC1C2">
+        <div class="row">
+            <div class="form-group col-3">
+                <label>Select Year  </label>
+                 @Html.DropDownListFor(m => m.FormB7Header.B7hRevisionYear, (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB7Year", @class = "form-control" })
+            </div>
+            <div class="form-group col-3">
+                <label> Select the Revision No. </label>
+                <input type="number" id="RevisionNo" disabled value="@newRevisionNo" class="form-control">
+            </div>
+            <div class="form-group col-3">
+                <label>Date </label>
+                <input type="date" value="@today" class = "form-control" id="date" />
+            </div>
+            <div class="form-group col-3">
+                <label>User Name </label>
+                <input type="text" id="UserName" disabled value="@username" class="form-control">
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+            </div>
+            <div class="col-lg-12">
+                <div id="accordion">
+                    <div class="tab-content">
+                        <div class="tab-pane show active" id="FormB1TabPage1">
+
+                            <div class="row">
+                                <div class="col-12 bg-white px-0">
+                                    <!--form g1-->
+                                    <div class="w-100 bg-white">
+                                        <div id="accordion">
+                                            <div class="accordion custom-accordion mb-3" id="custom-accordion-zer">
+                                                <div class="card mb-0">
+                                                    <div class="card-header" id="headingZer">
+                                                        <h5 class="m-0">
+                                                            <a class="custom-accordion-title py-1" data-toggle="collapse" href="#AccordPage0" aria-expanded="true" aria-controls="collapseZer">
+                                                                <span class="float-left">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                                </span>
+                                                                <span class="float-left" style="padding: 4px 8px;">
+                                                                    Labour
+                                                                </span>
+                                                            </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="AccordPage0" class="collapse show avowmodal-form formgrp-section" aria-labelledby="headingZer" data-parent="#custom-accordion-zer">
+                                                        <div class="card-body">
+                                                            <div id="content">
+                                                                <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                                    <div id="FormDLabourGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+
+                                                                        <div class="dataTables_scroll">
+
+                                                                            <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
+                                                                                <table class="table w-100 nowrap dataTable no-footer">
+                                                                                    <thead style="background-color: #c8e1ff">
+                                                                                        <tr>
+                                                                                            <th colspan="1">
+                                                                                                Code
+                                                                                            </th>
+                                                                                            <th colspan="1">
+                                                                                                Labour
+                                                                                            </th>
+                                                                                            <th colspan="1">
+                                                                                                Unit
+
+                                                                                            </th>
+                                                                                            <th colspan="1">
+                                                                                                Batu Niah
+                                                                                            </th>
+
+                                                                                            <th colspan="1">
+                                                                                                Miri
+                                                                                            </th>
+
+                                                                                        </tr>
+
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        @{
+                                                                                            for (int i = 0; i < Model.FormB7Header.LabourHistory.Count; i++)
+                                                                                            {
+                                                                                                <tr>
+                                                                                                    <td>
+                                                                                                        @Model.FormB7Header.LabourHistory[i].B7lhCode
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        @Model.FormB7Header.LabourHistory[i].B7lhName
+                                                                                                    </td>
+                                                                                                     <td class="typein" datatype="int">
+                                                                                                        @Model.FormB7Header.LabourHistory[i].B7lhUnitInHrs hrs
+                                                                                                    </td>
+                                                                                                    <td class="typein" datatype="int">
+                                                                                                        @Model.FormB7Header.LabourHistory[i].B7lhUnitPriceBatuNiah
+                                                                                                    </td>
+                                                                                                    <td class="typein" datatype="int">
+                                                                                                        @Model.FormB7Header.LabourHistory[i].B7lhUnitPriceMiri
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            }
+                                                                                        }
+
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion custom-accordion mb-3" id="custom-accordion-two">
+                                                <div class="card mb-0">
+                                                    <div class="card-header" id="headingTwo">
+                                                        <h5 class="m-0">
+                                                            <a class="custom-accordion-title py-1 collapsed" data-toggle="collapse" href="#AccordPage2" aria-expanded="false" aria-controls="collapseTwo">
+                                                                <span class="float-left">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                                </span>
+                                                                <span class="float-left" style="padding: 4px 8px;">
+                                                                    Materials
+                                                                </span>
+                                                            </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="AccordPage2" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingTwo" data-parent="#custom-accordion-two">
+                                                        <div class="card-body">
+                                                            <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                                <div id="FormDLabourGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+
+                                                                    <div class="dataTables_scroll">
+
+                                                                        <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
+                                                                            <table class="table w-100 nowrap dataTable no-footer">
+                                                                                <thead style="background-color: #c8e1ff">
+                                                                                    <tr>
+                                                                                       
+                                                                                        <th colspan="1">
+                                                                                            Code
+                                                                                        </th>
+                                                                                        <th colspan="1">
+                                                                                            Materials
+                                                                                        </th>
+                                                                                        <th colspan="1">
+                                                                                            Unit
+
+                                                                                        </th>
+                                                                                        <th colspan="1">
+                                                                                            Batu Niah
+                                                                                        </th>
+
+                                                                                        <th colspan="1">
+                                                                                            Miri
+                                                                                        </th>
+
+                                                                                    </tr>
+
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    @{
+                                                                                        for (int i = 0; i < Model.FormB7Header.MaterialHistory.Count; i++)
+                                                                                        {
+                                                                                            <tr>
+                                                                                                <td>
+                                                                                                    @Model.FormB7Header.MaterialHistory[i].B7mhCode
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    @Model.FormB7Header.MaterialHistory[i].B7mhName
+                                                                                                </td>
+                                                                                                <td class="dropdown" preval="@Model.FormB7Header.MaterialHistory[i].B7mhUnits">
+                                                                                                    @Model.FormB7Header.MaterialHistory[i].B7mhUnits
+                                                                                                </td>
+                                                                                                <td class="typein" datatype="int">
+                                                                                                    @Model.FormB7Header.MaterialHistory[i].B7mhUnitPriceBatuNiah
+                                                                                                </td>
+                                                                                                <td class="typein" datatype="int">
+                                                                                                    @Model.FormB7Header.MaterialHistory[i].B7mhUnitPriceMiri
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        }
+                                                                                    }
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="accordion custom-accordion mb-3" id="custom-accordion-three">
+                                                <div class="card mb-0">
+                                                    <div class="card-header" id="headingThree">
+                                                        <h5 class="m-0">
+                                                            <a class="custom-accordion-title py-1 collapsed" data-toggle="collapse" href="#AccordPage3" aria-expanded="false" aria-controls="collapseThree">
+                                                                <span class="float-left">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                                </span>
+                                                                <span class="float-left" style="padding: 4px 8px;">
+                                                                    Equipments
+                                                                </span>
+                                                            </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="AccordPage3" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingThree" data-parent="#custom-accordion-three">
+                                                        <div class="card-body">
+                                                            <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                                <div id="FormDLabourGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                                                    <div class="dataTables_scroll">
+                                                                        <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
+                                                                            <table class="table w-100 nowrap dataTable no-footer ">
+                                                                                <thead style="background-color: #c8e1ff">
+                                                                                    <tr>
+                                                                                        <th colspan="1">
+                                                                                            Code
+                                                                                        </th>
+                                                                                        <th colspan="1">
+                                                                                            Equipments
+                                                                                        </th>
+                                                                                        <th colspan="1">
+                                                                                            Unit
+                                                                                        </th>
+                                                                                        <th colspan="1">
+                                                                                            Batu Niah
+                                                                                        </th>
+                                                                                        <th colspan="1">
+                                                                                            Miri
+                                                                                        </th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    @{
+                                                                                        for (int i = 0; i < Model.FormB7Header.EquipmentsHistory.Count; i++)
+                                                                                        {
+                                                                                            <tr>
+                                                                                                <td>
+                                                                                                    @Model.FormB7Header.EquipmentsHistory[i].B7ehCode
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    @Model.FormB7Header.EquipmentsHistory[i].B7ehName
+                                                                                                </td>
+                                                                                                 <td class="typein" datatype="int">
+                                                                                                    @Model.FormB7Header.EquipmentsHistory[i].B7ehUnitInHrs hrs
+                                                                                                </td>
+                                                                                                <td class="typein" datatype="int">
+                                                                                                    @Model.FormB7Header.EquipmentsHistory[i].B7ehUnitPriceBatuNiah
+                                                                                                </td>
+                                                                                                <td class="typein" datatype="int">
+                                                                                                    @Model.FormB7Header.EquipmentsHistory[i].B7ehUnitPriceMiri
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        }
+                                                                                    }
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12 mb-2 float-right text-right custom-footer">
+    <button type="button" class="btn btn-sm btn-outline-theme">Close</button>
+    <button type="button" class="btn btn-sm btn-themebtn">Save</button>
+</div>
+@*
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css" />
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>*@
+

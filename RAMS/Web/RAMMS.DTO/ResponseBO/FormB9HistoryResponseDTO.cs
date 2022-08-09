@@ -8,22 +8,25 @@ namespace RAMMS.DTO.ResponseBO
 {
     public class FormB9HistoryResponseDTO
     {
-        public int B9dshPkRefNo { get; set; }
-        public int? B9dshB9dsPkRefNo { get; set; }
-        public string B9dshFeature { get; set; }
-        public string B9dshCode { get; set; }
-        public string B9dshName { get; set; }
-        public decimal? B9dshCond1 { get; set; }
-        public decimal? B9dshCond2 { get; set; }
-        public decimal? B9dshCond3 { get; set; }
-        public int? B9dshUnitOfService { get; set; }
-        public string B9dshRemarks { get; set; }
-        public int? B9dshRevisionNo { get; set; }
+        public int PkRefNo { get; set; }
+        public int? B9dsPkRefNo { get; set; }
+        public string Feature { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public decimal? Cond1 { get; set; }
+        public decimal? Cond2 { get; set; }
+        public decimal? Cond3 { get; set; }
+        public int? UnitOfServiceId { get; set; }
+        public string UnitOfService { get; set; }
+
+        public string UnitDescription { get; set; }
+        public string Remarks { get; set; }
+        public int? RevisionNo { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? B9dshRevisionDate { get; set; }
-        public int? B9dshUserId { get; set; }
-        public string B9dshUserName { get; set; }
+        public DateTime? RevisionDate { get; set; }
+        public int? UserId { get; set; }
+        public string UserName { get; set; }
 
     }
 }
