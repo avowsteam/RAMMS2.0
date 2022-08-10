@@ -22,14 +22,14 @@ using RAMMS.Repository.Interfaces;
 namespace RAMMS.Business.ServiceProvider.Services
 {
 
-    public class FormB9Service : IFormB9Service
+    public class FormB10Service : IFormB10Service
     {
-        private readonly IFormB9Repository _repo;
+        private readonly IFormB10Repository _repo;
         private readonly IRepositoryUnit _repoUnit;
         private readonly IMapper _mapper;
         private readonly ISecurity _security;
         private readonly IProcessService processService;
-        public FormB9Service(IRepositoryUnit repoUnit, IFormB9Repository repo, IMapper mapper, ISecurity security, IProcessService process)
+        public FormB10Service(IRepositoryUnit repoUnit, IFormB10Repository repo, IMapper mapper, ISecurity security, IProcessService process)
         {
             _repoUnit = repoUnit ?? throw new ArgumentNullException(nameof(repoUnit));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -39,10 +39,10 @@ namespace RAMMS.Business.ServiceProvider.Services
         }
 
 
-        public async Task<PagingResult<FormB9ResponseDTO>> GetHeaderList(FilteredPagingDefinition<FormB9SearchGridDTO> filterOptions)
+        public async Task<PagingResult<FormB10ResponseDTO>> GetHeaderList(FilteredPagingDefinition<FormB10SearchGridDTO> filterOptions)
         {
-            PagingResult<FormB9ResponseDTO> result = new PagingResult<FormB9ResponseDTO>();
-            List<FormB9ResponseDTO> formAlist = new List<FormB9ResponseDTO>();
+            PagingResult<FormB10ResponseDTO> result = new PagingResult<FormB10ResponseDTO>();
+            List<FormB10ResponseDTO> formAlist = new List<FormB10ResponseDTO>();
             result.PageResult = await _repo.GetFilteredRecordList(filterOptions);
             result.TotalRecords = result.PageResult.Count();
             result.PageNo = filterOptions.StartPageNo;
@@ -50,24 +50,14 @@ namespace RAMMS.Business.ServiceProvider.Services
             return result;
         }
 
-        public async Task<PagingResult<FormB9HistoryResponseDTO>> GetFormB9HistoryGridList(FilteredPagingDefinition<FormB9HistoryResponseDTO> filterOptions)
+     
+        public async Task<FormB10ResponseDTO> GetHeaderById(int id)
         {
-            PagingResult<FormB9HistoryResponseDTO> result = new PagingResult<FormB9HistoryResponseDTO>();
-            List<FormB9HistoryResponseDTO> formAlist = new List<FormB9HistoryResponseDTO>();
-            result.PageResult = await _repo.GetFormB9HistoryGridList(filterOptions);
-            result.TotalRecords = result.PageResult.Count();
-            result.PageNo = filterOptions.StartPageNo;
-            result.FilteredRecords = result.PageResult != null ? result.PageResult.Count : 0;
-            return result;
-        }
-
-        public async Task<FormB9ResponseDTO> GetHeaderById(int id)
-        {
-            RmB9DesiredService res = _repo.GetHeaderById(id);
-            FormB9ResponseDTO B9 = new FormB9ResponseDTO();
-            B9 = _mapper.Map<FormB9ResponseDTO>(res);
-            B9.FormB9History = _mapper.Map<List<FormB9HistoryResponseDTO>>(res.RmB9DesiredServiceHistory);
-            return B9;
+            RmB10DailyProduction res = _repo.GetHeaderById(id);
+            FormB10ResponseDTO B10 = new FormB10ResponseDTO();
+            B10 = _mapper.Map<FormB10ResponseDTO>(res);
+            B10.FormB10History = _mapper.Map<List<FormB10HistoryResponseDTO>>(res.RmB10DailyProductionHistory);
+            return B10;
         }
 
         public int? GetMaxRev(int Year)
@@ -75,15 +65,15 @@ namespace RAMMS.Business.ServiceProvider.Services
             return _repo.GetMaxRev(Year);
         }
 
-        public async Task<int> SaveFormB9(FormB9ResponseDTO FormB9, List<FormB9HistoryResponseDTO> FormB9History)
+        public async Task<int> SaveFormB10(FormB10ResponseDTO FormB10, List<FormB10HistoryResponseDTO> FormB10History)
         {
             try
             {
-                var domainModelFormB9 = _mapper.Map<RmB9DesiredService>(FormB9);
-                domainModelFormB9.B9dsPkRefNo = 0;
-                var domainModelFormB9History = _mapper.Map<List<RmB9DesiredServiceHistory>>(FormB9History);
+                var domainModelFormB10 = _mapper.Map<RmB10DailyProduction>(FormB10);
+                domainModelFormB10.B10dpPkRefNo = 0;
+                var domainModelFormB10History = _mapper.Map<List<RmB10DailyProductionHistory>>(FormB10History);
 
-                return await _repo.SaveFormB9(domainModelFormB9, domainModelFormB9History);
+                return await _repo.SaveFormB10(domainModelFormB10, domainModelFormB10History);
             }
             catch (Exception ex)
             {
@@ -95,7 +85,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
 
 
-        //public async Task<FORMB9Rpt> GetReportData(int headerid)
+        //public async Task<FORMB10Rpt> GetReportData(int headerid)
         //{
         //    return await _repo.GetReportData(headerid);
         //}
@@ -120,8 +110,8 @@ namespace RAMMS.Business.ServiceProvider.Services
 
             try
             {
-                FormB9ResponseDTO rptcol = await this.GetHeaderById(id);
-                var rpt = rptcol.FormB9History;
+                FormB10ResponseDTO rptcol = await this.GetHeaderById(id);
+                var rpt = rptcol.FormB10History;
                 System.IO.File.Copy(Oldfilename, cachefile, true);
                 using (var workbook = new XLWorkbook(cachefile))
                 {
@@ -140,13 +130,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 worksheet.Cell(i, 1).Value = r.Feature;
                                 worksheet.Cell(i, 2).Value = r.Code;
                                 worksheet.Cell(i, 4).Value = r.Name;
-                                worksheet.Cell(i, 5).Value = r.Cond1;
-                                worksheet.Cell(i, 6).Value = r.Cond2;
-                                worksheet.Cell(i, 7).Value = r.Cond3;
-                                worksheet.Cell(i, 8).Value = r.UnitOfService;
-                                worksheet.Cell(i, 9).Value = r.Remarks;
-                                
- 
+                                worksheet.Cell(i, 5).Value = r.AdpValue;
+                                worksheet.Cell(i, 6).Value = r.AdpUnit;
+
                                 i++;
 
                             }

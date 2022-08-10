@@ -10,20 +10,18 @@ using System.Threading.Tasks;
 
 namespace RAMMS.Business.ServiceProvider.Interfaces
 {
-    public interface IFormB9Service
+    public interface IFormB10Service
     {
         //Task<FormF1ResponseDTO> FindF1ByW1ID(int id);
         //Task<FormF1ResponseDTO> FindFormF1ByID(int id);
         //Task<IEnumerable<FormF1DtlResponseDTO>> FindFormF1DtlByID(int id);
 
-        Task<PagingResult<FormB9ResponseDTO>> GetHeaderList(FilteredPagingDefinition<FormB9SearchGridDTO> filterOptions);
-
-        Task<PagingResult<FormB9HistoryResponseDTO>> GetFormB9HistoryGridList(FilteredPagingDefinition<FormB9HistoryResponseDTO> filterOptions);
-
-        Task<FormB9ResponseDTO> GetHeaderById(int id);
+        Task<PagingResult<FormB10ResponseDTO>> GetHeaderList(FilteredPagingDefinition<FormB10SearchGridDTO> filterOptions);
+       
+        Task<FormB10ResponseDTO> GetHeaderById(int id);
 
         int? GetMaxRev(int Year);
-        Task<int> SaveFormB9(FormB9ResponseDTO FormB9, List<FormB9HistoryResponseDTO> FormB9History);
+        Task<int> SaveFormB10(FormB10ResponseDTO FormB10, List<FormB10HistoryResponseDTO> FormB10History);
 
         Task<byte[]> FormDownload(string formname, int id, string filepath);
 
