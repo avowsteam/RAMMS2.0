@@ -1,7 +1,7 @@
 ﻿using System;
 namespace RAMMS.DTO
 {
-    public class FormB9SearchGridDTO
+    public class FormB10SearchGridDTO
     {
         public string SmartSearch { get; set; }
         public string Year { get; set; }

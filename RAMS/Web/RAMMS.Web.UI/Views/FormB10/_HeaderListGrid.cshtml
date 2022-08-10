@@ -7,7 +7,7 @@
 </style>
 <div class="main-container" id="container">
     <div id="content">
-        <table id="FormB9GridView" class="table w-100 nowrap">
+        <table id="FormB10GridView" class="table w-100 nowrap">
         </table>
     </div>
 </div>
@@ -66,16 +66,16 @@
 
 
     function PrintForm(id) {
-        window.location.href = '/FormB9/FormB9Download?id=' + id;
+        window.location.href = '/FormB10/FormB10Download?id=' + id;
     }
 
     function editDetail(id) {
-        window.location.href = '/FormB9/Add?id=' + id + '&isview=0';
+        window.location.href = '/FormB10/Add?id=' + id + '&isview=0';
     }
 
     function viewDetail(id) {
 
-        window.location.href = '/FormB9/Add?id=' + id + '&isview=1';
+        window.location.href = '/FormB10/Add?id=' + id + '&isview=1';
     }
 
 
@@ -94,9 +94,9 @@
         filterData.ToInspectionDate = $("#txtEndDtTo").val();
 
 
-        $('#FormB9GridView').DataTable({
+        $('#FormB10GridView').DataTable({
             ajax: {
-                url: "/FormB9/GetHeaderList",
+                url: "/FormB10/GetHeaderList",
                 type: "POST",
                 datatype: "json",
                 data: {
@@ -112,7 +112,7 @@
         InitializeGrid();
 
         //Apply Custom search on jQuery DataTables here
-        oTable = $('#FormB9GridView').DataTable();
+        oTable = $('#FormB10GridView').DataTable();
 
         $("#btnClearSearch").click(function () {
             $("#txtSmartSearch").val('');
