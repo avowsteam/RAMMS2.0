@@ -1,17 +1,33 @@
 ﻿@model RAMMS.Web.UI.Models.FormB7Model;
+@using RAMMS.Business.ServiceProvider;
 @using RAMMS.DTO.RequestBO;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService;
 @inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+
 @{
     ViewBag.TabTitle = "Form B7 - Road Asset Management and Maintenance System";
     ViewData["Title"] = "Form B7 - Road Asset Management and Maintenance System";
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
     var username = security.UserName;
-    var newRevisionNo = @Model.FormB7Header.B7hRevisionNo + 1;
+
     var today = DateTime.Today.ToString("yyyy-MM-dd");
+
+        IEnumerable<SelectListItem> unit = (await ddlService
+        .GetLookups(new DDLookUpDTO { Type = "MaterialUnit" }))
+        .Select(s => new SelectListItem
+            {
+                Text = s.DdlTypeValue,
+                Value = s.DdlTypeValue
+            }).ToArray();
+
 }
 
 @section Scripts{
 <script type="text/javascript" src="~/js/FormB7.js" asp-append-version="true"></script>
+<script type="text/javascript" >
+frmG1G2.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
+</script>
+
 }
 
 
@@ -39,7 +55,7 @@
             </div>
             <div class="form-group col-3">
                 <label> Select the Revision No. </label>
-                <input type="number" id="RevisionNo" disabled value="@newRevisionNo" class="form-control">
+                <input type="number" id="RevisionNo" disabled value="@Model.FormB7Header.B7hRevisionNo" class="form-control">
             </div>
             <div class="form-group col-3">
                 <label>Date </label>
@@ -89,7 +105,7 @@
                                                                         <div class="dataTables_scroll">
 
                                                                             <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
-                                                                                <table class="table w-100 nowrap dataTable no-footer">
+                                                                                <table class="table w-100 nowrap dataTable no-footer" id="tblLabour">
                                                                                     <thead style="background-color: #c8e1ff">
                                                                                         <tr>
                                                                                             <th colspan="1">
@@ -99,7 +115,7 @@
                                                                                                 Labour
                                                                                             </th>
                                                                                             <th colspan="1">
-                                                                                                Unit
+                                                                                                Unit(hrs)
 
                                                                                             </th>
                                                                                             <th colspan="1">
@@ -115,23 +131,23 @@
                                                                                     </thead>
                                                                                     <tbody>
                                                                                         @{
-                                                                                            for (int i = 0; i < Model.FormB7Header.LabourHistory.Count; i++)
+                                                                                            for (int i = 0; i < Model.FormB7Header.RmB7LabourHistory.Count; i++)
                                                                                             {
                                                                                                 <tr>
                                                                                                     <td>
-                                                                                                        @Model.FormB7Header.LabourHistory[i].B7lhCode
+                                                                                                        @Model.FormB7Header.RmB7LabourHistory[i].B7lhCode
                                                                                                     </td>
                                                                                                     <td>
-                                                                                                        @Model.FormB7Header.LabourHistory[i].B7lhName
+                                                                                                        @Model.FormB7Header.RmB7LabourHistory[i].B7lhName
                                                                                                     </td>
                                                                                                      <td class="typein" datatype="int">
-                                                                                                        @Model.FormB7Header.LabourHistory[i].B7lhUnitInHrs hrs
+                                                                                                        @Model.FormB7Header.RmB7LabourHistory[i].B7lhUnitInHrs
                                                                                                     </td>
                                                                                                     <td class="typein" datatype="int">
-                                                                                                        @Model.FormB7Header.LabourHistory[i].B7lhUnitPriceBatuNiah
+                                                                                                        @Model.FormB7Header.RmB7LabourHistory[i].B7lhUnitPriceBatuNiah
                                                                                                     </td>
                                                                                                     <td class="typein" datatype="int">
-                                                                                                        @Model.FormB7Header.LabourHistory[i].B7lhUnitPriceMiri
+                                                                                                        @Model.FormB7Header.RmB7LabourHistory[i].B7lhUnitPriceMiri
                                                                                                     </td>
                                                                                                 </tr>
                                                                                             }
@@ -172,7 +188,7 @@
                                                                     <div class="dataTables_scroll">
 
                                                                         <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
-                                                                            <table class="table w-100 nowrap dataTable no-footer">
+                                                                            <table class="table w-100 nowrap dataTable no-footer" id="tblMaterial">
                                                                                 <thead style="background-color: #c8e1ff">
                                                                                     <tr>
                                                                                        
@@ -199,23 +215,23 @@
                                                                                 </thead>
                                                                                 <tbody>
                                                                                     @{
-                                                                                        for (int i = 0; i < Model.FormB7Header.MaterialHistory.Count; i++)
+                                                                                        for (int i = 0; i < Model.FormB7Header.RmB7MaterialHistory.Count; i++)
                                                                                         {
                                                                                             <tr>
                                                                                                 <td>
-                                                                                                    @Model.FormB7Header.MaterialHistory[i].B7mhCode
+                                                                                                    @Model.FormB7Header.RmB7MaterialHistory[i].B7mhCode
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    @Model.FormB7Header.MaterialHistory[i].B7mhName
+                                                                                                    @Model.FormB7Header.RmB7MaterialHistory[i].B7mhName
                                                                                                 </td>
-                                                                                                <td class="dropdown" preval="@Model.FormB7Header.MaterialHistory[i].B7mhUnits">
-                                                                                                    @Model.FormB7Header.MaterialHistory[i].B7mhUnits
-                                                                                                </td>
-                                                                                                <td class="typein" datatype="int">
-                                                                                                    @Model.FormB7Header.MaterialHistory[i].B7mhUnitPriceBatuNiah
+                                                                                                <td class="dropdown" preval="@Model.FormB7Header.RmB7MaterialHistory[i].B7mhUnits">
+                                                                                                    @Model.FormB7Header.RmB7MaterialHistory[i].B7mhUnits
                                                                                                 </td>
                                                                                                 <td class="typein" datatype="int">
-                                                                                                    @Model.FormB7Header.MaterialHistory[i].B7mhUnitPriceMiri
+                                                                                                    @Model.FormB7Header.RmB7MaterialHistory[i].B7mhUnitPriceBatuNiah
+                                                                                                </td>
+                                                                                                <td class="typein" datatype="int">
+                                                                                                    @Model.FormB7Header.RmB7MaterialHistory[i].B7mhUnitPriceMiri
                                                                                                 </td>
                                                                                             </tr>
                                                                                         }
@@ -253,7 +269,7 @@
                                                                 <div id="FormDLabourGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                                                     <div class="dataTables_scroll">
                                                                         <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
-                                                                            <table class="table w-100 nowrap dataTable no-footer ">
+                                                                            <table class="table w-100 nowrap dataTable no-footer" id="tblEquipment">
                                                                                 <thead style="background-color: #c8e1ff">
                                                                                     <tr>
                                                                                         <th colspan="1">
@@ -263,7 +279,7 @@
                                                                                             Equipments
                                                                                         </th>
                                                                                         <th colspan="1">
-                                                                                            Unit
+                                                                                            Unit(hrs)
                                                                                         </th>
                                                                                         <th colspan="1">
                                                                                             Batu Niah
@@ -275,23 +291,23 @@
                                                                                 </thead>
                                                                                 <tbody>
                                                                                     @{
-                                                                                        for (int i = 0; i < Model.FormB7Header.EquipmentsHistory.Count; i++)
+                                                                                        for (int i = 0; i < Model.FormB7Header.RmB7EquipmentsHistory.Count; i++)
                                                                                         {
                                                                                             <tr>
                                                                                                 <td>
-                                                                                                    @Model.FormB7Header.EquipmentsHistory[i].B7ehCode
+                                                                                                    @Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehCode
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    @Model.FormB7Header.EquipmentsHistory[i].B7ehName
+                                                                                                    @Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehName
                                                                                                 </td>
                                                                                                  <td class="typein" datatype="int">
-                                                                                                    @Model.FormB7Header.EquipmentsHistory[i].B7ehUnitInHrs hrs
+                                                                                                    @Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehUnitInHrs
                                                                                                 </td>
                                                                                                 <td class="typein" datatype="int">
-                                                                                                    @Model.FormB7Header.EquipmentsHistory[i].B7ehUnitPriceBatuNiah
+                                                                                                    @Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehUnitPriceBatuNiah
                                                                                                 </td>
                                                                                                 <td class="typein" datatype="int">
-                                                                                                    @Model.FormB7Header.EquipmentsHistory[i].B7ehUnitPriceMiri
+                                                                                                    @Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehUnitPriceMiri
                                                                                                 </td>
                                                                                             </tr>
                                                                                         }
@@ -320,11 +336,15 @@
     </div>
 </div>
 <div class="col-md-12 mb-2 float-right text-right custom-footer">
-    <button type="button" class="btn btn-sm btn-outline-theme">Close</button>
-    <button type="button" class="btn btn-sm btn-themebtn">Save</button>
+    <button type="button" class="btn btn-sm btn-outline-theme" onclick="frmB7.Cancel()">Close</button>
+    @if (ViewBag.IsEdit)
+    {
+        <button type="button" class="btn btn-sm btn-themebtn" onclick="frmB7.Save()">Save</button>
+    }
 </div>
-@*
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css" />
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>*@
 
+@Html.HiddenFor(m => m.FormB7Header.B7hPkRefNo);
+<input type="hidden" id="UserId" value="@security.UserID" />
+<script>
+    var UnitObj = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(unit));
+</script>

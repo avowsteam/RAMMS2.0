@@ -17,5 +17,9 @@ namespace RAMMS.Repository.Interfaces
         Task<GridWrapper<object>> GetHeaderGrid(DataTableAjaxPostModel searchData);
 
         RmB7Hdr GetHeaderById(int id);
+
+        int? GetMaxRev(int Year);
+        Task<int> SaveFormB7(RmB7Hdr FormB7);
+
     }
 }

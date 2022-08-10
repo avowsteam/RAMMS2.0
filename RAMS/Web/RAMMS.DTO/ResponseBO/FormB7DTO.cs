@@ -18,9 +18,9 @@ namespace RAMMS.DTO.ResponseBO
         public string B7hCrByName { get; set; }
         public DateTime? B7hCrDt { get; set; }
 
-        public List<FormB7EquipmentsHistoryDTO> EquipmentsHistory { get; set; }
-        public List<FormB7LabourHistoryDTO> LabourHistory { get; set; }
-        public List<FormB7MaterialHistoryDTO> MaterialHistory { get; set; }
+        public List<FormB7EquipmentsHistoryDTO> RmB7EquipmentsHistory { get; set; }
+        public List<FormB7LabourHistoryDTO> RmB7LabourHistory { get; set; }
+        public List<FormB7MaterialHistoryDTO> RmB7MaterialHistory { get; set; }
     }
 
     public class FormB7LabourHistoryDTO

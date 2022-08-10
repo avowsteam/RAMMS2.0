@@ -982,13 +982,13 @@ namespace RAMMS.Repository
                          && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && h.Ff1hSubmitSts == true
                          select 1).Count();
        
-            var Length = (from o in _context.RmFormF1Dtl
-                          join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
-                          join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
-                          join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
-                          where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
-                         && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && h.Ff1hSubmitSts == true
-                          select a.AiLength)?.Sum();
+            //var Length = (from o in _context.RmFormF1Dtl
+            //              join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
+            //              join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
+            //              join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
+            //              where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
+            //             && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && h.Ff1hSubmitSts == true
+            //              select a.AiLength)?.Sum();
 
 
             var AvgWidth = (from o in _context.RmFormF1Dtl
@@ -1035,7 +1035,7 @@ namespace RAMMS.Repository
                     FsdFshPkRefNo = headerid,
                     FsdGrpType = grptype,
                     FsdGrpCode = "rw",
-                    FsdLength = Length,
+                    FsdLength = count, //Length,
                     FsdWidth = (double?)Math.Round(((decimal)AvgWidth /count),2),
                     FsdStrucCode = StructureCode,
                     FsdSubmitSts = false,

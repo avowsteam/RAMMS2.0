@@ -3,31 +3,89 @@ var frmB7 = new function () {
     this.HeaderData = {};
     this.IsEdit = true;
       
-    this.Save = function (isSubmit, isApproveSave) {
-        //debugger;
-        var tis = this;
-        if (isSubmit) {
-            $("#frmB7Data .svalidate").addClass("validate");
-        }
-        Validation.ResetErrStyles("#frmB7Data");
-        $("#txtPhotoValidate").val(this.IsUploadAllImage(isSubmit) ? "valid" : "");
-        if (ValidatePage("#frmB7Data", "", "")) {
-            //var refNo = $("#txtS1RefNumber");
-            var action = isSubmit ? "Submit" : "Save";
-            if (isApproveSave == 1) {
-                GetResponseValue(action, "FormB7", FormValueCollection("#AccordPage1,#AccordPage2,#AccordPage6,#FormG2TabPage2,#divApprovedInfo", tis.HeaderData), function (data) {
-                }, "Saving");
+    this.Save = function () {
+        var failed = false;
+
+        if (failed)
+            return;
+
+        //  if (ValidatePage('#myModal')) {
+        InitAjaxLoading();
+
+        var FormB7 = new Object();
+        FormB7.B7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val()
+        FormB7.B7hRevisionYear = $("#formB7Year").val()
+        FormB7.B7hRevisionNo = $("#RevisionNo").val()
+        FormB7.B7hRevisionDate = $("#date").val()
+        FormB7.B7hCrBy = $("#UserId").val();
+        FormB7.B7hCrByName = $("#UserName").val();
+        FormB7.B7hCrDt = $("#date").val()
+
+        var B7LabourHistory = []
+
+        $('#tblLabour > tbody  > tr').each(function (index, tr) {
+
+            var B7 = new Object();
+            B7.B7lhB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
+            B7.B7lhCode = $(this).find("td:nth-child(1)").html().trim();
+            B7.B7lhName = $(this).find("td:nth-child(2)").html().trim();
+            B7.B7lhUnitInHrs = $(this).find("td:nth-child(3)").html().trim();
+            B7.B7lhUnitPriceBatuNiah = $(this).find("td:nth-child(4)").html().trim();
+            B7.B7lhUnitPriceMiri = $(this).find("td:nth-child(5)").html().trim();
+            B7.B7lhRevisionNo = $("#RevisionNo").val();
+            B7LabourHistory.push(B7);
+        });
+
+        FormB7.RmB7LabourHistory = B7LabourHistory;
+
+
+        var B7MaterialHistory = [];
+
+        $('#tblMaterial > tbody  > tr').each(function (index, tr) {
+
+            var B7 = new Object();
+            B7.B7mhB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
+            B7.B7mhCode = $(this).find("td:nth-child(1)").html().trim();
+            B7.B7mhName = $(this).find("td:nth-child(2)").html().trim();
+            B7.B7mhUnits = $(this).find("td:nth-child(3)").html().trim();
+            B7.B7mhUnitPriceBatuNiah = $(this).find("td:nth-child(4)").html().trim();
+            B7.B7mhUnitPriceMiri = $(this).find("td:nth-child(5)").html().trim();
+            B7MaterialHistory.push(B7);
+        });
+
+        FormB7.RmB7MaterialHistory = B7MaterialHistory;
+
+        var B7EquipmentHistory = [];
+
+        $('#tblEquipment > tbody  > tr').each(function (index, tr) {
+
+            var B7 = new Object();
+            B7.B7ehB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
+            B7.B7ehCode = $(this).find("td:nth-child(1)").html().trim();
+            B7.B7ehName = $(this).find("td:nth-child(2)").html().trim();
+            B7.B7ehUnitInHrs = $(this).find("td:nth-child(3)").html().trim();
+            B7.B7ehUnitPriceBatuNiah = $(this).find("td:nth-child(4)").html().trim();
+            B7.B7ehUnitPriceMiri = $(this).find("td:nth-child(5)").html().trim();
+            B7EquipmentHistory.push(B7);
+        });
+
+        FormB7.RmB7EquipmentsHistory = B7EquipmentHistory;
+
+        $.ajax({
+            url: '/FormB7/SaveFormB7',
+            data: FormB7,
+            type: 'POST',
+            success: function (data) {
+                HideAjaxLoading();
+                if (data == -1) {
+                    app.ShowErrorMessage(data.errorMessage);
+                }
+                else {
+                    app.ShowSuccessMessage('Saved Successfully', false);
+                    location.href = "/FormB7";
+                }
             }
-            else {
-                GetResponseValue(action, "FormB7", FormValueCollection("#AccordPage1,#AccordPage2,#AccordPage6,#FormG2TabPage2,#divApprovedInfo", tis.HeaderData), function (data) {
-                    app.ShowSuccessMessage('Successfully Saved', false);
-                    setTimeout(tis.NavToList, 2000);
-                }, "Saving");
-            }
-        }
-        if (isSubmit) {
-            $("#frmB7Data .svalidate").removeClass("validate");
-        }
+        });
     }
 
     this.NavToList = function () {
@@ -226,25 +284,47 @@ $(document).ready(function () {
     });
 
     $('.typein').on('click', function (e) {
-        var $this = $(this);
-        frmB7.typein($this);
+        if (frmG1G2.IsEdit) {
+            var $this = $(this);
+            frmB7.typein($this);
+        }
         e.preventDefault();
     });
 
     $('.dropdown').on('click', function (e) {
-        var $this = $(this);
-        showComboBox($this);
+        if (frmG1G2.IsEdit) {
+            var $this = $(this);
+            showComboBox($this);
+        }
         e.preventDefault();
         e.stopPropagation();
     });
 
 
 
-    $("#ddlYear").on("change", function () {
-        getRevisionNo($("#ddlYear").val());
+    $("#formB7Year").on("change", function () {
+        getRevisionNo($("#formB7Year").val());
     });
 
 });
+
+function getRevisionNo(id) {
+    var req = {};
+    req.Year = id;
+    $.ajax({
+        url: '/FormB7/GetMaxRev',
+        dataType: 'JSON',
+        data: req,
+        type: 'Post',
+        success: function (data) {
+            $("#RevisionNo").val(data)
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+}
+
 
 
 function SetCaretAtEnd(elem) {
@@ -278,12 +358,12 @@ function showComboBox(obj) {
 
     var selectHtml = "<select onchange='setSelected(this)'>";
 
-    if (UnitServiceLevelObj.length > 0) {
+    if (UnitObj.length > 0) {
         var selected = "";
         var selectedvalue = $(obj).parent().attr("preval");
         selectHtml = selectHtml + "<option value='0'></option>";
 
-        $.each(UnitServiceLevelObj, function (index, v) {
+        $.each(UnitObj, function (index, v) {
             if (selectedvalue == v.value) { selected = "selected"; }
             else { selected = ""; }
             selectHtml = selectHtml + "<option value='" + v.Value + "' " + selected + " >" + v.Text + "</option>";
