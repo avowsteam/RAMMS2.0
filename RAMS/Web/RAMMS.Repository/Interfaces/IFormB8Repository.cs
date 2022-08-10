@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace RAMMS.Repository.Interfaces
 {
-    public interface IFormB7Repository : IRepositoryBase<RmB7Hdr>
+    public interface IFormB8Repository : IRepositoryBase<RmB8Hdr>
     {
 
         Task<GridWrapper<object>> GetHeaderGrid(DataTableAjaxPostModel searchData);
 
-        RmB7Hdr GetHeaderById(int id);
+        RmB8Hdr GetHeaderById(int id);
 
         int? GetMaxRev(int Year);
-        Task<int> SaveFormB7(RmB7Hdr FormB7);
+        Task<int> SaveFormB8(RmB8Hdr FormB8);
 
-        Task<FormB7Rpt> GetReportData(int headerid);
+        Task<List<FormB8Rpt>> GetReportData(int headerid);
     }
 }

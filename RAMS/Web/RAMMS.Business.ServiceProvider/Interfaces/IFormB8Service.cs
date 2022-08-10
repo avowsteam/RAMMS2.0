@@ -12,15 +12,15 @@ using RAMMS.DTO.RequestBO;
 
 namespace RAMMS.Business.ServiceProvider.Interfaces
 {
-    public interface IFormB7Service
+    public interface IFormB8Service
     {
         Task<GridWrapper<object>> GetHeaderGrid(DataTableAjaxPostModel searchData);
 
-        Task<FormB7HeaderDTO> GetHeaderById(int id);
+        Task<FormB8HeaderDTO> GetHeaderById(int id);
 
         int? GetMaxRev(int Year);
         
-        Task<int> SaveFormB7(FormB7HeaderDTO FormB7);
+        Task<int> SaveFormB8(FormB8HeaderDTO FormB8);
 
         Byte[] FormDownload(string formname, int id, string basepath, string filepath);
     }

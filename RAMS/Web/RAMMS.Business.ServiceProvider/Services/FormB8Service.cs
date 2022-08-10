@@ -21,15 +21,15 @@ using RAMMS.Repository.Interfaces;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
-    public class FormB7Service : IFormB7Service
+    public class FormB8Service : IFormB8Service
     {
-        private readonly IFormB7Repository _repo;
+        private readonly IFormB8Repository _repo;
         private readonly IRepositoryUnit _repoUnit;
         private readonly IMapper _mapper;
         private readonly IAssetsService _assetsService;
         private readonly IProcessService processService;
         private readonly ISecurity _security;
-        public FormB7Service(IRepositoryUnit repoUnit, IFormB7Repository repo,
+        public FormB8Service(IRepositoryUnit repoUnit, IFormB8Repository repo,
             IAssetsService assetsService, IMapper mapper, IProcessService proService,
             ISecurity security)
         {
@@ -46,15 +46,13 @@ namespace RAMMS.Business.ServiceProvider.Services
             return await _repo.GetHeaderGrid(searchData);
         }
 
-        public async Task<FormB7HeaderDTO> GetHeaderById(int id)
+        public async Task<FormB8HeaderDTO> GetHeaderById(int id)
         {
-            RmB7Hdr res = _repo.GetHeaderById(id);
-            FormB7HeaderDTO FormB7 = new FormB7HeaderDTO();
-            FormB7 = _mapper.Map<FormB7HeaderDTO>(res);
-            FormB7.RmB7LabourHistory = _mapper.Map<List<FormB7LabourHistoryDTO>>(res.RmB7LabourHistory);
-            FormB7.RmB7MaterialHistory = _mapper.Map<List<FormB7MaterialHistoryDTO>>(res.RmB7MaterialHistory);
-            FormB7.RmB7EquipmentsHistory = _mapper.Map<List<FormB7EquipmentsHistoryDTO>>(res.RmB7EquipmentsHistory);
-            return FormB7;
+            RmB8Hdr res = _repo.GetHeaderById(id);
+            FormB8HeaderDTO FormB8 = new FormB8HeaderDTO();
+            FormB8 = _mapper.Map<FormB8HeaderDTO>(res);
+            FormB8.RmB8History = _mapper.Map<List<FormB8HistoryDTO>>(res.RmB8History);
+            return FormB8;
         }
 
         public int? GetMaxRev(int Year)
@@ -62,14 +60,14 @@ namespace RAMMS.Business.ServiceProvider.Services
             return _repo.GetMaxRev(Year);
         }
 
-        public async Task<int> SaveFormB7(FormB7HeaderDTO FormB7)
+        public async Task<int> SaveFormB8(FormB8HeaderDTO FormB8)
         {
             try
             {
-                var domainModelFormB7 = _mapper.Map<RmB7Hdr>(FormB7);
-                domainModelFormB7.B7hPkRefNo = 0;
+                var domainModelFormB8 = _mapper.Map<RmB8Hdr>(FormB8);
+                domainModelFormB8.B8hPkRefNo = 0;
 
-                return await _repo.SaveFormB7(domainModelFormB7);
+                return await _repo.SaveFormB8(domainModelFormB8);
             }
             catch (Exception ex)
             {
@@ -100,7 +98,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
             try
             {
-                FormB7Rpt _rpt = this.GetReportData(id).Result;
+                List<FormB8Rpt> _rpt = this.GetReportData(id).Result;
                 System.IO.File.Copy(Oldfilename, cachefile, true);
                 using (var workbook = new XLWorkbook(cachefile))
                 {
@@ -110,50 +108,15 @@ namespace RAMMS.Business.ServiceProvider.Services
                     {
                         if (worksheet != null)
                         {
-                            worksheet.Cell(1, 1).Value = "APPENDIX B7: L.E.M Unit Price (" + _rpt.Year + ") for RMU Batu Niah and RMU Miri";
-
-                            var Labour = _rpt.Labours;
                             var i = 4;
-                            foreach (var lab in Labour)
+                            foreach (var lab in _rpt)
                             {
-                                worksheet.Cell(i + 1, 1).Value = lab.Code;
-                                worksheet.Cell(i + 1, 2).Value = lab.Name;
-                                worksheet.Cell(i + 1, 3).Value = lab.Unit + " hrs";
-                                worksheet.Cell(i + 1, 4).Value = lab.UnitPriceBatuNiah;
-                                worksheet.Cell(i + 1, 5).Value = lab.UnitPriceMiri;
+                                worksheet.Cell(i, 2).Value = lab.ItemNo;
+                                worksheet.Cell(i, 3).Value = lab.Description;
+                                worksheet.Cell(i, 4).Value = lab.Unit;
+                                worksheet.Cell(i, 5).Value = lab.Division;
                                 i++;
                             }
-
-                            
-
-                            //Material
-
-                            var Materials = _rpt.Materials;
-                            i = i + 3;
-                            foreach (var mat in Materials)
-                            {
-                                worksheet.Cell(i + 1, 1).Value = mat.Code;
-                                worksheet.Cell(i + 1, 2).Value = mat.Name;
-                                worksheet.Cell(i + 1, 3).Value = mat.Unit;
-                                worksheet.Cell(i + 1, 4).Value = mat.UnitPriceBatuNiah;
-                                worksheet.Cell(i + 1, 5).Value = mat.UnitPriceMiri;
-                                i++;
-                            }
-
-                            //Equipement
-
-                            var Equipements = _rpt.Equipments;
-                            i = 4;
-                            foreach (var eqp in Equipements)
-                            {
-                                worksheet.Cell(i + 1, 7).Value = eqp.Code;
-                                worksheet.Cell(i + 1, 8).Value = eqp.Name;
-                                worksheet.Cell(i + 1, 9).Value = "Nr./" + eqp.Unit + " hrs";
-                                worksheet.Cell(i + 1, 10).Value = eqp.UnitPriceBatuNiah;
-                                worksheet.Cell(i + 1, 11).Value = eqp.UnitPriceMiri;
-                                i++;
-                            }
-
                         }
 
 
@@ -185,7 +148,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             }
         }
 
-        public async Task<FormB7Rpt> GetReportData(int headerid)
+        public async Task<List<FormB8Rpt>> GetReportData(int headerid)
         {
             return await _repo.GetReportData(headerid);
         }

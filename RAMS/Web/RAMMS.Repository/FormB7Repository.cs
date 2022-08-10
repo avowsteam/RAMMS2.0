@@ -31,12 +31,12 @@ namespace RAMMS.Repository
                          select new
                          {
                              RefNo = hdr.B7hPkRefNo,
-                             RevisionYear = hdr.B7hRevisionYear ,
-                             RevisionNo = hdr.B7hRevisionNo ,
-                             RevisionDate = hdr.B7hRevisionDate ,
-                             CrByName = hdr.B7hCrByName ,
+                             RevisionYear = hdr.B7hRevisionYear,
+                             RevisionNo = hdr.B7hRevisionNo,
+                             RevisionDate = hdr.B7hRevisionDate,
+                             CrByName = hdr.B7hCrByName,
                          });
-          
+
             if (searchData.filter != null)
             {
                 foreach (var item in searchData.filter.Where(x => !string.IsNullOrEmpty(x.Value)))
@@ -72,7 +72,7 @@ namespace RAMMS.Repository
                                 query = query.Where(x => x.RevisionDate <= dtTo);
                             }
                             break;
-                       
+
                         case "Year":
                             int iFYr = Utility.ToInt(strVal);
                             query = query.Where(x => x.RevisionYear.HasValue && x.RevisionYear == iFYr);
@@ -95,7 +95,7 @@ namespace RAMMS.Repository
             return grid;
         }
 
-        public  RmB7Hdr GetHeaderById(int id)
+        public RmB7Hdr GetHeaderById(int id)
         {
             RmB7Hdr res = (from r in _context.RmB7Hdr where r.B7hPkRefNo == id select r).FirstOrDefault();
             int? RevNo = (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == res.B7hRevisionYear select rn.B7hRevisionNo).DefaultIfEmpty().Max() + 1;
@@ -109,7 +109,7 @@ namespace RAMMS.Repository
 
         public int? GetMaxRev(int Year)
         {
-            int? rev =  (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == Year select rn.B7hRevisionNo).DefaultIfEmpty().Max() + 1;
+            int? rev = (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == Year select rn.B7hRevisionNo).DefaultIfEmpty().Max() + 1;
             if (rev == null)
                 rev = 1;
             return rev;
@@ -153,5 +153,48 @@ namespace RAMMS.Repository
             }
         }
 
+        public async Task<FormB7Rpt> GetReportData(int headerid)
+        {
+            FormB7Rpt details = new FormB7Rpt();
+
+            details.Year = _context.RmB7Hdr.Where(x => x.B7hPkRefNo == headerid).Select(x => x.B7hRevisionYear).FirstOrDefault();
+                            
+            details.Labours =await  (from o in _context.RmB7LabourHistory
+                              where (o.B7lhB7hPkRefNo == headerid)
+                              orderby o.B7lhCode ascending
+                              select new Details
+                              {
+                                  Code = o.B7lhCode,
+                                  Name = o.B7lhName,
+                                  Unit = o.B7lhUnitInHrs.ToString(),
+                                  UnitPriceBatuNiah = o.B7lhUnitPriceBatuNiah.ToString(),
+                                  UnitPriceMiri = o.B7lhUnitPriceMiri.ToString(),
+                              }).ToListAsync();
+
+            details.Materials = await (from o in _context.RmB7MaterialHistory
+                                where (o.B7mhB7hPkRefNo == headerid)
+                                orderby o.B7mhCode ascending
+                                select new Details
+                                {
+                                    Code = o.B7mhCode,
+                                    Name = o.B7mhName,
+                                    Unit = o.B7mhUnits.ToString(),
+                                    UnitPriceBatuNiah = o.B7mhUnitPriceBatuNiah.ToString(),
+                                    UnitPriceMiri = o.B7mhUnitPriceMiri.ToString(),
+                                }).ToListAsync();
+
+            details.Equipments = await (from o in _context.RmB7EquipmentsHistory
+                                  where (o.B7ehB7hPkRefNo == headerid)
+                                  orderby o.B7ehCode ascending
+                                  select new Details
+                                  {
+                                      Code = o.B7ehCode,
+                                      Name = o.B7ehName,
+                                      Unit = o.B7ehUnitInHrs.ToString(),
+                                      UnitPriceBatuNiah = o.B7ehUnitPriceBatuNiah.ToString(),
+                                      UnitPriceMiri = o.B7ehUnitPriceMiri.ToString(),
+                                  }).ToListAsync();
+            return details;
+        }
     }
 }

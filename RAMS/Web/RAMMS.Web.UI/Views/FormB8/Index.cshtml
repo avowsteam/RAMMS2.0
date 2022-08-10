@@ -4,29 +4,28 @@
 @using RAMMS.Business.ServiceProvider;
 @inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
 @{
-    ViewBag.TabTitle = "Form B7";
-    ViewData["Title"] = "Form B7";
+    ViewBag.TabTitle = "Form B8";
+    ViewData["Title"] = "Form B8";
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
-    var isModifyPerm = security.IsPCModify(ModuleNameList.Annual_Work_Planned_Budget) ? "" : "hidden";
-    var isDeletePerm = security.IsPCDelete(ModuleNameList.Annual_Work_Planned_Budget) ? "" : "hidden";
 }
 
 @section Scripts{
-<script type="text/javascript" src="~/js/FormB7.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/js/FormB8.js" asp-append-version="true"></script>
 }
 
 <script type="text/javascript">
      $(document).ready(function () {
-        $("#formB7Year").chosen();
+        $("#formB8Year").chosen();
      });
     function clearHeaderSearch() {
-        $("#formB7SmartSearch").val('');
-        $("#formB7Year").val("").trigger("chosen:updated");
+        $("#formB8SmartSearch").val('');
+        $("#formB8Year").val("").trigger("chosen:updated");
         $("#fromRevDate").val("");
         $("#toRevDate").val("");
         $("[searchsectionbtn]").click();
     }
 </script>
+
 
 <div class="container-fluid">
     <div class="row">
@@ -38,16 +37,16 @@
             <div class="col-lg-12">
                 <div class="w-100 d-flex justify-content-md-between py-2 align-items-center">
                     <span class="mb-0 font-weight-bold font-20">
-                        Appendix B7
+                        Appendix B8
                     </span>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb breadcrumb-alt mb-0 bg-transparent">
                             <li class="breadcrumb-item">Home</li>
                             <li class="breadcrumb-item">
-                                AWPB 
+                                AWBP 
                             </li>
                             <li class="breadcrumb-item" aria-current="page">
-                                Appendix B7
+                                Appendix B8
                             </li>
                         </ol>
                     </nav>
@@ -64,10 +63,10 @@
                 <div class="justify-content-center mb-1">
                     <div class="search-content">
                         <div class="input-group">
-                            <input autocomplete="off" class="form-control" id="formB7SmartSearch" name="SearchObj.SmartInputValue" onfocus="this.removeAttribute('readonly')" placeholder="Search..." spellcheck="false" type="text" value=""  param="KeySearch">
+                            <input autocomplete="off" class="form-control" id="smartSearch" name="SearchObj.SmartInputValue" onfocus="this.removeAttribute('readonly')" placeholder="Search..." spellcheck="false" type="text" value="" param="KeySearch">
                             <div class="input-group-append">
-                                <div class="btn-group">
-                                    <button  onclick="tblFB7HGrid.Search(this,'#formB7Search');" SearchSectionBtn type="button" class="bg-theme-color js-tooltip-enabled px-2 border-0" style="line-height: 18px;"><span class="search-icon"></span></button>
+                               <div class="btn-group">
+                                    <button  onclick="tblFB8HGrid.Search(this,'#formB8Search');" SearchSectionBtn type="button" class="bg-theme-color js-tooltip-enabled px-2 border-0" style="line-height: 18px;"><span class="search-icon"></span></button>
                                     <button id="btnAdvSearch" type="button" class="bg-theme-color js-tooltip-enabled px-3 border-0" data-toggle="collapse" data-target="#div_advsearch"><span class="filter-icon"></span></button>
                                     <button id="btnClearSearch" type="button" onclick="clearHeaderSearch()" class="bg-theme-color js-tooltip-enabled px-3 border-0 rounded-right">Clear</button>
                                 </div>
@@ -80,19 +79,18 @@
                             <div class="bg-white rounded float-left pt-3 pb-1 px-lg-4 px-md-3 advance-search-group w-100">
                                 <div class="row">
                                     <div class="form-group col-4">
-                                         @Html.Label("Year", "Year")
-                                        @Html.DropDownList("FromRevisionYear", (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB7Year", @class = "form-control", @param = "Year", @clear = "rebind" })
+                                        @Html.Label("Year", "Year")
+                                        @Html.DropDownList("FromRevisionYear", (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB8Year", @class = "form-control", @param = "Year", @clear = "rebind" })
                                     </div>
 
                                     <div class="form-group col-lg-4">
-                                       @Html.Label(" Revision Date From", " Revision Date From")
+                                        @Html.Label(" Revision Date From", " Revision Date From")
                                     <input id="fromRevDate" type="date" class="form-control" param="fromRevDate" />
                                     </div>
                                     
                                     <div class="form-group col-3">
-                                         @Html.Label("Revision Date To ", "Revision Date To ")
+                                        @Html.Label("Revision Date To ", "Revision Date To ")
                                         <input id="toRevDate" type="date" class="form-control" param="toRevDate" />
-
                                     </div>
                                 </div>
                             </div>
@@ -110,9 +108,9 @@
                 <div class="w-100 float-left position-relative">
                      
                     <div id="headerListGrid" class="w-100 dt-tbl-section">
-                      @{
-                        Html.RenderPartial("_CDataTable", Model);
-                      }
+                         @{
+                            Html.RenderPartial("_CDataTable", Model);
+                        }
                     </div>
                 </div>
 

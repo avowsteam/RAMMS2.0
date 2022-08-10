@@ -18,11 +18,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace RAMMS.Web.UI.Controllers
 {
-    public class FormB7Controller : Models.BaseController
+    public class FormB8Controller : BaseController
     {
-
         private IHostingEnvironment Environment;
         private readonly ILogger _logger;
         private readonly IDDLookUpService _ddLookupService;
@@ -30,16 +30,16 @@ namespace RAMMS.Web.UI.Controllers
         private readonly IUserService _userService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IDDLookupBO _dDLookupBO;
-        private readonly IFormB7Service _formB7Service;
+        private readonly IFormB8Service _formB8Service;
 
-        public FormB7Controller(IHostingEnvironment _environment,
+        public FormB8Controller(IHostingEnvironment _environment,
           IDDLookupBO _ddLookupBO,
           IDDLookUpService ddLookupService,
           IUserService userService,
           IWebHostEnvironment webhostenvironment,
           ISecurity security,
           ILogger logger,
-          IFormB7Service formB7Service,
+          IFormB8Service formB8Service,
           IAssetsService assestService
           )
         {
@@ -50,20 +50,20 @@ namespace RAMMS.Web.UI.Controllers
             _ddLookupService = ddLookupService;
             _security = security;
             _logger = logger;
-            _formB7Service = formB7Service ?? throw new ArgumentNullException(nameof(formB7Service));
+            _formB8Service = formB8Service ?? throw new ArgumentNullException(nameof(formB8Service));
         }
 
         public async Task<IActionResult> Index()
         {
             LoadLookupService("Year");
-            var grid = new Models.CDataTable() { Name = "tblFB7HGrid", APIURL = "/FormB7/HeaderList", LeftFixedColumn = 1 };
+            var grid = new Models.CDataTable() { Name = "tblFB8HGrid", APIURL = "/FormB8/HeaderList", LeftFixedColumn = 1 };
             grid.IsModify = _security.IsPCModify(ModuleNameList.Annual_Work_Planned_Budget);
             grid.IsDelete = _security.IsPCDelete(ModuleNameList.Annual_Work_Planned_Budget) && _security.isOperRAMSExecutive;
             grid.IsView = _security.IsPCView(ModuleNameList.Annual_Work_Planned_Budget);
-            grid.Columns.Add(new CDataColumns() { data = null, title = "Action", IsFreeze = true, sortable = false, render = "frmB7.HeaderGrid.ActionRender" });
+            grid.Columns.Add(new CDataColumns() { data = null, title = "Action", IsFreeze = true, sortable = false, render = "frmB8.HeaderGrid.ActionRender" });
             grid.Columns.Add(new CDataColumns() { data = "RevisionYear", title = "Year" });
             grid.Columns.Add(new CDataColumns() { data = "RevisionNo", title = "Revision Number" });
-            grid.Columns.Add(new CDataColumns() { data = "RevisionDate", title = "Revision Date", render = "frmB7.HeaderGrid.DateOfIns" });
+            grid.Columns.Add(new CDataColumns() { data = "RevisionDate", title = "Revision Date", render = "frmB8.HeaderGrid.DateOfIns" });
             grid.Columns.Add(new CDataColumns() { data = "CrByName", title = "User Name" });
             return View(grid);
         }
@@ -72,9 +72,9 @@ namespace RAMMS.Web.UI.Controllers
         {
             if (searchData.order != null && searchData.order.Count > 0)
             {
-                searchData.order = searchData.order.Select(x => { if (x.column == 4 || x.column == 1 || x.column == 9) { x.column = 16; } return x; }).ToList();
+                searchData.order = searchData.order.Select(x => { if ( x.column == 1 || x.column == 2) { x.column = 3; } return x; }).ToList();
             }
-            return Json(await _formB7Service.GetHeaderGrid(searchData), JsonOption());
+            return Json(await _formB8Service.GetHeaderGrid(searchData), JsonOption());
         }
 
         public async Task<IActionResult> View(int id)
@@ -92,37 +92,36 @@ namespace RAMMS.Web.UI.Controllers
         private async Task<IActionResult> ViewRequest(int id)
         {
             LoadLookupService("Year");
-            FormB7Model _model = new FormB7Model();
+            FormB8Model _model = new FormB8Model();
             if (id > 0)
             {
-                _model.FormB7Header = await _formB7Service.GetHeaderById(id);
+                _model.FormB8Header = await _formB8Service.GetHeaderById(id);
             }
             else
             {
-                _model.FormB7Header = new FormB7HeaderDTO();
+                _model.FormB8Header = new FormB8HeaderDTO();
             }
 
 
 
-            return PartialView("~/Views/FormB7/_AddFormB7.cshtml", _model);
+            return PartialView("~/Views/FormB8/_AddFormB8.cshtml", _model);
         }
-        public async Task<IActionResult> SaveFormB7(FormB7HeaderDTO FormB7)
+        public async Task<IActionResult> SaveFormB8(FormB8HeaderDTO FormB8)
         {
-            await _formB7Service.SaveFormB7(FormB7);
+            await _formB8Service.SaveFormB8(FormB8);
             return Json(1);
         }
 
         public async Task<IActionResult> GetMaxRev(int Year)
         {
-            return Json( _formB7Service.GetMaxRev(Year));
+            return Json(_formB8Service.GetMaxRev(Year));
         }
 
         public IActionResult Download(int id)
         {
-            var content1 = _formB7Service.FormDownload("FormB7", id, _webHostEnvironment.WebRootPath, _webHostEnvironment.WebRootPath + "/Templates/FormB7.xlsx");
+            var content1 = _formB8Service.FormDownload("FormB8", id, _webHostEnvironment.WebRootPath, _webHostEnvironment.WebRootPath + "/Templates/FormB8.xlsx");
             string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            return File(content1, contentType1, "FormB7" + ".xlsx");
+            return File(content1, contentType1, "FormB8" + ".xlsx");
         }
-
     }
 }

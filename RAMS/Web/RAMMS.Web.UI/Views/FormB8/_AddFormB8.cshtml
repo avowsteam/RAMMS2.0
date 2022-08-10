@@ -1,0 +1,142 @@
+﻿@model RAMMS.Web.UI.Models.FormB8Model;
+@using RAMMS.Business.ServiceProvider;
+@using RAMMS.DTO.RequestBO;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService;
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+
+@{
+    ViewBag.TabTitle = "Form B8 - Road Asset Management and Maintenance System";
+    ViewData["Title"] = "Form B8 - Road Asset Management and Maintenance System";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+
+    var username = security.UserName;
+    var today = DateTime.Today.ToString("yyyy-MM-dd");
+}
+
+@section Scripts{
+<script type="text/javascript" src="~/js/FormB8.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    frmB8.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
+</script>
+
+}
+
+<div class="row bg-white pt-4">
+    <div class="w-100">
+        <div class="body-header w-100">
+            <div class="col-lg-12">
+                <div class=" w-100 d-flex justify-content-center py-0">
+                    <p class="font-24 mb-0"> <span class="float-left w-100 text-center"> <b>APPENDIX B8:</b> MACHINERY AND EQUIPMENT LIST</span> </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-body mh-182 pt-0 pb-0">
+    <div class="bg-white rounded pt-3 pb-1 px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetails">
+
+        <div class="row">
+
+            <div class="form-group col-3">
+                <label>Select Year  </label>
+                @Html.DropDownListFor(m => m.FormB8Header.B8hRevisionYear, (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB8Year", @class = "form-control" })
+            </div>
+            <div class="form-group col-3">
+                <label> Select the Revision No. </label>
+                <input type="number" id="RevisionNo" disabled value="@Model.FormB8Header.B8hRevisionNo" class="form-control">
+            </div>
+            <div class="form-group col-3">
+                <label>Date </label>
+                <input type="date" value="@today" class="form-control" id="date" />
+            </div>
+            <div class="form-group col-3">
+                <label>User Name </label>
+                <input type="text" id="UserName" disabled value="@username" class="form-control">
+
+            </div>
+
+        </div>
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="w-100 bg-white pb-4">
+                    <div id="accordion">
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="FormB1TabPage1">
+
+                                <div class="row">
+
+                                    <div class="col-12 bg-white px-0">
+                                        <!--form g1-->
+                                        <div id="content">
+                                            <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                <div id="FormB8GridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+
+                                                    <div class="dataTables_scroll">
+
+                                                        <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
+                                                            <table class="table w-100 nowrap dataTable no-footer remove" id="tblB8History">
+                                                                <thead style="background-color: #c8e1ff">
+                                                                    <tr>
+                                                                        <th colspan="1">
+                                                                            Item
+                                                                        </th>
+                                                                        <th colspan="1">
+                                                                            <div style="width:150px; float:left">Description</div>
+                                                                        </th>
+                                                                        <th colspan="1">
+                                                                            Unit
+                                                                        </th>
+                                                                        <th colspan="1">
+                                                                            Division
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @{
+                                                                        for (int i = 0; i < Model.FormB8Header.RmB8History.Count; i++)
+                                                                        {
+                                                                            <tr>
+                                                                                <td>
+                                                                                    @Model.FormB8Header.RmB8History[i].B8hiItemNo
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Model.FormB8Header.RmB8History[i].B8hiDescription
+                                                                                </td>
+                                                                                <td class="typein" datatype="int">
+                                                                                    @Model.FormB8Header.RmB8History[i].B8hiUnit
+                                                                                </td>
+                                                                                <td class="typein">
+                                                                                    @Model.FormB8Header.RmB8History[i].B8hiDivision
+                                                                                </td>
+                                                                            </tr>
+                                                                        }
+                                                                    }
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12 mb-2 float-right text-right custom-footer">
+    <button type="button" class="btn btn-sm btn-outline-theme"  onclick="frmB8.Cancel()">Close</button>
+    @if (ViewBag.IsEdit)
+    {
+        <button type="button" class="btn btn-sm btn-themebtn"  onclick="frmB8.Save()">Save</button>
+    }
+</div>
+@Html.HiddenFor(m => m.FormB8Header.B8hPkRefNo);
+<input type="hidden" id="UserId" value="@security.UserID" />

@@ -104,6 +104,8 @@ namespace RAMMS.Repository.Interfaces
 
         public FormB7Repository FormB7Repository { get; }
 
+        public FormB8Repository FormB8Repository { get; }
+
         int Commit();
         Task<int> CommitAsync();
         void Rollback();

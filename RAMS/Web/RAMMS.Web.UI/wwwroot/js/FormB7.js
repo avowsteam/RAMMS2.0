@@ -140,7 +140,7 @@ var frmB7 = new function () {
                     //        if (status) {
                     //            DeleteRequest("Delete/" + data.RefNo, "FormB7", {}, function (sdata) {
                     //                if (sdata.id == "-1") {
-                    //                    app.ShowErrorMessage("Form G1G2 cannot be deleted, first delete Form F3");
+                    //                    app.ShowErrorMessage("Form B7 cannot be deleted, first delete Form F3");
                     //                    return false;
                     //                }
                     //                tblFB7HGrid.Refresh();
@@ -155,15 +155,7 @@ var frmB7 = new function () {
                 }
             }
         }
-        this.DateOfEntry = (data, type, row, meta) => {
-            var result = "";
-            if (row.RevisionDate && row.RevisionDate != null && row.RevisionDate != "") {
-                result = (new Date(row.RevisionDate)).ToString(jsMaster.DisplayDateFormat);
-                result = " (" + result + ")";
-            }
-            result = data + result;
-            return result;
-        }
+        
         this.DateOfIns = (data, type, row, meta) => {
             var result = "";
             if (data && data != "") {
@@ -222,10 +214,13 @@ var frmB7 = new function () {
 
 $(document).ready(function () {    
     $("#smartSearch").focus();//Header Grid focus    
-    
-    //Listener for Smart and Detail Search
-    $("#FB7SrchSection").find("#smartSearch").focus();
-    element = document.querySelector("#formB7AdvSearch");
+
+    if (!frmB7.IsEdit) {
+        $("#formB8Year").chosen("destroy");
+        $("#divFindDetails *").attr("disabled", "disabled").off("click");
+    }
+
+    element = document.querySelector("#btnAdvSearch");
     if (element) {
         element.addEventListener("keyup", () => {
             if (event.keyCode === 13) {
@@ -238,7 +233,6 @@ $(document).ready(function () {
             $('[searchsectionbtn]').trigger('onclick');
         }
     })
-
 
     $('.allow_numeric').keypress(function (event) {
         var $this = $(this);
@@ -284,7 +278,7 @@ $(document).ready(function () {
     });
 
     $('.typein').on('click', function (e) {
-        if (frmG1G2.IsEdit) {
+        if (frmB7.IsEdit) {
             var $this = $(this);
             frmB7.typein($this);
         }
@@ -292,7 +286,7 @@ $(document).ready(function () {
     });
 
     $('.dropdown').on('click', function (e) {
-        if (frmG1G2.IsEdit) {
+        if (frmB7.IsEdit) {
             var $this = $(this);
             showComboBox($this);
         }
