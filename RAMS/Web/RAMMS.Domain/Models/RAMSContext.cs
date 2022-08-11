@@ -3285,12 +3285,6 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B10dpPkRefNo).HasColumnName("B10DP_PK_Ref_No");
 
-                entity.Property(e => e.B10dpCrBy).HasColumnName("B10DP_CR_By");
-
-                entity.Property(e => e.B10dpCrDt)
-                    .HasColumnName("B10DP_CR_DT")
-                    .HasColumnType("datetime");
-
                 entity.Property(e => e.B10dpRevisionDate)
                     .HasColumnName("B10DP_Revision_Date")
                     .HasColumnType("datetime");
@@ -3298,6 +3292,13 @@ namespace RAMMS.Domain.Models
                 entity.Property(e => e.B10dpRevisionNo).HasColumnName("B10DP_Revision_No");
 
                 entity.Property(e => e.B10dpRevisionYear).HasColumnName("B10DP_Revision_Year");
+
+                entity.Property(e => e.B10dpUserId).HasColumnName("B10DP_UserId");
+
+                entity.Property(e => e.B10dpUserName)
+                    .HasColumnName("B10DP_UserName")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<RmB10DailyProductionHistory>(entity =>
@@ -3308,24 +3309,24 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B10dphPkRefNo).HasColumnName("B10DPH_PK_Ref_No");
 
+                entity.Property(e => e.B10dphAdpUnit)
+                    .HasColumnName("B10DPH_ADP_Unit")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B10dphAdpUnitDescription)
+                    .HasColumnName("B10DPH_ADP_Unit_Description")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B10dphAdpValue)
+                    .HasColumnName("B10DPH_ADP_Value")
+                    .HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.B10dphB10dpPkRefNo).HasColumnName("B10DPH_B10DP_PK_Ref_No");
 
                 entity.Property(e => e.B10dphCode)
                     .HasColumnName("B10DPH_Code")
                     .HasMaxLength(50)
                     .IsUnicode(false);
-
-                entity.Property(e => e.B10dphCond1)
-                    .HasColumnName("B10DPH_Cond1")
-                    .HasColumnType("decimal(18, 2)");
-
-                entity.Property(e => e.B10dphCond2)
-                    .HasColumnName("B10DPH_Cond2")
-                    .HasColumnType("decimal(18, 2)");
-
-                entity.Property(e => e.B10dphCond3)
-                    .HasColumnName("B10DPH_Cond3")
-                    .HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.B10dphFeature)
                     .HasColumnName("B10DPH_Feature")
@@ -3337,16 +3338,6 @@ namespace RAMMS.Domain.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.B10dphRemarks).HasColumnName("B10DPH_Remarks");
-
-                entity.Property(e => e.B10dphRevisionDate)
-                    .HasColumnName("B10DPH_Revision_Date")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.B10dphRevisionNo).HasColumnName("B10DPH_Revision_No");
-
-                entity.Property(e => e.B10dphUnitOfService).HasColumnName("B10DPH_Unit_Of_Service");
-
                 entity.Property(e => e.B10dphUserId).HasColumnName("B10DPH_UserId");
 
                 entity.Property(e => e.B10dphUserName)
@@ -3355,7 +3346,7 @@ namespace RAMMS.Domain.Models
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.B10dphB10dpPkRefNoNavigation)
-                    .WithMany(p => p.InverseB10dphB10dpPkRefNoNavigation)
+                    .WithMany(p => p.RmB10DailyProductionHistory)
                     .HasForeignKey(d => d.B10dphB10dpPkRefNo)
                     .HasConstraintName("FK_RM_B10_Daily_Production_History_RM_B10_Daily_Production_History");
             });

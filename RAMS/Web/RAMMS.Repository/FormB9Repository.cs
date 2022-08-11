@@ -33,10 +33,10 @@ namespace RAMMS.Repository
 
 
             query = query.OrderByDescending(x => x.x.B9dsPkRefNo);
-            var search = filterOptions.Filters;
-            if (search.Year != null && search.Year != string.Empty)
+        
+            if (filterOptions.Filters.Year != null && filterOptions.Filters.Year != string.Empty)
             {
-                query = query.Where(s => s.x.B9dsRevisionYear == Convert.ToInt32(search.Year));
+                query = query.Where(s => s.x.B9dsRevisionYear == Convert.ToInt32(filterOptions.Filters.Year));
             }
 
             if (!string.IsNullOrEmpty(filterOptions.Filters.FromDate) && string.IsNullOrEmpty(filterOptions.Filters.ToDate))
@@ -57,26 +57,26 @@ namespace RAMMS.Repository
                 }
             }
 
-            if (!string.IsNullOrEmpty(search.SmartSearch))
+            if (!string.IsNullOrEmpty(filterOptions.Filters.SmartSearch))
             {
-                if (int.TryParse(search.SmartSearch, out int Year))
-                {
-                    query = query.Where(s => s.x.B9dsRevisionYear == Year);
-                }
-
-                if (int.TryParse(search.SmartSearch, out int Rev))
-                {
-                    query = query.Where(s => s.x.B9dsRevisionNo == Rev);
-                }
+                
 
                 DateTime dt;
-                if (DateTime.TryParseExact(search.SmartSearch, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dt))
+                if (DateTime.TryParseExact(filterOptions.Filters.SmartSearch, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dt))
                 {
                     query = query.Where(s =>
-                    s.x.B9dsUserName == search.SmartSearch ||
+                    s.x.B9dsUserName.Contains(filterOptions.Filters.SmartSearch) ||
+                    (s.x.B9dsRevisionNo.HasValue ? s.x.B9dsRevisionNo.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
+                    (s.x.B9dsRevisionYear.HasValue ? s.x.B9dsRevisionYear.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
                     (s.x.B9dsRevisionDate.HasValue ? (s.x.B9dsRevisionDate.Value.Year == dt.Year && s.x.B9dsRevisionDate.Value.Month == dt.Month && s.x.B9dsRevisionDate.Value.Day == dt.Day) : true) && s.x.B9dsRevisionDate != null);
                 }
-
+                else
+                {
+                    query = query.Where(s =>
+                   s.x.B9dsUserName.Contains(filterOptions.Filters.SmartSearch) ||
+                   (s.x.B9dsRevisionNo.HasValue ? s.x.B9dsRevisionNo.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
+                   (s.x.B9dsRevisionYear.HasValue ? s.x.B9dsRevisionYear.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch));
+                }
 
             }
 
@@ -111,7 +111,7 @@ namespace RAMMS.Repository
             {
                 PkRefNo = s.x.B9dsPkRefNo,
                 RevisionDate = s.x.B9dsRevisionDate,
-                RevisionNo = s.x.B9dsPkRefNo,
+                RevisionNo = s.x.B9dsRevisionNo,
                 RevisionYear = s.x.B9dsRevisionYear,
                 UserId = s.x.B9dsUserId,
                 UserName = s.x.B9dsUserName
@@ -237,6 +237,7 @@ namespace RAMMS.Repository
                 foreach (var item in FormB9History)
                 {
                     item.B9dshB9dsPkRefNo = FormB9.B9dsPkRefNo;
+                    item.B9dshPkRefNo = 0;
                     _context.RmB9DesiredServiceHistory.Add(item);
                     _context.SaveChanges();
                 }
@@ -250,7 +251,7 @@ namespace RAMMS.Repository
         }
 
 
-        //public async Task<FORMB9Rpt> GetReportData(int headerid)
+        //public async Task<RmB9DesiredServiceHistory> GetReportData(int headerid)
         //{
         //    FORMB9Rpt result = (from s in _context.RmFormB9Hdr
         //                        where s.Ff1hPkRefNo == headerid && s.Ff1hActiveYn == true

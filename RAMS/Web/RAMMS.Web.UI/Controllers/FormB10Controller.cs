@@ -18,16 +18,16 @@ using System.Threading.Tasks;
 
 namespace RAMMS.Web.UI.Controllers
 {
-    public class FormB9Controller : BaseController
+    public class FormB10Controller : BaseController
     {
-        private IFormB9Service _FormB9Service;
+        private IFormB10Service _FormB10Service;
         private readonly IFormJServices _formJService;
         private ISecurity _security;
         private IUserService _userService;
         private IRoadMasterService _roadMasterService;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public FormB9Controller(
-            IFormB9Service service,
+        public FormB10Controller(
+            IFormB10Service service,
             ISecurity security,
             IUserService userService,
             IWebHostEnvironment webhostenvironment,
@@ -35,7 +35,7 @@ namespace RAMMS.Web.UI.Controllers
              IFormJServices formJServices)
         {
             _userService = userService;
-            _FormB9Service = service;
+            _FormB10Service = service;
             _security = security;
             _roadMasterService = roadMasterService;
             _formJService = formJServices ?? throw new ArgumentNullException(nameof(formJServices));
@@ -46,11 +46,11 @@ namespace RAMMS.Web.UI.Controllers
             return View();
         }
 
-        public async Task<IActionResult> GetHeaderList(DataTableAjaxPostModel<FormB9SearchGridDTO> searchData)
+        public async Task<IActionResult> GetHeaderList(DataTableAjaxPostModel<FormB10SearchGridDTO> searchData)
         {
 
-            FilteredPagingDefinition<FormB9SearchGridDTO> filteredPagingDefinition = new FilteredPagingDefinition<FormB9SearchGridDTO>();
-            searchData.filterData = searchData.filterData ?? new FormB9SearchGridDTO();
+            FilteredPagingDefinition<FormB10SearchGridDTO> filteredPagingDefinition = new FilteredPagingDefinition<FormB10SearchGridDTO>();
+            searchData.filterData = searchData.filterData ?? new FormB10SearchGridDTO();
             if (Request.Form.ContainsKey("columns[0][search][value]"))
             {
                 searchData.filterData.SmartSearch = Request.Form["columns[0][search][value]"].ToString();
@@ -78,7 +78,7 @@ namespace RAMMS.Web.UI.Controllers
             }
             filteredPagingDefinition.RecordsPerPage = searchData.length; //Convert.ToInt32(Request.Form["length"]);
             filteredPagingDefinition.StartPageNo = searchData.start; //Convert.ToInt32(Request.Form["start"]); //TODO
-            var result = await _FormB9Service.GetHeaderList(filteredPagingDefinition);
+            var result = await _FormB10Service.GetHeaderList(filteredPagingDefinition);
             return Json(new { draw = searchData.draw, recordsFiltered = result.TotalRecords, recordsTotal = result.TotalRecords, data = result.PageResult });
 
         }
@@ -87,28 +87,28 @@ namespace RAMMS.Web.UI.Controllers
         public async Task<IActionResult> Add(int id, int isview)
         {
 
-            FormB9Model _model = new FormB9Model();
-            _model.FormB9 = await _FormB9Service.GetHeaderById(id);
+            FormB10Model _model = new FormB10Model();
+            _model.FormB10 = await _FormB10Service.GetHeaderById(id);
             _model.view = isview;
-            return PartialView("~/Views/FormB9/_AddFormB9.cshtml", _model);
+            return PartialView("~/Views/FormB10/_AddFormB10.cshtml", _model);
         }
 
         public async Task<IActionResult> GetMaxRev(int Year)
         {
-            return Json(_FormB9Service.GetMaxRev(Year));
+            return Json(_FormB10Service.GetMaxRev(Year));
         }
 
-        public async Task<IActionResult> SaveFormB9(FormB9ResponseDTO FormB9)
+        public async Task<IActionResult> SaveFormB10(FormB10ResponseDTO FormB10)
         {
-            await _FormB9Service.SaveFormB9(FormB9, FormB9.FormB9History);
+            await _FormB10Service.SaveFormB10(FormB10, FormB10.FormB10History);
             return Json(1);
         }
 
-        public async Task<IActionResult> FormB9Download(int id, [FromServices] IWebHostEnvironment _environment)
+        public async Task<IActionResult> FormB10Download(int id, [FromServices] IWebHostEnvironment _environment)
         {
-            var content1 = await _FormB9Service.FormDownload("FORMB9", id, _environment.WebRootPath + "/Templates/FORMB9.xlsx");
+            var content1 = await _FormB10Service.FormDownload("FORMB10", id, _environment.WebRootPath + "/Templates/FORMB10.xlsx");
             string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            return File(content1, contentType1, "FORMB9" + ".xlsx");
+            return File(content1, contentType1, "FORMB10" + ".xlsx");
         }
 
     }

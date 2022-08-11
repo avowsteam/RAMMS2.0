@@ -35,7 +35,7 @@ function getRevisionNo(id) {
     var req = {};
     req.Year = id;
     $.ajax({
-        url: '/FormB9/GetMaxRev',
+        url: '/FormB10/GetMaxRev',
         dataType: 'JSON',
         data: req,
         type: 'Post',
@@ -63,40 +63,37 @@ function Save() {
     //  if (ValidatePage('#myModal')) {
     InitAjaxLoading();
 
-    var FormB9 = new Object();
-    FormB9.PkRefNo = $("#FormB9_PkRefNo").val()
-    FormB9.RevisionYear = $("#ddlYear").val()
-    FormB9.RevisionNo = $("#RevisionNo").val()
-    FormB9.RevisionDate = $("#FormB9_RevisionDate").val()
-    FormB9.UserId = $("#UserId").val();
-    FormB9.UserName = $("#UserName").val();
+    var FormB10 = new Object();
+    FormB10.PkRefNo = $("#FormB10_PkRefNo").val()
+    FormB10.RevisionYear = $("#ddlYear").val()
+    FormB10.RevisionNo = $("#RevisionNo").val()
+    FormB10.RevisionDate = $("#FormB10_RevisionDate").val()
+    FormB10.UserId = $("#UserId").val();
+    FormB10.UserName = $("#UserName").val();
 
 
-    var B9History = []
+    var B10History = []
 
-    $('#tblB9History > tbody  > tr').each(function (index, tr) {
+    $('#tblB10History > tbody  > tr').each(function (index, tr) {
 
-        var B9 = new Object();
-        B9.B9dsPkRefNo = $("#FormB9_PkRefNo").val();
-        B9.Feature = $(this).find("td:nth-child(1)").html().trim();
-        B9.Code = $(this).find("td:nth-child(2)").html().trim();
-        B9.Name = $(this).find("td:nth-child(3)").html().trim();
-        B9.Cond1 = $(this).find("td:nth-child(4)").html().trim();
-        B9.Cond2 = $(this).find("td:nth-child(5)").html().trim();
-        B9.Cond3 = $(this).find("td:nth-child(6)").html().trim();
-        B9.UnitOfServiceId = $(this).find("td:nth-child(7)").attr("preval");
-        B9.UnitDescription = $(this).find("td:nth-child(8)").html().trim();
-        B9.Remarks = $(this).find("td:nth-child(9)").html().trim();
+        var B10 = new Object();
+        B10.B10dpPkRefNo = $("#FormB10_PkRefNo").val();
+        B10.Feature = $(this).find("td:nth-child(1)").html().trim();
+        B10.Code = $(this).find("td:nth-child(2)").html().trim();
+        B10.Name = $(this).find("td:nth-child(3)").html().trim();
+        B10.AdpValue = $(this).find("td:nth-child(4)").html().trim();
+        B10.AdpUnit = $(this).find("td:nth-child(5)").html().trim();
+        B10.AdpUnitDescription = $(this).find("td:nth-child(6)").html().trim();
 
-        B9History.push(B9);
+        B10History.push(B10);
     });
 
 
-    FormB9.FormB9History = B9History;
+    FormB10.FormB10History = B10History;
 
     $.ajax({
-        url: '/FormB9/SaveFormB9',
-        data: FormB9,
+        url: '/FormB10/SaveFormB10',
+        data: FormB10,
         type: 'POST',
         success: function (data) {
             HideAjaxLoading();
@@ -106,7 +103,7 @@ function Save() {
             else {
                
                 app.ShowSuccessMessage('Saved Successfully', false);
-                location.href = "/FormB9";
+                location.href = "/FormB10";
             }
         }
     });
@@ -120,13 +117,13 @@ function GoBack() {
     if ($("#hdnView").val() == "0") {
         if (app.Confirm("Unsaved changes will be lost. Are you sure you want to cancel?", function (e) {
             if (e) {
-                location.href = "/FormB9";
+                location.href = "/FormB10";
 
             }
         }));
     }
     else
-        location.href = "/FormB9";
+        location.href = "/FormB10";
 }
 
 
@@ -273,11 +270,11 @@ function GoBack() {
     if ($("#hdnView").val() == "0") {
         if (app.Confirm("Unsaved changes will be lost. Are you sure you want to cancel?", function (e) {
             if (e) {
-                location.href = "/FormB9";
+                location.href = "/FormB10";
 
             }
         }));
     }
     else
-        location.href = "/FormB9";
+        location.href = "/FormB10";
 }
