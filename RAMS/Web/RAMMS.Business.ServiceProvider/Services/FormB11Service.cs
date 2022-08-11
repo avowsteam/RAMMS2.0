@@ -21,7 +21,7 @@ using RAMMS.Repository.Interfaces;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
-    public class FormB11Service
+    public class FormB11Service : IFormB11Service
     {
         private readonly IFormB11Repository _repo;
         private readonly IRepositoryUnit _repoUnit;
@@ -51,11 +51,23 @@ namespace RAMMS.Business.ServiceProvider.Services
             RmB11Hdr res = _repo.GetHeaderById(id);
             FormB11DTO FormB11 = new FormB11DTO();
             FormB11 = _mapper.Map<FormB11DTO>(res);
-            FormB11.CrewDayCostHeader = _mapper.Map<List<FormB11CrewDayCostHeaderDTO>>(res.RmB11CrewDayCostHeader);
-            FormB11.LabourCost = _mapper.Map<List<FormB11LabourCostDTO>>(res.RmB11LabourCost);
-            FormB11.EquipmentCost = _mapper.Map<List<FormB11EquipmentCostDTO>>(res.RmB11EquipmentCost);
-            FormB11.MaterialCost = _mapper.Map<List<FormB11MaterialCostDTO>>(res.RmB11MaterialCost);
+            FormB11.RmB11CrewDayCostHeader = _mapper.Map<List<FormB11CrewDayCostHeaderDTO>>(res.RmB11CrewDayCostHeader);
+            FormB11.RmB11LabourCost = _mapper.Map<List<FormB11LabourCostDTO>>(res.RmB11LabourCost);
+            FormB11.RmB11EquipmentCost = _mapper.Map<List<FormB11EquipmentCostDTO>>(res.RmB11EquipmentCost);
+            FormB11.RmB11MaterialCost = _mapper.Map<List<FormB11MaterialCostDTO>>(res.RmB11MaterialCost);
             return FormB11;
+        }
+        public int? GetMaxRev(int Year)
+        {
+            return _repo.GetMaxRev(Year);
+        }
+
+        public async Task<List<FormB7LabourHistoryDTO>> GetLabourHistoryData(int year)
+        {
+            List<RmB7LabourHistory> res = _repo.GetLabourHistoryData(year);
+            List<FormB7LabourHistoryDTO> FormB7 = new List<FormB7LabourHistoryDTO>();
+            FormB7 = _mapper.Map<List<FormB7LabourHistoryDTO>>(res);          
+            return FormB7;
         }
     }
 }

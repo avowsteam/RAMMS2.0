@@ -15,7 +15,8 @@ namespace RAMMS.Repository.Interfaces
     {
 
         Task<GridWrapper<object>> GetHeaderGrid(DataTableAjaxPostModel searchData);
-
         RmB11Hdr GetHeaderById(int id);
+        int? GetMaxRev(int Year);
+        List<RmB7LabourHistory> GetLabourHistoryData(int year);
     }
 }

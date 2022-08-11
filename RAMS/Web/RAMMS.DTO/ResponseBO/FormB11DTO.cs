@@ -20,10 +20,10 @@ namespace RAMMS.DTO.ResponseBO
         public string B11hCrByName { get; set; }
         public DateTime? B11hCrDt { get; set; }
 
-        public List<FormB11CrewDayCostHeaderDTO> CrewDayCostHeader { get; set; }
-        public List<FormB11LabourCostDTO> LabourCost { get; set; }
-        public List<FormB11EquipmentCostDTO> EquipmentCost { get; set; }
-        public List<FormB11MaterialCostDTO> MaterialCost { get; set; }
+        public List<FormB11CrewDayCostHeaderDTO> RmB11CrewDayCostHeader { get; set; }
+        public List<FormB11LabourCostDTO> RmB11LabourCost { get; set; }
+        public List<FormB11EquipmentCostDTO> RmB11EquipmentCost { get; set; }
+        public List<FormB11MaterialCostDTO> RmB11MaterialCost { get; set; }
 
     }
 
@@ -41,8 +41,9 @@ namespace RAMMS.DTO.ResponseBO
     {
         public int B11lcPkRefNo { get; set; }
         public int? B11lcB11hPkRefNo { get; set; }
-        public int? B11lcActivityId { get; set; }
+        public int? B11lcActivityId { get; set; }        
         public int? B11lcLabourId { get; set; }
+        public string B11lcLabourName { get; set; }
         public decimal? B11lcLabourPerUnitPrice { get; set; }
         public int? B11lcLabourNoOfUnits { get; set; }
         public decimal? B11lcLabourTotalPrice { get; set; }

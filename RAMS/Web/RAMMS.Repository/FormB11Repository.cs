@@ -98,12 +98,28 @@ namespace RAMMS.Repository
         public RmB11Hdr GetHeaderById(int id)
         {
             RmB11Hdr res = (from r in _context.RmB11Hdr where r.B11hPkRefNo == id select r).FirstOrDefault();
-
+            int? RevNo = (from rn in _context.RmB11Hdr where rn.B11hRevisionYear == res.B11hRevisionYear select rn.B11hRevisionNo).DefaultIfEmpty().Max() + 1;
+            res.B11hRevisionNo = RevNo;
             res.RmB11CrewDayCostHeader = (from r in _context.RmB11CrewDayCostHeader where r.B11cdchB11hPkRefNo == id select r).ToList();
             res.RmB11LabourCost = (from r in _context.RmB11LabourCost where r.B11lcB11hPkRefNo == id select r).ToList();
             res.RmB11EquipmentCost = (from r in _context.RmB11EquipmentCost where r.B11ecB11hPkRefNo == id select r).ToList();
             res.RmB11MaterialCost = (from r in _context.RmB11MaterialCost where r.B11mcB11hPkRefNo == id select r).ToList();
 
+            return res;
+        }
+
+        public int? GetMaxRev(int Year)
+        {
+            int? rev = (from rn in _context.RmB11Hdr where rn.B11hRevisionYear == Year select rn.B11hRevisionNo).DefaultIfEmpty().Max() + 1;
+            if (rev == null)
+                rev = 1;
+            return rev;
+        }
+
+        public List<RmB7LabourHistory> GetLabourHistoryData(int year)
+        {
+            int? RefNo = (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == year select rn.B7hPkRefNo).DefaultIfEmpty().Max();
+            List<RmB7LabourHistory> res = (from r in _context.RmB7LabourHistory where r.B7lhB7hPkRefNo == RefNo select r).OrderBy(x=>x.B7lhCode).ToList();            
             return res;
         }
     }

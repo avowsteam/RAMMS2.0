@@ -3466,7 +3466,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11LabourCost>(entity =>
             {
                 entity.HasKey(e => e.B11lcPkRefNo)
-                    .HasName("PK__RM_B11_L__5165648DA83C9782");
+                    .HasName("PK__RM_B11_L__5165648D978A20EC");
 
                 entity.ToTable("RM_B11_Labour_Cost");
 
@@ -3477,6 +3477,10 @@ namespace RAMMS.Domain.Models
                 entity.Property(e => e.B11lcB11hPkRefNo).HasColumnName("B11LC_B11H_PK_Ref_No");
 
                 entity.Property(e => e.B11lcLabourId).HasColumnName("B11LC_Labour_Id");
+
+                entity.Property(e => e.B11lcLabourName)
+                    .HasColumnName("B11LC_Labour_Name")
+                    .IsUnicode(false);
 
                 entity.Property(e => e.B11lcLabourNoOfUnits).HasColumnName("B11LC_Labour_No_Of_Units");
 
@@ -3553,7 +3557,7 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B7ehName)
                     .HasColumnName("B7EH_Name")
-                    .HasMaxLength(50)
+                    .HasMaxLength(250)
                     .IsUnicode(false);
 
                 entity.Property(e => e.B7ehRevisionDate)
@@ -3636,7 +3640,7 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B7lhName)
                     .HasColumnName("B7LH_Name")
-                    .HasMaxLength(50)
+                    .HasMaxLength(250)
                     .IsUnicode(false);
 
                 entity.Property(e => e.B7lhRevisionDate)
@@ -3691,7 +3695,7 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B7mhName)
                     .HasColumnName("B7MH_Name")
-                    .HasMaxLength(50)
+                    .HasMaxLength(250)
                     .IsUnicode(false);
 
                 entity.Property(e => e.B7mhRevisionDate)
