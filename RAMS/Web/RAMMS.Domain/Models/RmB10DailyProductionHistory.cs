@@ -11,7 +11,7 @@ namespace RAMMS.Domain.Models
         public string B10dphCode { get; set; }
         public string B10dphName { get; set; }
         public decimal? B10dphAdpValue { get; set; }
-        public decimal? B10dphAdpUnit { get; set; }
+        public string B10dphAdpUnit { get; set; }
         public decimal? B10dphAdpUnitDescription { get; set; }
         public int? B10dphUserId { get; set; }
         public string B10dphUserName { get; set; }
