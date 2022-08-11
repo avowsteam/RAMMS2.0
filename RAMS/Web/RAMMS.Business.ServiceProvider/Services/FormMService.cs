@@ -338,16 +338,16 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(42, 1).Value = rpt.CorrectiveActions;
 
                             worksheet.Cell(52, 4).Value = rpt.UsernameAudit;
-                            worksheet.Cell(53, 4).Value = rpt.DesignationAudit;
-                            worksheet.Cell(54, 4).Value = rpt.DateAudit;
+                            worksheet.Cell(53, 4).Value = rpt.DateAudit;
+                            worksheet.Cell(54, 4).Value = rpt.DesignationAudit;
 
                             worksheet.Cell(52, 16).Value = rpt.UsernameWit;
-                            worksheet.Cell(53, 16).Value = rpt.DesignationWit;
-                            worksheet.Cell(54, 16).Value = rpt.DateWit;
+                            worksheet.Cell(53, 16).Value = rpt.DateWit;
+                            worksheet.Cell(54, 16).Value = rpt.DesignationWit;
 
                             worksheet.Cell(52, 27).Value = rpt.UsernameWitone;
-                            worksheet.Cell(53, 27).Value = rpt.DesignationWitone;
-                            worksheet.Cell(54, 27).Value = rpt.DateWitone;
+                            worksheet.Cell(53, 27).Value = rpt.DateWitone;
+                            worksheet.Cell(54, 27).Value = rpt.DesignationWitone;
                         }
                         using (var stream = new MemoryStream())
                         {
