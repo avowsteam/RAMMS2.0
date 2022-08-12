@@ -17,7 +17,7 @@
 }).ToArray();
 
     IEnumerable<SelectListItem> UnitServiceLevel = (await ddlService
-.GetLookups(new DDLookUpDTO { Type = "UnitServiceLevel" }))
+.GetLookups(new DDLookUpDTO { Type = "Unit" }))
 .Select(s => new SelectListItem
 {
     Text = s.DdlTypeDesc,

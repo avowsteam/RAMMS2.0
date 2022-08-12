@@ -206,11 +206,12 @@ function showComboBox(obj) {
 
     if (UnitServiceLevelObj.length > 0) {
         var selected = "";
-        var selectedvalue = $(obj).parent().attr("preval");
+        var selectedvalue = $(obj).attr("preval");
         selectHtml = selectHtml + "<option value='0'></option>";
 
+       
         $.each(UnitServiceLevelObj, function (index, v) {
-            if (selectedvalue == v.value) { selected = "selected"; }
+            if (selectedvalue == v.Value) { selected = "selected"; }
             else { selected = ""; }
             selectHtml = selectHtml + "<option value='" + v.Value + "' " + selected + " >" + v.Text + "</option>";
         });
