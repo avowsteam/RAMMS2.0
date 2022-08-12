@@ -122,5 +122,48 @@ namespace RAMMS.Repository
             List<RmB7LabourHistory> res = (from r in _context.RmB7LabourHistory where r.B7lhB7hPkRefNo == RefNo select r).OrderBy(x=>x.B7lhCode).ToList();            
             return res;
         }
+        public List<RmB11LabourCost> GetLabourViewHistoryData(int id)
+        {
+            List<RmB11LabourCost> res = (from r in _context.RmB11LabourCost where r.B11lcB11hPkRefNo == id select r).OrderBy(x => x.B11lcLabourId).ToList();
+            return res;
+        }
+        
+        public async Task<int> SaveFormB11(RmB11Hdr FormB11)
+        {
+            try
+            {
+
+
+                _context.RmB11Hdr.Add(FormB11);
+                _context.SaveChanges();
+
+                //foreach (var item in FormB7.RmB7LabourHistory.ToList())
+                //{
+                //    item.B7lhB7hPkRefNo = FormB7.B7hPkRefNo;
+                //    _context.RmB7LabourHistory.Add(item);
+                //    _context.SaveChanges();
+                //}
+
+                //foreach (var item in FormB7.RmB7MaterialHistory.ToList())
+                //{
+                //    item.B7mhB7hPkRefNo = FormB7.B7hPkRefNo;
+                //    _context.RmB7MaterialHistory.Add(item);
+                //    _context.SaveChanges();
+                //}
+
+                //foreach (var item in FormB7.RmB7EquipmentsHistory.ToList())
+                //{
+                //    item.B7ehB7hPkRefNo = FormB7.B7hPkRefNo;
+                //    _context.RmB7EquipmentsHistory.Add(item);
+                //    _context.SaveChanges();
+                //}
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
     }
 }

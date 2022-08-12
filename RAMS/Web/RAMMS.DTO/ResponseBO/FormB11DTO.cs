@@ -20,10 +20,10 @@ namespace RAMMS.DTO.ResponseBO
         public string B11hCrByName { get; set; }
         public DateTime? B11hCrDt { get; set; }
 
-        public List<FormB11CrewDayCostHeaderDTO> RmB11CrewDayCostHeader { get; set; }
+        //public List<FormB11CrewDayCostHeaderDTO> RmB11CrewDayCostHeader { get; set; }
         public List<FormB11LabourCostDTO> RmB11LabourCost { get; set; }
-        public List<FormB11EquipmentCostDTO> RmB11EquipmentCost { get; set; }
-        public List<FormB11MaterialCostDTO> RmB11MaterialCost { get; set; }
+        //public List<FormB11EquipmentCostDTO> RmB11EquipmentCost { get; set; }
+        //public List<FormB11MaterialCostDTO> RmB11MaterialCost { get; set; }
 
     }
 

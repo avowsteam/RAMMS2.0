@@ -18,5 +18,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<GridWrapper<object>> GetHeaderGrid(DataTableAjaxPostModel searchData);
         int? GetMaxRev(int Year);
         Task<List<FormB7LabourHistoryDTO>> GetLabourHistoryData(int year);
+        Task<List<FormB11LabourCostDTO>> GetLabourViewHistoryData(int id);
+        Task<int> SaveFormB11(FormB11DTO FormB11);
     }
 }

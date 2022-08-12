@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace RAMMS.Web.UI.Controllers
 {
@@ -123,6 +124,19 @@ namespace RAMMS.Web.UI.Controllers
         public async Task<IActionResult> GetLabourHistoryData(int Year)
         {
             return Json(_formB11Service.GetLabourHistoryData(Year));
+        }
+
+        public async Task<IActionResult> GetLabourViewHistoryData(int id)
+        {
+            return Json(_formB11Service.GetLabourViewHistoryData(id));
+        }
+
+        public async Task<IActionResult> SaveFormB11(string formb11data)
+        {
+            FormB11DTO formb11 = new FormB11DTO();
+            formb11 = JsonConvert.DeserializeObject<FormB11DTO>(formb11data);
+            await _formB11Service.SaveFormB11(formb11);
+            return Json(1);
         }
 
     }

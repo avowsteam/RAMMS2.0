@@ -4,77 +4,54 @@ var frmB11 = new function () {
     this.IsEdit = true;
 
     this.Save = function () {
+        debugger;
         var failed = false;
 
         if (failed)
             return;
 
         //  if (ValidatePage('#myModal')) {
-        InitAjaxLoading();
+        //InitAjaxLoading();
 
-        var FormB7 = new Object();
-        FormB7.B7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val()
-        FormB7.B7hRevisionYear = $("#formB7Year").val()
-        FormB7.B7hRevisionNo = $("#RevisionNo").val()
-        FormB7.B7hRevisionDate = $("#date").val()
-        FormB7.B7hCrBy = $("#UserId").val();
-        FormB7.B7hCrByName = $("#UserName").val();
-        FormB7.B7hCrDt = $("#date").val()
+        var FormB11 = new Object();
+        FormB11.B11hPkRefNo = $("#FormB11Header_B11hPkRefNo").val();
+        FormB11.B11hRmuCode = "";
+        FormB11.B11hRmuName = "";
+        FormB11.B11hRevisionNo = $("#RevisionNo").val();
+        FormB11.B11hRevisionDate = $("#date").val();
+        FormB11.B11hRevisionYear = $("#formB11Year").val();
+        FormB11.B11hCrBy = $("#UserId").val();
+        FormB11.B11hCrByName = $("#UserName").val();
+        FormB11.B11hCrDt = $("#date").val();
 
-        var B7LabourHistory = []
+        var B11LabourCost = []
 
+        var labourDataOrder = 0;
         $('#tblLabour > tbody  > tr').each(function (index, tr) {
-
-            var B7 = new Object();
-            B7.B7lhB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
-            B7.B7lhCode = $(this).find("td:nth-child(1)").html().trim();
-            B7.B7lhName = $(this).find("td:nth-child(2)").html().trim();
-            B7.B7lhUnitInHrs = $(this).find("td:nth-child(3)").html().trim();
-            B7.B7lhUnitPriceBatuNiah = $(this).find("td:nth-child(4)").html().trim();
-            B7.B7lhUnitPriceMiri = $(this).find("td:nth-child(5)").html().trim();
-            B7.B7lhRevisionNo = $("#RevisionNo").val();
-            B7LabourHistory.push(B7);
+            var labCount = $(this).find("td.xl700").attr("data-lab");            
+            for (var i = 0; i < labCount; i++) {
+                var B11 = new Object();
+                B11.B11lcB11hPkRefNo = $("#FormB11Header_B11hPkRefNo").val();
+                B11.B11lcActivityId = $(this).find("td.xl68").text().trim();
+                B11.B11lcLabourId = labourDataOrder;
+                B11.B11lcLabourName = $(this).find("td.xl70" + i + " span:eq(0)").text().trim();
+                B11.B11lcLabourPerUnitPrice = $(this).find("td.xl70" + i + " span:eq(1)").text().trim();
+                B11.B11lcLabourNoOfUnits = $('#txt' + $(this).find("td.xl70" + i + " span:eq(1)").attr("id").slice(2)).val().trim();
+                B11.B11lcLabourTotalPrice = $(this).find("td.xl70" + i + " span:eq(2)").text().trim();
+                B11LabourCost.push(B11);
+            }
+            labourDataOrder = labourDataOrder + 1;
         });
 
-        FormB7.RmB7LabourHistory = B7LabourHistory;
 
-
-        var B7MaterialHistory = [];
-
-        $('#tblMaterial > tbody  > tr').each(function (index, tr) {
-
-            var B7 = new Object();
-            B7.B7mhB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
-            B7.B7mhCode = $(this).find("td:nth-child(1)").html().trim();
-            B7.B7mhName = $(this).find("td:nth-child(2)").html().trim();
-            B7.B7mhUnits = $(this).find("td:nth-child(3)").html().trim();
-            B7.B7mhUnitPriceBatuNiah = $(this).find("td:nth-child(4)").html().trim();
-            B7.B7mhUnitPriceMiri = $(this).find("td:nth-child(5)").html().trim();
-            B7MaterialHistory.push(B7);
-        });
-
-        FormB7.RmB7MaterialHistory = B7MaterialHistory;
-
-        var B7EquipmentHistory = [];
-
-        $('#tblEquipment > tbody  > tr').each(function (index, tr) {
-
-            var B7 = new Object();
-            B7.B7ehB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
-            B7.B7ehCode = $(this).find("td:nth-child(1)").html().trim();
-            B7.B7ehName = $(this).find("td:nth-child(2)").html().trim();
-            B7.B7ehUnitInHrs = $(this).find("td:nth-child(3)").html().trim();
-            B7.B7ehUnitPriceBatuNiah = $(this).find("td:nth-child(4)").html().trim();
-            B7.B7ehUnitPriceMiri = $(this).find("td:nth-child(5)").html().trim();
-            B7EquipmentHistory.push(B7);
-        });
-
-        FormB7.RmB7EquipmentsHistory = B7EquipmentHistory;
-
+        debugger;
+        FormB11.RmB11LabourCost = B11LabourCost;
+        var FormB11Data = JSON.stringify(FormB11);
         $.ajax({
-            url: '/FormB7/SaveFormB7',
-            data: FormB7,
+            url: '/FormB11/SaveFormB11',
             type: 'POST',
+            data: { formb11data: FormB11Data },    
+            dataType: "json",
             success: function (data) {
                 HideAjaxLoading();
                 if (data == -1) {
@@ -82,7 +59,7 @@ var frmB11 = new function () {
                 }
                 else {
                     app.ShowSuccessMessage('Saved Successfully', false);
-                    location.href = "/FormB7";
+                    //location.href = "/FormB11";
                 }
             }
         });
@@ -219,8 +196,14 @@ var frmB11 = new function () {
     }
 
     this.PageInit = function () {
-        if ($('#formB11Year').val() != "" && $('#formB11Year').val() != null) {
-            AppendLabourData();
+        debugger;
+        if (this.IsEdit) {
+            if ($('#formB11Year').val() != "" && $('#formB11Year').val() != null) {
+                AppendLabourData();
+            }
+        }
+        else {
+            ViewLabourData($("#FormB11Header_B11hPkRefNo").val());
         }
     }
 }
@@ -442,10 +425,10 @@ function AppendLabourData(id) {
                 $('#tblLabour tbody tr').each(function () {
                     for (var i = 0; i < data.result.length; i++) {
                         var id = k + data.result[i].b7lhCode;
-                        $(this).find("td:last").after('<td class="xl65"> <input type="text" id="txt' + id + '" onkeyup="LabourCal(this)" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td class="xl65" x:str><span id="sp' + id + '" style="display:none;">' + data.result[i].b7lhUnitPriceBatuNiah+'</span><span id="span' + id + '" style="width:150px;float:left;text-align:center"></span></td>');
+                        $(this).find("td:last").after('<td class="xl69"> <input type="text" id="txt' + id + '" onkeyup="LabourCal(this, ' + k + ')" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td class="xl70' + i + '" data-lab=' + data.result.length + '><span style="display:none;">' + data.result[i].b7lhName + '</span><span id="sp' + id + '" style="display:none;">' + data.result[i].b7lhUnitPriceBatuNiah + '</span><span class="x100' + k + '" id="span' + id + '" style="width:150px;float:left;text-align:center"></span></td>');
                     }
-                    $(this).find("td:last").after('<td class="xl65" x:str><span id="sptot' + k + '" style="width:150px;float:left;text-align:center"></span></td>');
+                    $(this).find("td:last").after('<td class="xl71" x:str><span id="sptot' + k + '" style="width:150px;float:left;text-align:center"></span></td>');
                     k = k + 1;
                 });
                 $('#tblLabour thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Labour Unit </span></th>');
@@ -459,7 +442,28 @@ function AppendLabourData(id) {
     });
 }
 
-function LabourCal(obj) {
+function LabourCal(obj, k) {
     debugger;
-    var l = 0;
+    var Qty = 0;
+    var Unit = 0;
+    Qty = $('#' + obj.id).val();
+    Unit = $('#sp' + obj.id.slice(3)).text();
+    var tot = Qty * Unit;
+    $('#span' + obj.id.slice(3)).text(tot.toFixed(2))
+    var sum = 0;
+    $("#tblLabour tbody tr td .x100" + k).each(function (index, tr) {
+        debugger;
+        if (!isNaN(this.innerText) && this.innerText != "") {
+            sum += parseFloat(this.innerText);
+        }
+    });
+    $('#sptot' + k).text(sum.toFixed(3));
 }
+
+function ViewLabourData(id) {
+    debugger;
+    var req = {};
+    var year = $("#formB11Year").val();
+    req.Year = year;
+}
+

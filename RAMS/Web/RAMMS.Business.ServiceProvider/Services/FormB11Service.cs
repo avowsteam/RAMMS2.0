@@ -51,10 +51,10 @@ namespace RAMMS.Business.ServiceProvider.Services
             RmB11Hdr res = _repo.GetHeaderById(id);
             FormB11DTO FormB11 = new FormB11DTO();
             FormB11 = _mapper.Map<FormB11DTO>(res);
-            FormB11.RmB11CrewDayCostHeader = _mapper.Map<List<FormB11CrewDayCostHeaderDTO>>(res.RmB11CrewDayCostHeader);
+            //FormB11.RmB11CrewDayCostHeader = _mapper.Map<List<FormB11CrewDayCostHeaderDTO>>(res.RmB11CrewDayCostHeader);
             FormB11.RmB11LabourCost = _mapper.Map<List<FormB11LabourCostDTO>>(res.RmB11LabourCost);
-            FormB11.RmB11EquipmentCost = _mapper.Map<List<FormB11EquipmentCostDTO>>(res.RmB11EquipmentCost);
-            FormB11.RmB11MaterialCost = _mapper.Map<List<FormB11MaterialCostDTO>>(res.RmB11MaterialCost);
+            //FormB11.RmB11EquipmentCost = _mapper.Map<List<FormB11EquipmentCostDTO>>(res.RmB11EquipmentCost);
+            //FormB11.RmB11MaterialCost = _mapper.Map<List<FormB11MaterialCostDTO>>(res.RmB11MaterialCost);
             return FormB11;
         }
         public int? GetMaxRev(int Year)
@@ -68,6 +68,30 @@ namespace RAMMS.Business.ServiceProvider.Services
             List<FormB7LabourHistoryDTO> FormB7 = new List<FormB7LabourHistoryDTO>();
             FormB7 = _mapper.Map<List<FormB7LabourHistoryDTO>>(res);          
             return FormB7;
+        }
+
+        public async Task<List<FormB11LabourCostDTO>> GetLabourViewHistoryData(int id)
+        {
+            List<RmB11LabourCost> res = _repo.GetLabourViewHistoryData(id);
+            List<FormB11LabourCostDTO> FormB11 = new List<FormB11LabourCostDTO>();
+            FormB11 = _mapper.Map<List<FormB11LabourCostDTO>>(res);
+            return FormB11;
+        }
+
+        public async Task<int> SaveFormB11(FormB11DTO FormB11)
+        {
+            try
+            {
+                var domainModelFormB11 = _mapper.Map<RmB11Hdr>(FormB11);
+                domainModelFormB11.B11hPkRefNo = 0;
+
+                return await _repo.SaveFormB11(domainModelFormB11);
+            }
+            catch (Exception ex)
+            {
+                await _repoUnit.RollbackAsync();
+                throw ex;
+            }
         }
     }
 }
