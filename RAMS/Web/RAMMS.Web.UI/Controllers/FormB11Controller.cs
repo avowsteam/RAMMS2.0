@@ -91,22 +91,22 @@ namespace RAMMS.Web.UI.Controllers
         public async Task<IActionResult> View(int id)
         {
             ViewBag.IsEdit = false;
-            return id > 0 ? await ViewRequest(id) : RedirectToAction("404", "Error");
+            return id > 0 ? await ViewRequest(id, 0) : RedirectToAction("404", "Error");
         }
 
         public async Task<IActionResult> Edit(int id, int view)
         {
             ViewBag.IsEdit = true;
-            return id > 0 ? await ViewRequest(id) : RedirectToAction("404", "Error");
+            return id > 0 ? await ViewRequest(id, 1) : RedirectToAction("404", "Error");
         }
 
-        private async Task<IActionResult> ViewRequest(int id)
+        private async Task<IActionResult> ViewRequest(int id, int IsEdit)
         {
-            LoadLookupService("Year");
+            LoadLookupService("Year", "RMU");
             FormB11Model _model = new FormB11Model();
             if (id > 0)
             {
-                _model.FormB11Header = await _formB11Service.GetHeaderById(id);
+                _model.FormB11Header = await _formB11Service.GetHeaderById(id,IsEdit);
             }
             else
             {
@@ -126,9 +126,29 @@ namespace RAMMS.Web.UI.Controllers
             return Json(_formB11Service.GetLabourHistoryData(Year));
         }
 
+        public async Task<IActionResult> GetMaterialHistoryData(int Year)
+        {
+            return Json(_formB11Service.GetMaterialHistoryData(Year));
+        }
+
+        public async Task<IActionResult> GetEquipmentHistoryData(int Year)
+        {
+            return Json(_formB11Service.GetEquipmentHistoryData(Year));
+        }
+
         public async Task<IActionResult> GetLabourViewHistoryData(int id)
         {
             return Json(_formB11Service.GetLabourViewHistoryData(id));
+        }
+
+        public async Task<IActionResult> GetMaterialViewHistoryData(int id)
+        {
+            return Json(_formB11Service.GetMaterialViewHistoryData(id));
+        }
+
+        public async Task<IActionResult> GetEquipmentViewHistoryData(int id)
+        {
+            return Json(_formB11Service.GetEquipmentViewHistoryData(id));
         }
 
         public async Task<IActionResult> SaveFormB11(string formb11data)

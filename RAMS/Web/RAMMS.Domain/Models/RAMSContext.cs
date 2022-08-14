@@ -3357,7 +3357,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11CrewDayCostHeader>(entity =>
             {
                 entity.HasKey(e => e.B11cdchPkRefNo)
-                    .HasName("PK__RM_B11_C__F2973CDF0C086959");
+                    .HasName("PK__RM_B11_C__F2973CDFD0B00F37");
 
                 entity.ToTable("RM_B11_Crew_Day_Cost_Header");
 
@@ -3390,7 +3390,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11EquipmentCost>(entity =>
             {
                 entity.HasKey(e => e.B11ecPkRefNo)
-                    .HasName("PK__RM_B11_E__4DB7AF9D3D275DBA");
+                    .HasName("PK__RM_B11_E__4DB7AF9DC640A5DC");
 
                 entity.ToTable("RM_B11_Equipment_Cost");
 
@@ -3400,9 +3400,19 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B11ecB11hPkRefNo).HasColumnName("B11EC_B11H_PK_Ref_No");
 
-                entity.Property(e => e.B11ecEquipmentId).HasColumnName("B11EC_Equipment_Id");
+                entity.Property(e => e.B11ecEquipmentId)
+                    .HasColumnName("B11EC_Equipment_Id")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B11ecEquipmentName)
+                    .HasColumnName("B11EC_Equipment_Name")
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.B11ecEquipmentNoOfUnits).HasColumnName("B11EC_Equipment_No_Of_Units");
+
+                entity.Property(e => e.B11ecEquipmentOrderId).HasColumnName("B11EC_Equipment_OrderID");
 
                 entity.Property(e => e.B11ecEquipmentPerUnitPrice)
                     .HasColumnName("B11EC_Equipment_Per_Unit_Price")
@@ -3421,7 +3431,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11Hdr>(entity =>
             {
                 entity.HasKey(e => e.B11hPkRefNo)
-                    .HasName("PK__RM_B11_H__22D093C8A094D07A");
+                    .HasName("PK__RM_B11_H__22D093C861C33EB2");
 
                 entity.ToTable("RM_B11_HDR");
 
@@ -3460,7 +3470,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11LabourCost>(entity =>
             {
                 entity.HasKey(e => e.B11lcPkRefNo)
-                    .HasName("PK__RM_B11_L__5165648D7AA80533");
+                    .HasName("PK__RM_B11_L__5165648D982C853B");
 
                 entity.ToTable("RM_B11_Labour_Cost");
 
@@ -3470,7 +3480,10 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B11lcB11hPkRefNo).HasColumnName("B11LC_B11H_PK_Ref_No");
 
-                entity.Property(e => e.B11lcLabourId).HasColumnName("B11LC_Labour_Id");
+                entity.Property(e => e.B11lcLabourId)
+                    .HasColumnName("B11LC_Labour_Id")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.B11lcLabourName)
                     .HasColumnName("B11LC_Labour_Name")
@@ -3478,6 +3491,8 @@ namespace RAMMS.Domain.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.B11lcLabourNoOfUnits).HasColumnName("B11LC_Labour_No_Of_Units");
+
+                entity.Property(e => e.B11lcLabourOrderId).HasColumnName("B11LC_Labour_OrderID");
 
                 entity.Property(e => e.B11lcLabourPerUnitPrice)
                     .HasColumnName("B11LC_Labour_Per_Unit_Price")
@@ -3496,7 +3511,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11MaterialCost>(entity =>
             {
                 entity.HasKey(e => e.B11mcPkRefNo)
-                    .HasName("PK__RM_B11_M__6EE89D6902F423D6");
+                    .HasName("PK__RM_B11_M__6EE89D6915F78B1B");
 
                 entity.ToTable("RM_B11_Material_Cost");
 
@@ -3506,9 +3521,19 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B11mcB11hPkRefNo).HasColumnName("B11MC_B11H_PK_Ref_No");
 
-                entity.Property(e => e.B11mcMaterialId).HasColumnName("B11MC_Material_Id");
+                entity.Property(e => e.B11mcMaterialId)
+                    .HasColumnName("B11MC_Material_Id")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B11mcMaterialName)
+                    .HasColumnName("B11MC_Material_Name")
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.B11mcMaterialNoOfUnits).HasColumnName("B11MC_Material_No_Of_Units");
+
+                entity.Property(e => e.B11mcMaterialOrderId).HasColumnName("B11MC_Material_OrderID");
 
                 entity.Property(e => e.B11mcMaterialPerUnitPrice)
                     .HasColumnName("B11MC_Material_Per_Unit_Price")

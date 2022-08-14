@@ -95,11 +95,12 @@ namespace RAMMS.Repository
             return grid;
         }
 
-        public RmB11Hdr GetHeaderById(int id)
+        public RmB11Hdr GetHeaderById(int id, int IsEdit)
         {
             RmB11Hdr res = (from r in _context.RmB11Hdr where r.B11hPkRefNo == id select r).FirstOrDefault();
             int? RevNo = (from rn in _context.RmB11Hdr where rn.B11hRevisionYear == res.B11hRevisionYear select rn.B11hRevisionNo).DefaultIfEmpty().Max() + 1;
-            res.B11hRevisionNo = RevNo;
+            if (IsEdit == 1)
+                res.B11hRevisionNo = RevNo;
             res.RmB11CrewDayCostHeader = (from r in _context.RmB11CrewDayCostHeader where r.B11cdchB11hPkRefNo == id select r).ToList();
             res.RmB11LabourCost = (from r in _context.RmB11LabourCost where r.B11lcB11hPkRefNo == id select r).ToList();
             res.RmB11EquipmentCost = (from r in _context.RmB11EquipmentCost where r.B11ecB11hPkRefNo == id select r).ToList();
@@ -119,15 +120,38 @@ namespace RAMMS.Repository
         public List<RmB7LabourHistory> GetLabourHistoryData(int year)
         {
             int? RefNo = (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == year select rn.B7hPkRefNo).DefaultIfEmpty().Max();
-            List<RmB7LabourHistory> res = (from r in _context.RmB7LabourHistory where r.B7lhB7hPkRefNo == RefNo select r).OrderBy(x=>x.B7lhCode).ToList();            
+            List<RmB7LabourHistory> res = (from r in _context.RmB7LabourHistory where r.B7lhB7hPkRefNo == RefNo select r).OrderBy(x => x.B7lhCode).ToList();
             return res;
         }
+        public List<RmB7MaterialHistory> GetMaterialHistoryData(int year)
+        {
+            int? RefNo = (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == year select rn.B7hPkRefNo).DefaultIfEmpty().Max();
+            List<RmB7MaterialHistory> res = (from r in _context.RmB7MaterialHistory where r.B7mhB7hPkRefNo == RefNo select r).OrderBy(x => x.B7mhCode).ToList();
+            return res;
+        }
+
+        public List<RmB7EquipmentsHistory> GetEquipmentHistoryData(int year)
+        {
+            int? RefNo = (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == year select rn.B7hPkRefNo).DefaultIfEmpty().Max();
+            List<RmB7EquipmentsHistory> res = (from r in _context.RmB7EquipmentsHistory where r.B7ehB7hPkRefNo == RefNo select r).OrderBy(x => x.B7ehCode).ToList();
+            return res;
+        }
+
         public List<RmB11LabourCost> GetLabourViewHistoryData(int id)
         {
-            List<RmB11LabourCost> res = (from r in _context.RmB11LabourCost where r.B11lcB11hPkRefNo == id select r).OrderBy(x => x.B11lcLabourId).ToList();
+            List<RmB11LabourCost> res = (from r in _context.RmB11LabourCost where r.B11lcB11hPkRefNo == id select r).OrderBy(x => x.B11lcLabourOrderId).ToList();
             return res;
         }
-        
+        public List<RmB11MaterialCost> GetMaterialViewHistoryData(int id)
+        {
+            List<RmB11MaterialCost> res = (from r in _context.RmB11MaterialCost where r.B11mcB11hPkRefNo == id select r).OrderBy(x => x.B11mcMaterialOrderId).ToList();
+            return res;
+        }
+        public List<RmB11EquipmentCost> GetEquipmentViewHistoryData(int id)
+        {
+            List<RmB11EquipmentCost> res = (from r in _context.RmB11EquipmentCost where r.B11ecB11hPkRefNo == id select r).OrderBy(x => x.B11ecEquipmentOrderId).ToList();
+            return res;
+        }
         public async Task<int> SaveFormB11(RmB11Hdr FormB11)
         {
             try
