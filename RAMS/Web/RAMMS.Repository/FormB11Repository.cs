@@ -31,6 +31,8 @@ namespace RAMMS.Repository
                          select new
                          {
                              RefNo = hdr.B11hPkRefNo,
+                             RMUCode=hdr.B11hRmuCode,
+                             RMUName =hdr.B11hRmuName,
                              RevisionYear = hdr.B11hRevisionYear,
                              RevisionNo = hdr.B11hRevisionNo,
                              RevisionDate = hdr.B11hRevisionDate,
@@ -48,6 +50,7 @@ namespace RAMMS.Repository
                             DateTime? dtSearch = Utility.ToDateTime(strVal);
                             query = query.Where(x =>
                                  (x.RevisionYear.HasValue ? x.RevisionYear.Value.ToString() : "").Contains(strVal)
+                                 || (x.RMUCode ?? "").Contains(strVal)
                                  || (x.RevisionNo.HasValue ? x.RevisionNo.Value.ToString() : "").Contains(strVal)
                                  || (x.RevisionDate.HasValue && ((x.RevisionDate.Value.ToString().Contains(strVal)) || (dtSearch.HasValue && x.RevisionDate == dtSearch)))
                                  || (x.CrByName ?? "").Contains(strVal)
