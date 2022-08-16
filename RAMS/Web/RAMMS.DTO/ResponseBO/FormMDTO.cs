@@ -174,6 +174,8 @@ namespace RAMMS.DTO.ResponseBO
         public DateTime? ModDt { get; set; }
         public int? CrBy { get; set; }
         public DateTime? CrDt { get; set; }
+        public string OtherSign { get; set; }
+        public string MiscellanousSign { get; set; }
     }
 
 }

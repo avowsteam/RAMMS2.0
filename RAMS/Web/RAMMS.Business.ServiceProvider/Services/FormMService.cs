@@ -202,7 +202,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(6, 15).Value = rpt.DivCode;
                             worksheet.Cell(6, 25).Value = rpt.CrewSup;
 
-                            worksheet.Cell(7, 5).Value = rpt.ActName;
+                            worksheet.Cell(7, 5).Value = rpt.ActCode;
+                            worksheet.Cell(7, 15).Value = rpt.ActName;
                             worksheet.Cell(8, 5).Value = rpt.AuditTimeFrm;
                             worksheet.Cell(8, 8).Value = rpt.AuditTimeTo;
                             worksheet.Cell(8, 15).Value = rpt.AuditedDate;
@@ -216,7 +217,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(16, 13).Value = rpt.A5tallyBox;
                             worksheet.Cell(17, 13).Value = rpt.A6tallyBox;
                             worksheet.Cell(18, 13).Value = rpt.A7tallyBox;
-                            worksheet.Cell(19, 13).Value = rpt.A8tallyBox;
+                            worksheet.Cell(19, 2).Value = rpt.OtherSign;
+                            worksheet.Cell(19, 13).Value = rpt.A8tallyBox;                            
 
                             worksheet.Cell(12, 15).Value = rpt.A1total;
                             worksheet.Cell(13, 15).Value = rpt.A2total;
@@ -306,7 +308,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(29, 31).Value = rpt.G7tallyBox;
                             worksheet.Cell(30, 31).Value = rpt.G8tallyBox;
                             worksheet.Cell(31, 31).Value = rpt.G9tallyBox;
-                            worksheet.Cell(32, 31).Value = rpt.G10tallyBox;
+                            worksheet.Cell(32, 18).Value = rpt.MiscellanousSign;
+                            worksheet.Cell(32, 31).Value = rpt.G10tallyBox;                            
 
                             worksheet.Cell(23, 33).Value = rpt.G1total;
                             worksheet.Cell(24, 33).Value = rpt.G2total;
@@ -337,16 +340,16 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(42, 1).Value = rpt.CorrectiveActions;
 
                             worksheet.Cell(52, 4).Value = rpt.UsernameAudit;
-                            worksheet.Cell(53, 4).Value = rpt.DesignationAudit;
-                            worksheet.Cell(54, 4).Value = rpt.DateAudit;
+                            worksheet.Cell(53, 4).Value = rpt.DateAudit;
+                            worksheet.Cell(54, 4).Value = rpt.DesignationAudit;
 
                             worksheet.Cell(52, 16).Value = rpt.UsernameWit;
-                            worksheet.Cell(53, 16).Value = rpt.DesignationWit;
-                            worksheet.Cell(54, 16).Value = rpt.DateWit;
+                            worksheet.Cell(53, 16).Value = rpt.DateWit;
+                            worksheet.Cell(54, 16).Value = rpt.DesignationWit;
 
                             worksheet.Cell(52, 27).Value = rpt.UsernameWitone;
-                            worksheet.Cell(53, 27).Value = rpt.DesignationWitone;
-                            worksheet.Cell(54, 27).Value = rpt.DateWitone;
+                            worksheet.Cell(53, 27).Value = rpt.DateWitone;
+                            worksheet.Cell(54, 27).Value = rpt.DesignationWitone;
                         }
                         using (var stream = new MemoryStream())
                         {
