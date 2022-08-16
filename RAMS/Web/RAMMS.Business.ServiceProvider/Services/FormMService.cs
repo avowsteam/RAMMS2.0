@@ -217,7 +217,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(16, 13).Value = rpt.A5tallyBox;
                             worksheet.Cell(17, 13).Value = rpt.A6tallyBox;
                             worksheet.Cell(18, 13).Value = rpt.A7tallyBox;
-                            worksheet.Cell(19, 13).Value = rpt.A8tallyBox;
+                            worksheet.Cell(19, 2).Value = rpt.OtherSign;
+                            worksheet.Cell(19, 13).Value = rpt.A8tallyBox;                            
 
                             worksheet.Cell(12, 15).Value = rpt.A1total;
                             worksheet.Cell(13, 15).Value = rpt.A2total;
@@ -307,7 +308,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(29, 31).Value = rpt.G7tallyBox;
                             worksheet.Cell(30, 31).Value = rpt.G8tallyBox;
                             worksheet.Cell(31, 31).Value = rpt.G9tallyBox;
-                            worksheet.Cell(32, 31).Value = rpt.G10tallyBox;
+                            worksheet.Cell(32, 18).Value = rpt.MiscellanousSign;
+                            worksheet.Cell(32, 31).Value = rpt.G10tallyBox;                            
 
                             worksheet.Cell(23, 33).Value = rpt.G1total;
                             worksheet.Cell(24, 33).Value = rpt.G2total;
