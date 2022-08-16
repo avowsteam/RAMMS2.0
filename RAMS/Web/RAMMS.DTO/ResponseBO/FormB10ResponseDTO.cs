@@ -17,6 +17,8 @@ namespace RAMMS.DTO.ResponseBO
         public int? RevisionYear { get; set; }
         public int? UserId { get; set; }
         public string UserName { get; set; }
+        public bool MaxRecord { get; set; }
+      
         public List<FormB10HistoryResponseDTO> FormB10History { get; set; }
     }
 }

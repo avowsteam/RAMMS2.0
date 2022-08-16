@@ -19,10 +19,10 @@
     IEnumerable<SelectListItem> UnitServiceLevel = (await ddlService
 .GetLookups(new DDLookUpDTO { Type = "Unit" }))
 .Select(s => new SelectListItem
-{
+{  
     Text = s.DdlTypeDesc,
     Value = s.DdlTypeValue
-}).ToArray();
+}). ToArray();
 
 
 }
@@ -104,7 +104,7 @@
                                                                         <th colspan="1">
                                                                             ADP Unit Description
                                                                         </th>
-                                                                        
+
                                                                     </tr>
 
                                                                 </thead>
@@ -131,7 +131,7 @@
                                                                                 <td class="typein" datatype="int">
                                                                                     @Model.FormB10.FormB10History[i].AdpUnitDescription
                                                                                 </td>
-                                                                                 
+
                                                                             </tr>
                                                                         }
                                                                     }
@@ -189,5 +189,8 @@
 
     if ($("#hdnview").val() == 1) {
         $("#btnSave").hide();
+    }
+     else {
+        getRevisionNo("@Model.FormB10.RevisionYear")
     }
 </script>

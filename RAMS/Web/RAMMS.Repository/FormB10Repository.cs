@@ -106,6 +106,8 @@ namespace RAMMS.Repository
 
             }
 
+            int? MaxRecord = query.Select(s => s.x.B10dpPkRefNo).DefaultIfEmpty().Max();
+
 
             var list = query.Select(s => new FormB10ResponseDTO
             {
@@ -114,7 +116,8 @@ namespace RAMMS.Repository
                 RevisionNo = s.x.B10dpRevisionNo,
                 RevisionYear = s.x.B10dpRevisionYear,
                 UserId = s.x.B10dpUserId,
-                UserName = s.x.B10dpUserName
+                UserName = s.x.B10dpUserName,
+                MaxRecord = (s.x.B10dpPkRefNo == MaxRecord)
             }).ToList();
 
 
@@ -129,9 +132,9 @@ namespace RAMMS.Repository
         {
             RmB10DailyProduction res = (from r in _context.RmB10DailyProduction where r.B10dpPkRefNo == id select r).FirstOrDefault();
 
-            int? RevNo = (from rn in _context.RmB10DailyProduction where rn.B10dpRevisionYear == res.B10dpRevisionYear select rn.B10dpRevisionNo).DefaultIfEmpty().Max() + 1;
+            //int? RevNo = (from rn in _context.RmB10DailyProduction where rn.B10dpRevisionYear == res.B10dpRevisionYear select rn.B10dpRevisionNo).DefaultIfEmpty().Max() + 1;
 
-            res.B10dpRevisionNo = RevNo;
+            //res.B10dpRevisionNo = RevNo;
 
             res.RmB10DailyProductionHistory = (from r in _context.RmB10DailyProductionHistory
                                                where r.B10dphB10dpPkRefNo == id

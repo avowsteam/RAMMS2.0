@@ -33,7 +33,7 @@ namespace RAMMS.Repository
 
 
             query = query.OrderByDescending(x => x.x.B9dsPkRefNo);
-        
+
             if (filterOptions.Filters.Year != null && filterOptions.Filters.Year != string.Empty)
             {
                 query = query.Where(s => s.x.B9dsRevisionYear == Convert.ToInt32(filterOptions.Filters.Year));
@@ -59,7 +59,7 @@ namespace RAMMS.Repository
 
             if (!string.IsNullOrEmpty(filterOptions.Filters.SmartSearch))
             {
-                
+
 
                 DateTime dt;
                 if (DateTime.TryParseExact(filterOptions.Filters.SmartSearch, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dt))
@@ -106,6 +106,7 @@ namespace RAMMS.Repository
 
             }
 
+            int? MaxRecord = query.Select(s => s.x.B9dsPkRefNo).DefaultIfEmpty().Max();
 
             var list = query.Select(s => new FormB9ResponseDTO
             {
@@ -114,8 +115,10 @@ namespace RAMMS.Repository
                 RevisionNo = s.x.B9dsRevisionNo,
                 RevisionYear = s.x.B9dsRevisionYear,
                 UserId = s.x.B9dsUserId,
-                UserName = s.x.B9dsUserName
+                UserName = s.x.B9dsUserName,
+                MaxRecord = (s.x.B9dsPkRefNo == MaxRecord)
             }).ToList();
+
 
 
             return list.Skip(filterOptions.StartPageNo).Take(filterOptions.RecordsPerPage).ToList();
@@ -192,9 +195,9 @@ namespace RAMMS.Repository
         {
             RmB9DesiredService res = (from r in _context.RmB9DesiredService where r.B9dsPkRefNo == id select r).FirstOrDefault();
 
-            int? RevNo = (from rn in _context.RmB9DesiredService where rn.B9dsRevisionYear == res.B9dsRevisionYear select rn.B9dsRevisionNo).DefaultIfEmpty().Max() + 1;
+            //int? RevNo = (from rn in _context.RmB9DesiredService where rn.B9dsRevisionYear == res.B9dsRevisionYear select rn.B9dsRevisionNo).DefaultIfEmpty().Max() + 1;
 
-            res.B9dsRevisionNo = RevNo;
+            //res.B9dsRevisionNo = RevNo;
 
             res.RmB9DesiredServiceHistory = (from r in _context.RmB9DesiredServiceHistory
                                              where r.B9dshB9dsPkRefNo == id
@@ -209,8 +212,6 @@ namespace RAMMS.Repository
                                                  B9dshName = r.B9dshName,
                                                  B9dshPkRefNo = r.B9dshPkRefNo,
                                                  B9dshRemarks = r.B9dshRemarks,
-                                                 B9dshRevisionDate = r.B9dshRevisionDate,
-                                                 B9dshRevisionNo = RevNo,
                                                  B9dshUnitOfServiceId = r.B9dshUnitOfServiceId,
                                                  B9dshUnitOfService = (from s in _context.RmDdLookup where s.DdlType == "UnitServiceLevel" && s.DdlTypeValue == Convert.ToString(r.B9dshUnitOfServiceId) select s.DdlTypeDesc).FirstOrDefault()
                                              }).ToList();

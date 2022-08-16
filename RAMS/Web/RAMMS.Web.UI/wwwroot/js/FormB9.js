@@ -2,7 +2,7 @@
 
 
 $(document).ready(function () {
- 
+
     $('.typein').on('click', function (e) {
         if ($("#hdnview").val() != 1) {
             var $this = $(this);
@@ -21,14 +21,12 @@ $(document).ready(function () {
     });
 
 
-
     $("#ddlYear").on("change", function () {
         getRevisionNo($("#ddlYear").val());
     });
 
-
-
 });
+
 
 
 function getRevisionNo(id) {
@@ -104,7 +102,7 @@ function Save() {
                 app.ShowErrorMessage(data.errorMessage);
             }
             else {
-               
+
                 app.ShowSuccessMessage('Saved Successfully', false);
                 location.href = "/FormB9";
             }
@@ -112,7 +110,7 @@ function Save() {
     });
 
 
- 
+
 }
 
 
@@ -241,7 +239,7 @@ function showComboBox(obj) {
 }
 
 function HideCombo(obj) {
-   
+
     var td = $(obj).parent();
 
     $(td).html($(obj).parent().attr("preval"));

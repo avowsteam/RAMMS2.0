@@ -18,6 +18,7 @@ namespace RAMMS.DTO.ResponseBO
         public string UserName { get; set; }
         public int? CrBy { get; set; }
         public DateTime? CrDt { get; set; }
+        public bool MaxRecord { get; set; }
         public List<FormB9HistoryResponseDTO> FormB9History { get; set; }
 
 }
