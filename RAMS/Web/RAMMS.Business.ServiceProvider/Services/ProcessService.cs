@@ -217,6 +217,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                 case "FormV4":
                     logs = this.context.RmFormV4Hdr.Where(x => x.Fv4hPkRefNo == RefId).Select(x => x.Fv4hAuditLog).FirstOrDefault();
                     break;
+                case "FormV5":
+                    logs = this.context.RmFormV5Hdr.Where(x => x.Fv5hPkRefNo == RefId).Select(x => x.Fv5hAuditLog).FirstOrDefault();
+                    break;
                 case "FormF3":
                     logs = this.context.RmFormF3Hdr.Where(x => x.Ff3hPkRefNo == RefId).Select(x => x.Ff3hAuditLog).FirstOrDefault();
                     break;
