@@ -35,6 +35,7 @@ namespace RAMMS.DTO.Report
         public int? A6total { get; set; }
         public int? A7tallyBox { get; set; }
         public int? A7total { get; set; }
+        public string OtherSign { get; set; }
         public int? A8tallyBox { get; set; }
         public int? A8total { get; set; }
         public int? B1tallyBox { get; set; }
@@ -111,6 +112,7 @@ namespace RAMMS.DTO.Report
         public int? G8total { get; set; }
         public int? G9tallyBox { get; set; }
         public int? G9total { get; set; }
+        public string MiscellanousSign { get; set; }
         public int? G10tallyBox { get; set; }
         public int? G10total { get; set; }
         public int? Total { get; set; }

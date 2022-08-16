@@ -8542,11 +8542,21 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.FmadIsEditable).HasColumnName("FMAD_Is_Editable");
 
+                entity.Property(e => e.FmadMiscellanousSign)
+                    .HasColumnName("FMAD_MiscellanousSign")
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.FmadModBy).HasColumnName("FMAD_Mod_By");
 
                 entity.Property(e => e.FmadModDt)
                     .HasColumnName("FMAD_Mod_DT")
                     .HasColumnType("datetime");
+
+                entity.Property(e => e.FmadOtherSign)
+                    .HasColumnName("FMAD_OtherSign")
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.FmadTallyBox).HasColumnName("FMAD_Tally_Box");
 

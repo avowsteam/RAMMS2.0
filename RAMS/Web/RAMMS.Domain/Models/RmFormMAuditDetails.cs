@@ -111,6 +111,8 @@ namespace RAMMS.Domain.Models
         public DateTime? FmadModDt { get; set; }
         public int? FmadCrBy { get; set; }
         public DateTime? FmadCrDt { get; set; }
+        public string FmadOtherSign { get; set; }
+        public string FmadMiscellanousSign { get; set; }
 
         public virtual RmFormMHdr FmadFmhPkRefNoNavigation { get; set; }
     }
