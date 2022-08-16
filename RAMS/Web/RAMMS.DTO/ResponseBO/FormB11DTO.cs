@@ -20,10 +20,10 @@ namespace RAMMS.DTO.ResponseBO
         public string B11hCrByName { get; set; }
         public DateTime? B11hCrDt { get; set; }
 
-        public List<FormB11CrewDayCostHeaderDTO> CrewDayCostHeader { get; set; }
-        public List<FormB11LabourCostDTO> LabourCost { get; set; }
-        public List<FormB11EquipmentCostDTO> EquipmentCost { get; set; }
-        public List<FormB11MaterialCostDTO> MaterialCost { get; set; }
+        //public List<FormB11CrewDayCostHeaderDTO> RmB11CrewDayCostHeader { get; set; }
+        public List<FormB11LabourCostDTO> RmB11LabourCost { get; set; }
+        public List<FormB11EquipmentCostDTO> RmB11EquipmentCost { get; set; }
+        public List<FormB11MaterialCostDTO> RmB11MaterialCost { get; set; }
 
     }
 
@@ -41,11 +41,13 @@ namespace RAMMS.DTO.ResponseBO
     {
         public int B11lcPkRefNo { get; set; }
         public int? B11lcB11hPkRefNo { get; set; }
-        public int? B11lcActivityId { get; set; }
-        public int? B11lcLabourId { get; set; }
+        public int? B11lcActivityId { get; set; }        
+        public string B11lcLabourId { get; set; }
+        public string B11lcLabourName { get; set; }
         public decimal? B11lcLabourPerUnitPrice { get; set; }
         public int? B11lcLabourNoOfUnits { get; set; }
         public decimal? B11lcLabourTotalPrice { get; set; }
+        public int? B11lcLabourOrderId { get; set; }
     }
 
     public class FormB11EquipmentCostDTO
@@ -53,10 +55,12 @@ namespace RAMMS.DTO.ResponseBO
         public int B11ecPkRefNo { get; set; }
         public int? B11ecB11hPkRefNo { get; set; }
         public int? B11ecActivityId { get; set; }
-        public int? B11ecEquipmentId { get; set; }
+        public string B11ecEquipmentId { get; set; }
+        public string B11ecEquipmentName { get; set; }
         public decimal? B11ecEquipmentPerUnitPrice { get; set; }
         public int? B11ecEquipmentNoOfUnits { get; set; }
         public decimal? B11ecEquipmentTotalPrice { get; set; }
+        public int? B11ecEquipmentOrderId { get; set; }
     }
 
     public class FormB11MaterialCostDTO
@@ -64,9 +68,11 @@ namespace RAMMS.DTO.ResponseBO
         public int B11mcPkRefNo { get; set; }
         public int? B11mcB11hPkRefNo { get; set; }
         public int? B11mcActivityId { get; set; }
-        public int? B11mcMaterialId { get; set; }
+        public string B11mcMaterialId { get; set; }
+        public string B11mcMaterialName { get; set; }
         public decimal? B11mcMaterialPerUnitPrice { get; set; }
         public int? B11mcMaterialNoOfUnits { get; set; }
         public decimal? B11mcMaterialTotalPrice { get; set; }
+        public int? B11mcMaterialOrderId { get; set; }
     }
 }

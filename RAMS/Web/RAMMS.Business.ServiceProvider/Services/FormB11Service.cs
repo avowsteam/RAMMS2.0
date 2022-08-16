@@ -21,7 +21,7 @@ using RAMMS.Repository.Interfaces;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
-    public class FormB11Service
+    public class FormB11Service : IFormB11Service
     {
         private readonly IFormB11Repository _repo;
         private readonly IRepositoryUnit _repoUnit;
@@ -46,16 +46,85 @@ namespace RAMMS.Business.ServiceProvider.Services
             return await _repo.GetHeaderGrid(searchData);
         }
 
-        public async Task<FormB11DTO> GetHeaderById(int id)
+        public async Task<FormB11DTO> GetHeaderById(int id, int IsEdit)
         {
-            RmB11Hdr res = _repo.GetHeaderById(id);
+            RmB11Hdr res = _repo.GetHeaderById(id, IsEdit);
             FormB11DTO FormB11 = new FormB11DTO();
             FormB11 = _mapper.Map<FormB11DTO>(res);
-            FormB11.CrewDayCostHeader = _mapper.Map<List<FormB11CrewDayCostHeaderDTO>>(res.RmB11CrewDayCostHeader);
-            FormB11.LabourCost = _mapper.Map<List<FormB11LabourCostDTO>>(res.RmB11LabourCost);
-            FormB11.EquipmentCost = _mapper.Map<List<FormB11EquipmentCostDTO>>(res.RmB11EquipmentCost);
-            FormB11.MaterialCost = _mapper.Map<List<FormB11MaterialCostDTO>>(res.RmB11MaterialCost);
+            //FormB11.RmB11CrewDayCostHeader = _mapper.Map<List<FormB11CrewDayCostHeaderDTO>>(res.RmB11CrewDayCostHeader);
+            FormB11.RmB11LabourCost = _mapper.Map<List<FormB11LabourCostDTO>>(res.RmB11LabourCost);
+            FormB11.RmB11EquipmentCost = _mapper.Map<List<FormB11EquipmentCostDTO>>(res.RmB11EquipmentCost);
+            FormB11.RmB11MaterialCost = _mapper.Map<List<FormB11MaterialCostDTO>>(res.RmB11MaterialCost);
             return FormB11;
+        }
+        public int? GetMaxRev(int Year)
+        {
+            return _repo.GetMaxRev(Year);
+        }
+
+        public async Task<List<FormB7LabourHistoryDTO>> GetLabourHistoryData(int year)
+        {
+            List<RmB7LabourHistory> res = _repo.GetLabourHistoryData(year);
+            List<FormB7LabourHistoryDTO> FormB7 = new List<FormB7LabourHistoryDTO>();
+            FormB7 = _mapper.Map<List<FormB7LabourHistoryDTO>>(res);
+            return FormB7;
+        }
+
+        public async Task<List<FormB7MaterialHistoryDTO>> GetMaterialHistoryData(int year)
+        {
+            List<RmB7MaterialHistory> res = _repo.GetMaterialHistoryData(year);
+            List<FormB7MaterialHistoryDTO> FormB7 = new List<FormB7MaterialHistoryDTO>();
+            FormB7 = _mapper.Map<List<FormB7MaterialHistoryDTO>>(res);
+            return FormB7;
+        }
+
+        public async Task<List<FormB7EquipmentsHistoryDTO>> GetEquipmentHistoryData(int year)
+        {
+            List<RmB7EquipmentsHistory> res = _repo.GetEquipmentHistoryData(year);
+            List<FormB7EquipmentsHistoryDTO> FormB7 = new List<FormB7EquipmentsHistoryDTO>();
+            FormB7 = _mapper.Map<List<FormB7EquipmentsHistoryDTO>>(res);
+            return FormB7;
+        }
+
+
+        public async Task<List<FormB11LabourCostDTO>> GetLabourViewHistoryData(int id)
+        {
+            List<RmB11LabourCost> res = _repo.GetLabourViewHistoryData(id);
+            List<FormB11LabourCostDTO> FormB11 = new List<FormB11LabourCostDTO>();
+            FormB11 = _mapper.Map<List<FormB11LabourCostDTO>>(res);
+            return FormB11;
+        }
+
+        public async Task<List<FormB11MaterialCostDTO>> GetMaterialViewHistoryData(int id)
+        {
+            List<RmB11MaterialCost> res = _repo.GetMaterialViewHistoryData(id);
+            List<FormB11MaterialCostDTO> FormB11 = new List<FormB11MaterialCostDTO>();
+            FormB11 = _mapper.Map<List<FormB11MaterialCostDTO>>(res);
+            return FormB11;
+        }
+
+        public async Task<List<FormB11EquipmentCostDTO>> GetEquipmentViewHistoryData(int id)
+        {
+            List<RmB11EquipmentCost> res = _repo.GetEquipmentViewHistoryData(id);
+            List<FormB11EquipmentCostDTO> FormB11 = new List<FormB11EquipmentCostDTO>();
+            FormB11 = _mapper.Map<List<FormB11EquipmentCostDTO>>(res);
+            return FormB11;
+        }
+
+        public async Task<int> SaveFormB11(FormB11DTO FormB11)
+        {
+            try
+            {
+                var domainModelFormB11 = _mapper.Map<RmB11Hdr>(FormB11);
+                domainModelFormB11.B11hPkRefNo = 0;
+
+                return await _repo.SaveFormB11(domainModelFormB11);
+            }
+            catch (Exception ex)
+            {
+                await _repoUnit.RollbackAsync();
+                throw ex;
+            }
         }
     }
 }
