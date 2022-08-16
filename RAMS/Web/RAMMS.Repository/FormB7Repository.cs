@@ -26,8 +26,11 @@ namespace RAMMS.Repository
 
         public async Task<GridWrapper<object>> GetHeaderGrid(DataTableAjaxPostModel searchData)
         {
-            var query = (from hdr in _context.RmB7Hdr
 
+            //query.Select(s => s.B7dsPkRefNo).DefaultIfEmpty().Max();
+
+            var query = (from hdr in _context.RmB7Hdr
+                         let max = _context.RmB7Hdr.Select(s => s.B7hPkRefNo).DefaultIfEmpty().Max()
                          select new
                          {
                              RefNo = hdr.B7hPkRefNo,
@@ -35,7 +38,11 @@ namespace RAMMS.Repository
                              RevisionNo = hdr.B7hRevisionNo,
                              RevisionDate = hdr.B7hRevisionDate,
                              CrByName = hdr.B7hCrByName,
+                             MaxRecord = (hdr.B7hPkRefNo == max)
                          });
+
+
+
 
             if (searchData.filter != null)
             {
@@ -158,42 +165,42 @@ namespace RAMMS.Repository
             FormB7Rpt details = new FormB7Rpt();
 
             details.Year = _context.RmB7Hdr.Where(x => x.B7hPkRefNo == headerid).Select(x => x.B7hRevisionYear).FirstOrDefault();
-                            
-            details.Labours =await  (from o in _context.RmB7LabourHistory
-                              where (o.B7lhB7hPkRefNo == headerid)
-                              orderby o.B7lhCode ascending
-                              select new Details
-                              {
-                                  Code = o.B7lhCode,
-                                  Name = o.B7lhName,
-                                  Unit = o.B7lhUnitInHrs.ToString(),
-                                  UnitPriceBatuNiah = o.B7lhUnitPriceBatuNiah.ToString(),
-                                  UnitPriceMiri = o.B7lhUnitPriceMiri.ToString(),
-                              }).ToListAsync();
+
+            details.Labours = await (from o in _context.RmB7LabourHistory
+                                     where (o.B7lhB7hPkRefNo == headerid)
+                                     orderby o.B7lhCode ascending
+                                     select new Details
+                                     {
+                                         Code = o.B7lhCode,
+                                         Name = o.B7lhName,
+                                         Unit = o.B7lhUnitInHrs.ToString(),
+                                         UnitPriceBatuNiah = o.B7lhUnitPriceBatuNiah.ToString(),
+                                         UnitPriceMiri = o.B7lhUnitPriceMiri.ToString(),
+                                     }).ToListAsync();
 
             details.Materials = await (from o in _context.RmB7MaterialHistory
-                                where (o.B7mhB7hPkRefNo == headerid)
-                                orderby o.B7mhCode ascending
-                                select new Details
-                                {
-                                    Code = o.B7mhCode,
-                                    Name = o.B7mhName,
-                                    Unit = o.B7mhUnits.ToString(),
-                                    UnitPriceBatuNiah = o.B7mhUnitPriceBatuNiah.ToString(),
-                                    UnitPriceMiri = o.B7mhUnitPriceMiri.ToString(),
-                                }).ToListAsync();
+                                       where (o.B7mhB7hPkRefNo == headerid)
+                                       orderby o.B7mhCode ascending
+                                       select new Details
+                                       {
+                                           Code = o.B7mhCode,
+                                           Name = o.B7mhName,
+                                           Unit = o.B7mhUnits.ToString(),
+                                           UnitPriceBatuNiah = o.B7mhUnitPriceBatuNiah.ToString(),
+                                           UnitPriceMiri = o.B7mhUnitPriceMiri.ToString(),
+                                       }).ToListAsync();
 
             details.Equipments = await (from o in _context.RmB7EquipmentsHistory
-                                  where (o.B7ehB7hPkRefNo == headerid)
-                                  orderby o.B7ehCode ascending
-                                  select new Details
-                                  {
-                                      Code = o.B7ehCode,
-                                      Name = o.B7ehName,
-                                      Unit = o.B7ehUnitInHrs.ToString(),
-                                      UnitPriceBatuNiah = o.B7ehUnitPriceBatuNiah.ToString(),
-                                      UnitPriceMiri = o.B7ehUnitPriceMiri.ToString(),
-                                  }).ToListAsync();
+                                        where (o.B7ehB7hPkRefNo == headerid)
+                                        orderby o.B7ehCode ascending
+                                        select new Details
+                                        {
+                                            Code = o.B7ehCode,
+                                            Name = o.B7ehName,
+                                            Unit = o.B7ehUnitInHrs.ToString(),
+                                            UnitPriceBatuNiah = o.B7ehUnitPriceBatuNiah.ToString(),
+                                            UnitPriceMiri = o.B7ehUnitPriceMiri.ToString(),
+                                        }).ToListAsync();
             return details;
         }
     }

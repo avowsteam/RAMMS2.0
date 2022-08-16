@@ -16,7 +16,13 @@
 @section Scripts{
 <script type="text/javascript" src="~/js/FormB8.js" asp-append-version="true"></script>
 <script type="text/javascript">
-    frmB8.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
+        frmB8.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
+
+        if (frmB8.IsEdit){
+            $("#formB8Year").chosen('destroy');
+            $("#formB8Year").prop("disabled", true);
+            $("#date").prop("disabled", true);
+        }   
 </script>
 
 }
@@ -132,10 +138,10 @@
     </div>
 </div>
 <div class="col-md-12 mb-2 float-right text-right custom-footer">
-    <button type="button" class="btn btn-sm btn-outline-theme"  onclick="frmB8.Cancel()">Close</button>
+    <button type="button" class="btn btn-sm btn-outline-theme" onclick="frmB8.Cancel()">Close</button>
     @if (ViewBag.IsEdit)
     {
-        <button type="button" class="btn btn-sm btn-themebtn"  onclick="frmB8.Save()">Save</button>
+        <button type="button" class="btn btn-sm btn-themebtn" onclick="frmB8.Save()">Save</button>
     }
 </div>
 @Html.HiddenFor(m => m.FormB8Header.B8hPkRefNo);

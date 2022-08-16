@@ -96,6 +96,19 @@ namespace RAMMS.Web.UI.Controllers
             if (id > 0)
             {
                 _model.FormB7Header = await _formB7Service.GetHeaderById(id);
+
+                var newYears = ((IEnumerable<CSelectListItem>)ViewData["Year"]).ToList();
+
+                foreach (var yr in newYears)
+                {
+                    int y = Convert.ToInt32(yr.Text);
+
+                    if (y < _model.FormB7Header.B7hRevisionYear)
+                    {
+                        yr.Value = "";
+                    }
+                }
+                ViewData["Year"] = newYears.Where(x => x.Value != "");
             }
             else
             {
