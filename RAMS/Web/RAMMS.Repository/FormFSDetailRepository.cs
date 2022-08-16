@@ -977,9 +977,9 @@ namespace RAMMS.Repository
         {
             var count = (from o in _context.RmFormF1Dtl
                          join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
-                         join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo  equals r.Fr1hPkRefNo
+                         //join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo  equals r.Fr1hPkRefNo
                          where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear  == hdr.FshYearOfInsp
-                         && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && h.Ff1hSubmitSts == true
+                         && h.Ff1hActiveYn == true && o.Ff1dCode == StructureCode && h.Ff1hSubmitSts == true
                          select 1).Count();
        
             //var Length = (from o in _context.RmFormF1Dtl
@@ -993,34 +993,34 @@ namespace RAMMS.Repository
 
             var AvgWidth = (from o in _context.RmFormF1Dtl
                             join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
-                            join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
+                            //join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
                             join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
                             where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
-                           && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && h.Ff1hSubmitSts == true
+                           && h.Ff1hActiveYn == true && o.Ff1dCode == StructureCode && h.Ff1hSubmitSts == true
                             select a.AiWidth)?.Sum();
 
             int? condition1 = (from o in _context.RmFormF1Dtl
                               join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
-                              join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
+                              //join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
                               join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
                               where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
-                             && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && o.Ff1dOverallCondition == 1 && h.Ff1hSubmitSts == true
+                             && h.Ff1hActiveYn == true && o.Ff1dCode == StructureCode && o.Ff1dOverallCondition == 1 && h.Ff1hSubmitSts == true
                                select 1)?.Count();
 
             int? condition2 = (from o in _context.RmFormF1Dtl
                                join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
-                               join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
+                               //join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
                                join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
                                where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
-                              && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && o.Ff1dOverallCondition == 2 && h.Ff1hSubmitSts == true
+                              && h.Ff1hActiveYn == true && o.Ff1dCode == StructureCode && o.Ff1dOverallCondition == 2 && h.Ff1hSubmitSts == true
                                select 1)?.Count();
 
             int? condition3 = (from o in _context.RmFormF1Dtl
                                join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
-                               join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
+                               //join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
                                join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
                                where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
-                              && h.Ff1hActiveYn == true && r.Fr1hAiStrucCode == StructureCode && o.Ff1dOverallCondition == 3 && h.Ff1hSubmitSts == true
+                              && h.Ff1hActiveYn == true && o.Ff1dCode == StructureCode && o.Ff1dOverallCondition == 3 && h.Ff1hSubmitSts == true
                                select 1)?.Count();
 
             if (count > 0)
