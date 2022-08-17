@@ -24,5 +24,6 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<List<FormB11MaterialCostDTO>> GetMaterialViewHistoryData(int id);
         Task<List<FormB11EquipmentCostDTO>> GetEquipmentViewHistoryData(int id); 
         Task<int> SaveFormB11(FormB11DTO FormB11);
+        Byte[] FormDownload(string formname, int id, string Rmucode, string basepath, string filepath);
     }
 }
