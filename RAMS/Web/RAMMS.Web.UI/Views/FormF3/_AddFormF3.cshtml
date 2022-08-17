@@ -356,7 +356,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button id="btnDCancel" type="button" class="btn btn-sm btn-outline-theme Cancel"  data-dismiss="modal">Cancel</button>
+                            <button id="btnDCancel" type="button" class="btn btn-sm btn-outline-theme Cancel" data-dismiss="modal">Cancel</button>
                             <button id="btnSaveFormF3Dtl" type="button" onclick="SaveFormF3Dtl();" class="btn btn-sm btn-themebtn">Save &amp; Exit</button>
                         </div>
                     </div>
@@ -371,6 +371,7 @@
 
     @Html.HiddenFor(m => m.FormF3.PkRefNo)
     @Html.HiddenFor(m => m.FormF3Dtl.PkRefNo)
+    @Html.HiddenFor(m => m.FormF3Dtl.Ff3dG1hPkRefNo)
     @Html.HiddenFor(m => m.FormF3.DivCode)
     @Html.HiddenFor(m => m.FormF3.RmuCode)
     @Html.HiddenFor(m => m.FormF3.RdCode)
@@ -391,7 +392,7 @@
 
     $(document).ready(function () {
         process.Init("FormF3", "@Model.FormF3.Status", @Model.FormF3.PkRefNo);
-       
+
     });
     bindRoadCode();
 
