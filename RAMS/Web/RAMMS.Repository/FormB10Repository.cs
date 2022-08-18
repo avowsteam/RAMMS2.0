@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RAMMS.Common;
 using RAMMS.Domain.Models;
 using RAMMS.DTO;
 using RAMMS.DTO.Report;
@@ -39,23 +40,18 @@ namespace RAMMS.Repository
                 query = query.Where(s => s.x.B10dpRevisionYear == Convert.ToInt32(filterOptions.Filters.Year));
             }
 
-            if (!string.IsNullOrEmpty(filterOptions.Filters.FromDate) && string.IsNullOrEmpty(filterOptions.Filters.ToDate))
-            {
-                DateTime dt;
-                if (DateTime.TryParseExact(filterOptions.Filters.FromDate, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dt))
-                {
-                    query = query.Where(x => x.x.B10dpRevisionDate.HasValue ? (x.x.B10dpRevisionDate.Value.Year == dt.Year && x.x.B10dpRevisionDate.Value.Month == dt.Month && x.x.B10dpRevisionDate.Value.Day == dt.Day) : false);
-                }
-            }
+            string frmDate = Utility.ToString(filterOptions.Filters.FromDate);
+            string toDate = Utility.ToString(filterOptions.Filters.ToDate);
 
-            if (string.IsNullOrEmpty(filterOptions.Filters.FromDate) && !string.IsNullOrEmpty(filterOptions.Filters.ToDate))
-            {
-                DateTime dt;
-                if (DateTime.TryParseExact(filterOptions.Filters.FromDate, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dt))
-                {
-                    query = query.Where(x => x.x.B10dpRevisionDate.HasValue ? (x.x.B10dpRevisionDate.Value.Year == dt.Year && x.x.B10dpRevisionDate.Value.Month == dt.Month && x.x.B10dpRevisionDate.Value.Day == dt.Day) : false);
-                }
-            }
+            DateTime? dtFrom = Utility.ToDateTime(frmDate);
+            DateTime? dtTo = Utility.ToDateTime(toDate);
+            if (toDate == "" && frmDate != "")
+                query = query.Where(s => s.x.B10dpRevisionDate >= dtFrom);
+            else if (toDate != "" && frmDate != "")
+                query = query.Where(s => s.x.B10dpRevisionDate >= dtFrom && s.x.B10dpRevisionDate <= dtTo);
+            else if (frmDate == "" && toDate != "")
+                query = query.Where(s => s.x.B10dpRevisionDate <= dtTo);
+
 
             if (!string.IsNullOrEmpty(filterOptions.Filters.SmartSearch))
             {

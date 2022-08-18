@@ -196,6 +196,7 @@
 @Html.HiddenFor(m => m.FormB9.PkRefNo);
 <input type="hidden" id="UserId" value="@security.UserID" />
 <input type="hidden" id="hdnview" value="@Model.view" />
+<input type="hidden" id="hdnRevisionDate"   />
  
 
 <script>
@@ -210,6 +211,6 @@
         getRevisionNo("@Model.FormB9.RevisionYear")
     }
 
-  
+
 
 </script>

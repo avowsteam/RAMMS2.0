@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RAMMS.Common;
 using RAMMS.Domain.Models;
 using RAMMS.DTO;
 using RAMMS.DTO.Report;
@@ -39,23 +40,22 @@ namespace RAMMS.Repository
                 query = query.Where(s => s.x.B9dsRevisionYear == Convert.ToInt32(filterOptions.Filters.Year));
             }
 
-            if (!string.IsNullOrEmpty(filterOptions.Filters.FromDate) && string.IsNullOrEmpty(filterOptions.Filters.ToDate))
-            {
-                DateTime dt;
-                if (DateTime.TryParseExact(filterOptions.Filters.FromDate, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dt))
-                {
-                    query = query.Where(x => x.x.B9dsRevisionDate.HasValue ? (x.x.B9dsRevisionDate.Value.Year == dt.Year && x.x.B9dsRevisionDate.Value.Month == dt.Month && x.x.B9dsRevisionDate.Value.Day == dt.Day) : false);
-                }
-            }
 
-            if (string.IsNullOrEmpty(filterOptions.Filters.FromDate) && !string.IsNullOrEmpty(filterOptions.Filters.ToDate))
-            {
-                DateTime dt;
-                if (DateTime.TryParseExact(filterOptions.Filters.FromDate, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dt))
-                {
-                    query = query.Where(x => x.x.B9dsRevisionDate.HasValue ? (x.x.B9dsRevisionDate.Value.Year == dt.Year && x.x.B9dsRevisionDate.Value.Month == dt.Month && x.x.B9dsRevisionDate.Value.Day == dt.Day) : false);
-                }
-            }
+            string frmDate = Utility.ToString(filterOptions.Filters.FromDate);
+            string toDate = Utility.ToString(filterOptions.Filters.ToDate);
+
+            DateTime? dtFrom = Utility.ToDateTime(frmDate);
+            DateTime? dtTo = Utility.ToDateTime(toDate);
+            if (toDate == "" && frmDate != "")
+                query = query.Where(s => s.x.B9dsRevisionDate >= dtFrom);
+            else if (toDate != "" && frmDate != "")
+                query = query.Where(s => s.x.B9dsRevisionDate >= dtFrom && s.x.B9dsRevisionDate <= dtTo);
+            else if (frmDate == "" && toDate != "")
+                query = query.Where(s => s.x.B9dsRevisionDate <= dtTo);
+
+
+
+
 
             if (!string.IsNullOrEmpty(filterOptions.Filters.SmartSearch))
             {
@@ -106,7 +106,9 @@ namespace RAMMS.Repository
 
             }
 
-            int? MaxRecord = query.Select(s => s.x.B9dsPkRefNo).DefaultIfEmpty().Max();
+            int? MaxRecord = 0;
+            if (query.Count() > 0)
+                MaxRecord = query.Select(s => s.x.B9dsPkRefNo).DefaultIfEmpty().Max();
 
             var list = query.Select(s => new FormB9ResponseDTO
             {

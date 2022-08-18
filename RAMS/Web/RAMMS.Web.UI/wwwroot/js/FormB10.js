@@ -26,6 +26,7 @@ $(document).ready(function () {
         getRevisionNo($("#ddlYear").val());
     });
 
+    $("#hdnRevisionDate").val($("#FormB10_RevisionDate").val());
 
 
 });
@@ -53,9 +54,22 @@ function getRevisionNo(id) {
 
 
 function Save() {
-
     var failed = false;
 
+    if ($("#FormB10_RevisionDate").val() != "") {
+
+        var RevDt = new Date(formatDate($("#hdnRevisionDate").val()));
+        var SelectedDt = new Date(formatDate($("#FormB10_RevisionDate").val()));
+        if (RevDt > SelectedDt) {
+            app.ShowErrorMessage("Selected Date should be greater than previous Revison Date");
+            failed = true;
+        }
+
+    }
+    else {
+        app.ShowErrorMessage("Revision Date Required");
+        failed = true;
+    }
 
     if (failed)
         return;
