@@ -25,6 +25,9 @@ $(document).ready(function () {
         getRevisionNo($("#ddlYear").val());
     });
 
+    $("#hdnRevisionDate").val($("#FormB9_RevisionDate").val());
+ 
+
 });
 
 
@@ -54,7 +57,21 @@ function Save() {
 
     var failed = false;
 
-
+    if ($("#FormB9_RevisionDate").val() != "") {
+         
+        var RevDt = new Date(formatDate($("#hdnRevisionDate").val()));
+        var SelectedDt = new Date(formatDate($("#FormB9_RevisionDate").val()));
+        if (RevDt > SelectedDt) {
+            app.ShowErrorMessage("Selected Date should be greater than previous Revison Date");
+            failed = true;
+            }
+      
+    }
+    else {
+        app.ShowErrorMessage("Revision Date Required");
+        failed = true;
+    }
+ 
     if (failed)
         return;
 
@@ -278,4 +295,16 @@ function GoBack() {
     }
     else
         location.href = "/FormB9";
+}
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
 }

@@ -38,8 +38,8 @@
         })
     });
 
- 
-    
+
+
 
 </script>
 <!--BreadCrumbs-->
@@ -83,32 +83,33 @@
     @*Detail Search Screen*@
     <div id="detailSearch">
         <div class="row" id="formB9AdvSearch" style="display:none">
-            <div id="formF2DetailsearchForm" name="formF2DetailsearchForm">
-                <div class="col-lg-10 offset-lg-1">
-                    <div class="bg-white rounded float-left pt-3 pb-1 advance-search-group col-md-12 px-4">
-                        <div class="row">
+
+            <div class="col-lg-10 offset-lg-1">
+                <div class="bg-white rounded float-left pt-3 pb-1 advance-search-group col-md-12 px-4">
+                    <div class="row">
 
 
-                            <div class="form-group col-md-3">
-                                @Html.Label("Year", "Year")
-                                @Html.DropDownList("yr", year, "Select Year", new { @Id = "ddlYear", @class = "form-control" })
-                            </div>
-
-                            <div class="form-group col-md-3">
-                                @Html.Label("Date From", "Date From")
-                                <input class="form-control" type="date" id="txtStartDtFrom">
-                            </div>
-                            <div class="form-group col-md-3">
-                                @Html.Label("Date To", "Date To")
-                                <input class="form-control" type="date" id="txtEndDtTo">
-                            </div>
-
-
+                        <div class="form-group col-md-3">
+                            @Html.Label("Year", "Year")
+                            @Html.DropDownList("yr", year, "Select Year", new { @Id = "ddlYear", @class = "form-control" })
                         </div>
+
+                        <div class="form-group col-md-3">
+                            @Html.Label("Date From", "Date From")
+                            <input class="form-control" type="date" id="txtStartDtFrom">
+                        </div>
+                        <div class="form-group col-md-3">
+                            @Html.Label("Date To", "Date To")
+                            <input class="form-control" type="date" id="txtEndDtTo">
+                        </div>
+
+
                     </div>
                 </div>
             </div>
+
         </div>
+
     </div>
 </div>
 

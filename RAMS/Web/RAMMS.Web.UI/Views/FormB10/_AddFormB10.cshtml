@@ -180,7 +180,7 @@
 @Html.HiddenFor(m => m.FormB10.PkRefNo);
 <input type="hidden" id="UserId" value="@security.UserID" />
 <input type="hidden" id="hdnview" value="@Model.view" />
-
+<input type="hidden" id="hdnRevisionDate"   />
 
 <script>
     var UnitServiceLevelObj = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(UnitServiceLevel));
