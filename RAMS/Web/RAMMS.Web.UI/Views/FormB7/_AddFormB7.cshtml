@@ -26,6 +26,12 @@
 <script type="text/javascript" src="~/js/FormB7.js" asp-append-version="true"></script>
 <script type="text/javascript" >
 frmB7.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
+
+if (frmB7.IsEdit){
+    $("#formB7Year").chosen('destroy');
+    $("#formB7Year").prop("disabled", true);
+    $("#date").prop("disabled", true);
+}
 </script>
 
 }

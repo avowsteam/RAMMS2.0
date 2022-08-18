@@ -26,17 +26,21 @@ namespace RAMMS.Repository
 
         public async Task<GridWrapper<object>> GetHeaderGrid(DataTableAjaxPostModel searchData)
         {
+
+            int? MiriMaxID = (from rn in _context.RmB11Hdr where rn.B11hRmuCode == "Miri" select rn.B11hPkRefNo).DefaultIfEmpty().Max();
+            int? BatuNiahMaxID = (from rn in _context.RmB11Hdr where rn.B11hRmuCode == "Batu Niah" select rn.B11hPkRefNo).DefaultIfEmpty().Max();
             var query = (from hdr in _context.RmB11Hdr
 
                          select new
                          {
                              RefNo = hdr.B11hPkRefNo,
-                             RMUCode=hdr.B11hRmuCode,
-                             RMUName =hdr.B11hRmuName,
+                             RMUCode = hdr.B11hRmuCode,
+                             RMUName = hdr.B11hRmuName,
                              RevisionYear = hdr.B11hRevisionYear,
                              RevisionNo = hdr.B11hRevisionNo,
                              RevisionDate = hdr.B11hRevisionDate,
                              CrByName = hdr.B11hCrByName,
+                             MaxRecord = (hdr.B11hPkRefNo == MiriMaxID) || (hdr.B11hPkRefNo== BatuNiahMaxID)
                          });
 
             if (searchData.filter != null)
@@ -101,7 +105,7 @@ namespace RAMMS.Repository
         public RmB11Hdr GetHeaderById(int id, int IsEdit)
         {
             RmB11Hdr res = (from r in _context.RmB11Hdr where r.B11hPkRefNo == id select r).FirstOrDefault();
-            int? RevNo = (from rn in _context.RmB11Hdr where rn.B11hRevisionYear == res.B11hRevisionYear select rn.B11hRevisionNo).DefaultIfEmpty().Max() + 1;
+            int? RevNo = (from rn in _context.RmB11Hdr where rn.B11hRevisionYear == res.B11hRevisionYear && rn.B11hRmuCode == res.B11hRmuCode select rn.B11hRevisionNo).DefaultIfEmpty().Max() + 1;
             if (IsEdit == 1)
                 res.B11hRevisionNo = RevNo;
             res.RmB11CrewDayCostHeader = (from r in _context.RmB11CrewDayCostHeader where r.B11cdchB11hPkRefNo == id select r).ToList();

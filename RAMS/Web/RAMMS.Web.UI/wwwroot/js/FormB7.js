@@ -102,7 +102,7 @@ var frmB7 = new function () {
             var actionSection = "<div class='btn-group dropright' rowidx='" + meta.row + "'><button type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button>";
             actionSection += "<div class='dropdown-menu'>";//dorpdown menu start
 
-            if (tblFB7HGrid.Base.IsModify) {
+            if (data.MaxRecord) { //if (tblFB7HGrid.Base.IsModify) {
                 actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB7.HeaderGrid.ActionClick(this);'>";
                 actionSection += "<span class='edit-icon'></span> Edit </button>";
             }

@@ -15,8 +15,8 @@ var frmB11 = new function () {
 
         var FormB11 = new Object();
         FormB11.B11hPkRefNo = $("#FormB11Header_B11hPkRefNo").val();
-        FormB11.B11hRmuCode = $("#formB11RMU option:selected").val();
-        FormB11.B11hRmuName = $("#formB11RMU option:selected").text();
+        FormB11.B11hRmuCode = $("#txtB11RmuCode").val();
+        FormB11.B11hRmuName = $("#txtB11RmuCode").val();
         FormB11.B11hRevisionNo = $("#RevisionNo").val();
         FormB11.B11hRevisionDate = $("#date").val();
         FormB11.B11hRevisionYear = $("#formB11Year").val();
@@ -90,7 +90,7 @@ var frmB11 = new function () {
         debugger;
         FormB11.RmB11LabourCost = B11LabourCost;
         FormB11.RmB11EquipmentCost = B11EquipmentCost;
-        FormB11.RmB11MaterialCost = B11MaterialCost;        
+        FormB11.RmB11MaterialCost = B11MaterialCost;
 
         var FormB11Data = JSON.stringify(FormB11);
         $.ajax({
@@ -122,10 +122,11 @@ var frmB11 = new function () {
 
     this.HeaderGrid = new function () {
         this.ActionRender = function (data, type, row, meta) {
+            debugger;
             var actionSection = "<div class='btn-group dropright' rowidx='" + meta.row + "'><button type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button>";
             actionSection += "<div class='dropdown-menu'>";//dorpdown menu start
 
-            if (tblFB11HGrid.Base.IsModify) {
+            if (data.MaxRecord) {//if (tblFB11HGrid.Base.IsModify) {
                 actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB11.HeaderGrid.ActionClick(this);'>";
                 actionSection += "<span class='edit-icon'></span> Edit </button>";
             }
@@ -151,6 +152,7 @@ var frmB11 = new function () {
             var rowidx = parseInt(obj.closest("[rowidx]").attr("rowidx"), 10);
             if (rowidx >= 0) {
                 var data = tblFB11HGrid.dataTable.row(rowidx).data();
+                debugger;
                 switch (type.toLowerCase()) {
                     case "edit":
                         window.location = _APPLocation + "FormB11/Edit/" + data.RefNo;
@@ -173,7 +175,7 @@ var frmB11 = new function () {
                     //    }, "Yes", "No");
                     //    break;
                     case "print":
-                        window.location = _APPLocation + "FormB11/download?id=" + data.RefNo;
+                        window.location = _APPLocation + "FormB11/download?id=" + data.RefNo + "&Rmucode=" + data.RMUCode;
                         break;
                 }
             }
@@ -472,15 +474,28 @@ function AppendLabourData(id) {
                     $('#tblLabour thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center">' + data.result[i].b7lhName + ' Rate </span></th>');
                 }
 
-                $('#tblLabour tbody tr').each(function () {
-                    for (var i = 0; i < data.result.length; i++) {
-                        var id = k + data.result[i].b7lhCode;
-                        $(this).find("td:last").after('<td class="xl69"> <input type="text" id="txt' + id + '" onkeyup="LabourCal(this, ' + k + ')" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td class="xl70' + i + '" data-lab=' + data.result.length + '><span style="display:none;">' + data.result[i].b7lhName + '</span><span id="sp' + id + '" style="display:none;">' + data.result[i].b7lhUnitPriceBatuNiah + '</span><span class="x100' + k + '" id="span' + id + '" style="width:150px;float:left;text-align:center"></span><span style="display:none;">' + data.result[i].b7lhCode + '</span></td>');
-                    }
-                    $(this).find("td:last").after('<td class="xl71" x:str><span id="sptot' + k + '" style="width:150px;float:left;text-align:center"></span></td>');
-                    k = k + 1;
-                });
+                if ($("#txtB11RmuCode").val() == "Miri") {
+                    $('#tblLabour tbody tr').each(function () {
+                        for (var i = 0; i < data.result.length; i++) {
+                            var id = k + data.result[i].b7lhCode;
+                            $(this).find("td:last").after('<td class="xl69"> <input type="text" id="txt' + id + '" onkeyup="LabourCal(this, ' + k + ')" class="form-control" /></td>');
+                            $(this).find("td:last").after('<td class="xl70' + i + '" data-lab=' + data.result.length + '><span style="display:none;">' + data.result[i].b7lhName + '</span><span id="sp' + id + '" style="display:none;">' + data.result[i].b7lhUnitPriceMiri + '</span><span class="x100' + k + '" id="span' + id + '" style="width:150px;float:left;text-align:center"></span><span style="display:none;">' + data.result[i].b7lhCode + '</span></td>');
+                        }
+                        $(this).find("td:last").after('<td class="xl71" x:str><span id="sptot' + k + '" style="width:150px;float:left;text-align:center"></span></td>');
+                        k = k + 1;
+                    });
+                }
+                else {
+                    $('#tblLabour tbody tr').each(function () {
+                        for (var i = 0; i < data.result.length; i++) {
+                            var id = k + data.result[i].b7lhCode;
+                            $(this).find("td:last").after('<td class="xl69"> <input type="text" id="txt' + id + '" onkeyup="LabourCal(this, ' + k + ')" class="form-control" /></td>');
+                            $(this).find("td:last").after('<td class="xl70' + i + '" data-lab=' + data.result.length + '><span style="display:none;">' + data.result[i].b7lhName + '</span><span id="sp' + id + '" style="display:none;">' + data.result[i].b7lhUnitPriceBatuNiah + '</span><span class="x100' + k + '" id="span' + id + '" style="width:150px;float:left;text-align:center"></span><span style="display:none;">' + data.result[i].b7lhCode + '</span></td>');
+                        }
+                        $(this).find("td:last").after('<td class="xl71" x:str><span id="sptot' + k + '" style="width:150px;float:left;text-align:center"></span></td>');
+                        k = k + 1;
+                    });
+                }
                 $('#tblLabour thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Labour Unit </span></th>');
 
             }
@@ -580,15 +595,28 @@ function AppendMaterialData(id) {
                     $('#tblMaterial thead tr th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result[i].b7mhName + ' Rate </span></th>');
                 }
 
-                $('#tblMaterial tbody tr').each(function () {
-                    for (var i = 0; i < data.result.length; i++) {
-                        var id = k + data.result[i].b7mhCode;
-                        $(this).find("td:last").after('<td class="xl69"> <input type="text" id="mtxt' + id + '" onkeyup="MaterialCal(this, ' + k + ')" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td class="xl70' + i + '" data-lab=' + data.result.length + '><span style="display:none;">' + data.result[i].b7mhName + '</span><span id="msp' + id + '" style="display:none;">' + data.result[i].b7mhUnitPriceBatuNiah + '</span><span class="x100' + k + '" id="mspan' + id + '" style="width:150px;float:left;text-align:center"></span><span style="display:none;">' + data.result[i].b7mhCode + '</span></td>');
-                    }
-                    $(this).find("td:last").after('<td class="xl71" x:str><span id="msptot' + k + '" style="width:150px;float:left;text-align:center"></span></td>');
-                    k = k + 1;
-                });
+                if ($("#txtB11RmuCode").val() == "Miri") {
+                    $('#tblMaterial tbody tr').each(function () {
+                        for (var i = 0; i < data.result.length; i++) {
+                            var id = k + data.result[i].b7mhCode;
+                            $(this).find("td:last").after('<td class="xl69"> <input type="text" id="mtxt' + id + '" onkeyup="MaterialCal(this, ' + k + ')" class="form-control" /></td>');
+                            $(this).find("td:last").after('<td class="xl70' + i + '" data-lab=' + data.result.length + '><span style="display:none;">' + data.result[i].b7mhName + '</span><span id="msp' + id + '" style="display:none;">' + data.result[i].b7mhUnitPriceMiri + '</span><span class="x100' + k + '" id="mspan' + id + '" style="width:150px;float:left;text-align:center"></span><span style="display:none;">' + data.result[i].b7mhCode + '</span></td>');
+                        }
+                        $(this).find("td:last").after('<td class="xl71" x:str><span id="msptot' + k + '" style="width:150px;float:left;text-align:center"></span></td>');
+                        k = k + 1;
+                    });
+                }
+                else {
+                    $('#tblMaterial tbody tr').each(function () {
+                        for (var i = 0; i < data.result.length; i++) {
+                            var id = k + data.result[i].b7mhCode;
+                            $(this).find("td:last").after('<td class="xl69"> <input type="text" id="mtxt' + id + '" onkeyup="MaterialCal(this, ' + k + ')" class="form-control" /></td>');
+                            $(this).find("td:last").after('<td class="xl70' + i + '" data-lab=' + data.result.length + '><span style="display:none;">' + data.result[i].b7mhName + '</span><span id="msp' + id + '" style="display:none;">' + data.result[i].b7mhUnitPriceBatuNiah + '</span><span class="x100' + k + '" id="mspan' + id + '" style="width:150px;float:left;text-align:center"></span><span style="display:none;">' + data.result[i].b7mhCode + '</span></td>');
+                        }
+                        $(this).find("td:last").after('<td class="xl71" x:str><span id="msptot' + k + '" style="width:150px;float:left;text-align:center"></span></td>');
+                        k = k + 1;
+                    });
+                }
                 $('#tblMaterial thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Material Unit </span></th>');
 
             }
@@ -688,15 +716,29 @@ function AppendEquipmentData(id) {
                     $('#tblEquipment thead tr th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result[i].b7ehName + ' Rate </span></th>');
                 }
 
-                $('#tblEquipment tbody tr').each(function () {
-                    for (var i = 0; i < data.result.length; i++) {
-                        var id = k + data.result[i].b7ehCode;
-                        $(this).find("td:last").after('<td class="xl69"> <input type="text" id="etxt' + id + '" onkeyup="EquipmentCal(this, ' + k + ')" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td class="xl70' + i + '" data-lab=' + data.result.length + '><span style="display:none;">' + data.result[i].b7ehName + '</span><span id="esp' + id + '" style="display:none;">' + data.result[i].b7ehUnitPriceBatuNiah + '</span><span class="x100' + k + '" id="espan' + id + '" style="width:150px;float:left;text-align:center"></span><span style="display:none;">' + data.result[i].b7ehCode + '</span></td>');
-                    }
-                    $(this).find("td:last").after('<td class="xl71" x:str><span id="esptot' + k + '" style="width:150px;float:left;text-align:center"></span></td>');
-                    k = k + 1;
-                });
+                if ($("#txtB11RmuCode").val() == "Miri") {
+                    $('#tblEquipment tbody tr').each(function () {
+                        for (var i = 0; i < data.result.length; i++) {
+                            var id = k + data.result[i].b7ehCode;
+                            $(this).find("td:last").after('<td class="xl69"> <input type="text" id="etxt' + id + '" onkeyup="EquipmentCal(this, ' + k + ')" class="form-control" /></td>');
+                            $(this).find("td:last").after('<td class="xl70' + i + '" data-lab=' + data.result.length + '><span style="display:none;">' + data.result[i].b7ehName + '</span><span id="esp' + id + '" style="display:none;">' + data.result[i].b7ehUnitPriceMiri + '</span><span class="x100' + k + '" id="espan' + id + '" style="width:150px;float:left;text-align:center"></span><span style="display:none;">' + data.result[i].b7ehCode + '</span></td>');
+                        }
+                        $(this).find("td:last").after('<td class="xl71" x:str><span id="esptot' + k + '" style="width:150px;float:left;text-align:center"></span></td>');
+                        k = k + 1;
+                    });
+                }
+                else {
+                    $('#tblEquipment tbody tr').each(function () {
+                        for (var i = 0; i < data.result.length; i++) {
+                            var id = k + data.result[i].b7ehCode;
+                            $(this).find("td:last").after('<td class="xl69"> <input type="text" id="etxt' + id + '" onkeyup="EquipmentCal(this, ' + k + ')" class="form-control" /></td>');
+                            $(this).find("td:last").after('<td class="xl70' + i + '" data-lab=' + data.result.length + '><span style="display:none;">' + data.result[i].b7ehName + '</span><span id="esp' + id + '" style="display:none;">' + data.result[i].b7ehUnitPriceBatuNiah + '</span><span class="x100' + k + '" id="espan' + id + '" style="width:150px;float:left;text-align:center"></span><span style="display:none;">' + data.result[i].b7ehCode + '</span></td>');
+                        }
+                        $(this).find("td:last").after('<td class="xl71" x:str><span id="esptot' + k + '" style="width:150px;float:left;text-align:center"></span></td>');
+                        k = k + 1;
+                    });
+                }
+
                 $('#tblEquipment thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Equipment Unit </span></th>');
 
             }

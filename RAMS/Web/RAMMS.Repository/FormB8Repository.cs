@@ -27,7 +27,7 @@ namespace RAMMS.Repository
         public async Task<GridWrapper<object>> GetHeaderGrid(DataTableAjaxPostModel searchData)
         {
             var query = (from hdr in _context.RmB8Hdr
-
+                         let max = _context.RmB8Hdr.Select(s => s.B8hPkRefNo).DefaultIfEmpty().Max()
                          select new
                          {
                              RefNo = hdr.B8hPkRefNo,
@@ -35,6 +35,7 @@ namespace RAMMS.Repository
                              RevisionNo = hdr.B8hRevisionNo,
                              RevisionDate = hdr.B8hRevisionDate,
                              CrByName = hdr.B8hCrByName,
+                             MaxRecord = (hdr.B8hPkRefNo == max)
                          });
 
             if (searchData.filter != null)
@@ -122,7 +123,7 @@ namespace RAMMS.Repository
                 _context.RmB8Hdr.Add(FormB8);
                 _context.SaveChanges();
 
-               
+
 
                 return 1;
             }
@@ -136,20 +137,20 @@ namespace RAMMS.Repository
         {
             List<FormB8Rpt> details = new List<FormB8Rpt>();
 
-            
-                            
-            details =await  (from o in _context.RmB8History
-                              where (o.B8hiB8hPkRefNo == headerid)
-                              orderby o.B8hiItemNo ascending
-                              select new FormB8Rpt
-                              {
-                                  ItemNo = o.B8hiItemNo.ToString(),
-                                  Description = o.B8hiDescription,
-                                  Unit = o.B8hiUnit.ToString() ,
-                                  Division = o.B8hiDivision,
-                              }).ToListAsync();
 
-            
+
+            details = await (from o in _context.RmB8History
+                             where (o.B8hiB8hPkRefNo == headerid)
+                             orderby o.B8hiItemNo ascending
+                             select new FormB8Rpt
+                             {
+                                 ItemNo = o.B8hiItemNo.ToString(),
+                                 Description = o.B8hiDescription,
+                                 Unit = o.B8hiUnit.ToString(),
+                                 Division = o.B8hiDivision,
+                             }).ToListAsync();
+
+
             return details;
         }
     }

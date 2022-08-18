@@ -160,5 +160,12 @@ namespace RAMMS.Web.UI.Controllers
             return Json(1);
         }
 
+        public IActionResult Download(int id,string Rmucode)
+        {
+            var content1 = _formB11Service.FormDownload("FormB11", id, Rmucode, _webHostEnvironment.WebRootPath, _webHostEnvironment.WebRootPath + "/Templates/FormB11.xlsx");
+            string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            return File(content1, contentType1, "FormB11" + ".xlsx");
+        }
+
     }
 }
