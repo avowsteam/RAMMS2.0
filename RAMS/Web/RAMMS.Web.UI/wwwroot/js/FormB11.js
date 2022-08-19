@@ -245,6 +245,7 @@ var frmB11 = new function () {
 
     this.PageInit = function () {
         debugger;
+        $('#hdrId').text("CREW DAY COST CALCULATION WORK SHEET ("+$("#txtB11RmuCode").val()+")");
         if (this.IsEdit) {
             if ($('#formB11Year').val() != "" && $('#formB11Year').val() != null) {
                 AppendLabourData();
@@ -469,9 +470,19 @@ function AppendLabourData(id) {
             debugger;
             if (data.result.length > 0) {
                 var k = 0;
-                for (var i = 0; i < data.result.length; i++) {
-                    $('#tblLabour thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center">' + data.result[i].b7lhName + ' Unit </span></th>');
-                    $('#tblLabour thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center">' + data.result[i].b7lhName + ' Rate </span></th>');
+                if ($("#txtB11RmuCode").val() == "Miri") {
+                    for (var i = 0; i < data.result.length; i++) {
+                        $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center">' + data.result[i].b7lhName + ' Unit </span></th>');
+                        $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center">' + data.result[i].b7lhName + ' Rate </span></th>');
+                        $('#tblLabour thead tr:eq(1) td:last').after('<td x:str></td><td x:str><span style="width:150px;float:left;text-align:center">' + data.result[i].b7lhUnitPriceMiri + ' </span></td>');
+                    }
+                }
+                else {
+                    for (var i = 0; i < data.result.length; i++) {
+                        $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center">' + data.result[i].b7lhName + ' Unit </span></th>');
+                        $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center">' + data.result[i].b7lhName + ' Rate </span></th>');
+                        $('#tblLabour thead tr:eq(1) td:last').after('<td x:str></td><td x:str><span style="width:150px;float:left;text-align:center">' + data.result[i].b7lhUnitPriceBatuNiah + ' </span></td>');
+                    }
                 }
 
                 if ($("#txtB11RmuCode").val() == "Miri") {
@@ -496,8 +507,8 @@ function AppendLabourData(id) {
                         k = k + 1;
                     });
                 }
-                $('#tblLabour thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Labour Unit </span></th>');
-
+                $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Labour Unit </span></th>');
+                $('#tblLabour thead tr:eq(1) td:last').after('<td></td>');
             }
             //$("#RevisionNo").val(data)
         },
@@ -541,11 +552,16 @@ function ViewLabourData(id) {
                 var cRow = 0;
                 var labB7 = data.result.filter(function (el) { return el.b11lcLabourOrderId == 0; }).length;
                 var labourB11 = data.result.map(p => p.b11lcLabourOrderId).filter((b11lcLabourOrderId, index, arr) => arr.indexOf(b11lcLabourOrderId) == index).length;
-                for (var i = 0; i < labB7; i++) {
-                    $('#tblLabour thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11lcLabourOrderId == 0; })[i].b11lcLabourName + ' Unit </span></th>');
-                    $('#tblLabour thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11lcLabourOrderId == 0; })[i].b11lcLabourName + ' Rate </span></th>');
-                }
+                //for (var i = 0; i < labB7; i++) {
+                //    $('#tblLabour thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11lcLabourOrderId == 0; })[i].b11lcLabourName + ' Unit </span></th>');
+                //    $('#tblLabour thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11lcLabourOrderId == 0; })[i].b11lcLabourName + ' Rate </span></th>');
+                //}
 
+                for (var i = 0; i < labB7; i++) {
+                    $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11lcLabourOrderId == 0; })[i].b11lcLabourName + ' Unit </span></th>');
+                    $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11lcLabourOrderId == 0; })[i].b11lcLabourName + ' Rate </span></th>');
+                    $('#tblLabour thead tr:eq(1) td:last').after('<td x:str></td><td x:str><span style="width:150px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourPerUnitPrice + ' </span></td>');
+                }
 
                 $('#tblLabour tbody tr').each(function () {
                     var totallab = 0;
@@ -557,7 +573,7 @@ function ViewLabourData(id) {
                         var LabourUnitPrice = data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourTotalPrice != null ? data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourTotalPrice : "";
                         $(this).find("td:last").after('<td class="xl69"> <input type="text" id="txt' + id + '" disabled value="' + LabourUnit + '"  class="form-control" /></td>');
 
-                        $(this).find("td:last").after('<td class="xl70' + i + '" data-lab=' + labourB11 + '><span style="display:none;">' + data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourName + '</span><span id="sp' + id + '" style="display:none;">' + data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourPerUnitPrice + '</span><span class="x100' + k + '" id="span' + id + '" style="width:150px;float:left;text-align:center">' + LabourUnitPrice + '</span><span style="display:none;">' + data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourId + '</span></td>');
+                        $(this).find("td:last").after('<td  class="xl70' + i + '" data-lab=' + labourB11 + '><span style="display:none;">' + data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourName + '</span><span id="sp' + id + '" style="display:none;">' + data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourPerUnitPrice + '</span><span class="x100' + k + '" id="span' + id + '" style="width:150px;float:left;text-align:center">' + LabourUnitPrice + '</span><span style="display:none;">' + data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourId + '</span></td>');
 
                         var rowlaboutot = data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourTotalPrice != null ? data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourTotalPrice : 0
                         totallab = totallab + parseFloat(rowlaboutot)
@@ -568,7 +584,8 @@ function ViewLabourData(id) {
                     cRow = cRow + 1;
                 });
 
-                $('#tblLabour thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Labour Unit </span></th>');
+                $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Labour Unit </span></th>');
+                $('#tblLabour thead tr:eq(1) td:last').after('<td></td>');
             }
         },
         error: function (data) {
@@ -590,9 +607,20 @@ function AppendMaterialData(id) {
             debugger;
             if (data.result.length > 0) {
                 var k = 0;
-                for (var i = 0; i < data.result.length; i++) {
-                    $('#tblMaterial thead tr th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result[i].b7mhName + ' Unit </span></th>');
-                    $('#tblMaterial thead tr th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result[i].b7mhName + ' Rate </span></th>');
+
+                if ($("#txtB11RmuCode").val() == "Miri") {
+                    for (var i = 0; i < data.result.length; i++) {
+                        $('#tblMaterial thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result[i].b7mhName + ' Unit </span></th>');
+                        $('#tblMaterial thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result[i].b7mhName + ' Rate </span></th>');
+                        $('#tblMaterial thead tr:eq(1) td:last').after('<td x:str></td><td x:str><span style="width:150px;float:left;text-align:center">' + data.result[i].b7mhUnitPriceMiri + ' </span></td>');
+                    }
+                }
+                else {
+                    for (var i = 0; i < data.result.length; i++) {
+                        $('#tblMaterial thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result[i].b7mhName + ' Unit </span></th>');
+                        $('#tblMaterial thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result[i].b7mhName + ' Rate </span></th>');
+                        $('#tblMaterial thead tr:eq(1) td:last').after('<td x:str></td><td x:str><span style="width:150px;float:left;text-align:center">' + data.result[i].b7mhUnitPriceBatuNiah + ' </span></td>');
+                    }
                 }
 
                 if ($("#txtB11RmuCode").val() == "Miri") {
@@ -618,6 +646,7 @@ function AppendMaterialData(id) {
                     });
                 }
                 $('#tblMaterial thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Material Unit </span></th>');
+                $('#tblMaterial thead tr:eq(1) td:last').after('<td></td>');
 
             }
             //$("#RevisionNo").val(data)
@@ -663,8 +692,9 @@ function ViewMaterialData(id) {
                 var labB7 = data.result.filter(function (el) { return el.b11mcMaterialOrderId == 0; }).length;
                 var labourB11 = data.result.map(p => p.b11mcMaterialOrderId).filter((b11mcMaterialOrderId, index, arr) => arr.indexOf(b11mcMaterialOrderId) == index).length;
                 for (var i = 0; i < labB7; i++) {
-                    $('#tblMaterial thead tr th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11mcMaterialOrderId == 0; })[i].b11mcMaterialName + ' Unit </span></th>');
-                    $('#tblMaterial thead tr th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11mcMaterialOrderId == 0; })[i].b11mcMaterialName + ' Rate </span></th>');
+                    $('#tblMaterial thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11mcMaterialOrderId == 0; })[i].b11mcMaterialName + ' Unit </span></th>');
+                    $('#tblMaterial thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11mcMaterialOrderId == 0; })[i].b11mcMaterialName + ' Rate </span></th>');
+                    $('#tblMaterial thead tr:eq(1) td:last').after('<td x:str></td><td x:str><span style="width:150px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11mcMaterialOrderId == cRow; })[i].b11mcMaterialPerUnitPrice + ' </span></td>');
                 }
 
 
@@ -689,7 +719,8 @@ function ViewMaterialData(id) {
                     cRow = cRow + 1;
                 });
 
-                $('#tblMaterial thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Material Unit </span></th>');
+                $('#tblMaterial thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Material Unit </span></th>');
+                $('#tblMaterial thead tr:eq(1) td:last').after('<td></td>');
             }
         },
         error: function (data) {
@@ -711,9 +742,19 @@ function AppendEquipmentData(id) {
             debugger;
             if (data.result.length > 0) {
                 var k = 0;
-                for (var i = 0; i < data.result.length; i++) {
-                    $('#tblEquipment thead tr th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result[i].b7ehName + ' Unit </span></th>');
-                    $('#tblEquipment thead tr th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result[i].b7ehName + ' Rate </span></th>');
+                if ($("#txtB11RmuCode").val() == "Miri") {
+                    for (var i = 0; i < data.result.length; i++) {
+                        $('#tblEquipment thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result[i].b7ehName + ' Unit </span></th>');
+                        $('#tblEquipment thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result[i].b7ehName + ' Rate </span></th>');
+                        $('#tblEquipment thead tr:eq(1) td:last').after('<td x:str></td><td x:str><span style="width:150px;float:left;text-align:center">' + data.result[i].b7ehUnitPriceMiri + ' </span></td>');
+                    }
+                }
+                else {
+                    for (var i = 0; i < data.result.length; i++) {
+                        $('#tblEquipment thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result[i].b7ehName + ' Unit </span></th>');
+                        $('#tblEquipment thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result[i].b7ehName + ' Rate </span></th>');
+                        $('#tblEquipment thead tr:eq(1) td:last').after('<td x:str></td><td x:str><span style="width:150px;float:left;text-align:center">' + data.result[i].b7ehUnitPriceBatuNiah + ' </span></td>');
+                    }
                 }
 
                 if ($("#txtB11RmuCode").val() == "Miri") {
@@ -739,7 +780,8 @@ function AppendEquipmentData(id) {
                     });
                 }
 
-                $('#tblEquipment thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Equipment Unit </span></th>');
+                $('#tblEquipment thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Equipment Unit </span></th>');
+                $('#tblEquipment thead tr:eq(1) td:last').after('<td></td>');
 
             }
             //$("#RevisionNo").val(data)
@@ -785,8 +827,10 @@ function ViewEquipmentData(id) {
                 var labB7 = data.result.filter(function (el) { return el.b11ecEquipmentOrderId == 0; }).length;
                 var labourB11 = data.result.map(p => p.b11ecEquipmentOrderId).filter((b11ecEquipmentOrderId, index, arr) => arr.indexOf(b11ecEquipmentOrderId) == index).length;
                 for (var i = 0; i < labB7; i++) {
-                    $('#tblEquipment thead tr th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11ecEquipmentOrderId == 0; })[i].b11ecEquipmentName + ' Unit </span></th>');
-                    $('#tblEquipment thead tr th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11ecEquipmentOrderId == 0; })[i].b11ecEquipmentName + ' Rate </span></th>');
+                    $('#tblEquipment thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11ecEquipmentOrderId == 0; })[i].b11ecEquipmentName + ' Unit </span></th>');
+                    $('#tblEquipment thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:200px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11ecEquipmentOrderId == 0; })[i].b11ecEquipmentName + ' Rate </span></th>');
+                    $('#tblEquipment thead tr:eq(1) td:last').after('<td x:str></td><td x:str><span style="width:150px;float:left;text-align:center">' + data.result.filter(function (el) { return el.b11ecEquipmentOrderId == cRow; })[i].b11ecEquipmentPerUnitPrice + ' </span></td>');
+
                 }
 
 
@@ -811,7 +855,8 @@ function ViewEquipmentData(id) {
                     cRow = cRow + 1;
                 });
 
-                $('#tblEquipment thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Equipment Unit </span></th>');
+                $('#tblEquipment thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Equipment Unit </span></th>');
+                $('#tblEquipment thead tr:eq(1) td:last').after('<td></td>');
             }
         },
         error: function (data) {
