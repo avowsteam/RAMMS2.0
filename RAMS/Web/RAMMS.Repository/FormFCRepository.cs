@@ -101,7 +101,7 @@ namespace RAMMS.Repository
                              CrewLeaderID = hdr.FcihCrewLeaderId.HasValue ? hdr.FcihCrewLeaderId.Value : 0,
                              CrewLeader = hdr.FcihCrewLeaderName,
                              Active = hdr.FcihActiveYn,
-                             Status = (hdr.FcihSubmitSts ? "Submitted" : "Saved")
+                             ProcessStatus = (hdr.FcihSubmitSts ? "Submitted" : "Saved")
                          });
             query = query.Where(x => x.Active == true);
             if (searchData.filter != null)

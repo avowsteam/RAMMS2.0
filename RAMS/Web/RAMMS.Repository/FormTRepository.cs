@@ -45,8 +45,10 @@ namespace RAMMS.Repository
                              TotalHV = vehicle.Where(x => x.FmtvVechicleType == "HV").Sum(y => y.FmtvCount),
                              TotalMC = vehicle.Where(x => x.FmtvVechicleType == "MC").Sum(y => y.FmtvCount),
                              Status = hdr.FmtStatus,
+                             SubmitSts = hdr.FmtSubmitSts,
                              Recordedby = hdr.FmtUsernameRcd,
                              Headedby = hdr.FmtUsernameHdd
+
                          });
 
 
@@ -197,6 +199,7 @@ namespace RAMMS.Repository
                 RoadCode = s.RoadCode,
                 RoadName = s.RoadName,
                 Status = s.Status,
+                SubmitSts = s.SubmitSts,
                 TotalHV = s.TotalHV,
                 TotalMC = s.TotalMC,
                 TotalPC = s.TotalPC
@@ -422,7 +425,7 @@ namespace RAMMS.Repository
                               where d.FmtdiPkRefNo == headerid
                               select new FORMTRptDetail
                               {
-                                  
+
                                   Day = d.FmtdiDay,
                                   Description = d.FmtdiDescription,
                                   DescriptionHV = d.FmtdiDescriptionHv,
@@ -452,17 +455,18 @@ namespace RAMMS.Repository
             var DailyIns = (from d in _context.RmFormTDailyInspection where d.FmtdiFmtPkRefNo == pkrefno && d.FmtdiPkRefNo < headerid select d.FmtdiPkRefNo).DefaultIfEmpty();
 
             result.TotalPC = (from v in _context.RmFormTVechicle
-                               where DailyIns.Contains(v.FmtvFmtdiPkRefNo) && v.FmtvVechicleType == "PC" select v.FmtvCount).Sum();
+                              where DailyIns.Contains(v.FmtvFmtdiPkRefNo) && v.FmtvVechicleType == "PC"
+                              select v.FmtvCount).Sum();
 
             result.TotalHV = (from v in _context.RmFormTVechicle
-                                       where DailyIns.Contains(v.FmtvFmtdiPkRefNo) && v.FmtvVechicleType == "HV"
-                                       select v.FmtvCount).Sum();
-            
-            result.TotalMC = (from v in _context.RmFormTVechicle
-                                       where DailyIns.Contains(v.FmtvFmtdiPkRefNo) && v.FmtvVechicleType == "MC"
-                                       select v.FmtvCount).Sum();
+                              where DailyIns.Contains(v.FmtvFmtdiPkRefNo) && v.FmtvVechicleType == "HV"
+                              select v.FmtvCount).Sum();
 
-            
+            result.TotalMC = (from v in _context.RmFormTVechicle
+                              where DailyIns.Contains(v.FmtvFmtdiPkRefNo) && v.FmtvVechicleType == "MC"
+                              select v.FmtvCount).Sum();
+
+
 
             return result;
 

@@ -180,14 +180,14 @@
 
         <div class="col-md-12 float-right text-right custom-footer">
             <button id="" type="button" class="btn btn-sm btn-outline-theme" onclick="formF5.Cancel()">Cancel</button>
-            @if (Model.Item1 != null && !Model.Item1.SubmitSts && ViewBag.IsEdit)
-            {
+            @*@if (Model.Item1 != null && !Model.Item1.SubmitSts && ViewBag.IsEdit)
+            {*@
                 <button id="" type="button" class="btn btn-sm btn-themebtn" onclick="formF5.Save(false);" saveSubmitBtn>Save</button>
-                @if (IsSupervisor)
-                {
+               @* @if (IsSupervisor)
+                {*@
                     <button id="" type="button" class="btn btn-sm btn-themebtn" onclick="formF5.Save(true);" saveSubmitBtn>Submit</button>
-                }
-            }
+                @*}
+            }*@
             @if (security.IsExecutive && formStatus == RAMMS.Common.StatusList.FormF5Inspected)
             {
                 <button type="button" class="btn btn-sm btn-themebtn" onclick="process.ShowApprove('@RAMMS.Common.GroupNames.OperationsExecutive', 'Approved / Rejected By');">Approve / Reject</button>

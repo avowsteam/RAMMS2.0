@@ -21,7 +21,6 @@
   <ItemGroup>
     <Content Remove="Views\ERT\FormX\FormX - Copy.cshtml" />
     <Content Remove="Views\ERT\FormX\_AddFormX - Copy.cshtml" />
-    <Content Remove="Views\FormsT\Index.cshtml" />
     <!--<Content Remove="Views\FormsT\_DetailGridList.cshtml" />
     <Content Remove="Views\FormsT\_HeaderListGrid.cshtml" />-->
     <Content Remove="Views\FormG1G2\_HeaderListGrid.cshtml" />
@@ -32,10 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\FormsT\Index.cshtml" />
-    <None Include="Views\FormsT\_VechicleDetails.cshtml" />
-    <None Include="Views\FormsT\_DetailGridList.cshtml" />
-    <None Include="Views\FormsT\_HeaderListGrid.cshtml" />
     <None Include="Views\FormF1\Index.cshtml" />
     <None Include="Views\FormF1\_AddFormF1.cshtml" />
     <None Include="Views\FormF1\_DetailGridList.cshtml" />

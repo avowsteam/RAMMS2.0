@@ -453,6 +453,7 @@ function Save(GroupName, SubmitType) {
 
 function SaveFormF3Dtl() {
 
+    $('#ddlCondition').prop('disabled', false).trigger("chosen:updated");
     if (ValidatePage('#myModal')) {
         InitAjaxLoading();
         $.post('/FormF3/SaveFormF3Dtl', $("form").serialize(), function (data) {
@@ -473,12 +474,13 @@ function SaveFormF3Dtl() {
 
 function EditFormF3Dtl(obj, view) {
 
-
+    debugger
     EditModeDtl = true;
     var currentRow = $(obj).closest("tr");
     var data = $('#FormF3DtlGridView').DataTable().row(currentRow).data();
 
     $("#FormF3Dtl_PkRefNo").val(data.pkRefNo);
+    $("#FormF3Dtl_Ff3dG1hPkRefNo").val(data.ff3dG1hPkRefNo);
     $("#ddlAsset").val(data.assetId);
     $("#ddlAsset").trigger('chosen:updated');
     $("#ddlAsset").trigger('change');
