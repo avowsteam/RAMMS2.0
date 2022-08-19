@@ -396,6 +396,7 @@ function AddNewForm(detId, title) {
 }
 
 function ViewDetail(detId, title) {
+    debugger;
     var Id = + $("#FormADetPKId").val();
     $("body").addClass("loading");
     $.ajax({
@@ -407,7 +408,7 @@ function ViewDetail(detId, title) {
             $("#div-data-container1").html(data);
             $("#IsViewDetail").val('1');
             var id = $("#formAFadPKRefNO").val();
-            var _multiSite = $("#multiSiteHidden").val().split(',');
+            var _multiSite =typeof $("#multiSiteHidden").val() != "undefined" ?  $("#multiSiteHidden").val().split(',') : '';
             if (_multiSite != "") {
                 $("#formASiteRefmultiSelect").val(_multiSite).trigger("chosen:updated");
 

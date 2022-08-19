@@ -298,11 +298,12 @@ function bindS1Detil() {
             //debugger;
             var d = _d();
             //d.siteref.val(data.siteRef);
+          
+            d.ActCode.val(data.actCode).trigger("chosen:updated");
             d.siteref.val(data.siteRef).trigger("chosen:updated");
-            d.ActCode.val(data.actCode);
             d.ActCode.prop("disabled", true).trigger("chosen:updated");
 
-            d.defect.val(data.defect);
+            d.defect.val(data.defect).trigger("chosen:updated");
             d.defect.prop("disabled", true).trigger("chosen:updated");
           
             d.locaFrom.val(data.chainageFrom);

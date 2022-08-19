@@ -175,7 +175,7 @@ namespace RAMMS.Web.UI.Controllers
 
                 ViewData["RD_Code"] = await _formQa2Service.GetRoadCodesByRMU("");
 
-                ddLookup.Type = "Act-FormV2";
+                ddLookup.Type = "Act-FormD";
                 ViewData["Activity"] = await _ddLookupService.GetLookUpCodeTextConcat(ddLookup);
 
                 ddLookup.Type = "Week No";

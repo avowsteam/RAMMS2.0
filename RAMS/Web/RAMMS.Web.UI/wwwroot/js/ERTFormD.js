@@ -9,6 +9,13 @@
             $("#formDDay").chosen();
             $("#formDYear").chosen();
         }
+        var d = new Date();
+
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+
+        var output = d.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '') + day;
+        
         $("#formDReportedByUserId").chosen();
         $("#formDUseridVet").chosen();
         $("#formDUseridVer").chosen();
@@ -25,6 +32,7 @@
         //document.getElementById("saveFormDBtn").disabled = true;
     }
     else {
+        $("#WeekDate").val(output);
         document.getElementById("btnEquipAdd").disabled = true;
         document.getElementById("btnLabourAdd").disabled = true;
         document.getElementById("btnMaterialAdd").disabled = true;
