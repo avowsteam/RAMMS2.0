@@ -59,7 +59,7 @@
                 <div class="col-lg-4 form-group">
                     @Html.Label("Site Ref", "Site Ref")
                     <input type="hidden" id="multiSiteHidden" value="@Model.SiteRef" />
-                    @Html.DropDownListFor(Adtl => Adtl.SiteRef, siteref, new { @Id = "dtlSiteRef", @class = "form-control disableinput editdisable validate {required, Site Ref.}", @multiple = "multiple" })
+                    @Html.DropDownListFor(Adtl => Adtl.SiteRef, siteref, new { @Id = "dtlSiteRef", @class = "form-control disableinput editdisable validate1 {required, Site Ref.}", @multiple = "multiple" })
 
                 </div>
                 <div class="form-group col-lg-6 float-left mb-0">

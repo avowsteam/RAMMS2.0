@@ -17,6 +17,7 @@ namespace RAMMS.DTO.RequestBO
         public int? TotalMC { get; set; }
         public DateTime? Date { get; set; }
         public string Status { get; set; }
+        public bool SubmitSts { get; set; }
         public string Recordedby { get; set; }
         public string Headedby { get; set; }
         

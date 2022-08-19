@@ -243,6 +243,7 @@ namespace RAMMS.Repository
                                      where o.FmhPkRefNo == headerid
                                      orderby o.FmhAuditedDate ascending
                                      let formR2 = _context.RmFormMAuditDetails.FirstOrDefault(x => x.FmadFmhPkRefNo == o.FmhPkRefNo)
+                                     let formUsr=_context.RmUsers.FirstOrDefault(x=>x.UsrPkId==Convert.ToInt32(o.FmhCrewSup))
                                      select new FormMRpt
                                      {
                                          Type = o.FmhType,
@@ -252,7 +253,8 @@ namespace RAMMS.Repository
                                          RdName = o.FmhRdName,
                                          RmuName = o.FmhRmuName,
                                          DivCode = o.FmhDivCode,
-                                         CrewSup = o.FmhCrewSup,
+                                         CrewSup = formUsr.UsrUserName,
+                                         ActCode=o.FmhActCode,
                                          ActName = o.FmhActName,
                                          AuditTimeFrm = o.FmhAuditTimeFrm,
                                          AuditTimeTo = o.FmhAuditTimeTo,
@@ -273,6 +275,7 @@ namespace RAMMS.Repository
                                          A6total = formR2.FmadA6total,
                                          A7tallyBox = formR2.FmadA7tallyBox,
                                          A7total = formR2.FmadA7total,
+                                         OtherSign = formR2.FmadOtherSign,
                                          A8tallyBox = formR2.FmadA8tallyBox,
                                          A8total = formR2.FmadA8total,
                                          B1tallyBox = formR2.FmadB1tallyBox,
@@ -347,6 +350,7 @@ namespace RAMMS.Repository
                                          G7total = formR2.FmadG7total,
                                          G8tallyBox = formR2.FmadG8tallyBox,
                                          G8total = formR2.FmadG8total,
+                                         MiscellanousSign=formR2.FmadMiscellanousSign,
                                          G9tallyBox = formR2.FmadG9tallyBox,
                                          G9total = formR2.FmadG9total,
                                          G10tallyBox = formR2.FmadG10tallyBox,

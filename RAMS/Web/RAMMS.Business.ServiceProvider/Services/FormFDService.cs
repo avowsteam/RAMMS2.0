@@ -14,7 +14,6 @@ using Microsoft.EntityFrameworkCore;
 using RAMMS.DTO.Report;
 using ClosedXML.Excel;
 using System.IO;
-using RAMMS.DTO.RequestBO;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
@@ -26,11 +25,8 @@ namespace RAMMS.Business.ServiceProvider.Services
         private readonly IRoadMasterRepository _roadMaster;
         private readonly IDDLookUpRepository _lookup;
         private readonly IProcessService processService;
-        private readonly IRepositoryUnit _repoUnit;
-
-        public FormFDService(IRepositoryUnit repoUnit, IFormFDRepository formFDRepository,
-            IAssetRepository asset, IRoadMasterRepository roadMaster,
-            IDDLookUpRepository lookup, IMapper mapper, IProcessService proService)
+        private readonly IRepositoryUnit repoUnit;
+        public FormFDService(IRepositoryUnit repoUnit, IFormFDRepository formFDRepository, IAssetRepository asset, IRoadMasterRepository roadMaster, IDDLookUpRepository lookup, IMapper mapper, IProcessService proService)
         {
             _repo = formFDRepository;
             _mapper = mapper;
@@ -38,7 +34,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             _roadMaster = roadMaster;
             _lookup = lookup;
             processService = proService;
-            _repoUnit = repoUnit;
+            this.repoUnit = repoUnit;
         }
         public async Task<GridWrapper<object>> GetFormFDHeaderGrid(DataTableAjaxPostModel searchData)
         {
@@ -92,45 +88,22 @@ namespace RAMMS.Business.ServiceProvider.Services
         public async Task<FormFDDTO> Save(FormFDDTO frmFD, bool updateSubmit)
         {
             RmFormFdInsHdr header = _mapper.Map<RmFormFdInsHdr>(frmFD);
-            header.FdihStatus = "Open";
-
-            if (updateSubmit && header.RmFormFdInsDtl.Any((r =>
+            header.FdihStatus = StatusList.FormFDInit;
+            if (updateSubmit)
             {
-                int? fdidAiFrmCh1 = r.FdidAiFrmCh;
-                Decimal? nullable1 = fdidAiFrmCh1.HasValue ? new Decimal?((Decimal)fdidAiFrmCh1.GetValueOrDefault()) : new Decimal?();
-                Decimal? nullable2 = header.FdihFrmCh;
-                if (nullable1.GetValueOrDefault() >= nullable2.GetValueOrDefault() & nullable1.HasValue & nullable2.HasValue)
+                var detail = header.RmFormFdInsDtl.Any(r => r.FdidAiFrmCh >= header.FdihFrmCh && r.FdidAiFrmCh <= header.FdihToCh && r.FdidFdihPkRefNo == header.FdihPkRefNo && !r.FdidCondition.HasValue && r.FdidActiveYn == true);
+                if (detail)
                 {
-                    int? fdidAiFrmCh2 = r.FdidAiFrmCh;
-                    nullable2 = fdidAiFrmCh2.HasValue ? new Decimal?((Decimal)fdidAiFrmCh2.GetValueOrDefault()) : new Decimal?();
-                    nullable1 = header.FdihToCh;
-                    if (nullable2.GetValueOrDefault() <= nullable1.GetValueOrDefault() & nullable2.HasValue & nullable1.HasValue)
-                    {
-                        int? nullable3 = r.FdidFdihPkRefNo;
-                        int fdihPkRefNo = header.FdihPkRefNo;
-                        if (nullable3.GetValueOrDefault() == fdihPkRefNo & nullable3.HasValue)
-                        {
-                            nullable3 = r.FdidCondition;
-                            if (!nullable3.HasValue)
-                            {
-                                bool? fdidActiveYn = r.FdidActiveYn;
-                                bool flag = true;
-                                return fdidActiveYn.GetValueOrDefault() == flag & fdidActiveYn.HasValue;
-                            }
-                        }
-                    }
+                    throw new Exception("There are pendings in conditional inspection.");
                 }
-                return false;
-            })))
-                throw new Exception("There are pendings in conditional inspection.");
-
-
+            }
             header = await _repo.Save(header, updateSubmit);
             if (header != null && header.FdihSubmitSts)
             {
-                int result = this.processService.Save(new ProcessDTO()
+
+                int iResult = processService.Save(new DTO.RequestBO.ProcessDTO()
                 {
-                    ApproveDate = new System.DateTime?(System.DateTime.Now),
+                    ApproveDate = DateTime.Now,
                     Form = "FormFD",
                     IsApprove = true,
                     RefId = header.FdihPkRefNo,
@@ -222,9 +195,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                             copysheet.Cell(8, 17).Value = rpt.RoadName;
                             copysheet.Cell(6, 102).Value = rpt.InspectedByName;
                             copysheet.Cell(7, 102).Value = rpt.InspectedDate.HasValue ? rpt.InspectedDate.Value.ToString("dd-MM-yyyy") : "";
-                            copysheet.Cell(9, 105).Value = rpt.RoadLength;
+                            copysheet.Cell(8, 105).Value = rpt.RoadLength;
                             copysheet.Cell(3, 102).Value = sheet;
-                            copysheet.Cell(3, 111).Value = noofsheets;
+                            copysheet.Cell(3, 110).Value = noofsheets;
                             workbook.AddWorksheet(copysheet);
                         }
                     }
@@ -247,9 +220,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(6, 26).Value = rpt.CrewLeader;
                             worksheet.Cell(6, 102).Value = rpt.InspectedByName;
                             worksheet.Cell(7, 102).Value = rpt.InspectedDate.HasValue ? rpt.InspectedDate.Value.ToString("dd-MM-yyyy") : "";
-                            worksheet.Cell(9, 105).Value = rpt.RoadLength;
+                            worksheet.Cell(8, 105).Value = rpt.RoadLength;
                             worksheet.Cell(3, 102).Value = sheet;
-                            worksheet.Cell(3, 111).Value = noofsheets;
+                            worksheet.Cell(3, 110).Value = noofsheets;
                             worksheet.Cell(37, 3).Value = rpt.Remarks;
                             worksheet.Cell(13, 11).Value = rpt.L_DI_G;
                             worksheet.Cell(14, 11).Value = rpt.L_DR_E;

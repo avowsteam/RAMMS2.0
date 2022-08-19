@@ -99,7 +99,8 @@ namespace RAMMS.Repository
                              CrewLeaderID = hdr.FdihCrewLeaderId.HasValue ? hdr.FdihCrewLeaderId.Value : 0,
                              CrewLeader = hdr.FdihCrewLeaderName,
                              Active = hdr.FdihActiveYn,
-                             Status = (hdr.FdihSubmitSts ? "Submitted" : "Saved")
+                             Status = (hdr.FdihSubmitSts ? "Submitted" : "Saved"),
+                             ProcessStatus = hdr.FdihStatus
                          });
             query = query.Where(x => x.Active == true);
             if (searchData.filter != null)
@@ -123,7 +124,8 @@ namespace RAMMS.Repository
                                  || (x.CrewLeader ?? "").Contains(strVal)
                                  || (x.InspectedBy ?? "").Contains(strVal)
                                  || (x.Year.HasValue ? x.Year.Value.ToString() : "").Contains(strVal)
-                                 || (x.InsDate.HasValue && dtSearch.HasValue && (x.InsDate == dtSearch || x.InsDate.ToString().Contains(strVal)))
+                                 || (x.InsDate.HasValue && dtSearch.HasValue && (x.InsDate.Value.Year == dtSearch.Value.Year && x.InsDate.Value.Month == dtSearch.Value.Month && x.InsDate.Value.Day == dtSearch.Value.Day))
+                                 || (x.ProcessStatus ?? "").Contains(strVal)
                                  );
                             break;
                         case "fromInsDate":
@@ -339,12 +341,14 @@ namespace RAMMS.Repository
             decimal MaxFromCH = rpt.ToCH.GetValueOrDefault();
             List<FormFDDetail> lst = new List<FormFDDetail>();
             var _data = _context.RmFormFdInsDtl
-                                .Where(o => o.FdidFdihPkRefNo == headerid)
+                                .Where(o => o.FdidFdihPkRefNo == headerid && o.FdidActiveYn == true && o.FdidAiFrmCh.HasValue && o.FdidAiToCh.HasValue)
                                 .Select(o => o).ToList();
             decimal MAX = _data.Max(x => Convert.ToDecimal(x.FdidAiFrmCh.Value.ToString() + "." + x.FdidAiFrmChDeci));
-            if (MAX > MaxFromCH)
+            if (MinFromCH > MaxFromCH)
             {
-                MaxFromCH = MAX;
+                MAX = MaxFromCH;
+                MaxFromCH = MinFromCH;
+                MinFromCH = MAX;
             }
             decimal tempMinFromCH = MinFromCH;
             while (tempMinFromCH <= MaxFromCH)
@@ -355,126 +359,128 @@ namespace RAMMS.Repository
                 //{
 
                 FormFDDetail fc = new FormFDDetail();
-                fc.KMTitle = $"KM {str}+{tempMinFromCH.ToString().Substring(tempMinFromCH.ToString().IndexOf('.') + 1, (tempMinFromCH.ToString().Length - 1 - tempMinFromCH.ToString().IndexOf('.')))}";
+                decimal meter = decimal.Parse(tempMinFromCH.ToString().Substring(tempMinFromCH.ToString().IndexOf('.') + 1, (tempMinFromCH.ToString().Length - 1 - tempMinFromCH.ToString().IndexOf('.'))));
+                fc.KMTitle = $"KM {str}+{meter / 100}00";
 
-                var from = tempMinFromCH;
+                var _from = tempMinFromCH;
                 var to = tempMinFromCH + (decimal)0.100;
 
-                var data = _data.Where(x => x.FdidAiFrmCh.HasValue && x.FdidAiFrmChDeci != null
-                && x.FdidAiToCh.HasValue && x.FdidAiToChDeci != null &&
-                     ((Convert.ToDecimal(x.FdidAiFrmCh.Value.ToString() + "." + x.FdidAiFrmChDeci) == from)
-                            ||
-                            (Convert.ToDecimal(x.FdidAiToCh.Value.ToString() + "." + x.FdidAiToChDeci) == from)))
-                            .Select(o => o).ToList();
-                fc.FromCh = from;
+                var data = (from x in _data.AsEnumerable()
+                            let fromCh = Convert.ToDecimal(x.FdidAiFrmCh.Value.ToString() + "." + (string.IsNullOrEmpty(x.FdidAiFrmChDeci) ? "000" : x.FdidAiFrmChDeci))
+                            let toCh = Convert.ToDecimal(x.FdidAiToCh.Value.ToString() + "." + (string.IsNullOrEmpty(x.FdidAiToChDeci) ? "000" : x.FdidAiToChDeci))
+                            where
+                            ((fromCh >= _from && toCh <= to) || (fromCh >= to && toCh <= _from))
+                            && ((fromCh - toCh) == (decimal)0.1 || (toCh - fromCh) == (decimal)0.1)
+                            select x).ToList();
+                fc.FromCh = Convert.ToDecimal($"{str}.{meter / 100}00");
                 if (data.Count > 0)
                 {
                     var e = data.Where(s => s.FdidAiAssetGrpCode == "DI"
                     && s.FdidAiGrpType == "Gravel/Sand/Earth"
-                    && s.FdidAiBound == "L").FirstOrDefault();
+                    && (s.FdidAiBound == "L" || s.FdidAiBound == "Left")).FirstOrDefault();
                     fc.Left_Ditch_GravelSandEarth = e != null ? e.FdidCondition : null;
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "DR"
                      && s.FdidAiGrpType == "Earth"
-                     && s.FdidAiBound == "L"
+                     && (s.FdidAiBound == "L" || s.FdidAiBound == "Left")
                      ).FirstOrDefault();
                     fc.Left_Drain_Earth = e != null ? e.FdidCondition : null;
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "DR"
                     && s.FdidAiGrpType == "Block Stone"
-                    && s.FdidAiBound == "L"
+                    && (s.FdidAiBound == "L" || s.FdidAiBound == "Left")
                     ).FirstOrDefault();
                     fc.Left_Drain_Blockstone = e != null ? e.FdidCondition : null;
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "DR"
                    && s.FdidAiGrpType == "Concrete"
-                   && s.FdidAiBound == "L"
+                   && (s.FdidAiBound == "L" || s.FdidAiBound == "Left")
                    ).FirstOrDefault();
                     fc.Left_Drain_Concrete = e != null ? e.FdidCondition : null;
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "SH"
                   && s.FdidAiGrpType == "Asphalt"
-                  && s.FdidAiBound == "L"
+                  && (s.FdidAiBound == "L" || s.FdidAiBound == "Left")
                   ).FirstOrDefault();
                     fc.Left_Shoulder_Asphalt = e != null ? e.FdidCondition : null;
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "SH"
                  && s.FdidAiGrpType == "Concrete"
-                 && s.FdidAiBound == "L"
+                 && (s.FdidAiBound == "L" || s.FdidAiBound == "Left")
                  ).FirstOrDefault();
                     fc.Left_Shoulder_Concrete = e != null ? e.FdidCondition : null;
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "SH"
                 && s.FdidAiGrpType == "Earth"
-                && s.FdidAiBound == "L"
+                && (s.FdidAiBound == "L" || s.FdidAiBound == "Left")
                 ).FirstOrDefault();
                     fc.Left_Shoulder_Earth = e != null ? e.FdidCondition : null;
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "SH"
                 && s.FdidAiGrpType == "Gravel"
-                && s.FdidAiBound == "L"
+                && (s.FdidAiBound == "L" || s.FdidAiBound == "Left")
                 ).FirstOrDefault();
                     fc.Left_Shoulder_Gravel = e != null ? e.FdidCondition : null;
 
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "SH"
                 && s.FdidAiGrpType == "Footpath/Kerb"
-                && s.FdidAiBound == "L"
+                && (s.FdidAiBound == "L" || s.FdidAiBound == "Left")
                 ).FirstOrDefault();
                     fc.Left_Shoulder_FootpathKerb = e != null ? e.FdidCondition : null;
 
                     //
                     e = data.Where(s => s.FdidAiAssetGrpCode == "DI"
                     && s.FdidAiGrpType == "Gravel/Sand/Earth"
-                    && s.FdidAiBound == "R").FirstOrDefault();
+                    && (s.FdidAiBound == "R" || s.FdidAiBound == "Right")).FirstOrDefault();
                     fc.Right_Ditch_GravelSandEarth = e != null ? e.FdidCondition : null;
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "DR"
                      && s.FdidAiGrpType == "Earth"
-                     && s.FdidAiBound == "R"
+                     && (s.FdidAiBound == "R" || s.FdidAiBound == "Right")
                      ).FirstOrDefault();
                     fc.Right_Drain_Earth = e != null ? e.FdidCondition : null;
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "DR"
                     && s.FdidAiGrpType == "Block Stone"
-                    && s.FdidAiBound == "R"
+                    && (s.FdidAiBound == "R" || s.FdidAiBound == "Right")
                     ).FirstOrDefault();
                     fc.Right_Drain_Blockstone = e != null ? e.FdidCondition : null;
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "DR"
                    && s.FdidAiGrpType == "Concrete"
-                   && s.FdidAiBound == "R"
+                   && (s.FdidAiBound == "R" || s.FdidAiBound == "Right")
                    ).FirstOrDefault();
                     fc.Right_Drain_Concrete = e != null ? e.FdidCondition : null;
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "SH"
                   && s.FdidAiGrpType == "Asphalt"
-                  && s.FdidAiBound == "R"
+                  && (s.FdidAiBound == "R" || s.FdidAiBound == "Right")
                   ).FirstOrDefault();
                     fc.Right_Shoulder_Asphalt = e != null ? e.FdidCondition : null;
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "SH"
                  && s.FdidAiGrpType == "Concrete"
-                 && s.FdidAiBound == "R"
+                 && (s.FdidAiBound == "R" || s.FdidAiBound == "Right")
                  ).FirstOrDefault();
                     fc.Right_Shoulder_Concrete = e != null ? e.FdidCondition : null;
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "SH"
                 && s.FdidAiGrpType == "Earth"
-                && s.FdidAiBound == "R"
+                && (s.FdidAiBound == "R" || s.FdidAiBound == "Right")
                 ).FirstOrDefault();
                     fc.Right_Shoulder_Earth = e != null ? e.FdidCondition : null;
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "SH"
                 && s.FdidAiGrpType == "Gravel"
-                && s.FdidAiBound == "R"
+                && (s.FdidAiBound == "R" || s.FdidAiBound == "Right")
                 ).FirstOrDefault();
                     fc.Right_Shoulder_Gravel = e != null ? e.FdidCondition : null;
 
 
                     e = data.Where(s => s.FdidAiAssetGrpCode == "SH"
                 && s.FdidAiGrpType == "Footpath/Kerb"
-                && s.FdidAiBound == "R"
+                && (s.FdidAiBound == "R" || s.FdidAiBound == "Right")
                 ).FirstOrDefault();
                     fc.Right_Shoulder_FootpathKerb = e != null ? e.FdidCondition : null;
 

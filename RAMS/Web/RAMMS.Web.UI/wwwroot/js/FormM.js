@@ -91,6 +91,7 @@
         $('#A6Total').val(req.A6total);
         $('#A7TallyBox').val(req.A7tallyBox);
         $('#A7Total').val(req.A7total);
+        $('#A8OtherSign').val(req.OtherSign);
         $('#A8TallyBox').val(req.A8tallyBox);
         $('#A8Total').val(req.A8total);
 
@@ -172,6 +173,7 @@
         $('#G8Total').val(req.G8total);
         $('#G9TallyBox').val(req.G9tallyBox);
         $('#G9Total').val(req.G9total);
+        $('#G10MiscellanousSign').val(req.MiscellanousSign);
         $('#G10TallyBox').val(req.G10tallyBox);
         $('#G10Total').val(req.G10total);       
 
