@@ -38,7 +38,7 @@
                     <p class="font-20 pb-0 mb-0">
                         <span class="float-left w-100 text-center">
                             <b> APPENDIX B11 </b>
-                            CREW DAY COST CALCULATION WORK SHEET (RMU BATU NIAH)
+                            <span id="hdrId"></span>
 
                         </span>
                     </p>
@@ -51,25 +51,25 @@
     <div class="bg-white rounded pt-3 pb-1 px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetailsFC1C2">
         <div class="row">
             @*<div class="form-group col-2">
-            <label for="Name_of_Crew_Supervisor">
-                Select RMU
-            </label>
-            <select id="ddlFrom" class="form-control">
-                <option value="2019">Select RMU</option>
-                <option value="2020">Miri</option>
-                <option value="2021">Batu Niah</option>
-            </select>
-        </div>*@
+                    <label for="Name_of_Crew_Supervisor">
+                        Select RMU
+                    </label>
+                    <select id="ddlFrom" class="form-control">
+                        <option value="2019">Select RMU</option>
+                        <option value="2020">Miri</option>
+                        <option value="2021">Batu Niah</option>
+                    </select>
+                </div>*@
             <div class="form-group col-2">
                 <label>Select RMU</label>
                 @*@if (ViewBag.IsEdit)
-        {
-            @Html.DropDownListFor(m => m.FormB11Header.B11hRmuCode, (IEnumerable<SelectListItem>)ViewData["RMU"], "Select RMU", new { @Id = "formB11RMU", @class = "form-control" })
-        }
-        else
-        {
-            <input id="txtB11RmuCode" name="RmuName" type="text" value="@Model.FormB11Header.B11hRmuName" class="form-control" disabled />
-        }*@
+                    {
+                        @Html.DropDownListFor(m => m.FormB11Header.B11hRmuCode, (IEnumerable<SelectListItem>)ViewData["RMU"], "Select RMU", new { @Id = "formB11RMU", @class = "form-control" })
+                    }
+                    else
+                    {
+                        <input id="txtB11RmuCode" name="RmuName" type="text" value="@Model.FormB11Header.B11hRmuName" class="form-control" disabled />
+                    }*@
                 <input id="txtB11RmuCode" name="RmuName" type="text" value="@Model.FormB11Header.B11hRmuName" class="form-control" disabled />
             </div>
             <div class="form-group col-2">
@@ -442,47 +442,52 @@
                                                                                             </span>
                                                                                         </th>*@
                                                                                 </tr>
+                                                                                <tr style="background-color: #F2F6F9;">
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td>LEM UNIT PRICE</td>
+                                                                                </tr>
                                                                             </thead>
                                                                             <tbody>
                                                                                 @*<tr>
-            <td></td>
-            <td class="xl68"></td>
-            <td>LEM UNIT PRICE<font class="font0"></font></td>
-            <td class="xl65"></td>
-            <td class="xl68 custom-bg">110.1</td>
-            <td class="xl68"></td>
-            <td class="xl68 custom-bg">119.29</td>
-            <td class="xl68"></td>
-            <td class="xl68 custom-bg"></td>
-            <td class="xl68"></td>
-            <td class="xl68 custom-bg"></td>
-            <td class="xl68"></td>
-            <td class="xl68 custom-bg"></td>
-            <td class="xl68"></td>
-            <td class="xl68 custom-bg"></td>
-            <td class="xl68"></td>
-            <td class="xl68 custom-bg"></td>
-            <td class="xl68"></td>
-        </tr>*@
+                                                                                        <td></td>
+                                                                                        <td class="xl68"></td>
+                                                                                        <td>LEM UNIT PRICE<font class="font0"></font></td>
+                                                                                        <td class="xl65"></td>
+                                                                                        <td class="xl68 custom-bg">110.1</td>
+                                                                                        <td class="xl68"></td>
+                                                                                        <td class="xl68 custom-bg">119.29</td>
+                                                                                        <td class="xl68"></td>
+                                                                                        <td class="xl68 custom-bg"></td>
+                                                                                        <td class="xl68"></td>
+                                                                                        <td class="xl68 custom-bg"></td>
+                                                                                        <td class="xl68"></td>
+                                                                                        <td class="xl68 custom-bg"></td>
+                                                                                        <td class="xl68"></td>
+                                                                                        <td class="xl68 custom-bg"></td>
+                                                                                        <td class="xl68"></td>
+                                                                                        <td class="xl68 custom-bg"></td>
+                                                                                        <td class="xl68"></td>
+                                                                                    </tr>*@
                                                                                 <tr>
                                                                                     <td height="261" rowspan="9" style='height:130.50pt;border-right:none;border-bottom:none;' x:str>Paved Carriageway<font class="font0"></font></td>
                                                                                     <td class="xl68" x:num>1011</td>
                                                                                     <td>POTHOLE REPAIR<font class="font0"></font></td>
                                                                                     @*<td class="xl65"> <input type="text" class="form-control" /></td>
-            <td class="xl68 custom-bg">1101</td>
-            <td class="xl68"><input type="text" class="form-control" /></td>
-            <td class="xl68 custom-bg">0</td>
-            <td class="xl68"><input type="text" class="form-control" /></td>
-            <td class="xl68 custom-bg">91.76</td>
-            <td class="xl68"><input type="text" class="form-control" /></td>
-            <td class="xl68 custom-bg">278.96</td>
-            <td class="xl68"><input type="text" class="form-control" /></td>
-            <td class="xl68 custom-bg">-</td>
-            <td class="xl68"><input type="text" class="form-control" /></td>
-            <td class="xl68 custom-bg">-</td>
-            <td class="xl68"><input type="text" class="form-control" /></td>
-            <td class="xl68 custom-bg"><span style='mso-spacerun:yes;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>-</td>
-            <td class="xl68" x:num>700</td>*@
+                                                                                        <td class="xl68 custom-bg">1101</td>
+                                                                                        <td class="xl68"><input type="text" class="form-control" /></td>
+                                                                                        <td class="xl68 custom-bg">0</td>
+                                                                                        <td class="xl68"><input type="text" class="form-control" /></td>
+                                                                                        <td class="xl68 custom-bg">91.76</td>
+                                                                                        <td class="xl68"><input type="text" class="form-control" /></td>
+                                                                                        <td class="xl68 custom-bg">278.96</td>
+                                                                                        <td class="xl68"><input type="text" class="form-control" /></td>
+                                                                                        <td class="xl68 custom-bg">-</td>
+                                                                                        <td class="xl68"><input type="text" class="form-control" /></td>
+                                                                                        <td class="xl68 custom-bg">-</td>
+                                                                                        <td class="xl68"><input type="text" class="form-control" /></td>
+                                                                                        <td class="xl68 custom-bg"><span style='mso-spacerun:yes;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>-</td>
+                                                                                        <td class="xl68" x:num>700</td>*@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="xl68" x:num>1012</td>
@@ -721,6 +726,11 @@
                                                                                     <th width="125" style='width:62.50pt;' x:str> <span style="float:left; width:80px"> Activity Code </span> </th>
                                                                                     <th class="xl66" width="558" style='width:279.00pt;' x:str><span style="float:left; width:310px"> Activity Name</span></th>
                                                                                 </tr>
+                                                                                <tr style="background-color: #F2F6F9;">
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td>LEM UNIT PRICE</td>
+                                                                                </tr>
                                                                             </thead>
                                                                             <tbody>
                                                                                 <tr>
@@ -730,7 +740,7 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="xl68">1012</td>
-                                                                                    <td x:str style="text-align:left">COLD PATCH </td>                                                                                    
+                                                                                    <td x:str style="text-align:left">COLD PATCH </td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="xl68">3013</td>
@@ -738,19 +748,19 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="xl68">3014</td>
-                                                                                    <td x:str>REGULATE EXISTING PAVEMENT FOR RESURFACING</td>                                                                                    
+                                                                                    <td x:str>REGULATE EXISTING PAVEMENT FOR RESURFACING</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="xl68">3015</td>
-                                                                                    <td class="xl66" x:str>CRACK SEALING</td>                                                                                    
+                                                                                    <td class="xl66" x:str>CRACK SEALING</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="xl68">3016</td>
-                                                                                    <td class="xl66" x:str>MICRO SURFACING</td>                                                                                    
+                                                                                    <td class="xl66" x:str>MICRO SURFACING</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="xl68">3017</td>
-                                                                                    <td class="xl66" x:str>CHIP SEALING</td>                                                                                    
+                                                                                    <td class="xl66" x:str>CHIP SEALING</td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="xl68">3018</td>
@@ -881,7 +891,7 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="xl68">9500</td>
-                                                                                    <td class="xl66" x:str>PROVISION OF PROJECT VEHICLES</td>                                                                                    
+                                                                                    <td class="xl66" x:str>PROVISION OF PROJECT VEHICLES</td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -956,6 +966,11 @@
                                                                                         <th>Belian<span style='mso-spacerun:yes;'>&nbsp; </span>Unit</th>
                                                                                         <th>Belian Rate</th>
                                                                                         <th>Material Rate</th>*@
+                                                                                </tr>
+                                                                                <tr style="background-color: #F2F6F9;">
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td>LEM UNIT PRICE</td>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
