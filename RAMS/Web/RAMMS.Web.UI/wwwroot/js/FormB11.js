@@ -7,6 +7,24 @@ var frmB11 = new function () {
         debugger;
         var failed = false;
 
+        if ($("#date").val() != "") {
+
+            var RevYr = $("#hdnYear").val();
+            var RevDt = new Date(formatDate($("#hdnRevisionDate").val()));
+            var SelectedDt = new Date(formatDate($("#date").val()));
+            var SelectedYr = $("#formB11Year").val();
+
+            if (RevYr == SelectedYr && RevDt > SelectedDt) {
+                app.ShowErrorMessage("Selected Date should be greater than previous Revison Date");
+                failed = true;
+            }
+
+        }
+        else {
+            app.ShowErrorMessage("Revision Date Required");
+            failed = true;
+        }
+
         if (failed)
             return;
 
@@ -245,7 +263,7 @@ var frmB11 = new function () {
 
     this.PageInit = function () {
         debugger;
-        $('#hdrId').text("CREW DAY COST CALCULATION WORK SHEET ("+$("#txtB11RmuCode").val()+")");
+        $('#hdrId').text("CREW DAY COST CALCULATION WORK SHEET (" + $("#txtB11RmuCode").val() + ")");
         if (this.IsEdit) {
             if ($('#formB11Year').val() != "" && $('#formB11Year').val() != null) {
                 AppendLabourData();
@@ -347,6 +365,9 @@ $(document).ready(function () {
     $("#formB11Year").on("change", function () {
         getRevisionNo($("#formB11Year").val());
     });
+
+    $("#hdnRevisionDate").val($("#date").val());
+    $("#hdnYear").val($("#formB11Year").val());
 
 });
 
@@ -863,4 +884,16 @@ function ViewEquipmentData(id) {
             console.error(data);
         }
     });
+}
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
 }

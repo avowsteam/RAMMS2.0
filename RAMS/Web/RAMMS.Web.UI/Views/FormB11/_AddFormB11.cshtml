@@ -91,11 +91,11 @@
                 <label>Date </label>
                 @if (ViewBag.IsEdit)
                 {
-                    <input type="date" value="@today" class="form-control" id="date" />
+                    @Html.EditorFor(m => m.FormB11Header.B11hRevisionDate, new { type = "date", htmlAttributes = new { @class = "form-control",@Id="date" } })
                 }
                 else
                 {
-                    <input type="date" value="@today" class="form-control" id="date" disabled />
+                    <input type="date" value="@Model.FormB11Header.B11hRevisionDate" class="form-control" id="date" disabled />
                 }
             </div>
             <div class="form-group col-4">
@@ -1190,6 +1190,8 @@
 </div>
 @Html.HiddenFor(m => m.FormB11Header.B11hPkRefNo);
 <input type="hidden" id="UserId" value="@security.UserID" />
+<input type="hidden" id="hdnRevisionDate" />
+<input type="hidden" id="hdnYear" />
 <style>
     .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4) {
         width: auto !important;
