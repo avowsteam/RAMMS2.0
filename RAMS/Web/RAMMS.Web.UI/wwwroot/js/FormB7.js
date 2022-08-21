@@ -300,6 +300,22 @@ $(document).ready(function () {
 
 });
 
+function Type(obj,e) {
+    if (frmB7.IsEdit) {
+        var $this = $(obj);
+        frmB7.typein($this);
+    }
+    e.preventDefault();
+}
+function DDL(obj,e) {
+    if (frmB7.IsEdit) {
+        var $this = $(obj);
+        showComboBox($this);
+    }
+    e.preventDefault();
+    e.stopPropagation();
+}
+
 function getRevisionNo(id) {
     var req = {};
     req.Year = id;
@@ -347,12 +363,12 @@ function Delete(obj) {
 
 function AddRow(obj) {
     var temp = obj.substring(0, 3).trim() + Math.floor(Date.now() / 1000);
-    var row = '<tr '+temp+'><td><div class="btn-group dropright" id="actiondropdown"><button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown"> Click Me </button> <div class="dropdown-menu"> <button type="button" class="dropdown-item editdel-btns" onclick="javascript:Delete(\''+temp+ '\');"><span class="del-icon"></span>Delete</button></div></div></td>'
+    var row = '<tr ' + temp + '><td><div class="btn-group dropright" id="actiondropdown"><button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown"> Click Me </button> <div class="dropdown-menu"> <button type="button" class="dropdown-item editdel-btns" onclick="javascript:Delete(\'' + temp + '\');"><span class="del-icon"></span>Delete</button></div></div></td>'
         + '<td><input type="text"  onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
         + '<td><input type="text" onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
-        + '<td ' + (obj == 'Material' ? ' class="dropdown" preval=""' : ' class="typein" datatype="int"') + '> <input type="text" onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
-        + '<td class="typein" datatype="int"><input type="text"  onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
-        + '<td class="typein" datatype="int"><input type="text"  onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td></tr> ';
+        + '<td ' + (obj == 'Material' ? ' class="dropdown" preval="" onclick="DDL(this,event)" ' : ' class="typein" datatype="int" onclick="Type(this,event)"') + '>' + (obj == 'Material' ? GETDLL() : ' <input type="text" onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/>') + '</td>'
+        + '<td class="typein" datatype="int"  onclick="Type(this,event)"><input type="text"  onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
+        + '<td class="typein" datatype="int"  onclick="Type(this,event)"><input type="text"  onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td></tr> ';
 
     switch (obj) {
         case 'Labour':
@@ -407,6 +423,25 @@ function showComboBox(obj) {
 
 
     return false;
+}
+
+
+function GETDLL() {
+
+    var selectHtml = "<select onchange='setSelected(this)' style='width:200px' onblue='HideCombo(this)'>";
+
+    if (UnitObj.length > 0) {
+        var selected = "";
+        selectHtml = selectHtml + "<option value='0'></option>";
+
+        $.each(UnitObj, function (index, v) {
+            selectHtml = selectHtml + "<option value='" + v.Value + "'>" + v.Text + "</option>";
+        });
+
+        selectHtml = selectHtml + "</select>";
+    }
+
+    return selectHtml;
 }
 
 

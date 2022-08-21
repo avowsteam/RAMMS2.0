@@ -2,7 +2,7 @@
 var frmB8 = new function () {
     this.HeaderData = {};
     this.IsEdit = true;
-      
+
     this.Save = function () {
         var failed = false;
 
@@ -27,10 +27,10 @@ var frmB8 = new function () {
 
             var B8 = new Object();
             B8.B8hiB8hPkRefNo = $("#FormB8Header.B8hPkRefNo").val();
-            B8.B8hiItemNo = $(this).find("td:nth-child(1)").html().trim();
-            B8.B8hiDescription = $(this).find("td:nth-child(2)").html().trim();
-            B8.B8hiUnit = $(this).find("td:nth-child(3)").html().trim();
-            B8.B8hiDivision = $(this).find("td:nth-child(4)").html().trim();
+            B8.B8hiItemNo = $(this).find("td:nth-child(2)").html().trim();
+            B8.B8hiDescription = $(this).find("td:nth-child(3)").html().trim();
+            B8.B8hiUnit = $(this).find("td:nth-child(4)").html().trim();
+            B8.B8hiDivision = $(this).find("td:nth-child(5)").html().trim();
             B8History.push(B8);
         });
 
@@ -130,7 +130,7 @@ var frmB8 = new function () {
         }
     }
 
-    this.typein = function($this) {
+    this.typein = function ($this) {
 
         if ($this[0].childElementCount > 0)
             return;
@@ -177,14 +177,14 @@ var frmB8 = new function () {
 
 }
 
-$(document).ready(function () {    
+$(document).ready(function () {
     $("#smartSearch").focus();//Header Grid focus    
 
     if (!frmB8.IsEdit) {
         $("#formB8Year").chosen("destroy");
         $("#divFindDetails *").attr("disabled", "disabled").off("click");
     }
-    
+
     element = document.querySelector("#btnAdvSearch");
     if (element) {
         element.addEventListener("keyup", () => {
@@ -243,6 +243,16 @@ $(document).ready(function () {
 
 });
 
+
+function Type(obj, e) {
+    if (frmB8.IsEdit) {
+        var $this = $(obj);
+        frmB8.typein($this);
+    }
+    e.preventDefault();
+}
+
+
 function getRevisionNo(id) {
     var req = {};
     req.Year = id;
@@ -283,3 +293,44 @@ function SetCaretAtEnd(elem) {
         elem.focus();
     } // if
 }
+
+function Delete(obj) {
+    $("[" + obj + "]").remove();
+}
+
+
+function AddRow() {
+    var temp = 'His_' + Math.floor(Date.now() / 1000);
+    var row = '<tr ' + temp + '><td><div class="btn-group dropright" id="actiondropdown"><button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown"> Click Me </button> <div class="dropdown-menu"> <button type="button" class="dropdown-item editdel-btns" onclick="javascript:Delete(\'' + temp + '\');"><span class="del-icon"></span>Delete</button></div></div></td>'
+        + '<td><input type="text"  onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
+        + '<td><input type="text" onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
+        + '<td class="typein" datatype="int" onclick="Type(this,event)"><input type="text" onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
+        + '<td class="typein"  onclick="Type(this,event)"><input type="text"  onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td></tr> ';
+    $("#tblB8History>tbody").append(row)
+}
+
+function save($input) {
+
+    if ($($input).parent().attr("datatype") == "int") {
+        if (isNaN($($input).val())) {
+            $($input).parent().html("");
+            app.ShowErrorMessage("Please enter numeric values");
+        }
+        else {
+
+            $($input).parent().html($($input).val());
+        }
+    }
+    else {
+        $($input).parent().html($($input).val());
+    }
+
+
+}
+
+function enter($input, e) {
+    if (e.which === 13) {
+        $input.blur();
+    };
+}
+
