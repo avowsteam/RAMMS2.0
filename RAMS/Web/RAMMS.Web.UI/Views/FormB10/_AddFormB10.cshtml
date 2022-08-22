@@ -9,7 +9,7 @@
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
 
     IEnumerable<SelectListItem> year = (await ddlService
-.GetLookups(new DDLookUpDTO { Type = "Year" }))
+.GetLookups(new DDLookUpDTO { Type = "Year" })).Where(s => Convert.ToInt32(s.DdlTypeValue) >= Model.FormB10.RevisionYear)
 .Select(s => new SelectListItem
 {
     Text = s.DdlTypeValue,
@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="form-group col-3">
                                         <label>Date </label>
-                                        @Html.EditorFor(m => m.FormB10.RevisionDate, new { type = "date", htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(m => m.FormB10.RevisionDate, new {  type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
                                     </div>
                                     <div class="form-group col-3">
                                         <label>User Name </label>
@@ -192,5 +192,10 @@
     }
      else {
         getRevisionNo("@Model.FormB10.RevisionYear")
+        var d = new Date();
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+        var output = d.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '') + day;
+        $("#FormB10_RevisionDate").val(output);
     }
 </script>
