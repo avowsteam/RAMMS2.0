@@ -91,7 +91,8 @@
                 <label>Date </label>
                 @if (ViewBag.IsEdit)
                 {
-                    @Html.EditorFor(m => m.FormB11Header.B11hRevisionDate, new { type = "date", htmlAttributes = new { @class = "form-control",@Id="date" } })
+                    @*@Html.EditorFor(m => m.FormB11Header.B11hRevisionDate, new { type = "date", htmlAttributes = new { @class = "form-control",@Id="date" } })*@
+                    <input type="date" value="@today" class="form-control" id="date" disabled />
                 }
                 else
                 {

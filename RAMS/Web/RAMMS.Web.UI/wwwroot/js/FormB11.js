@@ -528,7 +528,7 @@ function AppendLabourData(id) {
                         k = k + 1;
                     });
                 }
-                $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Labour Unit </span></th>');
+                $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Labour Cost </span></th>');
                 $('#tblLabour thead tr:eq(1) td:last').after('<td></td>');
             }
             //$("#RevisionNo").val(data)
@@ -605,7 +605,7 @@ function ViewLabourData(id) {
                     cRow = cRow + 1;
                 });
 
-                $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Labour Unit </span></th>');
+                $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Labour Cost </span></th>');
                 $('#tblLabour thead tr:eq(1) td:last').after('<td></td>');
             }
         },
@@ -666,7 +666,7 @@ function AppendMaterialData(id) {
                         k = k + 1;
                     });
                 }
-                $('#tblMaterial thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Material Unit </span></th>');
+                $('#tblMaterial thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Material Cost </span></th>');
                 $('#tblMaterial thead tr:eq(1) td:last').after('<td></td>');
 
             }
@@ -740,7 +740,7 @@ function ViewMaterialData(id) {
                     cRow = cRow + 1;
                 });
 
-                $('#tblMaterial thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Material Unit </span></th>');
+                $('#tblMaterial thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Material Cost </span></th>');
                 $('#tblMaterial thead tr:eq(1) td:last').after('<td></td>');
             }
         },
@@ -801,7 +801,7 @@ function AppendEquipmentData(id) {
                     });
                 }
 
-                $('#tblEquipment thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Equipment Unit </span></th>');
+                $('#tblEquipment thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Equipment Cost </span></th>');
                 $('#tblEquipment thead tr:eq(1) td:last').after('<td></td>');
 
             }
@@ -876,7 +876,7 @@ function ViewEquipmentData(id) {
                     cRow = cRow + 1;
                 });
 
-                $('#tblEquipment thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Equipment Unit </span></th>');
+                $('#tblEquipment thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Equipment Cost </span></th>');
                 $('#tblEquipment thead tr:eq(1) td:last').after('<td></td>');
             }
         },
