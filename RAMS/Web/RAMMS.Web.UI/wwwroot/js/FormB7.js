@@ -27,11 +27,11 @@ var frmB7 = new function () {
 
             var B7 = new Object();
             B7.B7lhB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
-            B7.B7lhCode = $(this).find("td:nth-child(1)").html().trim();
-            B7.B7lhName = $(this).find("td:nth-child(2)").html().trim();
-            B7.B7lhUnitInHrs = $(this).find("td:nth-child(3)").html().trim();
-            B7.B7lhUnitPriceBatuNiah = $(this).find("td:nth-child(4)").html().trim();
-            B7.B7lhUnitPriceMiri = $(this).find("td:nth-child(5)").html().trim();
+            B7.B7lhCode = $(this).find("td:nth-child(2)").html().trim();
+            B7.B7lhName = $(this).find("td:nth-child(3)").html().trim();
+            B7.B7lhUnitInHrs = $(this).find("td:nth-child(4)").html().trim();
+            B7.B7lhUnitPriceBatuNiah = $(this).find("td:nth-child(5)").html().trim();
+            B7.B7lhUnitPriceMiri = $(this).find("td:nth-child(6)").html().trim();
             B7.B7lhRevisionNo = $("#RevisionNo").val();
             B7LabourHistory.push(B7);
         });
@@ -45,11 +45,11 @@ var frmB7 = new function () {
 
             var B7 = new Object();
             B7.B7mhB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
-            B7.B7mhCode = $(this).find("td:nth-child(1)").html().trim();
-            B7.B7mhName = $(this).find("td:nth-child(2)").html().trim();
-            B7.B7mhUnits = $(this).find("td:nth-child(3)").html().trim();
-            B7.B7mhUnitPriceBatuNiah = $(this).find("td:nth-child(4)").html().trim();
-            B7.B7mhUnitPriceMiri = $(this).find("td:nth-child(5)").html().trim();
+            B7.B7mhCode = $(this).find("td:nth-child(2)").html().trim();
+            B7.B7mhName = $(this).find("td:nth-child(3)").html().trim();
+            B7.B7mhUnits = $(this).find("td:nth-child(4)").html().trim();
+            B7.B7mhUnitPriceBatuNiah = $(this).find("td:nth-child(5)").html().trim();
+            B7.B7mhUnitPriceMiri = $(this).find("td:nth-child(6)").html().trim();
             B7MaterialHistory.push(B7);
         });
 
@@ -61,11 +61,11 @@ var frmB7 = new function () {
 
             var B7 = new Object();
             B7.B7ehB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
-            B7.B7ehCode = $(this).find("td:nth-child(1)").html().trim();
-            B7.B7ehName = $(this).find("td:nth-child(2)").html().trim();
-            B7.B7ehUnitInHrs = $(this).find("td:nth-child(3)").html().trim();
-            B7.B7ehUnitPriceBatuNiah = $(this).find("td:nth-child(4)").html().trim();
-            B7.B7ehUnitPriceMiri = $(this).find("td:nth-child(5)").html().trim();
+            B7.B7ehCode = $(this).find("td:nth-child(2)").html().trim();
+            B7.B7ehName = $(this).find("td:nth-child(3)").html().trim();
+            B7.B7ehUnitInHrs = $(this).find("td:nth-child(4)").html().trim();
+            B7.B7ehUnitPriceBatuNiah = $(this).find("td:nth-child(5)").html().trim();
+            B7.B7ehUnitPriceMiri = $(this).find("td:nth-child(6)").html().trim();
             B7EquipmentHistory.push(B7);
         });
 
@@ -294,13 +294,27 @@ $(document).ready(function () {
         e.stopPropagation();
     });
 
-
-
     $("#formB7Year").on("change", function () {
         getRevisionNo($("#formB7Year").val());
     });
 
 });
+
+function Type(obj,e) {
+    if (frmB7.IsEdit) {
+        var $this = $(obj);
+        frmB7.typein($this);
+    }
+    e.preventDefault();
+}
+function DDL(obj,e) {
+    if (frmB7.IsEdit) {
+        var $this = $(obj);
+        showComboBox($this);
+    }
+    e.preventDefault();
+    e.stopPropagation();
+}
 
 function getRevisionNo(id) {
     var req = {};
@@ -343,7 +357,33 @@ function SetCaretAtEnd(elem) {
     } // if
 }
 
+function Delete(obj) {
+    $("[" + obj + "]").remove();
+}
 
+function AddRow(obj) {
+    var temp = obj.substring(0, 3).trim() + Math.floor(Date.now() / 1000);
+    var row = '<tr ' + temp + '><td><div class="btn-group dropright" id="actiondropdown"><button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown"> Click Me </button> <div class="dropdown-menu"> <button type="button" class="dropdown-item editdel-btns" onclick="javascript:Delete(\'' + temp + '\');"><span class="del-icon"></span>Delete</button></div></div></td>'
+        + '<td><input type="text"  onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
+        + '<td><input type="text" onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
+        + '<td ' + (obj == 'Material' ? ' class="dropdown" preval="" onclick="DDL(this,event)" ' : ' class="typein" datatype="int" onclick="Type(this,event)"') + '>' + (obj == 'Material' ? GETDLL() : ' <input type="text" onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/>') + '</td>'
+        + '<td class="typein" datatype="int"  onclick="Type(this,event)"><input type="text"  onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
+        + '<td class="typein" datatype="int"  onclick="Type(this,event)"><input type="text"  onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td></tr> ';
+
+    switch (obj) {
+        case 'Labour':
+            $("#tblLabour>tbody").append(row)
+            break;
+        case 'Material':
+            $("#tblMaterial>tbody").append(row)
+            break;
+        case 'Equipment':
+            $("#tblEquipment>tbody").append(row)
+            break;
+        default:
+            break;
+    }
+}
 
 function showComboBox(obj) {
 
@@ -386,6 +426,25 @@ function showComboBox(obj) {
 }
 
 
+function GETDLL() {
+
+    var selectHtml = "<select onchange='setSelected(this)' style='width:200px' onblue='HideCombo(this)'>";
+
+    if (UnitObj.length > 0) {
+        var selected = "";
+        selectHtml = selectHtml + "<option value='0'></option>";
+
+        $.each(UnitObj, function (index, v) {
+            selectHtml = selectHtml + "<option value='" + v.Value + "'>" + v.Text + "</option>";
+        });
+
+        selectHtml = selectHtml + "</select>";
+    }
+
+    return selectHtml;
+}
+
+
 function HideCombo(obj) {
 
     var td = $(obj).parent();
@@ -413,4 +472,29 @@ function setSelected(obj, event) {
     }
 
     return false;
+}
+
+function save($input) {
+
+    if ($($input).parent().attr("datatype") == "int") {
+        if (isNaN($($input).val())) {
+            $($input).parent().html("");
+            app.ShowErrorMessage("Please enter numeric values");
+        }
+        else {
+
+            $($input).parent().html($($input).val());
+        }
+    }
+    else {
+        $($input).parent().html($($input).val());
+    }
+
+
+}
+
+function enter($input,e) {
+    if (e.which === 13) {
+        $input.blur();
+    };
 }
