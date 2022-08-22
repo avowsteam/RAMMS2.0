@@ -331,7 +331,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                         if (worksheet != null)
                         {
-                            worksheet.Cell(1, 13).Value = rpt.RefId;
+                           // worksheet.Cell(1, 13).Value = rpt.RefId;
                             worksheet.Cell(3, 35).Value = rpt.InspectedDate.HasValue ? rpt.InspectedDate.Value.ToString("dd-MM-yyyy") : "";
                             worksheet.Cell(4, 8).Value = rpt.RMU;
                             worksheet.Cell(4, 19).Value = rpt.Details.Day;
@@ -344,6 +344,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(6, 6).Value = rpt.RoadName;
 
                             worksheet.Cell(7, 4).Value = rpt.Details.FromTime;
+                            worksheet.Cell(25, 4).Value = rpt.Details.FromTime;
+                            worksheet.Cell(49, 4).Value = rpt.Details.FromTime;
                             worksheet.Cell(7, 38).Value = rpt.TotalPC;
                             worksheet.Cell(25, 38).Value = rpt.TotalHV;
                             worksheet.Cell(49, 38).Value = rpt.TotalMC;
@@ -355,7 +357,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 worksheet.Cell(8, colindex).Value = obj == null ? "" : obj.Count.ToString();
                                 colindex = colindex + 2;
                             }
-                            worksheet.Cell(8, 30).Value = rpt.Details.DescriptionPC;
+                            worksheet.Cell(9, 32).Value = rpt.Details.DescriptionPC;
 
                             colindex = 8;
                             for (int i = 1; i <= 12; i++)
@@ -524,7 +526,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 worksheet.Cell(46, colindex).Value = obj == null ? "" : obj.Count.ToString();
                                 colindex = colindex + 2;
                             }
-                            worksheet.Cell(27, 30).Value = rpt.Details.DescriptionHV;
+                            worksheet.Cell(27, 32).Value = rpt.Details.DescriptionHV;
 
                             colindex = 8;
                             for (int i = 1; i <= 12; i++)
@@ -533,7 +535,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 worksheet.Cell(50, colindex).Value = obj == null ? "" : obj.Count.ToString();
                                 colindex = colindex + 2;
                             }
-                            worksheet.Cell(51, 30).Value = rpt.Details.DescriptionMC;
+                            worksheet.Cell(51, 32).Value = rpt.Details.DescriptionMC;
 
                             worksheet.Cell(63, 1).Value = rpt.Details.Description;
 

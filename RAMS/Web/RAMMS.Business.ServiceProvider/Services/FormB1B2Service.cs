@@ -355,6 +355,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     bool IsFirst = true;
                     int index = 0;
                     int ratingrecordnumber = 0;
+
                     foreach (var rpt in _rpt)
                     {
                         index = 0;
@@ -533,7 +534,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                     if (worksheet != null)
                     {
-                        var rpt = _rpt[0];
+                        var rpt = _rpt.Find(x => x.PkRefNo == id);
                         worksheet.Cell(82, 6).Value = rpt.Year;
                         worksheet.Cell(83, 6).Value = rpt.RoadCode;
                         worksheet.Cell(84, 6).Value = rpt.StructureCode;
@@ -573,12 +574,12 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(9, 5).RichText.Substring(0, superStructure.Length).Strikethrough = true;
                         }
 
-                        if (!string.IsNullOrEmpty(superStructure) && !string.IsNullOrEmpty(rpt.Superstructure))
+                        if (!string.IsNullOrEmpty(superStructure) && !string.IsNullOrEmpty(rpt.StructureCode))
                         {
-                            if (superStructure.IndexOf(rpt.Superstructure) > -1)
+                            if (superStructure.IndexOf(rpt.StructureCode) > -1)
                             {
-                                worksheet.Cell(9, 5).RichText.Substring(superStructure.IndexOf(" " + rpt.Superstructure + " "), (" " + rpt.Superstructure + " ").Length).Bold = true;
-                                worksheet.Cell(9, 5).RichText.Substring(superStructure.IndexOf(" " + rpt.Superstructure + " "), (" " + rpt.Superstructure + " ").Length).Strikethrough = false;
+                                worksheet.Cell(9, 5).RichText.Substring(superStructure.IndexOf(" " + rpt.StructureCode + " "), (" " + rpt.StructureCode + " ").Length).Bold = true;
+                                worksheet.Cell(9, 5).RichText.Substring(superStructure.IndexOf(" " + rpt.StructureCode + " "), (" " + rpt.StructureCode + " ").Length).Strikethrough = false;
                             }
                         }
                         if (!string.IsNullOrEmpty(parapetType))

@@ -16,13 +16,13 @@
 @section Scripts{
 <script type="text/javascript" src="~/js/FormB8.js" asp-append-version="true"></script>
 <script type="text/javascript">
-        frmB8.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
+    frmB8.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
 
-        if (frmB8.IsEdit){
-            $("#formB8Year").chosen('destroy');
-            $("#formB8Year").prop("disabled", true);
-            $("#date").prop("disabled", true);
-        }   
+    if (frmB8.IsEdit){
+        $("#formB8Year").chosen('destroy');
+        $("#formB8Year").prop("disabled", true);
+        $("#date").prop("disabled", true);
+    }
 </script>
 
 }
@@ -77,6 +77,11 @@
                                         <!--form g1-->
                                         <div id="content">
                                             <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                <div class="grid-btns" style="top:auto;">
+                                                    <button type="button" id="btnLabourAdd" class="btn btn-sm btn-themebtn" data-toggle="modal" data-backdrop="static" data-target="#FormB8Modal" onclick="javascript:AddRow();">
+                                                        <span class="intbl-add-icon"></span>
+                                                    </button>
+                                                </div>
                                                 <div id="FormB8GridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 
                                                     <div class="dataTables_scroll">
@@ -85,6 +90,7 @@
                                                             <table class="table w-100 nowrap dataTable no-footer remove" id="tblB8History">
                                                                 <thead style="background-color: #c8e1ff">
                                                                     <tr>
+                                                                        <th colspan="1">Action</th>
                                                                         <th colspan="1">
                                                                             Item
                                                                         </th>
@@ -103,7 +109,16 @@
                                                                     @{
                                                                         for (int i = 0; i < Model.FormB8Header.RmB8History.Count; i++)
                                                                         {
-                                                                            <tr>
+                                                                            var id = "His_" + Model.FormB8Header.RmB8History[i].B8hiPkRefNo;
+                                                                            <tr @id>
+                                                                                <td>
+                                                                                    <div class="btn-group dropright" id="actiondropdown">
+                                                                                        <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown"> Click Me </button>
+                                                                                        <div class="dropdown-menu">
+                                                                                            <button type="button" class="dropdown-item editdel-btns" onclick="javascript:Delete('His_@Model.FormB8Header.RmB8History[i].B8hiPkRefNo');"><span class="del-icon"></span> Delete</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
                                                                                 <td>
                                                                                     @Model.FormB8Header.RmB8History[i].B8hiItemNo
                                                                                 </td>

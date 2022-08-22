@@ -48,13 +48,21 @@ namespace RAMMS.Repository
                 foreach (var item in searchData.filter.Where(x => !string.IsNullOrEmpty(x.Value)))
                 {
                     string strVal = Utility.ToString(item.Value).Trim();
+                    if(item.Key== "RMUName" && strVal =="MRI")
+                    {
+                        strVal = "Miri";
+                    }
+                    else if (item.Key == "RMUName" && strVal == "BTN")
+                    {
+                        strVal = "Batu Niah";
+                    }
                     switch (item.Key)
                     {
                         case "KeySearch":
                             DateTime? dtSearch = Utility.ToDateTime(strVal);
                             query = query.Where(x =>
                                  (x.RevisionYear.HasValue ? x.RevisionYear.Value.ToString() : "").Contains(strVal)
-                                 || (x.RMUCode ?? "").Contains(strVal)
+                                 || (x.RMUName ?? "").Contains(strVal)
                                  || (x.RevisionNo.HasValue ? x.RevisionNo.Value.ToString() : "").Contains(strVal)
                                  || (x.RevisionDate.HasValue && ((x.RevisionDate.Value.ToString().Contains(strVal)) || (dtSearch.HasValue && x.RevisionDate == dtSearch)))
                                  || (x.CrByName ?? "").Contains(strVal)
@@ -126,20 +134,23 @@ namespace RAMMS.Repository
 
         public List<RmB7LabourHistory> GetLabourHistoryData(int year)
         {
-            int? RefNo = (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == year select rn.B7hPkRefNo).DefaultIfEmpty().Max();
+            //int? RefNo = (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == year select rn.B7hPkRefNo).DefaultIfEmpty().Max();
+            int? RefNo = (from rn in _context.RmB7Hdr select rn.B7hPkRefNo).DefaultIfEmpty().Max();
             List<RmB7LabourHistory> res = (from r in _context.RmB7LabourHistory where r.B7lhB7hPkRefNo == RefNo select r).OrderBy(x => x.B7lhCode).ToList();
             return res;
         }
         public List<RmB7MaterialHistory> GetMaterialHistoryData(int year)
         {
-            int? RefNo = (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == year select rn.B7hPkRefNo).DefaultIfEmpty().Max();
+            //int? RefNo = (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == year select rn.B7hPkRefNo).DefaultIfEmpty().Max();
+            int? RefNo = (from rn in _context.RmB7Hdr select rn.B7hPkRefNo).DefaultIfEmpty().Max();
             List<RmB7MaterialHistory> res = (from r in _context.RmB7MaterialHistory where r.B7mhB7hPkRefNo == RefNo select r).OrderBy(x => x.B7mhCode).ToList();
             return res;
         }
 
         public List<RmB7EquipmentsHistory> GetEquipmentHistoryData(int year)
         {
-            int? RefNo = (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == year select rn.B7hPkRefNo).DefaultIfEmpty().Max();
+            //int? RefNo = (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == year select rn.B7hPkRefNo).DefaultIfEmpty().Max();
+            int? RefNo = (from rn in _context.RmB7Hdr select rn.B7hPkRefNo).DefaultIfEmpty().Max();
             List<RmB7EquipmentsHistory> res = (from r in _context.RmB7EquipmentsHistory where r.B7ehB7hPkRefNo == RefNo select r).OrderBy(x => x.B7ehCode).ToList();
             return res;
         }

@@ -108,7 +108,7 @@ namespace RAMMS.Web.UI.Controllers
         }
 
 
-        public async Task<IActionResult> Add(int id, int view)
+        public async Task<IActionResult> Add(int id, int isview)
         {
             LoadLookupService("Supervisor", "User");
 
@@ -127,7 +127,7 @@ namespace RAMMS.Web.UI.Controllers
 
             _model.FormTDtl = new FormTDtlResponseDTO();
             _model.FormT = _model.FormT ?? new FormTResponseDTO();
-            _model.view = view;
+            _model.view = isview;
 
 
             if (_model.FormT.UseridRcd == 0)

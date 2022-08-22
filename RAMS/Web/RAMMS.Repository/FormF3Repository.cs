@@ -423,6 +423,7 @@ namespace RAMMS.Repository
                 Height = s.a.AiHeight,
                 SNo = i++,
                 PkRefNo = s.x.Ff3dPkRefNo,
+                Ff3dG1hPkRefNo =s.x.Ff3dG1hPkRefNo,
                 StructureCode = s.a.AiStrucCode,
                 Width = s.a.AiWidth
 

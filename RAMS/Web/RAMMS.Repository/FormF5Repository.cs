@@ -43,7 +43,7 @@ namespace RAMMS.Repository
                              dtl = hdr.RmFormF5InsDtl,
                              Active = hdr.FvahActiveYn,
                              RdId = sec.RdmRdCdSort,
-                             Status = (hdr.FvahSubmitSts == true ? "Submitted" : "Saved")
+                             ProcessStatus = (hdr.FvahSubmitSts == true ? "Submitted" : "Saved")
 
                          });
             query = query.Where(x => x.Active == true);

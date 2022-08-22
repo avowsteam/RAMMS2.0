@@ -12,9 +12,9 @@
 
     var today = DateTime.Today.ToString("yyyy-MM-dd");
 
-        IEnumerable<SelectListItem> unit = (await ddlService
-        .GetLookups(new DDLookUpDTO { Type = "MaterialUnit" }))
-        .Select(s => new SelectListItem
+    IEnumerable<SelectListItem> unit = (await ddlService
+    .GetLookups(new DDLookUpDTO { Type = "MaterialUnit" }))
+    .Select(s => new SelectListItem
             {
                 Text = s.DdlTypeValue,
                 Value = s.DdlTypeValue
@@ -24,18 +24,24 @@
 
 @section Scripts{
 <script type="text/javascript" src="~/js/FormB7.js" asp-append-version="true"></script>
-<script type="text/javascript" >
-frmB7.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
+<script type="text/javascript">
+    frmB7.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
 
-if (frmB7.IsEdit){
-    $("#formB7Year").chosen('destroy');
-    $("#formB7Year").prop("disabled", true);
-    $("#date").prop("disabled", true);
-}
+    if (!frmB7.IsEdit){
+        $("#formB7Year").chosen('destroy');
+        $("#formB7Year").prop("disabled", true);
+        $("#date").prop("disabled", true);
+    }
 </script>
 
 }
 
+<style>
+    .typein {
+        width: 50px !important;
+        min-width: 50px !important;
+    }
+</style>
 
 <div class="row bg-white pt-3">
     <div class="w-100">
@@ -57,7 +63,7 @@ if (frmB7.IsEdit){
         <div class="row">
             <div class="form-group col-3">
                 <label>Select Year  </label>
-                 @Html.DropDownListFor(m => m.FormB7Header.B7hRevisionYear, (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB7Year", @class = "form-control" })
+                @Html.DropDownListFor(m => m.FormB7Header.B7hRevisionYear, (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB7Year", @class = "form-control" })
             </div>
             <div class="form-group col-3">
                 <label> Select the Revision No. </label>
@@ -65,7 +71,7 @@ if (frmB7.IsEdit){
             </div>
             <div class="form-group col-3">
                 <label>Date </label>
-                <input type="date" value="@today" class = "form-control" id="date" />
+                <input type="date" value="@today" class="form-control" id="date" />
             </div>
             <div class="form-group col-3">
                 <label>User Name </label>
@@ -106,7 +112,12 @@ if (frmB7.IsEdit){
                                                         <div class="card-body">
                                                             <div id="content">
                                                                 <div class="w-100 position-relative in-tbl-btns custom-tbl">
-                                                                    <div id="FormDLabourGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                                                    <div class="grid-btns" style="top:auto;">
+                                                                        <button type="button" id="btnLabourAdd" class="btn btn-sm btn-themebtn" data-toggle="modal" data-backdrop="static" data-target="#FormB7LabourModal" onclick="javascript:AddRow('Labour');">
+                                                                            <span class="intbl-add-icon"></span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div id="FormB7LabourGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 
                                                                         <div class="dataTables_scroll">
 
@@ -114,24 +125,12 @@ if (frmB7.IsEdit){
                                                                                 <table class="table w-100 nowrap dataTable no-footer" id="tblLabour">
                                                                                     <thead style="background-color: #c8e1ff">
                                                                                         <tr>
-                                                                                            <th colspan="1">
-                                                                                                Code
-                                                                                            </th>
-                                                                                            <th colspan="1">
-                                                                                                Labour
-                                                                                            </th>
-                                                                                            <th colspan="1">
-                                                                                                Unit(hrs)
-
-                                                                                            </th>
-                                                                                            <th colspan="1">
-                                                                                                Batu Niah
-                                                                                            </th>
-
-                                                                                            <th colspan="1">
-                                                                                                Miri
-                                                                                            </th>
-
+                                                                                            <th colspan="1">Action</th>
+                                                                                            <th colspan="1">Code</th>
+                                                                                            <th colspan="1">Labour</th>
+                                                                                            <th colspan="1">Unit(hrs)</th>
+                                                                                            <th colspan="1">Batu Niah</th>
+                                                                                            <th colspan="1">Miri</th>
                                                                                         </tr>
 
                                                                                     </thead>
@@ -139,22 +138,21 @@ if (frmB7.IsEdit){
                                                                                         @{
                                                                                             for (int i = 0; i < Model.FormB7Header.RmB7LabourHistory.Count; i++)
                                                                                             {
-                                                                                                <tr>
+                                                                                                var id = "Lab_" + Model.FormB7Header.RmB7LabourHistory[i].B7lhPkRefNo;
+                                                                                                <tr @id>
                                                                                                     <td>
-                                                                                                        @Model.FormB7Header.RmB7LabourHistory[i].B7lhCode
+                                                                                                        <div class="btn-group dropright" id="actiondropdown">
+                                                                                                            <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown"> Click Me </button>
+                                                                                                            <div class="dropdown-menu">
+                                                                                                                <button type="button" class="dropdown-item editdel-btns" onclick="javascript:Delete('Lab_@Model.FormB7Header.RmB7LabourHistory[i].B7lhPkRefNo');"><span class="del-icon"></span> Delete</button>
+                                                                                                            </div>
+                                                                                                        </div>
                                                                                                     </td>
-                                                                                                    <td>
-                                                                                                        @Model.FormB7Header.RmB7LabourHistory[i].B7lhName
-                                                                                                    </td>
-                                                                                                     <td class="typein" datatype="int">
-                                                                                                        @Model.FormB7Header.RmB7LabourHistory[i].B7lhUnitInHrs
-                                                                                                    </td>
-                                                                                                    <td class="typein" datatype="int">
-                                                                                                        @Model.FormB7Header.RmB7LabourHistory[i].B7lhUnitPriceBatuNiah
-                                                                                                    </td>
-                                                                                                    <td class="typein" datatype="int">
-                                                                                                        @Model.FormB7Header.RmB7LabourHistory[i].B7lhUnitPriceMiri
-                                                                                                    </td>
+                                                                                                    <td>@Model.FormB7Header.RmB7LabourHistory[i].B7lhCode</td>
+                                                                                                    <td>@Model.FormB7Header.RmB7LabourHistory[i].B7lhName</td>
+                                                                                                    <td class="typein" datatype="int">@Model.FormB7Header.RmB7LabourHistory[i].B7lhUnitInHrs</td>
+                                                                                                    <td class="typein" datatype="int">@Model.FormB7Header.RmB7LabourHistory[i].B7lhUnitPriceBatuNiah</td>
+                                                                                                    <td class="typein" datatype="int">@Model.FormB7Header.RmB7LabourHistory[i].B7lhUnitPriceMiri</td>
                                                                                                 </tr>
                                                                                             }
                                                                                         }
@@ -189,6 +187,11 @@ if (frmB7.IsEdit){
                                                     <div id="AccordPage2" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingTwo" data-parent="#custom-accordion-two">
                                                         <div class="card-body">
                                                             <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                                <div class="grid-btns" style="top:auto;">
+                                                                    <button type="button" id="btnMatAdd" class="btn btn-sm btn-themebtn" data-toggle="modal" data-backdrop="static" data-target="#FormB7LabourModal" onclick="javascript:AddRow('Material');">
+                                                                        <span class="intbl-add-icon"></span>
+                                                                    </button>
+                                                                </div>
                                                                 <div id="FormDLabourGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 
                                                                     <div class="dataTables_scroll">
@@ -197,25 +200,12 @@ if (frmB7.IsEdit){
                                                                             <table class="table w-100 nowrap dataTable no-footer" id="tblMaterial">
                                                                                 <thead style="background-color: #c8e1ff">
                                                                                     <tr>
-                                                                                       
-                                                                                        <th colspan="1">
-                                                                                            Code
-                                                                                        </th>
-                                                                                        <th colspan="1">
-                                                                                            Materials
-                                                                                        </th>
-                                                                                        <th colspan="1">
-                                                                                            Unit
-
-                                                                                        </th>
-                                                                                        <th colspan="1">
-                                                                                            Batu Niah
-                                                                                        </th>
-
-                                                                                        <th colspan="1">
-                                                                                            Miri
-                                                                                        </th>
-
+                                                                                        <th colspan="1">Action</th>
+                                                                                        <th colspan="1">Code</th>
+                                                                                        <th colspan="1">Materials</th>
+                                                                                        <th colspan="1">Unit</th>
+                                                                                        <th colspan="1">Batu Niah</th>
+                                                                                        <th colspan="1">Miri</th>
                                                                                     </tr>
 
                                                                                 </thead>
@@ -223,7 +213,18 @@ if (frmB7.IsEdit){
                                                                                     @{
                                                                                         for (int i = 0; i < Model.FormB7Header.RmB7MaterialHistory.Count; i++)
                                                                                         {
-                                                                                            <tr>
+                                                                                            var id = "Mat_" + Model.FormB7Header.RmB7MaterialHistory[i].B7mhPkRefNo;
+                                                                                            <tr @id>
+                                                                                                <td>
+                                                                                                    <div class="btn-group dropright" id="actiondropdown">
+                                                                                                        <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown"> Click Me </button>
+                                                                                                        <div class="dropdown-menu">
+                                                                                                            <button type="button" class="dropdown-item editdel-btns" onclick="javascript:Delete('Mat_@Model.FormB7Header.RmB7MaterialHistory[i].B7mhPkRefNo');">
+                                                                                                                <span class="del-icon"></span> Delete
+                                                                                                            </button>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </td>
                                                                                                 <td>
                                                                                                     @Model.FormB7Header.RmB7MaterialHistory[i].B7mhCode
                                                                                                 </td>
@@ -272,12 +273,20 @@ if (frmB7.IsEdit){
                                                     <div id="AccordPage3" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingThree" data-parent="#custom-accordion-three">
                                                         <div class="card-body">
                                                             <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                                <div class="grid-btns" style="top:auto;">
+                                                                    <button type="button" id="btnEqpAdd" class="btn btn-sm btn-themebtn" data-toggle="modal" data-backdrop="static" data-target="#FormB7LabourModal" onclick="javascript:AddRow('Equipment');">
+                                                                        <span class="intbl-add-icon"></span>
+                                                                    </button>
+                                                                </div>
                                                                 <div id="FormDLabourGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                                                     <div class="dataTables_scroll">
                                                                         <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
                                                                             <table class="table w-100 nowrap dataTable no-footer" id="tblEquipment">
                                                                                 <thead style="background-color: #c8e1ff">
                                                                                     <tr>
+                                                                                        <th colspan="1">
+                                                                                            Action
+                                                                                        </th>
                                                                                         <th colspan="1">
                                                                                             Code
                                                                                         </th>
@@ -299,14 +308,23 @@ if (frmB7.IsEdit){
                                                                                     @{
                                                                                         for (int i = 0; i < Model.FormB7Header.RmB7EquipmentsHistory.Count; i++)
                                                                                         {
-                                                                                            <tr>
+                                                                                            var id = "Eqp_" + Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehPkRefNo;
+                                                                                            <tr @id>
+                                                                                                <td>
+                                                                                                    <div class="btn-group dropright" id="actiondropdown">
+                                                                                                        <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown"> Click Me </button>
+                                                                                                        <div class="dropdown-menu">
+                                                                                                            <button type="button" class="dropdown-item editdel-btns" onclick="javascript:Delete('Eqp_@Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehPkRefNo');"><span class="del-icon"></span> Delete</button>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </td>
                                                                                                 <td>
                                                                                                     @Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehCode
                                                                                                 </td>
                                                                                                 <td>
                                                                                                     @Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehName
                                                                                                 </td>
-                                                                                                 <td class="typein" datatype="int">
+                                                                                                <td class="typein" datatype="int">
                                                                                                     @Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehUnitInHrs
                                                                                                 </td>
                                                                                                 <td class="typein" datatype="int">

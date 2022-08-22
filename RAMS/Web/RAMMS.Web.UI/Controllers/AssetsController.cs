@@ -1238,7 +1238,7 @@ namespace RAMMS.Web.UI.Controllers
 
             //Data to Export
             filteredPagingDefinition.Filters = assetReqData;
-            filteredPagingDefinition.RecordsPerPage = 1000;
+            filteredPagingDefinition.RecordsPerPage = 2000;
             filteredPagingDefinition.StartPageNo = 0;
 
             var result = await _assetsService.GetFilteredAssets(filteredPagingDefinition);

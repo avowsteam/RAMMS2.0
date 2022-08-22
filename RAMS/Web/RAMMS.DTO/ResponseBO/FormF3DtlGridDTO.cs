@@ -9,6 +9,7 @@ namespace RAMMS.DTO.ResponseBO
     {
         public int SNo { get; set; }
         public int PkRefNo { get; set; }
+        public int? Ff3dG1hPkRefNo { get; set; }
         public string AssetId { get; set; }
         public string Ch { get; set; }
         public int? FrmCh { get; set; }
