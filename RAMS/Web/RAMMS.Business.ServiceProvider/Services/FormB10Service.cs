@@ -122,7 +122,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                         if (worksheet != null)
                         {
-                            int i = 6;
+                            int i = 8;
                             
                             foreach (var r in rpt)
                             {
