@@ -160,6 +160,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     {
                         if (worksheet != null)
                         {
+                            
                             if (Rmucode == "Miri")
                                 worksheet.Cell(1, 1).Value = "APPENDIX B11B - CREW DAY COST CALCULATION WORK SHEET (RMU MIRI)";
                             else
@@ -173,6 +174,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                             List<RmB11EquipmentCost> lstEC = lstEquipmentCost.Where(x => x.B11ecEquipmentOrderId == 0).OrderBy(x => x.B11ecEquipmentId).ToList();
                             int echItem = lstLC.Count() + 6;
+                            worksheet.Cell(3, (echItem - 1)).Style.Fill.SetBackgroundColor(XLColor.FromArgb(207, 227, 163));
                             worksheet.Cell(3, (echItem - 1)).Value = "Labour Cost";
                             worksheet.Cell(5, (echItem - 1)).Value = "Sum of Labour Cost";
                             for (int i = 0; i < lstEC.Count(); i++)
@@ -183,6 +185,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                             List<RmB11MaterialCost> lstMC = lstMaterialCost.Where(x => x.B11mcMaterialOrderId == 0).OrderBy(x => x.B11mcMaterialId).ToList();
                             int mcItem = lstEC.Count() + echItem + 1;
+                            worksheet.Cell(3, (mcItem - 1)).Style.Fill.SetBackgroundColor(XLColor.FromArgb(207, 227, 163));
                             worksheet.Cell(3, (mcItem - 1)).Value = "Equipment Cost";
                             worksheet.Cell(5, (mcItem - 1)).Value = "Sum of Equipment Cost";
                             for (int i = 0; i < lstMC.Count(); i++)
@@ -191,6 +194,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 worksheet.Cell(4, (mcItem + i)).Value = lstMC[i].B11mcMaterialPerUnitPrice;
                             }
                             int mCost = lstMC.Count + mcItem;
+                            worksheet.Cell(3, mCost).Style.Fill.SetBackgroundColor(XLColor.FromArgb(207, 227, 163));
                             worksheet.Cell(3, mCost).Value = "Material Cost";
                             worksheet.Cell(5, mCost).Value = "Sum of Material Cost";
 
