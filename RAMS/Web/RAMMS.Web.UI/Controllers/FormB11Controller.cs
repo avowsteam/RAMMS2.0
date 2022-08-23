@@ -71,7 +71,7 @@ namespace RAMMS.Web.UI.Controllers
             grid.IsModify = _security.IsPCModify(ModuleNameList.Annual_Work_Planned_Budget);
             grid.IsDelete = _security.IsPCDelete(ModuleNameList.Annual_Work_Planned_Budget) && _security.isOperRAMSExecutive;
             grid.IsView = _security.IsPCView(ModuleNameList.Annual_Work_Planned_Budget);
-            grid.Columns.Add(new CDataColumns() { data = null, title = "Action", IsFreeze = true, sortable = false, render = "frmB11.HeaderGrid.ActionRender" });
+            grid.Columns.Add(new CDataColumns() { data = null, title = "Action", IsFreeze = true, sortable = false, render = "frmB11.HeaderGrid.ActionRender", className = "" });
             grid.Columns.Add(new CDataColumns() { data = "RMUName", title = "RMU" });
             grid.Columns.Add(new CDataColumns() { data = "RevisionYear", title = "Year" });
             grid.Columns.Add(new CDataColumns() { data = "RevisionNo", title = "Revision Number" });
