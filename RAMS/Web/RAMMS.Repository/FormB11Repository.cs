@@ -157,17 +157,17 @@ namespace RAMMS.Repository
 
         public List<RmB11LabourCost> GetLabourViewHistoryData(int id)
         {
-            List<RmB11LabourCost> res = (from r in _context.RmB11LabourCost where r.B11lcB11hPkRefNo == id select r).OrderBy(x => x.B11lcLabourOrderId).ToList();
+            List<RmB11LabourCost> res = (from r in _context.RmB11LabourCost where r.B11lcB11hPkRefNo == id select r).OrderBy(x => x.B11lcLabourOrderId).OrderBy(x=>x.B11lcLabourId).ToList();
             return res;
         }
         public List<RmB11MaterialCost> GetMaterialViewHistoryData(int id)
         {
-            List<RmB11MaterialCost> res = (from r in _context.RmB11MaterialCost where r.B11mcB11hPkRefNo == id select r).OrderBy(x => x.B11mcMaterialOrderId).ToList();
+            List<RmB11MaterialCost> res = (from r in _context.RmB11MaterialCost where r.B11mcB11hPkRefNo == id select r).OrderBy(x => x.B11mcMaterialOrderId).OrderBy(x=>x.B11mcMaterialId).ToList();
             return res;
         }
         public List<RmB11EquipmentCost> GetEquipmentViewHistoryData(int id)
         {
-            List<RmB11EquipmentCost> res = (from r in _context.RmB11EquipmentCost where r.B11ecB11hPkRefNo == id select r).OrderBy(x => x.B11ecEquipmentOrderId).ToList();
+            List<RmB11EquipmentCost> res = (from r in _context.RmB11EquipmentCost where r.B11ecB11hPkRefNo == id select r).OrderBy(x => x.B11ecEquipmentOrderId).OrderBy(x=>x.B11ecEquipmentId).ToList();
             return res;
         }
         public async Task<int> SaveFormB11(RmB11Hdr FormB11)
