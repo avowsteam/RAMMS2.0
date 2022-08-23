@@ -12,6 +12,14 @@
 
     var today = DateTime.Today.ToString("yyyy-MM-dd");
 
+    IEnumerable<SelectListItem> year = (await ddlService
+        .GetLookups(new DDLookUpDTO { Type = "Year" })).Where(s => Convert.ToInt32(s.DdlTypeValue) >= Model.FormB7Header.B7hRevisionYear)
+        .Select(s => new SelectListItem
+        {
+            Text = s.DdlTypeValue,
+            Value = s.DdlTypeValue
+        }).ToArray();
+
     IEnumerable<SelectListItem> unit = (await ddlService
     .GetLookups(new DDLookUpDTO { Type = "MaterialUnit" }))
     .Select(s => new SelectListItem
@@ -63,7 +71,7 @@
         <div class="row">
             <div class="form-group col-3">
                 <label>Select Year  </label>
-                @Html.DropDownListFor(m => m.FormB7Header.B7hRevisionYear, (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB7Year", @class = "form-control" })
+                @Html.DropDownListFor(m => m.FormB7Header.B7hRevisionYear, year, "Select Year", new { @Id = "formB7Year", @class = "form-control" })
             </div>
             <div class="form-group col-3">
                 <label> Select the Revision No. </label>
@@ -71,7 +79,7 @@
             </div>
             <div class="form-group col-3">
                 <label>Date </label>
-                <input type="date" value="@today" class="form-control" id="date" />
+                <input type="date" value="@today" class="form-control" id="date" readonly="readonly" />
             </div>
             <div class="form-group col-3">
                 <label>User Name </label>
