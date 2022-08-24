@@ -76,9 +76,11 @@
         </div>
     </form>
 </div>
-
+@{
+    var weekNo = System.Globalization.ISOWeek.GetWeekOfYear(DateTime.Today);
+}
 <div class="landing-card float-left w-100">
-    <div class="w-100 font-weight-bold text-dark mt-4">In Week 1</div>
+    <div class="w-100 font-weight-bold text-dark mt-4">In Week @weekNo</div>
     <div class="col-lg-6 mt-3 float-left p-0">
         <div class="row">
             <div class="col-lg-4 col-md-6">
