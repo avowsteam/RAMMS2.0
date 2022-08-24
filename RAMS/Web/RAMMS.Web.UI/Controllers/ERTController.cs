@@ -1428,7 +1428,7 @@ namespace RAMMS.Web.UI.Controllers
             formD = header.SaveFormDModel;
             formD.DivisionName = header.DivisionName;
             formD.RoadCode = header.RoadCode;
-            formDRes = await _formDService.FindDetails(formD);
+            //formDRes = await _formDService.FindDetails(formD);
             if (formDRes == null || formDRes.No == 0)
             {
 
