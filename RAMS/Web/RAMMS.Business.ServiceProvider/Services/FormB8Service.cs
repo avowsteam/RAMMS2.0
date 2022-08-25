@@ -46,9 +46,9 @@ namespace RAMMS.Business.ServiceProvider.Services
             return await _repo.GetHeaderGrid(searchData);
         }
 
-        public async Task<FormB8HeaderDTO> GetHeaderById(int id)
+        public async Task<FormB8HeaderDTO> GetHeaderById(int id, bool view)
         {
-            RmB8Hdr res = _repo.GetHeaderById(id);
+            RmB8Hdr res = _repo.GetHeaderById(id,view);
             FormB8HeaderDTO FormB8 = new FormB8HeaderDTO();
             FormB8 = _mapper.Map<FormB8HeaderDTO>(res);
             FormB8.RmB8History = _mapper.Map<List<FormB8HistoryDTO>>(res.RmB8History);

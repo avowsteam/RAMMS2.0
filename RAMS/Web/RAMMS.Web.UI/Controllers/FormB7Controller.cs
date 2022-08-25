@@ -95,8 +95,7 @@ namespace RAMMS.Web.UI.Controllers
             FormB7Model _model = new FormB7Model();
             if (id > 0)
             {
-                _model.FormB7Header = await _formB7Service.GetHeaderById(id);
-
+                _model.FormB7Header = await _formB7Service.GetHeaderById(id, !ViewBag.IsEdit);
             }
             else
             {
@@ -115,7 +114,7 @@ namespace RAMMS.Web.UI.Controllers
 
         public async Task<IActionResult> GetMaxRev(int Year)
         {
-            return Json( _formB7Service.GetMaxRev(Year));
+            return Json(_formB7Service.GetMaxRev(Year));
         }
 
         public IActionResult Download(int id)

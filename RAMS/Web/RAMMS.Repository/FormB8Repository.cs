@@ -96,11 +96,12 @@ namespace RAMMS.Repository
             return grid;
         }
 
-        public RmB8Hdr GetHeaderById(int id)
+        public RmB8Hdr GetHeaderById(int id, bool view)
         {
             RmB8Hdr res = (from r in _context.RmB8Hdr where r.B8hPkRefNo == id select r).FirstOrDefault();
             int? RevNo = (from rn in _context.RmB8Hdr where rn.B8hRevisionYear == res.B8hRevisionYear select rn.B8hRevisionNo).DefaultIfEmpty().Max() + 1;
-            res.B8hRevisionNo = RevNo;
+            if (view == false)
+                res.B8hRevisionNo = RevNo;
             res.RmB8History = (from r in _context.RmB8History where r.B8hiB8hPkRefNo == id select r).OrderBy(S => S.B8hiItemNo).ToList();
 
             return res;

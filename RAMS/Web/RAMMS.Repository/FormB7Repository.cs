@@ -102,11 +102,12 @@ namespace RAMMS.Repository
             return grid;
         }
 
-        public RmB7Hdr GetHeaderById(int id)
+        public RmB7Hdr GetHeaderById(int id, bool view)
         {
             RmB7Hdr res = (from r in _context.RmB7Hdr where r.B7hPkRefNo == id select r).FirstOrDefault();
             int? RevNo = (from rn in _context.RmB7Hdr where rn.B7hRevisionYear == res.B7hRevisionYear select rn.B7hRevisionNo).DefaultIfEmpty().Max() + 1;
-            res.B7hRevisionNo = RevNo;
+            if (view == false)
+                res.B7hRevisionNo = RevNo;
             res.RmB7LabourHistory = (from r in _context.RmB7LabourHistory where r.B7lhB7hPkRefNo == id select r).OrderBy(S => S.B7lhCode).ToList();
             res.RmB7MaterialHistory = (from r in _context.RmB7MaterialHistory where r.B7mhB7hPkRefNo == id select r).OrderBy(S => S.B7mhCode).ToList();
             res.RmB7EquipmentsHistory = (from r in _context.RmB7EquipmentsHistory where r.B7ehB7hPkRefNo == id select r).OrderBy(S => S.B7ehCode).ToList();

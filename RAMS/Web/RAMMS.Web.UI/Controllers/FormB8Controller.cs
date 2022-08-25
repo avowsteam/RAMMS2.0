@@ -94,7 +94,7 @@ namespace RAMMS.Web.UI.Controllers
             FormB8Model _model = new FormB8Model();
             if (id > 0)
             {
-                _model.FormB8Header = await _formB8Service.GetHeaderById(id);
+                _model.FormB8Header = await _formB8Service.GetHeaderById(id, !ViewBag.IsEdit);
             }
             else
             {

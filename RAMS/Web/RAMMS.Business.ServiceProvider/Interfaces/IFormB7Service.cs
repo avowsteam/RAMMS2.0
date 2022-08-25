@@ -16,7 +16,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
     {
         Task<GridWrapper<object>> GetHeaderGrid(DataTableAjaxPostModel searchData);
 
-        Task<FormB7HeaderDTO> GetHeaderById(int id);
+        Task<FormB7HeaderDTO> GetHeaderById(int id, bool view);
 
         int? GetMaxRev(int Year);
         

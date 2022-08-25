@@ -46,9 +46,9 @@ namespace RAMMS.Business.ServiceProvider.Services
             return await _repo.GetHeaderGrid(searchData);
         }
 
-        public async Task<FormB7HeaderDTO> GetHeaderById(int id)
+        public async Task<FormB7HeaderDTO> GetHeaderById(int id, bool view)
         {
-            RmB7Hdr res = _repo.GetHeaderById(id);
+            RmB7Hdr res = _repo.GetHeaderById(id,view);
             FormB7HeaderDTO FormB7 = new FormB7HeaderDTO();
             FormB7 = _mapper.Map<FormB7HeaderDTO>(res);
             FormB7.RmB7LabourHistory = _mapper.Map<List<FormB7LabourHistoryDTO>>(res.RmB7LabourHistory);
@@ -113,44 +113,133 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(1, 1).Value = "APPENDIX B7: L.E.M Unit Price (" + _rpt.Year + ") for RMU Batu Niah and RMU Miri";
 
                             var Labour = _rpt.Labours;
-                            var i = 4;
+                            var i = 3;
                             foreach (var lab in Labour)
                             {
                                 worksheet.Cell(i + 1, 1).Value = lab.Code;
+                                worksheet.Cell(i + 1, 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                                worksheet.Cell(i + 1, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                                worksheet.Cell(i + 1, 1).Style.Font.SetFontSize(10);
+
+
+                                worksheet.Cell(i + 1, 2).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                                 worksheet.Cell(i + 1, 2).Value = lab.Name;
+                                worksheet.Cell(i + 1, 2).Style.Font.SetFontSize(10);
+
+                                worksheet.Cell(i + 1, 3).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                                worksheet.Cell(i + 1, 3).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                                 worksheet.Cell(i + 1, 3).Value = lab.Unit + " hrs";
+                                worksheet.Cell(i + 1, 3).Style.Font.SetFontSize(10);
+
+                                worksheet.Cell(i + 1, 4).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                                worksheet.Cell(i + 1, 4).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
                                 worksheet.Cell(i + 1, 4).Value = lab.UnitPriceBatuNiah;
+                                worksheet.Cell(i + 1, 4).Style.Font.SetFontSize(10);
+
+                                worksheet.Cell(i + 1, 5).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                                worksheet.Cell(i + 1, 5).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
                                 worksheet.Cell(i + 1, 5).Value = lab.UnitPriceMiri;
+                                worksheet.Cell(i + 1, 5).Style.Font.SetFontSize(10);
                                 i++;
                             }
 
-                            
+                            i+= 2;
+
+                            ClosedXML.Excel.IXLRange range = worksheet.Range(i, 1, i+1, 1);
+                            range.Merge(true);
+                            worksheet.Cell(i, 1).Style.Fill.SetBackgroundColor(XLColor.LightGray);
+                            worksheet.Cell(i, 1).Style.Font.SetBold(true);
+                            worksheet.Cell(i, 1).Style.Font.SetFontSize(11);
+                            worksheet.Cell(i, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                            worksheet.Cell(i, 1).Value = "CODE";
+
+                            ClosedXML.Excel.IXLRange range1 = worksheet.Range(i, 2, i + 1, 2);
+                            range1.Merge(true);
+                            worksheet.Cell(i, 2).Style.Fill.SetBackgroundColor(XLColor.LightGray);
+                            worksheet.Cell(i, 2).Style.Font.SetBold(true);
+                            worksheet.Cell(i, 2).Style.Font.SetFontSize(11);
+                            worksheet.Cell(i, 2).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                            worksheet.Cell(i, 2).Value = "MATERIALS";
+
+                            ClosedXML.Excel.IXLRange range2 = worksheet.Range(i, 3, i + 1, 3);
+                            range2.Merge(true);
+                            worksheet.Cell(i, 3).Style.Fill.SetBackgroundColor(XLColor.LightGray);
+                            worksheet.Cell(i, 3).Style.Font.SetBold(true);
+                            worksheet.Cell(i, 3).Style.Font.SetFontSize(11);
+                            worksheet.Cell(i, 3).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                            worksheet.Cell(i, 3).Value = "UNIT";
+
+
+                            ClosedXML.Excel.IXLRange range3 = worksheet.Range(i, 4, i, 5);
+                            range3.Merge(true);
+                            worksheet.Cell(i, 4).Style.Fill.SetBackgroundColor(XLColor.LightGray);
+                            worksheet.Cell(i, 4).Style.Font.SetBold(true);
+                            worksheet.Cell(i, 4).Style.Font.SetFontSize(9);
+                            worksheet.Cell(i, 4).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                            worksheet.Cell(i, 4).Value = "MIRI DIVISION";
+                            i += 1;
+                            worksheet.Cell(i, 4).Style.Fill.SetBackgroundColor(XLColor.LightGray);
+                            worksheet.Cell(i, 4).Style.Font.SetBold(true);
+                            worksheet.Cell(i, 4).Style.Font.SetFontSize(11);
+                            worksheet.Cell(i, 4).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                            worksheet.Cell(i, 4).Value = "Batu Niah";
+
+                            worksheet.Cell(i, 5).Style.Fill.SetBackgroundColor(XLColor.LightGray);
+                            worksheet.Cell(i, 5).Style.Font.SetBold(true);
+                            worksheet.Cell(i, 5).Style.Font.SetFontSize(9);
+                            worksheet.Cell(i, 5).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                            worksheet.Cell(i, 5).Value = "Miri";
+
 
                             //Material
 
                             var Materials = _rpt.Materials;
-                            i = i + 3;
+                            //i = i + 1;
                             foreach (var mat in Materials)
                             {
                                 worksheet.Cell(i + 1, 1).Value = mat.Code;
+                                worksheet.Cell(i + 1, 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                                worksheet.Cell(i + 1, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
                                 worksheet.Cell(i + 1, 2).Value = mat.Name;
+                                worksheet.Cell(i + 1, 2).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
                                 worksheet.Cell(i + 1, 3).Value = mat.Unit;
+                                worksheet.Cell(i + 1, 3).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
                                 worksheet.Cell(i + 1, 4).Value = mat.UnitPriceBatuNiah;
+                                worksheet.Cell(i + 1, 4).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                                worksheet.Cell(i + 1, 4).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
                                 worksheet.Cell(i + 1, 5).Value = mat.UnitPriceMiri;
+                                worksheet.Cell(i + 1, 5).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                                worksheet.Cell(i + 1, 5).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                                 i++;
                             }
 
                             //Equipement
 
                             var Equipements = _rpt.Equipments;
-                            i = 4;
+                            i = 3;
                             foreach (var eqp in Equipements)
                             {
                                 worksheet.Cell(i + 1, 7).Value = eqp.Code;
+                                worksheet.Cell(i + 1, 7).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                                worksheet.Cell(i + 1, 7).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
                                 worksheet.Cell(i + 1, 8).Value = eqp.Name;
+                                worksheet.Cell(i + 1, 8).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
                                 worksheet.Cell(i + 1, 9).Value = "Nr./" + eqp.Unit + " hrs";
+                                worksheet.Cell(i + 1, 9).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
                                 worksheet.Cell(i + 1, 10).Value = eqp.UnitPriceBatuNiah;
+                                worksheet.Cell(i + 1, 10).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                                worksheet.Cell(i + 1, 10).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
                                 worksheet.Cell(i + 1, 11).Value = eqp.UnitPriceMiri;
+                                worksheet.Cell(i + 1, 11).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                                worksheet.Cell(i + 1, 11).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                                 i++;
                             }
 

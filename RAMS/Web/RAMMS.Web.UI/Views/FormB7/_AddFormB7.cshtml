@@ -380,7 +380,7 @@
 </div>
 <div class="col-md-12 mb-2 float-right text-right custom-footer">
     <button type="button" class="btn btn-sm btn-outline-theme" onclick="frmB7.Cancel()">Close</button>
-    @if (ViewBag.IsEdit && security.IsHeadMaintenance && security.IsRegionManager)
+    @if (ViewBag.IsEdit && (security.IsHeadMaintenance || security.IsRegionManager))
     {
         <button type="button" class="btn btn-sm btn-themebtn" onclick="frmB7.Save()">Save</button>
     }

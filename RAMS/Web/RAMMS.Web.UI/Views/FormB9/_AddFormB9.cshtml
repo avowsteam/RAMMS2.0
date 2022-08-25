@@ -179,7 +179,10 @@
 
 <div class="col-md-12 mb-2 float-right text-right custom-footer">
     <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack();">Close</button>
-    <button type="button" class="btn btn-sm btn-themebtn" id="btnSave" onclick="Save()">Save</button>
+    @if (security.IsHeadMaintenance || security.IsRegionManager)
+    {
+        <button type="button" class="btn btn-sm btn-themebtn" id="btnSave" onclick="Save()">Save</button>
+    }
 </div>
 <style>
     .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4) {
