@@ -45,7 +45,7 @@ namespace RAMMS.DTO.ResponseBO
         public string B11lcLabourId { get; set; }
         public string B11lcLabourName { get; set; }
         public decimal? B11lcLabourPerUnitPrice { get; set; }
-        public int? B11lcLabourNoOfUnits { get; set; }
+        public decimal? B11lcLabourNoOfUnits { get; set; }
         public decimal? B11lcLabourTotalPrice { get; set; }
         public int? B11lcLabourOrderId { get; set; }
     }
@@ -58,7 +58,7 @@ namespace RAMMS.DTO.ResponseBO
         public string B11ecEquipmentId { get; set; }
         public string B11ecEquipmentName { get; set; }
         public decimal? B11ecEquipmentPerUnitPrice { get; set; }
-        public int? B11ecEquipmentNoOfUnits { get; set; }
+        public decimal? B11ecEquipmentNoOfUnits { get; set; }
         public decimal? B11ecEquipmentTotalPrice { get; set; }
         public int? B11ecEquipmentOrderId { get; set; }
     }
@@ -71,7 +71,7 @@ namespace RAMMS.DTO.ResponseBO
         public string B11mcMaterialId { get; set; }
         public string B11mcMaterialName { get; set; }
         public decimal? B11mcMaterialPerUnitPrice { get; set; }
-        public int? B11mcMaterialNoOfUnits { get; set; }
+        public decimal? B11mcMaterialNoOfUnits { get; set; }
         public decimal? B11mcMaterialTotalPrice { get; set; }
         public int? B11mcMaterialOrderId { get; set; }
     }
