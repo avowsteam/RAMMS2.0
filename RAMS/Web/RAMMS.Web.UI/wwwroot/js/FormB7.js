@@ -48,8 +48,9 @@ var frmB7 = new function () {
             B7.B7mhCode = $(this).find("td:nth-child(2)").html().trim();
             B7.B7mhName = $(this).find("td:nth-child(3)").html().trim();
             B7.B7mhUnits = $(this).find("td:nth-child(4)").html().trim();
-            B7.B7mhUnitPriceBatuNiah = $(this).find("td:nth-child(5)").html().trim();
-            B7.B7mhUnitPriceMiri = $(this).find("td:nth-child(6)").html().trim();
+            B7.B7mhUnitsDescription = $(this).find("td:nth-child(5)").html().trim();
+            B7.B7mhUnitPriceBatuNiah = $(this).find("td:nth-child(6)").html().trim();
+            B7.B7mhUnitPriceMiri = $(this).find("td:nth-child(7)").html().trim();
             B7MaterialHistory.push(B7);
         });
 

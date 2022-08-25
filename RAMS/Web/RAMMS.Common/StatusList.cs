@@ -106,11 +106,11 @@ namespace RAMMS.Common
 
         // Missing from old Code
 
-        public const string FormC1C2Init = "Open";
-        public const string FormC1C2Inspected = "Inspected";
-        public const string FormC1C2ExecutiveApproved = "Executive";
-        public const string FormC1C2HeadMaintenanceApproved = "Head Maintenance";
-        public const string FormC1C2RegionManagerApproved = "Region Manager";
+        public const string FormC1C2Init = "Open"; //To Supervisor
+        public const string FormC1C2Inspected = "Inspected"; //To Opp Executive
+        public const string FormC1C2ExecutiveApproved = "Executive"; // To Opp Head
+        public const string FormC1C2HeadMaintenanceApproved = "Head Maintenance"; //To Region Manager        
+        public const string FormC1C2RegionManagerApproved = "Region Manager"; // To JKRS
 
         public const string FormB1B2Init = "Open";
         public const string FormB1B2Inspected = "Inspected";
@@ -130,34 +130,34 @@ namespace RAMMS.Common
         public const string FormF3HeadMaintenanceApproved = "Head Maintenance";
         public const string FormF3RegionManagerApproved = "Region Manager";
 
-        public const string FormF4Init = "Initialize";
+        public const string FormF4Init = "Open";
         public const string FormF4Inspected = "Inspected";
         public const string FormF4ExecutiveApproved = "Executive";
         public const string FormF4HeadMaintenanceApproved = "Head Maintenance";
         public const string FormF4RegionManagerApproved = "Region Manager";
 
-        public const string FormF5Init = "Initialize";
-        public const string FormF5Inspected = "Inspected";
-        public const string FormF5ExecutiveApproved = "Executive";
-        public const string FormF5HeadMaintenanceApproved = "Head Maintenance";
-        public const string FormF5RegionManagerApproved = "Region Manager";
+        public const string FormF5Init = "Open";//To Supervisor
+        public const string FormF5Inspected = "Inspected"; //To Opp Executive
+        public const string FormF5ExecutiveApproved = "Executive"; // To Opp Head
+        public const string FormF5HeadMaintenanceApproved = "Head Maintenance"; //To Region Manager        
+        public const string FormF5RegionManagerApproved = "Region Manager"; // To JKRS
 
-        public const string FormFCInit = "Open";
-        public const string FormFCInspected = "Inspected";
-        public const string FormFCExecutiveApproved = "Executive";
-        public const string FormFCHeadMaintenanceApproved = "Head Maintenance";
-        public const string FormFCRegionManagerApproved = "Region Manager";
+        public const string FormFCInit = "Open";//To Supervisor
+        public const string FormFCInspected = "Inspected"; //To Opp Executive
+        public const string FormFCExecutiveApproved = "Executive"; // To Opp Head
+        public const string FormFCHeadMaintenanceApproved = "Head Maintenance"; //To Region Manager        
+        public const string FormFCRegionManagerApproved = "Region Manager"; // To JKRS
 
-        public const string FormFDInit = "Initialize";
-        public const string FormFDInspected = "Inspected";
-        public const string FormFDExecutiveApproved = "Executive";
-        public const string FormFDHeadMaintenanceApproved = "Head Maintenance";
-        public const string FormFDRegionManagerApproved = "Region Manager";
+        public const string FormFDInit = "Initialize";//To Supervisor
+        public const string FormFDInspected = "Inspected"; //To Opp Executive
+        public const string FormFDExecutiveApproved = "Executive"; // To Opp Head
+        public const string FormFDHeadMaintenanceApproved = "Head Maintenance"; //To Region Manager        
+        public const string FormFDRegionManagerApproved = "Region Manager"; // To JKRS
 
-        public const string FormFSInit = "Open";
-        public const string FormFSSummarized = "Summarized";
-        public const string FormFSHeadMaintenanceApproved = "Executive";
-        public const string FormFSRegionManagerApproved = "Region Manager";
+        public const string FormFSInit = "Open";//To Opp Executive        
+        public const string FormFSSummarized = "Summarized"; // To Opp Head
+        public const string FormFSHeadMaintenanceApproved = "Executive"; //To Region Manager        
+        public const string FormFSRegionManagerApproved = "Region Manager"; // To JKRS
 
         public const string FormV1Saved = "Saved";
         public const string FormV1Submitted = "Submitted";

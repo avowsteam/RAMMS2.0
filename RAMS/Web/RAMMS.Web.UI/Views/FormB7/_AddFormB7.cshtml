@@ -203,7 +203,7 @@
                                                         <div class="card-body">
                                                             <div class="w-100 position-relative in-tbl-btns custom-tbl">
                                                                 <div class="grid-btns" style="top:auto;">
-                                                                    <button type="button" id="btnMatAdd" class="btn btn-sm btn-themebtn" data-toggle="modal" data-backdrop="static" data-target="#FormB7LabourModal" onclick="javascript:AddRow('Material');">
+                                                                    <button type="button" id="btnMatAdd" class="btn btn-sm btn-themebtn" data-toggle="modal" data-backdrop="static" data-target="#FormB7MaterialsModal" onclick="javascript:AddRow('Material');">
                                                                         <span class="intbl-add-icon"></span>
                                                                     </button>
                                                                 </div>
@@ -219,6 +219,7 @@
                                                                                         <th colspan="1">Code</th>
                                                                                         <th colspan="1">Materials</th>
                                                                                         <th colspan="1">Unit</th>
+                                                                                        <th colspan="1">Unit Description</th>
                                                                                         <th colspan="1">Batu Niah</th>
                                                                                         <th colspan="1">Miri</th>
                                                                                     </tr>
@@ -248,6 +249,9 @@
                                                                                                 </td>
                                                                                                 <td class="dropdown" preval="@Model.FormB7Header.RmB7MaterialHistory[i].B7mhUnits">
                                                                                                     @Model.FormB7Header.RmB7MaterialHistory[i].B7mhUnits
+                                                                                                </td>
+                                                                                                <td class="typein">
+                                                                                                    @Model.FormB7Header.RmB7MaterialHistory[i].B7mhUnitsDescription
                                                                                                 </td>
                                                                                                 <td class="typein" datatype="int">
                                                                                                     @Model.FormB7Header.RmB7MaterialHistory[i].B7mhUnitPriceBatuNiah
@@ -376,7 +380,7 @@
 </div>
 <div class="col-md-12 mb-2 float-right text-right custom-footer">
     <button type="button" class="btn btn-sm btn-outline-theme" onclick="frmB7.Cancel()">Close</button>
-    @if (ViewBag.IsEdit)
+    @if (ViewBag.IsEdit && security.IsHeadMaintenance && security.IsRegionManager)
     {
         <button type="button" class="btn btn-sm btn-themebtn" onclick="frmB7.Save()">Save</button>
     }

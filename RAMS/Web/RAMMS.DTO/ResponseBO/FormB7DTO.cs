@@ -52,6 +52,8 @@ namespace RAMMS.DTO.ResponseBO
         public string B7mhCode { get; set; }
         public string B7mhName { get; set; }
         public string B7mhUnits { get; set; }
+
+        public string B7mhUnitsDescription { get; set; }
         public decimal? B7mhUnitPriceBatuNiah { get; set; }
         public decimal? B7mhUnitPriceMiri { get; set; }
         public int? B7mhRevisionNo { get; set; }
