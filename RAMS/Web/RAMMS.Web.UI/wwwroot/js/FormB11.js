@@ -4,7 +4,7 @@ var frmB11 = new function () {
     this.IsEdit = true;
 
     this.Save = function () {
-        debugger;
+        
         var failed = false;
 
         if ($("#date").val() != "") {
@@ -48,7 +48,7 @@ var frmB11 = new function () {
         $('#tblLabour > tbody  > tr').each(function (index, tr) {
             var labCount = $(this).find("td.xl700").attr("data-lab");
             for (var i = 0; i < labCount; i++) {
-                debugger;
+                
                 var B11 = new Object();
                 B11.B11lcB11hPkRefNo = $("#FormB11Header_B11hPkRefNo").val();
                 B11.B11lcActivityId = $(this).find("td.xl68").text().trim();
@@ -69,7 +69,7 @@ var frmB11 = new function () {
         $('#tblMaterial > tbody  > tr').each(function (index, tr) {
             var labCount = $(this).find("td.xl700").attr("data-lab");
             for (var i = 0; i < labCount; i++) {
-                debugger;
+                
                 var B11 = new Object();
                 B11.B11mcB11hPkRefNo = $("#FormB11Header_B11hPkRefNo").val();
                 B11.B11mcActivityId = $(this).find("td.xl68").text().trim();
@@ -90,7 +90,7 @@ var frmB11 = new function () {
         $('#tblEquipment > tbody  > tr').each(function (index, tr) {
             var labCount = $(this).find("td.xl700").attr("data-lab");
             for (var i = 0; i < labCount; i++) {
-                debugger;
+                
                 var B11 = new Object();
                 B11.B11ecB11hPkRefNo = $("#FormB11Header_B11hPkRefNo").val();
                 B11.B11ecActivityId = $(this).find("td.xl68").text().trim();
@@ -105,7 +105,7 @@ var frmB11 = new function () {
             EquipmentDataOrder = EquipmentDataOrder + 1;
         });
 
-        debugger;
+        
         FormB11.RmB11LabourCost = B11LabourCost;
         FormB11.RmB11EquipmentCost = B11EquipmentCost;
         FormB11.RmB11MaterialCost = B11MaterialCost;
@@ -140,7 +140,7 @@ var frmB11 = new function () {
 
     this.HeaderGrid = new function () {
         this.ActionRender = function (data, type, row, meta) {
-            debugger;
+            
             var actionSection = "<div class='btn-group dropright' rowidx='" + meta.row + "'><button type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button>";
             actionSection += "<div class='dropdown-menu'>";//dorpdown menu start
 
@@ -170,7 +170,7 @@ var frmB11 = new function () {
             var rowidx = parseInt(obj.closest("[rowidx]").attr("rowidx"), 10);
             if (rowidx >= 0) {
                 var data = tblFB11HGrid.dataTable.row(rowidx).data();
-                debugger;
+                
                 switch (type.toLowerCase()) {
                     case "edit":
                         window.location = _APPLocation + "FormB11/Edit/" + data.RefNo;
@@ -262,7 +262,7 @@ var frmB11 = new function () {
     }
 
     this.PageInit = function () {
-        debugger;
+        
         $('#hdrId').text("CREW DAY COST CALCULATION WORK SHEET (" + $("#txtB11RmuCode").val() + ")");
         if (this.IsEdit) {
             if ($('#formB11Year').val() != "" && $('#formB11Year').val() != null) {
@@ -488,7 +488,7 @@ function AppendLabourData(id) {
         data: req,
         type: 'Post',
         success: function (data) {
-            debugger;
+            
             if (data.result.length > 0) {
                 var k = 0;
                 if ($("#txtB11RmuCode").val() == "Miri") {
@@ -543,22 +543,25 @@ function LabourCal(obj, k) {
     debugger;
     var Qty = 0;
     var Unit = 0;
-    Qty = $('#' + obj.id).val();
-    Unit = $('#sp' + obj.id.slice(3)).text();
-    var tot = Qty * Unit;
-    $('#span' + obj.id.slice(3)).text(tot.toFixed(2))
-    var sum = 0;
-    $("#tblLabour tbody tr td .x100" + k).each(function (index, tr) {
-        debugger;
-        if (!isNaN(this.innerText) && this.innerText != "") {
-            sum += parseFloat(this.innerText);
-        }
-    });
-    $('#sptot' + k).text(sum.toFixed(3));
+    $('#' + obj.id).val($('#' + obj.id).val().replace(/[^\d.]/g, ''));
+    Qty = $('#' + obj.id).val();   
+    if (Qty != "" && Qty != null) {
+        Unit = $('#sp' + obj.id.slice(3)).text();
+        var tot = Qty * Unit;
+        $('#span' + obj.id.slice(3)).text(tot.toFixed(2))
+        var sum = 0;
+        $("#tblLabour tbody tr td .x100" + k).each(function (index, tr) {
+
+            if (!isNaN(this.innerText) && this.innerText != "") {
+                sum += parseFloat(this.innerText);
+            }
+        });
+        $('#sptot' + k).text(sum.toFixed(3));
+    }
 }
 
 function ViewLabourData(id) {
-    debugger;
+    
     var req = {};
     req.id = id;
     $.ajax({
@@ -567,7 +570,7 @@ function ViewLabourData(id) {
         data: req,
         type: 'Post',
         success: function (data) {
-            debugger;
+            
             if (data.result.length > 0) {
                 var k = 0;
                 var cRow = 0;
@@ -625,7 +628,7 @@ function AppendMaterialData(id) {
         data: req,
         type: 'Post',
         success: function (data) {
-            debugger;
+            
             if (data.result.length > 0) {
                 var k = 0;
 
@@ -678,26 +681,28 @@ function AppendMaterialData(id) {
     });
 }
 
-function MaterialCal(obj, k) {
-    debugger;
+function MaterialCal(obj, k) {    
     var Qty = 0;
     var Unit = 0;
+    $('#' + obj.id).val($('#' + obj.id).val().replace(/[^\d.]/g, ''));
     Qty = $('#' + obj.id).val();
-    Unit = $('#msp' + obj.id.slice(4)).text();
-    var tot = Qty * Unit;
-    $('#mspan' + obj.id.slice(4)).text(tot.toFixed(2))
-    var sum = 0;
-    $("#tblMaterial tbody tr td .x100" + k).each(function (index, tr) {
-        debugger;
-        if (!isNaN(this.innerText) && this.innerText != "") {
-            sum += parseFloat(this.innerText);
-        }
-    });
-    $('#msptot' + k).text(sum.toFixed(3));
+    if (Qty != "" && Qty != null) {
+        Unit = $('#msp' + obj.id.slice(4)).text();
+        var tot = Qty * Unit;
+        $('#mspan' + obj.id.slice(4)).text(tot.toFixed(2))
+        var sum = 0;
+        $("#tblMaterial tbody tr td .x100" + k).each(function (index, tr) {
+
+            if (!isNaN(this.innerText) && this.innerText != "") {
+                sum += parseFloat(this.innerText);
+            }
+        });
+        $('#msptot' + k).text(sum.toFixed(3));
+    }
 }
 
 function ViewMaterialData(id) {
-    debugger;
+    
     var req = {};
     req.id = id;
     $.ajax({
@@ -706,7 +711,7 @@ function ViewMaterialData(id) {
         data: req,
         type: 'Post',
         success: function (data) {
-            debugger;
+            
             if (data.result.length > 0) {
                 var k = 0;
                 var cRow = 0;
@@ -760,7 +765,7 @@ function AppendEquipmentData(id) {
         data: req,
         type: 'Post',
         success: function (data) {
-            debugger;
+            
             if (data.result.length > 0) {
                 var k = 0;
                 if ($("#txtB11RmuCode").val() == "Miri") {
@@ -813,26 +818,28 @@ function AppendEquipmentData(id) {
     });
 }
 
-function EquipmentCal(obj, k) {
-    debugger;
+function EquipmentCal(obj, k) {    
     var Qty = 0;
     var Unit = 0;
+    $('#' + obj.id).val($('#' + obj.id).val().replace(/[^\d.]/g, ''));
     Qty = $('#' + obj.id).val();
-    Unit = $('#esp' + obj.id.slice(4)).text();
-    var tot = Qty * Unit;
-    $('#espan' + obj.id.slice(4)).text(tot.toFixed(2))
-    var sum = 0;
-    $("#tblEquipment tbody tr td .x100" + k).each(function (index, tr) {
-        debugger;
-        if (!isNaN(this.innerText) && this.innerText != "") {
-            sum += parseFloat(this.innerText);
-        }
-    });
-    $('#esptot' + k).text(sum.toFixed(3));
+    if (Qty != "" && Qty != null) {
+        Unit = $('#esp' + obj.id.slice(4)).text();
+        var tot = Qty * Unit;
+        $('#espan' + obj.id.slice(4)).text(tot.toFixed(2))
+        var sum = 0;
+        $("#tblEquipment tbody tr td .x100" + k).each(function (index, tr) {
+
+            if (!isNaN(this.innerText) && this.innerText != "") {
+                sum += parseFloat(this.innerText);
+            }
+        });
+        $('#esptot' + k).text(sum.toFixed(3));
+    }
 }
 
 function ViewEquipmentData(id) {
-    debugger;
+    
     var req = {};
     req.id = id;
     $.ajax({
@@ -841,7 +848,7 @@ function ViewEquipmentData(id) {
         data: req,
         type: 'Post',
         success: function (data) {
-            debugger;
+            
             if (data.result.length > 0) {
                 var k = 0;
                 var cRow = 0;

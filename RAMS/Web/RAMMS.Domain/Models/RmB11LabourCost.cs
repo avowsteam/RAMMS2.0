@@ -11,7 +11,7 @@ namespace RAMMS.Domain.Models
         public string B11lcLabourId { get; set; }
         public string B11lcLabourName { get; set; }
         public decimal? B11lcLabourPerUnitPrice { get; set; }
-        public int? B11lcLabourNoOfUnits { get; set; }
+        public decimal? B11lcLabourNoOfUnits { get; set; }
         public decimal? B11lcLabourTotalPrice { get; set; }
         public int? B11lcLabourOrderId { get; set; }
 

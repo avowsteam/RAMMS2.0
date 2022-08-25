@@ -11,7 +11,7 @@ namespace RAMMS.Domain.Models
         public string B11ecEquipmentId { get; set; }
         public string B11ecEquipmentName { get; set; }
         public decimal? B11ecEquipmentPerUnitPrice { get; set; }
-        public int? B11ecEquipmentNoOfUnits { get; set; }
+        public decimal? B11ecEquipmentNoOfUnits { get; set; }
         public decimal? B11ecEquipmentTotalPrice { get; set; }
         public int? B11ecEquipmentOrderId { get; set; }
 

@@ -3357,7 +3357,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11CrewDayCostHeader>(entity =>
             {
                 entity.HasKey(e => e.B11cdchPkRefNo)
-                    .HasName("PK__RM_B11_C__F2973CDFD0B00F37");
+                    .HasName("PK__RM_B11_C__F2973CDFBEF4E8A5");
 
                 entity.ToTable("RM_B11_Crew_Day_Cost_Header");
 
@@ -3390,7 +3390,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11EquipmentCost>(entity =>
             {
                 entity.HasKey(e => e.B11ecPkRefNo)
-                    .HasName("PK__RM_B11_E__4DB7AF9DC640A5DC");
+                    .HasName("PK__RM_B11_E__4DB7AF9DC5500A4C");
 
                 entity.ToTable("RM_B11_Equipment_Cost");
 
@@ -3410,7 +3410,9 @@ namespace RAMMS.Domain.Models
                     .HasMaxLength(1000)
                     .IsUnicode(false);
 
-                entity.Property(e => e.B11ecEquipmentNoOfUnits).HasColumnName("B11EC_Equipment_No_Of_Units");
+                entity.Property(e => e.B11ecEquipmentNoOfUnits)
+                    .HasColumnName("B11EC_Equipment_No_Of_Units")
+                    .HasColumnType("decimal(9, 2)");
 
                 entity.Property(e => e.B11ecEquipmentOrderId).HasColumnName("B11EC_Equipment_OrderID");
 
@@ -3431,7 +3433,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11Hdr>(entity =>
             {
                 entity.HasKey(e => e.B11hPkRefNo)
-                    .HasName("PK__RM_B11_H__22D093C861C33EB2");
+                    .HasName("PK__RM_B11_H__22D093C8ADE1BA8B");
 
                 entity.ToTable("RM_B11_HDR");
 
@@ -3470,7 +3472,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11LabourCost>(entity =>
             {
                 entity.HasKey(e => e.B11lcPkRefNo)
-                    .HasName("PK__RM_B11_L__5165648D982C853B");
+                    .HasName("PK__RM_B11_L__5165648DAAF5D55F");
 
                 entity.ToTable("RM_B11_Labour_Cost");
 
@@ -3490,7 +3492,9 @@ namespace RAMMS.Domain.Models
                     .HasMaxLength(1000)
                     .IsUnicode(false);
 
-                entity.Property(e => e.B11lcLabourNoOfUnits).HasColumnName("B11LC_Labour_No_Of_Units");
+                entity.Property(e => e.B11lcLabourNoOfUnits)
+                    .HasColumnName("B11LC_Labour_No_Of_Units")
+                    .HasColumnType("decimal(9, 2)");
 
                 entity.Property(e => e.B11lcLabourOrderId).HasColumnName("B11LC_Labour_OrderID");
 
@@ -3511,7 +3515,7 @@ namespace RAMMS.Domain.Models
             modelBuilder.Entity<RmB11MaterialCost>(entity =>
             {
                 entity.HasKey(e => e.B11mcPkRefNo)
-                    .HasName("PK__RM_B11_M__6EE89D6915F78B1B");
+                    .HasName("PK__RM_B11_M__6EE89D69DBABAE75");
 
                 entity.ToTable("RM_B11_Material_Cost");
 
@@ -3531,7 +3535,9 @@ namespace RAMMS.Domain.Models
                     .HasMaxLength(1000)
                     .IsUnicode(false);
 
-                entity.Property(e => e.B11mcMaterialNoOfUnits).HasColumnName("B11MC_Material_No_Of_Units");
+                entity.Property(e => e.B11mcMaterialNoOfUnits)
+                    .HasColumnName("B11MC_Material_No_Of_Units")
+                    .HasColumnType("decimal(9, 2)");
 
                 entity.Property(e => e.B11mcMaterialOrderId).HasColumnName("B11MC_Material_OrderID");
 
@@ -9175,11 +9181,21 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.FmadIsEditable).HasColumnName("FMAD_Is_Editable");
 
+                entity.Property(e => e.FmadMiscellanousSign)
+                    .HasColumnName("FMAD_MiscellanousSign")
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.FmadModBy).HasColumnName("FMAD_Mod_By");
 
                 entity.Property(e => e.FmadModDt)
                     .HasColumnName("FMAD_Mod_DT")
                     .HasColumnType("datetime");
+
+                entity.Property(e => e.FmadOtherSign)
+                    .HasColumnName("FMAD_OtherSign")
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.FmadTallyBox).HasColumnName("FMAD_Tally_Box");
 
