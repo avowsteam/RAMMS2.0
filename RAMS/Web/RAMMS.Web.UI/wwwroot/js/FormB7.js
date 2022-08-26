@@ -368,8 +368,10 @@ function AddRow(obj) {
         + '<td><input type="text"  onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
         + '<td><input type="text" onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
         + '<td ' + (obj == 'Material' ? ' class="dropdown" preval="" onclick="DDL(this,event)" ' : ' class="typein" datatype="int" onclick="Type(this,event)"') + '>' + (obj == 'Material' ? GETDLL() : ' <input type="text" onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/>') + '</td>'
+        + '<td class="typein"' + (obj == 'Material' ? '' : ' datatype="int"') + ' onclick="Type(this,event)"><input type="text"  onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
         + '<td class="typein" datatype="int"  onclick="Type(this,event)"><input type="text"  onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>'
-        + '<td class="typein" datatype="int"  onclick="Type(this,event)"><input type="text"  onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td></tr> ';
+        + (obj == 'Material' ? '<td class="typein"><input type="text" onblur="javascript:save(this)" onkeyup="javascript:enter(this,event)"/></td>' : "")
+        + '</tr> ';
 
     switch (obj) {
         case 'Labour':
@@ -395,11 +397,12 @@ function showComboBox(obj) {
 
     if (UnitObj.length > 0) {
         var selected = "";
-        var selectedvalue = $(obj).parent().attr("preval");
+        var selectedvalue = $(obj).attr("preval");
+        selectedvalue = typeof selectedvalue == "undefined" ? "" : selectedvalue
         selectHtml = selectHtml + "<option value='0'></option>";
 
         $.each(UnitObj, function (index, v) {
-            if (selectedvalue == v.value) { selected = "selected"; }
+            if (selectedvalue == v.Value) { selected = "selected"; }
             else { selected = ""; }
             selectHtml = selectHtml + "<option value='" + v.Value + "' " + selected + " >" + v.Text + "</option>";
         });

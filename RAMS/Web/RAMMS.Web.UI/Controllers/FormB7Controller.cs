@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace RAMMS.Web.UI.Controllers
 {
     public class FormB7Controller : Models.BaseController
@@ -92,6 +93,17 @@ namespace RAMMS.Web.UI.Controllers
         private async Task<IActionResult> ViewRequest(int id)
         {
             LoadLookupService("Year");
+            List<SelectListItem> unit = (await _ddLookupService.GetLookups(new DDLookUpDTO { Type = "MaterialUnit" }))
+                                        .Select(s => new SelectListItem
+                                        {
+                                            Text = s.DdlTypeValue,
+                                            Value = s.DdlTypeValue
+                                        }).ToList();
+
+            unit.Add(new SelectListItem { Text = "Others", Value = "Others" });
+
+            ViewBag.Unit = (IEnumerable<SelectListItem >)unit.ToArray();
+
             FormB7Model _model = new FormB7Model();
             if (id > 0)
             {

@@ -20,13 +20,6 @@
             Value = s.DdlTypeValue
         }).ToArray();
 
-    IEnumerable<SelectListItem> unit = (await ddlService
-    .GetLookups(new DDLookUpDTO { Type = "MaterialUnit" }))
-    .Select(s => new SelectListItem
-            {
-                Text = s.DdlTypeValue,
-                Value = s.DdlTypeValue
-            }).ToArray();
 
 }
 
@@ -389,5 +382,5 @@
 @Html.HiddenFor(m => m.FormB7Header.B7hPkRefNo);
 <input type="hidden" id="UserId" value="@security.UserID" />
 <script>
-    var UnitObj = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(unit));
+    var UnitObj = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.Unit));
 </script>
