@@ -15,7 +15,7 @@ namespace RAMMS.DTO.ResponseBO
         public string Name { get; set; }
         public decimal? AdpValue { get; set; }
         public string AdpUnit { get; set; }
-        public decimal? AdpUnitDescription { get; set; }
+        public string AdpUnitDescription { get; set; }
         public int? UserId { get; set; }
         public string UserName { get; set; }
          

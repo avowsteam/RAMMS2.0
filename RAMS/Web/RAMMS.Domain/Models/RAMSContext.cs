@@ -3318,7 +3318,8 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B10dphAdpUnitDescription)
                     .HasColumnName("B10DPH_ADP_Unit_Description")
-                    .HasColumnType("decimal(18, 2)");
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.B10dphAdpValue)
                     .HasColumnName("B10DPH_ADP_Value")

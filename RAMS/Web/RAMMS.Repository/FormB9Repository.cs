@@ -186,6 +186,7 @@ namespace RAMMS.Repository
                 RevisionDate = s.x.B9dshRevisionDate,
                 RevisionNo = s.x.B9dshRevisionNo,
                 UnitOfServiceId = s.x.B9dshUnitOfServiceId,
+                UnitDescription= s.x.B9dshUnitDescription,
                 UserId = s.x.B9dshUserId,
                 UserName = s.x.B9dshUserName
             }).ToList();
@@ -214,6 +215,7 @@ namespace RAMMS.Repository
                                                  B9dshName = r.B9dshName,
                                                  B9dshPkRefNo = r.B9dshPkRefNo,
                                                  B9dshRemarks = r.B9dshRemarks,
+                                                 B9dshUnitDescription = r.B9dshUnitDescription,
                                                  B9dshUnitOfServiceId = r.B9dshUnitOfServiceId,
                                                  B9dshUnitOfService = (from s in _context.RmDdLookup where s.DdlType == "UnitServiceLevel" && s.DdlTypeValue == Convert.ToString(r.B9dshUnitOfServiceId) select s.DdlTypeDesc).FirstOrDefault()
                                              }).ToList();
