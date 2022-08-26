@@ -26,7 +26,7 @@ $(document).ready(function () {
     });
 
     $("#hdnRevisionDate").val($("#FormB9_RevisionDate").val());
- 
+
 
 });
 
@@ -58,20 +58,20 @@ function Save() {
     var failed = false;
 
     if ($("#FormB9_RevisionDate").val() != "") {
-         
+
         var RevDt = new Date(formatDate($("#hdnRevisionDate").val()));
         var SelectedDt = new Date(formatDate($("#FormB9_RevisionDate").val()));
         if (RevDt > SelectedDt) {
             app.ShowErrorMessage("Selected Date should be greater than previous Revison Date");
             failed = true;
-            }
-      
+        }
+
     }
     else {
         app.ShowErrorMessage("Revision Date Required");
         failed = true;
     }
- 
+
     if (failed)
         return;
 
@@ -93,15 +93,15 @@ function Save() {
 
         var B9 = new Object();
         B9.B9dsPkRefNo = $("#FormB9_PkRefNo").val();
-        B9.Feature = $(this).find("td:nth-child(1)").html().trim();
-        B9.Code = $(this).find("td:nth-child(2)").html().trim();
-        B9.Name = $(this).find("td:nth-child(3)").html().trim();
-        B9.Cond1 = $(this).find("td:nth-child(4)").html().trim();
-        B9.Cond2 = $(this).find("td:nth-child(5)").html().trim();
-        B9.Cond3 = $(this).find("td:nth-child(6)").html().trim();
+        B9.Feature = $(this).find("td:nth-child(1)").text().trim();
+        B9.Code = $(this).find("td:nth-child(2)").text().trim();
+        B9.Name = $(this).find("td:nth-child(3)").text().trim();
+        B9.Cond1 = $(this).find("td:nth-child(4)").text().trim();
+        B9.Cond2 = $(this).find("td:nth-child(5)").text().trim();
+        B9.Cond3 = $(this).find("td:nth-child(6)").text().trim();
         B9.UnitOfServiceId = $(this).find("td:nth-child(7)").attr("preval");
-        B9.UnitDescription = $(this).find("td:nth-child(8)").html().trim();
-        B9.Remarks = $(this).find("td:nth-child(9)").html().trim();
+        B9.UnitDescription = $(this).find("td:nth-child(8)").text().trim();
+        B9.Remarks = $(this).find("td:nth-child(9)").text().trim();
 
         B9History.push(B9);
     });
@@ -157,7 +157,7 @@ function typein($this) {
     }
 
     var $input = $('<input>', {
-        value: $($this).html().trim(),
+        value: $($this).text().trim(),
         type: 'text',
         width: width,
         blur: function () {
@@ -220,6 +220,7 @@ function showComboBox(obj) {
     if (obj[0].childElementCount > 0)
         return;
 
+
     var selectHtml = "<select onchange='setSelected(this)'>";
 
     if (UnitServiceLevelObj.length > 0) {
@@ -235,6 +236,8 @@ function showComboBox(obj) {
 
         selectHtml = selectHtml + "</select>";
     }
+
+    $(obj).attr("prevtext", $(obj).text().trim());
 
     $(obj).html(selectHtml).promise().done(function () {
 
@@ -259,7 +262,7 @@ function HideCombo(obj) {
 
     var td = $(obj).parent();
 
-    $(td).html($(obj).parent().attr("preval"));
+    $(td).html($(obj).parent().attr("prevtext"));
 
     return false;
 }
@@ -275,10 +278,10 @@ function setSelected(obj, event) {
         $(obj).parent().attr("preval", 0)
         $(obj).parent().attr("prevtext", "")
     } else {
-        $(obj).parent().html(strText);
-        $(obj).parent().attr("preval", val)
+        $(obj).parent().attr("preval", val);
         $(obj).parent().attr("prevtext", strText)
-
+        $(obj).parent(0)[0].innerText = strText;
+     
     }
 
     return false;
@@ -306,5 +309,5 @@ function formatDate(date) {
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
 
-     [year, month, day].join('-');
+    [year, month, day].join('-');
 }
