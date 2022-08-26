@@ -122,13 +122,13 @@
                                                                         {
                                                                             <tr>
                                                                                 <td>
-                                                                                    @Model.FormB9.FormB9History[i].Feature
+                                                                                    @Html.Raw(Model.FormB9.FormB9History[i].Feature)
                                                                                 </td>
                                                                                 <td>
-                                                                                    @Model.FormB9.FormB9History[i].Code
+                                                                                    @Html.Raw(Model.FormB9.FormB9History[i].Code)
                                                                                 </td>
                                                                                 <td>
-                                                                                    @Model.FormB9.FormB9History[i].Name
+                                                                                    @Html.Raw(Model.FormB9.FormB9History[i].Name)
                                                                                 </td>
                                                                                 <td class="typein" datatype="int">
                                                                                     @Model.FormB9.FormB9History[i].Cond1
@@ -140,13 +140,13 @@
                                                                                     @Model.FormB9.FormB9History[i].Cond3
                                                                                 </td>
                                                                                 <td class="dropdown" preval="@Model.FormB9.FormB9History[i].UnitOfServiceId">
-                                                                                    @Model.FormB9.FormB9History[i].UnitOfService
+                                                                                    @Html.Raw(Model.FormB9.FormB9History[i].UnitOfService)
                                                                                 </td>
                                                                                 <td class="typein">
-                                                                                    @Model.FormB9.FormB9History[i].UnitDescription
+                                                                                    @Html.Raw(Model.FormB9.FormB9History[i].UnitDescription)
                                                                                 </td>
                                                                                 <td class="typein">
-                                                                                    @Model.FormB9.FormB9History[i].Remarks
+                                                                                    @Html.Raw(Model.FormB9.FormB9History[i].Remarks)
                                                                                 </td>
                                                                             </tr>
                                                                         }
