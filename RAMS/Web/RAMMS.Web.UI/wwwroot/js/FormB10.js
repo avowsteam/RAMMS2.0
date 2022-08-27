@@ -92,12 +92,12 @@ function Save() {
 
         var B10 = new Object();
         B10.B10dpPkRefNo = $("#FormB10_PkRefNo").val();
-        B10.Feature = $(this).find("td:nth-child(1)").html().trim();
-        B10.Code = $(this).find("td:nth-child(2)").html().trim();
-        B10.Name = $(this).find("td:nth-child(3)").html().trim();
-        B10.AdpValue = $(this).find("td:nth-child(4)").html().trim();
-        B10.AdpUnit = $(this).find("td:nth-child(5)").html().trim();
-        B10.AdpUnitDescription = $(this).find("td:nth-child(6)").html().trim();
+        B10.Feature = $(this).find("td:nth-child(1)").text().trim();
+        B10.Code = $(this).find("td:nth-child(2)").text().trim();
+        B10.Name = $(this).find("td:nth-child(3)").text().trim();
+        B10.AdpValue = $(this).find("td:nth-child(4)").text().trim();
+        B10.AdpUnit = $(this).find("td:nth-child(5)").text().trim();
+        B10.AdpUnitDescription = $(this).find("td:nth-child(6)").text().trim();
 
         B10History.push(B10);
     });
@@ -153,7 +153,7 @@ function typein($this) {
     }
 
     var $input = $('<input>', {
-        value: $($this).html().trim(),
+        value: $($this).text().trim(),
         type: 'text',
         width: width,
         blur: function () {
