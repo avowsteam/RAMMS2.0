@@ -27,10 +27,10 @@ var frmB8 = new function () {
 
             var B8 = new Object();
             B8.B8hiB8hPkRefNo = $("#FormB8Header.B8hPkRefNo").val();
-            B8.B8hiItemNo = $(this).find("td:nth-child(2)").html().trim();
-            B8.B8hiDescription = $(this).find("td:nth-child(3)").html().trim();
-            B8.B8hiUnit = $(this).find("td:nth-child(4)").html().trim();
-            B8.B8hiDivision = $(this).find("td:nth-child(5)").html().trim();
+            B8.B8hiItemNo = $(this).find("td:nth-child(2)").text().trim();
+            B8.B8hiDescription = $(this).find("td:nth-child(3)").text().trim();
+            B8.B8hiUnit = $(this).find("td:nth-child(4)").text().trim();
+            B8.B8hiDivision = $(this).find("td:nth-child(5)").text().trim();
             B8History.push(B8);
         });
 

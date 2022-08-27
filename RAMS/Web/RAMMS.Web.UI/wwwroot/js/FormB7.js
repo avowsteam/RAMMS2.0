@@ -27,11 +27,11 @@ var frmB7 = new function () {
 
             var B7 = new Object();
             B7.B7lhB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
-            B7.B7lhCode = $(this).find("td:nth-child(2)").html().trim();
-            B7.B7lhName = $(this).find("td:nth-child(3)").html().trim();
-            B7.B7lhUnitInHrs = $(this).find("td:nth-child(4)").html().trim();
-            B7.B7lhUnitPriceBatuNiah = $(this).find("td:nth-child(5)").html().trim();
-            B7.B7lhUnitPriceMiri = $(this).find("td:nth-child(6)").html().trim();
+            B7.B7lhCode = $(this).find("td:nth-child(2)").text().trim();
+            B7.B7lhName = $(this).find("td:nth-child(3)").text().trim();
+            B7.B7lhUnitInHrs = $(this).find("td:nth-child(4)").text().trim();
+            B7.B7lhUnitPriceBatuNiah = $(this).find("td:nth-child(5)").text().trim();
+            B7.B7lhUnitPriceMiri = $(this).find("td:nth-child(6)").text().trim();
             B7.B7lhRevisionNo = $("#RevisionNo").val();
             B7LabourHistory.push(B7);
         });
@@ -45,12 +45,12 @@ var frmB7 = new function () {
 
             var B7 = new Object();
             B7.B7mhB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
-            B7.B7mhCode = $(this).find("td:nth-child(2)").html().trim();
-            B7.B7mhName = $(this).find("td:nth-child(3)").html().trim();
-            B7.B7mhUnits = $(this).find("td:nth-child(4)").html().trim();
-            B7.B7mhUnitsDescription = $(this).find("td:nth-child(5)").html().trim();
-            B7.B7mhUnitPriceBatuNiah = $(this).find("td:nth-child(6)").html().trim();
-            B7.B7mhUnitPriceMiri = $(this).find("td:nth-child(7)").html().trim();
+            B7.B7mhCode = $(this).find("td:nth-child(2)").text().trim();
+            B7.B7mhName = $(this).find("td:nth-child(3)").text().trim();
+            B7.B7mhUnits = $(this).find("td:nth-child(4)").text().trim();
+            B7.B7mhUnitsDescription = $(this).find("td:nth-child(5)").text().trim();
+            B7.B7mhUnitPriceBatuNiah = $(this).find("td:nth-child(6)").text().trim();
+            B7.B7mhUnitPriceMiri = $(this).find("td:nth-child(7)").text().trim();
             B7MaterialHistory.push(B7);
         });
 
@@ -62,11 +62,11 @@ var frmB7 = new function () {
 
             var B7 = new Object();
             B7.B7ehB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
-            B7.B7ehCode = $(this).find("td:nth-child(2)").html().trim();
-            B7.B7ehName = $(this).find("td:nth-child(3)").html().trim();
-            B7.B7ehUnitInHrs = $(this).find("td:nth-child(4)").html().trim();
-            B7.B7ehUnitPriceBatuNiah = $(this).find("td:nth-child(5)").html().trim();
-            B7.B7ehUnitPriceMiri = $(this).find("td:nth-child(6)").html().trim();
+            B7.B7ehCode = $(this).find("td:nth-child(2)").text().trim();
+            B7.B7ehName = $(this).find("td:nth-child(3)").text().trim();
+            B7.B7ehUnitInHrs = $(this).find("td:nth-child(4)").text().trim();
+            B7.B7ehUnitPriceBatuNiah = $(this).find("td:nth-child(5)").text().trim();
+            B7.B7ehUnitPriceMiri = $(this).find("td:nth-child(6)").text().trim();
             B7EquipmentHistory.push(B7);
         });
 
