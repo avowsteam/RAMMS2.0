@@ -41,6 +41,11 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmB11Hdr> RmB11Hdr { get; set; }
         public virtual DbSet<RmB11LabourCost> RmB11LabourCost { get; set; }
         public virtual DbSet<RmB11MaterialCost> RmB11MaterialCost { get; set; }
+        public virtual DbSet<RmB13ProposedPlannedBudget> RmB13ProposedPlannedBudget { get; set; }
+        public virtual DbSet<RmB13ProposedPlannedBudgetHistory> RmB13ProposedPlannedBudgetHistory { get; set; }
+        public virtual DbSet<RmB13RevisionHistory> RmB13RevisionHistory { get; set; }
+        public virtual DbSet<RmB14Hdr> RmB14Hdr { get; set; }
+        public virtual DbSet<RmB14History> RmB14History { get; set; }
         public virtual DbSet<RmB7EquipmentsHistory> RmB7EquipmentsHistory { get; set; }
         public virtual DbSet<RmB7Hdr> RmB7Hdr { get; set; }
         public virtual DbSet<RmB7LabourHistory> RmB7LabourHistory { get; set; }
@@ -3554,6 +3559,482 @@ namespace RAMMS.Domain.Models
                     .WithMany(p => p.RmB11MaterialCost)
                     .HasForeignKey(d => d.B11mcB11hPkRefNo)
                     .HasConstraintName("FK_RM_B11_Material_Cost_RM_B11_HDR");
+            });
+
+            modelBuilder.Entity<RmB13ProposedPlannedBudget>(entity =>
+            {
+                entity.HasKey(e => e.B13pPkRefNo);
+
+                entity.ToTable("RM_B13_Proposed_Planned_Budget");
+
+                entity.Property(e => e.B13pPkRefNo).HasColumnName("B13P_PK_Ref_No");
+
+                entity.Property(e => e.B13pActiveYn).HasColumnName("B13P_Active_YN");
+
+                entity.Property(e => e.B13pAdjustableQuantity)
+                    .HasColumnName("B13P_Adjustable_Quantity")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13pAuditLog).HasColumnName("B13P__AuditLog");
+
+                entity.Property(e => e.B13pCrBy).HasColumnName("B13P_CR_By");
+
+                entity.Property(e => e.B13pCrDt)
+                    .HasColumnName("B13P_CR_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B13pDtAgrd)
+                    .HasColumnName("B13P_DT_Agrd")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B13pDtEdosd)
+                    .HasColumnName("B13P_DT_Edosd")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B13pDtFclitd)
+                    .HasColumnName("B13P_DT_Fclitd")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B13pDtProsd)
+                    .HasColumnName("B13P_DT_Prosd")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B13pModBy).HasColumnName("B13P_Mod_By");
+
+                entity.Property(e => e.B13pModDt)
+                    .HasColumnName("B13P_Mod_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B13pOtherMaintenance)
+                    .HasColumnName("B13P_Other_Maintenance")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13pPeriodicMaintenance)
+                    .HasColumnName("B13P_Periodic_Maintenance")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13pRevisionDate)
+                    .HasColumnName("B13P_Revision_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B13pRevisionNo).HasColumnName("B13P_Revision_No");
+
+                entity.Property(e => e.B13pRevisionYear).HasColumnName("B13P_Revision_Year");
+
+                entity.Property(e => e.B13pRmu)
+                    .HasColumnName("B13P_Rmu")
+                    .HasMaxLength(16)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B13pRoutineMaintenance)
+                    .HasColumnName("B13P_Routine_Maintenance")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13pSignAgrd).HasColumnName("B13P_SIgn_Agrd");
+
+                entity.Property(e => e.B13pSignEdosd).HasColumnName("B13P_SIgn_Edosd");
+
+                entity.Property(e => e.B13pSignFclitd).HasColumnName("B13P_SIgn_Fclitd");
+
+                entity.Property(e => e.B13pSignProsd).HasColumnName("B13P_SIgn_Prosd");
+
+                entity.Property(e => e.B13pStatus)
+                    .HasColumnName("B13P_Status")
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.B13pSubmitSts).HasColumnName("B13P_SUBMIT_STS");
+
+                entity.Property(e => e.B13pUserDesignationAgrd)
+                    .HasColumnName("B13P_User_Designation_Agrd")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B13pUserDesignationEdosd)
+                    .HasColumnName("B13P_User_Designation_Edosd")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B13pUserDesignationFclitd)
+                    .HasColumnName("B13P_User_Designation_Fclitd")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B13pUserDesignationProsd)
+                    .HasColumnName("B13P_User_Designation_Prosd")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B13pUserNameAgrd)
+                    .HasColumnName("B13P_User_Name_Agrd")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B13pUserNameEdosd)
+                    .HasColumnName("B13P_User_Name_Edosd")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B13pUserNameFclitd)
+                    .HasColumnName("B13P_User_Name_Fclitd")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B13pUserNameProsd)
+                    .HasColumnName("B13P_User_Name_Prosd")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B13pUseridAgrd).HasColumnName("B13P_Userid_Agrd");
+
+                entity.Property(e => e.B13pUseridEdosd).HasColumnName("B13P_Userid_Edosd");
+
+                entity.Property(e => e.B13pUseridFclitd).HasColumnName("B13P_Userid_Fclitd");
+
+                entity.Property(e => e.B13pUseridProsd).HasColumnName("B13P_Userid_Prosd");
+            });
+
+            modelBuilder.Entity<RmB13ProposedPlannedBudgetHistory>(entity =>
+            {
+                entity.HasKey(e => e.B13phPkRefNo);
+
+                entity.ToTable("RM_B13_Proposed_Planned_Budget_History");
+
+                entity.Property(e => e.B13phPkRefNo).HasColumnName("B13PH_PK_Ref_No");
+
+                entity.Property(e => e.B13phAverageDailyProduction)
+                    .HasColumnName("B13PH_Average_Daily_Production")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phAwqCond1)
+                    .HasColumnName("B13PH_AWQ_Cond1")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phAwqCond2)
+                    .HasColumnName("B13PH_AWQ_Cond2")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phAwqCond3)
+                    .HasColumnName("B13PH_AWQ_Cond3")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phAwqTotal)
+                    .HasColumnName("B13PH_AWQ_Total")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phB13pPkRefNo).HasColumnName("B13PH_B13P_PK_Ref_No");
+
+                entity.Property(e => e.B13phCdcEquipment)
+                    .HasColumnName("B13PH_CDC_Equipment")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phCdcLabour)
+                    .HasColumnName("B13PH_CDC_Labour")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phCdcMaterial)
+                    .HasColumnName("B13PH_CDC_Material")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phCode)
+                    .HasColumnName("B13PH_Code")
+                    .HasMaxLength(16)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B13phCrewDaysCost)
+                    .HasColumnName("B13PH_Crew_Days_Cost")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phCrewDaysRequired)
+                    .HasColumnName("B13PH_Crew_Days_Required")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phFeature)
+                    .HasColumnName("B13PH_Feature")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B13phInvCond1)
+                    .HasColumnName("B13PH_Inv_Cond1")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phInvCond2)
+                    .HasColumnName("B13PH_Inv_Cond2")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phInvCond3)
+                    .HasColumnName("B13PH_Inv_Cond3")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phInvTotal)
+                    .HasColumnName("B13PH_Inv_Total")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phName)
+                    .HasColumnName("B13PH_Name")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B13phSlAnnualWorkQuantity)
+                    .HasColumnName("B13PH_SL_Annual_Work_Quantity")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phSlAvgByActivity)
+                    .HasColumnName("B13PH_SL_Avg_By_Activity")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phSlAvgDesired)
+                    .HasColumnName("B13PH_SL_Avg_Desired")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phSlCond1)
+                    .HasColumnName("B13PH_SL_Cond1")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phSlCond2)
+                    .HasColumnName("B13PH_SL_Cond2")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phSlCond3)
+                    .HasColumnName("B13PH_SL_Cond3")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phSlCrewDaysPlanned)
+                    .HasColumnName("B13PH_SL_Crew_Days_Planned")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phSlDesired)
+                    .HasColumnName("B13PH_SL_Desired")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phSlPlanned)
+                    .HasColumnName("B13PH_SL_Planned")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phSlTotalByActivity)
+                    .HasColumnName("B13PH_SL_Total_By_Activity")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phSlTotalByFeature)
+                    .HasColumnName("B13PH_SL_Total_By_Feature")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phUnitOfService).HasColumnName("B13PH_Unit_Of_Service");
+
+                entity.HasOne(d => d.B13phB13pPkRefNoNavigation)
+                    .WithMany(p => p.RmB13ProposedPlannedBudgetHistory)
+                    .HasForeignKey(d => d.B13phB13pPkRefNo)
+                    .HasConstraintName("FK_RM_B13_Proposed_Planned_Budget_History_RM_B13_Proposed_Planned_Budget");
+            });
+
+            modelBuilder.Entity<RmB13RevisionHistory>(entity =>
+            {
+                entity.HasKey(e => e.B13rhPkRefNo);
+
+                entity.ToTable("RM_B13_Revision_History");
+
+                entity.Property(e => e.B13rhPkRefNo).HasColumnName("B13RH_PK_Ref_No");
+
+                entity.Property(e => e.B13rhB13pPkRefNo).HasColumnName("B13RH_B13P_PK_Ref_No");
+
+                entity.Property(e => e.B13rhDate)
+                    .HasColumnName("B13RH_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B13rhDescription)
+                    .HasColumnName("B13RH_Description")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B13rhRevNo).HasColumnName("B13RH_RevNo");
+
+                entity.HasOne(d => d.B13rhB13pPkRefNoNavigation)
+                    .WithMany(p => p.RmB13RevisionHistory)
+                    .HasForeignKey(d => d.B13rhB13pPkRefNo)
+                    .HasConstraintName("FK_RM_B13_Revision_History_RM_B13_Proposed_Planned_Budget");
+            });
+
+            modelBuilder.Entity<RmB14Hdr>(entity =>
+            {
+                entity.HasKey(e => e.B14hPkRefNo);
+
+                entity.ToTable("RM_B14_HDR");
+
+                entity.Property(e => e.B14hPkRefNo).HasColumnName("B14H_PK_Ref_No");
+
+                entity.Property(e => e.B14hActiveYn).HasColumnName("B14H_Active_YN");
+
+                entity.Property(e => e.B14hAuditlog).HasColumnName("B14H_Auditlog");
+
+                entity.Property(e => e.B14hCrBy).HasColumnName("B14H_CR_By");
+
+                entity.Property(e => e.B14hCrDt)
+                    .HasColumnName("B14H_CR_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B14hDtAgrd)
+                    .HasColumnName("B14H_DT_Agrd")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B14hDtEndosd)
+                    .HasColumnName("B14H_DT_Endosd")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B14hDtFclitd)
+                    .HasColumnName("B14H_DT_Fclitd")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B14hDtProsd)
+                    .HasColumnName("B14H_DT_Prosd")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B14hModBy).HasColumnName("B14H_Mod_By");
+
+                entity.Property(e => e.B14hModDt)
+                    .HasColumnName("B14H_Mod_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B14hRevisionDate)
+                    .HasColumnName("B14H_Revision_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B14hRevisionNo).HasColumnName("B14H_Revision_No");
+
+                entity.Property(e => e.B14hRevisionYear).HasColumnName("B14H_Revision_Year");
+
+                entity.Property(e => e.B14hRmuCode)
+                    .HasColumnName("B14H_Rmu_Code")
+                    .HasMaxLength(6);
+
+                entity.Property(e => e.B14hRmuName)
+                    .HasColumnName("B14H_Rmu_Name")
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.B14hSignAgrd).HasColumnName("B14H_SIgn_Agrd");
+
+                entity.Property(e => e.B14hSignEndosd).HasColumnName("B14H_SIgn_Endosd");
+
+                entity.Property(e => e.B14hSignFclitd).HasColumnName("B14H_SIgn_Fclitd");
+
+                entity.Property(e => e.B14hSignProsd).HasColumnName("B14H_SIgn_Prosd");
+
+                entity.Property(e => e.B14hStatus)
+                    .HasColumnName("B14H_Status")
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.B14hSubmitSts).HasColumnName("B14H_SUBMIT_STS");
+
+                entity.Property(e => e.B14hUserDesignationAgrd)
+                    .HasColumnName("B14H_User_Designation_Agrd")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.B14hUserDesignationEndosd)
+                    .HasColumnName("B14H_User_Designation_Endosd")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.B14hUserDesignationFclitd)
+                    .HasColumnName("B14H_User_Designation_Fclitd")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.B14hUserDesignationProsd)
+                    .HasColumnName("B14H_User_Designation_Prosd")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.B14hUserNameAgrd)
+                    .HasColumnName("B14H_User_Name_Agrd")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.B14hUserNameEndosd)
+                    .HasColumnName("B14H_User_Name_Endosd")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.B14hUserNameFclitd)
+                    .HasColumnName("B14H_User_Name_Fclitd")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.B14hUserNameProsd)
+                    .HasColumnName("B14H_User_Name_Prosd")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.B14hUseridAgrd).HasColumnName("B14H_Userid_Agrd");
+
+                entity.Property(e => e.B14hUseridEndosd).HasColumnName("B14H_Userid_Endosd");
+
+                entity.Property(e => e.B14hUseridFclitd).HasColumnName("B14H_Userid_Fclitd");
+
+                entity.Property(e => e.B14hUseridProsd).HasColumnName("B14H_Userid_Prosd");
+            });
+
+            modelBuilder.Entity<RmB14History>(entity =>
+            {
+                entity.HasKey(e => e.B14hhPkRefNo);
+
+                entity.ToTable("RM_B14_History");
+
+                entity.Property(e => e.B14hhPkRefNo).HasColumnName("B14HH_PK_Ref_No");
+
+                entity.Property(e => e.B14hhApr)
+                    .HasColumnName("B14HH_Apr")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhAug)
+                    .HasColumnName("B14HH_Aug")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhB14hPkRefNo).HasColumnName("B14HH_B14H_PK_Ref_No");
+
+                entity.Property(e => e.B14hhDec)
+                    .HasColumnName("B14HH_Dec")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhFeb)
+                    .HasColumnName("B14HH_Feb")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhJan)
+                    .HasColumnName("B14HH_Jan")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhJul)
+                    .HasColumnName("B14HH_Jul")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhJun)
+                    .HasColumnName("B14HH_Jun")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhMar)
+                    .HasColumnName("B14HH_Mar")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhMay)
+                    .HasColumnName("B14HH_May")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhNov)
+                    .HasColumnName("B14HH_Nov")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhOct)
+                    .HasColumnName("B14HH_Oct")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhSep)
+                    .HasColumnName("B14HH_Sep")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhSubTotal)
+                    .HasColumnName("B14HH_Sub_Total")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhUnitOfService)
+                    .HasColumnName("B14HH_Unit_Of_Service")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.B14hhB14hPkRefNoNavigation)
+                    .WithMany(p => p.RmB14History)
+                    .HasForeignKey(d => d.B14hhB14hPkRefNo)
+                    .HasConstraintName("FK_RM_B14_History_RM_B14_History");
             });
 
             modelBuilder.Entity<RmB7EquipmentsHistory>(entity =>

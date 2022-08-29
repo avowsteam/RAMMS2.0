@@ -76,6 +76,8 @@ namespace RAMMS.Repository
         private FormB7Repository _formB7Repository;
         private FormB8Repository _formB8Repository;
 
+        private FormB14Repository _formB14Repository;
+
         private FormS2DayScheduleRepository _formS2DayScheduleRepository;
 
         private FormG1Repository _formG1Repository;
@@ -102,6 +104,8 @@ namespace RAMMS.Repository
         public FormB7Repository FormB7Repository => _formB7Repository = _formB7Repository ?? new FormB7Repository(_context);
 
         public FormB8Repository FormB8Repository => _formB8Repository = _formB8Repository ?? new FormB8Repository(_context);
+
+        public FormB14Repository FormB14Repository => _formB14Repository = _formB14Repository ?? new FormB14Repository(_context);
 
         public FormV1Repository FormV1Repository => _formV1Repository = _formV1Repository ?? new FormV1Repository(_context);
         public FormV2Repository FormV2Repository => _formV2Repository = _formV2Repository ?? new FormV2Repository(_context);
