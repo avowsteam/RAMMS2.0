@@ -7,6 +7,8 @@
     ViewBag.TabTitle = "APPENDIX B14";
     ViewData["Title"] = "APPENDIX B14";
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
+    var isModifyPerm = security.IsPCModify(ModuleNameList.Annual_Work_Planned_Budget) ? "" : "hidden";
+    var isDeletePerm = security.IsPCDelete(ModuleNameList.Annual_Work_Planned_Budget) ? "" : "hidden";
 }
 
 
@@ -14,6 +16,24 @@
 <script type="text/javascript" src="~/js/FormB14.js" asp-append-version="true"></script>
 }
 
+<script type="text/javascript">
+     $(document).ready(function () {
+        $("#formB14Year").chosen();
+     });
+    function clearHeaderSearch() {
+
+        $("#formB14SmartSearch").val('');
+        $("#formB14RMU").val("").trigger("chosen:updated");
+        $("#formB14Year").val("").trigger("chosen:updated");
+        $("#fromIssuDate").val("");
+        $("#toIssuDate").val("");
+        $("[searchsectionbtn]").click();
+    }
+
+    function EditformB14(pid,view) {
+        window.location = "@Url.Action("Add", "FormB14")";
+    }
+</script>
 
 <div class="container-fluid">
     <div class="row">
@@ -53,10 +73,10 @@
                 <div class="justify-content-center mb-1">
                     <div class="search-content">
                         <div class="input-group">
-                            <input autocomplete="off" class="form-control" id="txtSmartSearch" name="SearchObj.SmartInputValue" onfocus="this.removeAttribute('readonly')" placeholder="Search..." spellcheck="false" type="text" value="">
+                            <input autocomplete="off" class="form-control" id="formB14SmartSearch" name="SearchObj.SmartInputValue" onfocus="this.removeAttribute('readonly')" placeholder="Search..." spellcheck="false" type="text" value="">
                             <div class="input-group-append">
                                 <div class="btn-group">
-                                    <button id="btnSearch" type="button" class="bg-theme-color js-tooltip-enabled px-2 border-0" style="line-height: 18px;"><span class="search-icon"></span></button>
+                                    <button onclick="tblFB14HGrid.Search(this,'#formB14Search');" SearchSectionBtn id="btnSearch" type="button" class="bg-theme-color js-tooltip-enabled px-2 border-0" style="line-height: 18px;"><span class="search-icon"></span></button>
                                     <button id="btnAdvSearch" type="button" class="bg-theme-color js-tooltip-enabled px-3 border-0" data-toggle="collapse" data-target="#div_advsearch"><span class="filter-icon"></span></button>
                                     <button id="btnClearSearch" type="button" onclick="clearHeaderSearch()" class="bg-theme-color js-tooltip-enabled px-3 border-0 rounded-right">Clear</button>
                                 </div>
@@ -72,39 +92,26 @@
                                     <div class="form-group col-3">
                                         <label for="Name_of_Crew_Supervisor">
                                             RMU
-
                                         </label>
-                                        <select class="form-control  editHdisable validate" id="formQA2CrewUnit" name="SaveFormQa2Model.CrewSup" style="display: none;">
-                                            <option value="">
-                                                Select RMU
-                                            </option>
-                                            <option value="100000035">100000035 - Jelayan Anak Mawar</option>
-                                            <option value="100000034">100000034 - Ramlee Nor</option>
-                                        </select>
+                                        @Html.DropDownList("FromRMU", (IEnumerable<SelectListItem>)ViewData["RMU"], "Select RMU", new { @Id = "formB14RMU", @class = "form-control", @param = "RMU", @clear = "rebind" })
                                     </div>
+
                                     <div class="form-group col-3">
-                                        <label>Select Year  </label>
-                                        <select id="ddlFrom" class="form-control">
-                                            <option value="">Select Year</option>
-                                            <option value="2019">2019</option>
-                                            <option value="2020">2020</option>
-                                            <option value="2021">2021</option>
-                                            <option value="2022">2022</option>
-                                            <option value="2023">2023</option>
-                                            <option value="2024">2024</option>
-                                        </select>
+                                        @Html.Label("Year", "Year")
+                                        @Html.DropDownList("FromYear", (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB14Year", @class = "form-control", @param = "Year", @clear = "rebind" })
                                     </div>
+
                                     <div class="form-group col-3">
                                         <label for="Name_of_Crew_Supervisor">
                                             Issue Date From
                                         </label>
-                                        <input class="form-control" id="formQA2CrewName" type="date">
+                                        <input id="fromIssuDate" type="date" class="form-control" param="fromIssuDate" />
                                     </div>
                                     <div class="form-group col-3">
                                         <label for="Name_of_Crew_Supervisor">
                                             Issue Date To
                                         </label>
-                                        <input class="form-control" id="formQA2CrewName" type="date">
+                                        <input id="toIssuDate" type="date" class="form-control" param="toIssuDate" />
                                     </div>
 
 
@@ -121,6 +128,9 @@
                     <div class="w-100 dt-tbl-section">
 
                         <div class="w-100 float-left position-relative">
+                            <div class="grid-btns">
+                                <button type="button" class="btn btn-sm btn-themebtn" @isModifyPerm onclick="javascript:EditformB14(0,0);"><span class="add-icon"></span> Add Form B14</button>
+                            </div>
                             <div id="headerListGrid" class="w-100 dt-tbl-section">
                                 @{
                                     Html.RenderPartial("_CDataTable", Model);

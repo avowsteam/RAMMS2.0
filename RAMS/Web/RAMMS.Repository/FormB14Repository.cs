@@ -38,9 +38,6 @@ namespace RAMMS.Repository
                              MaxRecord = (hdr.B14hPkRefNo == max)
                          });
 
-
-
-
             if (searchData.filter != null)
             {
                 foreach (var item in searchData.filter.Where(x => !string.IsNullOrEmpty(x.Value)))
@@ -57,9 +54,9 @@ namespace RAMMS.Repository
                                  || (x.RMU ?? "").Contains(strVal)
                                  );
                             break;
-                        case "fromRevDate":
+                        case "fromIssuDate":
                             DateTime? dtFrom = Utility.ToDateTime(strVal);
-                            string toDate = Utility.ToString(searchData.filter["toRevDate"]);
+                            string toDate = Utility.ToString(searchData.filter["fromIssuDate"]);
                             if (toDate == "")
                                 query = query.Where(x => x.IssueDate >= dtFrom);
                             else
@@ -68,18 +65,20 @@ namespace RAMMS.Repository
                                 query = query.Where(x => x.IssueDate >= dtFrom && x.IssueDate <= dtTo);
                             }
                             break;
-                        case "toRevDate":
-                            string frmDate = Utility.ToString(searchData.filter["fromRevDate"]);
+                        case "toIssuDate":
+                            string frmDate = Utility.ToString(searchData.filter["toIssuDate"]);
                             if (frmDate == "")
                             {
                                 DateTime? dtTo = Utility.ToDateTime(strVal);
                                 query = query.Where(x => x.IssueDate <= dtTo);
                             }
                             break;
-
                         case "Year":
                             int iFYr = Utility.ToInt(strVal);
                             query = query.Where(x => x.RevisionYear.HasValue && x.RevisionYear == iFYr);
+                            break;
+                        case "RMU":
+                            query = query.Where(x => x.RMU == strVal);
                             break;
                         default:
                             query = query.WhereEquals(item.Key, strVal);
@@ -102,18 +101,19 @@ namespace RAMMS.Repository
         public RmB14Hdr GetHeaderById(int id, bool view)
         {
             RmB14Hdr res = (from r in _context.RmB14Hdr where r.B14hPkRefNo == id select r).FirstOrDefault();
-            int? RevNo = (from rn in _context.RmB14Hdr where rn.B14hRevisionYear == res.B14hRevisionYear && rn.B14hRmuCode == res.B14hRmuCode
+            int? RevNo = (from rn in _context.RmB14Hdr
+                          where rn.B14hRevisionYear == res.B14hRevisionYear && rn.B14hRmuCode == res.B14hRmuCode
                           select rn.B14hRevisionNo).DefaultIfEmpty().Max() + 1;
             if (view == false)
                 res.B14hRevisionNo = RevNo;
             res.RmB14History = (from r in _context.RmB14History where r.B14hhB14hPkRefNo == id select r).OrderBy(S => S.B14hhPkRefNo).ToList();
-            
+
             return res;
         }
 
-        public int? GetMaxRev(int Year , string RmuCode)
+        public int? GetMaxRev(int Year, string RmuCode)
         {
-            int? rev = (from rn in _context.RmB14Hdr where rn.B14hRevisionYear == Year && rn.B14hRmuCode == RmuCode  select rn.B14hRevisionNo).DefaultIfEmpty().Max() + 1;
+            int? rev = (from rn in _context.RmB14Hdr where rn.B14hRevisionYear == Year && rn.B14hRmuCode == RmuCode select rn.B14hRevisionNo).DefaultIfEmpty().Max() + 1;
             if (rev == null)
                 rev = 1;
             return rev;
@@ -139,7 +139,7 @@ namespace RAMMS.Repository
         {
             FormB14Rpt details = new FormB14Rpt();
 
-          
+
             return details;
         }
     }

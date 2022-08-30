@@ -48,7 +48,6 @@ var frmB14 = new function () {
         jsMaster.ConfirmCancel(() => { frmB14.NavToList(); });
     }
 
-
     this.HeaderGrid = new function () {
         this.ActionRender = function (data, type, row, meta) {
             var actionSection = "<div class='btn-group dropright' rowidx='" + meta.row + "'><button type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button>";

@@ -56,7 +56,7 @@ namespace RAMMS.Web.UI.Controllers
 
         public IActionResult Index()
         {
-            LoadLookupService("Year");
+            LoadLookupService("Year","RMU");
             var grid = new Models.CDataTable() { Name = "tblFB14HGrid", APIURL = "/FormB14/HeaderList", LeftFixedColumn = 1 };
             grid.IsModify = _security.IsPCModify(ModuleNameList.Annual_Work_Planned_Budget);
             grid.IsDelete = _security.IsPCDelete(ModuleNameList.Annual_Work_Planned_Budget) && _security.isOperRAMSExecutive;
@@ -79,6 +79,14 @@ namespace RAMMS.Web.UI.Controllers
             return Json(await _formB14Service.GetHeaderGrid(searchData), JsonOption());
         }
 
+        public async Task<IActionResult> Add()
+        {
+            ViewBag.IsAdd = true;
+            ViewBag.IsEdit = true;
+            return await ViewRequest(0);
+        }
+
+
         public async Task<IActionResult> View(int id)
         {
             ViewBag.IsEdit = false;
@@ -94,8 +102,6 @@ namespace RAMMS.Web.UI.Controllers
         private async Task<IActionResult> ViewRequest(int id)
         {
             LoadLookupService("Year","RMU");
-
-
             FormB14Model _model = new FormB14Model();
             if (id > 0)
             {
@@ -105,9 +111,6 @@ namespace RAMMS.Web.UI.Controllers
             {
                 _model.FormB14Header = new FormB14HeaderDTO();
             }
-
-
-
             return PartialView("~/Views/FormB14/_AddFormB14.cshtml", _model);
         }
     }
