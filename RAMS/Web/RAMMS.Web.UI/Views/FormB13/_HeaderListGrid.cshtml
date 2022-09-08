@@ -1,0 +1,174 @@
+﻿
+<style>
+    .headcol {
+        position: sticky;
+        left: 0;
+    }
+</style>
+<div class="main-container" id="container">
+    <div id="content">
+        <table id="FormB13GridView" class="table w-100 nowrap">
+        </table>
+    </div>
+</div>
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+<script src="~/js/CDTGrid.js"></script>
+<script>
+
+
+    var isModifyPerm = @security.IsPCModify(ModuleNameList.Annual_Work_Planned_Budget).ToString().ToLowerInvariant()? "" : "hidden";
+    var isDeletePerm =@security.IsPCDelete(ModuleNameList.Annual_Work_Planned_Budget).ToString().ToLowerInvariant()? "" : "hidden";
+    var isViewPerm = @security.IsPCView(ModuleNameList.Annual_Work_Planned_Budget).ToString().ToLowerInvariant() ? "" : 'hidden';
+    var table_columns = [];
+    var actionCol = {
+        data: null, name: "Action", title: "Action", class: "", autoWidth: true, sortable: false, render: function (data) {
+            
+            if (data.pkRefNo != "" && data.pkRefNo != null) {
+                title = data.pkRefNo;
+            }
+            if (data.submitSts) {
+                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns'  data-backdrop='static' " + isViewPerm + " onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:deleteHeader(" + data.pkRefNo + ");'><span class='del-icon'></span> Delete</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.pkRefNo + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
+                return actionSection;
+            }
+            else {
+                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns'  data-backdrop='static' id='formAHeaderEdit'" + isModifyPerm + " onclick='javascript:editDetail(" + data.pkRefNo + ");'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns' " + isViewPerm + " data-toggle='modal' data-target='#FormAAddModal' data-backdrop='static' onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:deleteHeader(" + data.pkRefNo + ");'><span class='del-icon'></span> Delete</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.pkRefNo + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
+                return actionSection;
+            }
+        }
+    };
+    var noCol = { data: "pkRefNo", name: "No", title: "NO", autoWidth: true, sortable: false, visible: false };
+
+    var rmu = { data: "rmu", name: "rmu", title: "RMU", autoWidth: true, sortable: true };
+    var year = { data: "revisionYear", name: "Year", title: "Year", autoWidth: true, sortable: true };
+    var revisionDate = {
+        data: null, name: "revisionDate", title: "Revision Date", autoWidth: true, sortable: true,
+        render: function (data) {
+            if (data.revisionDate) {
+                var d = new Date(data.revisionDate);
+                var day = d.getDate();
+                var month = d.getMonth() + 1;
+                var year = d.getFullYear();
+                if (day < 10) {
+                    day = "0" + day;
+                }
+                if (month < 10) {
+                    month = "0" + month;
+                }
+                var date = day + "/" + month + "/" + year;
+                return date;
+            }
+            else
+                return "";
+        }
+    };
+
+    var revisionNumber = { data: "revisionNo", name: "RevisionNumber", title: "Revision Number", autoWidth: true, sortable: true };
+    var statuscol = { data: "status", name: "status", title: "Status", autoWidth: true, sortable: true };
+
+
+    table_columns.push(noCol);
+    table_columns.push(actionCol);
+    table_columns.push(rmu);
+    table_columns.push(year);
+    table_columns.push(revisionDate);
+    table_columns.push(revisionNumber);
+    table_columns.push(statuscol);
+
+
+
+    function PrintForm(id) {
+        window.location.href = '/FormB13/FormB13Download?id=' + id;
+    }
+
+    function editDetail(id) {
+        window.location.href = '/FormB13/Add?id=' + id + '&isview=0';
+    }
+
+    function viewDetail(id) {
+
+        window.location.href = '/FormB13/Add?id=' + id + '&isview=1';
+    }
+
+    function deleteHeader(id) {
+        app.Confirm("Are you sure you want to delete the record?, If Yes click OK.", function (e) {
+            if (e) {
+                var req = {};
+                req.id = id;
+                $.ajax({
+                    url: '/FormB13/DeleteFormB13',
+                    dataType: 'JSON',
+                    data: req,
+                    type: 'Post',
+                    success: function (data) {
+                        if (data) {
+                            app.ShowSuccessMessage("Record deleted successfully");
+                            oTable.draw();
+                        }
+                        else {
+                            app.ShowErrorMessage("Please try again.")
+                        }
+
+                    },
+                    error: function (data) {
+
+                        console.error(data);
+                    }
+                });
+            }
+        });
+    }
+
+    var filterData = new Object();
+
+    function InitializeGrid() {
+
+         
+        var _currentGridSettings = new CustomGridSettings();
+        $.extend($.fn.dataTable.defaults, _currentGridSettings);
+
+        filterData.SmartSearch = $("#txtSmartSearch").val();
+        filterData.RMU = $("#ddlRMU").val()
+        filterData.Year = $("#ddlYear").val()
+        filterData.FromInspectionDate = $("#txtStartDtFrom").val();
+        filterData.ToInspectionDate = $("#txtEndDtTo").val();
+
+
+        $('#FormB13GridView').DataTable({
+            ajax: {
+                url: "/FormB13/GetHeaderList",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    filterData
+                }
+            },
+            columns: table_columns
+        });
+    }
+
+
+    $(document).ready(function () {
+        InitializeGrid();
+
+        //Apply Custom search on jQuery DataTables here
+        oTable = $('#FormB13GridView').DataTable();
+
+        $("#btnClearSearch").click(function () {
+            $("#txtSmartSearch").val('');
+            $("#ddlYear").val("").trigger("chosen:updated");
+            $("#txtEndDtTo").val('');
+            $("#txtStartDtFrom").val('');
+
+        });
+        $('#btnSearch').click(function () {
+
+            oTable.columns(0).search($("#txtSmartSearch").val());
+            oTable.columns(1).search($("#ddlRMU").val());
+            oTable.columns(2).search($("#ddlYear").val());
+            oTable.columns(3).search($("#txtStartDtFrom").val());
+            oTable.columns(4).search($("#txtEndDtTo").val());
+            oTable.data = filterData;
+            oTable.draw();
+        });
+    });
+</script>

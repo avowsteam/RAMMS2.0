@@ -121,6 +121,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                 case "FormT":
                     iResult = await SaveFormT(process);
                     break;
+                //case "FormB13":
+                //    iResult = await SaveFormT(process);
+                //    break;
 
             }
             return iResult;
@@ -2380,5 +2383,90 @@ namespace RAMMS.Business.ServiceProvider.Services
             }
             return await context.SaveChangesAsync();
         }
+
+
+        private async Task<int> SaveFormB13(DTO.RequestBO.ProcessDTO process)
+        {
+            var form = context.RmB13ProposedPlannedBudget.Where(x => x.B13pPkRefNo == process.RefId).FirstOrDefault();
+            if (form != null)
+            {
+                string strTitle = "";
+                string strNotURL = "";
+                string strNotMsg = "";
+                string strNotGroupName = "";
+                string strNotUserID = "";
+                string strStatus = "";
+             
+
+                if (process.Stage == Common.StatusList.Submitted)
+                {
+                    form.B13pStatus = process.IsApprove ? Common.StatusList.Proposed : Common.StatusList.Saved;
+                    strTitle = "Proposed by";
+                    strStatus = "Proposed";
+                    form.B13pUseridProsd = Convert.ToInt32(process.UserID);
+                    form.B13pUserNameProsd = process.UserName;
+                    form.B13pUserDesignationProsd = process.UserDesignation;
+                    form.B13pDtProsd = process.ApproveDate;
+                    form.B13pSignProsd = true;
+                }
+                else if (process.Stage == Common.StatusList.Proposed)
+                {
+                    form.B13pStatus = process.IsApprove ? Common.StatusList.Facilitated : Common.StatusList.Saved;
+                    strTitle = "Facilitated by";
+                    strStatus = "Facilitated";
+                    form.B13pUseridFclitd = Convert.ToInt32(process.UserID);
+                    form.B13pUserNameFclitd = process.UserName;
+                    form.B13pUserDesignationFclitd = process.UserDesignation;
+                    form.B13pDtFclitd = process.ApproveDate;
+                    form.B13pSignFclitd = true;
+                }
+                else if (process.Stage == Common.StatusList.Facilitated)
+                {
+                    form.B13pStatus = process.IsApprove ? Common.StatusList.Agreed : Common.StatusList.Saved;
+                    strTitle = "Agreed by";
+                    strStatus = "Agreed";
+                    form.B13pUseridAgrd = Convert.ToInt32(process.UserID);
+                    form.B13pUserNameAgrd = process.UserName;
+                    form.B13pUserDesignationAgrd = process.UserDesignation;
+                    form.B13pDtAgrd = process.ApproveDate;
+                    form.B13pSignAgrd = true;
+                }
+                else if (process.Stage == Common.StatusList.Agreed)
+                {
+                    form.B13pStatus = process.IsApprove ? Common.StatusList.Endorsed : Common.StatusList.Saved;
+                    strTitle = "Endorsed by";
+                    strStatus = "Endorsed";
+                    form.B13pUseridEdosd= Convert.ToInt32(process.UserID);
+                    form.B13pUserNameEdosd = process.UserName;
+                    form.B13pUserDesignationEdosd = process.UserDesignation;
+                    form.B13pDtEdosd = process.ApproveDate;
+                    form.B13pSignEdosd = true;
+                }
+
+                if (!process.IsApprove)
+                {
+                    if (process.Stage == Common.StatusList.Submitted)
+                    {
+                        form.B13pSubmitSts = false;
+                    }
+                }
+
+                form.B13pAuditLog = Utility.ProcessLog(form.B13pAuditLog, strTitle, process.IsApprove ? strStatus : "Rejected", process.UserName, process.Remarks, process.ApproveDate, security.UserName);
+                strNotMsg = (process.IsApprove ? "" : "Rejected - ") + strTitle + ":" + process.UserName + " - Form B13 (" + form.B13pPkRefNo + ")";
+                strNotURL = "/FormB13/Add?id=" + form.B13pPkRefNo.ToString() + "&View=0";
+                SaveNotification(new RmUserNotification()
+                {
+                    RmNotCrBy = security.UserName,
+                    RmNotGroup = strNotGroupName,
+                    RmNotMessage = strNotMsg,
+                    RmNotOn = DateTime.Now,
+                    RmNotUrl = strNotURL,
+                    RmNotUserId = strNotUserID,
+                    RmNotViewed = ""
+                }, false);
+            }
+            return await context.SaveChangesAsync();
+        }
+
     }
 }
