@@ -1,0 +1,354 @@
+﻿@model RAMMS.Web.UI.Models.FormB14Model;
+@using RAMMS.Business.ServiceProvider;
+@using RAMMS.DTO.RequestBO;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService;
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+@{
+    ViewBag.TabTitle = "Form B14";
+    ViewData["Title"] = "Form B14";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+    var today = DateTime.Today.ToString("yyyy-MM-dd");
+
+    IEnumerable<SelectListItem> year = (await ddlService
+       .GetLookups(new DDLookUpDTO { Type = "Year" })).Where(s => Convert.ToInt32(s.DdlTypeValue) >= Model.FormB14Header.RevisionYear)
+       .Select(s => new SelectListItem
+               {
+                   Text = s.DdlTypeValue,
+                   Value = s.DdlTypeValue
+               }).ToArray();
+}
+
+<div class="row bg-white pt-3">
+    <div class="w-100">
+        <div class="body-header w-100">
+            <div class="col-lg-12">
+                <div class="d-flex justify-content-center pt-2 pb-2">
+                    <div class="form-group mb-0">
+                        <p class="font-20 pb-0 mb-0">
+                            <span class="float-left w-100 text-center">
+                                <b>Template 2 (B14) - </b>
+                                WORK CALENDAR (Work Plan Quantity)
+
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-body mh-182 pt-0 pb-0">
+    <div class="bg-white rounded pt-3 pb-1 px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetailsFC1C2">
+        <div class="row">
+            <div class="form-group col-3">
+                <label for="Name_of_Crew_Supervisor">
+                    Select RMU
+                </label>
+                @Html.DropDownList("FromRMU", (IEnumerable<SelectListItem>)ViewData["RMU"], "Select RMU", new { @Id = "formB14RMU", @class = "form-control", @param = "RMU", @clear = "rebind" })
+            </div>
+            <div class="form-group col-2">
+                <label>Select Year  </label>
+                @Html.Label("Year", "Year")
+                @Html.DropDownList("FromRevisionYear", (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB14Year", @class = "form-control", @param = "Year", @clear = "rebind" })
+            </div>
+            <div class="form-group col-3">
+                <label> Select the Revision No. </label>
+                <input type="number" id="RevisionNo" disabled value="@Model.FormB14Header.RevisionNo" class="form-control">
+            </div>
+            <div class="form-group col-md-2">
+                <label> Issue Date</label>
+                <input type="date" value="@today" class="form-control" id="date" readonly="readonly" />
+            </div>
+            <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">
+                <button id="formDFindDetailsBtn" type="button" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right disablebtn"> Find Details </button>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="w-100 bg-white py-4">
+                <div class="col-lg-12">
+                    <div id="accordion">
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="FormB14TabPage1">
+
+                                <div class="row">
+                                    <div class="col-12 bg-white px-0">
+                                        <div class="w-100 bg-white">
+                                            <div id="content">
+                                                <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                    <div id="FormB14GridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                                        <div class="dataTables_scroll">
+                                                            <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
+                                                                <table class="table w-100 nowrap dataTable no-footer" id="tblLabour">
+                                                                    <thead style="background-color: #c8e1ff">
+                                                                        <tr height="29" class="xl67" style='height:14.50pt;'>
+                                                                            <th class="xl69" height="29" width="96" style='height:14.50pt;width:48.00pt;' >Features</th>
+                                                                            <th class="xl70" width="167" style='width:83.50pt;'><span style="width: 80px; float: left; text-align: center;">Activity Code</span></th>
+                                                                            <th class="xl70" width="431" style='width:215.50pt;'><span style="width:200px;float:left">Activity Name</span></th>
+                                                                            <th class="xl71" width="96" style='width:48.00pt;'>Jan</th>
+                                                                            <th class="xl71" width="96" style='width:48.00pt;'>Feb</th>
+                                                                            <th class="xl71" width="96" style='width:48.00pt;'>Mar</th>
+                                                                            <th class="xl72" width="96" style='width:48.00pt;'>Apr</th>
+                                                                            <th class="xl71" width="96" style='width:48.00pt;'>May</th>
+                                                                            <th class="xl71" width="96" style='width:48.00pt;'>Jun</th>
+                                                                            <th class="xl71" width="96" style='width:48.00pt;'>July</th>
+                                                                            <th class="xl71" width="96" style='width:48.00pt;'>Aug</th>
+                                                                            <th class="xl71" width="96" style='width:48.00pt;'>Sep</th>
+                                                                            <th class="xl71" width="96" style='width:48.00pt;'>Oct</th>
+                                                                            <th class="xl72" width="96" style='width:48.00pt;'>Nov</th>
+                                                                            <th class="xl77" width="96" style='width:48.00pt;'>Dec</th>
+                                                                            <th class="xl78" width="118" style='width:59.00pt;'>Sub-total</th>
+                                                                            <th class="xl80" width="96" style='width:48.00pt;'>unit</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-lg-10 offset-lg-1 mt-2">
+                                                <div class="bg-white rounded landing-division w-100 float-left  my-2">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 border-bottom py-2 my-2">
+                                                            <span class="font-14 font-weight-bold">
+                                                                Proposed by
+                                                            </span>
+                                                        </div>
+
+                                                        <div class="form-group col-lg-3">
+                                                            <label for="Name">
+                                                                User ID
+                                                            </label>
+                                                            <select class="form-control validate {req, Name of Reported By}" id="formDReportedByUserId" name="SaveFormDModel.ReportedByUserId">
+                                                                <option value="">Select Users</option>
+                                                                <option value="100000035">100000035 - Jelayan Anak Mawar</option>
+                                                                <option value="100000034">100000034 - Ramlee Nor</option>
+                                                                <option value="100000015">100000015 - Galigie Anak Ungau</option>
+                                                                <option value="100000020">100000020 - Francis Nanang Anak Edward August</option>
+
+                                                            </select>
+
+                                                        </div>
+                                                        <div class="form-group col-lg-3">
+                                                            <label for="User_Id">
+                                                                Authorised Name
+                                                            </label>
+                                                            <input type="text" class="form-control" disabled />
+                                                        </div>
+                                                        <div class="form-group col-lg-2">
+                                                            <label for="Designation">Designation</label>
+                                                            <input type="text" name="UserDesignationPlan" userdest="" class="form-control cvalidate {req,Planned By User Designation}">
+                                                        </div>
+                                                        <div class="form-group col-lg-3">
+                                                            <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
+                                                            <input type="date" name="DtPlan" id="FsiihDtPlan" value="" class="form-control svalidate {req,Planned By Date}">
+                                                        </div>
+                                                        <div class="form-group col-lg-1 float-left">
+                                                            <label>
+                                                                Sign
+
+                                                            </label>
+                                                            <div class="clear-b mt-2">
+                                                                <input class="{required, Requested By Signature}" data-val="true" data-val-required="The SignReq field is required." id="FormW1_SignReq" name="FormW1.SignReq" type="checkbox" value="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12 border-bottom py-2 my-2">
+                                                            <span class="font-14 font-weight-bold">
+                                                                Facilitated by
+                                                            </span>
+                                                        </div>
+
+                                                        <div class="form-group col-lg-3">
+                                                            <label for="Name">
+                                                                User ID
+                                                            </label>
+                                                            <select class="form-control validate {req, Name of Reported By}" id="formDReportedByUserId" name="SaveFormDModel.ReportedByUserId">
+                                                                <option value="">Select Users</option>
+                                                                <option value="100000035">100000035 - Jelayan Anak Mawar</option>
+                                                                <option value="100000034">100000034 - Ramlee Nor</option>
+                                                                <option value="100000015">100000015 - Galigie Anak Ungau</option>
+                                                                <option value="100000020">100000020 - Francis Nanang Anak Edward August</option>
+
+                                                            </select>
+
+                                                        </div>
+                                                        <div class="form-group col-lg-3">
+                                                            <label for="User_Id">
+                                                                Authorised Name
+                                                            </label>
+                                                            <input type="text" class="form-control" disabled />
+                                                        </div>
+                                                        <div class="form-group col-lg-2">
+                                                            <label for="Designation">Designation</label>
+                                                            <input type="text" name="UserDesignationPlan" userdest="" class="form-control cvalidate {req,Planned By User Designation}">
+                                                        </div>
+                                                        <div class="form-group col-lg-3">
+                                                            <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
+                                                            <input type="date" name="DtPlan" id="FsiihDtPlan" value="" class="form-control svalidate {req,Planned By Date}">
+                                                        </div>
+                                                        <div class="form-group col-lg-1 float-left">
+                                                            <label>
+                                                                Sign
+
+                                                            </label>
+                                                            <div class="clear-b mt-2">
+                                                                <input class="{required, Requested By Signature}" data-val="true" data-val-required="The SignReq field is required." id="FormW1_SignReq" name="FormW1.SignReq" type="checkbox" value="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12 border-bottom py-2 my-2">
+                                                            <span class="font-14 font-weight-bold">
+                                                                Agreed by
+                                                            </span>
+                                                        </div>
+
+                                                        <div class="form-group col-lg-3">
+                                                            <label for="Name">
+                                                                User ID
+                                                            </label>
+                                                            <select class="form-control validate {req, Name of Reported By}" id="formDReportedByUserId" name="SaveFormDModel.ReportedByUserId">
+                                                                <option value="">Select Users</option>
+                                                                <option value="100000035">100000035 - Jelayan Anak Mawar</option>
+                                                                <option value="100000034">100000034 - Ramlee Nor</option>
+                                                                <option value="100000015">100000015 - Galigie Anak Ungau</option>
+                                                                <option value="100000020">100000020 - Francis Nanang Anak Edward August</option>
+
+                                                            </select>
+
+                                                        </div>
+                                                        <div class="form-group col-lg-3">
+                                                            <label for="User_Id">
+                                                                Authorised Name
+                                                            </label>
+                                                            <input type="text" class="form-control" disabled />
+                                                        </div>
+                                                        <div class="form-group col-lg-2">
+                                                            <label for="Designation">Designation</label>
+                                                            <input type="text" name="UserDesignationPlan" userdest="" class="form-control cvalidate {req,Planned By User Designation}">
+                                                        </div>
+                                                        <div class="form-group col-lg-3">
+                                                            <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
+                                                            <input type="date" name="DtPlan" id="FsiihDtPlan" value="" class="form-control svalidate {req,Planned By Date}">
+                                                        </div>
+                                                        <div class="form-group col-lg-1 float-left">
+                                                            <label>
+                                                                Sign
+
+                                                            </label>
+                                                            <div class="clear-b mt-2">
+                                                                <input class="{required, Requested By Signature}" data-val="true" data-val-required="The SignReq field is required." id="FormW1_SignReq" name="FormW1.SignReq" type="checkbox" value="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12 border-bottom py-2 my-2">
+                                                            <span class="font-14 font-weight-bold">
+                                                                Endorsed by
+                                                            </span>
+                                                        </div>
+
+                                                        <div class="form-group col-lg-3">
+                                                            <label for="Name">
+                                                                User ID
+                                                            </label>
+                                                            <select class="form-control validate {req, Name of Reported By}" id="formDReportedByUserId" name="SaveFormDModel.ReportedByUserId">
+                                                                <option value="">Select Users</option>
+                                                                <option value="100000035">100000035 - Jelayan Anak Mawar</option>
+                                                                <option value="100000034">100000034 - Ramlee Nor</option>
+                                                                <option value="100000015">100000015 - Galigie Anak Ungau</option>
+                                                                <option value="100000020">100000020 - Francis Nanang Anak Edward August</option>
+
+                                                            </select>
+
+                                                        </div>
+                                                        <div class="form-group col-lg-3">
+                                                            <label for="User_Id">
+                                                                Authorised Name
+                                                            </label>
+                                                            <input type="text" class="form-control" disabled />
+                                                        </div>
+                                                        <div class="form-group col-lg-2">
+                                                            <label for="Designation">Designation</label>
+                                                            <input type="text" name="UserDesignationPlan" userdest="" class="form-control cvalidate {req,Planned By User Designation}">
+                                                        </div>
+                                                        <div class="form-group col-lg-3">
+                                                            <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
+                                                            <input type="date" name="DtPlan" id="FsiihDtPlan" value="" class="form-control svalidate {req,Planned By Date}">
+                                                        </div>
+                                                        <div class="form-group col-lg-1 float-left">
+                                                            <label>
+                                                                Sign
+
+                                                            </label>
+                                                            <div class="clear-b mt-2">
+                                                                <input class="{required, Requested By Signature}" data-val="true" data-val-required="The SignReq field is required." id="FormW1_SignReq" name="FormW1.SignReq" type="checkbox" value="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @{
+                    if (Model != null)
+                    {
+                        Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
+                {
+                    Form = "FormB14",
+                    RefId = Model.FormB14Header.PkRefNo,
+                    Stage = Model.FormB14Header.Status
+                });
+
+                    }
+                }
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="col-md-12 mb-2 float-right text-right custom-footer">
+    <button type="button" class="btn btn-sm btn-outline-theme">Close</button>
+    <button type="button" class="btn btn-sm btn-themebtn">Save</button>
+    <button type="button" class="btn btn-sm btn-themebtn">Submit</button>
+</div>
+<style>
+    .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4) {
+        width: auto !important;
+        min-width: auto !important;
+    }
+
+    .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(2), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(2), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(3), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(3), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(5), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(5) {
+        width: auto !important;
+        min-width: auto !important;
+    }
+</style>
+
+

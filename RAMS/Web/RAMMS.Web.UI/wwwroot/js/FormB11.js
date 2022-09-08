@@ -266,9 +266,9 @@ var frmB11 = new function () {
         $('#hdrId').text("CREW DAY COST CALCULATION WORK SHEET (" + $("#txtB11RmuCode").val() + ")");
         if (this.IsEdit) {
             if ($('#formB11Year').val() != "" && $('#formB11Year').val() != null) {
-                AppendLabourData();
-                AppendMaterialData();
-                AppendEquipmentData();
+                AppendLabourData($("#FormB11Header_B11hPkRefNo").val());
+                AppendMaterialData($("#FormB11Header_B11hPkRefNo").val());
+                AppendEquipmentData($("#FormB11Header_B11hPkRefNo").val());
             }
         }
         else {
@@ -479,6 +479,7 @@ function setSelected(obj, event) {
 }
 
 function AppendLabourData(id) {
+    debugger;
     var req = {};
     var year = $("#formB11Year").val();
     req.Year = year;
@@ -530,6 +531,8 @@ function AppendLabourData(id) {
                 }
                 $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Labour Cost </span></th>');
                 $('#tblLabour thead tr:eq(1) td:last').after('<td></td>');
+
+                ExistLabourData(id);
             }
             //$("#RevisionNo").val(data)
         },
@@ -557,11 +560,13 @@ function LabourCal(obj, k) {
             }
         });
         $('#sptot' + k).text(sum.toFixed(3));
+
+        //GrandTotal
+        $('.x' + k).text(parseFloat($('#sptot' + k).text()) + parseFloat($('#esptot' + k).text()) + parseFloat($('#msptot' + k).text())).toFixed(3);
     }
 }
 
-function ViewLabourData(id) {
-    
+function ViewLabourData(id) {    
     var req = {};
     req.id = id;
     $.ajax({
@@ -602,7 +607,7 @@ function ViewLabourData(id) {
                         var rowlaboutot = data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourTotalPrice != null ? data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourTotalPrice : 0
                         totallab = totallab + parseFloat(rowlaboutot)
                     }
-                    $('#' + activityID).text(parseFloat(totallab));
+                    $('#' + activityID).text(parseFloat(totallab).toFixed(3));
                     $(this).find("td:last").after('<td class="xl71" x:str><span id="sptot' + k + '" style="width:150px;float:left;text-align:center">' + totallab + '</span></td>');
                     k = k + 1;
                     cRow = cRow + 1;
@@ -610,6 +615,49 @@ function ViewLabourData(id) {
 
                 $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Labour Cost </span></th>');
                 $('#tblLabour thead tr:eq(1) td:last').after('<td></td>');
+            }
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+}
+
+function ExistLabourData(id) {
+    var req = {};
+    req.id = id;
+    $.ajax({
+        url: '/FormB11/GetLabourViewHistoryData',
+        dataType: 'JSON',
+        data: req,
+        type: 'Post',
+        success: function (data) {
+
+            if (data.result.length > 0) {
+                var k = 0;
+                var cRow = 0;
+                var labB7 = data.result.filter(function (el) { return el.b11lcLabourOrderId == 0; }).length;
+                var labourB11 = data.result.map(p => p.b11lcLabourOrderId).filter((b11lcLabourOrderId, index, arr) => arr.indexOf(b11lcLabourOrderId) == index).length;
+                
+                $('#tblLabour tbody tr').each(function () {
+                    var totallab = 0;
+                    var activityID = 0;
+                    for (var i = 0; i < labB7; i++) {
+                        activityID = data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[0].b11lcActivityId;
+                        var id = k + data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourId;
+                        var LabourUnit = data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourNoOfUnits != null ? data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourNoOfUnits : "";
+                        var LabourUnitPrice = data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourTotalPrice != null ? data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourTotalPrice : "";
+                        $("#txt" + id).val(LabourUnit);
+                        $("#span" + id).text(LabourUnitPrice);                        
+
+                        var rowlaboutot = data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourTotalPrice != null ? data.result.filter(function (el) { return el.b11lcLabourOrderId == cRow; })[i].b11lcLabourTotalPrice : 0
+                        totallab = totallab + parseFloat(rowlaboutot)
+                    }
+                    $('#' + activityID).text(parseFloat(totallab).toFixed(3));
+                    $("#sptot" + k).text(totallab);                    
+                    k = k + 1;
+                    cRow = cRow + 1;
+                });                
             }
         },
         error: function (data) {
@@ -671,7 +719,7 @@ function AppendMaterialData(id) {
                 }
                 $('#tblMaterial thead tr th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Material Cost </span></th>');
                 $('#tblMaterial thead tr:eq(1) td:last').after('<td></td>');
-
+                ExistMaterialData(id);
             }
             //$("#RevisionNo").val(data)
         },
@@ -698,6 +746,8 @@ function MaterialCal(obj, k) {
             }
         });
         $('#msptot' + k).text(sum.toFixed(3));
+        //GrandTotal
+        $('.x' + k).text(parseFloat($('#sptot' + k).text()) + parseFloat($('#esptot' + k).text()) + parseFloat($('#msptot' + k).text())).toFixed(3);
     }
 }
 
@@ -739,7 +789,7 @@ function ViewMaterialData(id) {
                         var rowlaboutot = data.result.filter(function (el) { return el.b11mcMaterialOrderId == cRow; })[i].b11mcMaterialTotalPrice != null ? data.result.filter(function (el) { return el.b11mcMaterialOrderId == cRow; })[i].b11mcMaterialTotalPrice : 0
                         totallab = totallab + parseFloat(rowlaboutot)
                     }
-                    $('#' + activityID).text() != "" ? $('#' + activityID).text(parseFloat($('#' + activityID).text()) + totallab) : $('#' + activityID).text(parseFloat(totallab));
+                    $('#' + activityID).text() != "" ? $('#' + activityID).text((parseFloat($('#' + activityID).text()) + totallab).toFixed(3)) : $('#' + activityID).text(parseFloat(totallab).toFixed(3));
                     $(this).find("td:last").after('<td class="xl71" x:str><span id="msptot' + k + '" style="width:150px;float:left;text-align:center">' + totallab + '</span></td>');
                     k = k + 1;
                     cRow = cRow + 1;
@@ -747,6 +797,51 @@ function ViewMaterialData(id) {
 
                 $('#tblMaterial thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Material Cost </span></th>');
                 $('#tblMaterial thead tr:eq(1) td:last').after('<td></td>');
+            }
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+}
+
+function ExistMaterialData(id) {
+    var req = {};
+    req.id = id;
+    $.ajax({
+        url: '/FormB11/GetMaterialViewHistoryData',
+        dataType: 'JSON',
+        data: req,
+        type: 'Post',
+        success: function (data) {
+
+            if (data.result.length > 0) {
+                var k = 0;
+                var cRow = 0;
+                var labB7 = data.result.filter(function (el) { return el.b11mcMaterialOrderId == 0; }).length;
+                var labourB11 = data.result.map(p => p.b11mcMaterialOrderId).filter((b11mcMaterialOrderId, index, arr) => arr.indexOf(b11mcMaterialOrderId) == index).length;
+                
+                $('#tblMaterial tbody tr').each(function () {
+                    var totallab = 0;
+                    var activityID = 0;
+                    for (var i = 0; i < labB7; i++) {
+                        activityID = data.result.filter(function (el) { return el.b11mcMaterialOrderId == cRow; })[0].b11mcActivityId;
+                        var id = k + data.result.filter(function (el) { return el.b11mcMaterialOrderId == cRow; })[i].b11mcMaterialId;
+                        var LabourUnit = data.result.filter(function (el) { return el.b11mcMaterialOrderId == cRow; })[i].b11mcMaterialNoOfUnits != null ? data.result.filter(function (el) { return el.b11mcMaterialOrderId == cRow; })[i].b11mcMaterialNoOfUnits : "";
+                        var LabourUnitPrice = data.result.filter(function (el) { return el.b11mcMaterialOrderId == cRow; })[i].b11mcMaterialTotalPrice != null ? data.result.filter(function (el) { return el.b11mcMaterialOrderId == cRow; })[i].b11mcMaterialTotalPrice : "";
+
+                        $("#mtxt" + id).val(LabourUnit);
+                        $("#mspan" + id).text(LabourUnitPrice);
+
+                        var rowlaboutot = data.result.filter(function (el) { return el.b11mcMaterialOrderId == cRow; })[i].b11mcMaterialTotalPrice != null ? data.result.filter(function (el) { return el.b11mcMaterialOrderId == cRow; })[i].b11mcMaterialTotalPrice : 0
+                        totallab = totallab + parseFloat(rowlaboutot)                       
+                    }
+
+                    $('#' + activityID).text() != "" ? $('#' + activityID).text((parseFloat($('#' + activityID).text()) + totallab).toFixed(3)) : $('#' + activityID).text(parseFloat(totallab).toFixed(3));                    
+                    $("#msptot" + k).text(totallab);    
+                    k = k + 1;
+                    cRow = cRow + 1;
+                });
             }
         },
         error: function (data) {
@@ -808,7 +903,7 @@ function AppendEquipmentData(id) {
 
                 $('#tblEquipment thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Equipment Cost </span></th>');
                 $('#tblEquipment thead tr:eq(1) td:last').after('<td></td>');
-
+                ExistEquipmentData(id);
             }
             //$("#RevisionNo").val(data)
         },
@@ -835,6 +930,9 @@ function EquipmentCal(obj, k) {
             }
         });
         $('#esptot' + k).text(sum.toFixed(3));
+
+        //GrandTotal
+        $('.x' + k).text(parseFloat($('#sptot' + k).text()) + parseFloat($('#esptot' + k).text()) + parseFloat($('#msptot' + k).text())).toFixed(3);
     }
 }
 
@@ -877,7 +975,7 @@ function ViewEquipmentData(id) {
                         var rowlaboutot = data.result.filter(function (el) { return el.b11ecEquipmentOrderId == cRow; })[i].b11ecEquipmentTotalPrice != null ? data.result.filter(function (el) { return el.b11ecEquipmentOrderId == cRow; })[i].b11ecEquipmentTotalPrice : 0
                         totallab = totallab + parseFloat(rowlaboutot)
                     }
-                    $('#' + activityID).text() != "" ? $('#' + activityID).text(parseFloat($('#' + activityID).text()) + totallab) : $('#' + activityID).text(parseFloat(totallab));
+                    $('#' + activityID).text() != "" ? $('#' + activityID).text((parseFloat($('#' + activityID).text()) + totallab).toFixed(3)) : $('#' + activityID).text(parseFloat(totallab).toFixed(3));
                     $(this).find("td:last").after('<td class="xl71" x:str><span id="esptot' + k + '" style="width:150px;float:left;text-align:center">' + totallab + '</span></td>');
                     k = k + 1;
                     cRow = cRow + 1;
@@ -885,6 +983,50 @@ function ViewEquipmentData(id) {
 
                 $('#tblEquipment thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:150px;float:left;text-align:center"> Equipment Cost </span></th>');
                 $('#tblEquipment thead tr:eq(1) td:last').after('<td></td>');
+            }
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+}
+
+function ExistEquipmentData(id) {
+    var req = {};
+    req.id = id;
+    $.ajax({
+        url: '/FormB11/GetEquipmentViewHistoryData',
+        dataType: 'JSON',
+        data: req,
+        type: 'Post',
+        success: function (data) {
+
+            if (data.result.length > 0) {
+                var k = 0;
+                var cRow = 0;
+                var labB7 = data.result.filter(function (el) { return el.b11ecEquipmentOrderId == 0; }).length;
+                var labourB11 = data.result.map(p => p.b11ecEquipmentOrderId).filter((b11ecEquipmentOrderId, index, arr) => arr.indexOf(b11ecEquipmentOrderId) == index).length;
+                
+                $('#tblEquipment tbody tr').each(function () {
+                    var totallab = 0;
+                    var activityID = 0;
+                    for (var i = 0; i < labB7; i++) {
+                        activityID = data.result.filter(function (el) { return el.b11ecEquipmentOrderId == cRow; })[0].b11ecActivityId;
+                        var id = k + data.result.filter(function (el) { return el.b11ecEquipmentOrderId == cRow; })[i].b11ecEquipmentId;
+                        var LabourUnit = data.result.filter(function (el) { return el.b11ecEquipmentOrderId == cRow; })[i].b11ecEquipmentNoOfUnits != null ? data.result.filter(function (el) { return el.b11ecEquipmentOrderId == cRow; })[i].b11ecEquipmentNoOfUnits : "";
+                        var LabourUnitPrice = data.result.filter(function (el) { return el.b11ecEquipmentOrderId == cRow; })[i].b11ecEquipmentTotalPrice != null ? data.result.filter(function (el) { return el.b11ecEquipmentOrderId == cRow; })[i].b11ecEquipmentTotalPrice : "";
+
+                        $("#etxt"+id).val(LabourUnit);
+                        $("#espan"+id).text(LabourUnitPrice);                                              
+
+                        var rowlaboutot = data.result.filter(function (el) { return el.b11ecEquipmentOrderId == cRow; })[i].b11ecEquipmentTotalPrice != null ? data.result.filter(function (el) { return el.b11ecEquipmentOrderId == cRow; })[i].b11ecEquipmentTotalPrice : 0
+                        totallab = totallab + parseFloat(rowlaboutot);                        
+                    }
+                    $('#' + activityID).text() != "" ? $('#' + activityID).text((parseFloat($('#' + activityID).text()) + totallab).toFixed(3)) : $('#' + activityID).text(parseFloat(totallab).toFixed(3));
+                    $("#esptot" + k).text(totallab);
+                    k = k + 1;
+                    cRow = cRow + 1;
+                });
             }
         },
         error: function (data) {

@@ -1,5 +1,5 @@
 ﻿
-var frmB7 = new function () {
+var frmB14 = new function () {
     this.HeaderData = {};
     this.IsEdit = true;
       
@@ -12,69 +12,20 @@ var frmB7 = new function () {
         //  if (ValidatePage('#myModal')) {
         InitAjaxLoading();
 
-        var FormB7 = new Object();
-        FormB7.B7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val()
-        FormB7.B7hRevisionYear = $("#formB7Year").val()
-        FormB7.B7hRevisionNo = $("#RevisionNo").val()
-        FormB7.B7hRevisionDate = $("#date").val()
-        FormB7.B7hCrBy = $("#UserId").val();
-        FormB7.B7hCrByName = $("#UserName").val();
-        FormB7.B7hCrDt = $("#date").val()
+        var FormB14 = new Object();
+        FormB14.B14hPkRefNo = $("#FormB14Header_B14hPkRefNo").val()
+        FormB14.B14hRevisionYear = $("#formB14Year").val()
+        FormB14.B14hRevisionNo = $("#RevisionNo").val()
+        FormB14.B14hRevisionDate = $("#date").val()
+        FormB14.B14hCrBy = $("#UserId").val();
+        FormB14.B14hCrByName = $("#UserName").val();
+        FormB14.B14hCrDt = $("#date").val()
 
-        var B7LabourHistory = []
-
-        $('#tblLabour > tbody  > tr').each(function (index, tr) {
-
-            var B7 = new Object();
-            B7.B7lhB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
-            B7.B7lhCode = $(this).find("td:nth-child(2)").text().trim();
-            B7.B7lhName = $(this).find("td:nth-child(3)").text().trim();
-            B7.B7lhUnitInHrs = $(this).find("td:nth-child(4)").text().trim();
-            B7.B7lhUnitPriceBatuNiah = $(this).find("td:nth-child(5)").text().trim();
-            B7.B7lhUnitPriceMiri = $(this).find("td:nth-child(6)").text().trim();
-            B7.B7lhRevisionNo = $("#RevisionNo").val();
-            B7LabourHistory.push(B7);
-        });
-
-        FormB7.RmB7LabourHistory = B7LabourHistory;
-
-
-        var B7MaterialHistory = [];
-
-        $('#tblMaterial > tbody  > tr').each(function (index, tr) {
-
-            var B7 = new Object();
-            B7.B7mhB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
-            B7.B7mhCode = $(this).find("td:nth-child(2)").text().trim();
-            B7.B7mhName = $(this).find("td:nth-child(3)").text().trim();
-            B7.B7mhUnits = $(this).find("td:nth-child(4)").text().trim();
-            B7.B7mhUnitsDescription = $(this).find("td:nth-child(5)").text().trim();
-            B7.B7mhUnitPriceBatuNiah = $(this).find("td:nth-child(6)").text().trim();
-            B7.B7mhUnitPriceMiri = $(this).find("td:nth-child(7)").text().trim();
-            B7MaterialHistory.push(B7);
-        });
-
-        FormB7.RmB7MaterialHistory = B7MaterialHistory;
-
-        var B7EquipmentHistory = [];
-
-        $('#tblEquipment > tbody  > tr').each(function (index, tr) {
-
-            var B7 = new Object();
-            B7.B7ehB7hPkRefNo = $("#FormB7Header_B7hPkRefNo").val();
-            B7.B7ehCode = $(this).find("td:nth-child(2)").text().trim();
-            B7.B7ehName = $(this).find("td:nth-child(3)").text().trim();
-            B7.B7ehUnitInHrs = $(this).find("td:nth-child(4)").text().trim();
-            B7.B7ehUnitPriceBatuNiah = $(this).find("td:nth-child(5)").text().trim();
-            B7.B7ehUnitPriceMiri = $(this).find("td:nth-child(6)").text().trim();
-            B7EquipmentHistory.push(B7);
-        });
-
-        FormB7.RmB7EquipmentsHistory = B7EquipmentHistory;
+       
 
         $.ajax({
-            url: '/FormB7/SaveFormB7',
-            data: FormB7,
+            url: '/FormB14/SaveFormB14',
+            data: FormB14,
             type: 'POST',
             success: function (data) {
                 HideAjaxLoading();
@@ -83,39 +34,38 @@ var frmB7 = new function () {
                 }
                 else {
                     app.ShowSuccessMessage('Saved Successfully', false);
-                    location.href = "/FormB7";
+                    location.href = "/FormB14";
                 }
             }
         });
     }
 
     this.NavToList = function () {
-        window.location = _APPLocation + "FormB7";
+        window.location = _APPLocation + "FormB14";
     }
 
     this.Cancel = function () {
-        jsMaster.ConfirmCancel(() => { frmB7.NavToList(); });
+        jsMaster.ConfirmCancel(() => { frmB14.NavToList(); });
     }
-
 
     this.HeaderGrid = new function () {
         this.ActionRender = function (data, type, row, meta) {
             var actionSection = "<div class='btn-group dropright' rowidx='" + meta.row + "'><button type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button>";
             actionSection += "<div class='dropdown-menu'>";//dorpdown menu start
 
-            if (data.MaxRecord) { //if (tblFB7HGrid.Base.IsModify) {
-                actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB7.HeaderGrid.ActionClick(this);'>";
+            if (data.MaxRecord) { //if (tblFB14HGrid.Base.IsModify) {
+                actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB14.HeaderGrid.ActionClick(this);'>";
                 actionSection += "<span class='edit-icon'></span> Edit </button>";
             }
-            if (tblFB7HGrid.Base.IsView) {
-                actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB7.HeaderGrid.ActionClick(this);'>";
+            if (tblFB14HGrid.Base.IsView) {
+                actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB14.HeaderGrid.ActionClick(this);'>";
                 actionSection += "<span class='view-icon'></span> View </button>";
             }
-            //if (tblFB7HGrid.Base.IsDelete) {
-            //    actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB7.HeaderGrid.ActionClick(this);'>";
+            //if (tblFB14HGrid.Base.IsDelete) {
+            //    actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB14.HeaderGrid.ActionClick(this);'>";
             //    actionSection += "<span class='del-icon'></span> Delete </button>";
             //}
-            actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB7.HeaderGrid.ActionClick(this);'>";
+            actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB14.HeaderGrid.ActionClick(this);'>";
             actionSection += "<span class='print-icon'></span> Print </button>";
 
             actionSection += "</div>"; //dorpdown menu close
@@ -128,30 +78,30 @@ var frmB7 = new function () {
             var type = $.trim(obj.text());
             var rowidx = parseInt(obj.closest("[rowidx]").attr("rowidx"), 10);
             if (rowidx >= 0) {
-                var data = tblFB7HGrid.dataTable.row(rowidx).data();
+                var data = tblFB14HGrid.dataTable.row(rowidx).data();
                 switch (type.toLowerCase()) {
                     case "edit":
-                        window.location = _APPLocation + "FormB7/Edit/" + data.RefNo;
+                        window.location = _APPLocation + "FormB14/Edit/" + data.RefNo;
                         break;
                     case "view":
-                        window.location = _APPLocation + "FormB7/View/" + data.RefNo;
+                        window.location = _APPLocation + "FormB14/View/" + data.RefNo;
                         break;
                     //case "delete":
                     //    app.Confirm("Are you sure you want to delete this record? <br/>(Ref: " + data.RefID + ")", (status) => {
                     //        if (status) {
-                    //            DeleteRequest("Delete/" + data.RefNo, "FormB7", {}, function (sdata) {
+                    //            DeleteRequest("Delete/" + data.RefNo, "FormB14", {}, function (sdata) {
                     //                if (sdata.id == "-1") {
-                    //                    app.ShowErrorMessage("Form B7 cannot be deleted, first delete Form F3");
+                    //                    app.ShowErrorMessage("Form B14 cannot be deleted, first delete Form F3");
                     //                    return false;
                     //                }
-                    //                tblFB7HGrid.Refresh();
+                    //                tblFB14HGrid.Refresh();
                     //                app.ShowSuccessMessage("Deleted Sucessfully! <br/>(Ref: " + data.RefID + ")");
                     //            });
                     //        }
                     //    }, "Yes", "No");
                     //    break;
                     case "print":
-                        window.location = _APPLocation + "FormB7/download?id=" + data.RefNo;
+                        window.location = _APPLocation + "FormB14/download?id=" + data.RefNo;
                         break;
                 }
             }
@@ -216,7 +166,7 @@ var frmB7 = new function () {
 $(document).ready(function () {    
     $("#smartSearch").focus();//Header Grid focus    
 
-    if (!frmB7.IsEdit) {
+    if (!frmB14.IsEdit) {
         $("#formB8Year").chosen("destroy");
         $("#divFindDetails *").attr("disabled", "disabled").off("click");
     }
@@ -279,15 +229,15 @@ $(document).ready(function () {
     });
 
     $('.typein').on('click', function (e) {
-        if (frmB7.IsEdit) {
+        if (frmB14.IsEdit) {
             var $this = $(this);
-            frmB7.typein($this);
+            frmB14.typein($this);
         }
         e.preventDefault();
     });
 
     $('.dropdown').on('click', function (e) {
-        if (frmB7.IsEdit) {
+        if (frmB14.IsEdit) {
             var $this = $(this);
             showComboBox($this);
         }
@@ -295,21 +245,21 @@ $(document).ready(function () {
         e.stopPropagation();
     });
 
-    $("#formB7Year").on("change", function () {
-        getRevisionNo($("#formB7Year").val());
+    $("#formB14Year").on("change", function () {
+        getRevisionNo($("#formB14Year").val());
     });
 
 });
 
 function Type(obj,e) {
-    if (frmB7.IsEdit) {
+    if (frmB14.IsEdit) {
         var $this = $(obj);
-        frmB7.typein($this);
+        frmB14.typein($this);
     }
     e.preventDefault();
 }
 function DDL(obj,e) {
-    if (frmB7.IsEdit) {
+    if (frmB14.IsEdit) {
         var $this = $(obj);
         showComboBox($this);
     }
@@ -321,7 +271,7 @@ function getRevisionNo(id) {
     var req = {};
     req.Year = id;
     $.ajax({
-        url: '/FormB7/GetMaxRev',
+        url: '/FormB14/GetMaxRev',
         dataType: 'JSON',
         data: req,
         type: 'Post',

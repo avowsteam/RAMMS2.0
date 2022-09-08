@@ -156,8 +156,8 @@
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </td>
-                                                                                                    <td>@Model.FormB7Header.RmB7LabourHistory[i].B7lhCode</td>
-                                                                                                    <td>@Model.FormB7Header.RmB7LabourHistory[i].B7lhName</td>
+                                                                                                    <td>@Html.Raw(Model.FormB7Header.RmB7LabourHistory[i].B7lhCode)</td>
+                                                                                                    <td>@Html.Raw(Model.FormB7Header.RmB7LabourHistory[i].B7lhName)</td>
                                                                                                     <td class="typein" datatype="int">@Model.FormB7Header.RmB7LabourHistory[i].B7lhUnitInHrs</td>
                                                                                                     <td class="typein" datatype="int">@Model.FormB7Header.RmB7LabourHistory[i].B7lhUnitPriceBatuNiah</td>
                                                                                                     <td class="typein" datatype="int">@Model.FormB7Header.RmB7LabourHistory[i].B7lhUnitPriceMiri</td>
@@ -235,16 +235,16 @@
                                                                                                     </div>
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    @Model.FormB7Header.RmB7MaterialHistory[i].B7mhCode
+                                                                                                    @Html.Raw(Model.FormB7Header.RmB7MaterialHistory[i].B7mhCode)
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    @Model.FormB7Header.RmB7MaterialHistory[i].B7mhName
+                                                                                                    @Html.Raw(Model.FormB7Header.RmB7MaterialHistory[i].B7mhName)
                                                                                                 </td>
                                                                                                 <td class="dropdown" preval="@Model.FormB7Header.RmB7MaterialHistory[i].B7mhUnits">
                                                                                                     @Model.FormB7Header.RmB7MaterialHistory[i].B7mhUnits
                                                                                                 </td>
                                                                                                 <td class="typein">
-                                                                                                    @Model.FormB7Header.RmB7MaterialHistory[i].B7mhUnitsDescription
+                                                                                                   @Html.Raw(Model.FormB7Header.RmB7MaterialHistory[i].B7mhUnitsDescription)
                                                                                                 </td>
                                                                                                 <td class="typein" datatype="int">
                                                                                                     @Model.FormB7Header.RmB7MaterialHistory[i].B7mhUnitPriceBatuNiah
@@ -331,10 +331,10 @@
                                                                                                     </div>
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    @Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehCode
+                                                                                                    @Html.Raw(Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehCode)
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    @Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehName
+                                                                                                    @Html.Raw(Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehName)
                                                                                                 </td>
                                                                                                 <td class="typein" datatype="int">
                                                                                                     @Model.FormB7Header.RmB7EquipmentsHistory[i].B7ehUnitInHrs

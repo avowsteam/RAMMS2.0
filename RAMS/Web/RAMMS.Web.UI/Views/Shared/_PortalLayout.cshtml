@@ -215,7 +215,7 @@
                                 </ul>
                             </li>
                         }
-                        @if (security.IsPCView(ModuleNameList.Routine_Maintanance_Work  ) || security.HasGroup(GroupNameList.Admin))
+                        @if (security.IsPCView(ModuleNameList.Routine_Maintanance_Work) || security.HasGroup(GroupNameList.Admin))
                         {
                             <li class="navbar-vertical-aside-has-menu">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="AssetMaintenance" href="javascript:;" title="Asset Maintenance">
@@ -230,7 +230,7 @@
                                     <li class="nav-item">
                                         <a href="@Url.Action("FormN2", "MAM")" class="nav-link"><span class="text-truncate">Non-Conformance Report, NCR (Form N2)</span></a>
                                     </li>
-                                     <li class="nav-item">
+                                    <li class="nav-item">
                                         <a href="@Url.Action("QA1", "FormQA1")" class="nav-link"><span class="text-truncate">Quality Assurance 1 (Form QA1)</span></a>
                                     </li>
                                     <li class="nav-item">
@@ -270,83 +270,87 @@
                                     <i class="icon-zap nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Condition Inspection</span>
                                 </a>
-                               
+
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;">
-                                    <li class="nav-item">
-                                        <span style="font-weight:bolder; font-size:15px; color:grey!important; margin-left:40px">Visual Distress Survey</span>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "FormR1R2")" class="nav-link"><span class="text-truncate" style="white-space: break-spaces;"> Retaining  Wall Visual Inspection Record  (Form R1/R2)</span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "FormG1G2")" class="nav-link"><span class="text-truncate" style="white-space: break-spaces;"> Gantry Sign Visual Inspection  (Form G1/G2)</span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "FormC1C2")" class="nav-link"><span class="text-truncate">Culvert Inspection (Form C1/C2)</span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "FormB1B2")" class="nav-link"><span class="text-truncate">Bridge Inspection (Form B1/B2)</span></a>
-                                    </li>
+                                    <li class="nav-link custom-menu" >
+                                        <ul>
+                                            <li class="nav-item">
+                                                <span  class="menu-title">Visual Distress Survey</span>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FormR1R2")" class="nav-link"><span class="text-truncate" style="white-space: break-spaces;"> Retaining  Wall Visual Inspection Record  (Form R1/R2)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FormG1G2")" class="nav-link"><span class="text-truncate" style="white-space: break-spaces;"> Gantry Sign Visual Inspection  (Form G1/G2)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FormC1C2")" class="nav-link"><span class="text-truncate">Culvert Inspection (Form C1/C2)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FormB1B2")" class="nav-link"><span class="text-truncate">Bridge Inspection (Form B1/B2)</span></a>
+                                            </li>
 
-                                    <li class="nav-item">
-                                        <span style="font-weight:bolder; font-size:15px; color:grey!important; margin-left:40px">Inventory Condition Assessment</span>
-                                    </li>
-                                    
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "FormF1")" class="nav-link"><span class="text-truncate">Condition Inspection (Form F1)</span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "FormF2")" class="nav-link"><span class="text-truncate">Guardrail Inspection (Form F2)</span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "FormF3")" class="nav-link"><span class="text-truncate" style="white-space: break-spaces;">Signboard Inventory & Condition Assessment (Form F3)</span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "FormF4")" class="nav-link"><span class="text-truncate">Culvert Summary (Form F4)</span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "FormF5")" class="nav-link"><span class="text-truncate">Bridge Summary (Form F5)</span></a>
-                                    </li>
+                                            <li class="nav-item">
+                                                <span class="menu-title">Inventory Condition Assessment</span>
+                                            </li>
 
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "FormFC")" class="nav-link"><span class="text-truncate">Carriageway Inspection (Form FC)</span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "FormFD")" class="nav-link"><span class="text-truncate">Drainage & Shoulder Inspection (Form FD)</span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "FormFS")" class="nav-link"><span class="text-truncate" style="white-space: break-spaces;">Road Inventory & Condition Summary (Form FS)</span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "FormM")" class="nav-link"><span class="text-truncate" style="white-space: break-spaces;">Temporary Traffic Management Audit (Form M)</span></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("Index", "FrmT")" class="nav-link"><span class="text-truncate">Traffic Volume Count Form (Form T)</span></a>
-                                    </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FormF1")" class="nav-link"><span class="text-truncate">Condition Inspection (Form F1)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FormF2")" class="nav-link"><span class="text-truncate">Guardrail Inspection (Form F2)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FormF3")" class="nav-link"><span class="text-truncate" style="white-space: break-spaces;">Signboard Inventory & Condition Assessment (Form F3)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FormF4")" class="nav-link"><span class="text-truncate">Culvert Summary (Form F4)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FormF5")" class="nav-link"><span class="text-truncate">Bridge Summary (Form F5)</span></a>
+                                            </li>
+
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FormFC")" class="nav-link"><span class="text-truncate">Carriageway Inspection (Form FC)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FormFD")" class="nav-link"><span class="text-truncate">Drainage & Shoulder Inspection (Form FD)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FormFS")" class="nav-link"><span class="text-truncate" style="white-space: break-spaces;">Road Inventory & Condition Summary (Form FS)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FormM")" class="nav-link"><span class="text-truncate" style="white-space: break-spaces;">Temporary Traffic Management Audit (Form M)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FrmT")" class="nav-link"><span class="text-truncate">Traffic Volume Count Form (Form T)</span></a>
+                                            </li>
+                                        </ul>
+                                  
                                 </ul>
                             </li>
                         }
-                        
-                        @if (security.IsPCView(ModuleNameList.Instructed_Works) || security.HasGroup(GroupNameList.Admin))
-                            {
-                        <li class="navbar-vertical-aside-has-menu">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="instructedWorks" href="javascript:;" title="Instructed Works">
-                                <i class="icon-cpu nav-icon"></i>
-                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Instructed Works</span>
-                            </a>
 
-                            <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;">
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index", "InstructedWorks")" class="nav-link"><span class="text-truncate">Instructed Works (IW)</span></a>
-                                </li>
-                                @*<li class="nav-item">
-                                    <a href="@Url.Action("IWIndex", "InstructedWorks")" class="nav-link"><span class="text-truncate">Instructed Works</span></a>
-                                </li>*@
-                            </ul>
-                        </li>
+                        @if (security.IsPCView(ModuleNameList.Instructed_Works) || security.HasGroup(GroupNameList.Admin))
+                        {
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="instructedWorks" href="javascript:;" title="Instructed Works">
+                                    <i class="icon-cpu nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Instructed Works</span>
+                                </a>
+
+                                <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;">
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "InstructedWorks")" class="nav-link"><span class="text-truncate">Instructed Works (IW)</span></a>
+                                    </li>
+                                    @*<li class="nav-item">
+                                            <a href="@Url.Action("IWIndex", "InstructedWorks")" class="nav-link"><span class="text-truncate">Instructed Works</span></a>
+                                        </li>*@
+                                </ul>
+                            </li>
                         }
 
-                         @if (security.IsPCView(ModuleNameList.Annual_Work_Planned_Budget) || security.HasGroup(GroupNameList.Admin))
+                        @if (security.IsPCView(ModuleNameList.Annual_Work_Planned_Budget) || security.HasGroup(GroupNameList.Admin))
                         {
                             <li class="navbar-vertical-aside-has-menu">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="AWPBForm" href="javascript:;" title="Annual Work Planned Budget">
@@ -375,7 +379,7 @@
                                 </ul>
                             </li>
                         }
-                            @*@if (security.IsPCView(ModuleNameList.User_Management) || security.HasGroup(GroupNameList.Admin))
+                        @*@if (security.IsPCView(ModuleNameList.User_Management) || security.HasGroup(GroupNameList.Admin))
                             {*@
                         <li class="navbar-vertical-aside-has-menu">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle svg-hover" id="UserManagement" href="javascript:;" title="User Management">
@@ -824,3 +828,36 @@ will hide the dropdown */
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+<style>
+
+    .menu-title {
+        width: 100%;
+        float: left;
+        font-weight: bolder;
+        font-size: 15px;
+        color: grey !important;
+        padding: 0.55rem 0.55rem !important;
+    }
+
+    .navbar-vertical-aside-mini-mode > .navbar > .navbar-vertical-container > .navbar-vertical-footer-offset > .navbar-vertical-content > .navbar-nav > .navbar-vertical-aside-has-menu > .js-navbar-vertical-aside-submenu > .custom-menu {
+        padding: 56% 0px 0px 6%;
+        height: calc(100vh - -143px);
+    }
+
+        .navbar-vertical-aside-mini-mode > .navbar > .navbar-vertical-container > .navbar-vertical-footer-offset > .navbar-vertical-content > .navbar-nav > .navbar-vertical-aside-has-menu > .js-navbar-vertical-aside-submenu > .custom-menu > ul {
+            padding: 0px;
+            margin: 0px;
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+    .custom-menu > ul > li {
+        padding: 0px;
+        list-style: none;
+    }
+
+        .custom-menu > ul > li > a {
+            padding-right: 0.75rem !important;
+            padding-left: 0.1rem !important;
+        }
+</style>
