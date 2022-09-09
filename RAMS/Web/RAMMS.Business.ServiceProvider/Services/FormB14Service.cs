@@ -55,6 +55,11 @@ namespace RAMMS.Business.ServiceProvider.Services
             return FormB14;
         }
 
+        public async Task<GridWrapper<object>> GetAWPBHeaderGrid(DataTableAjaxPostModel searchData)
+        {
+            return await _repo.GetAWPBHeaderGrid(searchData);
+        }
+
         public int? GetMaxRev(int Year, string RmuCode)
         {
             return _repo.GetMaxRev(Year,RmuCode);

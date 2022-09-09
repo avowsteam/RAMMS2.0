@@ -3972,6 +3972,18 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B14hhPkRefNo).HasColumnName("B14HH_PK_Ref_No");
 
+                entity.Property(e => e.B14hhActCode)
+                    .HasColumnName("B14HH_Act_Code")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B14hhActId).HasColumnName("B14HH_Act_Id");
+
+                entity.Property(e => e.B14hhActName)
+                    .HasColumnName("B14HH_Act_Name")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.B14hhApr)
                     .HasColumnName("B14HH_Apr")
                     .HasColumnType("decimal(9, 2)");
@@ -3985,6 +3997,11 @@ namespace RAMMS.Domain.Models
                 entity.Property(e => e.B14hhDec)
                     .HasColumnName("B14HH_Dec")
                     .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhFeature)
+                    .HasColumnName("B14HH_Feature")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.B14hhFeb)
                     .HasColumnName("B14HH_Feb")

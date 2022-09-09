@@ -98,6 +98,48 @@ namespace RAMMS.Repository
             return grid;
         }
 
+        public async Task<GridWrapper<object>> GetAWPBHeaderGrid(DataTableAjaxPostModel searchData)
+        {
+            var max = _context.RmB14Hdr.Count() > 0 ? _context.RmB14Hdr.Select(s => s.B14hPkRefNo).DefaultIfEmpty().Max() : 0;
+
+            var query = (from hdr in _context.RmB14Hdr
+                         where hdr.B14hPkRefNo == max
+                         let history = _context.RmB14History.FirstOrDefault(x => x.B14hhB14hPkRefNo == max)
+                         select new FormAWPBDTO
+                         {
+                             RefNo = hdr.B14hPkRefNo,
+                             RMU = hdr.B14hRmuCode,
+                             Feature = history.B14hhFeature ,
+                             ActivityCode = history.B14hhActCode ,
+                             ActivityName = history.B14hhActName,
+                             Jan = history.B14hhJan ,
+                             Feb = history.B14hhFeb ,
+                             Mar = history.B14hhMar,
+                             Apr = history.B14hhApr,
+                             May = history.B14hhMay,
+                             Jun = history.B14hhJun,
+                             Jul = history.B14hhJul,
+                             Aug = history.B14hhAug,
+                             Sep = history.B14hhSep,
+                             Oct = history.B14hhOct,
+                             Nov = history.B14hhNov,
+                             Dec = history.B14hhDec,
+                             SubTotal = history.B14hhSubTotal,
+                             Unit = history.B14hhUnitOfService
+                         });
+
+
+            GridWrapper<object> grid = new GridWrapper<object>();
+            grid.recordsTotal = await query.CountAsync();
+            grid.recordsFiltered = grid.recordsTotal;
+            grid.draw = searchData.draw;
+            grid.data = await query.Order(searchData, query.OrderByDescending(s => s.RefNo)).Skip(searchData.start)
+                                .Take(searchData.length)
+                                .ToListAsync(); ;
+
+            return grid;
+        }
+
         public RmB14Hdr GetHeaderById(int id, bool view)
         {
             RmB14Hdr res = (from r in _context.RmB14Hdr where r.B14hPkRefNo == id select r).FirstOrDefault();
