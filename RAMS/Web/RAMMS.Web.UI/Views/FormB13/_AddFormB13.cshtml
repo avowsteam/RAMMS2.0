@@ -491,7 +491,7 @@
                                         Sign
                                     </label>
                                     <div class="clear-b mt-2">
-                                        @Html.CheckBoxFor(model => model.FormB13.SignAgrd, new {  @disabled = true, @class = "{required, Agreed by Signature}" })
+                                        @Html.CheckBoxFor(model => model.FormB13.SignAgrd, new { @disabled = true, @class = "{required, Agreed by Signature}" })
                                     </div>
                                 </div>
                             </div>
@@ -570,15 +570,15 @@
 
             if (IsApproved && (Model.FormB13.Status == RAMMS.Common.StatusList.Submitted))
             {
-                <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Facilitated By');"> Approved / Verify </button>
+                <button id="SubmitFormB13Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Facilitated By');"> Approved / Verify </button>
             }
             else if (IsApproved && (Model.FormB13.Status == RAMMS.Common.StatusList.Facilitated))
             {
-                <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Verified By');"> Approved / Verify </button>
+                <button id="SubmitFormB13Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Verified By');"> Approved / Verify </button>
             }
-            else if (IsApproved && (Model.FormB13.Status == RAMMS.Common.StatusList.Verified))
+            else if (IsApproved && (Model.FormB13.Status == RAMMS.Common.StatusList.Agreed))
             {
-                <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Endorsed By');"> Approved / Verify </button>
+                <button id="SubmitFormB13Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Endorsed By');"> Approved / Verify </button>
             }
 
 
@@ -594,8 +594,15 @@
     @Html.HiddenFor(m => m.FormB13History.PkRefNo)
     @Html.HiddenFor(m => m.FormB13.Status)
     @Html.HiddenFor(m => m.FormB13.SubmitSts)
+
+    <input type="hidden" id="hdnView" value="@Model.view" />
 }
 <script>
+
+     $(document).ready(function () {
+        process.Init("FormB13", "@Model.FormB13.Status", @Model.FormB13.PkRefNo);
+
+    });
 
     $('#ddlProposedby').val("@Model.FormB13.UseridProsd");
     $('#ddlProposedby').trigger('chosen:updated');

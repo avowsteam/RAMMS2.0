@@ -121,9 +121,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                 case "FormT":
                     iResult = await SaveFormT(process);
                     break;
-                //case "FormB13":
-                //    iResult = await SaveFormT(process);
-                //    break;
+                case "FormB13":
+                    iResult = await SaveFormB13(process);
+                    break;
 
             }
             return iResult;
@@ -243,7 +243,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                 case "FormT":
                     logs = this.context.RmFormTHdr.Where(x => x.FmtPkRefNo == RefId).Select(x => x.FmtAuditLog).FirstOrDefault();
                     break;
-
+                case "FormB13":
+                    logs = this.context.RmB13ProposedPlannedBudget.Where(x => x.B13pPkRefNo == RefId).Select(x => x.B13pAuditLog).FirstOrDefault();
+                    break;
 
             }
             return Utility.ProcessLog(logs);
@@ -2075,7 +2077,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             }
             return await context.SaveChangesAsync();
         }
-       
+
         private async Task<int> SaveFormF3(DTO.RequestBO.ProcessDTO process)
         {
             var form = context.RmFormF3Hdr.Where(x => x.Ff3hPkRefNo == process.RefId).FirstOrDefault();
@@ -2098,7 +2100,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     strNotStatus = Common.StatusList.Saved;
                     form.Ff3hInspectedBy = Convert.ToInt32(process.UserID);
                     form.Ff3hInspectedName = process.UserName;
-                 //   form.ins = process.UserDesignation;
+                    //   form.ins = process.UserDesignation;
                     form.Ff3hInspectedDate = process.ApproveDate;
                     form.Ff3hInspectedBySign = true;
                 }
@@ -2396,20 +2398,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                 string strNotGroupName = "";
                 string strNotUserID = "";
                 string strStatus = "";
-             
 
-                if (process.Stage == Common.StatusList.Submitted)
-                {
-                    form.B13pStatus = process.IsApprove ? Common.StatusList.Proposed : Common.StatusList.Saved;
-                    strTitle = "Proposed by";
-                    strStatus = "Proposed";
-                    form.B13pUseridProsd = Convert.ToInt32(process.UserID);
-                    form.B13pUserNameProsd = process.UserName;
-                    form.B13pUserDesignationProsd = process.UserDesignation;
-                    form.B13pDtProsd = process.ApproveDate;
-                    form.B13pSignProsd = true;
-                }
-                else if (process.Stage == Common.StatusList.Proposed)
+
+                if (process.Stage == Common.StatusList.Proposed)
                 {
                     form.B13pStatus = process.IsApprove ? Common.StatusList.Facilitated : Common.StatusList.Saved;
                     strTitle = "Facilitated by";
@@ -2436,7 +2427,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     form.B13pStatus = process.IsApprove ? Common.StatusList.Endorsed : Common.StatusList.Saved;
                     strTitle = "Endorsed by";
                     strStatus = "Endorsed";
-                    form.B13pUseridEdosd= Convert.ToInt32(process.UserID);
+                    form.B13pUseridEdosd = Convert.ToInt32(process.UserID);
                     form.B13pUserNameEdosd = process.UserName;
                     form.B13pUserDesignationEdosd = process.UserDesignation;
                     form.B13pDtEdosd = process.ApproveDate;

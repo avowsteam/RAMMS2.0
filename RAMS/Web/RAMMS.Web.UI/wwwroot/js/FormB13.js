@@ -7,6 +7,10 @@ $(document).ready(function () {
         getRevisionNo($("#ddlYear").val());
     });
 
+    if ($("#hdnView").val() == 1) {
+        $("#saveFormB13Btn").hide();
+        $("#SubmitFormB13Btn").hide();
+    }
 
     CalculateValuesonLoad();
 
@@ -154,7 +158,13 @@ function getRevisionNo(id) {
 
 
 
-function Save() {
+function Save(SubmitType) {
+
+
+    if (SubmitType == "Submitted") {
+        $("#FormB13_SubmitSts").val(true);
+        
+    }
 
     InitAjaxLoading();
 
@@ -196,6 +206,8 @@ function Save() {
     FormB13.PeriodicMaintenance = $('#FormB13_PeriodicMaintenance').val();
     FormB13.OtherMaintenance = $('#FormB13_OtherMaintenance').val();
 
+    FormB13.Status = $('#FormB13_Status').val();
+    FormB13.SubmitSts = $('#FormB13_SubmitSts').val();
 
     var B13History = []
     var i = 0;
@@ -278,7 +290,7 @@ function FindDetails() {
             app.ShowErrorMessage("More than 4 revisions are not allowed");
             return;
         }
-
+        
         if ($("#FormB13_Status").val() == "")
             $("#FormB13_Status").val("Initialize");
         else if ($("#FormB13_Status").val() == "Initialize")
@@ -295,6 +307,8 @@ function FindDetails() {
         FormB13.UserNameProsd = $('#FormB13_UserNameProsd').val();
         FormB13.UserDesignationProsd = $('#FormB13_UserDesignationProsd').val();
         FormB13.SignProsd = $('#FormB13_SignProsd').val();
+
+        FormB13.Status = $('#FormB13_Status').val();
 
         $.ajax({
             url: '/FormB13/SaveFormB13',

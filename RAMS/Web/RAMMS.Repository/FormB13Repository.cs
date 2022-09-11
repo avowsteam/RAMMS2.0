@@ -40,6 +40,12 @@ namespace RAMMS.Repository
                 query = query.Where(s => s.x.B13pRevisionYear == Convert.ToInt32(filterOptions.Filters.Year));
             }
 
+            if (!string.IsNullOrEmpty(filterOptions.Filters.RMU))
+            {
+                query = query.Where(s => s.x.B13pRmu == filterOptions.Filters.RMU );
+            }
+
+
             string frmDate = Utility.ToString(filterOptions.Filters.FromDate);
             string toDate = Utility.ToString(filterOptions.Filters.ToDate);
 
