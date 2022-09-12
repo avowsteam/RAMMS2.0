@@ -929,9 +929,9 @@ namespace RAMMS.Web.UI.Controllers
 
         }
 
-        
+
         public async Task<IActionResult> FormD()
-        {            
+        {
             await LoadDropDowns();
             return View("~/Views/ERT/FormD/FormD.cshtml");
         }
@@ -1025,9 +1025,71 @@ namespace RAMMS.Web.UI.Controllers
 
         public async Task<IActionResult> EditFormD(int id, string view)
         {
-            base.LoadLookupService(GroupNameList.Supervisor, GroupNameList.OperationsExecutive, GroupNameList.OpeHeadMaintenance, GroupNameList.JKRSSuperiorOfficerSO);
+            base.LoadLookupService(GroupNameList.Supervisor, GroupNameList.OperationsExecutive, GroupNameList.OpeHeadMaintenance, GroupNameList.JKRSSuperiorOfficerSO, GroupNameList.EngineeringAssistant, GroupNameList.Assistant_Quantity_Surveyor, GroupNameList.Road_Maintenance_Engineer);
             _formDModel.SaveFormDModel = new FormDHeaderRequestDTO();
             DDLookUpDTO ddLookup = new DDLookUpDTO();
+
+            //Recorded By
+            List<CSelectListItem> RecorderBy = new List<CSelectListItem>(), VerifiedBy = new List<CSelectListItem>(), VettedBy = new List<CSelectListItem>();
+
+            var supervisor = ((IEnumerable<CSelectListItem>)ViewData[GroupNameList.Supervisor]).ToList();
+            var crewSupervisor = ViewData[GroupNameList.Crew_Supervisor] != null ? ((IEnumerable<CSelectListItem>)ViewData[GroupNameList.Crew_Supervisor]).ToList() : null;
+            var enggAsst = ViewData[GroupNameList.EngineeringAssistant] != null ? ((IEnumerable<CSelectListItem>)ViewData[GroupNameList.EngineeringAssistant]).ToList() : null;
+            var asstQty = ViewData[GroupNameList.Assistant_Quantity_Surveyor] != null ? ((IEnumerable<CSelectListItem>)ViewData[GroupNameList.Assistant_Quantity_Surveyor]).ToList() : null;
+            var roadMaintenance = ViewData[GroupNameList.Road_Maintenance_Engineer] != null ? ((IEnumerable<CSelectListItem>)ViewData[GroupNameList.Road_Maintenance_Engineer]).ToList() : null;
+            var operationExecutive = ViewData[GroupNameList.OperationsExecutive] != null ? ((IEnumerable<CSelectListItem>)ViewData[GroupNameList.OperationsExecutive]).ToList() : null;
+
+            if (supervisor != null)
+            {
+                RecorderBy = supervisor;
+            }
+            if (crewSupervisor != null)
+            {
+                RecorderBy = RecorderBy.Concat(crewSupervisor).ToList();
+            }
+            if (enggAsst != null)
+            {
+                RecorderBy = RecorderBy.Concat(enggAsst).ToList();
+            }
+            if (asstQty != null)
+            {
+                RecorderBy = RecorderBy.Concat(asstQty).ToList();
+            }
+
+
+            ViewData["RecordedBy"] = RecorderBy;
+
+            //Verified By
+
+            if (supervisor != null)
+            {
+                VerifiedBy = supervisor;
+            }
+            if (enggAsst != null)
+            {
+                VerifiedBy = VerifiedBy.Concat(enggAsst).ToList();
+            }
+            if (asstQty != null)
+            {
+                VerifiedBy = VerifiedBy.Concat(asstQty).ToList();
+            }
+
+
+            ViewData["VerifiedBy"] = VerifiedBy;
+
+
+            //Vetted By
+
+            if (roadMaintenance != null)
+            {
+                VettedBy = roadMaintenance;
+            }
+            if (operationExecutive != null)
+            {
+                VettedBy = VettedBy.Concat(operationExecutive).ToList();
+            }
+
+            ViewData["VettedBy"] = VettedBy;
 
             //Labour
             FormDLabourDtlModel formDLabour = new FormDLabourDtlModel();
@@ -1080,7 +1142,7 @@ namespace RAMMS.Web.UI.Controllers
             //var objdt = GetDateByWeekNo_WeeDay(DateTime.Today.Year.ToString(), weekno.ToString(), DateTime.Now.DayOfWeek.ToString());
             //ViewData["weedate"] = objdt.Split("~")[0];
 
-            //ViewData["monthno"] = objdt.Split("~")[1];
+            ViewData["monthno"] = DateTime.Today.Month.ToString();
 
             formDDetailsDtl.RoadCodeList = await _formDService.GetRoadCodeList();
 
