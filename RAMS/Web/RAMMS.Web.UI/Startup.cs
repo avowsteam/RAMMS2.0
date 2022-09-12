@@ -30,6 +30,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RAMMS.Web.UI.Filters;
 using System.Globalization;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace RAMMS.Web.UI
 {
@@ -98,7 +99,7 @@ namespace RAMMS.Web.UI
             });
             //.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-        
+            services.Configure<FormOptions>(options => options.ValueCountLimit = 4096);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

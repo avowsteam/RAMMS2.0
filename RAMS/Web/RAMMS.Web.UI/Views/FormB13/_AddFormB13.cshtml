@@ -1,0 +1,623 @@
+﻿@model RAMMS.Web.UI.Models.FormB13Model;
+@using RAMMS.DTO.RequestBO;
+@using RAMMS.Business.ServiceProvider;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security
+@{
+    ViewBag.TabTitle = "APPENDIX B13";
+    ViewData["Title"] = "APPENDIX B13";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+
+    IEnumerable<SelectListItem> year = (await ddlService
+.GetLookups(new DDLookUpDTO { Type = "Year" }))
+.Select(s => new SelectListItem
+{
+    Text = s.DdlTypeValue,
+    Value = s.DdlTypeValue
+}).ToArray();
+
+    IEnumerable<SelectListItem> RMU = (await ddlService
+.GetLookups(new DDLookUpDTO { Type = "RMU" }))
+.Select(s => new SelectListItem
+{
+    Text = s.DdlTypeValue,
+    Value = s.DdlTypeValue
+}).ToArray();
+
+
+    bool isSubmit = (security.isOperRAMSExecutive || security.IsExecutive || security.isEnggAssistant || security.IsSupervisor);
+    bool IsApproved = (security.isOperRAMSExecutive || security.IsExecutive || security.IsHeadMaintenance || security.IsRegionManager);
+    var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
+
+}
+<script type="text/javascript" src="~/js/FormB13.js" asp-append-version="true"></script>
+
+@using (Html.BeginForm())
+{
+
+    <div class="row bg-white pt-3">
+        <div class="w-100">
+            <div class="body-header w-100">
+                <div class="col-lg-12">
+                    <div class="d-flex justify-content-center pt-2 pb-2">
+                        <div class="form-group mb-0">
+                            <p class="font-20 pb-0 mb-0">
+                                <span class="float-left w-100 text-center">
+                                    <b> Template 1 (B13) - </b>
+                                    PROPOSED PLANNED BUDGET
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body mh-182 pt-0 pb-0">
+        <div class="bg-white rounded pt-3 pb-1 px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetailsFC1C2">
+            <div id="headerDiv" class="row">
+                <div class="form-group col-3">
+                    @Html.Label("RMU", "RMU")
+                    @Html.DropDownListFor(m => m.FormB13.Rmu, RMU, "Select RMU", new { @Id = "ddlRMU", @class = "form-control validate {required, RMU}" })
+                </div>
+
+
+                <div class="form-group col-2">
+                    @Html.Label("Year", "Year")
+                    @Html.DropDownListFor(m => m.FormB13.RevisionYear, year, "Select Year", new { @Id = "ddlYear", @class = "form-control validate {required, Year}" })
+                </div>
+                <div class="form-group col-3">
+                    <label> Select the Revision No. </label>
+                    <input type="number" id="RevisionNo" disabled value="@Model.FormB13.RevisionNo" class="form-control validate {required, Revision No}">
+                </div>   <div class="form-group col-md-2">
+                    <label> Issue Date</label>
+                    @Html.EditorFor(m => m.FormB13.RevisionDate, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Issue Date}" } })
+                </div>
+                <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">
+                    <button id="btnFindDetails" onclick="FindDetails()" type="button" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right disablebtn"> Find Details </button>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-12">
+                    <!--form g1-->
+                    <div class="w-100 bg-white">
+                        <div id="accordion">
+                            <div class="accordion custom-accordion mb-3" id="custom-accordion-zero">
+                                <div class="card mb-0">
+                                    <div class="card-header" id="headingZero">
+                                        <h5 class="m-0">
+                                            <a class="custom-accordion-title py-1" data-toggle="collapse" href="#AccordPage0" aria-expanded="true" aria-controls="collapseZero">
+                                                <span class="float-left">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                </span>
+                                                <span class="float-left" style="padding: 4px 8px;">
+                                                    Features
+                                                </span>
+                                            </a>
+                                        </h5>
+                                    </div>
+                                    <div id="AccordPage0" class="collapse show avowmodal-form formgrp-section" aria-labelledby="headingZero" data-parent="#custom-accordion-zero">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div id="content" class="table-responsive">
+                                                        <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                                            <div class="top">
+
+                                                            </div><div id="FormDGridView_processing" class="dataTables_processing card" style="display: none;">Processing...</div><div class="dataTables_scroll">
+                                                                <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                                                                    <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 1325.71px; padding-right: 0px;">
+                                                                    </div>
+                                                                </div><div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%;">
+
+
+
+                                                                    <div class="dataTables_scroll">
+                                                                        <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                                            <table id="tblPPB" class="table w-100 nowrap dataTable no-footer">
+                                                                                <thead style="background: #BDD7EE;">
+                                                                                    <tr height="78" style='height:39.00pt;'>
+                                                                                        <th>Features    </th>
+                                                                                        <th>Activity Code</th>
+                                                                                        <th>Activity Name   </th>
+                                                                                        <th>Inventory Condition 1</th>
+                                                                                        <th>Inventory Condition 2</th>
+                                                                                        <th>Inventory Condition 3</th>
+                                                                                        <th>Total Quantity</th>
+                                                                                        <th>Service Level Cond.1</th>
+                                                                                        <th>Service Level Cond.2</th>
+                                                                                        <th>Service Level Cond.3</th>
+                                                                                        <th>Annual Work Quantity Cond.1</th>
+                                                                                        <th>Annual Work Quantity Cond.2</th>
+                                                                                        <th>Annual Work Quantity Cond.3</th>
+                                                                                        <th>Annual Work Quantity Total</th>
+                                                                                        <th>Crew Days Required (days)</th>
+                                                                                        <th>Labour</th>
+                                                                                        <th>Equipment</th>
+                                                                                        <th>Materials</th>
+                                                                                        <th>Crew Day Cost (RM)</th>
+                                                                                        <th>Production ADP</th>
+                                                                                        <th>Production Unit</th>
+                                                                                        <th>Service Level Desired</th>
+                                                                                        <th>Service Level Planned</th>
+                                                                                        <th>% of Desired</th>
+                                                                                        <th>Annual Work Quantity</th>
+                                                                                        <th>Crew Days Planned</th>
+                                                                                        <th>
+                                                                                            By Activities
+                                                                                            Sub-total (RM)
+                                                                                        </th>
+                                                                                        <th style="width:150px">
+                                                                                            <span style="width:100px;float:left">
+                                                                                                By Activities
+                                                                                                %
+                                                                                            </span>
+                                                                                        </th>
+                                                                                        <th>
+                                                                                            By Features
+                                                                                            Sub-total (RM)
+                                                                                        </th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+
+                                                                                    @{
+                                                                                        string feature = "";
+                                                                                        int RS = 0;
+
+                                                                                        for (int i = 0; i < Model.FormB13.FormB13History.Count(); i++)
+                                                                                        {
+                                                                                            <tr class="AC1011">
+                                                                                                @{if (feature != Model.FormB13.FormB13History[i].Feature)
+                                                                                                    {
+                                                                                                        RS = Model.FormB13.FormB13History.Where(x => x.Feature == Model.FormB13.FormB13History[i].Feature).Count();
+                                                                                                        <td rowspan="@RS">@Model.FormB13.FormB13History[i].Feature</td>
+                                                                                                    }
+                                                                                                }
+
+                                                                                                <td class="Code">@Model.FormB13.FormB13History[i].Code</td>
+                                                                                                <td class="Name">@Model.FormB13.FormB13History[i].Name</td>
+                                                                                                <td><input type="text" class="form-control IC1" onchange="CalculateValues(this)" value="@Model.FormB13.FormB13History[i].InvCond1" /></td>
+                                                                                                <td><input type="text" class="form-control IC2" onchange="CalculateValues(this)" value="@Model.FormB13.FormB13History[i].InvCond2" /></td>
+                                                                                                <td><input type="text" class="form-control IC3" onchange="CalculateValues(this)" value="@Model.FormB13.FormB13History[i].InvCond3" /></td>
+                                                                                                <td class="TotQty" data-value="" data-unit="km">@Model.FormB13.FormB13History[i].InvTotal</td>
+                                                                                                <td class="SLC1">@Model.FormB13.FormB13History[i].SlCond1</td>
+                                                                                                <td class="SLC2">@Model.FormB13.FormB13History[i].SlCond2</td>
+                                                                                                <td class="SLC3">@Model.FormB13.FormB13History[i].SlCond3</td>
+                                                                                                <td class="AWQC1">@Model.FormB13.FormB13History[i].AwqCond1</td>
+                                                                                                <td class="AWQC2">@Model.FormB13.FormB13History[i].AwqCond3</td>
+                                                                                                <td class="AWQC3">@Model.FormB13.FormB13History[i].AwqCond3</td>
+                                                                                                <td class="AWQTot">@Model.FormB13.FormB13History[i].AwqTotal</td>
+                                                                                                <td class="CrewDayReq">@Model.FormB13.FormB13History[i].CrewDaysRequired</td>
+                                                                                                <td class="Lab">@Model.FormB13.FormB13History[i].CdcLabour</td>
+                                                                                                <td class="Equ">@Model.FormB13.FormB13History[i].CdcEquipment</td>
+                                                                                                <td class="Mat">@Model.FormB13.FormB13History[i].CdcMaterial</td>
+                                                                                                <td class="CrewDayCost">@Model.FormB13.FormB13History[i].CrewDaysCost</td>
+                                                                                                <td class="ADP">@Model.FormB13.FormB13History[i].AverageDailyProduction</td>
+                                                                                                <td class="Unit">@Model.FormB13.FormB13History[i].UnitOfService</td>
+                                                                                                <td class="SLDesired">@Model.FormB13.FormB13History[i].SlDesired</td>
+                                                                                                <td class="SLPlan">@Model.FormB13.FormB13History[i].SlPlanned</td>
+                                                                                                <td><input type="text" class="form-control Desired" onchange="CalculateValues()" value="@Model.FormB13.FormB13History[i].SlAvgDesired" /></td>
+                                                                                                <td class="AWQ">@Model.FormB13.FormB13History[i].SlAnnualWorkQuantity</td>
+                                                                                                <td class="CDP">@Model.FormB13.FormB13History[i].SlCrewDaysPlanned</td>
+                                                                                                <td class="ActTotal">@Model.FormB13.FormB13History[i].SlTotalByActivity</td>
+                                                                                                <td class="ActPer">@Model.FormB13.FormB13History[i].SlPercentageByActivity</td>
+
+                                                                                                @{if (feature != Model.FormB13.FormB13History[i].Feature)
+                                                                                                    {
+                                                                                                        <td rowspan="@RS" class="FeatureTot" style='border-right: none; border-bottom: none; background: #e4e4e4; text-align: center'></td>
+                                                                                                        feature = Model.FormB13.FormB13History[i].Feature;
+                                                                                                    }
+                                                                                                }
+
+                                                                                            </tr>
+                                                                                        }
+                                                                                    }
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="clear"></div>
+
+                                                            <table class="table w-100 nowrap dataTable no-footer cus-table">
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <td class="xl84"></td>
+                                                                        <td class="xl85"></td>
+                                                                        <td class="xl84"></td>
+                                                                        <td class="xl85" colspan="7"></td>
+                                                                        <td class="xl84" colspan="5"></td>
+                                                                        <td class="xl94" colspan="3"></td>
+                                                                        <td class="xl104" colspan="8"></td>
+                                                                        <td class="xl120" x:str><b>By Activities Sub-total (RM)	</b></td>
+                                                                        <td class="xl121" x:str><b>By Activities % </b></td>
+                                                                        <td class="xl122"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="xl86" height="29" colspan="26" style='height:14.50pt;border-right:none;border-bottom:none;font-weight:bold' x:str>GRAND TOTAL :<span style='mso-spacerun:yes;'>&nbsp; </span>RM</td>
+                                                                        <td class=".SumofSubTotal"></td>
+                                                                        <td class=".SumofSubTotalPerc"></td>
+                                                                        <td class="xl125"></td>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div id="content">
+                                <div class="w-100 position-relative in-tbl-btns custom-tbl">
+
+
+                                    <div id="FormDLabourGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+
+                                        <div class="dataTables_scroll">
+
+                                            <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
+                                                <table class="table w-100 nowrap dataTable no-footer cus-table">
+                                                    <thead style="background-color: #c8e1ff">
+                                                        <tr>
+
+                                                            <th colspan="1" style="width:10%; text-align:center ">
+                                                                Date
+
+                                                            </th>
+                                                            <th colspan="1" style="width: 80%; text-align: center ">
+                                                                Description
+
+
+                                                            </th>
+                                                            <th colspan="1" style="width: 10%; text-align: center ">
+                                                                Revision
+                                                            </th>
+
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+                                                        @for (int i = 0; i < Model.FormB13.FormB13RevisionHistory.Count(); i++)
+                                                        {
+                                                            <tr>
+                                                                <td style="text-align:center">
+                                                                    @Model.FormB13.FormB13RevisionHistory[i].Date.ToString("dd/MM/yyyy")
+                                                                </td>
+                                                                <td style="text-align:center">
+                                                                    @{
+                                                                        if (i == Model.FormB13.FormB13RevisionHistory.Count() - 1)
+                                                                        {
+                                                                            @Html.TextArea("Desc", @Model.FormB13.FormB13RevisionHistory[i].Description, new { @style = "height:40px", @class = "form-control  svalidate {required,Description}" })
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @Model.FormB13.FormB13RevisionHistory[i].Description
+                                                                        }
+                                                                    }
+
+                                                                </td>
+                                                                <td style="text-align:center">
+                                                                    @Model.FormB13.FormB13RevisionHistory[i].RevNo
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--form g1 -->
+                </div>
+                <div class="col-lg-10 offset-lg-1 mt-2">
+                    <div class="bg-white rounded landing-division w-100 float-left  my-2">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12 border-bottom py-2 my-2">
+                                    <span class="font-14 font-weight-bold">
+                                        Maintenance Category
+
+                                    </span>
+                                </div>
+
+                                <div class="form-group col-lg-3">
+                                    <label for="Name">
+                                        Adjustable Quantity
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend" style="height: 34px;">
+                                            <span class="input-group-text"> RM</span>
+                                        </div>
+                                        @Html.TextBoxFor(m => m.FormB13.AdjustableQuantity, new { @readonly = "readonly", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="Name">
+                                        Routine Maintenance
+
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend" style="height: 34px;">
+                                            <span class="input-group-text"> RM</span>
+                                        </div>
+                                        @Html.TextBoxFor(m => m.FormB13.RoutineMaintenance, new { @readonly = "readonly", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="Name">
+                                        Periodic Maintenance
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend" style="height: 34px;">
+                                            <span class="input-group-text"> RM</span>
+                                        </div>
+                                        @Html.TextBoxFor(m => m.FormB13.PeriodicMaintenance, new { @readonly = "readonly", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="Name">
+                                        Other Maintenance
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend" style="height: 34px;">
+                                            <span class="input-group-text"> RM</span>
+                                        </div>
+                                        @Html.TextBoxFor(m => m.FormB13.OtherMaintenance, new { @readonly = "readonly", @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 border-bottom py-2 my-2">
+                                    <span class="font-14 font-weight-bold">
+                                        Proposed by
+                                    </span>
+                                </div>
+
+                                <div class="form-group col-lg-3">
+                                    <label for="Name">
+                                        User ID
+                                    </label>
+                                    @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "Proposedby", "Select Users", new { @disabled = true, Id = "ddlProposedby", @class = "form-control  {required,Proposed by}", @onchange = "OnProposedbyChange(this);" })
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="User_Id">
+                                        Authorised Name
+                                    </label>
+                                    @Html.TextBoxFor(model => model.FormB13.UserNameProsd, new { @readonly = true, @class = "form-control" })
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="Designation">Designation</label>
+                                    @Html.TextBoxFor(model => model.FormB13.UserDesignationProsd, new { @readonly = true, @class = "form-control" })
+                                </div>
+                                <div class="form-group col-lg-2">
+                                    <label for="Date__DD-MM-YYYY_">Date  (DD-MM-YYYY)</label>
+                                    @Html.EditorFor(m => m.FormB13.DtProsd, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
+                                </div>
+                                <div class="form-group col-lg-1 float-left">
+                                    <label>
+                                        Sign
+                                    </label>
+                                    <div class="clear-b mt-2">
+                                        @Html.CheckBoxFor(model => model.FormB13.SignProsd, new { @disabled = true, @class = "{required, Proposed by Signature}" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-12 border-bottom py-2 my-2">
+                                    <span class="font-14 font-weight-bold">
+                                        Facilitated by
+                                    </span>
+                                </div>
+
+                                <div class="form-group col-lg-3">
+                                    <label for="Name">
+                                        User ID
+                                    </label>
+                                    @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "Facilitatedby", "Select Users", new { @disabled = true, Id = "ddlFacilitatedby", @class = "form-control  {required,Facilitated by}", @onchange = "OnFacilitatedChange(this);" })
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="User_Id">
+                                        Authorised Name
+                                    </label>
+                                    @Html.TextBoxFor(model => model.FormB13.UserNameFclitd, new { @readonly = true, @class = "form-control" })
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="Designation">Designation</label>
+                                    @Html.TextBoxFor(model => model.FormB13.UserDesignationFclitd, new { @readonly = true, @class = "form-control" })
+                                </div>
+                                <div class="form-group col-lg-2">
+                                    <label for="Date__DD-MM-YYYY_">Date  (DD-MM-YYYY)</label>
+                                    @Html.EditorFor(m => m.FormB13.DtFclitd, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
+                                </div>
+                                <div class="form-group col-lg-1 float-left">
+                                    <label>
+                                        Sign
+                                    </label>
+                                    <div class="clear-b mt-2">
+                                        @Html.CheckBoxFor(model => model.FormB13.SignFclitd, new { @disabled = true, @class = "{required, Facilitated by Signature}" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12 border-bottom py-2 my-2">
+                                    <span class="font-14 font-weight-bold">
+                                        Agreed by
+                                    </span>
+                                </div>
+
+                                <div class="form-group col-lg-3">
+                                    <label for="Name">
+                                        User ID
+                                    </label>
+                                    @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "Agreedby", "Select Users", new { @disabled = true, Id = "ddlAgreedby", @class = "form-control  {required,Agreed by}", @onchange = "OnAgreedbyChange(this);" })
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="User_Id">
+                                        Authorised Name
+                                    </label>
+                                    @Html.TextBoxFor(model => model.FormB13.UserNameAgrd, new { @readonly = true, @class = "form-control" })
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="Designation">Designation</label>
+                                    @Html.TextBoxFor(model => model.FormB13.UserDesignationAgrd, new { @readonly = true, @class = "form-control" })
+                                </div>
+                                <div class="form-group col-lg-2">
+                                    <label for="Date__DD-MM-YYYY_">Date  (DD-MM-YYYY)</label>
+                                    @Html.EditorFor(m => m.FormB13.DtAgrd, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
+                                </div>
+                                <div class="form-group col-lg-1 float-left">
+                                    <label>
+                                        Sign
+                                    </label>
+                                    <div class="clear-b mt-2">
+                                        @Html.CheckBoxFor(model => model.FormB13.SignAgrd, new { @disabled = true, @class = "{required, Agreed by Signature}" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-lg-12 border-bottom py-2 my-2">
+                                    <span class="font-14 font-weight-bold">
+                                        Endorsed by
+                                    </span>
+                                </div>
+
+                                <div class="form-group col-lg-3">
+                                    <label for="Name">
+                                        User ID
+                                    </label>
+                                    @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "Endorsedby", "Select Users", new { @disabled = true, Id = "ddlEndorsedby", @class = "form-control  {required,Endorsed by}", @onchange = "OnEndorsedbyChange(this);" })
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="User_Id">
+                                        Authorised Name
+                                    </label>
+                                    @Html.TextBoxFor(model => model.FormB13.UserNameEdosd, new { @readonly = true, @class = "form-control" })
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="Designation">Designation</label>
+                                    @Html.TextBoxFor(model => model.FormB13.UserDesignationEdosd, new { @readonly = true, @class = "form-control" })
+                                </div>
+                                <div class="form-group col-lg-2">
+                                    <label for="Date__DD-MM-YYYY_">Date  (DD-MM-YYYY)</label>
+                                    @Html.EditorFor(m => m.FormB13.DtEdosd, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
+                                </div>
+                                <div class="form-group col-lg-1 float-left">
+                                    <label>
+                                        Sign
+                                    </label>
+                                    <div class="clear-b mt-2">
+                                        @Html.CheckBoxFor(model => model.FormB13.SignEdosd, new { @disabled = true, @class = "{required, Endorsed by Signature}" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded landing-division w-100 float-left mb-3">
+                @{
+                    if (Model.FormB13.Status != "" && Model.FormB13.Status != "Initialize")
+                        Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
+                        {
+                            Form = "FormB13",
+                            RefId = Model.FormB13.PkRefNo,
+                            Stage = Model.FormB13.Status
+                        });
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="col-md-12 mb-2 float-right text-right custom-footer">
+        <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
+
+        @{
+
+            if (isSubmit && (Model.FormB13.Status == null || Model.FormB13.Status == "" || Model.FormB13.Status == "Initialize" || Model.FormB13.Status == "Saved") || Model.FormB13.Status == RAMMS.Common.StatusList.Rejected)
+            {
+                <button id="saveFormB13Btn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Saved')">Save</button>
+                <button id="SubmitFormB13Btn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Submitted')">Submit</button>
+            }
+
+            if (IsApproved && (Model.FormB13.Status == RAMMS.Common.StatusList.Submitted))
+            {
+                <button id="SubmitFormB13Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Facilitated By');"> Approved / Verify </button>
+            }
+            else if (IsApproved && (Model.FormB13.Status == RAMMS.Common.StatusList.Facilitated))
+            {
+                <button id="SubmitFormB13Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Verified By');"> Approved / Verify </button>
+            }
+            else if (IsApproved && (Model.FormB13.Status == RAMMS.Common.StatusList.Agreed))
+            {
+                <button id="SubmitFormB13Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Endorsed By');"> Approved / Verify </button>
+            }
+
+
+
+        }
+
+    </div>
+    <style>
+    </style>
+
+
+    @Html.HiddenFor(m => m.FormB13.PkRefNo)
+    @Html.HiddenFor(m => m.FormB13History.PkRefNo)
+    @Html.HiddenFor(m => m.FormB13.Status)
+    @Html.HiddenFor(m => m.FormB13.SubmitSts)
+
+    <input type="hidden" id="hdnView" value="@Model.view" />
+}
+<script>
+
+     $(document).ready(function () {
+        process.Init("FormB13", "@Model.FormB13.Status", @Model.FormB13.PkRefNo);
+
+    });
+
+    $('#ddlProposedby').val("@Model.FormB13.UseridProsd");
+    $('#ddlProposedby').trigger('chosen:updated');
+    $('#ddlProposedby').trigger("change");
+
+    $('#ddlFacilitatedby').val("@Model.FormB13.UseridFclitd");
+    $('#ddlFacilitatedby').trigger('chosen:updated');
+    $('#ddlFacilitatedby').trigger("change");
+
+    $('#ddlAgreedby').val("@Model.FormB13.UseridAgrd");
+    $('#ddlAgreedby').trigger('chosen:updated');
+    $('#ddlAgreedby').trigger("change");
+
+    $('#ddlEndorsedby').val("@Model.FormB13.UseridEdosd");
+    $('#ddlEndorsedby').trigger('chosen:updated');
+    $('#ddlEndorsedby').trigger("change");
+
+</script>

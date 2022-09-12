@@ -3583,6 +3583,11 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("B13P_CR_DT")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.B13pDescription)
+                    .HasColumnName("B13P_Description")
+                    .HasMaxLength(400)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.B13pDtAgrd)
                     .HasColumnName("B13P_DT_Agrd")
                     .HasColumnType("datetime");
@@ -3804,6 +3809,10 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B13phSlDesired)
                     .HasColumnName("B13PH_SL_Desired")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.B13phSlPercentageByActivity)
+                    .HasColumnName("B13PH_SL_Percentage_By_Activity")
                     .HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.B13phSlPlanned)
