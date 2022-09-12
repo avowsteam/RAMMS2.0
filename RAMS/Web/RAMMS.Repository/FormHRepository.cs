@@ -421,7 +421,7 @@ namespace RAMMS.Repository
             
             if(f=="A")
             {
-                var isExists = _context.RmFormHHdr.AsEnumerable().FirstOrDefault(s =>
+                var isExists = _context.RmFormHHdr.Where(x => x.FhhActiveYn == true).AsEnumerable().FirstOrDefault(s =>
                 s.FhhRoadCode == roadCode &&
                 s.FhhInspDt.Value.ToString("yyyyMMdd") == inspectionDate.ToString("yyyyMMdd") &&
                 s.FhhAssetGroupCode == assetGroup &&
@@ -434,7 +434,7 @@ namespace RAMMS.Repository
             }
             else if (f == "J")
             {
-                var isExists = _context.RmFormHHdr.AsEnumerable().FirstOrDefault(s =>
+                var isExists = _context.RmFormHHdr.Where(x => x.FhhActiveYn == true).AsEnumerable().FirstOrDefault(s =>
                 s.FhhRoadCode == roadCode &&
                 s.FhhInspDt.Value.ToString("yyyyMMdd") == inspectionDate.ToString("yyyyMMdd") &&
                 s.FhhAssetGroupCode == assetGroup &&
@@ -447,7 +447,7 @@ namespace RAMMS.Repository
             }
             else
             {
-                var isExists = _context.RmFormHHdr.AsEnumerable().FirstOrDefault(s =>
+                var isExists = _context.RmFormHHdr.Where(x => x.FhhActiveYn == true).AsEnumerable().FirstOrDefault(s =>
                     s.FhhRoadCode == roadCode &&
                     s.FhhInspDt.Value.ToString("yyyyMMdd") == inspectionDate.ToString("yyyyMMdd") &&
                     s.FhhAssetGroupCode == assetGroup &&
