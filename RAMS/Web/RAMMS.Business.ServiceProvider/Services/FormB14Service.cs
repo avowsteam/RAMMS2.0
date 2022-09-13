@@ -12,6 +12,7 @@ using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RAMMS.Business.ServiceProvider.Interfaces;
 using RAMMS.Common;
+using RAMMS.Common.RefNumber;
 using RAMMS.Domain.Models;
 using RAMMS.DTO.JQueryModel;
 using RAMMS.DTO.Report;
@@ -86,6 +87,11 @@ namespace RAMMS.Business.ServiceProvider.Services
                 //frmR1R2.InspectedDt = DateTime.Today;
                 frmB14.CrBy = frmB14.ModBy = createdBy;
                 frmB14.CrDt = frmB14.ModDt = DateTime.UtcNow;
+
+                IDictionary<string, string> lstData = new Dictionary<string, string>();
+                lstData.Add("YYYY", frmB14.RevisionYear.ToString());
+                lstData.Add("RevisionNo", frmB14.RevisionNo.ToString());
+                frmB14.PkRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormB14, lstData);
 
                 header = _mapper.Map<RmB14Hdr>(frmB14);
                 header = await _repo.Save(header, false);

@@ -9,14 +9,21 @@
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
     var today = DateTime.Today.ToString("yyyy-MM-dd");
     bool isSubmit = false;
+    string strRefId = string.Empty;
+    if (Model != null)
+    {
+        //strAssestID = Model.AssetId;
+        //strYear = Model.YearOfInsp.HasValue ? Model.YearOfInsp.Value.ToString() : "";
+        strRefId = Model.FormB14Header.PkRefId;
+    }
 
     IEnumerable<SelectListItem> year = (await ddlService
-    .GetLookups(new DDLookUpDTO { Type = "Year" })).Where(s => Convert.ToInt32(s.DdlTypeValue) >= Model.FormB14Header.RevisionYear)
-    .Select(s => new SelectListItem
-    {
-        Text = s.DdlTypeValue,
-        Value = s.DdlTypeValue
-    }).ToArray();
+.GetLookups(new DDLookUpDTO { Type = "Year" })).Where(s => Convert.ToInt32(s.DdlTypeValue) >= Model.FormB14Header.RevisionYear)
+.Select(s => new SelectListItem
+{
+Text = s.DdlTypeValue,
+Value = s.DdlTypeValue
+}).ToArray();
 }
 
 
@@ -118,6 +125,14 @@
     </div>
 </div>
 <div class="modal-body mh-182 pt-0 pb-0">
+    <div class="d-flex justify-content-center pt-3 pb-3">
+        <div class="form-group mb-0">
+            <label style="float:left; padding: .5rem .5rem 0 !important;">Form B14 No.</label>
+            <input id="txtFormB14RefNum" class="form-control" style="width:355px;" type="text" value="@strRefId" disabled>
+        </div>
+    </div>
+    <div class="clear-b"></div>
+
     <div class="bg-white rounded pt-3 pb-1 px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetailsB14">
         <div class="row">
             <div class="form-group col-3">

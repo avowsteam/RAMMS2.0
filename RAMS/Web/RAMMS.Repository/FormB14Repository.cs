@@ -31,6 +31,7 @@ namespace RAMMS.Repository
                          select new
                          {
                              RefNo = hdr.B14hPkRefNo,
+                             RefID = hdr.B14hPkRefId,
                              RMU = hdr.B14hRmuCode,
                              RevisionYear = hdr.B14hRevisionYear,
                              RevisionNo = hdr.B14hRevisionNo,
