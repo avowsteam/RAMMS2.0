@@ -20,6 +20,7 @@ namespace RAMMS.DTO.ResponseBO
         public DateTime? RevisionDate { get; set; }
         public int? RevisionYear { get; set; }
         public string Rmu { get; set; }
+        public string PkRefId { get; set; }
         public decimal? AdjustableQuantity { get; set; }
         public decimal? RoutineMaintenance { get; set; }
         public decimal? PeriodicMaintenance { get; set; }

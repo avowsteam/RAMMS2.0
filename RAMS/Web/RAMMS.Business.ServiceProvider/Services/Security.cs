@@ -69,6 +69,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                 this.isOperRAMSExecutive = this.HasAnyGroup(Common.GroupNames.Admin, Common.GroupNames.OperRAMSExecutive);
                 //this.IWRights = repModuleFormRights.GetIWRightsByUser(UserID);
                 this.isEnggAssistant = this.HasAnyGroup(Common.GroupNames.Admin, Common.GroupNames.EngineeringAssistant);
+                this.isEnggConsultanttant = this.HasAnyGroup(Common.GroupNames.Admin, Common.GroupNames.Engineering_Consultant);
+                this.isPlanningEngineer = this.HasAnyGroup(Common.GroupNames.Admin, Common.GroupNames.Planning_Engineer);
+                this.isQuantitySurveyor = this.HasAnyGroup(Common.GroupNames.Admin, Common.GroupNames.Quantity_Surveyor);
             }
             else
             {
@@ -361,6 +364,12 @@ namespace RAMMS.Business.ServiceProvider.Services
 
         public bool isEnggAssistant { get; private set; }
 
+        public bool isEnggConsultanttant { get; private set; }
+
+        public bool isQuantitySurveyor { get; private set; }
+
+        public bool isPlanningEngineer { get; private set; }
+     
         public IList<RmModuleRightByForm> IWRights { get; private set; }
 
         public string GroupName { get; private set; }

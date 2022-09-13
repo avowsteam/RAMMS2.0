@@ -46,6 +46,8 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmB13RevisionHistory> RmB13RevisionHistory { get; set; }
         public virtual DbSet<RmB14Hdr> RmB14Hdr { get; set; }
         public virtual DbSet<RmB14History> RmB14History { get; set; }
+        public virtual DbSet<RmB15Hdr> RmB15Hdr { get; set; }
+        public virtual DbSet<RmB15History> RmB15History { get; set; }
         public virtual DbSet<RmB7EquipmentsHistory> RmB7EquipmentsHistory { get; set; }
         public virtual DbSet<RmB7Hdr> RmB7Hdr { get; set; }
         public virtual DbSet<RmB7LabourHistory> RmB7LabourHistory { get; set; }
@@ -3618,6 +3620,11 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("B13P_Periodic_Maintenance")
                     .HasColumnType("decimal(18, 2)");
 
+                entity.Property(e => e.B13pPkRefId)
+                    .HasColumnName("B13P_PK_Ref_Id")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.B13pRevisionDate)
                     .HasColumnName("B13P_Revision_Date")
                     .HasColumnType("datetime");
@@ -4061,6 +4068,213 @@ namespace RAMMS.Domain.Models
                     .WithMany(p => p.RmB14History)
                     .HasForeignKey(d => d.B14hhB14hPkRefNo)
                     .HasConstraintName("FK_RM_B14_History_RM_B14_History");
+            });
+
+            modelBuilder.Entity<RmB15Hdr>(entity =>
+            {
+                entity.HasKey(e => e.B15hPkRefNo);
+
+                entity.ToTable("RM_B15_HDR");
+
+                entity.Property(e => e.B15hPkRefNo).HasColumnName("B15H_PK_Ref_No");
+
+                entity.Property(e => e.B15hActiveYn).HasColumnName("B15H_Active_YN");
+
+                entity.Property(e => e.B15hAuditlog).HasColumnName("B15H_Auditlog");
+
+                entity.Property(e => e.B15hCrBy).HasColumnName("B15H_CR_By");
+
+                entity.Property(e => e.B15hCrDt)
+                    .HasColumnName("B15H_CR_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B15hDtAgrd)
+                    .HasColumnName("B15H_DT_Agrd")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B15hDtEndosd)
+                    .HasColumnName("B15H_DT_Endosd")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B15hDtFclitd)
+                    .HasColumnName("B15H_DT_Fclitd")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B15hDtProsd)
+                    .HasColumnName("B15H_DT_Prosd")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B15hModBy).HasColumnName("B15H_Mod_By");
+
+                entity.Property(e => e.B15hModDt)
+                    .HasColumnName("B15H_Mod_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B15hRevisionDate)
+                    .HasColumnName("B15H_Revision_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B15hRevisionNo).HasColumnName("B15H_Revision_No");
+
+                entity.Property(e => e.B15hRevisionYear).HasColumnName("B15H_Revision_Year");
+
+                entity.Property(e => e.B15hRmuCode)
+                    .HasColumnName("B15H_Rmu_Code")
+                    .HasMaxLength(6);
+
+                entity.Property(e => e.B15hRmuName)
+                    .HasColumnName("B15H_Rmu_Name")
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.B15hSignAgrd).HasColumnName("B15H_SIgn_Agrd");
+
+                entity.Property(e => e.B15hSignEndosd).HasColumnName("B15H_SIgn_Endosd");
+
+                entity.Property(e => e.B15hSignFclitd).HasColumnName("B15H_SIgn_Fclitd");
+
+                entity.Property(e => e.B15hSignProsd).HasColumnName("B15H_SIgn_Prosd");
+
+                entity.Property(e => e.B15hStatus)
+                    .HasColumnName("B15H_Status")
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.B15hSubmitSts).HasColumnName("B15H_SUBMIT_STS");
+
+                entity.Property(e => e.B15hUserDesignationAgrd)
+                    .HasColumnName("B15H_User_Designation_Agrd")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.B15hUserDesignationEndosd)
+                    .HasColumnName("B15H_User_Designation_Endosd")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.B15hUserDesignationFclitd)
+                    .HasColumnName("B15H_User_Designation_Fclitd")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.B15hUserDesignationProsd)
+                    .HasColumnName("B15H_User_Designation_Prosd")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.B15hUserNameAgrd)
+                    .HasColumnName("B15H_User_Name_Agrd")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.B15hUserNameEndosd)
+                    .HasColumnName("B15H_User_Name_Endosd")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.B15hUserNameFclitd)
+                    .HasColumnName("B15H_User_Name_Fclitd")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.B15hUserNameProsd)
+                    .HasColumnName("B15H_User_Name_Prosd")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.B15hUseridAgrd).HasColumnName("B15H_Userid_Agrd");
+
+                entity.Property(e => e.B15hUseridEndosd).HasColumnName("B15H_Userid_Endosd");
+
+                entity.Property(e => e.B15hUseridFclitd).HasColumnName("B15H_Userid_Fclitd");
+
+                entity.Property(e => e.B15hUseridProsd).HasColumnName("B15H_Userid_Prosd");
+            });
+
+            modelBuilder.Entity<RmB15History>(entity =>
+            {
+                entity.HasKey(e => e.B15hhPkRefNoHistory);
+
+                entity.ToTable("RM_B15_History");
+
+                entity.Property(e => e.B15hhPkRefNoHistory).HasColumnName("B15HH_PK_Ref_No_History");
+
+                entity.Property(e => e.B15hhActCode)
+                    .HasColumnName("B15HH_Act_Code")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B15hhActId).HasColumnName("B15HH_Act_Id");
+
+                entity.Property(e => e.B15hhActName)
+                    .HasColumnName("B15HH_Act_Name")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B15hhApr)
+                    .HasColumnName("B15HH_Apr")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B15hhAug)
+                    .HasColumnName("B15HH_Aug")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B15hhB15hPkRefNo).HasColumnName("B15HH_B15H_PK_Ref_No");
+
+                entity.Property(e => e.B15hhDec)
+                    .HasColumnName("B15HH_Dec")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B15hhFeature)
+                    .HasColumnName("B15HH_Feature")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B15hhFeb)
+                    .HasColumnName("B15HH_Feb")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B15hhJan)
+                    .HasColumnName("B15HH_Jan")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B15hhJul)
+                    .HasColumnName("B15HH_Jul")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B15hhJun)
+                    .HasColumnName("B15HH_Jun")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B15hhMar)
+                    .HasColumnName("B15HH_Mar")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B15hhMay)
+                    .HasColumnName("B15HH_May")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B15hhNov)
+                    .HasColumnName("B15HH_Nov")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B15hhOct)
+                    .HasColumnName("B15HH_Oct")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B15hhOrder).HasColumnName("B15HH_Order");
+
+                entity.Property(e => e.B15hhRemarks)
+                    .HasColumnName("B15HH_Remarks")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B15hhSep)
+                    .HasColumnName("B15HH_Sep")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B15hhSubTotal)
+                    .HasColumnName("B15HH_Sub_Total")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B15hhUnitOfService)
+                    .HasColumnName("B15HH_Unit_Of_Service")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.B15hhB15hPkRefNoNavigation)
+                    .WithMany(p => p.RmB15History)
+                    .HasForeignKey(d => d.B15hhB15hPkRefNo)
+                    .HasConstraintName("FK_RM_B15_History_RM_B15_History");
             });
 
             modelBuilder.Entity<RmB7EquipmentsHistory>(entity =>

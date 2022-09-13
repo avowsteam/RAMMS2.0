@@ -73,6 +73,10 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 var domainModelFormB13 = _mapper.Map<RmB13ProposedPlannedBudget>(FormB13);
                 domainModelFormB13.B13pPkRefNo = 0;
+                IDictionary<string, string> lstData = new Dictionary<string, string>();
+                lstData.Add("YYYY", domainModelFormB13.B13pRevisionYear.ToString());
+                lstData.Add("RevisionNo", domainModelFormB13.B13pRevisionNo.ToString());
+                domainModelFormB13.B13pPkRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormB13, lstData);
                 var res = _repo.SaveFormB13(domainModelFormB13);
 
                 FormB13.PkRefNo = res.Result.B13pPkRefNo;

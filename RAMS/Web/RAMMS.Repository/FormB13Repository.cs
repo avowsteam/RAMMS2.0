@@ -179,6 +179,7 @@ namespace RAMMS.Repository
         public RmB13ProposedPlannedBudget GetHeaderById(int id)
         {
             var FormB13 = (from r in _context.RmB13ProposedPlannedBudget where r.B13pPkRefNo == id select r).FirstOrDefault();
+
             if (!FormB13.B13pSubmitSts)
             {
                 var B9rev = (from r in _context.RmB9DesiredService where r.B9dsRevisionYear == FormB13.B13pRevisionYear select r.B9dsRevisionNo).DefaultIfEmpty().Max();
