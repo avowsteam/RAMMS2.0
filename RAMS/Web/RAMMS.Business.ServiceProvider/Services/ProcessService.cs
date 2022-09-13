@@ -124,6 +124,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                 case "FormB13":
                     iResult = await SaveFormB13(process);
                     break;
+                case "frmB15":
+                    iResult = await SaveFormB15(process);
+                    break;
 
             }
             return iResult;
@@ -2372,6 +2375,101 @@ namespace RAMMS.Business.ServiceProvider.Services
                 form.FmhAuditLog = Utility.ProcessLog(form.FmhAuditLog, strTitle, process.IsApprove ? strStatus : "Rejected", process.UserName, process.Remarks, process.ApproveDate, security.UserName);
                 strNotMsg = (process.IsApprove ? "" : "Rejected - ") + strTitle + ":" + process.UserName + " - Form R1R2 (" + form.FmhPkRefNo + ")";
                 strNotURL = "/FormM/Edit/" + form.FmhPkRefNo.ToString() + "?View=0";
+                SaveNotification(new RmUserNotification()
+                {
+                    RmNotCrBy = security.UserName,
+                    RmNotGroup = strNotGroupName,
+                    RmNotMessage = strNotMsg,
+                    RmNotOn = DateTime.Now,
+                    RmNotUrl = strNotURL,
+                    RmNotUserId = strNotUserID,
+                    RmNotViewed = ""
+                }, false);
+            }
+            return await context.SaveChangesAsync();
+        }
+
+        private async Task<int> SaveFormB15(DTO.RequestBO.ProcessDTO process)
+        {
+            var form = context.RmB15Hdr.Where(x => x.B15hPkRefNo== process.RefId).FirstOrDefault();
+            if (form != null)
+            {
+                string strTitle = "";
+                string strNotURL = "";
+                string strNotMsg = "";
+                string strNotGroupName = "";
+                string strNotUserID = "";
+                string strStatus = "";
+                string strNotStatus = "";
+
+                if (process.Stage == Common.StatusList.FormB15Submitted)
+                {
+                    //strNotGroupName = process.IsApprove ? GroupNames.OpeHeadMaintenance : GroupNames.Supervisor;
+                    form.B15hStatus = process.IsApprove ? Common.StatusList.FormB15Verified : Common.StatusList.FormB15Saved;
+                    strTitle = "Verified (EC)";
+                    strStatus = "Verified";
+                    strNotStatus = Common.StatusList.FormB15Saved;
+                    form.B15hUseridProsd = form.B15hUseridProsd;
+                    form.B15hUseridFclitd = Convert.ToInt32(process.UserID);
+                    form.B15hUserNameFclitd = process.UserName;
+                    form.B15hUserDesignationFclitd = process.UserDesignation;
+                    form.B15hDtFclitd = process.ApproveDate;
+                    form.B15hSignFclitd = true;
+                }
+                else if (process.Stage == Common.StatusList.FormB15Verified)
+                {
+                    //strNotGroupName = process.IsApprove ? GroupNames.JKRSSuperiorOfficerSO : GroupNames.OpeHeadMaintenance;
+                    form.B15hStatus = process.IsApprove ? Common.StatusList.FormB15Agreed : Common.StatusList.FormB15Submitted;
+                    strTitle = "Verified (JKRS)";
+                    strStatus = "Agreed";
+                    strNotStatus = Common.StatusList.FormB15Verified;
+                    form.B15hUserNameFclitd = form.B15hUserNameFclitd;
+                    form.B15hUseridAgrd = Convert.ToInt32(process.UserID);
+                    form.B15hUserNameAgrd = process.UserName;
+                    form.B15hUserDesignationAgrd = process.UserDesignation;
+                    form.B15hDtAgrd = process.ApproveDate;
+                    form.B15hSignAgrd = true;
+                }
+                else if (process.Stage == Common.StatusList.FormB15Agreed)
+                {
+                    //strNotGroupName = process.IsApprove ? GroupNames.JKRSSuperiorOfficerSO : GroupNames.OpeHeadMaintenance;
+                    form.B15hStatus = process.IsApprove ? Common.StatusList.FormB15Approved : Common.StatusList.FormB15Submitted;
+                    strTitle = "Approved (Endrosed By)";
+                    strStatus = "Approved";
+                    strNotStatus = Common.StatusList.FormB15Agreed;
+                    form.B15hUseridEndosd = Convert.ToInt32(process.UserID);
+                    form.B15hUserNameEndosd = process.UserName;
+                    form.B15hUserDesignationEndosd = process.UserDesignation;
+                    form.B15hDtEndosd = process.ApproveDate;
+                    form.B15hSignEndosd = true;
+                }
+
+                if (process.IsApprove)
+                {
+                    List<int> lstNotUserId = new List<int>();
+
+                    if (form.B15hUseridProsd.HasValue)
+                        lstNotUserId.Add(form.B15hUseridProsd.Value);
+                    if (form.B15hUseridFclitd.HasValue)
+                        lstNotUserId.Add(form.B15hUseridFclitd.Value);
+                    if (form.B15hUseridAgrd.HasValue)
+                        lstNotUserId.Add(form.B15hUseridAgrd.Value);
+                    if (form.B15hUseridEndosd.HasValue)
+                        lstNotUserId.Add(form.B15hUseridEndosd.Value);
+
+                    strNotUserID = string.Join(",", lstNotUserId.Distinct());
+                }
+                else
+                {
+                    if (process.Stage == Common.StatusList.FormB15Submitted)
+                    {
+                        form.B15hSubmitSts = false;
+                    }
+                }
+
+                form.B15hAuditlog = Utility.ProcessLog(form.B15hAuditlog, strTitle, process.IsApprove ? strStatus : "Rejected", process.UserName, process.Remarks, process.ApproveDate, security.UserName);
+                strNotMsg = (process.IsApprove ? "" : "Rejected - ") + strTitle + ":" + process.UserName + " - Form B15 (" + form.B15hPkRefNo + ")";
+                strNotURL = "/FormB15/Edit/" + form.B15hPkRefNo.ToString() + "?View=0";
                 SaveNotification(new RmUserNotification()
                 {
                     RmNotCrBy = security.UserName,

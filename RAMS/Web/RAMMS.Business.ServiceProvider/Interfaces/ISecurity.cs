@@ -109,6 +109,12 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         bool isEnggAssistant { get; }
         bool isOperRAMSExecutive { get; }
 
+        bool IsCrewSupervisor { get;}
+
+         bool IsAssistantQuantitySurveyor { get;  }
+
+         bool isRoadMaintenanceEngineer { get; }
+
         bool isEnggConsultanttant { get; }
 
         bool isQuantitySurveyor { get; }

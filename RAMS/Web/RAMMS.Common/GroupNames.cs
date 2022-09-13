@@ -26,6 +26,10 @@ namespace RAMMS.Common
         public const string InstructedWorksEngineer = "IWENG";
         public const string EngineeringAssistant = "Eng_Ass";
 		public const string User_Management = "UM";
+        public const string Crew_Supervisor = "CS";
+        public const string Assistant_Quantity_Surveyor = "AQS";
+        public const string Road_Maintenance_Engineer = "RME";
+
         public const string Quantity_Surveyor = "QS";
         public const string Planning_Engineer = "PE";
         public const string Engineering_Consultant = "EC";
