@@ -251,12 +251,12 @@ namespace RAMMS.Repository
         {
             var max = _context.RmB14Hdr.Count() > 0 ? _context.RmB14Hdr.Select(s => s.B14hPkRefNo).DefaultIfEmpty().Max() : 0;
 
-            var query = (from hdr in _context.RmB14Hdr
-                         where hdr.B14hPkRefNo == max
-                         let history = _context.RmB14History.FirstOrDefault(x => x.B14hhB14hPkRefNo == max)
+            var query = (from history in _context.RmB14History
+                         where history.B14hhB14hPkRefNo == max
+                         let hdr = _context.RmB14Hdr.FirstOrDefault(x => x.B14hPkRefNo == max)
                          select new FormAWPBDTO
                          {
-                             RefNo = hdr.B14hPkRefNo,
+                             RefNo = max,
                              RMU = hdr.B14hRmuCode,
                              Feature = history.B14hhFeature,
                              ActivityCode = history.B14hhActCode,

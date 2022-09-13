@@ -273,5 +273,10 @@ namespace RAMMS.Business.ServiceProvider.Services
         {
             return await _repo.GetAWPBHeaderGrid(searchData);
         }
+
+        public Task<int> SaveFormB14(FormB14HeaderDTO FormB14)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
