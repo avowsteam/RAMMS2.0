@@ -30,5 +30,8 @@ namespace RAMMS.Common
         public const string Assistant_Quantity_Surveyor = "AQS";
         public const string Road_Maintenance_Engineer = "RME";
 
+        public const string Quantity_Surveyor = "QS";
+        public const string Planning_Engineer = "PE";
+        public const string Engineering_Consultant = "EC";
     }
 }

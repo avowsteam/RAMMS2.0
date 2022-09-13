@@ -176,10 +176,13 @@ function Save(SubmitType) {
 
     var FormB13 = new Object();
     FormB13.PkRefNo = $("#FormB13_PkRefNo").val()
+    FormB13.PkRefNo = $("#FormB13_PkRefId").val()
     FormB13.Rmu = $("#ddlRMU").val()
     FormB13.RevisionYear = $("#ddlYear").val()
     FormB13.RevisionNo = $("#RevisionNo").val()
     FormB13.RevisionDate = $("#FormB13_RevisionDate").val()
+    FormB13.Description = $("#FormB13_Description").val()
+     
 
     FormB13.UseridProsd = $('#ddlProposedby').val();
     FormB13.UserNameProsd = $('#FormB13_UserNameProsd').val();

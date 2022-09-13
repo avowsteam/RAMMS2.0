@@ -25,9 +25,11 @@
 }).ToArray();
 
 
-    bool isSubmit = (security.isOperRAMSExecutive || security.IsExecutive || security.isEnggAssistant || security.IsSupervisor);
-    bool IsApproved = (security.isOperRAMSExecutive || security.IsExecutive || security.IsHeadMaintenance || security.IsRegionManager);
+    bool isSubmit = (security.IsRegionManager || security.IsHeadMaintenance || security.isQuantitySurveyor || security.isPlanningEngineer);
+    bool Isverified = (security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+    bool IsApproved = (security.IsJKRSHQ);
     var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
+
 
 }
 <script type="text/javascript" src="~/js/FormB13.js" asp-append-version="true"></script>
@@ -35,25 +37,21 @@
 @using (Html.BeginForm())
 {
 
-    <div class="row bg-white pt-3">
+    <div class="row bg-white pt-4">
         <div class="w-100">
             <div class="body-header w-100">
                 <div class="col-lg-12">
-                    <div class="d-flex justify-content-center pt-2 pb-2">
+                    <div class=" w-100 d-flex justify-content-center py-1">
                         <div class="form-group mb-0">
-                            <p class="font-20 pb-0 mb-0">
-                                <span class="float-left w-100 text-center">
-                                    <b> Template 1 (B13) - </b>
-                                    PROPOSED PLANNED BUDGET
-                                </span>
-                            </p>
+                            <label style="float:left; padding: .5rem .5rem 0 !important;">Reference No.</label>
+                            @Html.TextBoxFor(model => model.FormB13.PkRefId, new { @readonly = "true", @class = "form-control", @style = "width:330px;" })
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
+   
     <div class="modal-body mh-182 pt-0 pb-0">
         <div class="bg-white rounded pt-3 pb-1 px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetailsFC1C2">
             <div id="headerDiv" class="row">
@@ -568,17 +566,17 @@
                 <button id="SubmitFormB13Btn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Submitted')">Submit</button>
             }
 
-            if (IsApproved && (Model.FormB13.Status == RAMMS.Common.StatusList.Submitted))
+            if (Isverified && (Model.FormB13.Status == RAMMS.Common.StatusList.Submitted))
             {
-                <button id="SubmitFormB13Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Facilitated By');"> Approved / Verify </button>
+                <button id="SubmitFormB13Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Facilitated By');"> Verify </button>
             }
-            else if (IsApproved && (Model.FormB13.Status == RAMMS.Common.StatusList.Facilitated))
+            else if (Isverified && (Model.FormB13.Status == RAMMS.Common.StatusList.Facilitated))
             {
-                <button id="SubmitFormB13Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Verified By');"> Approved / Verify </button>
+                <button id="SubmitFormB13Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Verified By');"> Verify </button>
             }
             else if (IsApproved && (Model.FormB13.Status == RAMMS.Common.StatusList.Agreed))
             {
-                <button id="SubmitFormB13Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Endorsed By');"> Approved / Verify </button>
+                <button id="SubmitFormB13Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Endorsed By');"> Approved  </button>
             }
 
 

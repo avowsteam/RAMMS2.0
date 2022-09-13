@@ -115,6 +115,12 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
 
          bool isRoadMaintenanceEngineer { get; }
 
+        bool isEnggConsultanttant { get; }
+
+        bool isQuantitySurveyor { get; }
+
+        bool isPlanningEngineer { get; }
+
         public IList<RmModuleRightByForm> IWRights { get; }
 
     }
