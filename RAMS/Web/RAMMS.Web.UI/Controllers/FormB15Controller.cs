@@ -94,12 +94,14 @@ namespace RAMMS.Web.UI.Controllers
         public async Task<IActionResult> View(int id)
         {
             ViewBag.IsEdit = false;
+            ViewBag.IsAdd = false;
             return id > 0 ? await ViewRequest(id) : RedirectToAction("404", "Error");
         }
 
         public async Task<IActionResult> Edit(int id, int view)
         {
             ViewBag.IsEdit = true;
+            ViewBag.IsAdd = false;
             return id > 0 ? await ViewRequest(id) : RedirectToAction("404", "Error");
         }
 
@@ -140,7 +142,7 @@ namespace RAMMS.Web.UI.Controllers
         //    return Json(1);
         //}
 
-        public async Task<IActionResult> SaveFormB15(string formb15hdrdata, string formb15data,int reload)
+        public async Task<IActionResult> SaveFormB15(string formb15hdrdata, string formb15data, int reload)
         {
             FormB15HeaderDTO formb15hdr = new FormB15HeaderDTO();
             List<FormB15HistoryDTO> formb15 = new List<FormB15HistoryDTO>();
@@ -157,7 +159,7 @@ namespace RAMMS.Web.UI.Controllers
             return await SaveAll(formb15hdr, formb15, false);
         }
 
-        public async Task<IActionResult> Submit(string formb15hdrdata, string formb15data,int reload)
+        public async Task<IActionResult> Submit(string formb15hdrdata, string formb15data, int reload)
         {
             FormB15HeaderDTO formb15hdr = new FormB15HeaderDTO();
             List<FormB15HistoryDTO> formb15 = new List<FormB15HistoryDTO>();
@@ -187,5 +189,9 @@ namespace RAMMS.Web.UI.Controllers
             return Json(_formB15Service.GetHistoryData(HistoryID));
         }
 
+        public async Task<IActionResult> GetPlannedBudgetData(string RmuCode, int Year)
+        {
+            return Json(_formB15Service.GetPlannedBudgetData(RmuCode,Year));
+        }
     }
 }

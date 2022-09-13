@@ -23,6 +23,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<FormB15HeaderDTO> SaveB15(FormB15HeaderDTO frmb15hdr,List<FormB15HistoryDTO> frmb15, bool updateSubmit);
         Task<List<FormB15HistoryDTO>> GetHistoryData(int historyID);
         Byte[] FormDownload(string formname, int id, string basepath, string filepath);
+        Task<List<FormB13HistoryResponseDTO>> GetPlannedBudgetData(string RmuCode, int year);
         int Delete(int id);
     }
 }

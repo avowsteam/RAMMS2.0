@@ -8,15 +8,94 @@
     ViewData["Title"] = "Form B14";
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
     var today = DateTime.Today.ToString("yyyy-MM-dd");
+    bool isSubmit = false;
 
     IEnumerable<SelectListItem> year = (await ddlService
-       .GetLookups(new DDLookUpDTO { Type = "Year" })).Where(s => Convert.ToInt32(s.DdlTypeValue) >= Model.FormB14Header.RevisionYear)
-       .Select(s => new SelectListItem
-               {
-                   Text = s.DdlTypeValue,
-                   Value = s.DdlTypeValue
-               }).ToArray();
+    .GetLookups(new DDLookUpDTO { Type = "Year" })).Where(s => Convert.ToInt32(s.DdlTypeValue) >= Model.FormB14Header.RevisionYear)
+    .Select(s => new SelectListItem
+    {
+        Text = s.DdlTypeValue,
+        Value = s.DdlTypeValue
+    }).ToArray();
 }
+
+
+<script type="text/javascript" src="~/js/FormB14.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    debugger;
+         frmB14.HeaderData = @Html.Raw(RAMMS.Common.Utility.JSerialize(Model));
+    frmB14.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
+    frmB14.IsAdd = @(ViewBag.IsAdd ? "true" : "false");
+    $(document).ready(function () {
+        debugger;
+        process.Init("frmB14", "@Model.FormB14Header.Status", @Model.FormB14Header.PkRefNo);
+
+        if (frmB14.HeaderData.FormB14Header.Status == "Submitted") {
+            var val = frmB14.HeaderData.FormB14Header.UseridProsd;
+            $("#formB14ProposedBy").val(val).trigger("chosen:updated");
+            $('#formB14ProposedBy').trigger('chosen:updated');
+            $("#formB14ProposedBy").trigger("change");
+            $("#ProposedSign").prop("checked", true);
+        }
+        else if (frmB14.HeaderData.FormB14Header.Status == "Verified") {
+            var val = frmB14.HeaderData.FormB14Header.UseridProsd;
+            $("#formB14ProposedBy").val(val).trigger("chosen:updated");
+            $('#formB14ProposedBy').trigger('chosen:updated');
+            $("#formB14ProposedBy").trigger("change");
+            $("#ProposedSign").prop("checked", true);
+
+            var val2 = frmB14.HeaderData.FormB14Header.UseridFclitd;
+            $("#formB14VerifiedBy").val(val2).trigger("chosen:updated");
+            $('#formB14VerifiedBy').trigger('chosen:updated');
+            $("#formB14VerifiedBy").trigger("change");
+            $("#VerifiedSign").prop("checked", true);
+        }
+        else if (frmB14.HeaderData.FormB14Header.Status == "Agreed") {
+            var val = frmB14.HeaderData.FormB14Header.UseridProsd;
+            $("#formB14ProposedBy").val(val).trigger("chosen:updated");
+            $('#formB14ProposedBy').trigger('chosen:updated');
+            $("#formB14ProposedBy").trigger("change");
+            $("#ProposedSign").prop("checked", true);
+
+            var val2 = frmB14.HeaderData.FormB14Header.UseridFclitd;
+            $("#formB14VerifiedBy").val(val2).trigger("chosen:updated");
+            $('#formB14VerifiedBy').trigger('chosen:updated');
+            $("#formB14VerifiedBy").trigger("change");
+            $("#VerifiedSign").prop("checked", true);
+
+            var val3 = frmB14.HeaderData.FormB14Header.UseridAgrd;
+            $("#formB14AgreedBy").val(val3).trigger("chosen:updated");
+            $('#formB14AgreedBy').trigger('chosen:updated');
+            $("#formB14AgreedBy").trigger("change");
+            $("#AgreedSign").prop("checked", true);
+        }
+        else if (frmB14.HeaderData.FormB14Header.Status == "Approved") {
+            var val = frmB14.HeaderData.FormB14Header.UseridProsd;
+            $("#formB14ProposedBy").val(val).trigger("chosen:updated");
+            $('#formB14ProposedBy').trigger('chosen:updated');
+            $("#formB14ProposedBy").trigger("change");
+            $("#ProposedSign").prop("checked", true);
+
+            var val2 = frmB14.HeaderData.FormB14Header.UseridFclitd;
+            $("#formB14VerifiedBy").val(val2).trigger("chosen:updated");
+            $('#formB14VerifiedBy').trigger('chosen:updated');
+            $("#formB14VerifiedBy").trigger("change");
+            $("#VerifiedSign").prop("checked", true);
+
+            var val3 = frmB14.HeaderData.FormB14Header.UseridAgrd;
+            $("#formB14AgreedBy").val(val3).trigger("chosen:updated");
+            $('#formB14AgreedBy').trigger('chosen:updated');
+            $("#formB14AgreedBy").trigger("change");
+            $("#AgreedSign").prop("checked", true);
+
+            var val4 = frmB14.HeaderData.FormB14Header.UseridEndosd;
+            $("#formB14ApprovedBy").val(val4).trigger("chosen:updated");
+            $('#formB14ApprovedBy').trigger('chosen:updated');
+            $("#formB14ApprovedBy").trigger("change");
+            $("#ApprovedSign").prop("checked", true);
+        }
+    });
+</script>
 
 <div class="row bg-white pt-3">
     <div class="w-100">
@@ -39,18 +118,19 @@
     </div>
 </div>
 <div class="modal-body mh-182 pt-0 pb-0">
-    <div class="bg-white rounded pt-3 pb-1 px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetailsFC1C2">
+    <div class="bg-white rounded pt-3 pb-1 px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetailsB14">
         <div class="row">
             <div class="form-group col-3">
                 <label for="Name_of_Crew_Supervisor">
                     Select RMU
                 </label>
-                @Html.DropDownList("FromRMU", (IEnumerable<SelectListItem>)ViewData["RMU"], "Select RMU", new { @Id = "formB14RMU", @class = "form-control", @param = "RMU", @clear = "rebind" })
+                @Html.DropDownListFor(m => m.FormB14Header.RmuCode, (IEnumerable<SelectListItem>)ViewData["RMU"], "Select RMU", new { @Id = "formB14RMU", @class = "form-control validate {req,RMU}", @param = "RMU", @clear = "rebind" })
             </div>
             <div class="form-group col-2">
                 <label>Select Year  </label>
                 @Html.Label("Year", "Year")
-                @Html.DropDownList("FromRevisionYear", (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB14Year", @class = "form-control", @param = "Year", @clear = "rebind" })
+                @Html.DropDownListFor(m => m.FormB14Header.RevisionYear, (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB14Year", @class = "form-control validate {req,Year}", @param = "Year", @clear = "rebind" })
+
             </div>
             <div class="form-group col-3">
                 <label> Select the Revision No. </label>
@@ -61,7 +141,7 @@
                 <input type="date" value="@today" class="form-control" id="date" readonly="readonly" />
             </div>
             <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">
-                <button id="formDFindDetailsBtn" type="button" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right disablebtn"> Find Details </button>
+                <button id="btnFindDetails" type="button" onclick="frmB14.FindDetails();" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right"> Find Details </button>
             </div>
         </div>
 
@@ -84,27 +164,186 @@
                                                                 <table class="table w-100 nowrap dataTable no-footer" id="tblLabour">
                                                                     <thead style="background-color: #c8e1ff">
                                                                         <tr height="29" class="xl67" style='height:14.50pt;'>
-                                                                            <th class="xl69" height="29" width="96" style='height:14.50pt;width:48.00pt;' >Features</th>
+                                                                            <th class="xl69" height="29" width="96" style='height:14.50pt;width:48.00pt;'>Features</th>
                                                                             <th class="xl70" width="167" style='width:83.50pt;'><span style="width: 80px; float: left; text-align: center;">Activity Code</span></th>
-                                                                            <th class="xl70" width="431" style='width:215.50pt;'><span style="width:200px;float:left">Activity Name</span></th>
-                                                                            <th class="xl71" width="96" style='width:48.00pt;'>Jan</th>
-                                                                            <th class="xl71" width="96" style='width:48.00pt;'>Feb</th>
-                                                                            <th class="xl71" width="96" style='width:48.00pt;'>Mar</th>
-                                                                            <th class="xl72" width="96" style='width:48.00pt;'>Apr</th>
-                                                                            <th class="xl71" width="96" style='width:48.00pt;'>May</th>
-                                                                            <th class="xl71" width="96" style='width:48.00pt;'>Jun</th>
-                                                                            <th class="xl71" width="96" style='width:48.00pt;'>July</th>
-                                                                            <th class="xl71" width="96" style='width:48.00pt;'>Aug</th>
-                                                                            <th class="xl71" width="96" style='width:48.00pt;'>Sep</th>
-                                                                            <th class="xl71" width="96" style='width:48.00pt;'>Oct</th>
-                                                                            <th class="xl72" width="96" style='width:48.00pt;'>Nov</th>
-                                                                            <th class="xl77" width="96" style='width:48.00pt;'>Dec</th>
+                                                                            <th class="xl70" width="431" style='width:214.50pt;'><span style="width:200px;float:left">Activity Name</span></th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>Jan</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>Feb</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>Mar</th>
+                                                                            <th class="xl72" width="110" style='width:55.00pt;'>Apr</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>May</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>Jun</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>July</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>Aug</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>Sep</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>Oct</th>
+                                                                            <th class="xl72" width="110" style='width:55.00pt;'>Nov</th>
+                                                                            <th class="xl77" width="110" style='width:55.00pt;'>Dec</th>
                                                                             <th class="xl78" width="118" style='width:59.00pt;'>Sub-total</th>
-                                                                            <th class="xl80" width="96" style='width:48.00pt;'>unit</th>
+                                                                            <th class="xl80" width="130" style='width:100.00pt;'>Remarks</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        
+                                                                        <tr>
+                                                                            <td height="261" rowspan="9">Paved Carriageway</td>
+                                                                            <td class="x01">1011</td>
+                                                                            <td class="x02">POTHOLE REPAIR</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01">1012</td>
+                                                                            <td class="x02">COLD PATCH</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01">3013</td>
+                                                                            <td class="x02">PAVEMENT RESURFACING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01">3014</td>
+                                                                            <td class="x02">REGULATE EXISTING PAVEMENT FOR RESURFACING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01">3014</td>
+                                                                            <td class="x02">CRACK SEALING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01">3016</td>
+                                                                            <td class="x02">MICRO SURFACING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01">3017</td>
+                                                                            <td class="x02">CHIP SEALING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01">3018</td>
+                                                                            <td class="x02">SHALLOW PATCHING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01">3019</td>
+                                                                            <td class="x02">DEEP PATCHING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td rowspan="4">Unpaved Carraigeway</td>
+                                                                            <td class="x01">1021</td>
+                                                                            <td class="x02" x:str>PATCH UNPAVED ROADWAY</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01">3022</td>
+                                                                            <td class="x02" x:str>RESHAPE UNPAVED ROADWAY</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01">3023</td>
+                                                                            <td class="x02" x:str>REGRAVEL UNPAVED ROADWAY</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01">3024</td>
+                                                                            <td class="x02" x:str>GRADE AND ROLL UNPAVED ROADWAY</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="xl74" height="145" rowspan="5">Drains</td>
+                                                                            <td class="x01" x:num>1041</td>
+                                                                            <td class="x02" x:str>CLEAR DRAIN WATERWAY</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>1042</td>
+                                                                            <td class="x02" x:str>DRAIN GRASS CUTTING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>1043</td>
+                                                                            <td class="x02" x:str>CLEAN DRAINS ON SLOPE</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>4044</td>
+                                                                            <td class="x02" x:str>REINSTATE SIDE DITCH (MOTORGRADER)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>4045</td>
+                                                                            <td class="x02" x:str>CLEAN, CLEAR, RESHAPE EARTH DRAIN BY EXCAVATOR</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td height="116" rowspan="4">Shoulder</td>
+                                                                            <td class="x01" x:num>1031</td>
+                                                                            <td class="x02">PATCH UNPAVED SHOULDER</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>1032</td>
+                                                                            <td class="x02">SHOULDER GRASS CUTTING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>4033</td>
+                                                                            <td class="x02">RESHAPE UNPAVED SHOULDER</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>4034</td>
+                                                                            <td class="x02">REPLENISH UNPAVED SHOULDER</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="xl80" height="58" rowspan="2" style='height:29.00pt;border-right:none;border-bottom:none;' x:str>Culverts</td>
+                                                                            <td class="x01" x:num>1051</td>
+                                                                            <td class="x02">ROUTINE CULVERT MAINTENANCE</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>6052</td>
+                                                                            <td class="x02">CLEAR CULVERT WATERWAY</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="xl76" height="87" rowspan="3" style='height:43.50pt;border-right:none;border-bottom:none;' x:str>Bridges</td>
+                                                                            <td class="x01" x:num>1061</td>
+                                                                            <td class="x02">ROUTINE BRIDGE MAINTENANCE</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>6062</td>
+                                                                            <td class="x02">REPAIR TIMBER BRIDGE DECK</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>6063</td>
+                                                                            <td class="x02">CLEAR BRIDGE WATERWAY</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="xl81" height="145" rowspan="5" style='height:72.50pt;border-right:none;border-bottom:none;' x:str>Road Furniture</td>
+                                                                            <td class="x01" x:num>1071</td>
+                                                                            <td class="x02">MAINTAIN ROAD FURNITURE</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>1072</td>
+                                                                            <td class="x02">PAVEMENT PAINTING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>1073</td>
+                                                                            <td class="x02">ROAD KERB PAINTING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>7074</td>
+                                                                            <td class="x02">CENTERLINE THERMOPLASTIC MARKING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>7075</td>
+                                                                            <td class="x02">EDGELINE THERMOPLASTIC MARKING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="xl76" height="174" rowspan="6" style='height:87.00pt;border-right:none;border-bottom:none;' x:str>Ancilliary</td>
+                                                                            <td class="x01" x:num>9091</td>
+                                                                            <td class="x02">OTHER ROAD MAINTENANCE</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>9092</td>
+                                                                            <td class="x02">CLEAR ROAD RESERVE</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>9093</td>
+                                                                            <td class="x02">NON-ROAD MAINTENANCE ACTIVITIES</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>9194</td>
+                                                                            <td class="x02">EMERGENCY MAINTENANCE</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>9195</td>
+                                                                            <td class="x02">STRUCTURE DISTRESS INVESTIGATION</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num>9500</td>
+                                                                            <td class="x02">PROVISION OF PROJECT VEHICLES</td>
+                                                                        </tr>
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -114,7 +353,6 @@
                                                 </div>
                                             </div>
 
-
                                             <div class="col-lg-10 offset-lg-1 mt-2">
                                                 <div class="bg-white rounded landing-division w-100 float-left  my-2">
                                                     <div class="row">
@@ -123,177 +361,179 @@
                                                                 Proposed by
                                                             </span>
                                                         </div>
-
-                                                        <div class="form-group col-lg-3">
-                                                            <label for="Name">
-                                                                User ID
-                                                            </label>
-                                                            <select class="form-control validate {req, Name of Reported By}" id="formDReportedByUserId" name="SaveFormDModel.ReportedByUserId">
-                                                                <option value="">Select Users</option>
-                                                                <option value="100000035">100000035 - Jelayan Anak Mawar</option>
-                                                                <option value="100000034">100000034 - Ramlee Nor</option>
-                                                                <option value="100000015">100000015 - Galigie Anak Ungau</option>
-                                                                <option value="100000020">100000020 - Francis Nanang Anak Edward August</option>
-
-                                                            </select>
-
-                                                        </div>
-                                                        <div class="form-group col-lg-3">
-                                                            <label for="User_Id">
-                                                                Authorised Name
-                                                            </label>
-                                                            <input type="text" class="form-control" disabled />
-                                                        </div>
-                                                        <div class="form-group col-lg-2">
-                                                            <label for="Designation">Designation</label>
-                                                            <input type="text" name="UserDesignationPlan" userdest="" class="form-control cvalidate {req,Planned By User Designation}">
-                                                        </div>
-                                                        <div class="form-group col-lg-3">
-                                                            <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
-                                                            <input type="date" name="DtPlan" id="FsiihDtPlan" value="" class="form-control svalidate {req,Planned By Date}">
-                                                        </div>
-                                                        <div class="form-group col-lg-1 float-left">
-                                                            <label>
-                                                                Sign
-
-                                                            </label>
-                                                            <div class="clear-b mt-2">
-                                                                <input class="{required, Requested By Signature}" data-val="true" data-val-required="The SignReq field is required." id="FormW1_SignReq" name="FormW1.SignReq" type="checkbox" value="true">
+                                                        <div userIdGroup>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="Name">
+                                                                    User ID
+                                                                </label>
+                                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "UseridProposed", "Select Users", new { @Id = "formB14ProposedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
+                                                                @*@Html.DropDownListFor(m => m.FormB14Header.UseridProsd, (IEnumerable<SelectListItem>)ViewData["User"], "Select User", new { @id = "formB14ProposedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })*@
+                                                            </div>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="User_Id">
+                                                                    Authorised Name
+                                                                </label>
+                                                                <input name="UsernameAuthorised" class="form-control ssvalidate {req,Authorised By User Name}" type="text" value="" userName disabled />
+                                                            </div>
+                                                            <div class="form-group col-lg-2">
+                                                                <label for="Designation">Designation</label>
+                                                                <input name="DesignationProposed" class="form-control ssvalidate {req,Proposed By User Designation}" type="text" value="" userDest disabled />
+                                                            </div>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
+                                                                <input name="DateProposed" class="form-control ssvalidate {req,Proposed by date}" type="date" value="" disabled="disabled" />
+                                                            </div>
+                                                            <div class="form-group col-lg-1 float-left">
+                                                                <label>
+                                                                    Sign
+                                                                    @{
+                                                                        var _insSign = false;
+                                                                        if (Model != null)
+                                                                        {
+                                                                            _insSign = Model.FormB14Header.SignProsd == null || Model.FormB14Header.SignProsd == false ? false : true;
+                                                                        }
+                                                                    }
+                                                                </label>
+                                                                <div class="clear-b mt-2">
+                                                                    <input class="{required, Requested By Signature}" checked="checked" id="ProposedSign" name="SignProposed" type="checkbox">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-12 border-bottom py-2 my-2">
-                                                            <span class="font-14 font-weight-bold">
-                                                                Facilitated by
-                                                            </span>
-                                                        </div>
+                                                    <div userIdGroup>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 border-bottom py-2 my-2">
+                                                                <span class="font-14 font-weight-bold">
+                                                                    Facilitated by
+                                                                </span>
+                                                            </div>
 
-                                                        <div class="form-group col-lg-3">
-                                                            <label for="Name">
-                                                                User ID
-                                                            </label>
-                                                            <select class="form-control validate {req, Name of Reported By}" id="formDReportedByUserId" name="SaveFormDModel.ReportedByUserId">
-                                                                <option value="">Select Users</option>
-                                                                <option value="100000035">100000035 - Jelayan Anak Mawar</option>
-                                                                <option value="100000034">100000034 - Ramlee Nor</option>
-                                                                <option value="100000015">100000015 - Galigie Anak Ungau</option>
-                                                                <option value="100000020">100000020 - Francis Nanang Anak Edward August</option>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="Name">
+                                                                    User ID
+                                                                </label>
+                                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "UseridVerified", "Select Users", new { @Id = "formB14VerifiedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
 
-                                                            </select>
-
-                                                        </div>
-                                                        <div class="form-group col-lg-3">
-                                                            <label for="User_Id">
-                                                                Authorised Name
-                                                            </label>
-                                                            <input type="text" class="form-control" disabled />
-                                                        </div>
-                                                        <div class="form-group col-lg-2">
-                                                            <label for="Designation">Designation</label>
-                                                            <input type="text" name="UserDesignationPlan" userdest="" class="form-control cvalidate {req,Planned By User Designation}">
-                                                        </div>
-                                                        <div class="form-group col-lg-3">
-                                                            <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
-                                                            <input type="date" name="DtPlan" id="FsiihDtPlan" value="" class="form-control svalidate {req,Planned By Date}">
-                                                        </div>
-                                                        <div class="form-group col-lg-1 float-left">
-                                                            <label>
-                                                                Sign
-
-                                                            </label>
-                                                            <div class="clear-b mt-2">
-                                                                <input class="{required, Requested By Signature}" data-val="true" data-val-required="The SignReq field is required." id="FormW1_SignReq" name="FormW1.SignReq" type="checkbox" value="true">
+                                                            </div>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="User_Id">
+                                                                    Authorised Name
+                                                                </label>
+                                                                <input name="UsernameVerified" class="form-control ssvalidate {req,Verified By User Name}" type="text" value="" userName disabled />
+                                                            </div>
+                                                            <div class="form-group col-lg-2">
+                                                                <label for="Designation">Designation</label>
+                                                                <input name="DesignationVerified" class="form-control ssvalidate {req,Verified By User Designation}" type="text" value="" userDest disabled />
+                                                            </div>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
+                                                                <input name="DateVerified" class="form-control ssvalidate {req,Verified by date}" type="date" value="" disabled="disabled" />
+                                                            </div>
+                                                            <div class="form-group col-lg-1 float-left">
+                                                                <label>
+                                                                    Sign
+                                                                    @{
+                                                                        var _insSignfc = false;
+                                                                        if (Model != null)
+                                                                        {
+                                                                            _insSignfc = Model.FormB14Header.SignFclitd == null || Model.FormB14Header.SignFclitd == false ? false : true;
+                                                                        }
+                                                                    }
+                                                                </label>
+                                                                <div class="clear-b mt-2">
+                                                                    <input class="{required, Requested By Signature}" checked="checked" id="VerifiedSign" name="SignVerified" type="checkbox">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-12 border-bottom py-2 my-2">
-                                                            <span class="font-14 font-weight-bold">
-                                                                Agreed by
-                                                            </span>
-                                                        </div>
+                                                    <div userIdGroup>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 border-bottom py-2 my-2">
+                                                                <span class="font-14 font-weight-bold">
+                                                                    Agreed by
+                                                                </span>
+                                                            </div>
 
-                                                        <div class="form-group col-lg-3">
-                                                            <label for="Name">
-                                                                User ID
-                                                            </label>
-                                                            <select class="form-control validate {req, Name of Reported By}" id="formDReportedByUserId" name="SaveFormDModel.ReportedByUserId">
-                                                                <option value="">Select Users</option>
-                                                                <option value="100000035">100000035 - Jelayan Anak Mawar</option>
-                                                                <option value="100000034">100000034 - Ramlee Nor</option>
-                                                                <option value="100000015">100000015 - Galigie Anak Ungau</option>
-                                                                <option value="100000020">100000020 - Francis Nanang Anak Edward August</option>
-
-                                                            </select>
-
-                                                        </div>
-                                                        <div class="form-group col-lg-3">
-                                                            <label for="User_Id">
-                                                                Authorised Name
-                                                            </label>
-                                                            <input type="text" class="form-control" disabled />
-                                                        </div>
-                                                        <div class="form-group col-lg-2">
-                                                            <label for="Designation">Designation</label>
-                                                            <input type="text" name="UserDesignationPlan" userdest="" class="form-control cvalidate {req,Planned By User Designation}">
-                                                        </div>
-                                                        <div class="form-group col-lg-3">
-                                                            <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
-                                                            <input type="date" name="DtPlan" id="FsiihDtPlan" value="" class="form-control svalidate {req,Planned By Date}">
-                                                        </div>
-                                                        <div class="form-group col-lg-1 float-left">
-                                                            <label>
-                                                                Sign
-
-                                                            </label>
-                                                            <div class="clear-b mt-2">
-                                                                <input class="{required, Requested By Signature}" data-val="true" data-val-required="The SignReq field is required." id="FormW1_SignReq" name="FormW1.SignReq" type="checkbox" value="true">
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="Name">
+                                                                    User ID
+                                                                </label>
+                                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "UseridAgreed", "Select Users", new { @Id = "formB14AgreedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
+                                                            </div>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="User_Id">
+                                                                    Authorised Name
+                                                                </label>
+                                                                <input name="UsernameAgreed" class="form-control ssvalidate {req,Agreed By User Name}" type="text" value="" userName disabled />
+                                                            </div>
+                                                            <div class="form-group col-lg-2">
+                                                                <label for="Designation">Designation</label>
+                                                                <input name="DesignationAgreed" class="form-control ssvalidate {req,Agreed By User Designation}" type="text" value="" userDest disabled />
+                                                            </div>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
+                                                                <input name="DateAgreed" class="form-control ssvalidate {req,Agreed by date}" type="date" value="" disabled="disabled" />
+                                                            </div>
+                                                            <div class="form-group col-lg-1 float-left">
+                                                                <label>
+                                                                    Sign
+                                                                    @{
+                                                                        var _insSignAg = false;
+                                                                        if (Model != null)
+                                                                        {
+                                                                            _insSignAg = Model.FormB14Header.SignAgrd == null || Model.FormB14Header.SignAgrd == false ? false : true;
+                                                                        }
+                                                                    }
+                                                                </label>
+                                                                <div class="clear-b mt-2">
+                                                                    <input class="{required, Requested By Signature}" checked="checked" id="AgreedSign" name="SignAgreed" type="checkbox">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-12 border-bottom py-2 my-2">
-                                                            <span class="font-14 font-weight-bold">
-                                                                Endorsed by
-                                                            </span>
-                                                        </div>
+                                                    <div userIdGroup>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 border-bottom py-2 my-2">
+                                                                <span class="font-14 font-weight-bold">
+                                                                    Endorsed by
+                                                                </span>
+                                                            </div>
 
-                                                        <div class="form-group col-lg-3">
-                                                            <label for="Name">
-                                                                User ID
-                                                            </label>
-                                                            <select class="form-control validate {req, Name of Reported By}" id="formDReportedByUserId" name="SaveFormDModel.ReportedByUserId">
-                                                                <option value="">Select Users</option>
-                                                                <option value="100000035">100000035 - Jelayan Anak Mawar</option>
-                                                                <option value="100000034">100000034 - Ramlee Nor</option>
-                                                                <option value="100000015">100000015 - Galigie Anak Ungau</option>
-                                                                <option value="100000020">100000020 - Francis Nanang Anak Edward August</option>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="Name">
+                                                                    User ID
+                                                                </label>
+                                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "UseridApproved", "Select Users", new { @Id = "formB14ApprovedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
 
-                                                            </select>
-
-                                                        </div>
-                                                        <div class="form-group col-lg-3">
-                                                            <label for="User_Id">
-                                                                Authorised Name
-                                                            </label>
-                                                            <input type="text" class="form-control" disabled />
-                                                        </div>
-                                                        <div class="form-group col-lg-2">
-                                                            <label for="Designation">Designation</label>
-                                                            <input type="text" name="UserDesignationPlan" userdest="" class="form-control cvalidate {req,Planned By User Designation}">
-                                                        </div>
-                                                        <div class="form-group col-lg-3">
-                                                            <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
-                                                            <input type="date" name="DtPlan" id="FsiihDtPlan" value="" class="form-control svalidate {req,Planned By Date}">
-                                                        </div>
-                                                        <div class="form-group col-lg-1 float-left">
-                                                            <label>
-                                                                Sign
-
-                                                            </label>
-                                                            <div class="clear-b mt-2">
-                                                                <input class="{required, Requested By Signature}" data-val="true" data-val-required="The SignReq field is required." id="FormW1_SignReq" name="FormW1.SignReq" type="checkbox" value="true">
+                                                            </div>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="User_Id">
+                                                                    Authorised Name
+                                                                </label>
+                                                                <input name="UsernameApproved" class="form-control ssvalidate {req,Approved By User Name}" type="text" value="" userName disabled />
+                                                            </div>
+                                                            <div class="form-group col-lg-2">
+                                                                <label for="Designation">Designation</label>
+                                                                <input name="DesignationApproved" class="form-control ssvalidate {req,Approved By User Designation}" type="text" value="" userDest disabled />
+                                                            </div>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
+                                                                <input name="DateApproved" class="form-control ssvalidate {req,Approved by date}" type="date" value="" disabled="disabled" />
+                                                            </div>
+                                                            <div class="form-group col-lg-1 float-left">
+                                                                <label>
+                                                                    Sign
+                                                                    @{
+                                                                        var _insSignAP = false;
+                                                                        if (Model != null)
+                                                                        {
+                                                                            _insSignAP = Model.FormB14Header.SignEndosd == null || Model.FormB14Header.SignEndosd == false ? false : true;
+                                                                        }
+                                                                    }
+                                                                </label>
+                                                                <div class="clear-b mt-2">
+                                                                    <input class="{required, Requested By Signature}" checked="checked" id="ApprovedSign" name="SignApproved" type="checkbox">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -310,11 +550,11 @@
                     if (Model != null)
                     {
                         Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
-                {
-                    Form = "FormB14",
-                    RefId = Model.FormB14Header.PkRefNo,
-                    Stage = Model.FormB14Header.Status
-                });
+                        {
+                            Form = "FormB14",
+                            RefId = Model.FormB14Header.PkRefNo,
+                            Stage = Model.FormB14Header.Status
+                        });
 
                     }
                 }
@@ -329,16 +569,44 @@
 
 
 
-
-
-
-
-
 <div class="col-md-12 mb-2 float-right text-right custom-footer">
-    <button type="button" class="btn btn-sm btn-outline-theme">Close</button>
-    <button type="button" class="btn btn-sm btn-themebtn">Save</button>
-    <button type="button" class="btn btn-sm btn-themebtn">Submit</button>
+    <button type="button" class="btn btn-sm btn-outline-theme" onclick="frmB14.Cancel()">Cancel</button>
+    @{
+        var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
+
+        //isSubmit = (security.IsRegionManager || security.IsHeadMaintenance);
+        //bool isVerify = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        //bool IsAgreed = (security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        //bool IsApproved = (security.IsJKRSHQ);
+
+        isSubmit = (security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsExecutive || security.IsInstructedWorkEngg || security.isEnggAssistant || security.IsSupervisor || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        bool isVerify = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        bool IsAgreed = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        bool IsApproved = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+
+    }
+    <button type="button" class="btn btn-sm btn-themebtn" onclick="frmB14.Save(false,0)" finddetailsdep>Save</button>
+    @if (isSubmit && (Model == null || Model.FormB14Header.Status == "" || Model.FormB14Header.Status == "Initialize" || Model.FormB14Header.Status == RAMMS.Common.StatusList.FormB14Saved))
+    {
+        <button type="button" class="btn btn-sm btn-themebtn" finddetailsdep onclick="frmB14.Save(true,0)">Submit</button>
+    }
+    @if (isVerify && (Model != null && (Model.FormB14Header.Status == RAMMS.Common.StatusList.FormB14Submitted || Model.FormB14Header.Status == RAMMS.Common.StatusList.FormB14Rejected)))
+    {
+        <button type="button" class="btn btn-sm btn-themebtn" finddetailsdep onclick="frmB14.Save(false,1);process.ShowApprove('@groupname','Verified By (EC)');">Verified (EC)</button>
+    }
+    @if (IsAgreed && (Model != null && (Model.FormB14Header.Status == RAMMS.Common.StatusList.FormB14Verified || Model.FormB14Header.Status == RAMMS.Common.StatusList.FormB14Rejected)))
+    {
+        <button type="button" class="btn btn-sm btn-themebtn" finddetailsdep onclick="process.ShowApprove('@groupname','Verified By (JKRS)');">Verified (JKRS)</button>
+    }
+    @if (IsApproved && (Model != null && (Model.FormB14Header.Status == RAMMS.Common.StatusList.FormB14Agreed || Model.FormB14Header.Status == RAMMS.Common.StatusList.FormB14Rejected)))
+    {
+        <button type="button" class="btn btn-sm btn-themebtn" finddetailsdep onclick="process.ShowApprove('@groupname','Approved (Endrosed By)');">Approved (Endrosed By)</button>
+    }
 </div>
+@*@Html.HiddenFor(m => m.FormB14Header.PkRefNo);*@
+<input type="hidden" id="pkRefNo" value="@Model.FormB14Header.PkRefNo" />
+<input type="hidden" id="UserId" value="@security.UserID" />
+<input type="hidden" id="UserName" value="@security.UserName" />
 <style>
     .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4) {
         width: auto !important;

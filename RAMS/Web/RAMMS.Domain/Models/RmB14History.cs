@@ -5,7 +5,7 @@ namespace RAMMS.Domain.Models
 {
     public partial class RmB14History
     {
-        public int B14hhPkRefNo { get; set; }
+        public int B14hhPkRefNoHistory { get; set; }
         public int? B14hhB14hPkRefNo { get; set; }
         public int? B14hhActId { get; set; }
         public string B14hhFeature { get; set; }
@@ -25,6 +25,7 @@ namespace RAMMS.Domain.Models
         public decimal? B14hhDec { get; set; }
         public string B14hhUnitOfService { get; set; }
         public decimal? B14hhSubTotal { get; set; }
+        public int? B14hhOrder { get; set; }
 
         public virtual RmB14Hdr B14hhB14hPkRefNoNavigation { get; set; }
     }

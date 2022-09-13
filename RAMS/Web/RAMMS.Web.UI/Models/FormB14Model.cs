@@ -16,7 +16,7 @@ namespace RAMMS.Web.UI.Models
 
         public FormB14HeaderDTO FormB14Header { get; set; }
 
-        public FormB14HistoryDTO FormB14History { get; set; }
+        public List<FormB14HistoryDTO> RmB14History { get; set; }
 
         public int view { get; set; }
 

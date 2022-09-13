@@ -3620,6 +3620,11 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("B13P_Periodic_Maintenance")
                     .HasColumnType("decimal(18, 2)");
 
+                entity.Property(e => e.B13pPkRefId)
+                    .HasColumnName("B13P_PK_Ref_Id")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.B13pRevisionDate)
                     .HasColumnName("B13P_Revision_Date")
                     .HasColumnType("datetime");
@@ -3977,11 +3982,11 @@ namespace RAMMS.Domain.Models
 
             modelBuilder.Entity<RmB14History>(entity =>
             {
-                entity.HasKey(e => e.B14hhPkRefNo);
+                entity.HasKey(e => e.B14hhPkRefNoHistory);
 
                 entity.ToTable("RM_B14_History");
 
-                entity.Property(e => e.B14hhPkRefNo).HasColumnName("B14HH_PK_Ref_No");
+                entity.Property(e => e.B14hhPkRefNoHistory).HasColumnName("B14HH_PK_Ref_No_History");
 
                 entity.Property(e => e.B14hhActCode)
                     .HasColumnName("B14HH_Act_Code")
@@ -4045,6 +4050,8 @@ namespace RAMMS.Domain.Models
                 entity.Property(e => e.B14hhOct)
                     .HasColumnName("B14HH_Oct")
                     .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B14hhOrder).HasColumnName("B14HH_Order");
 
                 entity.Property(e => e.B14hhSep)
                     .HasColumnName("B14HH_Sep")

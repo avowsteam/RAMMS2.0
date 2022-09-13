@@ -140,7 +140,7 @@ namespace RAMMS.Repository
         public async Task<RmB15Hdr> FindDetails(RmB15Hdr frmB15)
         {
             //return await _context.RmFormMHdr.Include(x => x.RmFormMAuditDetails).ThenInclude(x => x.FmadFmhPkRefNoNavigation).Where(x => x.Fr1hAssetId == frmR1R2.Fr1hAssetId && x.Fr1hYearOfInsp == frmR1R2.Fr1hYearOfInsp && x.Fr1hActiveYn == true).FirstOrDefaultAsync();
-            return await _context.RmB15Hdr.Include(x => x.RmB15History).ThenInclude(x => x.B15hhB15hPkRefNoNavigation).Where(x => x.B15hRmuCode == frmB15.B15hRmuCode && x.B15hRevisionYear == frmB15.B15hRevisionYear && x.B15hRevisionDate == frmB15.B15hRevisionDate && x.B15hActiveYn == true).FirstOrDefaultAsync();
+            return await _context.RmB15Hdr.Include(x => x.RmB15History).ThenInclude(x => x.B15hhB15hPkRefNoNavigation).Where(x => x.B15hRmuCode == frmB15.B15hRmuCode && x.B15hRevisionYear == frmB15.B15hRevisionYear && x.B15hRevisionDate == frmB15.B15hRevisionDate && x.B15hRevisionNo == frmB15.B15hRevisionNo && x.B15hActiveYn == true).FirstOrDefaultAsync();
         }
 
         public async Task<RmB15Hdr> Save(RmB15Hdr frmB15, bool updateSubmit)
@@ -233,6 +233,16 @@ namespace RAMMS.Repository
         public List<RmB15History> GetHistoryData(int year)
         {
             List<RmB15History> res = (from r in _context.RmB15History where r.B15hhB15hPkRefNo == year select r).OrderBy(x => x.B15hhOrder).ToList();
+            return res;
+        }
+        public List<RmB13ProposedPlannedBudgetHistory> GetPlannedBudgetData(string Rmucode, int year)
+        {
+            if (Rmucode.ToUpper() == "MRI")
+                Rmucode = "Miri";
+            var list = _context.RmB13ProposedPlannedBudget.Where(x => x.B13pRmu == Rmucode && x.B13pRevisionYear == year && x.B13pSubmitSts == true).OrderByDescending(x => x.B13pPkRefNo).ToList();
+            List<RmB13ProposedPlannedBudgetHistory> res = new List<RmB13ProposedPlannedBudgetHistory>();
+            if (list.Count > 0)
+                res = (from r in _context.RmB13ProposedPlannedBudgetHistory where r.B13phB13pPkRefNo == list[0].B13pPkRefNo select r).ToList();
             return res;
         }
     }

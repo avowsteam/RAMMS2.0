@@ -11,7 +11,7 @@ namespace RAMMS.DTO.Profiles
     {
         public FormB14Profiles()
         {
-            string[] arrPrefix = new string[] { "B14h", "B14hh"  };
+            string[] arrPrefix = new string[] { "B14H", "B14HH" };
             this.RecognizeDestinationPrefixes(arrPrefix);
             this.RecognizePrefixes(arrPrefix);
             this.CreateMap<FormB14HeaderDTO, RmB14Hdr>().ReverseMap();

@@ -41,12 +41,12 @@ namespace RAMMS.DTO.ResponseBO
         public string Status { get; set; }
         public string Auditlog { get; set; }
 
-        public  List<FormB14HistoryDTO> B14History { get; set; }
+        public  List<FormB14HistoryDTO> RmB14History { get; set; }
     }
 
     public class FormB14HistoryDTO
     {
-        public int PkRefNo { get; set; }
+        public int PkRefNoHistory { get; set; }
         public int? B14hPkRefNo { get; set; }
         public int? ActId { get; set; }
         public string Feature { get; set; }
@@ -92,6 +92,8 @@ namespace RAMMS.DTO.ResponseBO
         public decimal? Dec { get; set; }
         public string Unit { get; set; }
         public decimal? SubTotal { get; set; }
+        public int Order { get; set; }
+        public virtual FormB14HeaderDTO B14Header { get; set; }
     }
 
     }

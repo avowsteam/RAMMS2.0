@@ -129,7 +129,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             foreach (var list in domainModelFormB15)
             {
                 list.B15hhPkRefNoHistory = list.B15hhPkRefNoHistory;
-                list.B15hhB15hPkRefNo= frmb15hdr.PkRefNo;
+                list.B15hhB15hPkRefNo = frmb15hdr.PkRefNo;
             }
             await _repo.SaveFormB15(domainModelFormB15);
 
@@ -261,5 +261,12 @@ namespace RAMMS.Business.ServiceProvider.Services
             return FormB7;
         }
 
+        public async Task<List<FormB13HistoryResponseDTO>> GetPlannedBudgetData(string RmuCode, int year)
+        {
+            List<RmB13ProposedPlannedBudgetHistory> res = _repo.GetPlannedBudgetData(RmuCode, year);
+            List<FormB13HistoryResponseDTO> FormB13 = new List<FormB13HistoryResponseDTO>();
+            FormB13 = _mapper.Map<List<FormB13HistoryResponseDTO>>(res);
+            return FormB13;
+        }
     }
 }
