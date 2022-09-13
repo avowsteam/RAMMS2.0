@@ -59,7 +59,7 @@ namespace RAMMS.Web.UI.Controllers
             //grid.IsModify = _security.IsPCModify(ModuleNameList.Annual_Work_Planned_Budget);
             //grid.IsDelete = _security.IsPCDelete(ModuleNameList.Annual_Work_Planned_Budget) && _security.isOperRAMSExecutive;
             //grid.IsView = _security.IsPCView(ModuleNameList.Annual_Work_Planned_Budget);
-            grid.Columns.Add(new CDataColumns() { data = "Feature", title = "Feature" });
+            grid.Columns.Add(new CDataColumns() { data = "Feature", title = "Feature" , render = "frmAwpb.HeaderGrid.ActionRender", });
             grid.Columns.Add(new CDataColumns() { data = "ActivityCode", title = "Activity Code" });
             grid.Columns.Add(new CDataColumns() { data = "ActivityName", title = "Activity Name" });
             grid.Columns.Add(new CDataColumns() { data = "Jan", title = "Jan" });

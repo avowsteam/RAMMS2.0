@@ -9,6 +9,46 @@
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
 }
 
+<script type="text/javascript">
+    function Open(mode){
+        if (mode == 'B13')
+        window.location.href = '/FormB13/Index';
+        else if (mode == 'B14')
+        window.location.href = '/FormB14/Index';
+        if (mode == 'B15')
+        window.location.href = '/FormB15/Index';
+    }
+
+    var frmAwpb = new function () {
+         this.HeaderGrid = new function () {
+            this.ActionRender = function (data, type, row, meta) {
+                //var actionSection = "<div class='btn-group dropright' rowidx='" + meta.row + "'><button type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button>";
+                //actionSection += "<div class='dropdown-menu'>";//dorpdown menu start
+
+                //if (data.MaxRecord) { //if (tblFB7HGrid.Base.IsModify) {
+                //    actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB7.HeaderGrid.ActionClick(this);'>";
+                //    actionSection += "<span class='edit-icon'></span> Edit </button>";
+                //}
+                //if (tblFB7HGrid.Base.IsView) {
+                //    actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB7.HeaderGrid.ActionClick(this);'>";
+                //    actionSection += "<span class='view-icon'></span> View </button>";
+                //}
+                ////if (tblFB7HGrid.Base.IsDelete) {
+                ////    actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB7.HeaderGrid.ActionClick(this);'>";
+                ////    actionSection += "<span class='del-icon'></span> Delete </button>";
+                ////}
+                //actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB7.HeaderGrid.ActionClick(this);'>";
+                //actionSection += "<span class='print-icon'></span> Print </button>";
+
+                //actionSection += "</div>"; //dorpdown menu close
+                //actionSection += "</div>"; // action close
+
+                return data;
+            }
+        }
+    }
+</script>
+
 <div class="container-fluid">
     <div class="row">
 
@@ -35,24 +75,24 @@
                 </div>
             </div>
         </div>
-    </div>  
+    </div>
     <div class="row">
 
         <div class="col-12 my-2">
             <div class="grid-btns">
                 <div class="btn-group dropbottom" id="actiondropdown">
-                    <button id="actionclick" type="button" class="btn btn-sm btn-themebtn px-2" data-toggle="dropdown" aria-expanded="false">  <span class="minw-90 float-left"> Planned Budget <br />(Template 1)</span> </button>
-                    
+                    <button id="actionclick" type="button" class="btn btn-sm btn-themebtn px-2" data-toggle="dropdown" aria-expanded="false" onclick="Open('B13')">  <span class="minw-90 float-left"> Planned Budget <br />(Template 1)</span> </button>
+
                 </div>
                 <div class="btn-group dropbottom" id="actiondropdown">
                     <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <span class="minw-90 float-left">Planned Monthly Work <br /> Quantity (Template 2) </span>
                     </button>
                     <div class="dropdown-menu">
-                        <button type="button" class="dropdown-item editdel-btns  py-1 px-0">
+                        <button type="button" class="dropdown-item editdel-btns  py-1 px-0" onclick="Open('B14')">
                             <span class="newadd-icon"></span> B14 Work Calendar <br /> (Work Plan Quantity)
                         </button>
-                        <button type="button" class="dropdown-item editdel-btns border-top py-1 px-0">
+                        <button type="button" class="dropdown-item editdel-btns border-top py-1 px-0" onclick="Open('B15')">
                             <span class="newadd-icon"></span>B15 Man Calendar <br />(Crew Day Required)
                         </button>
 
@@ -62,7 +102,7 @@
                     <button id="actionclick" type="button" class="btn btn-sm btn-themebtn px-2" data-toggle="dropdown" aria-expanded="false">
                         <span class="minw-90 float-left">  Planned Monthly Cumulative<br /> Work Quantity (Template 3)</span>
                     </button>
-                   
+
                 </div>
 
                 <div class="btn-group dropbottom" id="actiondropdown">
