@@ -67,6 +67,10 @@ namespace RAMMS.Business.ServiceProvider.Services
                 this.IsInstructedWorkEngg = this.HasAnyGroup(Common.GroupNames.Admin, Common.GroupNames.InstructedWorksEngineer);
                 this.IsDirector = this.HasAnyGroup(Common.GroupNames.Admin, Common.GroupNames.Director);
                 this.isOperRAMSExecutive = this.HasAnyGroup(Common.GroupNames.Admin, Common.GroupNames.OperRAMSExecutive);
+                this.IsCrewSupervisor = this.HasAnyGroup(Common.GroupNames.Admin, Common.GroupNames.Crew_Supervisor);
+                this.IsAssistantQuantitySurveyor = this.HasAnyGroup(Common.GroupNames.Admin, Common.GroupNames.Assistant_Quantity_Surveyor);
+                this.isRoadMaintenanceEngineer = this.HasAnyGroup(Common.GroupNames.Admin, Common.GroupNames.Road_Maintenance_Engineer);
+
                 //this.IWRights = repModuleFormRights.GetIWRightsByUser(UserID);
                 this.isEnggAssistant = this.HasAnyGroup(Common.GroupNames.Admin, Common.GroupNames.EngineeringAssistant);
             }
@@ -357,9 +361,17 @@ namespace RAMMS.Business.ServiceProvider.Services
 
         public bool IsDirector { get; private set; }
 
+        public bool IsCrewSupervisor { get; private set; }
+
+        public bool IsAssistantQuantitySurveyor { get; private set; }
+
+        public bool isRoadMaintenanceEngineer { get; private set; }
+
         public bool isOperRAMSExecutive { get; private set; }
 
         public bool isEnggAssistant { get; private set; }
+
+      
 
         public IList<RmModuleRightByForm> IWRights { get; private set; }
 

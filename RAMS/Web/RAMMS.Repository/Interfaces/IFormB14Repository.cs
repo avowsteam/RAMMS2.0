@@ -22,5 +22,7 @@ namespace RAMMS.Repository.Interfaces
         Task<int> SaveFormB14(RmB14Hdr FormB14);
 
         Task<FormB14Rpt> GetReportData(int headerid);
+
+        Task<GridWrapper<object>> GetAWPBHeaderGrid(DataTableAjaxPostModel searchData);
     }
 }

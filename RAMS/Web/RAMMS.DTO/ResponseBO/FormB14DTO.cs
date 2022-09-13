@@ -48,6 +48,10 @@ namespace RAMMS.DTO.ResponseBO
     {
         public int PkRefNo { get; set; }
         public int? B14hPkRefNo { get; set; }
+        public int? ActId { get; set; }
+        public string Feature { get; set; }
+        public string ActCode { get; set; }
+        public string ActName { get; set; }
         public decimal? Jan { get; set; }
         public decimal? Feb { get; set; }
         public decimal? Mar { get; set; }
@@ -65,4 +69,29 @@ namespace RAMMS.DTO.ResponseBO
 
         public virtual FormB14HeaderDTO B14Header { get; set; }
     }
-}
+
+
+    public class FormAWPBDTO
+    {
+        public int RefNo { get; set; }
+        public string RMU { get; set; }
+        public string Feature { get; set; }
+        public string ActivityCode { get; set; }
+        public string ActivityName { get; set; }
+        public decimal? Jan { get; set; }
+        public decimal? Feb { get; set; }
+        public decimal? Mar { get; set; }
+        public decimal? Apr { get; set; }
+        public decimal? May { get; set; }
+        public decimal? Jun { get; set; }
+        public decimal? Jul { get; set; }
+        public decimal? Aug { get; set; }
+        public decimal? Sep { get; set; }
+        public decimal? Oct { get; set; }
+        public decimal? Nov { get; set; }
+        public decimal? Dec { get; set; }
+        public string Unit { get; set; }
+        public decimal? SubTotal { get; set; }
+    }
+
+    }

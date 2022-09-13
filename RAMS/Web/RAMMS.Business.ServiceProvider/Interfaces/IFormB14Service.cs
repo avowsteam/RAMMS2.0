@@ -23,5 +23,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<int> SaveFormB14(FormB14HeaderDTO FormB14);
 
         Byte[] FormDownload(string formname, int id, string basepath, string filepath);
+
+        Task<GridWrapper<object>> GetAWPBHeaderGrid(DataTableAjaxPostModel searchData);
     }
 }

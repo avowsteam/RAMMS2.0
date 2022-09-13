@@ -20,6 +20,7 @@ namespace RAMMS.Domain.Models
         public decimal? B13pRoutineMaintenance { get; set; }
         public decimal? B13pPeriodicMaintenance { get; set; }
         public decimal? B13pOtherMaintenance { get; set; }
+        public string B13pDescription { get; set; }
         public int? B13pUseridProsd { get; set; }
         public string B13pUserNameProsd { get; set; }
         public string B13pUserDesignationProsd { get; set; }

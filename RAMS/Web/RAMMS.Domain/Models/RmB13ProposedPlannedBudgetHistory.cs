@@ -35,6 +35,7 @@ namespace RAMMS.Domain.Models
         public decimal? B13phSlCrewDaysPlanned { get; set; }
         public decimal? B13phSlAvgByActivity { get; set; }
         public decimal? B13phSlTotalByActivity { get; set; }
+        public decimal? B13phSlPercentageByActivity { get; set; }
         public decimal? B13phSlTotalByFeature { get; set; }
 
         public virtual RmB13ProposedPlannedBudget B13phB13pPkRefNoNavigation { get; set; }

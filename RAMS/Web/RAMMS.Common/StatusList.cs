@@ -12,6 +12,10 @@ namespace RAMMS.Common
         public const string Rejected = "Rejected";
         public const string Approved = "Approved";
         public const string Verified = "Verified";
+        public const string Proposed = "Proposed";
+        public const string Facilitated = "Facilitated";
+        public const string Agreed = "Agreed";
+        public const string Endorsed = "Endorsed";
 
         public const string Supervisor = "Supervisor";
         public const string Executive = "Executive";
