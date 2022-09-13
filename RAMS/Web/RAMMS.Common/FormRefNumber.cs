@@ -30,6 +30,7 @@ namespace RAMMS.Common.RefNumber
         public const string FormTHeader = "CI/Form T/{RoadCode}/{YYYYMMDD}";
         public const string FormMHeader = "CI/Form M/{RoadCode}/{ActivityCode}/{Year}{MonthNo}{Day}/{" + NewRunningNumber + "}";
         public const string FormB13Header = "AWPB/Form B13/{YYYY}/{RevisionNo}";
+        public const string FormB15Header = "AWPB/Form B15/{YYYY}/{RevisionNo}";
 
         public static string GetRefNumber(FormType type, IDictionary<string, string> values)
         {
@@ -122,7 +123,9 @@ namespace RAMMS.Common.RefNumber
                 case FormType.FormB13:
                     format = FormB13Header;
                     break;
-
+                case FormType.FormB15:
+                    format = FormB15Header;
+                    break;
 
             }
             return format;
@@ -154,7 +157,8 @@ namespace RAMMS.Common.RefNumber
         FormF1Header,
         FormTHeader,
         FormM,
-        FormB13
+        FormB13,
+        FormB15
     }
 
 }

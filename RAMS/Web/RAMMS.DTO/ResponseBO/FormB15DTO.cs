@@ -7,6 +7,7 @@ namespace RAMMS.DTO.ResponseBO
     public partial class FormB15HeaderDTO
     {
         public int PkRefNo { get; set; }
+        public string PkRefId { get; set; }
         public int? RevisionNo { get; set; }
         public DateTime? RevisionDate { get; set; }
         public int? RevisionYear { get; set; }

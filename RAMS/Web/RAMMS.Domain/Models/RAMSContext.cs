@@ -3834,7 +3834,10 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("B13PH_SL_Total_By_Feature")
                     .HasColumnType("decimal(18, 2)");
 
-                entity.Property(e => e.B13phUnitOfService).HasColumnName("B13PH_Unit_Of_Service");
+                entity.Property(e => e.B13phUnitOfService)
+                    .HasColumnName("B13PH_Unit_Of_Service")
+                    .HasMaxLength(16)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.B13phB13pPkRefNoNavigation)
                     .WithMany(p => p.RmB13ProposedPlannedBudgetHistory)
@@ -4111,6 +4114,11 @@ namespace RAMMS.Domain.Models
                 entity.Property(e => e.B15hModDt)
                     .HasColumnName("B15H_Mod_DT")
                     .HasColumnType("datetime");
+
+                entity.Property(e => e.B15hPkRefId)
+                    .HasColumnName("B15H_PK_Ref_Id")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.B15hRevisionDate)
                     .HasColumnName("B15H_Revision_Date")

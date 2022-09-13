@@ -617,6 +617,7 @@ function GetfindDetails() {
                 //    window.location = _APPLocation + "FormB15/View/" + data.PkRefNo;
                 //}
                 frmB15.HeaderData = data;
+                $('#txtFormB15RefNum').val(data.PkRefId);
                 $("#pkRefNo").val(frmB15.HeaderData.PkRefNo);
                 frmB15.PageInit();
 

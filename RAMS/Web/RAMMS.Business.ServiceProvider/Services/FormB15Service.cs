@@ -12,6 +12,7 @@ using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RAMMS.Business.ServiceProvider.Interfaces;
 using RAMMS.Common;
+using RAMMS.Common.RefNumber;
 using RAMMS.Domain.Models;
 using RAMMS.DTO.JQueryModel;
 using RAMMS.DTO.Report;
@@ -87,6 +88,11 @@ namespace RAMMS.Business.ServiceProvider.Services
                 frmB15.CrBy = frmB15.ModBy = createdBy;
                 frmB15.CrDt = frmB15.ModDt = DateTime.UtcNow;
 
+                IDictionary<string, string> lstData = new Dictionary<string, string>();
+                lstData.Add("YYYY", frmB15.RevisionYear.ToString());
+                lstData.Add("RevisionNo", frmB15.RevisionNo.ToString());
+                frmB15.PkRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormB15, lstData);
+
                 header = _mapper.Map<RmB15Hdr>(frmB15);
                 header = await _repo.Save(header, false);
                 frmB15 = _mapper.Map<FormB15HeaderDTO>(header);
@@ -150,7 +156,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 }
 
             }
-
+            
 
             if (form.B15hSubmitSts && (string.IsNullOrEmpty(form.B15hStatus) || form.B15hStatus == Common.StatusList.FormQA1Saved || form.B15hStatus == Common.StatusList.FormQA1Rejected))
             {
