@@ -3912,6 +3912,11 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("B14H_Mod_DT")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.B14hPkRefId)
+                    .HasColumnName("B14H_PK_Ref_Id")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.B14hRevisionDate)
                     .HasColumnName("B14H_Revision_Date")
                     .HasColumnType("datetime");
@@ -4114,6 +4119,11 @@ namespace RAMMS.Domain.Models
                 entity.Property(e => e.B15hModDt)
                     .HasColumnName("B15H_Mod_DT")
                     .HasColumnType("datetime");
+
+                entity.Property(e => e.B15hPkRefId)
+                    .HasColumnName("B15H_PK_Ref_Id")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.B15hRevisionDate)
                     .HasColumnName("B15H_Revision_Date")

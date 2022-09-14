@@ -11,6 +11,7 @@ namespace RAMMS.Domain.Models
         }
 
         public int B14hPkRefNo { get; set; }
+        public string B14hPkRefId { get; set; }
         public int? B14hRevisionNo { get; set; }
         public DateTime? B14hRevisionDate { get; set; }
         public int? B14hRevisionYear { get; set; }
