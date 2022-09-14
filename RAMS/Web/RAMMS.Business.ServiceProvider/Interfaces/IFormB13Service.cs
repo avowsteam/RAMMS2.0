@@ -25,7 +25,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<int> UpdateFormB13(FormB13ResponseDTO FormB13, List<FormB13HistoryResponseDTO> FormB13History);
         int? DeleteFormB13(int id);
 
-        //Task<byte[]> FormDownload(string formname, int id, string filepath);
+        Task<byte[]> FormDownload(string formname, int id, string filepath);
 
     }
 }

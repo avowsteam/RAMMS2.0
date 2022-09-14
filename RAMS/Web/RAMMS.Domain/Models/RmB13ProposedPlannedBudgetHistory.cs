@@ -27,7 +27,7 @@ namespace RAMMS.Domain.Models
         public decimal? B13phCdcMaterial { get; set; }
         public decimal? B13phCrewDaysCost { get; set; }
         public decimal? B13phAverageDailyProduction { get; set; }
-        public int? B13phUnitOfService { get; set; }
+        public string B13phUnitOfService { get; set; }
         public decimal? B13phSlDesired { get; set; }
         public decimal? B13phSlPlanned { get; set; }
         public decimal? B13phSlAvgDesired { get; set; }

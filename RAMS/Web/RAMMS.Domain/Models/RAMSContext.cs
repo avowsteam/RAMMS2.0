@@ -3834,7 +3834,10 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("B13PH_SL_Total_By_Feature")
                     .HasColumnType("decimal(18, 2)");
 
-                entity.Property(e => e.B13phUnitOfService).HasColumnName("B13PH_Unit_Of_Service");
+                entity.Property(e => e.B13phUnitOfService)
+                    .HasColumnName("B13PH_Unit_Of_Service")
+                    .HasMaxLength(16)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.B13phB13pPkRefNoNavigation)
                     .WithMany(p => p.RmB13ProposedPlannedBudgetHistory)

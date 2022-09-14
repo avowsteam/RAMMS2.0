@@ -42,7 +42,7 @@ namespace RAMMS.Repository
 
             if (!string.IsNullOrEmpty(filterOptions.Filters.RMU))
             {
-                query = query.Where(s => s.x.B13pRmu == filterOptions.Filters.RMU );
+                query = query.Where(s => s.x.B13pRmu == filterOptions.Filters.RMU);
             }
 
 
@@ -185,6 +185,10 @@ namespace RAMMS.Repository
                 var B9rev = (from r in _context.RmB9DesiredService where r.B9dsRevisionYear == FormB13.B13pRevisionYear select r.B9dsRevisionNo).DefaultIfEmpty().Max();
                 var B9hdrPkrefNo = (from r in _context.RmB9DesiredService where r.B9dsRevisionYear == FormB13.B13pRevisionYear && r.B9dsRevisionNo == B9rev select r.B9dsPkRefNo).FirstOrDefault();
 
+                var B10rev = (from r in _context.RmB10DailyProduction where r.B10dpRevisionYear == FormB13.B13pRevisionYear select r.B10dpRevisionNo).DefaultIfEmpty().Max();
+                var B10hdrPkrefNo = (from r in _context.RmB10DailyProduction where r.B10dpRevisionYear == FormB13.B13pRevisionYear && r.B10dpRevisionNo == B10rev select r.B10dpPkRefNo).FirstOrDefault();
+
+
                 var B11rev = (from r in _context.RmB11Hdr where r.B11hRevisionYear == FormB13.B13pRevisionYear && r.B11hRmuCode == FormB13.B13pRmu select r.B11hRevisionNo).DefaultIfEmpty().Max();
                 var B11hdrPkrefNo = (from r in _context.RmB11Hdr where r.B11hRevisionYear == FormB13.B13pRevisionYear && r.B11hRmuCode == FormB13.B13pRmu && r.B11hRevisionNo == B11rev select r.B11hPkRefNo).FirstOrDefault();
 
@@ -206,7 +210,9 @@ namespace RAMMS.Repository
                                                                  B13phInvCond1 = (from rec in _context.RmB13ProposedPlannedBudgetHistory where rec.B13phB13pPkRefNo == id && rec.B13phCode == r.B9dshCode select rec.B13phInvCond1).FirstOrDefault(),
                                                                  B13phInvCond2 = (from rec in _context.RmB13ProposedPlannedBudgetHistory where rec.B13phB13pPkRefNo == id && rec.B13phCode == r.B9dshCode select rec.B13phInvCond2).FirstOrDefault(),
                                                                  B13phInvCond3 = (from rec in _context.RmB13ProposedPlannedBudgetHistory where rec.B13phB13pPkRefNo == id && rec.B13phCode == r.B9dshCode select rec.B13phInvCond3).FirstOrDefault(),
-                                                                 B13phSlDesired = (from rec in _context.RmB13ProposedPlannedBudgetHistory where rec.B13phB13pPkRefNo == id && rec.B13phCode == r.B9dshCode select rec.B13phSlDesired).FirstOrDefault()
+                                                                 B13phSlDesired = (from rec in _context.RmB13ProposedPlannedBudgetHistory where rec.B13phB13pPkRefNo == id && rec.B13phCode == r.B9dshCode select rec.B13phSlDesired).FirstOrDefault(),
+                                                                 B13phAverageDailyProduction = (from rec in _context.RmB10DailyProductionHistory where   rec.B10dphB10dpPkRefNo == B10hdrPkrefNo && rec.B10dphCode == r.B9dshCode select rec.B10dphAdpValue).FirstOrDefault(),
+                                                                 B13phUnitOfService = (from rec in _context.RmB10DailyProductionHistory where  rec.B10dphB10dpPkRefNo == B10hdrPkrefNo && rec.B10dphCode == r.B9dshCode select rec.B10dphAdpUnit).FirstOrDefault(),
                                                              }).ToList();
             }
             else

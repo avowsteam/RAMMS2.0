@@ -473,7 +473,7 @@ function ServiceLevel(obj) {
     }
 
     //Planned Cal
-
+    
     if ($(obj).find(".SLDesired").text().trim() != "" && $(obj).find(".Desired").val().trim() != "") {
         $(obj).find(".SLPlan").html(parseFloat($(obj).find(".SLDesired").text().trim()) * parseFloat($(obj).find(".Desired").val().trim()));
     }
@@ -498,7 +498,7 @@ function AnnualWorkQtyPlanned(obj) {
 function CrewDayplanned(obj) {
 
     if ($(obj).find(".AWQ").text().trim() != "" && $(obj).find(".ADP").text().trim() != "") {
-        $(obj).find(".CDP").html(parseFloat($(obj).find(".AWQ").val().trim()) / parseFloat($(obj).find(".ADP").text().trim()));
+        $(obj).find(".CDP").html(parseFloat($(obj).find(".AWQ").text().trim()) / parseFloat($(obj).find(".ADP").text().trim()));
     }
     else {
         $(obj).find(".CDP").html("");
@@ -508,7 +508,7 @@ function CrewDayplanned(obj) {
 function SubTotalbyActivity(obj) {
 
     if ($(obj).find(".CrewDayCost").text().trim() != "" && $(obj).find(".CDP").text().trim() != "") {
-        $(obj).find(".ActTotal").html(parseFloat($(obj).find(".CrewDayCost").val().trim()) * parseFloat($(obj).find(".CDP").text().trim()));
+        $(obj).find(".ActTotal").html(parseFloat($(obj).find(".CrewDayCost").text().trim()) * parseFloat($(obj).find(".CDP").text().trim()));
     }
     else {
         $(obj).find(".ActTotal").html("");
@@ -523,13 +523,13 @@ function SumofSubTotalbyActivity(obj) {
         }
     });
 
-    $(obj).find(".SumofSubTotal").html(tot);
+    $("#SumofSubTotal").html(tot);
 }
 
 
 function PlannedPercentage(obj) {
     if ($(obj).find(".ActTotal").text().trim() != "" && $(obj).find(".CDP").text().trim() != "") {
-        $(obj).find(".ActPer").html(parseFloat($(obj).find(".ActTotal").val().trim()) / parseFloat($(obj).find(".SumofSubTotal").text().trim()) * 100);
+        $(obj).find(".ActPer").html(parseFloat($(obj).find(".ActTotal").text().trim()) / parseFloat($("#SumofSubTotal").text().trim()) * 100);
     }
     else {
         $(obj).find(".ActPer").html("");
@@ -544,7 +544,7 @@ function SumofSubTotalPercentage(obj) {
         }
     });
 
-    $(obj).find(".SumofSubTotalPerc").html(tot);
+    $("#SumofSubTotalPerc").html(tot);
 }
 
 function SubTotalbyFeature() {

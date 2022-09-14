@@ -30,7 +30,7 @@ namespace RAMMS.DTO.ResponseBO
         public decimal? CdcMaterial { get; set; }
         public decimal? CrewDaysCost { get; set; }
         public decimal? AverageDailyProduction { get; set; }
-        public int? UnitOfService { get; set; }
+        public string UnitOfService { get; set; }
         public decimal? SlDesired { get; set; }
         public decimal? SlPlanned { get; set; }
         public decimal? SlAvgDesired { get; set; }

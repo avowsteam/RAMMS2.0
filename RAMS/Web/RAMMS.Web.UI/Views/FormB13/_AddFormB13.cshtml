@@ -199,7 +199,7 @@
                                                                                                 <td class="Unit">@Model.FormB13.FormB13History[i].UnitOfService</td>
                                                                                                 <td class="SLDesired">@Model.FormB13.FormB13History[i].SlDesired</td>
                                                                                                 <td class="SLPlan">@Model.FormB13.FormB13History[i].SlPlanned</td>
-                                                                                                <td><input type="text" class="form-control Desired" onchange="CalculateValues()" value="@Model.FormB13.FormB13History[i].SlAvgDesired" /></td>
+                                                                                                <td><input type="text" class="form-control Desired" onchange="CalculateValues(this)" value="@Model.FormB13.FormB13History[i].SlAvgDesired" /></td>
                                                                                                 <td class="AWQ">@Model.FormB13.FormB13History[i].SlAnnualWorkQuantity</td>
                                                                                                 <td class="CDP">@Model.FormB13.FormB13History[i].SlCrewDaysPlanned</td>
                                                                                                 <td class="ActTotal">@Model.FormB13.FormB13History[i].SlTotalByActivity</td>
@@ -226,7 +226,7 @@
 
                                                             <div class="clear"></div>
 
-                                                            <table class="table w-100 nowrap dataTable no-footer cus-table">
+                                                            <table  class="table w-100 nowrap dataTable no-footer cus-table">
                                                                 <tfoot>
                                                                     <tr>
                                                                         <td class="xl84"></td>
@@ -242,8 +242,8 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td class="xl86" height="29" colspan="26" style='height:14.50pt;border-right:none;border-bottom:none;font-weight:bold' x:str>GRAND TOTAL :<span style='mso-spacerun:yes;'>&nbsp; </span>RM</td>
-                                                                        <td class=".SumofSubTotal"></td>
-                                                                        <td class=".SumofSubTotalPerc"></td>
+                                                                        <td id="SumofSubTotal"></td>
+                                                                        <td id="SumofSubTotalPerc"></td>
                                                                         <td class="xl125"></td>
                                                                     </tr>
                                                                 </tfoot>

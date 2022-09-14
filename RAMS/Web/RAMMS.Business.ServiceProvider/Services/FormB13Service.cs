@@ -166,82 +166,102 @@ namespace RAMMS.Business.ServiceProvider.Services
         ////    return await _repo.GetReportData(headerid);
         ////}
 
-        //public async Task<byte[]> FormDownload(string formname, int id, string filepath)
-        //{
-        //    string Oldfilename = "";
-        //    string filename = "";
-        //    string cachefile = "";
-        //    if (!filepath.Contains(".xlsx"))
-        //    {
-        //        Oldfilename = filepath + formname + ".xlsx";
-        //        filename = formname + DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString();
-        //        cachefile = filepath + filename + ".xlsx";
-        //    }
-        //    else
-        //    {
-        //        Oldfilename = filepath;
-        //        filename = filepath.Replace(".xlsx", DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString() + ".xlsx");
-        //        cachefile = filename;
-        //    }
+        public async Task<byte[]> FormDownload(string formname, int id, string filepath)
+        {
+            string Oldfilename = "";
+            string filename = "";
+            string cachefile = "";
+            if (!filepath.Contains(".xlsx"))
+            {
+                Oldfilename = filepath + formname + ".xlsx";
+                filename = formname + DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString();
+                cachefile = filepath + filename + ".xlsx";
+            }
+            else
+            {
+                Oldfilename = filepath;
+                filename = filepath.Replace(".xlsx", DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString() + ".xlsx");
+                cachefile = filename;
+            }
 
-        //    try
-        //    {
-        //        FormB13ResponseDTO rptcol = await this.GetHeaderById(id);
-        //        var rpt = rptcol.FormB13History;
-        //        System.IO.File.Copy(Oldfilename, cachefile, true);
-        //        using (var workbook = new XLWorkbook(cachefile))
-        //        {
-        //            for (int sheet = 1; sheet <= 1; sheet++)
-        //            {
-        //                IXLWorksheet worksheet;
-        //                workbook.Worksheets.TryGetWorksheet($"sheet{sheet}", out worksheet);
+            try
+            {
+                FormB13ResponseDTO rptcol = await this.GetHeaderById(id);
+                var rpt = rptcol.FormB13History;
+                System.IO.File.Copy(Oldfilename, cachefile, true);
+                using (var workbook = new XLWorkbook(cachefile))
+                {
+                    for (int sheet = 1; sheet <= 1; sheet++)
+                    {
+                        IXLWorksheet worksheet;
+                        workbook.Worksheets.TryGetWorksheet($"sheet{sheet}", out worksheet);
 
-        //                if (worksheet != null)
-        //                {
-        //                    int i = 8;
+                        if (worksheet != null)
+                        {
+                            int i = 10;
 
-        //                    foreach (var r in rpt)
-        //                    {
+                            foreach (var r in rpt)
+                            {
 
-        //                        worksheet.Cell(i, 1).Value = r.Feature;
-        //                        worksheet.Cell(i, 2).Value = r.Code;
-        //                        worksheet.Cell(i, 4).Value = r.Name;
-        //                        worksheet.Cell(i, 5).Value = r.AdpValue;
-        //                        worksheet.Cell(i, 6).Value = r.AdpUnit;
+                                worksheet.Cell(i, 5).Value = r.InvCond1;
+                                worksheet.Cell(i, 6).Value = r.InvCond2;
+                                worksheet.Cell(i, 7).Value = r.InvCond3;
+                                worksheet.Cell(i, 9).Value = r.SlCond1;
+                                worksheet.Cell(i, 10).Value = r.SlCond2;
+                                worksheet.Cell(i, 11).Value = r.SlCond3;
+                                worksheet.Cell(i, 17).Value = r.CdcLabour;
+                                worksheet.Cell(i, 18).Value = r.CdcEquipment;
+                                worksheet.Cell(i, 19).Value = r.CdcMaterial;
+                                worksheet.Cell(i, 21).Value = r.AverageDailyProduction;
+                                worksheet.Cell(i, 22).Value = r.UnitOfService;
 
-        //                        i++;
+                                i++;
 
-        //                    }
+                            }
 
-        //                }
-        //            }
+                            int j = 54;
+                            var rev = rptcol.FormB13RevisionHistory;
+                            foreach (var r in rev)
+                            {
+                                worksheet.Cell(j, 1).Value = r.Date;
+                                worksheet.Cell(j, 2).Value = r.Description;
+                                worksheet.Cell(j, 6).Value = r.RevNo;
+                                j++;
+                            }
+
+                            worksheet.Cell(55, 15).Value = rptcol.UserNameProsd;
+                            worksheet.Cell(55, 19).Value = rptcol.UserNameFclitd;
+                            worksheet.Cell(55, 24).Value = rptcol.UserNameAgrd;
+                            worksheet.Cell(55, 28).Value = rptcol.UserNameEdosd;
+                        }
+                    }
 
 
-        //            using (var stream = new MemoryStream())
-        //            {
-        //                workbook.SaveAs(stream);
-        //                var content = stream.ToArray();
-        //                System.IO.File.Delete(cachefile);
-        //                return content;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        System.IO.File.Copy(Oldfilename, cachefile, true);
-        //        using (var workbook = new XLWorkbook(cachefile))
-        //        {
-        //            using (var stream = new MemoryStream())
-        //            {
-        //                workbook.SaveAs(stream);
-        //                var content = stream.ToArray();
-        //                System.IO.File.Delete(cachefile);
-        //                return content;
-        //            }
-        //        }
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        System.IO.File.Delete(cachefile);
+                        return content;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.Copy(Oldfilename, cachefile, true);
+                using (var workbook = new XLWorkbook(cachefile))
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        System.IO.File.Delete(cachefile);
+                        return content;
+                    }
+                }
 
-        //    }
-        //}
+            }
+        }
 
     }
 }
