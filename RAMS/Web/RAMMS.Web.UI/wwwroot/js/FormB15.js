@@ -69,7 +69,7 @@ var frmB15 = new function () {
         debugger
         if (!isvalid) {
             HideAjaxLoading();
-            app.ShowErrorMessage("values are not equal");
+            app.ShowErrorMessage("SubTotal values are empty");
         }
         else {
             var FormB15HDR = new Object();
@@ -92,6 +92,7 @@ var frmB15 = new function () {
 
                 B15.PkRefNoHistory = frmB15.HeaderData.RmB15History.length == 0 ? 0 : frmB15.HeaderData.RmB15History[i].PkRefNoHistory;
                 B15.B15hPkRefNo = $("#pkRefNo").val();
+                B14.Feature = $('#spx' + i).text().trim();
                 B15.ActCode = $(this).find("td.x01").text().trim();
                 B15.ActName = $(this).find("td.x02").text().trim();
                 B15.Jan = $('#txt' + i + '1').val();
@@ -814,7 +815,7 @@ function AddLabourCal(obj, ActivityID) {
     total = parseFloat(total) + ($("#txt" + ActivityID + "12").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "12").val()));
     if (parseFloat(subTotal) < parseFloat(total)) {
         $('#' + obj.id).val("");
-        app.ShowErrorMessage("values are not equal");
+        app.ShowErrorMessage("Month values are not equal");
     }
 
     //if (Qty != "" && Qty != null) {

@@ -69,7 +69,7 @@ var frmB14 = new function () {
         debugger
         if (!isvalid) {
             HideAjaxLoading();
-            app.ShowErrorMessage("values are not equal");
+            app.ShowErrorMessage("SubTotal values are empty");
         }
         else {
             var FormB14HDR = new Object();
@@ -92,6 +92,7 @@ var frmB14 = new function () {
 
                 B14.PkRefNoHistory = frmB14.HeaderData.RmB14History.length == 0 ? 0 : frmB14.HeaderData.RmB14History[i].PkRefNoHistory;
                 B14.B14hPkRefNo = $("#pkRefNo").val();
+                B14.Feature = $('#spx' + i).text().trim();
                 B14.ActCode = $(this).find("td.x01").text().trim();
                 B14.ActName = $(this).find("td.x02").text().trim();
                 B14.Jan = $('#txt' + i + '1').val();
@@ -813,7 +814,7 @@ function AddLabourCal(obj, ActivityID) {
     total = parseFloat(total) + ($("#txt" + ActivityID + "12").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "12").val()));
     if (parseFloat(subTotal) < parseFloat(total)) {
         $('#' + obj.id).val("");
-        app.ShowErrorMessage("values are not equal");
+        app.ShowErrorMessage("Month values are not equal");
     }
 
     //if (Qty != "" && Qty != null) {
@@ -849,6 +850,7 @@ function AppendPlannedData() {
         success: function (data) {
             if (data.result.length > 0) {
                 for (var i = 0; i < data.result.length; i++) {
+                    $('#spx' + i).text(data.result[i].Feature);
                     $('#txt' + i + "SubTotal").val(data.result[i].SlAnnualWorkQuantity);
                 }
             }
