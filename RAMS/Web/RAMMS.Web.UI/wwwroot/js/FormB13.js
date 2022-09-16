@@ -427,35 +427,35 @@ function ICTotalQty(obj) {
     if (tot == 0)
         tot = "";
 
-    $(obj).find(".TotQty").html(tot);
+    $(obj).find(".TotQty").html(tot.toFixed(2));
 }
 
 function AnnualWorkQtyDesired(obj) {
     var IC1 = $(obj).find(".IC1").val() != "" ? parseFloat($(obj).find(".IC1").val()) : 0
     var SLC1 = $(obj).find(".SLC1").text().trim() != "" ? parseFloat($(obj).find(".SLC1").text().trim()) : 0
     var C1 = IC1 * SLC1;
-    $(obj).find(".AWQC1").html(C1);
+    $(obj).find(".AWQC1").html(C1.toFixed(2));
 
     var IC2 = $(obj).find(".IC2").val() != "" ? parseFloat($(obj).find(".IC2").val()) : 0
     var SLC2 = $(obj).find(".SLC2").text().trim() != "" ? parseFloat($(obj).find(".SLC2").text().trim()) : 0
     var C2 = IC2 * SLC2;
-    $(obj).find(".AWQC2").html(C2);
+    $(obj).find(".AWQC2").html(C2.toFixed(2));
 
     var IC3 = $(obj).find(".IC3").val() != "" ? parseFloat($(obj).find(".IC3").val()) : 0
     var SLC3 = $(obj).find(".SLC3").text().trim() != "" ? parseFloat($(obj).find(".SLC3").text().trim()) : 0
     var C3 = IC3 * SLC3;
-    $(obj).find(".AWQC3").html(C3);
+    $(obj).find(".AWQC3").html(C3.toFixed(2));
     var tot = C1 + C2 + C3;
     if (tot == 0)
         tot = "";
 
-    $(obj).find(".AWQTot").html(tot);
+    $(obj).find(".AWQTot").html(tot.toFixed(2));
 
 }
 
 function CrewDayreq(obj) {
     if ($(obj).find(".AWQTot").text().trim() != "" && $(obj).find(".ADP").text().trim() != "") {
-        $(obj).find(".CrewDayReq").html(parseFloat($(obj).find(".AWQTot").text().trim()) / parseFloat($(obj).find(".ADP").text().trim()));
+        $(obj).find(".CrewDayReq").html((parseFloat($(obj).find(".AWQTot").text().trim()) / parseFloat($(obj).find(".ADP").text().trim())).toFixed(2));
     }
     else {
         $(obj).find(".CrewDayReq").html("");
@@ -466,7 +466,7 @@ function ServiceLevel(obj) {
 
     //Desirer cal
     if ($(obj).find(".AWQTot").text().trim() != "" && $(obj).find(".TotQty").text().trim() != "") {
-        $(obj).find(".SLDesired").html(parseFloat($(obj).find(".AWQTot").text().trim()) / parseFloat($(obj).find(".TotQty").text().trim()));
+        $(obj).find(".SLDesired").html((parseFloat($(obj).find(".AWQTot").text().trim()) / parseFloat($(obj).find(".TotQty").text().trim())).toFixed(2));
     }
     else {
         $(obj).find(".SLDesired").html("");
@@ -475,7 +475,7 @@ function ServiceLevel(obj) {
     //Planned Cal
     
     if ($(obj).find(".SLDesired").text().trim() != "" && $(obj).find(".Desired").val().trim() != "") {
-        $(obj).find(".SLPlan").html(parseFloat($(obj).find(".SLDesired").text().trim()) * parseFloat($(obj).find(".Desired").val().trim()));
+        $(obj).find(".SLPlan").html((parseFloat($(obj).find(".SLDesired").text().trim()) * parseFloat($(obj).find(".Desired").val().trim())).toFixed(2));
     }
     else {
         $(obj).find(".SLPlan").html("");
@@ -487,7 +487,7 @@ function ServiceLevel(obj) {
 function AnnualWorkQtyPlanned(obj) {
 
     if ($(obj).find(".Desired").val().trim() != "" && $(obj).find(".AWQTot").text().trim() != "") {
-        $(obj).find(".AWQ").html(parseFloat($(obj).find(".Desired").val().trim()) * parseFloat($(obj).find(".AWQTot").text().trim()));
+        $(obj).find(".AWQ").html((parseFloat($(obj).find(".Desired").val().trim()) * parseFloat($(obj).find(".AWQTot").text().trim())).toFixed(2));
     }
     else {
         $(obj).find(".AWQ").html("");
@@ -498,7 +498,7 @@ function AnnualWorkQtyPlanned(obj) {
 function CrewDayplanned(obj) {
 
     if ($(obj).find(".AWQ").text().trim() != "" && $(obj).find(".ADP").text().trim() != "") {
-        $(obj).find(".CDP").html(parseFloat($(obj).find(".AWQ").text().trim()) / parseFloat($(obj).find(".ADP").text().trim()));
+        $(obj).find(".CDP").html((parseFloat($(obj).find(".AWQ").text().trim()) / parseFloat($(obj).find(".ADP").text().trim())).toFixed(2));
     }
     else {
         $(obj).find(".CDP").html("");
@@ -508,7 +508,7 @@ function CrewDayplanned(obj) {
 function SubTotalbyActivity(obj) {
 
     if ($(obj).find(".CrewDayCost").text().trim() != "" && $(obj).find(".CDP").text().trim() != "") {
-        $(obj).find(".ActTotal").html(parseFloat($(obj).find(".CrewDayCost").text().trim()) * parseFloat($(obj).find(".CDP").text().trim()));
+        $(obj).find(".ActTotal").html((parseFloat($(obj).find(".CrewDayCost").text().trim()) * parseFloat($(obj).find(".CDP").text().trim())).toFixed(2));
     }
     else {
         $(obj).find(".ActTotal").html("");
@@ -523,13 +523,13 @@ function SumofSubTotalbyActivity(obj) {
         }
     });
 
-    $("#SumofSubTotal").html(tot);
+    $("#SumofSubTotal").html(tot.toFixed(2));
 }
 
 
 function PlannedPercentage(obj) {
     if ($(obj).find(".ActTotal").text().trim() != "" && $(obj).find(".CDP").text().trim() != "") {
-        $(obj).find(".ActPer").html(parseFloat($(obj).find(".ActTotal").text().trim()) / parseFloat($("#SumofSubTotal").text().trim()) * 100);
+        $(obj).find(".ActPer").html((parseFloat($(obj).find(".ActTotal").text().trim()) / parseFloat($("#SumofSubTotal").text().trim()) * 100).toFixed(2));
     }
     else {
         $(obj).find(".ActPer").html("");
@@ -544,7 +544,7 @@ function SumofSubTotalPercentage(obj) {
         }
     });
 
-    $("#SumofSubTotalPerc").html(tot);
+    $("#SumofSubTotalPerc").html(tot.toFixed(2));
 }
 
 function SubTotalbyFeature() {
@@ -570,7 +570,7 @@ function SubTotalbyFeature() {
         }
     });
 
-    $(Lasttd).html(tot + "<br>" + totPer);
+    $(Lasttd).html(tot.toFixed(2) + "<br>" + totPer.toFixed(2));
 }
 
 function CalAdjustableQty() {
@@ -583,7 +583,7 @@ function CalAdjustableQty() {
     if ($('#tblPPB > tbody  > tr:eq(2)').find(".ActTotal").text().trim() != "")
         tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(2)').find(".ActTotal").text().trim());
 
-    $("#FormB13_AdjustableQuantity").val(tot);
+    $("#FormB13_AdjustableQuantity").val(tot.toFixed(2));
 
 }
 
@@ -620,7 +620,7 @@ function CalRoutineMaintenance() {
     if ($('#tblPPB > tbody  > tr:eq(29)').find(".ActTotal").text().trim() != "")
         tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(29)').find(".ActTotal").text().trim());
 
-    $("#FormB13_RoutineMaintenancey").val(tot);
+    $("#FormB13_RoutineMaintenancey").val(tot.toFixed(2));
 }
 
 function CalPeriodicMaintenance() {
@@ -693,7 +693,7 @@ function CalPeriodicMaintenance() {
         tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(32)').find(".ActTotal").text().trim());
 
 
-    $("#FormB13_PeriodicMaintenance").val(tot);
+    $("#FormB13_PeriodicMaintenance").val(tot.toFixed(2));
 }
 
 function CalOtherMaintenance() {
@@ -717,5 +717,5 @@ function CalOtherMaintenance() {
     if ($('#tblPPB > tbody  > tr:eq(38)').find(".ActTotal").text().trim() != "")
         tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(38)').find(".ActTotal").text().trim());
 
-    $("#FormB13_OtherMaintenance").val(tot);
+    $("#FormB13_OtherMaintenance").val(tot.toFixed(2));
 }
