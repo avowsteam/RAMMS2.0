@@ -82,7 +82,6 @@
 
   <ItemGroup>
     <Folder Include="Views\MAM\FormV2\" />
-    <Folder Include="wwwroot\Templates\" />
     <Folder Include="wwwroot\Uploads\FormD\" />
   </ItemGroup>
 
