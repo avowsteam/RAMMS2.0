@@ -60,7 +60,7 @@ var frmB15 = new function () {
             $('#tblLabour tbody tr').each(function () {
                 if ($('#txt' + j + "SubTotal").val() == "");
                 {
-                    //isvalid = false;
+                    isvalid = false;
                     return false;
                 }
                 j = j + 1;
@@ -68,76 +68,75 @@ var frmB15 = new function () {
         }
         debugger
         if (!isvalid) {
-            HideAjaxLoading();
             app.ShowErrorMessage("SubTotal values are empty");
         }
-        else {
-            var FormB15HDR = new Object();
-            var FormB15 = new Object();
 
-            FormB15HDR.PkRefNo = $("#pkRefNo").val();
-            FormB15HDR.PkRefId = $('#txtFormB15RefNum').val();
-            FormB15HDR.RmuCode = $("#formB15RMU").val();
-            FormB15HDR.RmuName = $('#formB15RMU').find("option:selected").text();
-            FormB15HDR.RevisionYear = $("#formB15Year").val();
-            FormB15HDR.RevisionDate = $("#date").val();
-            FormB15HDR.RevisionNo = $("#RevisionNo").val();
-            FormB15HDR.CrBy = $("#UserId").val();
-            FormB15HDR.CrDt = $("#date").val();
+        var FormB15HDR = new Object();
+        var FormB15 = new Object();
 
-            var B15History = []
-            var i = 0;
-            $('#tblLabour > tbody  > tr').each(function (index, tr) {
-                debugger;
-                var B15 = new Object();
+        FormB15HDR.PkRefNo = $("#pkRefNo").val();
+        FormB15HDR.PkRefId = $('#txtFormB15RefNum').val();
+        FormB15HDR.RmuCode = $("#formB15RMU").val();
+        FormB15HDR.RmuName = $('#formB15RMU').find("option:selected").text();
+        FormB15HDR.RevisionYear = $("#formB15Year").val();
+        FormB15HDR.RevisionDate = $("#date").val();
+        FormB15HDR.RevisionNo = $("#RevisionNo").val();
+        FormB15HDR.CrBy = $("#UserId").val();
+        FormB15HDR.CrDt = $("#date").val();
 
-                B15.PkRefNoHistory = frmB15.HeaderData.RmB15History.length == 0 ? 0 : frmB15.HeaderData.RmB15History[i].PkRefNoHistory;
-                B15.B15hPkRefNo = $("#pkRefNo").val();
-                B15.Feature = $('#spx' + i).text().trim();
-                B15.ActCode = $(this).find("td.x01").text().trim();
-                B15.ActName = $(this).find("td.x02").text().trim();
-                B15.Jan = $('#txt' + i + '1').val();
-                B15.Feb = $('#txt' + i + '2').val();
-                B15.Mar = $('#txt' + i + '3').val();
-                B15.Apr = $('#txt' + i + '4').val();
-                B15.May = $('#txt' + i + '5').val();
-                B15.Jun = $('#txt' + i + '6').val();
-                B15.Jul = $('#txt' + i + '7').val();
-                B15.Aug = $('#txt' + i + '8').val();
-                B15.Sep = $('#txt' + i + '9').val();
-                B15.Oct = $('#txt' + i + '10').val();
-                B15.Nov = $('#txt' + i + '11').val();
-                B15.Dec = $('#txt' + i + '12').val();
-                B15.SubTotal = $('#txt' + i + 'SubTotal').val();
-                B15.Remarks = $('#txt' + i + 'Remarks').val();
-                B15.Order = i;
-                B15History.push(B15);
-                i = i + 1;
-            });
+        var B15History = []
+        var i = 0;
+        $('#tblLabour > tbody  > tr').each(function (index, tr) {
+            debugger;
+            var B15 = new Object();
 
-            FormB15 = B15History;
-            var FormB15Data = JSON.stringify(FormB15);
-            var FormB15HDRData = JSON.stringify(FormB15HDR);
+            B15.PkRefNoHistory = frmB15.HeaderData.RmB15History.length == 0 ? 0 : frmB15.HeaderData.RmB15History[i].PkRefNoHistory;
+            B15.B15hPkRefNo = $("#pkRefNo").val();
+            B15.Feature = $('#spx' + i).text().trim();
+            B15.ActCode = $(this).find("td.x01").text().trim();
+            B15.ActName = $(this).find("td.x02").text().trim();
+            B15.Jan = $('#txt' + i + '1').val();
+            B15.Feb = $('#txt' + i + '2').val();
+            B15.Mar = $('#txt' + i + '3').val();
+            B15.Apr = $('#txt' + i + '4').val();
+            B15.May = $('#txt' + i + '5').val();
+            B15.Jun = $('#txt' + i + '6').val();
+            B15.Jul = $('#txt' + i + '7').val();
+            B15.Aug = $('#txt' + i + '8').val();
+            B15.Sep = $('#txt' + i + '9').val();
+            B15.Oct = $('#txt' + i + '10').val();
+            B15.Nov = $('#txt' + i + '11').val();
+            B15.Dec = $('#txt' + i + '12').val();
+            B15.SubTotal = $('#txt' + i + 'SubTotal').val();
+            B15.Remarks = $('#txt' + i + 'Remarks').val();
+            B15.Order = i;
+            B15History.push(B15);
+            i = i + 1;
+        });
+
+        FormB15 = B15History;
+        var FormB15Data = JSON.stringify(FormB15);
+        var FormB15HDRData = JSON.stringify(FormB15HDR);
 
 
-            $.ajax({
-                url: action,
-                data: { formb15hdrdata: FormB15HDRData, formb15data: FormB15Data, reload: IsReload },
-                type: 'POST',
-                success: function (data) {
-                    HideAjaxLoading();
-                    if (data == -1) {
-                        app.ShowErrorMessage(data.errorMessage);
-                    }
-                    else {
-                        if (IsReload == 0) {
-                            app.ShowSuccessMessage('Saved Successfully', false);
-                            location.href = "/FormB15";
-                        }
+        $.ajax({
+            url: action,
+            data: { formb15hdrdata: FormB15HDRData, formb15data: FormB15Data, reload: IsReload },
+            type: 'POST',
+            success: function (data) {
+                HideAjaxLoading();
+                if (data == -1) {
+                    app.ShowErrorMessage(data.errorMessage);
+                }
+                else {
+                    if (IsReload == 0) {
+                        app.ShowSuccessMessage('Saved Successfully', false);
+                        location.href = "/FormB15";
                     }
                 }
-            });
-        }
+            }
+        });
+
     }
 
     this.NavToList = function () {
@@ -861,7 +860,7 @@ function AppendPlannedData() {
         success: function (data) {
             if (data.result.length > 0) {
                 for (var i = 0; i < data.result.length; i++) {
-                    $('#spx' + i).text(data.result[i].Feature);
+                    $('#spx' + i).text(data.result[i].feature);
                     $('#txt' + i + "SubTotal").val(data.result[i].slCrewDaysPlanned);
                 }
             }

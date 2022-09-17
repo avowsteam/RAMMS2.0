@@ -68,76 +68,75 @@ var frmB14 = new function () {
         }
         debugger
         if (!isvalid) {
-            HideAjaxLoading();
             app.ShowErrorMessage("SubTotal values are empty");
         }
-        else {
-            var FormB14HDR = new Object();
-            var FormB14 = new Object();
 
-            FormB14HDR.PkRefNo = $("#pkRefNo").val();
-            FormB14HDR.PkRefId = $('#txtFormB14RefNum').val();
-            FormB14HDR.RmuCode = $("#formB14RMU").val();
-            FormB14HDR.RmuName = $('#formB14RMU').find("option:selected").text();
-            FormB14HDR.RevisionYear = $("#formB14Year").val();
-            FormB14HDR.RevisionDate = $("#date").val();
-            FormB14HDR.RevisionNo = $("#RevisionNo").val();
-            FormB14HDR.CrBy = $("#UserId").val();
-            FormB14HDR.CrDt = $("#date").val();
+        var FormB14HDR = new Object();
+        var FormB14 = new Object();
 
-            var B14History = []
-            var i = 0;
-            $('#tblLabour > tbody  > tr').each(function (index, tr) {
-                debugger;
-                var B14 = new Object();
+        FormB14HDR.PkRefNo = $("#pkRefNo").val();
+        FormB14HDR.PkRefId = $('#txtFormB14RefNum').val();
+        FormB14HDR.RmuCode = $("#formB14RMU").val();
+        FormB14HDR.RmuName = $('#formB14RMU').find("option:selected").text();
+        FormB14HDR.RevisionYear = $("#formB14Year").val();
+        FormB14HDR.RevisionDate = $("#date").val();
+        FormB14HDR.RevisionNo = $("#RevisionNo").val();
+        FormB14HDR.CrBy = $("#UserId").val();
+        FormB14HDR.CrDt = $("#date").val();
 
-                B14.PkRefNoHistory = frmB14.HeaderData.RmB14History.length == 0 ? 0 : frmB14.HeaderData.RmB14History[i].PkRefNoHistory;
-                B14.B14hPkRefNo = $("#pkRefNo").val();
-                B14.Feature = $('#spx' + i).text().trim();
-                B14.ActCode = $(this).find("td.x01").text().trim();
-                B14.ActName = $(this).find("td.x02").text().trim();
-                B14.Jan = $('#txt' + i + '1').val();
-                B14.Feb = $('#txt' + i + '2').val();
-                B14.Mar = $('#txt' + i + '3').val();
-                B14.Apr = $('#txt' + i + '4').val();
-                B14.May = $('#txt' + i + '5').val();
-                B14.Jun = $('#txt' + i + '6').val();
-                B14.Jul = $('#txt' + i + '7').val();
-                B14.Aug = $('#txt' + i + '8').val();
-                B14.Sep = $('#txt' + i + '9').val();
-                B14.Oct = $('#txt' + i + '10').val();
-                B14.Nov = $('#txt' + i + '11').val();
-                B14.Dec = $('#txt' + i + '12').val();
-                B14.SubTotal = $('#txt' + i + 'SubTotal').val();
-                B14.UnitOfService = $('#txt' + i + 'Unit').val();
-                B14.Order = i;
-                B14History.push(B14);
-                i = i + 1;
-            });
+        var B14History = []
+        var i = 0;
+        $('#tblLabour > tbody  > tr').each(function (index, tr) {
+            debugger;
+            var B14 = new Object();
 
-            FormB14 = B14History;
-            var FormB14Data = JSON.stringify(FormB14);
-            var FormB14HDRData = JSON.stringify(FormB14HDR);
+            B14.PkRefNoHistory = frmB14.HeaderData.RmB14History.length == 0 ? 0 : frmB14.HeaderData.RmB14History[i].PkRefNoHistory;
+            B14.B14hPkRefNo = $("#pkRefNo").val();
+            B14.Feature = $('#spx' + i).text().trim();
+            B14.ActCode = $(this).find("td.x01").text().trim();
+            B14.ActName = $(this).find("td.x02").text().trim();
+            B14.Jan = $('#txt' + i + '1').val();
+            B14.Feb = $('#txt' + i + '2').val();
+            B14.Mar = $('#txt' + i + '3').val();
+            B14.Apr = $('#txt' + i + '4').val();
+            B14.May = $('#txt' + i + '5').val();
+            B14.Jun = $('#txt' + i + '6').val();
+            B14.Jul = $('#txt' + i + '7').val();
+            B14.Aug = $('#txt' + i + '8').val();
+            B14.Sep = $('#txt' + i + '9').val();
+            B14.Oct = $('#txt' + i + '10').val();
+            B14.Nov = $('#txt' + i + '11').val();
+            B14.Dec = $('#txt' + i + '12').val();
+            B14.SubTotal = $('#txt' + i + 'SubTotal').val();
+            B14.UnitOfService = $('#txt' + i + 'Unit').val();
+            B14.Order = i;
+            B14History.push(B14);
+            i = i + 1;
+        });
+
+        FormB14 = B14History;
+        var FormB14Data = JSON.stringify(FormB14);
+        var FormB14HDRData = JSON.stringify(FormB14HDR);
 
 
-            $.ajax({
-                url: action,
-                data: { formb14hdrdata: FormB14HDRData, formb14data: FormB14Data, reload: IsReload },
-                type: 'POST',
-                success: function (data) {
-                    HideAjaxLoading();
-                    if (data == -1) {
-                        app.ShowErrorMessage(data.errorMessage);
-                    }
-                    else {
-                        if (IsReload == 0) {
-                            app.ShowSuccessMessage('Saved Successfully', false);
-                            location.href = "/FormB14";
-                        }
+        $.ajax({
+            url: action,
+            data: { formb14hdrdata: FormB14HDRData, formb14data: FormB14Data, reload: IsReload },
+            type: 'POST',
+            success: function (data) {
+                HideAjaxLoading();
+                if (data == -1) {
+                    app.ShowErrorMessage(data.errorMessage);
+                }
+                else {
+                    if (IsReload == 0) {
+                        app.ShowSuccessMessage('Saved Successfully', false);
+                        location.href = "/FormB14";
                     }
                 }
-            });
-        }
+            }
+        });
+
     }
 
     this.NavToList = function () {
@@ -669,7 +668,7 @@ function AppendData(id, Status) {
                         $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '11" onkeyup="LabourCal(this)" value="' + nov + '" class="form-control" disabled /></td>');
                         $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '12" onkeyup="LabourCal(this)" value="' + dec + '" class="form-control" disabled /></td>');
                         $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + subTotal + '" /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled value="' + UnitOfService+'" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled value="' + UnitOfService + '" /></td>');
                         i = i + 1;
                     }
                     else {
@@ -686,7 +685,7 @@ function AppendData(id, Status) {
                         $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '11" onkeyup="AddLabourCal(this,' + i + ')" value="' + nov + '" class="form-control" /></td>');
                         $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '12" onkeyup="AddLabourCal(this,' + i + ')" value="' + dec + '" class="form-control" /></td>');
                         $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + subTotal + '"/></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" value="' + UnitOfService +'" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" value="' + UnitOfService + '" /></td>');
                         i = i + 1;
                     }
                 });
@@ -858,8 +857,8 @@ function AppendPlannedData() {
         success: function (data) {
             if (data.result.length > 0) {
                 for (var i = 0; i < data.result.length; i++) {
-                    $('#spx' + i).text(data.result[i].Feature);
-                    $('#txt' + i + "SubTotal").val(data.result[i].SlAnnualWorkQuantity);
+                    $('#spx' + i).text(data.result[i].feature);
+                    $('#txt' + i + "SubTotal").val(data.result[i].slAnnualWorkQuantity);
                 }
             }
         },
