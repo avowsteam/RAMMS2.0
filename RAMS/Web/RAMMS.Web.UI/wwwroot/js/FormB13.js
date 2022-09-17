@@ -176,7 +176,7 @@ function Save(SubmitType) {
 
     var FormB13 = new Object();
     FormB13.PkRefNo = $("#FormB13_PkRefNo").val()
-    FormB13.PkRefNo = $("#FormB13_PkRefId").val()
+    FormB13.PkRefId = $("#FormB13_PkRefId").val()
     FormB13.Rmu = $("#ddlRMU").val()
     FormB13.RevisionYear = $("#ddlYear").val()
     FormB13.RevisionNo = $("#RevisionNo").val()
@@ -423,11 +423,11 @@ function ICTotalQty(obj) {
     var IC1 = $(obj).find(".IC1").val() != "" ? parseFloat($(obj).find(".IC1").val()) : 0
     var IC2 = $(obj).find(".IC2").val() != "" ? parseFloat($(obj).find(".IC2").val()) : 0
     var IC3 = $(obj).find(".IC3").val() != "" ? parseFloat($(obj).find(".IC3").val()) : 0
-    var tot = IC1 + IC2 + IC3;
+    var tot = (IC1 + IC2 + IC3).toFixed(2);
     if (tot == 0)
         tot = "";
 
-    $(obj).find(".TotQty").html(tot.toFixed(2));
+    $(obj).find(".TotQty").html(tot);
 }
 
 function AnnualWorkQtyDesired(obj) {
@@ -445,11 +445,11 @@ function AnnualWorkQtyDesired(obj) {
     var SLC3 = $(obj).find(".SLC3").text().trim() != "" ? parseFloat($(obj).find(".SLC3").text().trim()) : 0
     var C3 = IC3 * SLC3;
     $(obj).find(".AWQC3").html(C3.toFixed(2));
-    var tot = C1 + C2 + C3;
+    var tot = (C1 + C2 + C3).toFixed(2);
     if (tot == 0)
         tot = "";
 
-    $(obj).find(".AWQTot").html(tot.toFixed(2));
+    $(obj).find(".AWQTot").html(tot);
 
 }
 
