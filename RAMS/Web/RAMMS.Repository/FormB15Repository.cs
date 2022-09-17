@@ -223,17 +223,14 @@ namespace RAMMS.Repository
             }
         }
 
-        public async Task<FormB15Rpt> GetReportData(int headerid)
+        public List<FormB15Rpt> GetReportData(int headerid)
         {
-            FormB15Rpt details = new FormB15Rpt();
-
-
-            return details;
+            return GetReportDataV2(headerid);
         }
 
-        public List<RmB15History> GetHistoryData(int year)
+        public List<RmB15History> GetHistoryData(int pkRefNo)
         {
-            List<RmB15History> res = (from r in _context.RmB15History where r.B15hhB15hPkRefNo == year select r).OrderBy(x => x.B15hhOrder).ToList();
+            List<RmB15History> res = (from r in _context.RmB15History where r.B15hhB15hPkRefNo == pkRefNo select r).OrderBy(x => x.B15hhOrder).ToList();
             return res;
         }
         public List<RmB13ProposedPlannedBudgetHistory> GetPlannedBudgetData(string Rmucode, int year)
@@ -245,6 +242,63 @@ namespace RAMMS.Repository
             if (list.Count > 0)
                 res = (from r in _context.RmB13ProposedPlannedBudgetHistory where r.B13phB13pPkRefNo == list[0].B13pPkRefNo select r).ToList();
             return res;
+        }
+
+        public List<FormB15Rpt> GetReportDataV2(int headerid)
+        {
+
+            List<FormB15Rpt> detail = (from o in _context.RmB15Hdr
+                                           //where (o.Fr1hAiRdCode == roadcode.Fr1hAiRdCode && o.Fr1hDtOfInsp.HasValue && o.Fr1hDtOfInsp < roadcode.Fr1hDtOfInsp) || o.Fr1hPkRefNo == headerid
+                                       where o.B15hPkRefNo == headerid
+                                       let formB15 = _context.RmB15History.OrderBy(x => x.B15hhOrder).FirstOrDefault(x => x.B15hhB15hPkRefNo == o.B15hPkRefNo)
+                                       let formB15UID= _context.RmUsers.FirstOrDefault(x => x.UsrPkId == o.B15hUseridProsd)
+                                       select new FormB15Rpt
+                                       {
+                                           RevisionNo = o.B15hRevisionNo,
+                                           RevisionDate = o.B15hRevisionDate,
+                                           RevisionYear = o.B15hRevisionYear,
+
+                                           UseridProsd = o.B15hUseridProsd,
+                                           UserNameProsd = formB15UID.UsrUserName,
+                                           UserDesignationProsd = formB15UID.UsrPosition,
+                                           DtProsd = o.B15hDtProsd,
+                                           SignProsd = o.B15hSignProsd,
+
+                                           UseridFclitd = o.B15hUseridFclitd,
+                                           UserNameFclitd = o.B15hUserNameFclitd,
+                                           UserDesignationFclitd = o.B15hUserDesignationFclitd,
+                                           DtFclitd = o.B15hDtFclitd,
+                                           SignFclitd = o.B15hSignFclitd,
+
+                                           UseridAgrd = o.B15hUseridAgrd,
+                                           UserNameAgrd = o.B15hUserNameAgrd,
+                                           UserDesignationAgrd = o.B15hUserDesignationAgrd,
+                                           DtAgrd = o.B15hDtAgrd,
+                                           SignAgrd = o.B15hSignAgrd,
+
+                                           UseridEndosd = o.B15hUseridEndosd,
+                                           UserNameEndosd = o.B15hUserNameEndosd,
+                                           UserDesignationEndosd = o.B15hUserDesignationEndosd,
+                                           DtEndosd = o.B15hDtEndosd,
+                                           SignEndosd = o.B15hSignEndosd,
+
+                                           Jan = formB15.B15hhJan,
+                                           Feb = formB15.B15hhFeb,
+                                           Mar = formB15.B15hhMar,
+                                           Apr = formB15.B15hhApr,
+                                           May = formB15.B15hhMay,
+                                           Jun = formB15.B15hhJun,
+                                           Jul = formB15.B15hhJul,
+                                           Aug = formB15.B15hhAug,
+                                           Sep = formB15.B15hhSep,
+                                           Oct = formB15.B15hhOct,
+                                           Nov = formB15.B15hhNov,
+                                           Dec = formB15.B15hhDec,
+                                           SubTotal = formB15.B15hhSubTotal,
+                                           Remarks = formB15.B15hhRemarks
+                                       }).ToList();
+
+            return detail;
         }
     }
 }

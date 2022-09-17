@@ -612,11 +612,11 @@
     }
     @if (IsAgreed && (Model != null && (Model.FormB15Header.Status == RAMMS.Common.StatusList.FormB15Verified || Model.FormB15Header.Status == RAMMS.Common.StatusList.FormB15Rejected)))
     {
-        <button type="button" class="btn btn-sm btn-themebtn" finddetailsdep onclick="process.ShowApprove('@groupname','Verified By (JKRS)');">Verified (JKRS)</button>
+        <button type="button" class="btn btn-sm btn-themebtn" onclick="process.ShowApprove('@groupname','Verified By (JKRS)');">Verified (JKRS)</button>
     }
     @if (IsApproved && (Model != null && (Model.FormB15Header.Status == RAMMS.Common.StatusList.FormB15Agreed || Model.FormB15Header.Status == RAMMS.Common.StatusList.FormB15Rejected)))
     {
-        <button type="button" class="btn btn-sm btn-themebtn" finddetailsdep onclick="process.ShowApprove('@groupname','Approved (Endrosed By)');">Approved (Endrosed By)</button>
+        <button type="button" class="btn btn-sm btn-themebtn" onclick="process.ShowApprove('@groupname','Approved (Endrosed By)');">Approved (Endrosed By)</button>
     }
 </div>
 @*@Html.HiddenFor(m => m.FormB15Header.PkRefNo);*@

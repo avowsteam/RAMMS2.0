@@ -76,6 +76,7 @@ var frmB14 = new function () {
             var FormB14 = new Object();
 
             FormB14HDR.PkRefNo = $("#pkRefNo").val();
+            FormB14HDR.PkRefId = $('#txtFormB14RefNum').val();
             FormB14HDR.RmuCode = $("#formB14RMU").val();
             FormB14HDR.RmuName = $('#formB14RMU').find("option:selected").text();
             FormB14HDR.RevisionYear = $("#formB14Year").val();
@@ -108,7 +109,7 @@ var frmB14 = new function () {
                 B14.Nov = $('#txt' + i + '11').val();
                 B14.Dec = $('#txt' + i + '12').val();
                 B14.SubTotal = $('#txt' + i + 'SubTotal').val();
-                B14.Remarks = $('#txt' + i + 'Remarks').val();
+                B14.UnitOfService = $('#txt' + i + 'Unit').val();
                 B14.Order = i;
                 B14History.push(B14);
                 i = i + 1;
@@ -152,7 +153,7 @@ var frmB14 = new function () {
             var actionSection = "<div class='btn-group dropright' rowidx='" + meta.row + "'><button type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button>";
             actionSection += "<div class='dropdown-menu'>";//dorpdown menu start
 
-            if (tblFB14HGrid.Base.IsModify) {
+            if (data.Status != "Approved" && tblFB14HGrid.Base.IsModify) {
                 actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB14.HeaderGrid.ActionClick(this);'>";
                 actionSection += "<span class='edit-icon'></span> Edit </button>";
             }
@@ -651,6 +652,8 @@ function AppendData(id, Status) {
                     var oct = data.result[i].oct == null ? "" : data.result[i].oct;
                     var nov = data.result[i].nov == null ? "" : data.result[i].nov;
                     var dec = data.result[i].dec == null ? "" : data.result[i].dec;
+                    var subTotal = data.result[i].subTotal == null ? "" : data.result[i].subTotal;
+                    var UnitOfService = data.result[i].unitOfService == null ? "" : data.result[i].unitOfService;
 
                     if (Status == "Agreed" || Status == "Approved") {
                         $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '1" onkeyup="LabourCal(this)" value="' + jan + '" class="form-control" disabled  /></td>');
@@ -665,8 +668,8 @@ function AppendData(id, Status) {
                         $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '10" onkeyup="LabourCal(this)" value="' + oct + '" class="form-control" disabled /></td>');
                         $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '11" onkeyup="LabourCal(this)" value="' + nov + '" class="form-control" disabled /></td>');
                         $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '12" onkeyup="LabourCal(this)" value="' + dec + '" class="form-control" disabled /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + subTotal + '" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled value="' + UnitOfService+'" /></td>');
                         i = i + 1;
                     }
                     else {
@@ -682,8 +685,8 @@ function AppendData(id, Status) {
                         $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '10" onkeyup="AddLabourCal(this,' + i + ')" value="' + oct + '" class="form-control" /></td>');
                         $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '11" onkeyup="AddLabourCal(this,' + i + ')" value="' + nov + '" class="form-control" /></td>');
                         $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '12" onkeyup="AddLabourCal(this,' + i + ')" value="' + dec + '" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + subTotal + '"/></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" value="' + UnitOfService +'" /></td>');
                         i = i + 1;
                     }
                 });
@@ -711,6 +714,9 @@ function AppendData(id, Status) {
             }
             if (Status != "Verified" || Status != "Agreed" || Status != "Approved") {
                 AppendPlannedData();
+            }
+            if (Status == "Agreed" || Status == "Approved") {
+                $("[finddetailsdep]").hide();
             }
         }
     });
@@ -743,6 +749,8 @@ function ViewData(id) {
                     var oct = data.result[i].oct == null ? "" : data.result[i].oct;
                     var nov = data.result[i].nov == null ? "" : data.result[i].nov;
                     var dec = data.result[i].dec == null ? "" : data.result[i].dec;
+                    var total = data.result[i].subTotal == null ? "" : data.result[i].subTotal;
+                    var UnitOfService = data.result[i].unitOfService == null ? "" : data.result[i].unitOfService;
 
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '1" onkeyup="LabourCal(this)" value="' + jan + '" class="form-control" disabled  /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '2" onkeyup="LabourCal(this)" value="' + feb + '" class="form-control" disabled /></td>');
@@ -756,8 +764,8 @@ function ViewData(id) {
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '10" onkeyup="LabourCal(this)" value="' + oct + '" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '11" onkeyup="LabourCal(this)" value="' + nov + '" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '12" onkeyup="LabourCal(this)" value="' + dec + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + total + '" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" value="' + UnitOfService + '" /></td>');
                     i = i + 1;
                 });
             }
@@ -860,3 +868,4 @@ function AppendPlannedData() {
         }
     });
 }
+

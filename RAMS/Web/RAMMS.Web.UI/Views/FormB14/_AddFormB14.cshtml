@@ -195,7 +195,7 @@ Value = s.DdlTypeValue
                                                                             <th class="xl72" width="110" style='width:55.00pt;'>Nov</th>
                                                                             <th class="xl77" width="110" style='width:55.00pt;'>Dec</th>
                                                                             <th class="xl78" width="118" style='width:59.00pt;'>Sub-total</th>
-                                                                            <th class="xl80" width="130" style='width:100.00pt;'>Remarks</th>
+                                                                            <th class="xl80" width="130" style='width:100.00pt;'>Unit</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -611,11 +611,11 @@ Value = s.DdlTypeValue
     }
     @if (IsAgreed && (Model != null && (Model.FormB14Header.Status == RAMMS.Common.StatusList.FormB14Verified || Model.FormB14Header.Status == RAMMS.Common.StatusList.FormB14Rejected)))
     {
-        <button type="button" class="btn btn-sm btn-themebtn" finddetailsdep onclick="process.ShowApprove('@groupname','Verified By (JKRS)');">Verified (JKRS)</button>
+        <button type="button" class="btn btn-sm btn-themebtn" onclick="process.ShowApprove('@groupname','Verified By (JKRS)');">Verified (JKRS)</button>
     }
     @if (IsApproved && (Model != null && (Model.FormB14Header.Status == RAMMS.Common.StatusList.FormB14Agreed || Model.FormB14Header.Status == RAMMS.Common.StatusList.FormB14Rejected)))
     {
-        <button type="button" class="btn btn-sm btn-themebtn" finddetailsdep onclick="process.ShowApprove('@groupname','Approved (Endrosed By)');">Approved (Endrosed By)</button>
+        <button type="button" class="btn btn-sm btn-themebtn" onclick="process.ShowApprove('@groupname','Approved (Endrosed By)');">Approved (Endrosed By)</button>
     }
 </div>
 @*@Html.HiddenFor(m => m.FormB14Header.PkRefNo);*@
