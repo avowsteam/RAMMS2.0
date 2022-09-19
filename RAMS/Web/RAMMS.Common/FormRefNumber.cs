@@ -29,6 +29,9 @@ namespace RAMMS.Common.RefNumber
         public const string FormF1Header = "CI/Form F1/{RoadCode}/{Year}";
         public const string FormTHeader = "CI/Form T/{RoadCode}/{YYYYMMDD}";
         public const string FormMHeader = "CI/Form M/{RoadCode}/{ActivityCode}/{Year}{MonthNo}{Day}/{" + NewRunningNumber + "}";
+        public const string FormB13Header = "AWPB/Form B13/{RMU}/{YYYY}/{RevisionNo}";
+        public const string FormB15Header = "AWPB/Form B15/{YYYY}/{RevisionNo}";
+        public const string FormB14Header = "AWPB/Form B14/{YYYY}/{RevisionNo}";
         public const string FormB13Header = "AWPB/Form B13/{YYYY}/{RevisionNo}";
         public const string FormB15Header = "AWPB/Form B15/{RMU}/{YYYY}/{RevisionNo}";
         public const string FormB14Header = "AWPB/Form B14/{RMU}/{YYYY}/{RevisionNo}";

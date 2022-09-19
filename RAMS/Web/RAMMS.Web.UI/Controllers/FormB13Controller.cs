@@ -99,7 +99,7 @@ namespace RAMMS.Web.UI.Controllers
 
             _model.view = isview;
 
-            if ((_model.FormB13.UseridProsd == null || _model.FormB13.UseridProsd == 0))
+            if ((_model.FormB13.UseridProsd == null || _model.FormB13.UseridProsd == 0 || _model.FormB13.SubmitSts == false))
             {
                 _model.FormB13.UseridProsd = _security.UserID;
                 _model.FormB13.DtProsd = DateTime.Today;

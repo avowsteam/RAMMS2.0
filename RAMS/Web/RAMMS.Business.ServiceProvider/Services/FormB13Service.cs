@@ -75,6 +75,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 domainModelFormB13.B13pPkRefNo = 0;
                 IDictionary<string, string> lstData = new Dictionary<string, string>();
                 lstData.Add("YYYY", domainModelFormB13.B13pRevisionYear.ToString());
+                lstData.Add("RMU", domainModelFormB13.B13pRmu.ToString());
                 lstData.Add("RevisionNo", domainModelFormB13.B13pRevisionNo.ToString());
                 domainModelFormB13.B13pPkRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormB13, lstData);
                 var res = _repo.SaveFormB13(domainModelFormB13);
@@ -228,6 +229,10 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 worksheet.Cell(j, 6).Value = r.RevNo;
                                 j++;
                             }
+
+                            worksheet.Cell(3, 1).Value = "APPENDIX B13 - " + rptcol.Rmu;
+                            worksheet.Cell(5, 27).Value = rptcol.RevisionNo;
+                            worksheet.Cell(5, 29).Value = rptcol.RevisionDate;
 
                             worksheet.Cell(55, 15).Value = rptcol.UserNameProsd;
                             worksheet.Cell(55, 19).Value = rptcol.UserNameFclitd;
