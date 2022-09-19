@@ -224,12 +224,9 @@ namespace RAMMS.Repository
             }
         }
 
-        public async Task<FormB14Rpt> GetReportData(int headerid)
+        public List<FormB14Rpt> GetReportData(int headerid)
         {
-            FormB14Rpt details = new FormB14Rpt();
-
-
-            return details;
+            return GetReportDataV2(headerid);
         }
 
         public List<RmB14History> GetHistoryData(int year)
@@ -288,6 +285,63 @@ namespace RAMMS.Repository
                                 .ToListAsync(); ;
 
             return grid;
+        }
+
+        public List<FormB14Rpt> GetReportDataV2(int headerid)
+        {
+
+
+            List<FormB14Rpt> detail = (from o in _context.RmB14Hdr
+                                           //where (o.Fr1hAiRdCode == roadcode.Fr1hAiRdCode && o.Fr1hDtOfInsp.HasValue && o.Fr1hDtOfInsp < roadcode.Fr1hDtOfInsp) || o.Fr1hPkRefNo == headerid
+                                       where o.B14hPkRefNo == headerid
+                                       let formB14 = _context.RmB14History.OrderBy(x => x.B14hhOrder).FirstOrDefault(x => x.B14hhB14hPkRefNo == o.B14hPkRefNo)
+                                       let formB14UID = _context.RmUsers.FirstOrDefault(x => x.UsrPkId == o.B14hUseridProsd)
+                                       select new FormB14Rpt
+                                       {
+                                           RevisionNo = o.B14hRevisionNo,
+                                           RevisionDate = o.B14hRevisionDate,
+                                           RevisionYear = o.B14hRevisionYear
+                                           ,
+                                           UseridProsd = o.B14hUseridProsd,
+                                           UserNameProsd = formB14UID.UsrUserName,
+                                           UserDesignationProsd = formB14UID.UsrPosition,
+                                           DtProsd = o.B14hDtProsd,
+                                           SignProsd = o.B14hSignProsd,
+                                           UseridFclitd = o.B14hUseridFclitd,
+                                           UserNameFclitd = o.B14hUserNameFclitd,
+                                           UserDesignationFclitd = o.B14hUserDesignationFclitd,
+                                           DtFclitd = o.B14hDtFclitd,
+                                           SignFclitd = o.B14hSignFclitd,
+
+                                           UseridAgrd = o.B14hUseridAgrd,
+                                           UserNameAgrd = o.B14hUserNameAgrd,
+                                           UserDesignationAgrd = o.B14hUserDesignationAgrd,
+                                           DtAgrd = o.B14hDtAgrd,
+                                           SignAgrd = o.B14hSignAgrd,
+
+                                           UseridEndosd = o.B14hUseridEndosd,
+                                           UserNameEndosd = o.B14hUserNameEndosd,
+                                           UserDesignationEndosd = o.B14hUserDesignationEndosd,
+                                           DtEndosd = o.B14hDtEndosd,
+                                           SignEndosd = o.B14hSignEndosd,
+
+                                           Jan = formB14.B14hhJan,
+                                           Feb = formB14.B14hhFeb,
+                                           Mar = formB14.B14hhMar,
+                                           Apr = formB14.B14hhApr,
+                                           May = formB14.B14hhMay,
+                                           Jun = formB14.B14hhJun,
+                                           Jul = formB14.B14hhJul,
+                                           Aug = formB14.B14hhAug,
+                                           Sep = formB14.B14hhSep,
+                                           Oct = formB14.B14hhOct,
+                                           Nov = formB14.B14hhNov,
+                                           Dec = formB14.B14hhDec,
+                                           SubTotal = formB14.B14hhSubTotal,
+                                           UnitOfService = formB14.B14hhUnitOfService
+                                       }).ToList();
+
+            return detail;
         }
     }
 }

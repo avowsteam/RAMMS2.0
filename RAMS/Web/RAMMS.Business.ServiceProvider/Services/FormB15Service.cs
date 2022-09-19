@@ -204,7 +204,8 @@ namespace RAMMS.Business.ServiceProvider.Services
 
             try
             {
-                List<FormB15Rpt> _rpt = new List<FormB15Rpt>();// this.GetReportData(id).Result;
+                List<FormB15Rpt> _rpt = this.GetReportData(id);
+                List<RmB15History> res = _repo.GetHistoryData(id);
                 System.IO.File.Copy(Oldfilename, cachefile, true);
                 using (var workbook = new XLWorkbook(cachefile))
                 {
@@ -214,15 +215,33 @@ namespace RAMMS.Business.ServiceProvider.Services
                     {
                         if (worksheet != null)
                         {
-                            var i = 4;
-                            foreach (var lab in _rpt)
+                            var rptCount = _rpt.Count;
+                            var rpt = _rpt[rptCount - 1];
+                            worksheet.Cell(6, 14).Value = rpt.RevisionNo;
+                            worksheet.Cell(6, 17).Value = rpt.RevisionDate;
+
+                            for (int i = 0; i < res.Count; i++)
                             {
-                                worksheet.Cell(i, 2).Value = lab.ItemNo;
-                                worksheet.Cell(i, 3).Value = lab.Description;
-                                worksheet.Cell(i, 4).Value = lab.Unit;
-                                worksheet.Cell(i, 5).Value = lab.Division;
-                                i++;
+                                worksheet.Cell((i + 11), 5).Value = res[i].B15hhJan;
+                                worksheet.Cell((i + 11), 6).Value = res[i].B15hhFeb;
+                                worksheet.Cell((i + 11), 7).Value = res[i].B15hhMar;
+                                worksheet.Cell((i + 11), 8).Value = res[i].B15hhApr;
+                                worksheet.Cell((i + 11), 9).Value = res[i].B15hhMay;
+                                worksheet.Cell((i + 11), 10).Value = res[i].B15hhJun;
+                                worksheet.Cell((i + 11), 11).Value = res[i].B15hhJul;
+                                worksheet.Cell((i + 11), 12).Value = res[i].B15hhAug;
+                                worksheet.Cell((i + 11), 13).Value = res[i].B15hhSep;
+                                worksheet.Cell((i + 11), 14).Value = res[i].B15hhOct;
+                                worksheet.Cell((i + 11), 15).Value = res[i].B15hhNov;
+                                worksheet.Cell((i + 11), 16).Value = res[i].B15hhDec;
+                                worksheet.Cell((i + 11), 17).Value = res[i].B15hhSubTotal;
+                                worksheet.Cell((i + 11), 18).Value = res[i].B15hhRemarks;
                             }
+
+                            worksheet.Cell(54, 4).Value = rpt.UserNameProsd;
+                            worksheet.Cell(54, 5).Value = rpt.UserNameFclitd;
+                            worksheet.Cell(54, 9).Value = rpt.UserNameAgrd;
+                            worksheet.Cell(54, 14).Value = rpt.UserNameEndosd;
                         }
 
 
@@ -254,9 +273,9 @@ namespace RAMMS.Business.ServiceProvider.Services
             }
         }
 
-        public async Task<FormB15Rpt> GetReportData(int headerid)
+        public List<FormB15Rpt> GetReportData(int headerid)
         {
-            return await _repo.GetReportData(headerid);
+            return _repo.GetReportData(headerid);
         }
 
         public async Task<List<FormB15HistoryDTO>> GetHistoryData(int id)

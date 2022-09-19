@@ -21,7 +21,7 @@ namespace RAMMS.Repository.Interfaces
         Task<RmB15Hdr> Save(RmB15Hdr frm, bool updateSubmit);
         //Task<List<RmB15History>> SaveAD(List<RmB15History> frmMAD, bool updateSubmit);
         Task<int> SaveFormB15(List<RmB15History> FormB15);
-        Task<FormB15Rpt> GetReportData(int headerid);
+        List<FormB15Rpt> GetReportData(int headerid);
         List<RmB15History> GetHistoryData(int year);
         List<RmB13ProposedPlannedBudgetHistory> GetPlannedBudgetData(string RmuCode, int year);
         bool isF1Exist(int id);

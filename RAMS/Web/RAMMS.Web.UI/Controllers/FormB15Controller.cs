@@ -194,5 +194,11 @@ namespace RAMMS.Web.UI.Controllers
         {
             return Json(_formB15Service.GetPlannedBudgetData(RmuCode,Year));
         }
+        public IActionResult Download(int id)
+        {
+            var content1 = _formB15Service.FormDownload("FormB15", id, _webHostEnvironment.WebRootPath, _webHostEnvironment.WebRootPath + "/Templates/FormB15.xlsx");
+            string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            return File(content1, contentType1, "FormB15" + ".xlsx");
+        }
     }
 }
