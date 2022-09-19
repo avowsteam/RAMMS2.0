@@ -2506,7 +2506,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 string strStatus = "";
 
 
-                if (process.Stage == Common.StatusList.Proposed)
+                if (process.Stage == Common.StatusList.Submitted)
                 {
                     form.B13pStatus = process.IsApprove ? Common.StatusList.Facilitated : Common.StatusList.Saved;
                     strTitle = "Facilitated by";

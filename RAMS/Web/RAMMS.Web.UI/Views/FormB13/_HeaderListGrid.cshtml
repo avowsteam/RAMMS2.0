@@ -22,7 +22,7 @@
     var table_columns = [];
     var actionCol = {
         data: null, name: "Action", title: "Action", class: "", autoWidth: true, sortable: false, render: function (data) {
-            
+
             if (data.pkRefNo != "" && data.pkRefNo != null) {
                 title = data.pkRefNo;
             }
@@ -37,7 +37,7 @@
         }
     };
     var noCol = { data: "pkRefNo", name: "No", title: "NO", autoWidth: true, sortable: false, visible: false };
-
+    var refno = { data: "pkRefId", name: "ReferenceNo", title: "Reference No", autoWidth: true, sortable: true };
     var rmu = { data: "rmu", name: "rmu", title: "RMU", autoWidth: true, sortable: true };
     var year = { data: "revisionYear", name: "Year", title: "Year", autoWidth: true, sortable: true };
     var revisionDate = {
@@ -68,6 +68,7 @@
 
     table_columns.push(noCol);
     table_columns.push(actionCol);
+    table_columns.push(refno);
     table_columns.push(rmu);
     table_columns.push(year);
     table_columns.push(revisionDate);
@@ -122,7 +123,7 @@
 
     function InitializeGrid() {
 
-         
+
         var _currentGridSettings = new CustomGridSettings();
         $.extend($.fn.dataTable.defaults, _currentGridSettings);
 

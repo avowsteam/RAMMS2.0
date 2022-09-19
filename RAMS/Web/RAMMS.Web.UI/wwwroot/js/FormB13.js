@@ -186,21 +186,25 @@ function Save(SubmitType) {
 
     FormB13.UseridProsd = $('#ddlProposedby').val();
     FormB13.UserNameProsd = $('#FormB13_UserNameProsd').val();
+    FormB13.DTProsd = $('#FormB13_DTProsd').val();
     FormB13.UserDesignationProsd = $('#FormB13_UserDesignationProsd').val();
     FormB13.SignProsd = $('#FormB13_SignProsd').val();
 
     FormB13.UseridFclitd = $('#ddlFacilitatedby').val();
     FormB13.UserNameFclitd = $('#FormB13_UserNameFclitd').val();
+    FormB13.DTFclitd = $('#FormB13_DTFclitd').val();
     FormB13.UserDesignationFclitd = $('#FormB13_UserDesignationFclitd').val();
     FormB13.SignFclitd = $('#FormB13_SignFclitd').val();
 
     FormB13.UseridAgrd = $('#ddlAgreedby').val();
     FormB13.UserNameAgrd = $('#FormB13_UserNameAgrd').val();
+    FormB13.DTAgrd = $('#FormB13_DTAgrd').val();
     FormB13.UserDesignationAgrd = $('#FormB13_UserDesignationAgrd').val();
     FormB13.SignAgrd = $('#FormB13_SignAgrd').val();
 
     FormB13.UseridEdosd = $('#FormB13_UseridEdosd').val();
     FormB13.UserNameEdosd = $('#FormB13_UserNameEdosd').val();
+    FormB13.DTEdosd = $('#FormB13_Edosd').val();
     FormB13.UserDesignationEdosd = $('#FormB13_UserDesignationEdosd').val();
     FormB13.SignEdosd = $('#FormB13_SignEdosd').val();
 
@@ -308,6 +312,7 @@ function FindDetails() {
         FormB13.RevisionDate = $("#FormB13_RevisionDate").val()
         FormB13.UseridProsd = $('#ddlProposedby').val();
         FormB13.UserNameProsd = $('#FormB13_UserNameProsd').val();
+        FormB13.DTProsd = $('#FormB13_DTProsd').val();
         FormB13.UserDesignationProsd = $('#FormB13_UserDesignationProsd').val();
         FormB13.SignProsd = $('#FormB13_SignProsd').val();
 

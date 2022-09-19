@@ -67,6 +67,7 @@ namespace RAMMS.Repository
                 if (DateTime.TryParseExact(filterOptions.Filters.SmartSearch, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dt))
                 {
                     query = query.Where(s =>
+                     s.x.B13pPkRefId.Contains(filterOptions.Filters.SmartSearch) ||
                     s.x.B13pRmu.Contains(filterOptions.Filters.SmartSearch) ||
                      s.x.B13pStatus.Contains(filterOptions.Filters.SmartSearch) ||
                     (s.x.B13pRevisionNo.HasValue ? s.x.B13pRevisionNo.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
@@ -76,6 +77,7 @@ namespace RAMMS.Repository
                 else
                 {
                     query = query.Where(s =>
+                     s.x.B13pPkRefId.Contains(filterOptions.Filters.SmartSearch) ||
                    s.x.B13pRmu.Contains(filterOptions.Filters.SmartSearch) ||
                      s.x.B13pStatus.Contains(filterOptions.Filters.SmartSearch) ||
                    (s.x.B13pRevisionNo.HasValue ? s.x.B13pRevisionNo.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
@@ -119,6 +121,7 @@ namespace RAMMS.Repository
             var list = query.Select(s => new FormB13ResponseDTO
             {
                 PkRefNo = s.x.B13pPkRefNo,
+                PkRefId = s.x.B13pPkRefId,
                 RevisionDate = s.x.B13pRevisionDate,
                 RevisionNo = s.x.B13pRevisionNo,
                 RevisionYear = s.x.B13pRevisionYear,
@@ -185,12 +188,14 @@ namespace RAMMS.Repository
                 var B9rev = (from r in _context.RmB9DesiredService where r.B9dsRevisionYear == FormB13.B13pRevisionYear select r.B9dsRevisionNo).DefaultIfEmpty().Max();
                 var B9hdrPkrefNo = (from r in _context.RmB9DesiredService where r.B9dsRevisionYear == FormB13.B13pRevisionYear && r.B9dsRevisionNo == B9rev select r.B9dsPkRefNo).FirstOrDefault();
 
-                var B10rev = (from r in _context.RmB10DailyProduction where r.B10dpRevisionYear == FormB13.B13pRevisionYear select r.B10dpRevisionNo).DefaultIfEmpty().Max();
-                var B10hdrPkrefNo = (from r in _context.RmB10DailyProduction where r.B10dpRevisionYear == FormB13.B13pRevisionYear && r.B10dpRevisionNo == B10rev select r.B10dpPkRefNo).FirstOrDefault();
+                var B10year = (from r in _context.RmB10DailyProduction select r.B10dpRevisionYear).DefaultIfEmpty().Max();
+                var B10rev = (from r in _context.RmB10DailyProduction where r.B10dpRevisionYear == B10year select r.B10dpRevisionNo).DefaultIfEmpty().Max();
 
+                var B10hdrPkrefNo = (from r in _context.RmB10DailyProduction where r.B10dpRevisionYear == B10year && r.B10dpRevisionNo == B10rev select r.B10dpPkRefNo).FirstOrDefault();
 
-                var B11rev = (from r in _context.RmB11Hdr where r.B11hRevisionYear == FormB13.B13pRevisionYear && r.B11hRmuCode == FormB13.B13pRmu select r.B11hRevisionNo).DefaultIfEmpty().Max();
-                var B11hdrPkrefNo = (from r in _context.RmB11Hdr where r.B11hRevisionYear == FormB13.B13pRevisionYear && r.B11hRmuCode == FormB13.B13pRmu && r.B11hRevisionNo == B11rev select r.B11hPkRefNo).FirstOrDefault();
+                var B11year = (from r in _context.RmB11Hdr where r.B11hRmuCode == FormB13.B13pRmu  select r.B11hRevisionYear).DefaultIfEmpty().Max();
+                var B11rev = (from r in _context.RmB11Hdr where r.B11hRevisionYear == B11year && r.B11hRmuCode == FormB13.B13pRmu select r.B11hRevisionNo).DefaultIfEmpty().Max();
+                var B11hdrPkrefNo = (from r in _context.RmB11Hdr where r.B11hRevisionYear == B11year && r.B11hRmuCode == FormB13.B13pRmu && r.B11hRevisionNo == B11rev select r.B11hPkRefNo).FirstOrDefault();
 
                 FormB13.RmB13ProposedPlannedBudgetHistory = (from r in _context.RmB9DesiredServiceHistory
                                                              where r.B9dshB9dsPkRefNo == B9hdrPkrefNo
@@ -206,7 +211,7 @@ namespace RAMMS.Repository
                                                                  B13phCdcLabour = (from lr in _context.RmB11LabourCost where lr.B11lcB11hPkRefNo == B11hdrPkrefNo && lr.B11lcActivityId == Convert.ToInt32(r.B9dshCode) select lr.B11lcLabourTotalPrice).Sum(),
                                                                  B13phCdcEquipment = (from lr in _context.RmB11EquipmentCost where lr.B11ecB11hPkRefNo == B11hdrPkrefNo && lr.B11ecActivityId == Convert.ToInt32(r.B9dshCode) select lr.B11ecEquipmentTotalPrice).Sum(),
                                                                  B13phCdcMaterial = (from lr in _context.RmB11MaterialCost where lr.B11mcB11hPkRefNo == B11hdrPkrefNo && lr.B11mcActivityId == Convert.ToInt32(r.B9dshCode) select lr.B11mcMaterialTotalPrice).Sum(),
-                                                                 B13phCrewDaysCost = (from lr in _context.RmB11LabourCost where lr.B11lcB11hPkRefNo == B11hdrPkrefNo && lr.B11lcActivityId == Convert.ToInt32(r.B9dshCode) select lr.B11lcLabourTotalPrice).Sum() + (from lr in _context.RmB11EquipmentCost where lr.B11ecB11hPkRefNo == B11hdrPkrefNo && lr.B11ecActivityId == Convert.ToInt32(r.B9dshCode) select lr.B11ecEquipmentTotalPrice).Sum() + (from lr in _context.RmB11MaterialCost where lr.B11mcB11hPkRefNo == B11hdrPkrefNo && lr.B11mcActivityId == Convert.ToInt32(r.B9dshCode) select lr.B11mcMaterialTotalPrice).Sum(),
+                                                                 B13phCrewDaysCost = Convert.ToDecimal( (from lr in _context.RmB11LabourCost where lr.B11lcB11hPkRefNo == B11hdrPkrefNo && lr.B11lcActivityId == Convert.ToInt32(r.B9dshCode) select lr.B11lcLabourTotalPrice).Sum()) + Convert.ToDecimal((from lr in _context.RmB11EquipmentCost where lr.B11ecB11hPkRefNo == B11hdrPkrefNo && lr.B11ecActivityId == Convert.ToInt32(r.B9dshCode) select lr.B11ecEquipmentTotalPrice).Sum()) + Convert.ToDecimal((from lr in _context.RmB11MaterialCost where lr.B11mcB11hPkRefNo == B11hdrPkrefNo && lr.B11mcActivityId == Convert.ToInt32(r.B9dshCode) select lr.B11mcMaterialTotalPrice).Sum()),
                                                                  B13phInvCond1 = (from rec in _context.RmB13ProposedPlannedBudgetHistory where rec.B13phB13pPkRefNo == id && rec.B13phCode == r.B9dshCode select rec.B13phInvCond1).FirstOrDefault(),
                                                                  B13phInvCond2 = (from rec in _context.RmB13ProposedPlannedBudgetHistory where rec.B13phB13pPkRefNo == id && rec.B13phCode == r.B9dshCode select rec.B13phInvCond2).FirstOrDefault(),
                                                                  B13phInvCond3 = (from rec in _context.RmB13ProposedPlannedBudgetHistory where rec.B13phB13pPkRefNo == id && rec.B13phCode == r.B9dshCode select rec.B13phInvCond3).FirstOrDefault(),
