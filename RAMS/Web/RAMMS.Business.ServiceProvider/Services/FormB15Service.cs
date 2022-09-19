@@ -89,6 +89,12 @@ namespace RAMMS.Business.ServiceProvider.Services
                 frmB15.CrDt = frmB15.ModDt = DateTime.UtcNow;
 
                 IDictionary<string, string> lstData = new Dictionary<string, string>();
+                if (frmB15.RmuCode.ToUpper() == "MRI")
+                    lstData.Add("RMU", "Miri");
+                else if (frmB15.RmuCode.ToUpper() == "BTN")
+                    lstData.Add("RMU", "Batu Niah");
+                else
+                    lstData.Add("RMU", frmB15.RmuCode.ToString());
                 lstData.Add("YYYY", frmB15.RevisionYear.ToString());
                 lstData.Add("RevisionNo", frmB15.RevisionNo.ToString());
                 frmB15.PkRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormB15, lstData);

@@ -197,6 +197,11 @@ namespace RAMMS.Web.UI.Controllers
             return Json(_formB14Service.GetPlannedBudgetData(RmuCode, Year));
         }
 
+        public async Task<IActionResult> GetUnitData(int Year)
+        {
+            return Json(_formB14Service.GetUnitData(Year));
+        }
+
         public IActionResult Download(int id)
         {
             var content1 = _formB14Service.FormDownload("FormB14", id, _webHostEnvironment.WebRootPath, _webHostEnvironment.WebRootPath + "/Templates/FormB14.xlsx");

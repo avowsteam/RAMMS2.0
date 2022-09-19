@@ -238,10 +238,21 @@ namespace RAMMS.Repository
         {
             if (Rmucode.ToUpper() == "MRI")
                 Rmucode = "Miri";
+            else if (Rmucode.ToUpper() == "BTN")
+                Rmucode = "Batu Niah";
             var list = _context.RmB13ProposedPlannedBudget.Where(x => x.B13pRmu == Rmucode && x.B13pRevisionYear == year && x.B13pSubmitSts == true).OrderByDescending(x => x.B13pPkRefNo).ToList();
             List<RmB13ProposedPlannedBudgetHistory> res = new List<RmB13ProposedPlannedBudgetHistory>();
             if (list.Count > 0)
                 res = (from r in _context.RmB13ProposedPlannedBudgetHistory where r.B13phB13pPkRefNo == list[0].B13pPkRefNo select r).ToList();
+            return res;
+        }
+
+        public List<RmB10DailyProductionHistory> GetUnitData(int year)
+        {            
+            var list = _context.RmB10DailyProduction.Where(x => x.B10dpRevisionYear == year).OrderByDescending(x => x.B10dpPkRefNo).ToList();
+            List<RmB10DailyProductionHistory> res = new List<RmB10DailyProductionHistory>();
+            if (list.Count > 0)
+                res = (from r in _context.RmB10DailyProductionHistory where r.B10dphB10dpPkRefNo == list[0].B10dpPkRefNo select r).ToList();
             return res;
         }
 

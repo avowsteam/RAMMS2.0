@@ -237,6 +237,8 @@ namespace RAMMS.Repository
         {
             if (Rmucode.ToUpper() == "MRI")
                 Rmucode = "Miri";
+            else if (Rmucode.ToUpper() == "BTN")
+                Rmucode = "Batu Niah";
             var list = _context.RmB13ProposedPlannedBudget.Where(x => x.B13pRmu == Rmucode && x.B13pRevisionYear == year && x.B13pSubmitSts == true).OrderByDescending(x => x.B13pPkRefNo).ToList();
             List<RmB13ProposedPlannedBudgetHistory> res = new List<RmB13ProposedPlannedBudgetHistory>();
             if (list.Count > 0)
