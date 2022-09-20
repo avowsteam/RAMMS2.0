@@ -397,7 +397,8 @@
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
-                                                                <input name="DateProposed" class="form-control ssvalidate {req,Proposed by date}" type="date" value="" disabled="disabled" />
+                                                                @*<input name="DateProposed" class="form-control ssvalidate {req,Proposed by date}" type="date" value="" disabled="disabled" />*@
+                                                                @Html.EditorFor(m => m.FormB15Header.DtProsd, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
                                                             </div>
                                                             <div class="form-group col-lg-1 float-left">
                                                                 <label>
@@ -443,7 +444,8 @@
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
-                                                                <input name="DateVerified" class="form-control ssvalidate {req,Verified by date}" type="date" value="" disabled="disabled" />
+                                                                @*<input name="DateVerified" class="form-control ssvalidate {req,Verified by date}" type="date" value="" disabled="disabled" />*@
+                                                                @Html.EditorFor(m => m.FormB15Header.DtFclitd, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
                                                             </div>
                                                             <div class="form-group col-lg-1 float-left">
                                                                 <label>
@@ -488,7 +490,8 @@
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
-                                                                <input name="DateAgreed" class="form-control ssvalidate {req,Agreed by date}" type="date" value="" disabled="disabled" />
+                                                                @*<input name="DateAgreed" class="form-control ssvalidate {req,Agreed by date}" type="date" value="" disabled="disabled" />*@
+                                                                @Html.EditorFor(m => m.FormB15Header.DtAgrd, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
                                                             </div>
                                                             <div class="form-group col-lg-1 float-left">
                                                                 <label>
@@ -534,7 +537,8 @@
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
-                                                                <input name="DateApproved" class="form-control ssvalidate {req,Approved by date}" type="date" value="" disabled="disabled" />
+                                                                @*<input name="DateApproved" class="form-control ssvalidate {req,Approved by date}" type="date" value="" disabled="disabled" />*@
+                                                                @Html.EditorFor(m => m.FormB15Header.DtEndosd, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
                                                             </div>
                                                             <div class="form-group col-lg-1 float-left">
                                                                 <label>

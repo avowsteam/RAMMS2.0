@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace RAMMS.DTO.ResponseBO
@@ -16,21 +17,30 @@ namespace RAMMS.DTO.ResponseBO
         public int? UseridProsd { get; set; }
         public string UserNameProsd { get; set; }
         public string UserDesignationProsd { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-YYYY}")]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? DtProsd { get; set; }
         public bool? SignProsd { get; set; }
         public int? UseridFclitd { get; set; }
         public string UserNameFclitd { get; set; }
         public string UserDesignationFclitd { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-YYYY}")]
         public DateTime? DtFclitd { get; set; }
         public bool? SignFclitd { get; set; }
         public int? UseridAgrd { get; set; }
         public string UserNameAgrd { get; set; }
         public string UserDesignationAgrd { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-YYYY}")]
         public DateTime? DtAgrd { get; set; }
         public bool? SignAgrd { get; set; }
         public int? UseridEndosd { get; set; }
         public string UserNameEndosd { get; set; }
         public string UserDesignationEndosd { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-YYYY}")]
         public DateTime? DtEndosd { get; set; }
         public bool? SignEndosd { get; set; }
         public int? CrBy { get; set; }
