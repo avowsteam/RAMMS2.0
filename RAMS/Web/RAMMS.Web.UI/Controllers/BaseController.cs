@@ -89,6 +89,12 @@ namespace RAMMS.Web.UI.Models
                 types = types.ToArray();
             }
 
+            if (types.Contains(GroupNameList.Engineering_Consultant))
+            {
+                ViewData[GroupNameList.Engineering_Consultant] = UserService.GetSupervisor(GroupNameList.Engineering_Consultant, null).Result;
+                types = types.Where(x => x != GroupNameList.Engineering_Consultant).ToArray();
+            }
+
             if (types.Contains(GroupNameList.Director))
             {
                 ViewData[GroupNameList.Director] = UserService.GetSupervisor(GroupNameList.Director, null).Result;
