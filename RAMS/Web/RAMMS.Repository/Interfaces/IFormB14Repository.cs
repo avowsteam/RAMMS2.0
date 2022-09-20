@@ -23,6 +23,7 @@ namespace RAMMS.Repository.Interfaces
         List<FormB14Rpt> GetReportData(int headerid);
         List<RmB14History> GetHistoryData(int year);
         List<RmB13ProposedPlannedBudgetHistory> GetPlannedBudgetData(string RmuCode, int year);
+        List<RmB10DailyProductionHistory> GetUnitData(int year);
         bool isF1Exist(int id);
         int DeleteHeader(RmB14Hdr frmB14);
         Task<GridWrapper<object>> GetAWPBHeaderGrid(DataTableAjaxPostModel searchData);

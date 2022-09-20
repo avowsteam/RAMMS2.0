@@ -685,7 +685,7 @@ function AppendData(id, Status) {
                         $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '11" onkeyup="AddLabourCal(this,' + i + ')" value="' + nov + '" class="form-control" /></td>');
                         $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '12" onkeyup="AddLabourCal(this,' + i + ')" value="' + dec + '" class="form-control" /></td>');
                         $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + subTotal + '"/></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" value="' + UnitOfService + '" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled value="' + UnitOfService + '" /></td>');
                         i = i + 1;
                     }
                 });
@@ -707,12 +707,13 @@ function AppendData(id, Status) {
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '11" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '12" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled /></td>');
                     i = i + 1;
                 });
             }
             if (Status != "Verified" || Status != "Agreed" || Status != "Approved") {
                 AppendPlannedData();
+                AppendUnitData();
             }
             if (Status == "Agreed" || Status == "Approved") {
                 $("[finddetailsdep]").hide();
@@ -764,7 +765,7 @@ function ViewData(id) {
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '11" onkeyup="LabourCal(this)" value="' + nov + '" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '12" onkeyup="LabourCal(this)" value="' + dec + '" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + total + '" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" value="' + UnitOfService + '" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled value="' + UnitOfService + '" /></td>');
                     i = i + 1;
                 });
             }
@@ -859,6 +860,31 @@ function AppendPlannedData() {
                 for (var i = 0; i < data.result.length; i++) {
                     $('#spx' + i).text(data.result[i].feature);
                     $('#txt' + i + "SubTotal").val(data.result[i].slAnnualWorkQuantity);
+                }
+            }
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+}
+
+
+function AppendUnitData() {
+    debugger;
+    var req = {};
+    var year = $("#formB14Year").val();
+    req.Year = year;
+    $.ajax({
+        url: '/FormB14/GetUnitData',
+        dataType: 'JSON',
+        data: req,
+        type: 'Post',
+        success: function (data) {
+            if (data.result.length > 0) {
+                debugger;
+                for (var i = 0; i < data.result.length; i++) {
+                    $('#txt' + i + "Unit").val(data.result[i].adpUnit);
                 }
             }
         },

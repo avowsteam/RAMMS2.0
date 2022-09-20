@@ -396,7 +396,8 @@ Value = s.DdlTypeValue
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
-                                                                <input name="DateProposed" class="form-control ssvalidate {req,Proposed by date}" type="date" value="" disabled="disabled" />
+                                                                @*<input name="DateProposed" class="form-control ssvalidate {req,Proposed by date}" type="date" value="@Model.FormB14Header.DtProsd" disabled="disabled" />*@
+                                                                @Html.EditorFor(m => m.FormB14Header.DtProsd, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
                                                             </div>
                                                             <div class="form-group col-lg-1 float-left">
                                                                 <label>
@@ -410,7 +411,7 @@ Value = s.DdlTypeValue
                                                                     }
                                                                 </label>
                                                                 <div class="clear-b mt-2">
-                                                                    <input class="{required, Requested By Signature}" checked="checked" id="ProposedSign" name="SignProposed" type="checkbox">
+                                                                    <input class="{required, Requested By Signature}" checked="_insSign" id="ProposedSign" name="SignProposed" type="checkbox">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -442,7 +443,8 @@ Value = s.DdlTypeValue
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
-                                                                <input name="DateVerified" class="form-control ssvalidate {req,Verified by date}" type="date" value="" disabled="disabled" />
+                                                                @*<input name="DateVerified" class="form-control ssvalidate {req,Verified by date}" type="date" value="@Model.FormB14Header.DtFclitd" disabled="disabled" />*@
+                                                                @Html.EditorFor(m => m.FormB14Header.DtFclitd, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
                                                             </div>
                                                             <div class="form-group col-lg-1 float-left">
                                                                 <label>
@@ -456,7 +458,7 @@ Value = s.DdlTypeValue
                                                                     }
                                                                 </label>
                                                                 <div class="clear-b mt-2">
-                                                                    <input class="{required, Requested By Signature}" checked="checked" id="VerifiedSign" name="SignVerified" type="checkbox">
+                                                                    <input class="{required, Requested By Signature}" checked="_insSignfc" id="VerifiedSign" name="SignVerified" type="checkbox">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -487,7 +489,8 @@ Value = s.DdlTypeValue
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
-                                                                <input name="DateAgreed" class="form-control ssvalidate {req,Agreed by date}" type="date" value="" disabled="disabled" />
+                                                                @*<input name="DateAgreed" class="form-control ssvalidate {req,Agreed by date}" type="date" value="@Model.FormB14Header.DtAgrd" disabled="disabled" />*@
+                                                                @Html.EditorFor(m => m.FormB14Header.DtAgrd, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
                                                             </div>
                                                             <div class="form-group col-lg-1 float-left">
                                                                 <label>
@@ -501,7 +504,7 @@ Value = s.DdlTypeValue
                                                                     }
                                                                 </label>
                                                                 <div class="clear-b mt-2">
-                                                                    <input class="{required, Requested By Signature}" checked="checked" id="AgreedSign" name="SignAgreed" type="checkbox">
+                                                                    <input class="{required, Requested By Signature}" checked="_insSignAg" id="AgreedSign" name="SignAgreed" type="checkbox">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -533,7 +536,8 @@ Value = s.DdlTypeValue
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label for="Date__DD-MM-YYYY_">Date of Audit (DD-MM-YYYY)</label>
-                                                                <input name="DateApproved" class="form-control ssvalidate {req,Approved by date}" type="date" value="" disabled="disabled" />
+                                                                @*<input name="DateApproved" class="form-control ssvalidate {req,Approved by date}" type="date" value="@Model.FormB14Header.DtEndosd" disabled="disabled" />*@
+                                                                @Html.EditorFor(m => m.FormB14Header.DtEndosd, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
                                                             </div>
                                                             <div class="form-group col-lg-1 float-left">
                                                                 <label>
@@ -547,7 +551,7 @@ Value = s.DdlTypeValue
                                                                     }
                                                                 </label>
                                                                 <div class="clear-b mt-2">
-                                                                    <input class="{required, Requested By Signature}" checked="checked" id="ApprovedSign" name="SignApproved" type="checkbox">
+                                                                    <input class="{required, Requested By Signature}" checked="_insSignAP" id="ApprovedSign" name="SignApproved" type="checkbox">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -589,15 +593,15 @@ Value = s.DdlTypeValue
     @{
         var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
 
-        //isSubmit = (security.IsRegionManager || security.IsHeadMaintenance);
-        //bool isVerify = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
-        //bool IsAgreed = (security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
-        //bool IsApproved = (security.IsJKRSHQ);
+        //isSubmit = (security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsExecutive || security.IsInstructedWorkEngg || security.isEnggAssistant || security.IsSupervisor || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        //bool isVerify = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg || security.isEnggConsultanttant);
+        //bool IsAgreed = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        //bool IsApproved = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
 
-        isSubmit = (security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsExecutive || security.IsInstructedWorkEngg || security.isEnggAssistant || security.IsSupervisor || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
-        bool isVerify = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg || security.isEnggConsultanttant);
-        bool IsAgreed = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
-        bool IsApproved = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        isSubmit = (security.IsRegionManager || security.IsHeadMaintenance || security.isQuantitySurveyor || security.isPlanningEngineer);
+        bool isVerify = (security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        bool IsAgreed = (security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        bool IsApproved = (security.IsJKRSHQ);
 
     }
     <button type="button" class="btn btn-sm btn-themebtn" onclick="frmB14.Save(false,0)" finddetailsdep>Save</button>

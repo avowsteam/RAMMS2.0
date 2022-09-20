@@ -89,6 +89,12 @@ namespace RAMMS.Business.ServiceProvider.Services
                 frmB14.CrDt = frmB14.ModDt = DateTime.UtcNow;
 
                 IDictionary<string, string> lstData = new Dictionary<string, string>();
+                if (frmB14.RmuCode.ToUpper() == "MRI")
+                    lstData.Add("RMU", "Miri");
+                else if (frmB14.RmuCode.ToUpper() == "BTN")
+                    lstData.Add("RMU", "Batu Niah");
+                else                    
+                    lstData.Add("RMU", frmB14.RmuCode.ToString());
                 lstData.Add("YYYY", frmB14.RevisionYear.ToString());
                 lstData.Add("RevisionNo", frmB14.RevisionNo.ToString());
                 frmB14.PkRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormB14, lstData);
@@ -222,18 +228,18 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                             for (int i = 0; i < res.Count; i++)
                             {
-                                worksheet.Cell((i+9), 5).Value = res[i].B14hhJan;
-                                worksheet.Cell((i+9), 6).Value = res[i].B14hhFeb;
-                                worksheet.Cell((i+9), 7).Value = res[i].B14hhMar;
-                                worksheet.Cell((i+9), 8).Value = res[i].B14hhApr;
-                                worksheet.Cell((i+9), 9).Value = res[i].B14hhMay;
-                                worksheet.Cell((i+9), 10).Value = res[i].B14hhJun;
-                                worksheet.Cell((i+9), 11).Value = res[i].B14hhJul;
-                                worksheet.Cell((i+9), 12).Value = res[i].B14hhAug;
-                                worksheet.Cell((i+9), 13).Value = res[i].B14hhSep;
-                                worksheet.Cell((i+9), 14).Value = res[i].B14hhOct;
-                                worksheet.Cell((i+9), 15).Value = res[i].B14hhNov;
-                                worksheet.Cell((i+9), 16).Value = res[i].B14hhDec;
+                                worksheet.Cell((i + 9), 5).Value = res[i].B14hhJan;
+                                worksheet.Cell((i + 9), 6).Value = res[i].B14hhFeb;
+                                worksheet.Cell((i + 9), 7).Value = res[i].B14hhMar;
+                                worksheet.Cell((i + 9), 8).Value = res[i].B14hhApr;
+                                worksheet.Cell((i + 9), 9).Value = res[i].B14hhMay;
+                                worksheet.Cell((i + 9), 10).Value = res[i].B14hhJun;
+                                worksheet.Cell((i + 9), 11).Value = res[i].B14hhJul;
+                                worksheet.Cell((i + 9), 12).Value = res[i].B14hhAug;
+                                worksheet.Cell((i + 9), 13).Value = res[i].B14hhSep;
+                                worksheet.Cell((i + 9), 14).Value = res[i].B14hhOct;
+                                worksheet.Cell((i + 9), 15).Value = res[i].B14hhNov;
+                                worksheet.Cell((i + 9), 16).Value = res[i].B14hhDec;
                                 worksheet.Cell((i + 9), 17).Value = res[i].B14hhSubTotal;
                                 worksheet.Cell((i + 9), 18).Value = res[i].B14hhUnitOfService;
                             }
@@ -291,6 +297,14 @@ namespace RAMMS.Business.ServiceProvider.Services
             List<FormB13HistoryResponseDTO> FormB13 = new List<FormB13HistoryResponseDTO>();
             FormB13 = _mapper.Map<List<FormB13HistoryResponseDTO>>(res);
             return FormB13;
+        }
+
+        public async Task<List<FormB10HistoryResponseDTO>> GetUnitData(int year)
+        {
+            List<RmB10DailyProductionHistory> res = _repo.GetUnitData(year);
+            List<FormB10HistoryResponseDTO> FormB10 = new List<FormB10HistoryResponseDTO>();
+            FormB10 = _mapper.Map<List<FormB10HistoryResponseDTO>>(res);
+            return FormB10;
         }
 
         public async Task<GridWrapper<object>> GetAWPBHeaderGrid(DataTableAjaxPostModel searchData)
