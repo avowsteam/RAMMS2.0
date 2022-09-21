@@ -185,8 +185,9 @@ namespace RAMMS.Repository
 
             if (!FormB13.B13pSubmitSts)
             {
-                var B9rev = (from r in _context.RmB9DesiredService where r.B9dsRevisionYear == FormB13.B13pRevisionYear select r.B9dsRevisionNo).DefaultIfEmpty().Max();
-                var B9hdrPkrefNo = (from r in _context.RmB9DesiredService where r.B9dsRevisionYear == FormB13.B13pRevisionYear && r.B9dsRevisionNo == B9rev select r.B9dsPkRefNo).FirstOrDefault();
+                var B9year = (from r in _context.RmB9DesiredService select r.B9dsRevisionYear).DefaultIfEmpty().Max();
+                var B9rev = (from r in _context.RmB9DesiredService where r.B9dsRevisionYear == B9year select r.B9dsRevisionNo).DefaultIfEmpty().Max();
+                var B9hdrPkrefNo = (from r in _context.RmB9DesiredService where r.B9dsRevisionYear == B9year && r.B9dsRevisionNo == B9rev select r.B9dsPkRefNo).FirstOrDefault();
 
                 var B10year = (from r in _context.RmB10DailyProduction select r.B10dpRevisionYear).DefaultIfEmpty().Max();
                 var B10rev = (from r in _context.RmB10DailyProduction where r.B10dpRevisionYear == B10year select r.B10dpRevisionNo).DefaultIfEmpty().Max();
