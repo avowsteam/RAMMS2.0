@@ -77,6 +77,7 @@ namespace RAMMS.DTO.ResponseBO
         public decimal? Dec { get; set; }
         public string UnitOfService { get; set; }
         public decimal? SubTotal { get; set; }
+        public int Order { get; set; }
 
         public virtual FormB14HeaderDTO B14Header { get; set; }
     }
