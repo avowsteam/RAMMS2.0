@@ -58,7 +58,8 @@ namespace RAMMS.Business.ServiceProvider.Services
 
         public int Delete(int id)
         {
-            if (id > 0 && !_repo.isF1Exist(id))
+            ///if (id > 0 && !_repo.isF1Exist(id))
+            if (id > 0)
             {
                 id = _repo.DeleteHeader(new RmB14Hdr() { B14hActiveYn = false, B14hPkRefNo = id });
             }

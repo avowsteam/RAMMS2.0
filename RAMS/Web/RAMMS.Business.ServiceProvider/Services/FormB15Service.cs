@@ -58,7 +58,8 @@ namespace RAMMS.Business.ServiceProvider.Services
 
         public int Delete(int id)
         {
-            if (id > 0 && !_repo.isF1Exist(id))
+            //if (id > 0 && !_repo.isF1Exist(id))
+            if (id > 0)
             {
                 id = _repo.DeleteHeader(new RmB15Hdr() { B15hActiveYn = false, B15hPkRefNo = id });
             }
@@ -162,7 +163,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 }
 
             }
-            
+
 
             if (form.B15hSubmitSts && (string.IsNullOrEmpty(form.B15hStatus) || form.B15hStatus == Common.StatusList.FormQA1Saved || form.B15hStatus == Common.StatusList.FormQA1Rejected))
             {
