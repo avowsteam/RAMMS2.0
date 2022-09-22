@@ -224,6 +224,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                         {
                             var rptCount = _rpt.Count;
                             var rpt = _rpt[rptCount - 1];
+
+                            worksheet.Cell(2, 1).Value = "PROPOSED ANNUAL WORK PROGRAMME AND BUDGET "+ rpt.RevisionYear + " (PROPOSED PLANNED BUDGET)";
                             worksheet.Cell(6, 14).Value = rpt.RevisionNo;
                             worksheet.Cell(6, 17).Value = rpt.RevisionDate;
 
