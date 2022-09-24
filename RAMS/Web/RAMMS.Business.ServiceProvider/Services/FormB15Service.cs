@@ -58,7 +58,8 @@ namespace RAMMS.Business.ServiceProvider.Services
 
         public int Delete(int id)
         {
-            if (id > 0 && !_repo.isF1Exist(id))
+            //if (id > 0 && !_repo.isF1Exist(id))
+            if (id > 0)
             {
                 id = _repo.DeleteHeader(new RmB15Hdr() { B15hActiveYn = false, B15hPkRefNo = id });
             }
@@ -162,7 +163,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 }
 
             }
-            
+
 
             if (form.B15hSubmitSts && (string.IsNullOrEmpty(form.B15hStatus) || form.B15hStatus == Common.StatusList.FormQA1Saved || form.B15hStatus == Common.StatusList.FormQA1Rejected))
             {
@@ -223,6 +224,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                         {
                             var rptCount = _rpt.Count;
                             var rpt = _rpt[rptCount - 1];
+
+                            worksheet.Cell(2, 1).Value = "PROPOSED ANNUAL WORK PROGRAMME AND BUDGET "+ rpt.RevisionYear + " (PROPOSED PLANNED BUDGET)";
                             worksheet.Cell(6, 14).Value = rpt.RevisionNo;
                             worksheet.Cell(6, 17).Value = rpt.RevisionDate;
 

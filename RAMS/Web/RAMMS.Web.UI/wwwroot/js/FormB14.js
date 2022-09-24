@@ -95,18 +95,18 @@ var frmB14 = new function () {
             B14.Feature = $('#spx' + i).text().trim();
             B14.ActCode = $(this).find("td.x01").text().trim();
             B14.ActName = $(this).find("td.x02").text().trim();
-            B14.Jan = $('#txt' + i + '1').val();
-            B14.Feb = $('#txt' + i + '2').val();
-            B14.Mar = $('#txt' + i + '3').val();
-            B14.Apr = $('#txt' + i + '4').val();
-            B14.May = $('#txt' + i + '5').val();
-            B14.Jun = $('#txt' + i + '6').val();
-            B14.Jul = $('#txt' + i + '7').val();
-            B14.Aug = $('#txt' + i + '8').val();
-            B14.Sep = $('#txt' + i + '9').val();
-            B14.Oct = $('#txt' + i + '10').val();
-            B14.Nov = $('#txt' + i + '11').val();
-            B14.Dec = $('#txt' + i + '12').val();
+            B14.Jan = $('#txt' + i + 'M1').val();
+            B14.Feb = $('#txt' + i + 'M2').val();
+            B14.Mar = $('#txt' + i + 'M3').val();
+            B14.Apr = $('#txt' + i + 'M4').val();
+            B14.May = $('#txt' + i + 'M5').val();
+            B14.Jun = $('#txt' + i + 'M6').val();
+            B14.Jul = $('#txt' + i + 'M7').val();
+            B14.Aug = $('#txt' + i + 'M8').val();
+            B14.Sep = $('#txt' + i + 'M9').val();
+            B14.Oct = $('#txt' + i + 'M10').val();
+            B14.Nov = $('#txt' + i + 'M11').val();
+            B14.Dec = $('#txt' + i + 'M12').val();
             B14.SubTotal = $('#txt' + i + 'SubTotal').val();
             B14.UnitOfService = $('#txt' + i + 'Unit').val();
             B14.Order = i;
@@ -190,10 +190,10 @@ var frmB14 = new function () {
                         app.Confirm("Are you sure you want to delete this record? <br/>(Ref: " + data.RefNo + ")", (status) => {
                             if (status) {
                                 DeleteRequest("Delete/" + data.RefNo, "FormB14", {}, function (sdata) {
-                                    if (sdata.id == "-1") {
-                                        app.ShowErrorMessage("Form B14 cannot be deleted, first delete Form F3");
-                                        return false;
-                                    }
+                                    //if (sdata.id == "-1") {
+                                    //    app.ShowErrorMessage("Form B14 cannot be deleted, first delete Form F3");
+                                    //    return false;
+                                    //}
                                     tblFB14HGrid.Refresh();
                                     app.ShowSuccessMessage("Deleted Sucessfully! <br/>(Ref: " + data.RefNo + ")");
                                 });
@@ -655,35 +655,35 @@ function AppendData(id, Status) {
                     var UnitOfService = data.result[i].unitOfService == null ? "" : data.result[i].unitOfService;
 
                     if (Status == "Agreed" || Status == "Approved") {
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '1" onkeyup="LabourCal(this)" value="' + jan + '" class="form-control" disabled  /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '2" onkeyup="LabourCal(this)" value="' + feb + '" class="form-control" disabled /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '3" onkeyup="LabourCal(this)" value="' + mar + '" class="form-control" disabled /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '4" onkeyup="LabourCal(this)" value="' + apr + '" class="form-control" disabled /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '5" onkeyup="LabourCal(this)" value="' + may + '" class="form-control" disabled /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '6" onkeyup="LabourCal(this)" value="' + jun + '" class="form-control" disabled /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '7" onkeyup="LabourCal(this)" value="' + jul + '" class="form-control" disabled /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '8" onkeyup="LabourCal(this)" value="' + aug + '" class="form-control" disabled /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '9" onkeyup="LabourCal(this)" value="' + sep + '" class="form-control" disabled /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '10" onkeyup="LabourCal(this)" value="' + oct + '" class="form-control" disabled /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '11" onkeyup="LabourCal(this)" value="' + nov + '" class="form-control" disabled /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '12" onkeyup="LabourCal(this)" value="' + dec + '" class="form-control" disabled /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M1" onkeyup="LabourCal(this)" value="' + jan + '" class="form-control" disabled  /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M2" onkeyup="LabourCal(this)" value="' + feb + '" class="form-control" disabled /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M3" onkeyup="LabourCal(this)" value="' + mar + '" class="form-control" disabled /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M4" onkeyup="LabourCal(this)" value="' + apr + '" class="form-control" disabled /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M5" onkeyup="LabourCal(this)" value="' + may + '" class="form-control" disabled /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M6" onkeyup="LabourCal(this)" value="' + jun + '" class="form-control" disabled /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M7" onkeyup="LabourCal(this)" value="' + jul + '" class="form-control" disabled /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M8" onkeyup="LabourCal(this)" value="' + aug + '" class="form-control" disabled /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M9" onkeyup="LabourCal(this)" value="' + sep + '" class="form-control" disabled /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M10" onkeyup="LabourCal(this)" value="' + oct + '" class="form-control" disabled /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M11" onkeyup="LabourCal(this)" value="' + nov + '" class="form-control" disabled /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M12" onkeyup="LabourCal(this)" value="' + dec + '" class="form-control" disabled /></td>');
                         $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + subTotal + '" /></td>');
                         $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled value="' + UnitOfService + '" /></td>');
                         i = i + 1;
                     }
                     else {
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '1" onkeyup="AddLabourCal(this,' + i + ')" value="' + jan + '" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '2" onkeyup="AddLabourCal(this,' + i + ')" value="' + feb + '" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '3" onkeyup="AddLabourCal(this,' + i + ')" value="' + mar + '" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '4" onkeyup="AddLabourCal(this,' + i + ')" value="' + apr + '" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '5" onkeyup="AddLabourCal(this,' + i + ')" value="' + may + '" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '6" onkeyup="AddLabourCal(this,' + i + ')" value="' + jun + '" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '7" onkeyup="AddLabourCal(this,' + i + ')" value="' + jul + '" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '8" onkeyup="AddLabourCal(this,' + i + ')" value="' + aug + '" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '9" onkeyup="AddLabourCal(this,' + i + ')" value="' + sep + '" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '10" onkeyup="AddLabourCal(this,' + i + ')" value="' + oct + '" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '11" onkeyup="AddLabourCal(this,' + i + ')" value="' + nov + '" class="form-control" /></td>');
-                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '12" onkeyup="AddLabourCal(this,' + i + ')" value="' + dec + '" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M1" onkeyup="AddLabourCal(this,' + i + ')" value="' + jan + '" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M2" onkeyup="AddLabourCal(this,' + i + ')" value="' + feb + '" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M3" onkeyup="AddLabourCal(this,' + i + ')" value="' + mar + '" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M4" onkeyup="AddLabourCal(this,' + i + ')" value="' + apr + '" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M5" onkeyup="AddLabourCal(this,' + i + ')" value="' + may + '" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M6" onkeyup="AddLabourCal(this,' + i + ')" value="' + jun + '" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M7" onkeyup="AddLabourCal(this,' + i + ')" value="' + jul + '" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M8" onkeyup="AddLabourCal(this,' + i + ')" value="' + aug + '" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M9" onkeyup="AddLabourCal(this,' + i + ')" value="' + sep + '" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M10" onkeyup="AddLabourCal(this,' + i + ')" value="' + oct + '" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M11" onkeyup="AddLabourCal(this,' + i + ')" value="' + nov + '" class="form-control" /></td>');
+                        $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M12" onkeyup="AddLabourCal(this,' + i + ')" value="' + dec + '" class="form-control" /></td>');
                         $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + subTotal + '"/></td>');
                         $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled value="' + UnitOfService + '" /></td>');
                         i = i + 1;
@@ -694,18 +694,18 @@ function AppendData(id, Status) {
                 var k = 0;
                 var i = 0;
                 $('#tblLabour tbody tr').each(function () {
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '1" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '2" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '3" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '4" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '5" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '6" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '7" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '8" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '9" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '10" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '11" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '12" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M1" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M2" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M3" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M4" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M5" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M6" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M7" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M8" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M9" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M10" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M11" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M12" onkeyup="AddLabourCal(this,' + i + ')" class="form-control" /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled /></td>');
                     i = i + 1;
@@ -752,18 +752,18 @@ function ViewData(id) {
                     var total = data.result[i].subTotal == null ? "" : data.result[i].subTotal;
                     var UnitOfService = data.result[i].unitOfService == null ? "" : data.result[i].unitOfService;
 
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '1" onkeyup="LabourCal(this)" value="' + jan + '" class="form-control" disabled  /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '2" onkeyup="LabourCal(this)" value="' + feb + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '3" onkeyup="LabourCal(this)" value="' + mar + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '4" onkeyup="LabourCal(this)" value="' + apr + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '5" onkeyup="LabourCal(this)" value="' + may + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '6" onkeyup="LabourCal(this)" value="' + jun + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '7" onkeyup="LabourCal(this)" value="' + jul + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '8" onkeyup="LabourCal(this)" value="' + aug + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '9" onkeyup="LabourCal(this)" value="' + sep + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '10" onkeyup="LabourCal(this)" value="' + oct + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '11" onkeyup="LabourCal(this)" value="' + nov + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + '12" onkeyup="LabourCal(this)" value="' + dec + '" class="form-control" disabled /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M1" onkeyup="LabourCal(this)" value="' + jan + '" class="form-control" disabled  /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M2" onkeyup="LabourCal(this)" value="' + feb + '" class="form-control" disabled /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M3" onkeyup="LabourCal(this)" value="' + mar + '" class="form-control" disabled /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M4" onkeyup="LabourCal(this)" value="' + apr + '" class="form-control" disabled /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M5" onkeyup="LabourCal(this)" value="' + may + '" class="form-control" disabled /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M6" onkeyup="LabourCal(this)" value="' + jun + '" class="form-control" disabled /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M7" onkeyup="LabourCal(this)" value="' + jul + '" class="form-control" disabled /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M8" onkeyup="LabourCal(this)" value="' + aug + '" class="form-control" disabled /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M9" onkeyup="LabourCal(this)" value="' + sep + '" class="form-control" disabled /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M10" onkeyup="LabourCal(this)" value="' + oct + '" class="form-control" disabled /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M11" onkeyup="LabourCal(this)" value="' + nov + '" class="form-control" disabled /></td>');
+                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M12" onkeyup="LabourCal(this)" value="' + dec + '" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + total + '" /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled value="' + UnitOfService + '" /></td>');
                     i = i + 1;
@@ -808,18 +808,18 @@ function AddLabourCal(obj, ActivityID) {
 
     var subTotal = $("#txt" + ActivityID + "SubTotal").val() == "" ? 0 : $("#txt" + ActivityID + "SubTotal").val();
     //var total = (parseFloat($("#txt" + ActivityID + "1").val()) + parseFloat($("#txt" + ActivityID + "2").val()) + parseFloat($("#txt" + ActivityID + "3").val()) + parseFloat($("#txt" + ActivityID + "4").val()) + parseFloat($("#txt" + ActivityID + "5").val()) + parseFloat($("#txt" + ActivityID + "6").val()) + parseFloat($("#txt" + ActivityID + "7").val()) + parseFloat($("#txt" + ActivityID + "8").val()) + parseFloat($("#txt" + ActivityID + "9").val()) + parseFloat($("#txt" + ActivityID + "10").val()) + parseFloat($("#txt" + ActivityID + "11").val()) + parseFloat($("#txt" + ActivityID + "12").val()));
-    var total = $("#txt" + ActivityID + "1").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "1").val());
-    total = parseFloat(total) + ($("#txt" + ActivityID + "2").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "2").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "3").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "3").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "4").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "4").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "5").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "5").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "6").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "6").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "7").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "7").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "8").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "8").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "9").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "9").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "10").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "10").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "11").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "11").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "12").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "12").val()));
+    var total = $("#txt" + ActivityID + "M1").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M1").val());
+    total = parseFloat(total) + ($("#txt" + ActivityID + "M2").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M2").val()));
+    total = parseFloat(total) + ($("#txt" + ActivityID + "M3").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M3").val()));
+    total = parseFloat(total) + ($("#txt" + ActivityID + "M4").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M4").val()));
+    total = parseFloat(total) + ($("#txt" + ActivityID + "M5").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M5").val()));
+    total = parseFloat(total) + ($("#txt" + ActivityID + "M6").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M6").val()));
+    total = parseFloat(total) + ($("#txt" + ActivityID + "M7").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M7").val()));
+    total = parseFloat(total) + ($("#txt" + ActivityID + "M8").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M8").val()));
+    total = parseFloat(total) + ($("#txt" + ActivityID + "M9").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M9").val()));
+    total = parseFloat(total) + ($("#txt" + ActivityID + "M10").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M10").val()));
+    total = parseFloat(total) + ($("#txt" + ActivityID + "M11").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M11").val()));
+    total = parseFloat(total) + ($("#txt" + ActivityID + "M12").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M12").val()));
     if (parseFloat(subTotal) < parseFloat(total)) {
         $('#' + obj.id).val("");
         app.ShowErrorMessage("Month values are not equal");
