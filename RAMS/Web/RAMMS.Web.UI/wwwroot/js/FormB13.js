@@ -528,7 +528,7 @@ function SumofSubTotalbyActivity(obj) {
         }
     });
 
-    $("#SumofSubTotal").html(tot.toFixed(2));
+    $("#SumofSubTotal").html(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
 }
 
 
@@ -588,7 +588,9 @@ function CalAdjustableQty() {
     if ($('#tblPPB > tbody  > tr:eq(2)').find(".ActTotal").text().trim() != "")
         tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(2)').find(".ActTotal").text().trim());
 
-    $("#FormB13_AdjustableQuantity").val(tot.toFixed(2));
+    $("#FormB13_AdjustableQuantity").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
+
+    
 
 }
 
@@ -625,7 +627,7 @@ function CalRoutineMaintenance() {
     if ($('#tblPPB > tbody  > tr:eq(29)').find(".ActTotal").text().trim() != "")
         tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(29)').find(".ActTotal").text().trim());
 
-    $("#FormB13_RoutineMaintenancey").val(tot.toFixed(2));
+    $("#FormB13_RoutineMaintenancey").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
 }
 
 function CalPeriodicMaintenance() {
@@ -698,7 +700,7 @@ function CalPeriodicMaintenance() {
         tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(32)').find(".ActTotal").text().trim());
 
 
-    $("#FormB13_PeriodicMaintenance").val(tot.toFixed(2));
+    $("#FormB13_PeriodicMaintenance").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
 }
 
 function CalOtherMaintenance() {
@@ -722,5 +724,5 @@ function CalOtherMaintenance() {
     if ($('#tblPPB > tbody  > tr:eq(38)').find(".ActTotal").text().trim() != "")
         tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(38)').find(".ActTotal").text().trim());
 
-    $("#FormB13_OtherMaintenance").val(tot.toFixed(2));
+    $("#FormB13_OtherMaintenance").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
 }
