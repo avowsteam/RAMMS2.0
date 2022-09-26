@@ -720,6 +720,8 @@ function AppendData(id, Status) {
             if (Status == "Agreed" || Status == "Approved") {
                 $("[finddetailsdep]").hide();
             }
+            $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td></tr>');
+            MonthSumTotal();
         }
     });
 
@@ -770,7 +772,10 @@ function ViewData(id) {
                     $(this).find("td:last").after('<td> <input type="text" style="width:150px;" id="txt' + i + 'Remarks" class="form-control" value="' + remarks + '" /></td>');
                     i = i + 1;
                 });
+                $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td></tr>');
+                MonthSumTotal();
             }
+
         }
     });
 
@@ -827,6 +832,9 @@ function AddLabourCal(obj, ActivityID) {
         app.ShowErrorMessage("Month values are not equal");
     }
 
+    MonthSumTotal();
+
+
     //if (Qty != "" && Qty != null) {
     //    Unit = $('#sp' + obj.id.slice(3)).text();
     //    var tot = Qty * Unit;
@@ -869,4 +877,38 @@ function AppendPlannedData() {
             console.error(data);
         }
     });
+}
+
+function MonthSumTotal() {
+    debugger;
+    for (var j = 0; j < 38; j++) {
+        if (j == 0) {
+            $('#spJan').text($('#txt' + j + 'M1').val() == "" ? 0 : parseFloat($('#txt' + j + 'M1').val()));
+            $('#spFeb').text($('#txt' + j + 'M2').val() == "" ? 0 : parseFloat($('#txt' + j + 'M2').val()));
+            $('#spMar').text($('#txt' + j + 'M3').val() == "" ? 0 : parseFloat($('#txt' + j + 'M3').val()));
+            $('#spApr').text($('#txt' + j + 'M4').val() == "" ? 0 : parseFloat($('#txt' + j + 'M4').val()));
+            $('#spMay').text($('#txt' + j + 'M5').val() == "" ? 0 : parseFloat($('#txt' + j + 'M5').val()));
+            $('#spJun').text($('#txt' + j + 'M6').val() == "" ? 0 : parseFloat($('#txt' + j + 'M6').val()));
+            $('#spJul').text($('#txt' + j + 'M7').val() == "" ? 0 : parseFloat($('#txt' + j + 'M7').val()));
+            $('#spAug').text($('#txt' + j + 'M8').val() == "" ? 0 : parseFloat($('#txt' + j + 'M8').val()));
+            $('#spSep').text($('#txt' + j + 'M9').val() == "" ? 0 : parseFloat($('#txt' + j + 'M9').val()));
+            $('#spOct').text($('#txt' + j + 'M10').val() == "" ? 0 : parseFloat($('#txt' + j + 'M10').val()));
+            $('#spNov').text($('#txt' + j + 'M11').val() == "" ? 0 : parseFloat($('#txt' + j + 'M11').val()));
+            $('#spDec').text($('#txt' + j + 'M12').val() == "" ? 0 : parseFloat($('#txt' + j + 'M12').val()));
+        }
+        else {
+            $('#spJan').text(parseFloat($('#spJan').text()) + ($('#txt' + j + 'M1').val() == "" ? 0 : parseFloat($('#txt' + j + 'M1').val())));
+            $('#spFeb').text(parseFloat($('#spFeb').text()) + ($('#txt' + j + 'M2').val() == "" ? 0 : parseFloat($('#txt' + j + 'M2').val())));
+            $('#spMar').text(parseFloat($('#spMar').text()) + ($('#txt' + j + 'M3').val() == "" ? 0 : parseFloat($('#txt' + j + 'M3').val())));
+            $('#spApr').text(parseFloat($('#spApr').text()) + ($('#txt' + j + 'M4').val() == "" ? 0 : parseFloat($('#txt' + j + 'M4').val())));
+            $('#spMay').text(parseFloat($('#spMay').text()) + ($('#txt' + j + 'M5').val() == "" ? 0 : parseFloat($('#txt' + j + 'M5').val())));
+            $('#spJun').text(parseFloat($('#spJun').text()) + ($('#txt' + j + 'M6').val() == "" ? 0 : parseFloat($('#txt' + j + 'M6').val())));
+            $('#spJul').text(parseFloat($('#spJul').text()) + ($('#txt' + j + 'M7').val() == "" ? 0 : parseFloat($('#txt' + j + 'M7').val())));
+            $('#spAug').text(parseFloat($('#spAug').text()) + ($('#txt' + j + 'M8').val() == "" ? 0 : parseFloat($('#txt' + j + 'M8').val())));
+            $('#spSep').text(parseFloat($('#spSep').text()) + ($('#txt' + j + 'M9').val() == "" ? 0 : parseFloat($('#txt' + j + 'M9').val())));
+            $('#spOct').text(parseFloat($('#spOct').text()) + ($('#txt' + j + 'M10').val() == "" ? 0 : parseFloat($('#txt' + j + 'M10').val())));
+            $('#spNov').text(parseFloat($('#spNov').text()) + ($('#txt' + j + 'M11').val() == "" ? 0 : parseFloat($('#txt' + j + 'M11').val())));
+            $('#spDec').text(parseFloat($('#spDec').text()) + ($('#txt' + j + 'M12').val() == "" ? 0 : parseFloat($('#txt' + j + 'M12').val())));
+        }
+    }
 }
