@@ -215,6 +215,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 worksheet.Cell(i, 19).Value = r.CdcMaterial;
                                 worksheet.Cell(i, 21).Value = r.AverageDailyProduction;
                                 worksheet.Cell(i, 22).Value = r.UnitOfService;
+                                worksheet.Cell(i, 25).Value = r.SlAvgDesired;
 
                                 i++;
 
