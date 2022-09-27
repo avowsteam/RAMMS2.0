@@ -67,9 +67,9 @@ var frmB15 = new function () {
             });
         }
         debugger
-        if (!isvalid) {
-            app.ShowErrorMessage("SubTotal values are empty");
-        }
+        //if (!isvalid) {
+        //    app.ShowErrorMessage("SubTotal values are empty");
+        //}
 
         var FormB15HDR = new Object();
         var FormB15 = new Object();
@@ -95,19 +95,19 @@ var frmB15 = new function () {
             B15.Feature = $('#spx' + i).text().trim();
             B15.ActCode = $(this).find("td.x01").text().trim();
             B15.ActName = $(this).find("td.x02").text().trim();
-            B15.Jan = $('#txt' + i + 'M1').val();
-            B15.Feb = $('#txt' + i + 'M2').val();
-            B15.Mar = $('#txt' + i + 'M3').val();
-            B15.Apr = $('#txt' + i + 'M4').val();
-            B15.May = $('#txt' + i + 'M5').val();
-            B15.Jun = $('#txt' + i + 'M6').val();
-            B15.Jul = $('#txt' + i + 'M7').val();
-            B15.Aug = $('#txt' + i + 'M8').val();
-            B15.Sep = $('#txt' + i + 'M9').val();
-            B15.Oct = $('#txt' + i + 'M10').val();
-            B15.Nov = $('#txt' + i + 'M11').val();
-            B15.Dec = $('#txt' + i + 'M12').val();
-            B15.SubTotal = $('#txt' + i + 'SubTotal').val();
+            B15.Jan = $('#txt' + i + 'M1').val().replace(/,/g, "");
+            B15.Feb = $('#txt' + i + 'M2').val().replace(/,/g, "");
+            B15.Mar = $('#txt' + i + 'M3').val().replace(/,/g, "");
+            B15.Apr = $('#txt' + i + 'M4').val().replace(/,/g, "");
+            B15.May = $('#txt' + i + 'M5').val().replace(/,/g, "");
+            B15.Jun = $('#txt' + i + 'M6').val().replace(/,/g, "");
+            B15.Jul = $('#txt' + i + 'M7').val().replace(/,/g, "");
+            B15.Aug = $('#txt' + i + 'M8').val().replace(/,/g, "");
+            B15.Sep = $('#txt' + i + 'M9').val().replace(/,/g, "");
+            B15.Oct = $('#txt' + i + 'M10').val().replace(/,/g, "");
+            B15.Nov = $('#txt' + i + 'M11').val().replace(/,/g, "");
+            B15.Dec = $('#txt' + i + 'M12').val().replace(/,/g, "");
+            B15.SubTotal = $('#txt' + i + 'SubTotal').val().replace(/,/g, "");
             B15.Remarks = $('#txt' + i + 'Remarks').val();
             B15.Order = i;
             B15History.push(B15);
@@ -641,19 +641,19 @@ function AppendData(id, Status) {
                 var i = 0;
                 $('#tblLabour tbody tr').each(function () {
                     debugger;
-                    var jan = data.result[i].jan == null ? "" : data.result[i].jan;
-                    var feb = data.result[i].feb == null ? "" : data.result[i].feb;
-                    var mar = data.result[i].mar == null ? "" : data.result[i].mar;
-                    var apr = data.result[i].apr == null ? "" : data.result[i].apr;
-                    var may = data.result[i].may == null ? "" : data.result[i].may;
-                    var jun = data.result[i].jun == null ? "" : data.result[i].jun;
-                    var jul = data.result[i].jul == null ? "" : data.result[i].jul;
-                    var aug = data.result[i].aug == null ? "" : data.result[i].aug;
-                    var sep = data.result[i].sep == null ? "" : data.result[i].sep;
-                    var oct = data.result[i].oct == null ? "" : data.result[i].oct;
-                    var nov = data.result[i].nov == null ? "" : data.result[i].nov;
-                    var dec = data.result[i].dec == null ? "" : data.result[i].dec;
-                    var subTotal = data.result[i].subTotal == null ? "" : data.result[i].subTotal;
+                    var jan = data.result[i].jan == null ? "" : Number(data.result[i].jan).toLocaleString('en');
+                    var feb = data.result[i].feb == null ? "" : Number(data.result[i].feb).toLocaleString('en');
+                    var mar = data.result[i].mar == null ? "" : Number(data.result[i].mar).toLocaleString('en');
+                    var apr = data.result[i].apr == null ? "" : Number(data.result[i].apr).toLocaleString('en');
+                    var may = data.result[i].may == null ? "" : Number(data.result[i].may).toLocaleString('en');
+                    var jun = data.result[i].jun == null ? "" : Number(data.result[i].jun).toLocaleString('en');
+                    var jul = data.result[i].jul == null ? "" : Number(data.result[i].jul).toLocaleString('en');
+                    var aug = data.result[i].aug == null ? "" : Number(data.result[i].aug).toLocaleString('en');
+                    var sep = data.result[i].sep == null ? "" : Number(data.result[i].sep).toLocaleString('en');
+                    var oct = data.result[i].oct == null ? "" : Number(data.result[i].oct).toLocaleString('en');
+                    var nov = data.result[i].nov == null ? "" : Number(data.result[i].nov).toLocaleString('en');
+                    var dec = data.result[i].dec == null ? "" : Number(data.result[i].dec).toLocaleString('en');
+                    var subTotal = data.result[i].subTotal == null ? "" : Number(data.result[i].subTotal).toLocaleString('en');
                     var remarks = data.result[i].remarks == null ? "" : data.result[i].remarks;
 
 
@@ -741,19 +741,19 @@ function ViewData(id) {
             if (data.result.length > 0) {
                 var i = 0;
                 $('#tblLabour tbody tr').each(function () {
-                    var jan = data.result[i].jan == null ? "" : data.result[i].jan;
-                    var feb = data.result[i].feb == null ? "" : data.result[i].feb;
-                    var mar = data.result[i].mar == null ? "" : data.result[i].mar;
-                    var apr = data.result[i].apr == null ? "" : data.result[i].apr;
-                    var may = data.result[i].may == null ? "" : data.result[i].may;
-                    var jun = data.result[i].jun == null ? "" : data.result[i].jun;
-                    var jul = data.result[i].jul == null ? "" : data.result[i].jul;
-                    var aug = data.result[i].aug == null ? "" : data.result[i].aug;
-                    var sep = data.result[i].sep == null ? "" : data.result[i].sep;
-                    var oct = data.result[i].oct == null ? "" : data.result[i].oct;
-                    var nov = data.result[i].nov == null ? "" : data.result[i].nov;
-                    var dec = data.result[i].dec == null ? "" : data.result[i].dec;
-                    var subTotal = data.result[i].subTotal == null ? "" : data.result[i].subTotal;
+                    var jan = data.result[i].jan == null ? "" : Number(data.result[i].jan).toLocaleString('en');
+                    var feb = data.result[i].feb == null ? "" : Number(data.result[i].feb).toLocaleString('en');
+                    var mar = data.result[i].mar == null ? "" : Number(data.result[i].mar).toLocaleString('en');
+                    var apr = data.result[i].apr == null ? "" : Number(data.result[i].apr).toLocaleString('en');
+                    var may = data.result[i].may == null ? "" : Number(data.result[i].may).toLocaleString('en');
+                    var jun = data.result[i].jun == null ? "" : Number(data.result[i].jun).toLocaleString('en');
+                    var jul = data.result[i].jul == null ? "" : Number(data.result[i].jul).toLocaleString('en');
+                    var aug = data.result[i].aug == null ? "" : Number(data.result[i].aug).toLocaleString('en');
+                    var sep = data.result[i].sep == null ? "" : Number(data.result[i].sep).toLocaleString('en');
+                    var oct = data.result[i].oct == null ? "" : Number(data.result[i].oct).toLocaleString('en');
+                    var nov = data.result[i].nov == null ? "" : Number(data.result[i].nov).toLocaleString('en');
+                    var dec = data.result[i].dec == null ? "" : Number(data.result[i].dec).toLocaleString('en');
+                    var subTotal = data.result[i].subTotal == null ? "" : Number(data.result[i].subTotal); toLocaleString('en');
                     var remarks = data.result[i].remarks == null ? "" : data.result[i].remarks;
 
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M1" onkeyup="LabourCal(this)" value="' + jan + '" class="form-control" disabled  /></td>');
@@ -813,20 +813,20 @@ function AddLabourCal(obj, ActivityID) {
     $('#' + obj.id).val($('#' + obj.id).val().replace(/[^\d.]/g, ''));
     Qty = $('#' + obj.id).val();
 
-    var subTotal = $("#txt" + ActivityID + "SubTotal").val() == "" ? 0 : $("#txt" + ActivityID + "SubTotal").val();
+    var subTotal = $("#txt" + ActivityID + "SubTotal").val() == "" ? 0 : $("#txt" + ActivityID + "SubTotal").val().replace(/,/g, "");
     //var total = (parseFloat($("#txt" + ActivityID + "1").val()) + parseFloat($("#txt" + ActivityID + "2").val()) + parseFloat($("#txt" + ActivityID + "3").val()) + parseFloat($("#txt" + ActivityID + "4").val()) + parseFloat($("#txt" + ActivityID + "5").val()) + parseFloat($("#txt" + ActivityID + "6").val()) + parseFloat($("#txt" + ActivityID + "7").val()) + parseFloat($("#txt" + ActivityID + "8").val()) + parseFloat($("#txt" + ActivityID + "9").val()) + parseFloat($("#txt" + ActivityID + "10").val()) + parseFloat($("#txt" + ActivityID + "11").val()) + parseFloat($("#txt" + ActivityID + "12").val()));
-    var total = $("#txt" + ActivityID + "M1").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M1").val());
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M2").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M2").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M3").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M3").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M4").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M4").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M5").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M5").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M6").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M6").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M7").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M7").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M8").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M8").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M9").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M9").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M10").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M10").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M11").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M11").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M12").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M12").val()));
+    var total = $("#txt" + ActivityID + "M1").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M1").val().replace(/,/g, ""));
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M2").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M2").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M3").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M3").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M4").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M4").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M5").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M5").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M6").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M6").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M7").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M7").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M8").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M8").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M9").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M9").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M10").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M10").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M11").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M11").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M12").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M12").val().replace(/,/g, "")))).toFixed(3);
     if (parseFloat(subTotal) < parseFloat(total)) {
         $('#' + obj.id).val("");
         app.ShowErrorMessage("Month values are not equal");
@@ -869,7 +869,7 @@ function AppendPlannedData() {
             if (data.result.length > 0) {
                 for (var i = 0; i < data.result.length; i++) {
                     $('#spx' + i).text(data.result[i].feature);
-                    $('#txt' + i + "SubTotal").val(data.result[i].slCrewDaysPlanned);
+                    $('#txt' + i + "SubTotal").val(Number(data.result[i].slCrewDaysPlanned).toLocaleString('en'));
                 }
             }
         },
@@ -883,32 +883,45 @@ function MonthSumTotal() {
     debugger;
     for (var j = 0; j < 38; j++) {
         if (j == 0) {
-            $('#spJan').text($('#txt' + j + 'M1').val() == "" ? 0 : parseFloat($('#txt' + j + 'M1').val()));
-            $('#spFeb').text($('#txt' + j + 'M2').val() == "" ? 0 : parseFloat($('#txt' + j + 'M2').val()));
-            $('#spMar').text($('#txt' + j + 'M3').val() == "" ? 0 : parseFloat($('#txt' + j + 'M3').val()));
-            $('#spApr').text($('#txt' + j + 'M4').val() == "" ? 0 : parseFloat($('#txt' + j + 'M4').val()));
-            $('#spMay').text($('#txt' + j + 'M5').val() == "" ? 0 : parseFloat($('#txt' + j + 'M5').val()));
-            $('#spJun').text($('#txt' + j + 'M6').val() == "" ? 0 : parseFloat($('#txt' + j + 'M6').val()));
-            $('#spJul').text($('#txt' + j + 'M7').val() == "" ? 0 : parseFloat($('#txt' + j + 'M7').val()));
-            $('#spAug').text($('#txt' + j + 'M8').val() == "" ? 0 : parseFloat($('#txt' + j + 'M8').val()));
-            $('#spSep').text($('#txt' + j + 'M9').val() == "" ? 0 : parseFloat($('#txt' + j + 'M9').val()));
-            $('#spOct').text($('#txt' + j + 'M10').val() == "" ? 0 : parseFloat($('#txt' + j + 'M10').val()));
-            $('#spNov').text($('#txt' + j + 'M11').val() == "" ? 0 : parseFloat($('#txt' + j + 'M11').val()));
-            $('#spDec').text($('#txt' + j + 'M12').val() == "" ? 0 : parseFloat($('#txt' + j + 'M12').val()));
+            $('#spJan').text($('#txt' + j + 'M1').val() == "" ? 0 : parseFloat($('#txt' + j + 'M1').val().replace(/,/g, "")));
+            $('#spFeb').text($('#txt' + j + 'M2').val() == "" ? 0 : parseFloat($('#txt' + j + 'M2').val().replace(/,/g, "")));
+            $('#spMar').text($('#txt' + j + 'M3').val() == "" ? 0 : parseFloat($('#txt' + j + 'M3').val().replace(/,/g, "")));
+            $('#spApr').text($('#txt' + j + 'M4').val() == "" ? 0 : parseFloat($('#txt' + j + 'M4').val().replace(/,/g, "")));
+            $('#spMay').text($('#txt' + j + 'M5').val() == "" ? 0 : parseFloat($('#txt' + j + 'M5').val().replace(/,/g, "")));
+            $('#spJun').text($('#txt' + j + 'M6').val() == "" ? 0 : parseFloat($('#txt' + j + 'M6').val().replace(/,/g, "")));
+            $('#spJul').text($('#txt' + j + 'M7').val() == "" ? 0 : parseFloat($('#txt' + j + 'M7').val().replace(/,/g, "")));
+            $('#spAug').text($('#txt' + j + 'M8').val() == "" ? 0 : parseFloat($('#txt' + j + 'M8').val().replace(/,/g, "")));
+            $('#spSep').text($('#txt' + j + 'M9').val() == "" ? 0 : parseFloat($('#txt' + j + 'M9').val().replace(/,/g, "")));
+            $('#spOct').text($('#txt' + j + 'M10').val() == "" ? 0 : parseFloat($('#txt' + j + 'M10').val().replace(/,/g, "")));
+            $('#spNov').text($('#txt' + j + 'M11').val() == "" ? 0 : parseFloat($('#txt' + j + 'M11').val().replace(/,/g, "")));
+            $('#spDec').text($('#txt' + j + 'M12').val() == "" ? 0 : parseFloat($('#txt' + j + 'M12').val().replace(/,/g, "")));
         }
         else {
-            $('#spJan').text(parseFloat($('#spJan').text()) + ($('#txt' + j + 'M1').val() == "" ? 0 : parseFloat($('#txt' + j + 'M1').val())));
-            $('#spFeb').text(parseFloat($('#spFeb').text()) + ($('#txt' + j + 'M2').val() == "" ? 0 : parseFloat($('#txt' + j + 'M2').val())));
-            $('#spMar').text(parseFloat($('#spMar').text()) + ($('#txt' + j + 'M3').val() == "" ? 0 : parseFloat($('#txt' + j + 'M3').val())));
-            $('#spApr').text(parseFloat($('#spApr').text()) + ($('#txt' + j + 'M4').val() == "" ? 0 : parseFloat($('#txt' + j + 'M4').val())));
-            $('#spMay').text(parseFloat($('#spMay').text()) + ($('#txt' + j + 'M5').val() == "" ? 0 : parseFloat($('#txt' + j + 'M5').val())));
-            $('#spJun').text(parseFloat($('#spJun').text()) + ($('#txt' + j + 'M6').val() == "" ? 0 : parseFloat($('#txt' + j + 'M6').val())));
-            $('#spJul').text(parseFloat($('#spJul').text()) + ($('#txt' + j + 'M7').val() == "" ? 0 : parseFloat($('#txt' + j + 'M7').val())));
-            $('#spAug').text(parseFloat($('#spAug').text()) + ($('#txt' + j + 'M8').val() == "" ? 0 : parseFloat($('#txt' + j + 'M8').val())));
-            $('#spSep').text(parseFloat($('#spSep').text()) + ($('#txt' + j + 'M9').val() == "" ? 0 : parseFloat($('#txt' + j + 'M9').val())));
-            $('#spOct').text(parseFloat($('#spOct').text()) + ($('#txt' + j + 'M10').val() == "" ? 0 : parseFloat($('#txt' + j + 'M10').val())));
-            $('#spNov').text(parseFloat($('#spNov').text()) + ($('#txt' + j + 'M11').val() == "" ? 0 : parseFloat($('#txt' + j + 'M11').val())));
-            $('#spDec').text(parseFloat($('#spDec').text()) + ($('#txt' + j + 'M12').val() == "" ? 0 : parseFloat($('#txt' + j + 'M12').val())));
+            $('#spJan').text(parseFloat(parseFloat($('#spJan').text()) + ($('#txt' + j + 'M1').val() == "" ? 0 : parseFloat($('#txt' + j + 'M1').val().replace(/,/g, "")))).toFixed(2));
+            $('#spFeb').text(parseFloat(parseFloat($('#spFeb').text()) + ($('#txt' + j + 'M2').val() == "" ? 0 : parseFloat($('#txt' + j + 'M2').val().replace(/,/g, "")))).toFixed(2));
+            $('#spMar').text(parseFloat(parseFloat($('#spMar').text()) + ($('#txt' + j + 'M3').val() == "" ? 0 : parseFloat($('#txt' + j + 'M3').val().replace(/,/g, "")))).toFixed(2));
+            $('#spApr').text(parseFloat(parseFloat($('#spApr').text()) + ($('#txt' + j + 'M4').val() == "" ? 0 : parseFloat($('#txt' + j + 'M4').val().replace(/,/g, "")))).toFixed(2));
+            $('#spMay').text(parseFloat(parseFloat($('#spMay').text()) + ($('#txt' + j + 'M5').val() == "" ? 0 : parseFloat($('#txt' + j + 'M5').val().replace(/,/g, "")))).toFixed(2));
+            $('#spJun').text(parseFloat(parseFloat($('#spJun').text()) + ($('#txt' + j + 'M6').val() == "" ? 0 : parseFloat($('#txt' + j + 'M6').val().replace(/,/g, "")))).toFixed(2));
+            $('#spJul').text(parseFloat(parseFloat($('#spJul').text()) + ($('#txt' + j + 'M7').val() == "" ? 0 : parseFloat($('#txt' + j + 'M7').val().replace(/,/g, "")))).toFixed(2));
+            $('#spAug').text(parseFloat(parseFloat($('#spAug').text()) + ($('#txt' + j + 'M8').val() == "" ? 0 : parseFloat($('#txt' + j + 'M8').val().replace(/,/g, "")))).toFixed(2));
+            $('#spSep').text(parseFloat(parseFloat($('#spSep').text()) + ($('#txt' + j + 'M9').val() == "" ? 0 : parseFloat($('#txt' + j + 'M9').val().replace(/,/g, "")))).toFixed(2));
+            $('#spOct').text(parseFloat(parseFloat($('#spOct').text()) + ($('#txt' + j + 'M10').val() == "" ? 0 : parseFloat($('#txt' + j + 'M10').val().replace(/,/g, "")))).toFixed(2));
+            $('#spNov').text(parseFloat(parseFloat($('#spNov').text()) + ($('#txt' + j + 'M11').val() == "" ? 0 : parseFloat($('#txt' + j + 'M11').val().replace(/,/g, "")))).toFixed(2));
+            $('#spDec').text(parseFloat(parseFloat($('#spDec').text()) + ($('#txt' + j + 'M12').val() == "" ? 0 : parseFloat($('#txt' + j + 'M12').val().replace(/,/g, "")))).toFixed(2));
         }
     }
+
+    $('#spJan').text(Number($('#spJan').text()).toLocaleString('en'));
+    $('#spFeb').text(Number($('#spFeb').text()).toLocaleString('en'));
+    $('#spMar').text(Number($('#spMar').text()).toLocaleString('en'));
+    $('#spApr').text(Number($('#spApr').text()).toLocaleString('en'));
+    $('#spMay').text(Number($('#spMay').text()).toLocaleString('en'));
+    $('#spJun').text(Number($('#spJun').text()).toLocaleString('en'));
+    $('#spJul').text(Number($('#spJul').text()).toLocaleString('en'));
+    $('#spAug').text(Number($('#spAug').text()).toLocaleString('en'));
+    $('#spSep').text(Number($('#spSep').text()).toLocaleString('en'));
+    $('#spOct').text(Number($('#spOct').text()).toLocaleString('en'));
+    $('#spNov').text(Number($('#spNov').text()).toLocaleString('en'));
+    $('#spDec').text(Number($('#spDec').text()).toLocaleString('en'));
 }

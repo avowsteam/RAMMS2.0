@@ -94,7 +94,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     lstData.Add("RMU", "Miri");
                 else if (frmB14.RmuCode.ToUpper() == "BTN")
                     lstData.Add("RMU", "Batu Niah");
-                else                    
+                else
                     lstData.Add("RMU", frmB14.RmuCode.ToString());
                 lstData.Add("YYYY", frmB14.RevisionYear.ToString());
                 lstData.Add("RevisionNo", frmB14.RevisionNo.ToString());
@@ -246,10 +246,14 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 worksheet.Cell((i + 9), 18).Value = res[i].B14hhUnitOfService;
                             }
 
-                            worksheet.Cell(51, 4).Value = rpt.UserNameProsd;
-                            worksheet.Cell(51, 5).Value = rpt.UserNameFclitd;
-                            worksheet.Cell(51, 9).Value = rpt.UserNameAgrd;
-                            worksheet.Cell(51, 14).Value = rpt.UserNameEndosd;
+                            if (rpt.UserNameProsd != null)
+                                worksheet.Cell(51, 4).Value = rpt.UserNameProsd + " & " + rpt.UserDesignationProsd;
+                            if (rpt.UserNameFclitd != null)
+                                worksheet.Cell(51, 5).Value = rpt.UserNameFclitd + " & " + rpt.UserDesignationFclitd;
+                            if (rpt.UserNameAgrd != null)
+                                worksheet.Cell(51, 9).Value = rpt.UserNameAgrd + " & " + rpt.UserDesignationAgrd;
+                            if (rpt.UserNameEndosd != null)
+                                worksheet.Cell(51, 14).Value = rpt.UserNameEndosd + " & " + rpt.UserDesignationEndosd;
                         }
 
                     }
