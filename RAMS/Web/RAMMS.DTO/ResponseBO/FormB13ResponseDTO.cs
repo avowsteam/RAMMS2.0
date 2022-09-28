@@ -61,6 +61,7 @@ namespace RAMMS.DTO.ResponseBO
         public bool ActiveYn { get; set; }
         public string Status { get; set; }
         public string AuditLog { get; set; }
+        public string Description { get; set; }
         public List<FormB13HistoryResponseDTO> FormB13History { get; set; }
         public List<FormB13HistoryRevisionResponseDTO> FormB13RevisionHistory { get; set; }
     }
