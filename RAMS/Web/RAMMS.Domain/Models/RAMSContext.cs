@@ -3715,7 +3715,7 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B13phAverageDailyProduction)
                     .HasColumnName("B13PH_Average_Daily_Production")
-                    .HasColumnType("decimal(18, 2)");
+                    .HasColumnType("decimal(18, 3)");
 
                 entity.Property(e => e.B13phAwqCond1)
                     .HasColumnName("B13PH_AWQ_Cond1")
@@ -4010,17 +4010,17 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B14hhApr)
                     .HasColumnName("B14HH_Apr")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B14hhAug)
                     .HasColumnName("B14HH_Aug")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B14hhB14hPkRefNo).HasColumnName("B14HH_B14H_PK_Ref_No");
 
                 entity.Property(e => e.B14hhDec)
                     .HasColumnName("B14HH_Dec")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B14hhFeature)
                     .HasColumnName("B14HH_Feature")
@@ -4029,45 +4029,45 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B14hhFeb)
                     .HasColumnName("B14HH_Feb")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B14hhJan)
                     .HasColumnName("B14HH_Jan")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B14hhJul)
                     .HasColumnName("B14HH_Jul")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B14hhJun)
                     .HasColumnName("B14HH_Jun")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B14hhMar)
                     .HasColumnName("B14HH_Mar")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B14hhMay)
                     .HasColumnName("B14HH_May")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B14hhNov)
                     .HasColumnName("B14HH_Nov")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B14hhOct)
                     .HasColumnName("B14HH_Oct")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B14hhOrder).HasColumnName("B14HH_Order");
 
                 entity.Property(e => e.B14hhSep)
                     .HasColumnName("B14HH_Sep")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B14hhSubTotal)
                     .HasColumnName("B14HH_Sub_Total")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B14hhUnitOfService)
                     .HasColumnName("B14HH_Unit_Of_Service")
@@ -4218,17 +4218,17 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B15hhApr)
                     .HasColumnName("B15HH_Apr")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B15hhAug)
                     .HasColumnName("B15HH_Aug")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B15hhB15hPkRefNo).HasColumnName("B15HH_B15H_PK_Ref_No");
 
                 entity.Property(e => e.B15hhDec)
                     .HasColumnName("B15HH_Dec")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B15hhFeature)
                     .HasColumnName("B15HH_Feature")
@@ -4237,35 +4237,35 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B15hhFeb)
                     .HasColumnName("B15HH_Feb")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B15hhJan)
                     .HasColumnName("B15HH_Jan")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B15hhJul)
                     .HasColumnName("B15HH_Jul")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B15hhJun)
                     .HasColumnName("B15HH_Jun")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B15hhMar)
                     .HasColumnName("B15HH_Mar")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B15hhMay)
                     .HasColumnName("B15HH_May")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B15hhNov)
                     .HasColumnName("B15HH_Nov")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B15hhOct)
                     .HasColumnName("B15HH_Oct")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B15hhOrder).HasColumnName("B15HH_Order");
 
@@ -4275,11 +4275,11 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B15hhSep)
                     .HasColumnName("B15HH_Sep")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B15hhSubTotal)
                     .HasColumnName("B15HH_Sub_Total")
-                    .HasColumnType("decimal(9, 2)");
+                    .HasColumnType("decimal(9, 3)");
 
                 entity.Property(e => e.B15hhUnitOfService)
                     .HasColumnName("B15HH_Unit_Of_Service")

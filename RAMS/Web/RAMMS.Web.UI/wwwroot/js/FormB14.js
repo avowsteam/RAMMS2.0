@@ -67,9 +67,9 @@ var frmB14 = new function () {
             });
         }
         debugger
-        if (!isvalid) {
-            app.ShowErrorMessage("SubTotal values are empty");
-        }
+        //if (!isvalid) {
+        //    app.ShowErrorMessage("SubTotal values are empty");
+        //}
 
         var FormB14HDR = new Object();
         var FormB14 = new Object();
@@ -95,19 +95,19 @@ var frmB14 = new function () {
             B14.Feature = $('#spx' + i).text().trim();
             B14.ActCode = $(this).find("td.x01").text().trim();
             B14.ActName = $(this).find("td.x02").text().trim();
-            B14.Jan = $('#txt' + i + 'M1').val();
-            B14.Feb = $('#txt' + i + 'M2').val();
-            B14.Mar = $('#txt' + i + 'M3').val();
-            B14.Apr = $('#txt' + i + 'M4').val();
-            B14.May = $('#txt' + i + 'M5').val();
-            B14.Jun = $('#txt' + i + 'M6').val();
-            B14.Jul = $('#txt' + i + 'M7').val();
-            B14.Aug = $('#txt' + i + 'M8').val();
-            B14.Sep = $('#txt' + i + 'M9').val();
-            B14.Oct = $('#txt' + i + 'M10').val();
-            B14.Nov = $('#txt' + i + 'M11').val();
-            B14.Dec = $('#txt' + i + 'M12').val();
-            B14.SubTotal = $('#txt' + i + 'SubTotal').val();
+            B14.Jan = $('#txt' + i + 'M1').val().replace(/,/g, "");
+            B14.Feb = $('#txt' + i + 'M2').val().replace(/,/g, "");
+            B14.Mar = $('#txt' + i + 'M3').val().replace(/,/g, "");
+            B14.Apr = $('#txt' + i + 'M4').val().replace(/,/g, "");
+            B14.May = $('#txt' + i + 'M5').val().replace(/,/g, "");
+            B14.Jun = $('#txt' + i + 'M6').val().replace(/,/g, "");
+            B14.Jul = $('#txt' + i + 'M7').val().replace(/,/g, "");
+            B14.Aug = $('#txt' + i + 'M8').val().replace(/,/g, "");
+            B14.Sep = $('#txt' + i + 'M9').val().replace(/,/g, "");
+            B14.Oct = $('#txt' + i + 'M10').val().replace(/,/g, "");
+            B14.Nov = $('#txt' + i + 'M11').val().replace(/,/g, "");
+            B14.Dec = $('#txt' + i + 'M12').val().replace(/,/g, "");
+            B14.SubTotal = $('#txt' + i + 'SubTotal').val().replace(/,/g, "");
             B14.UnitOfService = $('#txt' + i + 'Unit').val();
             B14.Order = i;
             B14History.push(B14);
@@ -639,19 +639,19 @@ function AppendData(id, Status) {
             if (data.result.length > 0) {
                 var i = 0;
                 $('#tblLabour tbody tr').each(function () {
-                    var jan = data.result[i].jan == null ? "" : data.result[i].jan;
-                    var feb = data.result[i].feb == null ? "" : data.result[i].feb;
-                    var mar = data.result[i].mar == null ? "" : data.result[i].mar;
-                    var apr = data.result[i].apr == null ? "" : data.result[i].apr;
-                    var may = data.result[i].may == null ? "" : data.result[i].may;
-                    var jun = data.result[i].jun == null ? "" : data.result[i].jun;
-                    var jul = data.result[i].jul == null ? "" : data.result[i].jul;
-                    var aug = data.result[i].aug == null ? "" : data.result[i].aug;
-                    var sep = data.result[i].sep == null ? "" : data.result[i].sep;
-                    var oct = data.result[i].oct == null ? "" : data.result[i].oct;
-                    var nov = data.result[i].nov == null ? "" : data.result[i].nov;
-                    var dec = data.result[i].dec == null ? "" : data.result[i].dec;
-                    var subTotal = data.result[i].subTotal == null ? "" : data.result[i].subTotal;
+                    var jan = data.result[i].jan == null ? "" : Number(data.result[i].jan).toLocaleString('en');
+                    var feb = data.result[i].feb == null ? "" : Number(data.result[i].feb).toLocaleString('en');
+                    var mar = data.result[i].mar == null ? "" : Number(data.result[i].mar).toLocaleString('en');
+                    var apr = data.result[i].apr == null ? "" : Number(data.result[i].apr).toLocaleString('en');
+                    var may = data.result[i].may == null ? "" : Number(data.result[i].may).toLocaleString('en');
+                    var jun = data.result[i].jun == null ? "" : Number(data.result[i].jun).toLocaleString('en');
+                    var jul = data.result[i].jul == null ? "" : Number(data.result[i].jul).toLocaleString('en');
+                    var aug = data.result[i].aug == null ? "" : Number(data.result[i].aug).toLocaleString('en');
+                    var sep = data.result[i].sep == null ? "" : Number(data.result[i].sep).toLocaleString('en');
+                    var oct = data.result[i].oct == null ? "" : Number(data.result[i].oct).toLocaleString('en');
+                    var nov = data.result[i].nov == null ? "" : Number(data.result[i].nov).toLocaleString('en');
+                    var dec = data.result[i].dec == null ? "" : Number(data.result[i].dec).toLocaleString('en');
+                    var subTotal = data.result[i].subTotal == null ? "" : Number(data.result[i].subTotal).toLocaleString('en');
                     var UnitOfService = data.result[i].unitOfService == null ? "" : data.result[i].unitOfService;
 
                     if (Status == "Agreed" || Status == "Approved") {
@@ -737,19 +737,19 @@ function ViewData(id) {
             if (data.result.length > 0) {
                 var i = 0;
                 $('#tblLabour tbody tr').each(function () {
-                    var jan = data.result[i].jan == null ? "" : data.result[i].jan;
-                    var feb = data.result[i].feb == null ? "" : data.result[i].feb;
-                    var mar = data.result[i].mar == null ? "" : data.result[i].mar;
-                    var apr = data.result[i].apr == null ? "" : data.result[i].apr;
-                    var may = data.result[i].may == null ? "" : data.result[i].may;
-                    var jun = data.result[i].jun == null ? "" : data.result[i].jun;
-                    var jul = data.result[i].jul == null ? "" : data.result[i].jul;
-                    var aug = data.result[i].aug == null ? "" : data.result[i].aug;
-                    var sep = data.result[i].sep == null ? "" : data.result[i].sep;
-                    var oct = data.result[i].oct == null ? "" : data.result[i].oct;
-                    var nov = data.result[i].nov == null ? "" : data.result[i].nov;
-                    var dec = data.result[i].dec == null ? "" : data.result[i].dec;
-                    var total = data.result[i].subTotal == null ? "" : data.result[i].subTotal;
+                    var jan = data.result[i].jan == null ? "" : Number(data.result[i].jan).toLocaleString('en');
+                    var feb = data.result[i].feb == null ? "" : Number(data.result[i].feb).toLocaleString('en');
+                    var mar = data.result[i].mar == null ? "" : Number(data.result[i].mar).toLocaleString('en');
+                    var apr = data.result[i].apr == null ? "" : Number(data.result[i].apr).toLocaleString('en');
+                    var may = data.result[i].may == null ? "" : Number(data.result[i].may).toLocaleString('en');
+                    var jun = data.result[i].jun == null ? "" : Number(data.result[i].jun).toLocaleString('en');
+                    var jul = data.result[i].jul == null ? "" : Number(data.result[i].jul).toLocaleString('en');
+                    var aug = data.result[i].aug == null ? "" : Number(data.result[i].aug).toLocaleString('en');
+                    var sep = data.result[i].sep == null ? "" : Number(data.result[i].sep).toLocaleString('en');
+                    var oct = data.result[i].oct == null ? "" : Number(data.result[i].oct).toLocaleString('en');
+                    var nov = data.result[i].nov == null ? "" : Number(data.result[i].nov).toLocaleString('en');
+                    var dec = data.result[i].dec == null ? "" : Number(data.result[i].dec).toLocaleString('en');
+                    var total = data.result[i].subTotal == null ? "" : Number(data.result[i].subTotal).toLocaleString('en');
                     var UnitOfService = data.result[i].unitOfService == null ? "" : data.result[i].unitOfService;
 
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M1" onkeyup="LabourCal(this)" value="' + jan + '" class="form-control" disabled  /></td>');
@@ -806,20 +806,20 @@ function AddLabourCal(obj, ActivityID) {
     $('#' + obj.id).val($('#' + obj.id).val().replace(/[^\d.]/g, ''));
     Qty = $('#' + obj.id).val();
 
-    var subTotal = $("#txt" + ActivityID + "SubTotal").val() == "" ? 0 : $("#txt" + ActivityID + "SubTotal").val();
+    var subTotal = $("#txt" + ActivityID + "SubTotal").val() == "" ? 0 : $("#txt" + ActivityID + "SubTotal").val().replace(/,/g, "");
     //var total = (parseFloat($("#txt" + ActivityID + "1").val()) + parseFloat($("#txt" + ActivityID + "2").val()) + parseFloat($("#txt" + ActivityID + "3").val()) + parseFloat($("#txt" + ActivityID + "4").val()) + parseFloat($("#txt" + ActivityID + "5").val()) + parseFloat($("#txt" + ActivityID + "6").val()) + parseFloat($("#txt" + ActivityID + "7").val()) + parseFloat($("#txt" + ActivityID + "8").val()) + parseFloat($("#txt" + ActivityID + "9").val()) + parseFloat($("#txt" + ActivityID + "10").val()) + parseFloat($("#txt" + ActivityID + "11").val()) + parseFloat($("#txt" + ActivityID + "12").val()));
-    var total = $("#txt" + ActivityID + "M1").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M1").val());
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M2").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M2").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M3").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M3").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M4").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M4").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M5").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M5").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M6").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M6").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M7").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M7").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M8").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M8").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M9").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M9").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M10").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M10").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M11").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M11").val()));
-    total = parseFloat(total) + ($("#txt" + ActivityID + "M12").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M12").val()));
+    var total = $("#txt" + ActivityID + "M1").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M1").val().replace(/,/g, ""));
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M2").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M2").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M3").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M3").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M4").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M4").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M5").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M5").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M6").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M6").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M7").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M7").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M8").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M8").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M9").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M9").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M10").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M10").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M11").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M11").val().replace(/,/g, "")))).toFixed(3);
+    total = parseFloat(parseFloat(total) + ($("#txt" + ActivityID + "M12").val() == "" ? 0 : parseFloat($("#txt" + ActivityID + "M12").val().replace(/,/g, "")))).toFixed(3);
     if (parseFloat(subTotal) < parseFloat(total)) {
         $('#' + obj.id).val("");
         app.ShowErrorMessage("Month values are not equal");
@@ -859,7 +859,7 @@ function AppendPlannedData() {
             if (data.result.length > 0) {
                 for (var i = 0; i < data.result.length; i++) {
                     $('#spx' + i).text(data.result[i].feature);
-                    $('#txt' + i + "SubTotal").val(data.result[i].slAnnualWorkQuantity);
+                    $('#txt' + i + "SubTotal").val(Number(data.result[i].slAnnualWorkQuantity).toLocaleString('en'));
                 }
             }
         },

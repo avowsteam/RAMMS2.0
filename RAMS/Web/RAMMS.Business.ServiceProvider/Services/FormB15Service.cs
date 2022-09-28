@@ -225,7 +225,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                             var rptCount = _rpt.Count;
                             var rpt = _rpt[rptCount - 1];
 
-                            worksheet.Cell(2, 1).Value = "PROPOSED ANNUAL WORK PROGRAMME AND BUDGET "+ rpt.RevisionYear + " (PROPOSED PLANNED BUDGET)";
+                            worksheet.Cell(2, 1).Value = "PROPOSED ANNUAL WORK PROGRAMME AND BUDGET " + rpt.RevisionYear + " (PROPOSED PLANNED BUDGET)";
                             worksheet.Cell(6, 14).Value = rpt.RevisionNo;
                             worksheet.Cell(6, 17).Value = rpt.RevisionDate;
 
@@ -247,10 +247,14 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 worksheet.Cell((i + 11), 18).Value = res[i].B15hhRemarks;
                             }
 
-                            worksheet.Cell(54, 4).Value = rpt.UserNameProsd;
-                            worksheet.Cell(54, 5).Value = rpt.UserNameFclitd;
-                            worksheet.Cell(54, 9).Value = rpt.UserNameAgrd;
-                            worksheet.Cell(54, 14).Value = rpt.UserNameEndosd;
+                            if (rpt.UserNameProsd != null)
+                                worksheet.Cell(54, 4).Value = rpt.UserNameProsd + " & " + rpt.UserDesignationProsd;
+                            if (rpt.UserNameFclitd != null)
+                                worksheet.Cell(54, 5).Value = rpt.UserNameFclitd + " & " + rpt.UserDesignationFclitd;
+                            if (rpt.UserNameAgrd != null)
+                                worksheet.Cell(54, 9).Value = rpt.UserNameAgrd + " & " + rpt.UserDesignationAgrd;
+                            if (rpt.UserNameEndosd != null)
+                                worksheet.Cell(54, 14).Value = rpt.UserNameEndosd + " & " + rpt.UserDesignationEndosd;
                         }
 
 

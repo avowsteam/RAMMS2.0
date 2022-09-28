@@ -57,7 +57,7 @@ namespace RAMMS.Repository
                             break;
                         case "fromIssuDate":
                             DateTime? dtFrom = Utility.ToDateTime(strVal);
-                            string toDate = Utility.ToString(searchData.filter["fromIssuDate"]);
+                            string toDate = Utility.ToString(searchData.filter["toIssuDate"]);
                             if (toDate == "")
                                 query = query.Where(x => x.IssueDate >= dtFrom);
                             else
@@ -67,7 +67,7 @@ namespace RAMMS.Repository
                             }
                             break;
                         case "toIssuDate":
-                            string frmDate = Utility.ToString(searchData.filter["toIssuDate"]);
+                            string frmDate = Utility.ToString(searchData.filter["fromIssuDate"]);
                             if (frmDate == "")
                             {
                                 DateTime? dtTo = Utility.ToDateTime(strVal);
