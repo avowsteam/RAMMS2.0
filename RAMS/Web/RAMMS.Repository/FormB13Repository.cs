@@ -235,7 +235,7 @@ namespace RAMMS.Repository
                                             select new RmB13RevisionHistory
                                             {
                                                 B13rhDate = rn.B13pRevisionDate,
-                                                B13rhDescription = rn.B13pUserDesignationAgrd,
+                                                B13rhDescription = rn.B13pDescription,
                                                 B13rhRevNo = rn.B13pRevisionNo
                                             }
                                             ).ToList();
