@@ -720,7 +720,7 @@ function AppendData(id, Status) {
             if (Status == "Agreed" || Status == "Approved") {
                 $("[finddetailsdep]").hide();
             }
-            $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td></tr>');
+            $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td><td style="text-align:center;"><span id="spTotal"></span></td></tr>');
             MonthSumTotal();
         }
     });
@@ -753,7 +753,7 @@ function ViewData(id) {
                     var oct = data.result[i].oct == null ? "" : Number(data.result[i].oct).toLocaleString('en');
                     var nov = data.result[i].nov == null ? "" : Number(data.result[i].nov).toLocaleString('en');
                     var dec = data.result[i].dec == null ? "" : Number(data.result[i].dec).toLocaleString('en');
-                    var subTotal = data.result[i].subTotal == null ? "" : Number(data.result[i].subTotal); toLocaleString('en');
+                    var subTotal = data.result[i].subTotal == null ? "" : Number(data.result[i].subTotal).toLocaleString('en');
                     var remarks = data.result[i].remarks == null ? "" : data.result[i].remarks;
 
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M1" onkeyup="LabourCal(this)" value="' + jan + '" class="form-control" disabled  /></td>');
@@ -772,7 +772,7 @@ function ViewData(id) {
                     $(this).find("td:last").after('<td> <input type="text" style="width:150px;" id="txt' + i + 'Remarks" class="form-control" value="' + remarks + '" /></td>');
                     i = i + 1;
                 });
-                $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td></tr>');
+                $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td><td style="text-align:center;"><span id="spTotal"></span></td></tr>');
                 MonthSumTotal();
             }
 
@@ -895,6 +895,7 @@ function MonthSumTotal() {
             $('#spOct').text($('#txt' + j + 'M10').val() == "" ? 0 : parseFloat($('#txt' + j + 'M10').val().replace(/,/g, "")));
             $('#spNov').text($('#txt' + j + 'M11').val() == "" ? 0 : parseFloat($('#txt' + j + 'M11').val().replace(/,/g, "")));
             $('#spDec').text($('#txt' + j + 'M12').val() == "" ? 0 : parseFloat($('#txt' + j + 'M12').val().replace(/,/g, "")));
+            $('#spTotal').text($('#txt' + j + 'SubTotal').val() == "" ? 0 : parseFloat($('#txt' + j + 'SubTotal').val().replace(/,/g, "")));
         }
         else {
             $('#spJan').text(parseFloat(parseFloat($('#spJan').text()) + ($('#txt' + j + 'M1').val() == "" ? 0 : parseFloat($('#txt' + j + 'M1').val().replace(/,/g, "")))).toFixed(2));
@@ -909,6 +910,7 @@ function MonthSumTotal() {
             $('#spOct').text(parseFloat(parseFloat($('#spOct').text()) + ($('#txt' + j + 'M10').val() == "" ? 0 : parseFloat($('#txt' + j + 'M10').val().replace(/,/g, "")))).toFixed(2));
             $('#spNov').text(parseFloat(parseFloat($('#spNov').text()) + ($('#txt' + j + 'M11').val() == "" ? 0 : parseFloat($('#txt' + j + 'M11').val().replace(/,/g, "")))).toFixed(2));
             $('#spDec').text(parseFloat(parseFloat($('#spDec').text()) + ($('#txt' + j + 'M12').val() == "" ? 0 : parseFloat($('#txt' + j + 'M12').val().replace(/,/g, "")))).toFixed(2));
+            $('#spTotal').text(parseFloat(parseFloat($('#spTotal').text()) + ($('#txt' + j + 'SubTotal').val() == "" ? 0 : parseFloat($('#txt' + j + 'SubTotal').val().replace(/,/g, "")))).toFixed(3));
         }
     }
 
@@ -924,4 +926,5 @@ function MonthSumTotal() {
     $('#spOct').text(Number($('#spOct').text()).toLocaleString('en'));
     $('#spNov').text(Number($('#spNov').text()).toLocaleString('en'));
     $('#spDec').text(Number($('#spDec').text()).toLocaleString('en'));
+    $('#spTotal').text(Number($('#spTotal').text()).toLocaleString('en'));
 }
