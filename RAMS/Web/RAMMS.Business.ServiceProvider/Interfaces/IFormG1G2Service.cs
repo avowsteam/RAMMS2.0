@@ -25,6 +25,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         int Delete(int id);
         //List<FormG1G2Rpt> GetReportData(int headerid);
         Byte[] FormDownload(string formname, int id, string basepath, string filepath);
-        //Task<IEnumerable<SelectListItem>> GetCVIds(AssetDDLRequestDTO request);
+
+        Task<IEnumerable<SelectListItem>> GetCVIds(AssetDDLRequestDTO request);
     }
 }

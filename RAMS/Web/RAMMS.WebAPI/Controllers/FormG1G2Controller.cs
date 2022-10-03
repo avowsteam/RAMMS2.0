@@ -77,15 +77,15 @@ namespace RAMMS.WebAPI.Controllers
             return RAMMSApiSuccessResponse(await _formG1G2Service.FindByHeaderID(id));
         }
 
-        //[Authorize]
-        //[Route("api/getG1G2List")]
-        //[HttpPost]
-        //public async Task<IActionResult> GetG1G2([FromBody] object request)
-        //{
-        //    AssetDDLRequestDTO requestDtl = JsonConvert.DeserializeObject<AssetDDLRequestDTO>(request.ToString());
-        //    IEnumerable<SelectListItem> listItems = await _formG1G2Service.GetCVIds(requestDtl);
-        //    return RAMMSApiSuccessResponse(listItems);
-        //}
+        [Authorize]
+        [Route("api/getg1g2list")]
+        [HttpPost]
+        public async Task<IActionResult> GetG1G2([FromBody] object request)
+        {
+            AssetDDLRequestDTO requestDtl = JsonConvert.DeserializeObject<AssetDDLRequestDTO>(request.ToString());
+            IEnumerable<SelectListItem> listItems = await _formG1G2Service.GetCVIds(requestDtl);
+            return RAMMSApiSuccessResponse(listItems);
+        }
 
         [Authorize]
         [Route("api/getG1G2ImageList")]
