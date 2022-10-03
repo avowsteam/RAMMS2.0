@@ -41,6 +41,8 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmB11Hdr> RmB11Hdr { get; set; }
         public virtual DbSet<RmB11LabourCost> RmB11LabourCost { get; set; }
         public virtual DbSet<RmB11MaterialCost> RmB11MaterialCost { get; set; }
+        public virtual DbSet<RmB12DesiredServiceLevelHistory> RmB12DesiredServiceLevelHistory { get; set; }
+        public virtual DbSet<RmB12Hdr> RmB12Hdr { get; set; }
         public virtual DbSet<RmB13ProposedPlannedBudget> RmB13ProposedPlannedBudget { get; set; }
         public virtual DbSet<RmB13ProposedPlannedBudgetHistory> RmB13ProposedPlannedBudgetHistory { get; set; }
         public virtual DbSet<RmB13RevisionHistory> RmB13RevisionHistory { get; set; }
@@ -174,6 +176,8 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmModuleRightsCode> RmModuleRightsCode { get; set; }
         public virtual DbSet<RmRmuMaster> RmRmuMaster { get; set; }
         public virtual DbSet<RmRoadMaster> RmRoadMaster { get; set; }
+        public virtual DbSet<RmT4DesiredBdgt> RmT4DesiredBdgt { get; set; }
+        public virtual DbSet<RmT4DesiredBdgtHeader> RmT4DesiredBdgtHeader { get; set; }
         public virtual DbSet<RmUserGroup> RmUserGroup { get; set; }
         public virtual DbSet<RmUserGroupRights> RmUserGroupRights { get; set; }
         public virtual DbSet<RmUserNotification> RmUserNotification { get; set; }
@@ -3561,6 +3565,79 @@ namespace RAMMS.Domain.Models
                     .WithMany(p => p.RmB11MaterialCost)
                     .HasForeignKey(d => d.B11mcB11hPkRefNo)
                     .HasConstraintName("FK_RM_B11_Material_Cost_RM_B11_HDR");
+            });
+
+            modelBuilder.Entity<RmB12DesiredServiceLevelHistory>(entity =>
+            {
+                entity.HasKey(e => e.B12dslhPkRefNo)
+                    .HasName("PK_RM_B12DSLH_HDR");
+
+                entity.ToTable("RM_B12_Desired_Service_Level_History");
+
+                entity.Property(e => e.B12dslhPkRefNo).HasColumnName("B12DSLH_PK_Ref_No");
+
+                entity.Property(e => e.B12dslhActCode)
+                    .HasColumnName("B12DSLH_Act_Code")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B12dslhActName)
+                    .HasColumnName("B12DSLH_Act_Name")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B12dslhB12hPkRefNo).HasColumnName("B12DSLH_B12H_PK_Ref_No");
+
+                entity.Property(e => e.B12dslhFeature)
+                    .HasColumnName("B12DSLH_Feature")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B12dslhRmuBatuniah)
+                    .HasColumnName("B12DSLH_RMU_BATUNIAH")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B12dslhRmuMiri)
+                    .HasColumnName("B12DSLH_RMU_MIRI")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.B12dslhUnitOfService)
+                    .HasColumnName("B12DSLH_Unit_Of_Service")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.B12dslhB12hPkRefNoNavigation)
+                    .WithMany(p => p.RmB12DesiredServiceLevelHistory)
+                    .HasForeignKey(d => d.B12dslhB12hPkRefNo)
+                    .HasConstraintName("FK_RM_B12_Desired_Service_Level_History_RM_B12_HDR");
+            });
+
+            modelBuilder.Entity<RmB12Hdr>(entity =>
+            {
+                entity.HasKey(e => e.B12hPkRefNo);
+
+                entity.ToTable("RM_B12_HDR");
+
+                entity.Property(e => e.B12hPkRefNo).HasColumnName("B12H_PK_Ref_No");
+
+                entity.Property(e => e.B12hCrBy).HasColumnName("B12H_CR_By");
+
+                entity.Property(e => e.B12hCrByName)
+                    .HasColumnName("B12H_CR_By_Name")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.B12hCrDt)
+                    .HasColumnName("B12H_CR_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B12hRevisionDate)
+                    .HasColumnName("B12H_Revision_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.B12hRevisionNo).HasColumnName("B12H_Revision_No");
+
+                entity.Property(e => e.B12hRevisionYear).HasColumnName("B12H_Revision_Year");
             });
 
             modelBuilder.Entity<RmB13ProposedPlannedBudget>(entity =>
@@ -16684,6 +16761,196 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("RDM_TO_Loc")
                     .HasMaxLength(250)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<RmT4DesiredBdgt>(entity =>
+            {
+                entity.HasKey(e => e.T4dbPkRefNo);
+
+                entity.ToTable("RM_T4_Desired_Bdgt");
+
+                entity.Property(e => e.T4dbPkRefNo).HasColumnName("T4DB_PK_Ref_No");
+
+                entity.Property(e => e.T4dbAverageDailyProduction)
+                    .HasColumnName("T4DB_Average_Daily_Production")
+                    .HasColumnType("decimal(18, 3)");
+
+                entity.Property(e => e.T4dbAwqCond1)
+                    .HasColumnName("T4DB_AWQ_Cond1")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbAwqCond2)
+                    .HasColumnName("T4DB_AWQ_Cond2")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbAwqCond3)
+                    .HasColumnName("T4DB_AWQ_Cond3")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbAwqTotal)
+                    .HasColumnName("T4DB_AWQ_Total")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbCdcEquipment)
+                    .HasColumnName("T4DB_CDC_Equipment")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbCdcLabour)
+                    .HasColumnName("T4DB_CDC_Labour")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbCdcMaterial)
+                    .HasColumnName("T4DB_CDC_Material")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbCode)
+                    .HasColumnName("T4DB_Code")
+                    .HasMaxLength(16)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.T4dbCrewDaysCost)
+                    .HasColumnName("T4DB_Crew_Days_Cost")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbCrewDaysRequired)
+                    .HasColumnName("T4DB_Crew_Days_Required")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbDbActPercentage)
+                    .HasColumnName("T4DB_DB_Act_Percentage")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbDbActTotal)
+                    .HasColumnName("T4DB_DB_Act_Total")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbDbFeaturePercentage)
+                    .HasColumnName("T4DB_DB_Feature_Percentage")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbDbFeatureTotal)
+                    .HasColumnName("T4DB_DB_Feature_Total")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbFeature)
+                    .HasColumnName("T4DB_Feature")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.T4dbInvCond1)
+                    .HasColumnName("T4DB_Inv_Cond1")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbInvCond2)
+                    .HasColumnName("T4DB_Inv_Cond2")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbInvCond3)
+                    .HasColumnName("T4DB_Inv_Cond3")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbInvTotal)
+                    .HasColumnName("T4DB_Inv_Total")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbName)
+                    .HasColumnName("T4DB_Name")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.T4dbSlAsl)
+                    .HasColumnName("T4DB_SL_ASL")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbSlCond1)
+                    .HasColumnName("T4DB_SL_Cond1")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbSlCond2)
+                    .HasColumnName("T4DB_SL_Cond2")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbSlCond3)
+                    .HasColumnName("T4DB_SL_Cond3")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbT4pdbhPkRefNo).HasColumnName("T4DB_T4PDBH_PK_Ref_No");
+
+                entity.Property(e => e.T4dbUnitOfService)
+                    .HasColumnName("T4DB_Unit_Of_Service")
+                    .HasMaxLength(16)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.T4dbT4pdbhPkRefNoNavigation)
+                    .WithMany(p => p.RmT4DesiredBdgt)
+                    .HasForeignKey(d => d.T4dbT4pdbhPkRefNo)
+                    .HasConstraintName("FK_RM_T4_Desired_Bdgt_RM_T4_Desired_Bdgt");
+            });
+
+            modelBuilder.Entity<RmT4DesiredBdgtHeader>(entity =>
+            {
+                entity.HasKey(e => e.T4dbhPkRefNo)
+                    .HasName("PK_T4_Desired_Bdgt_Header");
+
+                entity.ToTable("RM_T4_Desired_Bdgt_Header");
+
+                entity.Property(e => e.T4dbhPkRefNo).HasColumnName("T4DBH_PK_Ref_No");
+
+                entity.Property(e => e.T4dbhActiveYn).HasColumnName("T4DBH_Active_YN");
+
+                entity.Property(e => e.T4dbhAdjustableQuantity)
+                    .HasColumnName("T4DBH_Adjustable_Quantity")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbhAuditLog).HasColumnName("T4DBH__AuditLog");
+
+                entity.Property(e => e.T4dbhCrBy).HasColumnName("T4DBH_CR_By");
+
+                entity.Property(e => e.T4dbhCrDt)
+                    .HasColumnName("T4DBH_CR_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.T4dbhModBy).HasColumnName("T4DBH_Mod_By");
+
+                entity.Property(e => e.T4dbhModDt)
+                    .HasColumnName("T4DBH_Mod_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.T4dbhOtherMaintenance)
+                    .HasColumnName("T4DBH_Other_Maintenance")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbhPeriodicMaintenance)
+                    .HasColumnName("T4DBH_Periodic_Maintenance")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbhPkRefId)
+                    .HasColumnName("T4DBH_PK_Ref_Id")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.T4dbhRevisionDate)
+                    .HasColumnName("T4DBH_Revision_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.T4dbhRevisionNo).HasColumnName("T4DBH_Revision_No");
+
+                entity.Property(e => e.T4dbhRevisionYear).HasColumnName("T4DBH_Revision_Year");
+
+                entity.Property(e => e.T4dbhRmu)
+                    .HasColumnName("T4DBH_Rmu")
+                    .HasMaxLength(16)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.T4dbhRoutineMaintenance)
+                    .HasColumnName("T4DBH_Routine_Maintenance")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.T4dbhStatus)
+                    .HasColumnName("T4DBH_Status")
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.T4dbhSubmitSts).HasColumnName("T4DBH_SUBMIT_STS");
             });
 
             modelBuilder.Entity<RmUserGroup>(entity =>
