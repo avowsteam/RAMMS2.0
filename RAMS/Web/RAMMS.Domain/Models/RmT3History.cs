@@ -26,6 +26,7 @@ namespace RAMMS.Domain.Models
         public string T3hhUnitOfService { get; set; }
         public decimal? T3hhSubTotal { get; set; }
         public int? T3hhOrder { get; set; }
+        public string T3hhRemarks { get; set; }
 
         public virtual RmT3Hdr T3hhT3hPkRefNoNavigation { get; set; }
     }

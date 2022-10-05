@@ -258,7 +258,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                 case "FormB14":
                     logs = this.context.RmB14Hdr.Where(x => x.B14hPkRefNo == RefId).Select(x => x.B14hAuditlog).FirstOrDefault();
                     break;
-
+                case "FormT3":
+                    logs = this.context.RmT3Hdr.Where(x => x.T3hPkRefNo == RefId).Select(x => x.T3hAuditlog).FirstOrDefault();
+                    break;
             }
             return Utility.ProcessLog(logs);
         }
