@@ -12,6 +12,7 @@ using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RAMMS.Business.ServiceProvider.Interfaces;
 using RAMMS.Common;
+using RAMMS.Common.RefNumber;
 using RAMMS.Domain.Models;
 using RAMMS.DTO.JQueryModel;
 using RAMMS.DTO.Report;
@@ -23,13 +24,13 @@ namespace RAMMS.Business.ServiceProvider.Services
 {
     public class FormB12Service : IFormB12Service
     {
-        private readonly IFormB7Repository _repo;
+        private readonly IFormB12Repository _repo;
         private readonly IRepositoryUnit _repoUnit;
         private readonly IMapper _mapper;
         private readonly IAssetsService _assetsService;
         private readonly IProcessService processService;
         private readonly ISecurity _security;
-        public FormB12Service(IRepositoryUnit repoUnit, IFormB7Repository repo,
+        public FormB12Service(IRepositoryUnit repoUnit, IFormB12Repository repo,
             IAssetsService assetsService, IMapper mapper, IProcessService proService,
             ISecurity security)
         {
@@ -46,15 +47,44 @@ namespace RAMMS.Business.ServiceProvider.Services
             return await _repo.GetHeaderGrid(searchData);
         }
 
-        public async Task<FormB7HeaderDTO> GetHeaderById(int id, bool view)
+        public async Task<FormB12DTO> FindDetails(FormB12DTO frmB12, int createdBy)
         {
-            RmB7Hdr res = _repo.GetHeaderById(id,view);
-            FormB7HeaderDTO FormB7 = new FormB7HeaderDTO();
-            FormB7 = _mapper.Map<FormB7HeaderDTO>(res);
-            FormB7.RmB7LabourHistory = _mapper.Map<List<FormB7LabourHistoryDTO>>(res.RmB7LabourHistory);
-            FormB7.RmB7MaterialHistory = _mapper.Map<List<FormB7MaterialHistoryDTO>>(res.RmB7MaterialHistory);
-            FormB7.RmB7EquipmentsHistory = _mapper.Map<List<FormB7EquipmentsHistoryDTO>>(res.RmB7EquipmentsHistory);
-            return FormB7;
+            RmB12Hdr header = _mapper.Map<RmB12Hdr>(frmB12);
+            header = await _repo.FindDetails(header);
+            if (header != null)
+            {
+                frmB12 = _mapper.Map<FormB12DTO>(header);
+            }
+            else
+            {
+                List<string> lstCVUNChar = Utility.GetAlphabets(1);
+                frmB12.Status = "Initialize";
+
+                frmB12.CrBy = createdBy;
+                frmB12.CrDt = DateTime.UtcNow;
+
+                IDictionary<string, string> lstData = new Dictionary<string, string>();
+
+                lstData.Add("YYYY", frmB12.RevisionYear.ToString());
+                lstData.Add("RevisionNo", frmB12.RevisionNo.ToString());
+                frmB12.PkRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormB12, lstData);
+
+                header = _mapper.Map<RmB12Hdr>(frmB12);
+                header = await _repo.Save(header, false);
+                frmB12 = _mapper.Map<FormB12DTO>(header);
+            }
+            return frmB12;
+        }
+
+
+        public async Task<FormB12DTO> GetHeaderById(int id, bool view)
+        {
+            RmB12Hdr res = _repo.GetHeaderById(id,view);
+            FormB12DTO FormB12 = new FormB12DTO();
+            FormB12 = _mapper.Map<FormB12DTO>(res);
+            FormB12.FormB12History = _mapper.Map<List<FormB12HistoryDTO>>(res.RmB12DesiredServiceLevelHistory);
+           
+            return FormB12;
         }
 
         public int? GetMaxRev(int Year)
@@ -62,20 +92,43 @@ namespace RAMMS.Business.ServiceProvider.Services
             return _repo.GetMaxRev(Year);
         }
 
-        public async Task<int> SaveFormB7(FormB7HeaderDTO FormB7)
+        public async Task<int> SaveFormB12(FormB12DTO FormB12)
         {
             try
             {
-                var domainModelFormB7 = _mapper.Map<RmB7Hdr>(FormB7);
-                domainModelFormB7.B7hPkRefNo = 0;
+                var domainModelFormB12 = _mapper.Map<List<RmB12DesiredServiceLevelHistory>>(FormB12);
+                foreach (var list in domainModelFormB12)
+                {
+                    list.B12dslhPkRefNo= 0;
+                }
 
-                return await _repo.SaveFormB7(domainModelFormB7);
+                return await _repo.SaveFormB12(domainModelFormB12);
             }
             catch (Exception ex)
             {
                 await _repoUnit.RollbackAsync();
                 throw ex;
             }
+        }
+
+        public async Task<FormB12DTO> SaveB12(FormB12DTO frmb12hdr, List<FormB12HistoryDTO> frmb12, bool updateSubmit)
+        {
+            RmB12Hdr frmb12hdr_1 = this._mapper.Map<RmB12Hdr>((object)frmb12hdr);
+            //frmb12hdr_1 = UpdateStatus(frmb12hdr_1);
+
+            RmB12Hdr source = await this._repo.Save(frmb12hdr_1, updateSubmit);
+
+            var domainModelFormB12 = _mapper.Map<List<RmB12DesiredServiceLevelHistory>>(frmb12);
+            foreach (var list in domainModelFormB12)
+            {
+                list.B12dslhPkRefNo = list.B12dslhPkRefNo;
+                list.B12dslhB12hPkRefNo = frmb12hdr.PkRefNo;
+            }
+            await _repo.SaveFormB12(domainModelFormB12);
+
+
+            frmb12hdr = this._mapper.Map<FormB12DTO>((object)source);
+            return frmb12hdr;
         }
 
         public byte[] FormDownload(string formname, int id, string basepath, string filepath)
@@ -100,7 +153,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
             try
             {
-                FormB7Rpt _rpt = this.GetReportData(id).Result;
+                FormB12Rpt _rpt = this.GetReportData(id).Result;
                 System.IO.File.Copy(Oldfilename, cachefile, true);
                 using (var workbook = new XLWorkbook(cachefile))
                 {
@@ -110,9 +163,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                     {
                         if (worksheet != null)
                         {
-                            worksheet.Cell(1, 1).Value = "APPENDIX B7: L.E.M Unit Price (" + _rpt.Year + ") for RMU Batu Niah and RMU Miri";
+                            worksheet.Cell(1, 1).Value = "APPENDIX B12: L.E.M Unit Price (" + _rpt.Year + ") for RMU Batu Niah and RMU Miri";
 
-                            var Labour = _rpt.Labours;
+                            var Labour = _rpt.B12History;
                             var i = 3;
                             foreach (var lab in Labour)
                             {
@@ -191,57 +244,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(i, 5).Value = "Miri";
 
 
-                            //Material
-
-                            var Materials = _rpt.Materials;
-                            //i = i + 1;
-                            foreach (var mat in Materials)
-                            {
-                                worksheet.Cell(i + 1, 1).Value = mat.Code;
-                                worksheet.Cell(i + 1, 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-                                worksheet.Cell(i + 1, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-
-                                worksheet.Cell(i + 1, 2).Value = mat.Name;
-                                worksheet.Cell(i + 1, 2).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-
-                                worksheet.Cell(i + 1, 3).Value = mat.Unit;
-                                worksheet.Cell(i + 1, 3).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-
-                                worksheet.Cell(i + 1, 4).Value = mat.UnitPriceBatuNiah;
-                                worksheet.Cell(i + 1, 4).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
-                                worksheet.Cell(i + 1, 4).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-
-                                worksheet.Cell(i + 1, 5).Value = mat.UnitPriceMiri;
-                                worksheet.Cell(i + 1, 5).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
-                                worksheet.Cell(i + 1, 5).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-                                i++;
-                            }
-
-                            //Equipement
-
-                            var Equipements = _rpt.Equipments;
-                            i = 3;
-                            foreach (var eqp in Equipements)
-                            {
-                                worksheet.Cell(i + 1, 7).Value = eqp.Code;
-                                worksheet.Cell(i + 1, 7).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                                worksheet.Cell(i + 1, 7).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-
-                                worksheet.Cell(i + 1, 8).Value = eqp.Name;
-                                worksheet.Cell(i + 1, 8).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-
-                                worksheet.Cell(i + 1, 9).Value = "Nr./" + eqp.Unit + " hrs";
-                                worksheet.Cell(i + 1, 9).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-
-                                worksheet.Cell(i + 1, 10).Value = eqp.UnitPriceBatuNiah;
-                                worksheet.Cell(i + 1, 10).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
-                                worksheet.Cell(i + 1, 10).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-
-                                worksheet.Cell(i + 1, 11).Value = eqp.UnitPriceMiri;
-                                worksheet.Cell(i + 1, 11).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
-                                worksheet.Cell(i + 1, 11).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-                                i++;
-                            }
+                           
 
                         }
 
@@ -274,9 +277,31 @@ namespace RAMMS.Business.ServiceProvider.Services
             }
         }
 
-        public async Task<FormB7Rpt> GetReportData(int headerid)
+        public async Task<FormB12Rpt> GetReportData(int headerid)
         {
             return await _repo.GetReportData(headerid);
+        }
+
+        public int Delete(int id)
+        {
+            ///if (id > 0 && !_repo.isF1Exist(id))
+            if (id > 0)
+            {
+                id = _repo.DeleteHeader(new RmB12Hdr() { B12hActiveYn = false, B12hPkRefNo = id });
+            }
+            else
+            {
+                return -1;
+            }
+            return id;
+        }
+
+        public async Task<List<FormB12HistoryDTO>> GetHistoryData(int id)
+        {
+            List<RmB12DesiredServiceLevelHistory> res = _repo.GetHistoryData(id);
+            List<FormB12HistoryDTO> FormB12 = new List<FormB12HistoryDTO>();
+            FormB12 = _mapper.Map<List<FormB12HistoryDTO>>(res);
+            return FormB12;
         }
 
 

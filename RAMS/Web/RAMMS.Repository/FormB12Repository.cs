@@ -114,6 +114,12 @@ namespace RAMMS.Repository
             return res;
         }
 
+        public async Task<RmB12Hdr> FindDetails(RmB12Hdr frmB12)
+        {
+            return await _context.RmB12Hdr.Include(x => x.RmB12DesiredServiceLevelHistory).ThenInclude(x => x.B12dslhB12hPkRefNoNavigation).Where(x =>  x.B12hRevisionYear == frmB12.B12hRevisionYear && x.B12hRevisionDate == frmB12.B12hRevisionDate && x.B12hRevisionNo == frmB12.B12hRevisionNo && x.B12hActiveYn == true).FirstOrDefaultAsync();
+        }
+
+
         public int? GetMaxRev(int Year)
         {
             int? rev = (from rn in _context.RmB12Hdr where rn.B12hRevisionYear == Year select rn.B12hRevisionNo).DefaultIfEmpty().Max() + 1;
@@ -122,16 +128,53 @@ namespace RAMMS.Repository
             return rev;
         }
 
-        public async Task<int> SaveFormB12(RmB12Hdr FormB12)
+        public async Task<RmB12Hdr> Save(RmB12Hdr frmB12, bool updateSubmit)
+        {
+            bool isAdd = false;
+            if (frmB12.B12hPkRefNo == 0)
+            {
+                isAdd = true;
+                frmB12.B12hActiveYn = true;
+                _context.RmB12Hdr.Add(frmB12);
+            }
+            else
+            {
+                string[] arrNotReqUpdate = new string[] { "B12hPkRefNo",
+                    "B12hRevisionYear"
+                };
+    
+                _context.RmB12Hdr.Attach(frmB12);
+
+                var entry = _context.Entry(frmB12);
+                entry.Properties.Where(x => !arrNotReqUpdate.Contains(x.Metadata.Name)).ToList().ForEach((p) =>
+                {
+                    p.IsModified = true;
+                });
+                if (updateSubmit)
+                {
+                    entry.Property(x => x.B12hSubmitSts).IsModified = true;
+                }
+            }
+            await _context.SaveChangesAsync();
+            if (isAdd)
+            {
+                
+                await _context.SaveChangesAsync();
+            }
+            return frmB12;
+        }
+
+        public async Task<int> SaveFormB12(List<RmB12DesiredServiceLevelHistory> FormB12)
         {
             try
             {
-
-
-                _context.RmB12Hdr.Add(FormB12);
+                if (FormB12[0].B12dslhPkRefNo == 0)
+                    _context.RmB12DesiredServiceLevelHistory.AddRange(FormB12);
+                else
+                {
+                    _context.RmB12DesiredServiceLevelHistory.UpdateRange(FormB12);
+                }
                 _context.SaveChanges();
-
-                
 
                 return 1;
             }
@@ -141,48 +184,45 @@ namespace RAMMS.Repository
             }
         }
 
-        //public async Task<FoRmB12Rpt> GetReportData(int headerid)
-        //{
-        //    FoRmB12Rpt details = new FoRmB12Rpt();
 
-        //    details.Year = _context.RmB12Hdr.Where(x => x.B12hPkRefNo == headerid).Select(x => x.B12hRevisionYear).FirstOrDefault();
+        public async Task<FormB12Rpt> GetReportData(int headerid)
+        {
+            FormB12Rpt details = new FormB12Rpt();
 
-        //    details.Labours = await (from o in _context.RmB12LabourHistory
-        //                             where (o.B12lhB12hPkRefNo == headerid)
-        //                             orderby o.B12lhCode ascending
-        //                             select new Details
-        //                             {
-        //                                 Code = o.B12lhCode,
-        //                                 Name = o.B12lhName,
-        //                                 Unit = o.B12lhUnitInHrs.ToString(),
-        //                                 UnitPriceBatuNiah = o.B12lhUnitPriceBatuNiah.ToString(),
-        //                                 UnitPriceMiri = o.B12lhUnitPriceMiri.ToString(),
-        //                             }).ToListAsync();
+            details.Year = _context.RmB12Hdr.Where(x => x.B12hPkRefNo == headerid).Select(x => x.B12hRevisionYear).FirstOrDefault();
 
-        //    details.Materials = await (from o in _context.RmB12MaterialHistory
-        //                               where (o.B12mhB12hPkRefNo == headerid)
-        //                               orderby o.B12mhCode ascending
-        //                               select new Details
-        //                               {
-        //                                   Code = o.B12mhCode,
-        //                                   Name = o.B12mhName,
-        //                                   Unit = o.B12mhUnits.ToString(),
-        //                                   UnitPriceBatuNiah = o.B12mhUnitPriceBatuNiah.ToString(),
-        //                                   UnitPriceMiri = o.B12mhUnitPriceMiri.ToString(),
-        //                               }).ToListAsync();
+            details.B12History  = await (from o in _context.RmB12DesiredServiceLevelHistory
+                                     where (o.B12dslhB12hPkRefNo == headerid)
+                                     orderby o.B12dslhActCode ascending
+                                     select new B12History
+                                     {
+                                         Feature = o.B12dslhFeature,
+                                         Code = o.B12dslhActCode,
+                                         Name = o.B12dslhActName,
+                                         Unit = o.B12dslhUnitOfService.ToString(),
+                                         UnitPriceBatuNiah = o.B12dslhRmuBatuniah.ToString(),
+                                         UnitPriceMiri = o.B12dslhRmuMiri.ToString(),
+                                     }).ToListAsync();
 
-        //    details.Equipments = await (from o in _context.RmB12EquipmentsHistory
-        //                                where (o.B12ehB12hPkRefNo == headerid)
-        //                                orderby o.B12ehCode ascending
-        //                                select new Details
-        //                                {
-        //                                    Code = o.B12ehCode,
-        //                                    Name = o.B12ehName,
-        //                                    Unit = o.B12ehUnitInHrs.ToString(),
-        //                                    UnitPriceBatuNiah = o.B12ehUnitPriceBatuNiah.ToString(),
-        //                                    UnitPriceMiri = o.B12ehUnitPriceMiri.ToString(),
-        //                                }).ToListAsync();
-        //    return details;
-        //}
+           
+            return details;
+        }
+
+        public int DeleteHeader(RmB12Hdr frmB12)
+        {
+            _context.RmB12Hdr.Attach(frmB12);
+            var entry = _context.Entry(frmB12);
+            entry.Property(x => x.B12hActiveYn).IsModified = true;
+            _context.SaveChanges();
+            return frmB12.B12hPkRefNo;
+        }
+
+        public List<RmB12DesiredServiceLevelHistory> GetHistoryData(int year)
+        {
+            List<RmB12DesiredServiceLevelHistory> res = (from r in _context.RmB12DesiredServiceLevelHistory where r.B12dslhB12hPkRefNo == year select r).OrderBy(x => x.B12dslhPkRefNo).ToList();
+            return res;
+        }
+
+
     }
 }

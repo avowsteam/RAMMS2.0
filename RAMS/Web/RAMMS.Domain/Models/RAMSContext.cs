@@ -176,6 +176,8 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmModuleRightsCode> RmModuleRightsCode { get; set; }
         public virtual DbSet<RmRmuMaster> RmRmuMaster { get; set; }
         public virtual DbSet<RmRoadMaster> RmRoadMaster { get; set; }
+        public virtual DbSet<RmT3Hdr> RmT3Hdr { get; set; }
+        public virtual DbSet<RmT3History> RmT3History { get; set; }
         public virtual DbSet<RmT4DesiredBdgt> RmT4DesiredBdgt { get; set; }
         public virtual DbSet<RmT4DesiredBdgtHeader> RmT4DesiredBdgtHeader { get; set; }
         public virtual DbSet<RmUserGroup> RmUserGroup { get; set; }
@@ -3620,6 +3622,10 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.B12hPkRefNo).HasColumnName("B12H_PK_Ref_No");
 
+                entity.Property(e => e.B12hActiveYn).HasColumnName("B12H_Active_YN");
+
+                entity.Property(e => e.B12hAuditlog).HasColumnName("B12H_Auditlog");
+
                 entity.Property(e => e.B12hCrBy).HasColumnName("B12H_CR_By");
 
                 entity.Property(e => e.B12hCrByName)
@@ -3631,6 +3637,11 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("B12H_CR_DT")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.B12hPkRefId)
+                    .HasColumnName("B12H_PK_Ref_Id")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.B12hRevisionDate)
                     .HasColumnName("B12H_Revision_Date")
                     .HasColumnType("datetime");
@@ -3638,6 +3649,12 @@ namespace RAMMS.Domain.Models
                 entity.Property(e => e.B12hRevisionNo).HasColumnName("B12H_Revision_No");
 
                 entity.Property(e => e.B12hRevisionYear).HasColumnName("B12H_Revision_Year");
+
+                entity.Property(e => e.B12hStatus)
+                    .HasColumnName("B12H_Status")
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.B12hSubmitSts).HasColumnName("B12H_SUBMIT_STS");
             });
 
             modelBuilder.Entity<RmB13ProposedPlannedBudget>(entity =>
@@ -16761,6 +16778,150 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("RDM_TO_Loc")
                     .HasMaxLength(250)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<RmT3Hdr>(entity =>
+            {
+                entity.HasKey(e => e.T3hPkRefNo);
+
+                entity.ToTable("RM_T3_HDR");
+
+                entity.Property(e => e.T3hPkRefNo).HasColumnName("T3H_PK_Ref_No");
+
+                entity.Property(e => e.T3hActiveYn).HasColumnName("T3H_Active_YN");
+
+                entity.Property(e => e.T3hAuditlog).HasColumnName("T3H_Auditlog");
+
+                entity.Property(e => e.T3hCrBy).HasColumnName("T3H_CR_By");
+
+                entity.Property(e => e.T3hCrDt)
+                    .HasColumnName("T3H_CR_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.T3hModBy).HasColumnName("T3H_Mod_By");
+
+                entity.Property(e => e.T3hModDt)
+                    .HasColumnName("T3H_Mod_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.T3hPkRefId)
+                    .HasColumnName("T3H_PK_Ref_Id")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.T3hRevisionDate)
+                    .HasColumnName("T3H_Revision_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.T3hRevisionNo).HasColumnName("T3H_Revision_No");
+
+                entity.Property(e => e.T3hRevisionYear).HasColumnName("T3H_Revision_Year");
+
+                entity.Property(e => e.T3hRmuCode)
+                    .HasColumnName("T3H_Rmu_Code")
+                    .HasMaxLength(6);
+
+                entity.Property(e => e.T3hRmuName)
+                    .HasColumnName("T3H_Rmu_Name")
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.T3hStatus)
+                    .HasColumnName("T3H_Status")
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.T3hSubmitSts).HasColumnName("T3H_SUBMIT_STS");
+            });
+
+            modelBuilder.Entity<RmT3History>(entity =>
+            {
+                entity.HasKey(e => e.T3hhPkRefNoHistory);
+
+                entity.ToTable("RM_T3_History");
+
+                entity.Property(e => e.T3hhPkRefNoHistory).HasColumnName("T3HH_PK_Ref_No_History");
+
+                entity.Property(e => e.T3hhActCode)
+                    .HasColumnName("T3HH_Act_Code")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.T3hhActId).HasColumnName("T3HH_Act_Id");
+
+                entity.Property(e => e.T3hhActName)
+                    .HasColumnName("T3HH_Act_Name")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.T3hhApr)
+                    .HasColumnName("T3HH_Apr")
+                    .HasColumnType("decimal(9, 3)");
+
+                entity.Property(e => e.T3hhAug)
+                    .HasColumnName("T3HH_Aug")
+                    .HasColumnType("decimal(9, 3)");
+
+                entity.Property(e => e.T3hhDec)
+                    .HasColumnName("T3HH_Dec")
+                    .HasColumnType("decimal(9, 3)");
+
+                entity.Property(e => e.T3hhFeature)
+                    .HasColumnName("T3HH_Feature")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.T3hhFeb)
+                    .HasColumnName("T3HH_Feb")
+                    .HasColumnType("decimal(9, 3)");
+
+                entity.Property(e => e.T3hhJan)
+                    .HasColumnName("T3HH_Jan")
+                    .HasColumnType("decimal(9, 3)");
+
+                entity.Property(e => e.T3hhJul)
+                    .HasColumnName("T3HH_Jul")
+                    .HasColumnType("decimal(9, 3)");
+
+                entity.Property(e => e.T3hhJun)
+                    .HasColumnName("T3HH_Jun")
+                    .HasColumnType("decimal(9, 3)");
+
+                entity.Property(e => e.T3hhMar)
+                    .HasColumnName("T3HH_Mar")
+                    .HasColumnType("decimal(9, 3)");
+
+                entity.Property(e => e.T3hhMay)
+                    .HasColumnName("T3HH_May")
+                    .HasColumnType("decimal(9, 3)");
+
+                entity.Property(e => e.T3hhNov)
+                    .HasColumnName("T3HH_Nov")
+                    .HasColumnType("decimal(9, 3)");
+
+                entity.Property(e => e.T3hhOct)
+                    .HasColumnName("T3HH_Oct")
+                    .HasColumnType("decimal(9, 3)");
+
+                entity.Property(e => e.T3hhOrder).HasColumnName("T3HH_Order");
+
+                entity.Property(e => e.T3hhSep)
+                    .HasColumnName("T3HH_Sep")
+                    .HasColumnType("decimal(9, 3)");
+
+                entity.Property(e => e.T3hhSubTotal)
+                    .HasColumnName("T3HH_Sub_Total")
+                    .HasColumnType("decimal(9, 3)");
+
+                entity.Property(e => e.T3hhT3hPkRefNo).HasColumnName("T3HH_T3H_PK_Ref_No");
+
+                entity.Property(e => e.T3hhUnitOfService)
+                    .HasColumnName("T3HH_Unit_Of_Service")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.T3hhT3hPkRefNoNavigation)
+                    .WithMany(p => p.RmT3History)
+                    .HasForeignKey(d => d.T3hhT3hPkRefNo)
+                    .HasConstraintName("FK_RM_T3_History_RM_T3_History");
             });
 
             modelBuilder.Entity<RmT4DesiredBdgt>(entity =>

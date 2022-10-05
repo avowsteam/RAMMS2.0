@@ -14,14 +14,23 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
 {
     public interface IFormB12Service
     {
+       
         Task<GridWrapper<object>> GetHeaderGrid(DataTableAjaxPostModel searchData);
 
-        Task<FormB7HeaderDTO> GetHeaderById(int id, bool view);
+        Task<FormB12DTO> FindDetails(FormB12DTO frmB12, int createdBy);
+
+        Task<FormB12DTO> GetHeaderById(int id, bool view);
 
         int? GetMaxRev(int Year);
         
-        Task<int> SaveFormB7(FormB7HeaderDTO FormB7);
+        Task<int> SaveFormB12(FormB12DTO FormB12);
+
+        Task<FormB12DTO> SaveB12(FormB12DTO frmb12hdr, List<FormB12HistoryDTO> frmb12, bool updateSubmit);
 
         Byte[] FormDownload(string formname, int id, string basepath, string filepath);
+
+        int Delete(int id);
+
+        Task<List<FormB12HistoryDTO>> GetHistoryData(int historyID);
     }
 }

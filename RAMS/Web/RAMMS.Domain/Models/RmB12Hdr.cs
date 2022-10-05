@@ -11,12 +11,17 @@ namespace RAMMS.Domain.Models
         }
 
         public int B12hPkRefNo { get; set; }
+        public string B12hPkRefId { get; set; }
         public int? B12hRevisionNo { get; set; }
         public DateTime? B12hRevisionDate { get; set; }
         public int? B12hRevisionYear { get; set; }
         public int? B12hCrBy { get; set; }
         public string B12hCrByName { get; set; }
         public DateTime? B12hCrDt { get; set; }
+        public bool B12hActiveYn { get; set; }
+        public bool B12hSubmitSts { get; set; }
+        public string B12hStatus { get; set; }
+        public string B12hAuditlog { get; set; }
 
         public virtual ICollection<RmB12DesiredServiceLevelHistory> RmB12DesiredServiceLevelHistory { get; set; }
     }

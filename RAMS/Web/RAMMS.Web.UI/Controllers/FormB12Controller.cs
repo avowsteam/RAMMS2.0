@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace RAMMS.Web.UI.Controllers
 {
@@ -30,7 +31,7 @@ namespace RAMMS.Web.UI.Controllers
         private readonly IUserService _userService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IDDLookupBO _dDLookupBO;
-        private readonly IFormB7Service _formB7Service;
+        private readonly IFormB12Service _formB12Service;
 
         public FormB12Controller(IHostingEnvironment _environment,
           IDDLookupBO _ddLookupBO,
@@ -39,7 +40,7 @@ namespace RAMMS.Web.UI.Controllers
           IWebHostEnvironment webhostenvironment,
           ISecurity security,
           ILogger logger,
-          IFormB7Service formB7Service,
+          IFormB12Service formB12Service,
           IAssetsService assestService
         )
         {
@@ -50,7 +51,7 @@ namespace RAMMS.Web.UI.Controllers
             _ddLookupService = ddLookupService;
             _security = security;
             _logger = logger;
-            _formB7Service = formB7Service ?? throw new ArgumentNullException(nameof(formB7Service));
+            _formB12Service = formB12Service ?? throw new ArgumentNullException(nameof(formB12Service));
         }
 
         public async Task<IActionResult> Index()
@@ -75,8 +76,58 @@ namespace RAMMS.Web.UI.Controllers
             {
                 searchData.order = searchData.order.Select(x => { if (x.column == 4 || x.column == 1 || x.column == 9) { x.column = 16; } return x; }).ToList();
             }
-            return Json(await _formB7Service.GetHeaderGrid(searchData), JsonOption());
+            return Json(await _formB12Service.GetHeaderGrid(searchData), JsonOption());
         }
 
+        public async Task<IActionResult> FindDetails(string formb12data)
+        {
+            FormB12DTO formb12 = new FormB12DTO();
+            formb12 = JsonConvert.DeserializeObject<FormB12DTO>(formb12data);
+            return Json(await _formB12Service.FindDetails(formb12, _security.UserID), JsonOption());
+        }
+
+        public async  Task<IActionResult> Add()
+        {
+            ViewBag.IsAdd = true;
+            ViewBag.IsEdit = true;
+            return await ViewRequest(0);
+        }
+
+        public async Task<IActionResult> View(int id)
+        {
+            ViewBag.IsEdit = false;
+            return id > 0 ? await ViewRequest(id) : RedirectToAction("404", "Error");
+        }
+
+        public async Task<IActionResult> EditForm(int id, int view)
+        {
+            ViewBag.IsEdit = true;
+            return id > 0 ? await ViewRequest(id) : RedirectToAction("404", "Error");
+        }
+
+        private async Task<IActionResult> ViewRequest(int id)
+        {
+            LoadLookupService("Year");
+           
+            FormB12Model _model = new FormB12Model();
+            if (id > 0)
+            {
+                _model.FormB12Header = await _formB12Service.GetHeaderById(id, !ViewBag.IsEdit);
+            }
+            else
+            {
+                _model.FormB12Header = new FormB12DTO();
+            }
+
+
+
+            return PartialView("~/Views/FormB12/_AddFormB12.cshtml", _model);
+        }
+
+
+        public async Task<IActionResult> GetHistoryData(int HistoryID)
+        {
+            return Json(_formB12Service.GetHistoryData(HistoryID));
+        }
     }
 }

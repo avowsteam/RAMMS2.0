@@ -7,12 +7,18 @@ namespace RAMMS.DTO.ResponseBO
     public  class FormB12DTO
     {
         public int PkRefNo { get; set; }
+
+        public string PkRefId { get; set; }
         public int? RevisionNo { get; set; }
         public DateTime? RevisionDate { get; set; }
         public int? RevisionYear { get; set; }
         public int? CrBy { get; set; }
         public string CrByName { get; set; }
         public DateTime? CrDt { get; set; }
+        public bool ActiveYn { get; set; }
+        public bool SubmitSts { get; set; }
+        public string Status { get; set; }
+        public string Auditlog { get; set; }
 
         public  List<FormB12HistoryDTO> FormB12History { get; set; }
     }

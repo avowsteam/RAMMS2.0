@@ -16,11 +16,19 @@ namespace RAMMS.Repository.Interfaces
 
         Task<GridWrapper<object>> GetHeaderGrid(DataTableAjaxPostModel searchData);
 
+        Task<RmB12Hdr> FindDetails(RmB12Hdr frmB12);
+
         RmB12Hdr GetHeaderById(int id, bool view);
 
         int? GetMaxRev(int Year);
-        Task<int> SaveFormB12(RmB12Hdr FoRmB12);
+        Task<RmB12Hdr> Save(RmB12Hdr frm, bool updateSubmit);
 
-        //Task<FoRmB12Rpt> GetReportData(int headerid);
+        Task<int> SaveFormB12(List<RmB12DesiredServiceLevelHistory> FormB14);
+
+        Task<FormB12Rpt> GetReportData(int headerid);
+
+        int DeleteHeader(RmB12Hdr frmB12);
+
+        List<RmB12DesiredServiceLevelHistory> GetHistoryData(int year);
     }
 }
