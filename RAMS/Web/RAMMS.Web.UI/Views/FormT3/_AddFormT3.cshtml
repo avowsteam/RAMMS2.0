@@ -1,0 +1,371 @@
+﻿@model RAMMS.Web.UI.Models.FormT3Model;
+@using RAMMS.Business.ServiceProvider;
+@using RAMMS.DTO.RequestBO;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService;
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+@{
+    ViewBag.TabTitle = "Form T3";
+    ViewData["Title"] = "Form T3";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+    var today = DateTime.Today.ToString("yyyy-MM-dd");
+    bool isSubmit = false;
+    string strRefId = string.Empty;
+    if (Model != null)
+    {
+        //strAssestID = Model.AssetId;
+        //strYear = Model.YearOfInsp.HasValue ? Model.YearOfInsp.Value.ToString() : "";
+        strRefId = Model.FormT3Header.PkRefId;
+    }
+
+    IEnumerable<SelectListItem> year = (await ddlService
+.GetLookups(new DDLookUpDTO { Type = "Year" })).Where(s => Convert.ToInt32(s.DdlTypeValue) >= Model.FormT3Header.RevisionYear)
+.Select(s => new SelectListItem
+{
+    Text = s.DdlTypeValue,
+    Value = s.DdlTypeValue
+}).ToArray();
+}
+
+<script type="text/javascript" src="~/js/FormT3.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    debugger;
+    frmT3.HeaderData = @Html.Raw(RAMMS.Common.Utility.JSerialize(Model));
+    frmT3.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
+    frmT3.IsAdd = @(ViewBag.IsAdd ? "true" : "false");
+    $(document).ready(function () {
+        debugger;
+        process.Init("frmT3", "@Model.FormT3Header.Status", @Model.FormT3Header.PkRefNo);        
+    });
+</script>
+
+<div class="row bg-white pt-3">
+    <div class="w-100">
+        <div class="body-header w-100">
+            <div class="col-lg-12">
+                <div class="d-flex justify-content-center pt-2 pb-2">
+                    <div class="form-group mb-0">
+                        <p class="font-20 pb-0 mb-0">
+                            <span class="float-left w-100 text-center">
+                                <b>Template 3 - </b>
+                                PLANNED MONTHLY CUMULATIVE WORK QUANTITY
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-body mh-182 pt-0 pb-0">
+    <div class="d-flex justify-content-center pt-3 pb-3">
+        <div class="form-group mb-0">
+            <label style="float:left; padding: .5rem .5rem 0 !important;">Form T3 No.</label>
+            <input id="txtFormT3RefNum" class="form-control" style="width:355px;" type="text" value="@strRefId" disabled>
+        </div>
+    </div>
+    <div class="clear-b"></div>
+
+    <div class="bg-white rounded pt-3 pb-1 px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetailsT3">
+        <div class="row">
+            <div class="form-group col-3">
+                <label for="Name_of_Crew_Supervisor">
+                    Select RMU
+                </label>
+                @Html.DropDownListFor(m => m.FormT3Header.RmuCode, (IEnumerable<SelectListItem>)ViewData["RMU"], "Select RMU", new { @Id = "formT3RMU", @class = "form-control validate {req,RMU}", @param = "RMU", @clear = "rebind" })
+            </div>
+            <div class="form-group col-2">
+                <label>Select Year  </label>
+                @Html.Label("Year", "Year")
+                @Html.DropDownListFor(m => m.FormT3Header.RevisionYear, (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formT3Year", @class = "form-control validate {req,Year}", @param = "Year", @clear = "rebind" })
+
+            </div>
+            <div class="form-group col-3">
+                <label> Select the Revision No. </label>
+                <input type="number" id="RevisionNo" disabled value="@Model.FormT3Header.RevisionNo" class="form-control">
+            </div>
+            <div class="form-group col-md-2">
+                <label> Issue Date</label>
+                <input type="date" value="@today" class="form-control" id="date" readonly="readonly" />
+            </div>
+            <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">
+                <button id="btnFindDetails" type="button" onclick="frmT3.FindDetails();" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right"> Find Details </button>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="w-100 bg-white py-4">
+                <div class="col-lg-12">
+                    <div id="accordion">
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="FormT3TabPage1">
+
+                                <div class="row">
+                                    <div class="col-12 bg-white px-0">
+                                        <div class="w-100 bg-white">
+                                            <div id="content">
+                                                <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                    <div id="FormT3GridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                                        <div class="dataTables_scroll">
+                                                            <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
+                                                                <table class="table w-100 nowrap dataTable no-footer" id="tblLabour">
+                                                                    <thead style="background-color: #c8e1ff">
+                                                                        <tr height="29" class="xl67" style='height:14.50pt;'>
+                                                                            <th class="xl69" height="29" width="96" style='height:14.50pt;width:48.00pt;'>Features</th>
+                                                                            <th class="xl70" width="167" style='width:83.50pt;'><span style="width: 80px; float: left; text-align: center;">Activity Code</span></th>
+                                                                            <th class="xl70" width="431" style='width:214.50pt;'><span style="width:200px;float:left">Activity Name</span></th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>Jan</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>Feb</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>Mar</th>
+                                                                            <th class="xl72" width="110" style='width:55.00pt;'>Apr</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>May</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>Jun</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>July</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>Aug</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>Sep</th>
+                                                                            <th class="xl71" width="110" style='width:55.00pt;'>Oct</th>
+                                                                            <th class="xl72" width="110" style='width:55.00pt;'>Nov</th>
+                                                                            <th class="xl77" width="110" style='width:55.00pt;'>Dec</th>
+                                                                            <th class="xl78" width="118" style='width:150.00pt;'>Sub-total</th>
+                                                                            <th class="xl80" width="130" style='width:100.00pt;'>Unit</th>
+                                                                            <th class="xl80" width="130" style='width:100.00pt;'>Remarks</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td height="261" rowspan="9">Paved Carriageway</td>
+                                                                            <td class="x01"><span id="spx0" style="display:none;"></span>1011</td>
+                                                                            <td class="x02">POTHOLE REPAIR</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01"><span id="spx1" style="display:none;"></span>1012</td>
+                                                                            <td class="x02">COLD PATCH</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01"><span id="spx2" style="display:none;"></span>3013</td>
+                                                                            <td class="x02">PAVEMENT RESURFACING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01"><span id="spx3" style="display:none;"></span>3014</td>
+                                                                            <td class="x02">REGULATE EXISTING PAVEMENT FOR RESURFACING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01"><span id="spx4" style="display:none;"></span>3015</td>
+                                                                            <td class="x02">CRACK SEALING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01"><span id="spx5" style="display:none;"></span>3016</td>
+                                                                            <td class="x02">MICRO SURFACING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01"><span id="spx6" style="display:none;"></span>3017</td>
+                                                                            <td class="x02">CHIP SEALING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01"><span id="spx7" style="display:none;"></span>3018</td>
+                                                                            <td class="x02">SHALLOW PATCHING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01"><span id="spx8" style="display:none;"></span>3019</td>
+                                                                            <td class="x02">DEEP PATCHING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td rowspan="4">Unpaved Carraigeway</td>
+                                                                            <td class="x01"><span id="spx9" style="display:none;"></span>1021</td>
+                                                                            <td class="x02" x:str>PATCH UNPAVED ROADWAY</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01"><span id="spx10" style="display:none;"></span>3022</td>
+                                                                            <td class="x02" x:str>RESHAPE UNPAVED ROADWAY</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01"><span id="spx11" style="display:none;"></span>3023</td>
+                                                                            <td class="x02" x:str>REGRAVEL UNPAVED ROADWAY</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01"><span id="spx12" style="display:none;"></span>3024</td>
+                                                                            <td class="x02" x:str>GRADE AND ROLL UNPAVED ROADWAY</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="xl74" height="145" rowspan="5">Drains</td>
+                                                                            <td class="x01" x:num><span id="spx13" style="display:none;"></span>1041</td>
+                                                                            <td class="x02" x:str>CLEAR DRAIN WATERWAY</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx14" style="display:none;"></span>1042</td>
+                                                                            <td class="x02" x:str>DRAIN GRASS CUTTING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx15" style="display:none;"></span>1043</td>
+                                                                            <td class="x02" x:str>CLEAN DRAINS ON SLOPE</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx16" style="display:none;"></span>4044</td>
+                                                                            <td class="x02" x:str>REINSTATE SIDE DITCH (MOTORGRADER)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx17" style="display:none;"></span>4045</td>
+                                                                            <td class="x02" x:str>CLEAN, CLEAR, RESHAPE EARTH DRAIN BY EXCAVATOR</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td height="116" rowspan="4">Shoulder</td>
+                                                                            <td class="x01" x:num><span id="spx18" style="display:none;"></span>1031</td>
+                                                                            <td class="x02">PATCH UNPAVED SHOULDER</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx19" style="display:none;"></span>1032</td>
+                                                                            <td class="x02">SHOULDER GRASS CUTTING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx20" style="display:none;"></span>4033</td>
+                                                                            <td class="x02">RESHAPE UNPAVED SHOULDER</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx21" style="display:none;"></span>4034</td>
+                                                                            <td class="x02">REPLENISH UNPAVED SHOULDER</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="xl80" height="58" rowspan="2" style='height:29.00pt;border-right:none;border-bottom:none;' x:str>Culverts</td>
+                                                                            <td class="x01" x:num><span id="spx22" style="display:none;"></span>1051</td>
+                                                                            <td class="x02">ROUTINE CULVERT MAINTENANCE</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx23" style="display:none;"></span>6052</td>
+                                                                            <td class="x02">CLEAR CULVERT WATERWAY</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="xl76" height="87" rowspan="3" style='height:43.50pt;border-right:none;border-bottom:none;' x:str>Bridges</td>
+                                                                            <td class="x01" x:num><span id="spx24" style="display:none;"></span>1061</td>
+                                                                            <td class="x02">ROUTINE BRIDGE MAINTENANCE</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx25" style="display:none;"></span>6062</td>
+                                                                            <td class="x02">REPAIR TIMBER BRIDGE DECK</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx26" style="display:none;"></span>6063</td>
+                                                                            <td class="x02">CLEAR BRIDGE WATERWAY</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="xl81" height="145" rowspan="5" style='height:72.50pt;border-right:none;border-bottom:none;' x:str>Road Furniture</td>
+                                                                            <td class="x01" x:num><span id="spx27" style="display:none;"></span>1071</td>
+                                                                            <td class="x02">MAINTAIN ROAD FURNITURE</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx28" style="display:none;"></span>1072</td>
+                                                                            <td class="x02">PAVEMENT PAINTING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx29" style="display:none;"></span>1073</td>
+                                                                            <td class="x02">ROAD KERB PAINTING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx30" style="display:none;"></span>7074</td>
+                                                                            <td class="x02">CENTERLINE THERMOPLASTIC MARKING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx31" style="display:none;"></span>7075</td>
+                                                                            <td class="x02">EDGELINE THERMOPLASTIC MARKING</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="xl76" height="174" rowspan="6" style='height:87.00pt;border-right:none;border-bottom:none;' x:str>Ancilliary</td>
+                                                                            <td class="x01" x:num><span id="spx32" style="display:none;"></span>9091</td>
+                                                                            <td class="x02">OTHER ROAD MAINTENANCE</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx33" style="display:none;"></span>9092</td>
+                                                                            <td class="x02">CLEAR ROAD RESERVE</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx34" style="display:none;"></span>9093</td>
+                                                                            <td class="x02">NON-ROAD MAINTENANCE ACTIVITIES</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx35" style="display:none;"></span>9194</td>
+                                                                            <td class="x02">EMERGENCY MAINTENANCE</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx36" style="display:none;"></span>9195</td>
+                                                                            <td class="x02">STRUCTURE DISTRESS INVESTIGATION</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" x:num><span id="spx37" style="display:none;"></span>9500</td>
+                                                                            <td class="x02">PROVISION OF PROJECT VEHICLES</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                    </div>
+                                                </div>
+                                            </div>                                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @{
+                    if (Model != null)
+                    {
+                        Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
+                        {
+                            Form = "FormT3",
+                            RefId = Model.FormT3Header.PkRefNo,
+                            Stage = Model.FormT3Header.Status
+                        });
+
+                    }
+                }
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<div class="col-md-12 mb-2 float-right text-right custom-footer">
+    <button type="button" class="btn btn-sm btn-outline-theme" onclick="frmT3.Cancel()">Cancel</button>
+    @{
+        var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
+
+        //isSubmit = (security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsExecutive || security.IsInstructedWorkEngg || security.isEnggAssistant || security.IsSupervisor || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        //bool isVerify = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg || security.isEnggConsultanttant);
+        //bool IsAgreed = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        //bool IsApproved = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+
+        isSubmit = (security.IsRegionManager || security.IsHeadMaintenance || security.isQuantitySurveyor || security.isPlanningEngineer);
+        bool isVerify = (security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        bool IsAgreed = (security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        bool IsApproved = (security.IsJKRSHQ);
+
+    }
+    <button type="button" class="btn btn-sm btn-themebtn" onclick="frmT3.Save(false,0)" finddetailsdep>Save</button>
+    @if (isSubmit && (Model == null || Model.FormT3Header.Status == "" || Model.FormT3Header.Status == "Initialize" || Model.FormT3Header.Status == RAMMS.Common.StatusList.FormT3Saved))
+    {
+        <button type="button" class="btn btn-sm btn-themebtn" finddetailsdep onclick="frmT3.Save(true,0)">Submit</button>
+    }
+    
+</div>
+@*@Html.HiddenFor(m => m.FormT3Header.PkRefNo);*@
+<input type="hidden" id="pkRefNo" value="@Model.FormT3Header.PkRefNo" />
+<input type="hidden" id="UserId" value="@security.UserID" />
+<input type="hidden" id="UserName" value="@security.UserName" />
+<style>
+    .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4) {
+        width: auto !important;
+        min-width: auto !important;
+    }
+
+    .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(2), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(2), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(3), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(3), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(5), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(5) {
+        width: auto !important;
+        min-width: auto !important;
+    }
+</style>

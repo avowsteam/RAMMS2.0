@@ -200,5 +200,8 @@ namespace RAMMS.Common
         public const string FormB14Approved = "Approved";
         public const string FormB14Verified = "Verified";
         public const string FormB14Agreed = "Agreed";
+
+        public const string FormT3Saved = "Saved";
+        public const string FormT3Submitted = "Submitted";
     }
 }
