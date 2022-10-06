@@ -1,0 +1,149 @@
+﻿@using RAMMS.DTO.RequestBO;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security
+@{
+    //ViewData["Title"] = "TRAFFIC VOLUME COUNT FORM (FORM T)";
+    //ViewBag.TabTitle = "TRAFFIC VOLUME COUNT FORM (FORM T)";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+
+    IEnumerable<SelectListItem> year = (await ddlService
+.GetLookups(new DDLookUpDTO { Type = "Year" }))
+.Select(s => new SelectListItem
+{
+    Text = s.DdlTypeValue,
+    Value = s.DdlTypeValue
+}).ToArray();
+
+    IEnumerable<SelectListItem> RMU = (await ddlService
+.GetLookups(new DDLookUpDTO { Type = "RMU" }))
+.Select(s => new SelectListItem
+{
+Text = s.DdlTypeValue,
+Value = s.DdlTypeValue
+}).ToArray();
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#btnAdvSearch").on("click", function () {
+            $("#formT4AdvSearch").toggle();
+        });
+
+        //Listener for Smart and Detail Search
+        document.getElementById("txtSmartSearch").focus();
+        element = document.querySelector("#formT4AdvSearch");
+        element.addEventListener("keyup", () => {
+            if (event.keyCode === 13) {
+                $("#btnSearch").click();
+            }
+        });
+
+        $("#txtSmartSearch").keyup(function () {
+            if (event.keyCode === 13) {
+                $("#btnSearch").click();
+            }
+        })
+    });
+
+
+      function fnEditForm(pid, view) {
+        window.location = '@Url.Action("Add", "FormT4")' + "?id=" + pid + "&view=" + view;
+    }
+
+</script>
+<!--BreadCrumbs-->
+<div class="row">
+    <div class="body-header w-100">
+        <div class="col-lg-12">
+            <div class="w-100 d-flex justify-content-md-between py-2 align-items-center">
+                <span class="mb-0 font-weight-bold font-20">Template 4 - Desired Budget</span>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb breadcrumb-alt mb-0 bg-transparent">
+                        <li class="breadcrumb-item">Home</li>
+                        <li class="breadcrumb-item">Condition Inspection</li>
+                        <li class="breadcrumb-item" aria-current="page">
+                            Desired Budget
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Search Section -->
+<div class="search-section">
+    <div class="row justify-content-center mb-1">
+        <div class="col-sm-12 col-md-8 col-lg-6 col-xl-6 search-content">
+            <div class="input-group">
+                @*@Html.TextBoxFor(m => m.SearchObj.SmartInputValue, new { @Id = "FormB1B2SmartSearch", placeholder = "Search...", @class = "form-control" })*@
+                <input type="text" id="txtSmartSearch" placeholder="Search..." class="form-control" />
+                <div class="input-group-append">
+                    <div class="btn-group">
+                        <button id="btnSearch" type="button" class="bg-theme-color js-tooltip-enabled px-2 border-0" style="line-height: 18px;"><span class="search-icon"></span></button>
+                        <button id="btnAdvSearch" type="button" onclick="" class="bg-theme-color js-tooltip-enabled px-3 border-0"><span class="filter-icon"></span></button>
+                        <button id="btnClearSearch" type="button" onclick="" class="bg-theme-color js-tooltip-enabled px-3 border-0 rounded-right">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Detail Search Screen*@
+    <div id="detailSearch">
+        <div class="row" id="formT4AdvSearch" style="display:none">
+
+            <div class="col-lg-10 offset-lg-1">
+                <div class="bg-white rounded float-left pt-3 pb-1 advance-search-group col-md-12 px-4">
+                    <div class="row">
+                        <div class="form-group col-3">
+                            @Html.Label("RMU", "RMU")
+                            @Html.DropDownList("RMU", RMU, "Select RMU", new { @Id = "ddlRMU", @class = "form-control" })
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            @Html.Label("Year", "Year")
+                            @Html.DropDownList("yr", year, "Select Year", new { @Id = "ddlYear", @class = "form-control" })
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            @Html.Label("Date From", "Date From")
+                            <input class="form-control" type="date" id="txtStartDtFrom">
+                        </div>
+                        <div class="form-group col-md-3">
+                            @Html.Label("Date To", "Date To")
+                            <input class="form-control" type="date" id="txtEndDtTo">
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Main Container -->
+<main id="main-container" class="row">
+    <div class="col-lg-12">
+        <div class="w-100 float-left position-relative">
+
+            <div class="grid-btns">
+
+                @if (security.IsPCModify(ModuleNameList.Annual_Work_Planned_Budget))
+                    {
+                        <button type="button" class="btn btn-sm btn-themebtn" onclick="javascript:fnEditForm(0,0);"><span class="add-icon"></span> Add Form T4</button>
+                    }
+            </div>
+
+            <div id="headerListGrid" class="w-100 dt-tbl-section">
+                @{
+                    Html.RenderPartial("_HeaderListGrid.cshtml");
+                }
+            </div>
+        </div>
+    </div>
+</main>

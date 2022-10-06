@@ -16,7 +16,9 @@
         else if (mode == 'B14')
         window.location.href = '/FormB14/Index';
         if (mode == 'B15')
-        window.location.href = '/FormB15/Index';
+            window.location.href = '/FormB15/Index';
+        if (mode == 'T4')
+            window.location.href = '/FormT4/Index';
     }
 
     var frmAwpb = new function () {
@@ -106,7 +108,7 @@
                 </div>
 
                 <div class="btn-group dropbottom" id="actiondropdown">
-                    <button id="actionclick" type="button" class="btn btn-sm btn-themebtn px-2" data-toggle="dropdown" aria-expanded="false">
+                    <button id="actionclick" type="button" class="btn btn-sm btn-themebtn px-2" data-toggle="dropdown" aria-expanded="false" onclick="Open('T4')">
                         <span class="minw-90 float-left">   Desired Budget <br />(Template 4)</span>
                     </button>
                 </div>

@@ -1,0 +1,361 @@
+﻿@model RAMMS.Web.UI.Models.FormT4Model;
+@using RAMMS.DTO.RequestBO;
+@using RAMMS.Business.ServiceProvider;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security
+@{
+    ViewBag.TabTitle = "Desired Budget";
+    ViewData["Title"] = "Desired Budget";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+
+    IEnumerable<SelectListItem> year = (await ddlService
+.GetLookups(new DDLookUpDTO { Type = "Year" }))
+.Select(s => new SelectListItem
+{
+    Text = s.DdlTypeValue,
+    Value = s.DdlTypeValue
+}).ToArray();
+
+    IEnumerable<SelectListItem> RMU = (await ddlService
+.GetLookups(new DDLookUpDTO { Type = "RMU" }))
+.Select(s => new SelectListItem
+{
+    Text = s.DdlTypeValue,
+    Value = s.DdlTypeValue
+}).ToArray();
+
+
+    bool isSubmit = (security.IsRegionManager || security.IsHeadMaintenance || security.isQuantitySurveyor || security.isPlanningEngineer);
+    bool Isverified = (security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+    bool IsApproved = (security.IsJKRSHQ);
+    var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
+
+
+}
+<script type="text/javascript" src="~/js/FormT4.js" asp-append-version="true"></script>
+
+@using (Html.BeginForm())
+{
+
+    <div class="row bg-white pt-4">
+        <div class="w-100">
+            <div class="body-header w-100">
+                <div class="col-lg-12">
+                    <div class=" w-100 d-flex justify-content-center py-1">
+                        <div class="form-group mb-0">
+                            <label style="float:left; padding: .5rem .5rem 0 !important;">Reference No.</label>
+                            @Html.TextBoxFor(model => model.FormT4Header.PkRefId, new { @readonly = "true", @class = "form-control", @style = "width:330px;" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-body mh-182 pt-0 pb-0">
+        <div class="bg-white rounded pt-3 pb-1 px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetailsFC1C2">
+            <div id="headerDiv" class="row">
+                <div class="form-group col-3">
+                    @Html.Label("RMU", "RMU")
+                    @Html.DropDownListFor(m => m.FormT4Header.Rmu, RMU, "Select RMU", new { @Id = "ddlRMU", @class = "form-control validate {required, RMU}" })
+                </div>
+
+
+                <div class="form-group col-2">
+                    @Html.Label("Year", "Year")
+                    @Html.DropDownListFor(m => m.FormT4Header.RevisionYear, year, "Select Year", new { @Id = "ddlYear", @class = "form-control validate {required, Year}" })
+                </div>
+                <div class="form-group col-3">
+                    <label> Select the Revision No. </label>
+                    <input type="number" id="RevisionNo" disabled value="@Model.FormT4Header.RevisionNo" class="form-control validate {required, Revision No}">
+                </div>   <div class="form-group col-md-2">
+                    <label> Issue Date</label>
+                    @Html.EditorFor(m => m.FormT4Header.RevisionDate, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Issue Date}" } })
+                </div>
+                <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">
+                    <button id="btnFindDetails" onclick="FindDetails()" type="button" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right disablebtn"> Find Details </button>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-12">
+                    <!--form g1-->
+                    <div class="w-100 bg-white">
+                        <div id="accordion">
+                            <div class="accordion custom-accordion mb-3" id="custom-accordion-zero">
+                                <div class="card mb-0">
+                                    <div class="card-header" id="headingZero">
+                                        <h5 class="m-0">
+                                            <a class="custom-accordion-title py-1" data-toggle="collapse" href="#AccordPage0" aria-expanded="true" aria-controls="collapseZero">
+                                                <span class="float-left">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                </span>
+                                                <span class="float-left" style="padding: 4px 8px;">
+                                                    Features
+                                                </span>
+                                            </a>
+                                        </h5>
+                                    </div>
+                                    <div id="AccordPage0" class="collapse show avowmodal-form formgrp-section" aria-labelledby="headingZero" data-parent="#custom-accordion-zero">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div id="content" class="table-responsive">
+                                                        <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                                            <div class="top">
+
+                                                            </div><div id="FormDGridView_processing" class="dataTables_processing card" style="display: none;">Processing...</div><div class="dataTables_scroll">
+                                                                <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                                                                    <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 1325.71px; padding-right: 0px;">
+                                                                    </div>
+                                                                </div><div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%;">
+
+
+
+                                                                    <div class="dataTables_scroll">
+                                                                        <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                                            <table id="tblPPB" class="table w-100 nowrap dataTable no-footer">
+                                                                                <thead style="background: #BDD7EE;">
+                                                                                    <tr height="78" style='height:39.00pt;'>
+                                                                                        <th>Features    </th>
+                                                                                        <th>Activity Code</th>
+                                                                                        <th>Activity Name   </th>
+                                                                                        <th>Inventory Condition 1</th>
+                                                                                        <th>Inventory Condition 2</th>
+                                                                                        <th>Inventory Condition 3</th>
+                                                                                        <th>Total Quantity</th>
+                                                                                        <th>Service Level Cond.1</th>
+                                                                                        <th>Service Level Cond.2</th>
+                                                                                        <th>Service Level Cond.3</th>
+                                                                                        <th>Annual Service Level</th>
+                                                                                        <th>Annual Work Quantity Cond.1</th>
+                                                                                        <th>Annual Work Quantity Cond.2</th>
+                                                                                        <th>Annual Work Quantity Cond.3</th>
+                                                                                        <th>Annual Work Quantity Total</th>
+                                                                                        <th>Production ADP</th>
+                                                                                        <th>Production Unit</th>
+                                                                                        <th>Crew Days Required (days)</th>
+                                                                                        <th>Labour</th>
+                                                                                        <th>Equipment</th>
+                                                                                        <th>Materials</th>
+                                                                                        <th>Crew Day Cost (RM)</th>
+                                                                                        <th>
+                                                                                            Desired Budget By Activities Sub-total (RM)
+                                                                                        </th>
+                                                                                        <th>
+                                                                                            Desired Budget By Activities Sub-total %
+                                                                                        </th>
+                                                                                        <th>
+                                                                                            Desired Budget By Featue Sub-total
+                                                                                        </th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+
+                                                                                    @{
+                                                                                        string feature = "";
+                                                                                        int RS = 0;
+
+                                                                                        for (int i = 0; i < Model.FormT4Header.FormT4.Count(); i++)
+                                                                                        {
+                                                                                            <tr>
+                                                                                                @{if (feature != Model.FormT4Header.FormT4[i].Feature)
+                                                                                                    {
+                                                                                                        RS = Model.FormT4Header.FormT4.Where(x => x.Feature == Model.FormT4Header.FormT4[i].Feature).Count();
+                                                                                                        <td rowspan="@RS">@Model.FormT4Header.FormT4[i].Feature</td>
+                                                                                                    }
+                                                                                                }
+
+                                                                                                <td class="Code">@Model.FormT4Header.FormT4[i].Code</td>
+                                                                                                <td class="Name">@Model.FormT4Header.FormT4[i].Name</td>
+                                                                                                <td class="IC1"> @Model.FormT4Header.FormT4[i].InvCond1</td>
+                                                                                                <td class="IC2"> @Model.FormT4Header.FormT4[i].InvCond2</td>
+                                                                                                <td class="IC3"> @Model.FormT4Header.FormT4[i].InvCond3</td>
+                                                                                                <td class="TotQty">@Model.FormT4Header.FormT4[i].InvTotal</td>
+                                                                                                <td class="SLC1">@Model.FormT4Header.FormT4[i].SlCond1</td>
+                                                                                                <td class="SLC2">@Model.FormT4Header.FormT4[i].SlCond2</td>
+                                                                                                <td class="SLC3">@Model.FormT4Header.FormT4[i].SlCond3</td>
+                                                                                                <td class="ASL">@Model.FormT4Header.FormT4[i].SlAsl</td>
+                                                                                                <td class="AWQC1">@Model.FormT4Header.FormT4[i].AwqCond1</td>
+                                                                                                <td class="AWQC2">@Model.FormT4Header.FormT4[i].AwqCond3</td>
+                                                                                                <td class="AWQC3">@Model.FormT4Header.FormT4[i].AwqCond3</td>
+                                                                                                <td class="AWQTot">@Model.FormT4Header.FormT4[i].AwqTotal</td>
+                                                                                                <td class="CrewDayReq">@Model.FormT4Header.FormT4[i].CrewDaysRequired</td>
+                                                                                                <td class="ADP">@Model.FormT4Header.FormT4[i].AverageDailyProduction</td>
+                                                                                                <td class="Unit">@Model.FormT4Header.FormT4[i].UnitOfService</td>
+                                                                                                <td class="Lab">@Model.FormT4Header.FormT4[i].CdcLabour</td>
+                                                                                                <td class="Equ">@Model.FormT4Header.FormT4[i].CdcEquipment</td>
+                                                                                                <td class="Mat">@Model.FormT4Header.FormT4[i].CdcMaterial</td>
+                                                                                                <td class="CrewDayCost">@Model.FormT4Header.FormT4[i].CrewDaysCost</td>
+
+                                                                                                <td class="ActTotal">@Model.FormT4Header.FormT4[i].DbActTotal</td>
+                                                                                                <td class="ActPer">@Model.FormT4Header.FormT4[i].DbActPercentage</td>
+
+                                                                                                @{if (feature != Model.FormT4Header.FormT4[i].Feature)
+                                                                                                    {
+                                                                                                        <td rowspan="@RS" class="FeatureTot" style='border-right: none; border-bottom: none; background: #e4e4e4; text-align: center'></td>
+                                                                                                        feature = Model.FormT4Header.FormT4[i].Feature;
+                                                                                                    }
+                                                                                                }
+
+                                                                                            </tr>
+                                                                                        }
+                                                                                    }
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="clear"></div>
+
+                                                            <table class="table w-100 nowrap dataTable no-footer cus-table">
+                                                                <tfoot>
+
+                                                                    <tr>
+                                                                        <td class="xl86" height="29" colspan="26" style='height:14.50pt;border-right:none;border-bottom:none;font-weight:bold' x:str>GRAND TOTAL :<span style='mso-spacerun:yes;'>&nbsp; </span>RM</td>
+                                                                        <td id="SumofSubTotal"></td>
+                                                                        <td></td>
+                                                                        <td class="xl125"></td>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!--form g1 -->
+                </div>
+                <div class="col-lg-10 offset-lg-1 mt-2">
+                    <div class="bg-white rounded landing-division w-100 float-left  my-2">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12 border-bottom py-2 my-2">
+                                    <span class="font-14 font-weight-bold">
+                                        Formulated Sum
+
+                                    </span>
+                                </div>
+
+                                <div class="form-group col-lg-3">
+                                    <label for="Name">
+                                        Adjustable Quantity
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend" style="height: 34px;">
+                                            <span class="input-group-text"> RM</span>
+                                        </div>
+                                        @Html.TextBoxFor(m => m.FormT4Header.AdjustableQuantity, new { @readonly = "readonly", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="Name">
+                                        Routine Maintenance
+
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend" style="height: 34px;">
+                                            <span class="input-group-text"> RM</span>
+                                        </div>
+                                        @Html.TextBoxFor(m => m.FormT4Header.RoutineMaintenance, new { @readonly = "readonly", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="Name">
+                                        Periodic Maintenance
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend" style="height: 34px;">
+                                            <span class="input-group-text"> RM</span>
+                                        </div>
+                                        @Html.TextBoxFor(m => m.FormT4Header.PeriodicMaintenance, new { @readonly = "readonly", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="Name">
+                                        Other Maintenance
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend" style="height: 34px;">
+                                            <span class="input-group-text"> RM</span>
+                                        </div>
+                                        @Html.TextBoxFor(m => m.FormT4Header.OtherMaintenance, new { @readonly = "readonly", @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded landing-division w-100 float-left mb-3">
+                @{
+                    if (Model.FormT4Header.Status != "" && Model.FormT4Header.Status != "Initialize")
+                        Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
+                        {
+                            Form = "FormT4Header",
+                            RefId = Model.FormT4Header.PkRefNo,
+                            Stage = Model.FormT4Header.Status
+                        });
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="col-md-12 mb-2 float-right text-right custom-footer">
+        <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
+
+        @{
+
+            if (isSubmit && (Model.FormT4Header.Status == null || Model.FormT4Header.Status == "" || Model.FormT4Header.Status == "Initialize" || Model.FormT4Header.Status == "Saved") || Model.FormT4Header.Status == RAMMS.Common.StatusList.Rejected)
+            {
+                <button id="saveFormT4Btn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Saved')">Save</button>
+                <button id="SubmitFormT4Btn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Submitted')">Submit</button>
+            }
+
+
+
+        }
+
+    </div>
+    <style>
+    </style>
+
+
+
+    @Html.HiddenFor(m => m.FormT4Header.PkRefNo)
+    @Html.HiddenFor(m => m.FormT4.PkRefNo)
+    @Html.HiddenFor(m => m.FormT4Header.Status)
+    @Html.HiddenFor(m => m.FormT4Header.SubmitSts)
+
+    <input type="hidden" id="hdnView" value="@Model.view" />
+}
+<script>
+
+     $(document).ready(function () {
+        process.Init("FormT4", "@Model.FormT4Header.Status", @Model.FormT4Header.PkRefNo);
+
+    });
+
+
+</script>
