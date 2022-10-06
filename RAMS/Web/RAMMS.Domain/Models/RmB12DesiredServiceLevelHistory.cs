@@ -13,6 +13,7 @@ namespace RAMMS.Domain.Models
         public decimal? B12dslhRmuMiri { get; set; }
         public decimal? B12dslhRmuBatuniah { get; set; }
         public string B12dslhUnitOfService { get; set; }
+        public int? B12dslhOrder { get; set; }
 
         public virtual RmB12Hdr B12dslhB12hPkRefNoNavigation { get; set; }
     }
