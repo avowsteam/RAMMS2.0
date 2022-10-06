@@ -30,5 +30,11 @@ namespace RAMMS.Repository.Interfaces
         int DeleteHeader(RmB12Hdr frmB12);
 
         List<RmB12DesiredServiceLevelHistory> GetHistoryData(int year);
+
+        List<RmB13ProposedPlannedBudgetHistory> GetPlannedBudgetDataMiri(int year);
+
+        List<RmB13ProposedPlannedBudgetHistory> GetPlannedBudgetDataBTN(int year);
+
+        List<RmB10DailyProductionHistory> GetUnitData(int year);
     }
 }

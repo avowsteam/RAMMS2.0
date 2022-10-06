@@ -132,6 +132,12 @@ namespace RAMMS.Common.RefNumber
                 case FormType.FormB14:
                     format = FormB14Header;
                     break;
+                case FormType.FormT3:
+                    format = FormT3Header;
+                    break;
+                case FormType.FormB12:
+                    format = FormB12Header;
+                    break;
 
             }
             return format;
@@ -165,7 +171,9 @@ namespace RAMMS.Common.RefNumber
         FormM,
         FormB13,
         FormB15,
-        FormB14
+        FormB14,
+        FormT3,
+        FormB12
     }
 
 }

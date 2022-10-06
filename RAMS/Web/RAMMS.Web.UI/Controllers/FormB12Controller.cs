@@ -129,5 +129,62 @@ namespace RAMMS.Web.UI.Controllers
         {
             return Json(_formB12Service.GetHistoryData(HistoryID));
         }
+
+        public async Task<IActionResult> GetMaxRev(int Year)
+        {
+            return Json(_formB12Service.GetMaxRev(Year));
+        }
+
+        public async Task<IActionResult> GetPlannedBudgetDataMiri(int Year)
+        {
+            return Json(_formB12Service.GetPlannedBudgetDataMiri(Year));
+        }
+
+        public async Task<IActionResult> GetPlannedBudgetDataBTN(int Year)
+        {
+            return Json(_formB12Service.GetPlannedBudgetDataBTN(Year));
+        }
+
+        public async Task<IActionResult> GetUnitData(int Year)
+        {
+            return Json(_formB12Service.GetUnitData(Year));
+        }
+
+
+        public async Task<IActionResult> SaveFormB12(FormB12DTO formb14)
+        {
+
+            formb14.CrBy = _security.UserID;
+            formb14.CrByName = _security.UserName;
+            formb14.CrDt = DateTime.Today;
+            formb14.SubmitSts = false;
+            return await SaveAll(formb14, false);
+        }
+
+        public async Task<IActionResult> Submit(FormB12DTO formb14, int reload)
+        {
+         
+            //List<FormB14HistoryDTO> formb14 = new List<FormB14HistoryDTO>();
+
+            //formb12hdr = JsonConvert.DeserializeObject<FormB14HeaderDTO>(formb14hdrdata);
+            //formb14 = JsonConvert.DeserializeObject<List<FormB14HistoryDTO>>(formb14data);
+
+            formb14.SubmitSts = true;
+            formb14.CrBy  = _security.UserID;
+            formb14.CrByName = _security.UserName;
+            formb14.CrDt  = DateTime.Today;
+            return await SaveAll(formb14, true);
+        }
+
+        private async Task<JsonResult> SaveAll(DTO.ResponseBO.FormB12DTO formb14hdr, bool updateSubmit)
+        {
+            formb14hdr.CrBy = _security.UserID;       
+            formb14hdr.CrDt = DateTime.UtcNow;
+            formb14hdr.ActiveYn = true;
+            var result = await _formB12Service.SaveB12(formb14hdr, updateSubmit);
+            return Json(new { Id = result.PkRefNo }, JsonOption());
+        }
+
+
     }
 }

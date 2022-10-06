@@ -18,7 +18,7 @@ var frmB12 = new function () {
         InitAjaxLoading();
 
         var FormB12 = new Object();
-        FormB12.B12hPkRefNo = $("#FormB12Header_B12hPkRefNo").val()
+        FormB12.B12hPkRefNo = $("#pkRefNo").val()
         FormB12.B12hRevisionYear = $("#formB12Year").val()
         FormB12.B12hRevisionNo = $("#RevisionNo").val()
         FormB12.B12hRevisionDate = $("#date").val()
@@ -31,7 +31,7 @@ var frmB12 = new function () {
         $('#tblB12 > tbody  > tr').each(function (index, tr) {
 
             var B12 = new Object();
-            B12.B12hPkRefNo = $("#FormB12Header_B12hPkRefNo").val();
+            B12.B12hPkRefNo = $("#pkRefNo").val();
             B12.ActCode = $(this).find("td:nth-child(2)").text().trim();
             B12.ActName = $(this).find("td:nth-child(3)").text().trim();
             B12.UnitOfService = $(this).find("td:nth-child(4)").text().trim();
@@ -41,9 +41,6 @@ var frmB12 = new function () {
         });
 
         FormB12.FormB12History = B12History;
-
-
-        FormB12.RmB12EquipmentsHistory = B12EquipmentHistory;
 
         $.ajax({
             url: '/FormB12/SaveFormB12',
@@ -104,7 +101,7 @@ var frmB12 = new function () {
                 var data = tblFB12HGrid.dataTable.row(rowidx).data();
                 switch (type.toLowerCase()) {
                     case "edit":
-                        window.location = _APPLocation + "FormB12/Edit/" + data.RefNo;
+                        window.location = _APPLocation + "FormB12/EditForm/" + data.RefNo;
                         break;
                     case "view":
                         window.location = _APPLocation + "FormB12/View/" + data.RefNo;
@@ -171,7 +168,7 @@ var frmB12 = new function () {
 }
 
 function AppendData(id, Status) {
-    debugger;
+    //debugger;
     var req = {};
     req.HistoryID = id;
     $.ajax({
@@ -182,28 +179,107 @@ function AppendData(id, Status) {
         success: function (data) {
             if (data.result.length > 0) {
                 var i = 0;
-                $('#tblLabour tbody tr').each(function () {
+                $('#tblB12 tbody tr').each(function () {
                     var UnitOfService = data.result[i].unitOfService == null ? "" : data.result[i].unitOfService;
-                    var miri = data.result[i].jan == null ? "" : Number(data.result[i].jan).toLocaleString('en');
-                    var btn = data.result[i].feb == null ? "" : Number(data.result[i].feb).toLocaleString('en');
-                  
-
-                    
+                    var miri = data.result[i].rmuMiri == null ? "" : Number(data.result[i].rmuMiri).toLocaleString('en');
+                    var btn = data.result[i].rmuBatuniah == null ? "" : Number(data.result[i].rmuBatuniah).toLocaleString('en');
+                    $(this).find("td:last").after('<td stlye="float:right" id="txt' + i + 'Unit">' + UnitOfService + '</td>');
+                    $(this).find("td:last").after('<td  stlye="float:right"  id="txt' + i + 'M2">' + btn + '</td>');
+                    $(this).find("td:last").after('<td  stlye="float:right" id="txt' + i + 'M3">' + miri + '</td>');
+                    i = i + 1;
                 });
             }
             else {
                 
                 var i = 0;
-                $('#tblLabour tbody tr').each(function () {
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M1"  class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M2"  class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M3"  class="form-control" /></td>');
+                $('#tblB12 tbody tr').each(function () {
+                    $(this).find("td:last").after('<td stlye="float:right" id="txt' + i + 'Unit"></td>');
+                    $(this).find("td:last").after('<td  stlye="float:right"  id="txt' + i + 'M2">0.00</td>');
+                    $(this).find("td:last").after('<td  stlye="float:right" id="txt' + i + 'M3">0.00</td>');
                     i = i + 1;
                 });
             }
-            
+            AppendPlannedDataMiri();
+            AppendPlannedDataBTN();
+            AppendUnitData();
         }
     });
+
+    function AppendPlannedDataMiri() {
+        //debugger;
+        var req = {};
+        var year = $("#formB12Year").val();
+        req.Year = year;
+        $.ajax({
+            url: '/FormB12/GetPlannedBudgetDataMiri',
+            dataType: 'JSON',
+            data: req,
+            type: 'Post',
+            success: function (data) {
+                debugger
+                if (data.result.length > 0) {
+                    for (var i = 0; i < data.result.length; i++) {
+                        var val = data.result[i].slTotalByActivity / data.result[i].slAnnualWorkQuantity;
+                        val = isNaN(val) ? "0.00" : val.toFixed(2);
+                        $('#txt' + i + "M3").html(val);
+                    }
+                }
+            },
+            error: function (data) {
+                console.error(data);
+            }
+        });
+    }
+
+    function AppendPlannedDataBTN() {
+        //debugger;
+        var req = {};
+        var year = $("#formB12Year").val();
+        req.Year = year;
+        $.ajax({
+            url: '/FormB12/GetPlannedBudgetDataBTN',
+            dataType: 'JSON',
+            data: req,
+            type: 'Post',
+            success: function (data) {
+                if (data.result.length > 0) {
+                    for (var i = 0; i < data.result.length; i++) {
+                        var val = data.result[i].slTotalByActivity / data.result[i].slAnnualWorkQuantity;
+                        val = isNaN(val) ? "0.00" : val.toFixed(2);
+                        $('#txt' + i + "M2").html(val);
+                    }
+                }
+            },
+            error: function (data) {
+                console.error(data);
+            }
+        });
+    }
+
+    function AppendUnitData() {
+     
+        var req = {};
+        var year = $("#formB12Year").val();
+        req.Year = year;
+        $.ajax({
+            url: '/FormB12/GetUnitData',
+            dataType: 'JSON',
+            data: req,
+            type: 'Post',
+            success: function (data) {
+                if (data.result.length > 0) {
+                    debugger;
+                    for (var i = 0; i < data.result.length; i++) {
+                        $('#txt' + i + "Unit").html(data.result[i].adpUnit);
+                    }
+                }
+            },
+            error: function (data) {
+                console.error(data);
+            }
+        });
+    }
+
 
 
 }

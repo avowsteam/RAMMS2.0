@@ -34,6 +34,7 @@ namespace RAMMS.Repository
                          select new
                          {
                              RefNo = hdr.B12hPkRefNo,
+                             ReferenceNo = hdr.B12hPkRefId ,
                              RevisionYear = hdr.B12hRevisionYear,
                              RevisionNo = hdr.B12hRevisionNo,
                              RevisionDate = hdr.B12hRevisionDate,
@@ -220,6 +221,37 @@ namespace RAMMS.Repository
         public List<RmB12DesiredServiceLevelHistory> GetHistoryData(int year)
         {
             List<RmB12DesiredServiceLevelHistory> res = (from r in _context.RmB12DesiredServiceLevelHistory where r.B12dslhB12hPkRefNo == year select r).OrderBy(x => x.B12dslhPkRefNo).ToList();
+            return res;
+        }
+
+        public List<RmB13ProposedPlannedBudgetHistory> GetPlannedBudgetDataMiri(int year)
+        {
+
+            var list = _context.RmB13ProposedPlannedBudget.Where(x => x.B13pRmu == "Miri" &&  x.B13pRevisionYear == year && x.B13pSubmitSts == true).OrderByDescending(x => x.B13pPkRefNo).ToList();
+            
+            List<RmB13ProposedPlannedBudgetHistory> res = new List<RmB13ProposedPlannedBudgetHistory>();
+            if (list.Count > 0)
+                res = (from r in _context.RmB13ProposedPlannedBudgetHistory where r.B13phB13pPkRefNo == list[0].B13pPkRefNo select r).ToList();
+            return res;
+        }
+
+        public List<RmB13ProposedPlannedBudgetHistory> GetPlannedBudgetDataBTN(int year)
+        {
+
+            var list = _context.RmB13ProposedPlannedBudget.Where(x => x.B13pRmu == "Batu Niah" && x.B13pRevisionYear == year && x.B13pSubmitSts == true).OrderByDescending(x => x.B13pPkRefNo).ToList();
+
+            List<RmB13ProposedPlannedBudgetHistory> res = new List<RmB13ProposedPlannedBudgetHistory>();
+            if (list.Count > 0)
+                res = (from r in _context.RmB13ProposedPlannedBudgetHistory where r.B13phB13pPkRefNo == list[0].B13pPkRefNo select r).ToList();
+            return res;
+        }
+
+        public List<RmB10DailyProductionHistory> GetUnitData(int year)
+        {
+            var list = _context.RmB10DailyProduction.Where(x => x.B10dpRevisionYear == year).OrderByDescending(x => x.B10dpPkRefNo).ToList();
+            List<RmB10DailyProductionHistory> res = new List<RmB10DailyProductionHistory>();
+            if (list.Count > 0)
+                res = (from r in _context.RmB10DailyProductionHistory where r.B10dphB10dpPkRefNo == list[0].B10dpPkRefNo select r).ToList();
             return res;
         }
 

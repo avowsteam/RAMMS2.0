@@ -25,12 +25,18 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         
         Task<int> SaveFormB12(FormB12DTO FormB12);
 
-        Task<FormB12DTO> SaveB12(FormB12DTO frmb12hdr, List<FormB12HistoryDTO> frmb12, bool updateSubmit);
+        Task<FormB12DTO> SaveB12(FormB12DTO frmb12hdr, bool updateSubmit);
 
         Byte[] FormDownload(string formname, int id, string basepath, string filepath);
 
         int Delete(int id);
 
         Task<List<FormB12HistoryDTO>> GetHistoryData(int historyID);
+
+        Task<List<FormB13HistoryResponseDTO>> GetPlannedBudgetDataMiri( int year);
+
+        Task<List<FormB13HistoryResponseDTO>> GetPlannedBudgetDataBTN(int year);
+
+        Task<List<FormB10HistoryResponseDTO>> GetUnitData(int year);
     }
 }

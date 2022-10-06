@@ -111,14 +111,14 @@ namespace RAMMS.Business.ServiceProvider.Services
             }
         }
 
-        public async Task<FormB12DTO> SaveB12(FormB12DTO frmb12hdr, List<FormB12HistoryDTO> frmb12, bool updateSubmit)
+        public async Task<FormB12DTO> SaveB12(FormB12DTO frmb12hdr, bool updateSubmit)
         {
-            RmB12Hdr frmb12hdr_1 = this._mapper.Map<RmB12Hdr>((object)frmb12hdr);
-            //frmb12hdr_1 = UpdateStatus(frmb12hdr_1);
+            RmB12Hdr frmb14hdr_1 = this._mapper.Map<RmB12Hdr>((object)frmb12hdr);
+            frmb14hdr_1 = UpdateStatus(frmb14hdr_1);
 
-            RmB12Hdr source = await this._repo.Save(frmb12hdr_1, updateSubmit);
+            RmB12Hdr source = await this._repo.Save(frmb14hdr_1, updateSubmit);
 
-            var domainModelFormB12 = _mapper.Map<List<RmB12DesiredServiceLevelHistory>>(frmb12);
+            var domainModelFormB12 = _mapper.Map<List<RmB12DesiredServiceLevelHistory>>(frmb12hdr.FormB12History);
             foreach (var list in domainModelFormB12)
             {
                 list.B12dslhPkRefNo = list.B12dslhPkRefNo;
@@ -130,6 +130,43 @@ namespace RAMMS.Business.ServiceProvider.Services
             frmb12hdr = this._mapper.Map<FormB12DTO>((object)source);
             return frmb12hdr;
         }
+
+        public RmB12Hdr UpdateStatus(RmB12Hdr form)
+        {
+            if (form.B12hPkRefNo > 0)
+            {
+                var existsObj = _repoUnit.FormR1Repository._context.RmB12Hdr.Where(x => x.B12hPkRefNo == form.B12hPkRefNo).Select(x => new { Status = x.B12hStatus, Log = x.B12hAuditlog }).FirstOrDefault();
+                if (existsObj != null)
+                {
+                    form.B12hAuditlog = existsObj.Log;
+                    form.B12hStatus = existsObj.Status;
+                }
+
+            }
+
+
+            if (form.B12hSubmitSts && (string.IsNullOrEmpty(form.B12hStatus) || form.B12hStatus == Common.StatusList.FormQA1Saved ))
+            {
+
+                form.B12hStatus = Common.StatusList.FormQA1Submitted;
+                form.B12hAuditlog = Utility.ProcessLog(form.B12hAuditlog, "Submitted", "Submitted", form.B12hCrByName, string.Empty, form.B12hCrDt, _security.UserName);
+                processService.SaveNotification(new RmUserNotification()
+                {
+                    RmNotCrBy = _security.UserName,
+                    RmNotGroup = GroupNames.OperationsExecutive,
+                    RmNotMessage = "Submitted By:" + form.B12hCrByName + " - Form B12 (" + form.B12hPkRefNo + ")",//doubt
+                    RmNotOn = DateTime.Now,
+                    RmNotUrl = "/FormB12/Edit/" + form.B12hPkRefNo.ToString() + "?view=1",
+                    RmNotUserId = "",
+                    RmNotViewed = ""
+                }, true);
+            }
+            else if (string.IsNullOrEmpty(form.B12hStatus) || form.B12hStatus == "Initialize")
+                form.B12hStatus = Common.StatusList.FormR1R2Saved;
+
+            return form;
+        }
+
 
         public byte[] FormDownload(string formname, int id, string basepath, string filepath)
         {
@@ -302,6 +339,30 @@ namespace RAMMS.Business.ServiceProvider.Services
             List<FormB12HistoryDTO> FormB12 = new List<FormB12HistoryDTO>();
             FormB12 = _mapper.Map<List<FormB12HistoryDTO>>(res);
             return FormB12;
+        }
+
+        public async Task<List<FormB13HistoryResponseDTO>> GetPlannedBudgetDataMiri( int year)
+        {
+            List<RmB13ProposedPlannedBudgetHistory> res = _repo.GetPlannedBudgetDataMiri(year);
+            List<FormB13HistoryResponseDTO> FormB13 = new List<FormB13HistoryResponseDTO>();
+            FormB13 = _mapper.Map<List<FormB13HistoryResponseDTO>>(res);
+            return FormB13;
+        }
+
+        public async Task<List<FormB13HistoryResponseDTO>> GetPlannedBudgetDataBTN(int year)
+        {
+            List<RmB13ProposedPlannedBudgetHistory> res = _repo.GetPlannedBudgetDataBTN(year);
+            List<FormB13HistoryResponseDTO> FormB13 = new List<FormB13HistoryResponseDTO>();
+            FormB13 = _mapper.Map<List<FormB13HistoryResponseDTO>>(res);
+            return FormB13;
+        }
+
+        public async Task<List<FormB10HistoryResponseDTO>> GetUnitData(int year)
+        {
+            List<RmB10DailyProductionHistory> res = _repo.GetUnitData(year);
+            List<FormB10HistoryResponseDTO> FormB10 = new List<FormB10HistoryResponseDTO>();
+            FormB10 = _mapper.Map<List<FormB10HistoryResponseDTO>>(res);
+            return FormB10;
         }
 
 
