@@ -661,5 +661,10 @@ namespace RAMMS.Business.ServiceProvider.Services
             return null;
         }
 
+        public async Task<IEnumerable<SelectListItem>> GetCVIds(DTO.RequestBO.AssetDDLRequestDTO request)
+        {
+            return await _repo.GetCVId(request);
+        }
+
     }
 }

@@ -111,6 +111,8 @@ namespace RAMMS.Repository.Interfaces
 
         public FormB14Repository FormB14Repository { get; }
 
+        public FormB12Repository FormB12Repository { get; }
+
         public FormT4Repository FormT4Repository { get; }
 
         int Commit();

@@ -247,13 +247,25 @@ namespace RAMMS.Business.ServiceProvider.Services
                             }
 
                             if (rpt.UserNameProsd != null)
-                                worksheet.Cell(51, 4).Value = rpt.UserNameProsd + " & " + rpt.UserDesignationProsd;
+                            {
+                                worksheet.Cell(51, 4).Value = rpt.UserNameProsd;
+                                worksheet.Cell(52, 4).Value = rpt.UserDesignationProsd;
+                            }
                             if (rpt.UserNameFclitd != null)
-                                worksheet.Cell(51, 5).Value = rpt.UserNameFclitd + " & " + rpt.UserDesignationFclitd;
+                            {
+                                worksheet.Cell(51, 5).Value = rpt.UserNameFclitd;
+                                worksheet.Cell(52, 5).Value = rpt.UserDesignationFclitd;
+                            }
                             if (rpt.UserNameAgrd != null)
-                                worksheet.Cell(51, 9).Value = rpt.UserNameAgrd + " & " + rpt.UserDesignationAgrd;
+                            {
+                                worksheet.Cell(51, 9).Value = rpt.UserNameAgrd;
+                                worksheet.Cell(52, 9).Value = rpt.UserDesignationAgrd;
+                            }
                             if (rpt.UserNameEndosd != null)
-                                worksheet.Cell(51, 14).Value = rpt.UserNameEndosd + " & " + rpt.UserDesignationEndosd;
+                            {
+                                worksheet.Cell(51, 14).Value = rpt.UserNameEndosd;
+                                worksheet.Cell(52, 14).Value = rpt.UserDesignationEndosd;
+                            }
                         }
 
                     }

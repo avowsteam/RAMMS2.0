@@ -417,27 +417,27 @@ namespace RAMMS.Repository
             return detail;
         }
 
-        //public async Task<IEnumerable<SelectListItem>> GetCVId(AssetDDLRequestDTO request)
-        //{
-        //    var lst = _context.RmAllassetInventory.Where(s => s.AiAssetGrpCode == "CV" && (request.IncludeInActive ? true : s.AiActiveYn == true));
-        //    if (!string.IsNullOrEmpty(request.RMU))
-        //        lst = lst.Where(s => (s.AiRmuCode == request.RMU || s.AiRmuName == request.RMU));
-        //    if (!string.IsNullOrEmpty(request.RdCode))
-        //        lst = lst.Where(s => s.AiRdCode == request.RdCode);
-        //    if (request.SectionCode > 0)
-        //    {
-        //        string code = request.SectionCode.ToString();
-        //        lst = lst.Where(s => s.AiSecCode == code);
-        //    }
+        public async Task<IEnumerable<SelectListItem>> GetCVId(AssetDDLRequestDTO request)
+        {
+            var lst = _context.RmAllassetInventory.Where(s => s.AiAssetGrpCode == "SG" && (request.IncludeInActive ? true : s.AiActiveYn == true));
+            if (!string.IsNullOrEmpty(request.RMU))
+                lst = lst.Where(s => (s.AiRmuCode == request.RMU || s.AiRmuName == request.RMU));
+            if (!string.IsNullOrEmpty(request.RdCode))
+                lst = lst.Where(s => s.AiRdCode == request.RdCode);
+            if (request.SectionCode > 0)
+            {
+                string code = request.SectionCode.ToString();
+                lst = lst.Where(s => s.AiSecCode == code);
+            }
 
-        //    var resultlst = lst.ToArray().OrderBy(x => x.AiLocChKm).ThenBy(x => x.AiLocChM)
-        //        .Select(s => new SelectListItem
-        //        {
-        //            Value = s.AiPkRefNo.ToString(),
-        //            Text = s.AiAssetId
-        //        });
-        //    return resultlst;
-        //}
+            var resultlst = lst.ToArray().OrderBy(x => x.AiLocChKm).ThenBy(x => x.AiLocChM)
+                .Select(s => new SelectListItem
+                {
+                    Value = s.AiPkRefNo.ToString(),
+                    Text = s.AiAssetId
+                });
+            return resultlst;
+        }
 
     }
 }
