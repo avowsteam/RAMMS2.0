@@ -309,7 +309,7 @@
                     if (Model.FormT4Header.Status != "" && Model.FormT4Header.Status != "Initialize")
                         Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
                         {
-                            Form = "FormT4Header",
+                            Form = "FormT4",
                             RefId = Model.FormT4Header.PkRefNo,
                             Stage = Model.FormT4Header.Status
                         });

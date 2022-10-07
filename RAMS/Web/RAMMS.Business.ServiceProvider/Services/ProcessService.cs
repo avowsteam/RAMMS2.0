@@ -130,7 +130,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 case "frmB14":
                     iResult = await SaveFormB14(process);
                     break;
-
+                
             }
             return iResult;
         }
@@ -260,6 +260,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                     break;
                 case "FormT3":
                     logs = this.context.RmT3Hdr.Where(x => x.T3hPkRefNo == RefId).Select(x => x.T3hAuditlog).FirstOrDefault();
+                    break;
+                case "FormT4":
+                    logs = this.context.RmT4DesiredBdgtHeader.Where(x => x.T4dbhPkRefNo == RefId).Select(x => x.T4dbhAuditLog).FirstOrDefault();
                     break;
             }
             return Utility.ProcessLog(logs);
