@@ -95,6 +95,7 @@ namespace RAMMS.Web.UI.Controllers
 
         public async Task<IActionResult> View(int id)
         {
+            ViewBag.IsAdd = false;
             ViewBag.IsEdit = false;
             return id > 0 ? await ViewRequest(id) : RedirectToAction("404", "Error");
         }

@@ -119,7 +119,7 @@ var frmB12 = new function () {
                                         return false;
                                     }
                                     tblFB12HGrid.Refresh();
-                                    app.ShowSuccessMessage("Deleted Sucessfully! <br/>(Ref: " + data.RefID + ")");
+                                    app.ShowSuccessMessage("Deleted Sucessfully! <br/>(Ref: " + data.ReferenceNo + ")");
                                 });
                             }
                         }, "Yes", "No");
@@ -368,4 +368,32 @@ function GetfindDetails() {
             }
         }
     });
+}
+
+function ViewData(id) {
+    debugger;
+    var req = {};
+    req.HistoryID = id;
+    $.ajax({
+        url: '/FormB12/GetHistoryData',
+        type: 'POST',
+        data: req,
+        dataType: "json",
+        success: function (data) {
+            if (data.result.length > 0) {
+                var i = 0;
+                $('#tblB12 tbody tr').each(function () {
+                    var UnitOfService = data.result[i].unitOfService == null ? "" : data.result[i].unitOfService;
+                    var miri = data.result[i].rmuMiri == null ? "" : Number(data.result[i].rmuMiri).toLocaleString('en');
+                    var btn = data.result[i].rmuBatuniah == null ? "" : Number(data.result[i].rmuBatuniah).toLocaleString('en');
+                    $(this).find("td:last").after('<td stlye="float:right" id="txt' + i + 'Unit">' + UnitOfService + '</td>');
+                    $(this).find("td:last").after('<td  stlye="float:right"  id="txt' + i + 'M2">' + btn + '</td>');
+                    $(this).find("td:last").after('<td  stlye="float:right" id="txt' + i + 'M3">' + miri + '</td>')
+                    i = i + 1;
+                });
+            }
+        }
+    });
+
+
 }

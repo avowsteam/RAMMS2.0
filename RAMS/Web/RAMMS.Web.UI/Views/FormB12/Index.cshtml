@@ -17,11 +17,11 @@
 
 <script type="text/javascript">
      $(document).ready(function () {
-        $("#formB12Year").chosen();
+        $("#formB12Years").chosen();
      });
     function clearHeaderSearch() {
         $("#formB12SmartSearch").val('');
-        $("#formB12Year").val("").trigger("chosen:updated");
+        $("#formB12Years").val("").trigger("chosen:updated");
         $("#fromRevDate").val("");
         $("#toRevDate").val("");
         $("[searchsectionbtn]").click();
@@ -65,9 +65,9 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <div class="search-section">
+            <div class="search-section" searchSection>
                 <div class="justify-content-center mb-1">
-                    <div class="search-content" searchSection>
+                    <div class="search-content" >
                         <div class="input-group">
                             <input autocomplete="off" class="form-control" id="formB12SmartSearch" name="SearchObj.SmartInputValue" onfocus="this.removeAttribute('readonly')" placeholder="Search..." spellcheck="false" type="text" value=""   param="KeySearch">
                             <div class="input-group-append">
@@ -86,7 +86,7 @@
                                 <div class="row">
                                     <div class="form-group col-4">
                                         @Html.Label("Year", "Year")
-                                        @Html.DropDownList("FromRevisionYear", (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB12Year", @class = "form-control", @param = "Year", @clear = "rebind" })
+                                        @Html.DropDownList("FromRevisionYear", (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB12Years", @class = "form-control", @param = "Year", @clear = "rebind" })
                                     </div>
 
                                     <div class="form-group col-lg-4">
