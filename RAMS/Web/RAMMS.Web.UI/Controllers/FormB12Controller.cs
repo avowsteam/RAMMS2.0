@@ -101,6 +101,7 @@ namespace RAMMS.Web.UI.Controllers
 
         public async Task<IActionResult> EditForm(int id, int view)
         {
+            ViewBag.IsAdd = false;
             ViewBag.IsEdit = true;
             return id > 0 ? await ViewRequest(id) : RedirectToAction("404", "Error");
         }
@@ -129,6 +130,15 @@ namespace RAMMS.Web.UI.Controllers
         {
             return Json(_formB12Service.GetHistoryData(HistoryID));
         }
+
+        [HttpPost] //Tab
+        public IActionResult Delete(int id)
+        {
+            if (id > 0) { return Ok(new { id = _formB12Service.Delete(id) }); }
+            else { return BadRequest("Invalid Request!"); }
+
+        }
+
 
         public async Task<IActionResult> GetMaxRev(int Year)
         {
@@ -161,20 +171,20 @@ namespace RAMMS.Web.UI.Controllers
             return await SaveAll(formb14, false);
         }
 
-        public async Task<IActionResult> Submit(FormB12DTO formb14, int reload)
-        {
+        //public async Task<IActionResult> Submit(FormB12DTO formb14, int reload)
+        //{
          
-            //List<FormB14HistoryDTO> formb14 = new List<FormB14HistoryDTO>();
+        //    //List<FormB14HistoryDTO> formb14 = new List<FormB14HistoryDTO>();
 
-            //formb12hdr = JsonConvert.DeserializeObject<FormB14HeaderDTO>(formb14hdrdata);
-            //formb14 = JsonConvert.DeserializeObject<List<FormB14HistoryDTO>>(formb14data);
+        //    //formb12hdr = JsonConvert.DeserializeObject<FormB14HeaderDTO>(formb14hdrdata);
+        //    //formb14 = JsonConvert.DeserializeObject<List<FormB14HistoryDTO>>(formb14data);
 
-            formb14.SubmitSts = true;
-            formb14.CrBy  = _security.UserID;
-            formb14.CrByName = _security.UserName;
-            formb14.CrDt  = DateTime.Today;
-            return await SaveAll(formb14, true);
-        }
+        //    formb14.SubmitSts = true;
+        //    formb14.CrBy  = _security.UserID;
+        //    formb14.CrByName = _security.UserName;
+        //    formb14.CrDt  = DateTime.Today;
+        //    return await SaveAll(formb14, true);
+        //}
 
         private async Task<JsonResult> SaveAll(DTO.ResponseBO.FormB12DTO formb14hdr, bool updateSubmit)
         {
@@ -185,6 +195,13 @@ namespace RAMMS.Web.UI.Controllers
             return Json(new { Id = result.PkRefNo }, JsonOption());
         }
 
+
+        public IActionResult Download(int id)
+        {
+            var content1 = _formB12Service.FormDownload("FormB12", id, _webHostEnvironment.WebRootPath, _webHostEnvironment.WebRootPath + "/Templates/FormB12.xlsx");
+            string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            return File(content1, contentType1, "FormB12" + ".xlsx");
+        }
 
     }
 }

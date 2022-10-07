@@ -8,19 +8,24 @@
     ViewData["Title"] = "APPENDIX B12";
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
 
+     string strRefId = string.Empty;
+    if (Model != null)
+    {
+        strRefId = Model.FormB12Header.PkRefId;
+    }
     var username = security.UserName;
 
     var today = DateTime.Today.ToString("yyyy-MM-dd");
 }
 <script type="text/javascript" src="~/js/FormB12.js" asp-append-version="true"></script>
 <script type="text/javascript">
-    debugger;
+    //debugger;
     frmB12.HeaderData = @Html.Raw(RAMMS.Common.Utility.JSerialize(Model));
     frmB12.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
     frmB12.IsAdd = @(ViewBag.IsAdd ? "true" : "false");
 
       $(document).ready(function () {
-        debugger;
+        //debugger;
         process.Init("frmB14", "@Model.FormB12Header.Status", @Model.FormB12Header.PkRefNo);
       });
 </script>
@@ -31,7 +36,7 @@
                 <div class=" w-100 d-flex justify-content-center py-1">
                     <div class="form-group mb-0">
                         <label style="float:left; padding: .5rem .5rem 0 !important;">Reference No.</label>
-                        <input class="form-control" style="width:330px;" type="text" value="" disabled="">
+                        <input id="txtFormB12RefNum" class="form-control" style="width:330px;" type="text" value="@strRefId" disabled="">
                     </div>
                 </div>
             </div>
@@ -292,7 +297,7 @@
 
                     </div>
                 </div>
-                @{
+               @* @{
                     if (Model != null)
                     {
                         Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
@@ -303,7 +308,7 @@
                 });
 
                     }
-                }
+                }*@
             </div>
 
         </div>
@@ -313,9 +318,9 @@
 <input type="hidden" id="UserId" value="@security.UserID" />
 <input type="hidden" id="UserName" value="@security.UserName" />
 <div class="col-md-12 mb-2 float-right text-right custom-footer">
-    <button type="button" class="btn btn-sm btn-outline-theme">Close</button>
+    <button type="button" class="btn btn-sm btn-outline-theme" onclick="frmB12.Cancel()">Close</button>
     <button type="button" class="btn btn-sm btn-themebtn" onclick="frmB12.Save(false,0)" finddetailsdep>Save</button>
-    <button type="button" class="btn btn-sm btn-themebtn" finddetailsdep onclick="frmB14.Save(true,0)">Submit</button>
+    @*<button type="button" class="btn btn-sm btn-themebtn" finddetailsdep onclick="frmB14.Save(true,0)">Submit</button>*@
 </div>
 
 

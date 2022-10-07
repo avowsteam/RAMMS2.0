@@ -33,7 +33,7 @@ namespace RAMMS.DTO.ResponseBO
         public decimal? RmuMiri { get; set; }
         public decimal? RmuBatuniah { get; set; }
         public string UnitOfService { get; set; }
-
+        public int? Order { get; set; }
         public  FormB12DTO FormB12 { get; set; }
     }
 }

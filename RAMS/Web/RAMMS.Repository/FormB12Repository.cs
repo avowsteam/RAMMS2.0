@@ -29,7 +29,7 @@ namespace RAMMS.Repository
 
             //query.Select(s => s.B12dsPkRefNo).DefaultIfEmpty().Max();
 
-            var query = (from hdr in _context.RmB12Hdr
+            var query = (from hdr in _context.RmB12Hdr where hdr.B12hActiveYn == true
                          let max = _context.RmB12Hdr.Select(s => s.B12hPkRefNo).DefaultIfEmpty().Max()
                          select new
                          {
@@ -106,10 +106,10 @@ namespace RAMMS.Repository
         public RmB12Hdr GetHeaderById(int id, bool view)
         {
             RmB12Hdr res = (from r in _context.RmB12Hdr where r.B12hPkRefNo == id select r).FirstOrDefault();
-            int? RevNo = (from rn in _context.RmB12Hdr where rn.B12hRevisionYear == res.B12hRevisionYear select rn.B12hRevisionNo).DefaultIfEmpty().Max() + 1;
-            if (view == false)
-                res.B12hRevisionNo = RevNo;
-            res.RmB12DesiredServiceLevelHistory  = (from r in _context.RmB12DesiredServiceLevelHistory where r.B12dslhB12hPkRefNo == id select r).OrderBy(S => S.B12dslhActCode).ToList();
+            //int? RevNo = (from rn in _context.RmB12Hdr where rn.B12hRevisionYear == res.B12hRevisionYear select rn.B12hRevisionNo).DefaultIfEmpty().Max() + 1;
+            //if (view == false)
+            //    res.B12hRevisionNo = RevNo;
+            res.RmB12DesiredServiceLevelHistory  = (from r in _context.RmB12DesiredServiceLevelHistory where r.B12dslhB12hPkRefNo == id select r).OrderBy(S => S.B12dslhOrder).ToList();
            
 
             return res;
@@ -170,11 +170,14 @@ namespace RAMMS.Repository
             try
             {
                 if (FormB12[0].B12dslhPkRefNo == 0)
-                    _context.RmB12DesiredServiceLevelHistory.AddRange(FormB12);
-                else
                 {
-                    _context.RmB12DesiredServiceLevelHistory.UpdateRange(FormB12);
+                    //_context.RmB12DesiredServiceLevelHistory.RemoveRange()
+                    var res =  _context.RmB12DesiredServiceLevelHistory.Where(x => x.B12dslhB12hPkRefNo == FormB12[0].B12dslhB12hPkRefNo);
+                    _context.RemoveRange(res);
+                    _context.SaveChanges();
+                    _context.RmB12DesiredServiceLevelHistory.AddRange(FormB12);
                 }
+                
                 _context.SaveChanges();
 
                 return 1;
@@ -194,7 +197,7 @@ namespace RAMMS.Repository
 
             details.B12History  = await (from o in _context.RmB12DesiredServiceLevelHistory
                                      where (o.B12dslhB12hPkRefNo == headerid)
-                                     orderby o.B12dslhActCode ascending
+                                     orderby o.B12dslhOrder ascending
                                      select new B12History
                                      {
                                          Feature = o.B12dslhFeature,
@@ -220,7 +223,7 @@ namespace RAMMS.Repository
 
         public List<RmB12DesiredServiceLevelHistory> GetHistoryData(int year)
         {
-            List<RmB12DesiredServiceLevelHistory> res = (from r in _context.RmB12DesiredServiceLevelHistory where r.B12dslhB12hPkRefNo == year select r).OrderBy(x => x.B12dslhPkRefNo).ToList();
+            List<RmB12DesiredServiceLevelHistory> res = (from r in _context.RmB12DesiredServiceLevelHistory where r.B12dslhB12hPkRefNo == year select r).OrderBy(x => x.B12dslhOrder).ToList();
             return res;
         }
 

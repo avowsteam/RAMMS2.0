@@ -18,26 +18,30 @@ var frmB12 = new function () {
         InitAjaxLoading();
 
         var FormB12 = new Object();
-        FormB12.B12hPkRefNo = $("#pkRefNo").val()
-        FormB12.B12hRevisionYear = $("#formB12Year").val()
-        FormB12.B12hRevisionNo = $("#RevisionNo").val()
-        FormB12.B12hRevisionDate = $("#date").val()
-        FormB12.B12hCrBy = $("#UserId").val();
-        FormB12.B12hCrByName = $("#UserName").val();
-        FormB12.B12hCrDt = $("#date").val()
+        FormB12.PkRefNo = $("#pkRefNo").val()
+        FormB12.PkRefId = $("#txtFormB12RefNum").val();
+        FormB12.RevisionYear = $("#formB12Year").val();
+        FormB12.RevisionNo = $("#RevisionNo").val();
+        FormB12.RevisionDate = $("#date").val()
+        FormB12.CrBy = $("#UserId").val();
+        FormB12.CrByName = $("#UserName").val();
+        FormB12.CrDt = $("#date").val()
 
         var B12History = []
-
+        var i = 0;
         $('#tblB12 > tbody  > tr').each(function (index, tr) {
 
             var B12 = new Object();
             B12.B12hPkRefNo = $("#pkRefNo").val();
-            B12.ActCode = $(this).find("td:nth-child(2)").text().trim();
-            B12.ActName = $(this).find("td:nth-child(3)").text().trim();
-            B12.UnitOfService = $(this).find("td:nth-child(4)").text().trim();
-            B12.RmuBatuniah = $(this).find("td:nth-child(5)").text().trim();
-            B12.RmuMiri = $(this).find("td:nth-child(6)").text().trim();
+            B12.Feature = $('#spx' + i).text().trim();;//$(this).find("td:nth-child(1)").text().trim();
+            B12.ActCode = $(this).find("td.x01").text().trim();
+            B12.ActName = $(this).find("td.x02").text().trim();
+            B12.UnitOfService = $('#txt' + i + 'Unit').html().replace(/,/g, "");
+            B12.RmuBatuniah = $('#txt' + i + 'M2').html().replace(/,/g, "");
+            B12.RmuMiri = $('#txt' + i + 'M3').html().replace(/,/g, "");
+            B12.Order = i;
             B12History.push(B12);
+            i = i + 1;
         });
 
         FormB12.FormB12History = B12History;
@@ -107,7 +111,7 @@ var frmB12 = new function () {
                         window.location = _APPLocation + "FormB12/View/" + data.RefNo;
                         break;
                     case "delete":
-                        app.Confirm("Are you sure you want to delete this record? <br/>(Ref: " + data.RefID + ")", (status) => {
+                        app.Confirm("Are you sure you want to delete this record? <br/>(Ref: " + data.ReferenceNo + ")", (status) => {
                             if (status) {
                                 DeleteRequest("Delete/" + data.RefNo, "FormB12", {}, function (sdata) {
                                     if (sdata.id == "-1") {
@@ -137,7 +141,7 @@ var frmB12 = new function () {
     }
 
     this.PageInit = function () {
-        debugger;
+        //debugger;
         if (this.IsEdit) {
             //if (this.HeaderData.FormB12Header && this.HeaderData.FormB12Header.PkRefNo && this.HeaderData.FormB12Header.PkRefNo > 0) {
             if ($("#pkRefNo").val() != "" && $("#pkRefNo").val() > 0) {
@@ -216,7 +220,7 @@ function AppendData(id, Status) {
             data: req,
             type: 'Post',
             success: function (data) {
-                debugger
+                //debugger
                 if (data.result.length > 0) {
                     for (var i = 0; i < data.result.length; i++) {
                         var val = data.result[i].slTotalByActivity / data.result[i].slAnnualWorkQuantity;
@@ -268,7 +272,7 @@ function AppendData(id, Status) {
             type: 'Post',
             success: function (data) {
                 if (data.result.length > 0) {
-                    debugger;
+                    //debugger;
                     for (var i = 0; i < data.result.length; i++) {
                         $('#txt' + i + "Unit").html(data.result[i].adpUnit);
                     }
@@ -287,7 +291,7 @@ function AppendData(id, Status) {
 
 $(document).ready(function () {    
     $("#smartSearch").focus();//Header Grid focus    
-
+    frmB12.PageInit();
     if (!frmB12.IsEdit) {
         $("#formB12Year").chosen("destroy");
         $("#divFindDetails *").attr("disabled", "disabled").off("click");
@@ -332,7 +336,7 @@ function getRevisionNo(id) {
 }
 
 function GetfindDetails() {
-    debugger;
+    //debugger;
     InitAjaxLoading();
     var FormB12 = new Object();
 
@@ -346,7 +350,7 @@ function GetfindDetails() {
         data: { formb12data: FormB12Data },
         dataType: "json",
         success: function (data) {
-            debugger;
+            //debugger;
             HideAjaxLoading();
             if (data == -1) {
                 app.ShowErrorMessage(data.errorMessage);
@@ -358,7 +362,7 @@ function GetfindDetails() {
                 //}
                 frmB12.HeaderData = data;
                 $('#txtFormB12RefNum').val(data.PkRefId);
-                $("#pkRefNo").val(frmB12.HeaderData.PkRefNo);
+                $("#pkRefNo").val(data.PkRefNo);
                 frmB12.PageInit();
 
             }
