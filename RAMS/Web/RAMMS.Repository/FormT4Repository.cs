@@ -203,7 +203,7 @@ namespace RAMMS.Repository
             else
             {
                 FormT4.RmT4DesiredBdgt = (from r in _context.RmT4DesiredBdgt
-                                          where r.T4dbPkRefNo == FormT4.T4dbhPkRefNo
+                                          where r.T4dbT4pdbhPkRefNo == FormT4.T4dbhPkRefNo
                                                        select r).ToList();
             }
 

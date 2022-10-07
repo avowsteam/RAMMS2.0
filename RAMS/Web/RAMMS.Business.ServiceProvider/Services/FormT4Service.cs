@@ -201,33 +201,30 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                         if (worksheet != null)
                         {
-                            int i = 10;
+                            int i = 9;
 
                             foreach (var r in rpt)
                             {
 
-                                worksheet.Cell(i, 5).Value = r.InvCond1;
-                                worksheet.Cell(i, 6).Value = r.InvCond2;
-                                worksheet.Cell(i, 7).Value = r.InvCond3;
-                                worksheet.Cell(i, 9).Value = r.SlCond1;
-                                worksheet.Cell(i, 10).Value = r.SlCond2;
-                                worksheet.Cell(i, 11).Value = r.SlCond3;
-                                worksheet.Cell(i, 17).Value = r.CdcLabour;
-                                worksheet.Cell(i, 18).Value = r.CdcEquipment;
-                                worksheet.Cell(i, 19).Value = r.CdcMaterial;
-                                worksheet.Cell(i, 21).Value = r.AverageDailyProduction;
-                                worksheet.Cell(i, 22).Value = r.UnitOfService;
+                                worksheet.Cell(i, 4).Value = r.InvCond1;
+                                worksheet.Cell(i, 5).Value = r.InvCond2;
+                                worksheet.Cell(i, 6).Value = r.InvCond3;
+                                worksheet.Cell(i, 8).Value = r.SlCond1;
+                                worksheet.Cell(i, 9).Value = r.SlCond2;
+                                worksheet.Cell(i, 10).Value = r.SlCond3;
+                                worksheet.Cell(i, 16).Value = r.AverageDailyProduction;
+                                worksheet.Cell(i, 17).Value = r.UnitOfService;
+                                worksheet.Cell(i, 19).Value = r.CdcLabour;
+                                worksheet.Cell(i, 20).Value = r.CdcEquipment;
+                                worksheet.Cell(i, 21).Value = r.CdcMaterial;
                                
                                 i++;
 
                             }
-
-                            int j = 54;
-                          
-
-                            worksheet.Cell(3, 1).Value = "APPENDIX T4 - " + rptcol.Rmu;
-                            worksheet.Cell(5, 27).Value = rptcol.RevisionNo;
-                            worksheet.Cell(5, 29).Value = rptcol.RevisionDate;
+ 
+                         
+                            worksheet.Cell(4, 22).Value = rptcol.RevisionNo;
+                            worksheet.Cell(4, 24).Value = rptcol.RevisionDate;
 
                           
                         }
