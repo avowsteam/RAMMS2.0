@@ -233,7 +233,7 @@ namespace RAMMS.Repository
             var list = _context.RmB14Hdr.Where(x => x.B14hRmuCode == Rmucode && x.B14hRevisionYear == year && x.B14hSubmitSts == true).OrderByDescending(x => x.B14hPkRefNo).ToList();
             List<RmB14History> res = new List<RmB14History>();
             if (list.Count > 0)
-                res = (from r in _context.RmB14History where r.B14hhB14hPkRefNo == list[0].B14hPkRefNo select r).ToList();
+                res = (from r in _context.RmB14History where r.B14hhB14hPkRefNo == list[0].B14hPkRefNo select r).OrderBy(x=>x.B14hhOrder).ToList();
             return res;
         }
 
