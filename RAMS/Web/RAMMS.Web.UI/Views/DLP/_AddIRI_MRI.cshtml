@@ -1,0 +1,145 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewBag.TabTitle = "Form T";
+    ViewData["Title"] = "Form T";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+}
+
+
+ 
+    <div class="row">
+
+        <div class="body-header w-100">
+            <div class="col-lg-12">
+                <div class="w-100 d-flex justify-content-md-between py-2 align-items-center">
+                    <span class="mb-0 font-weight-bold font-20">
+                        International Roughness Index (IRI) & Road Maintenance Indicator (RMI)
+                    </span>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-alt mb-0 bg-transparent">
+                            <li class="breadcrumb-item">Home</li>
+                            @*<li class="breadcrumb-item" aria-current="page">Form V1</li>*@
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body mh-182 pt-4 pb-0">
+        <div class="container-fluid" id="divFindDetailsFC1C2">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-2 form-group">
+                            <label>Year</label>
+                            <select class="form-control"> <option> Select Year</option></select>
+                        </div>
+                        <div class="col-8"></div>
+                        <div class="col-2 form-group">
+                            <button id="btnFindDetails" type="button" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right mt-3">Find Details</button>
+                        </div>
+                        <div class="col-lg-10 offset-lg-1 mt-2">
+                            <div class="table-responsive">
+                                <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                    <div class="dataTables_scrollBody">
+                                        <div class="dataTables_scroll">
+                                            <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                <table class="table w-100 nowrap dataTable no-footer">
+                                                    <thead style="background-color: #c8e1ff">
+                                                        <tr>
+                                                            <th colspan="1" class="text-center">
+
+                                                            </th>
+                                                            <th colspan="1" class="text-center">
+
+                                                            </th>
+                                                            <th colspan="1" class="text-center">
+                                                                Percentage%
+                                                            </th>
+                                                            <th colspan="1" class="text-center">
+                                                                Road Length (km)
+                                                            </th>
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <b>RMI</b>
+                                                            </td>
+                                                            <td>
+                                                                -
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" disabled class="form-control" />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td rowspan="3">
+                                                                <b>IRI</b>
+                                                            </td>
+                                                            <td>
+                                                                Condition 1
+
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" disabled class="form-control" />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td>
+                                                                Condition 2
+
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" disabled class="form-control" />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Condition 3
+
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" disabled class="form-control" />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+        </div>
+        <div class="col-md-12 mb-2 float-right text-right custom-footer">
+            <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
+            <button id="saveFormN2Btn" type="button" class="btn btn-sm btn-themebtn">Save</button>
+        </div>

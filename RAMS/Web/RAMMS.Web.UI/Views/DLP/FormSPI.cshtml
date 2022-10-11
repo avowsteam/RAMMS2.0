@@ -1,0 +1,753 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewBag.TabTitle = "Form T";
+    ViewData["Title"] = "Form T";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+}
+ 
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="w-100 d-flex justify-content-md-between py-2 align-items-center">
+                <span class="mb-0 font-weight-bold font-20 mt-3">    Service Provider Performance Indicator (SPI)</span>
+            </div>
+        </div>
+        <div class="col-lg-2 offset-lg-10 form-group mt-3">
+            <label>Year</label>
+            <select class="form-control"> <option> Select Year</option></select>
+        </div>
+    </div>
+
+
+    <div class="accordion custom-accordion mb-3" id="custom-accordion-one">
+        <div class="card mb-0">
+            <div class="card-header" id="headingOne">
+                <h5 class="m-0">
+                    <a class="custom-accordion-title py-1 collapsed" data-toggle="collapse" href="#AccordPage1" aria-expanded="false" aria-controls="collapseOne">
+                        <span class="float-left">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                        </span>
+                        <span class="float-left" style="padding: 4px 8px;">
+                            Division Miri
+                        </span>
+                    </a>
+                </h5>
+            </div>
+            <div id="AccordPage1" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingOne" data-parent="#custom-accordion-one">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                    <div class="dataTables_scrollBody">
+                                        <div class="dataTables_scroll">
+                                            <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                <table class="table w-100 nowrap dataTable no-footer">
+                                                    <thead style="background-color: #c8e1ff">
+                                                        <tr>
+                                                            <th class="text-center">
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> Monthly Planned</b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b>  Monthly Actual </b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b>Cul.Plan </b>
+                                                            </th>
+
+                                                            <th class="text-center">
+                                                                <b>Cul.Actual</b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> Plwork act </b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> Pal(year 2022)</b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> PL (EFF) </b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> Pl(RB) </b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b>PI(IW) </b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> SPI (year 2022) </b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> Planned %</b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> Actual%</b>
+                                                            </th>
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <tr>
+                                                            <td>
+                                                                <b> January</b>
+                                                            </td>
+                                                            <td>
+                                                                RM 500,781,65
+                                                            </td>
+                                                            <td>RM 560,442.49</td>
+
+                                                            <td>RM 560,442.49</td>
+                                                            <td> RM 500,781.65</td>
+                                                            <td> 89.53  </td>
+                                                            <td>1.12</td>
+                                                            <td>15.00  </td>
+                                                            <td>5.00</td>
+                                                            <td> 0.00 </td>
+                                                            <td>109.53   </td>
+                                                            <td>3.26%</td>
+                                                            <td>  3.65%  </td>
+                                                        </tr>
+
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accordion custom-accordion mb-3" id="custom-accordion-two">
+        <div class="card mb-0">
+            <div class="card-header" id="headingTwo">
+                <h5 class="m-0">
+                    <a class="custom-accordion-title py-1 collapsed" data-toggle="collapse" href="#AccordPage2" aria-expanded="false" aria-controls="collapseTwo">
+                        <span class="float-left">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                        </span>
+                        <span class="float-left" style="padding: 4px 8px;">
+                            RMU Miri
+
+                        </span>
+                    </a>
+                </h5>
+            </div>
+            <div id="AccordPage2" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingTwo" data-parent="#custom-accordion-two">
+                <div class="card-body">
+                    <div id="EquipmentListGrid" class="w-100 dt-tbl-section">
+                        <div class="text-right float-right p-2">
+                            <div class="btn-group dropright" id="actiondropdown">
+                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Click Me
+                                </button>
+                                <div class="dropdown-menu">
+                                    <button type="button" class="dropdown-item editdel-btns" data-toggle="modal" data-target="#myModal">
+                                        <span class="edit-icon"></span> Edit
+                                    </button>
+                                    <button type="button" class="dropdown-item editdel-btns" data-toggle="modal" data-target="#myModal1">
+                                        <span class="view-icon"></span> View
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                <div class="dataTables_scrollBody">
+                                    <div class="dataTables_scroll">
+                                        <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                            <table class="table w-100 nowrap dataTable no-footer">
+                                                <thead style="background-color: #c8e1ff">
+                                                    <tr>
+                                                        <th class="text-center">
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> Monthly Planned</b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b>  Monthly Actual </b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b>Cul.Plan </b>
+                                                        </th>
+
+                                                        <th class="text-center">
+                                                            <b>Cul.Actual</b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> Plwork act </b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> Pal(year 2022)</b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> PL (EFF) </b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> Pl(RB) </b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b>PI(IW) </b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> SPI (year 2022) </b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> Planned %</b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> Actual%</b>
+                                                        </th>
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr>
+                                                        <td>
+                                                            <b> January</b>
+                                                        </td>
+                                                        <td>
+                                                            RM 500,781,65
+                                                        </td>
+                                                        <td>RM 560,442.49</td>
+
+                                                        <td>RM 560,442.49</td>
+                                                        <td> RM 500,781.65</td>
+                                                        <td> 89.53  </td>
+                                                        <td>1.12</td>
+                                                        <td>15.00  </td>
+                                                        <td>5.00</td>
+                                                        <td> 0.00 </td>
+                                                        <td>109.53   </td>
+                                                        <td>3.26%</td>
+                                                        <td>  3.65%  </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion custom-accordion mb-3" id="custom-accordion-two">
+        <div class="card mb-0">
+            <div class="card-header" id="headingTwo">
+                <h5 class="m-0">
+                    <a class="custom-accordion-title py-1 collapsed" data-toggle="collapse" href="#AccordPage3" aria-expanded="false" aria-controls="collapseThree">
+                        <span class="float-left">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                        </span>
+                        <span class="float-left" style="padding: 4px 8px;">
+                            RMU Batu Niah
+
+                        </span>
+                    </a>
+                </h5>
+            </div>
+            <div id="AccordPage3" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingTwo" data-parent="#custom-accordion-two">
+
+                <div class="card-body">
+                    <div id="EquipmentListGrid" class="w-100 dt-tbl-section">
+                        <div class="text-right float-right p-2">
+                            <div class="btn-group dropright" id="actiondropdown">
+                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Click Me
+                                </button>
+                                <div class="dropdown-menu">
+                                    <button type="button" class="dropdown-item editdel-btns">
+                                        <span class="edit-icon"></span> Edit
+                                    </button>
+                                    <button type="button" class="dropdown-item editdel-btns">
+                                        <span class="view-icon"></span> View
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                <div class="dataTables_scrollBody">
+                                    <div class="dataTables_scroll">
+                                        <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                            <table class="table w-100 nowrap dataTable no-footer">
+                                                <thead style="background-color: #c8e1ff">
+                                                    <tr>
+                                                        <th class="text-center">
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> Monthly Planned</b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b>  Monthly Actual </b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b>Cul.Plan </b>
+                                                        </th>
+
+                                                        <th class="text-center">
+                                                            <b>Cul.Actual</b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> Plwork act </b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> Pal(year 2022)</b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> PL (EFF) </b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> Pl(RB) </b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b>PI(IW) </b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> SPI (year 2022) </b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> Planned %</b>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            <b> Actual%</b>
+                                                        </th>
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr>
+                                                        <td>
+                                                            <b> January</b>
+                                                        </td>
+                                                        <td>
+                                                            RM 500,781,65
+                                                        </td>
+                                                        <td>RM 560,442.49</td>
+
+                                                        <td>RM 560,442.49</td>
+                                                        <td> RM 500,781.65</td>
+                                                        <td> 89.53  </td>
+                                                        <td>1.12</td>
+                                                        <td>15.00  </td>
+                                                        <td>5.00</td>
+                                                        <td> 0.00 </td>
+                                                        <td>109.53   </td>
+                                                        <td>3.26%</td>
+                                                        <td>  3.65%  </td>
+                                                    </tr>
+
+                                                   
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title w-100">
+                        <span class="float-left w-75">
+                            Service Provider Performance Indicator (SPI)
+                        </span>
+                        <button type="button" class="close float-right" data-dismiss="modal">&times;</button>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                    <div class="dataTables_scrollBody">
+                                        <div class="dataTables_scroll">
+                                            <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                <table class="table w-100 nowrap dataTable no-footer">
+                                                    <thead style="background-color: #c8e1ff">
+                                                        <tr>
+                                                            <th class="text-center">
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b>PI(EFF)</b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b>PI(RB)</b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b>PI(IW)</b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b>SPI(Year 2022)</b>
+                                                            </th>
+                                                            <th class="text-center">
+
+                                                            </th>
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <b> JAN</b>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td>-- </td>
+                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <b>FEB</b>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td>-- </td>
+                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>MAR</b>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td>-- </td>
+                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>APRIL</b>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td>-- </td>
+                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>MAY</b>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td>-- </td>
+                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>JUNE</b>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td>-- </td>
+                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>JULY</b>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td>-- </td>
+                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b> AUG</b>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td>-- </td>
+                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b> SEP</b>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td>-- </td>
+                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>OCT</b>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td>-- </td>
+                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>NOV</b>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td>-- </td>
+                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>DEC</b>
+                                                            </td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td><input type="text" class="form-control" /></td>
+                                                            <td>-- </td>
+                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="btnSave" class="btn btn-sm btn-themebtn" onclick="Save('','')">Submit</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="myModal1" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title w-100">
+                        <span class="float-left w-75">
+                            Service Provider Performance Indicator (SPI)
+                        </span>
+                        <button type="button" class="close float-right" data-dismiss="modal">&times;</button>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                    <div class="dataTables_scrollBody">
+                                        <div class="dataTables_scroll">
+                                            <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                <table class="table w-100 nowrap dataTable no-footer">
+                                                    <thead style="background-color: #c8e1ff">
+                                                        <tr>
+                                                            <th class="text-center">
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b>PI(EFF)</b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b>PI(RB)</b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b>PI(IW)</b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b>SPI(Year 2022)</b>
+                                                            </th>
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <b> JAN</b>
+                                                            </td>
+                                                            <td>15.0</td>
+                                                            <td>5.0</td>
+                                                            <td>0.00</td>
+                                                            <td>109</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <b>FEB</b>
+                                                            </td>
+                                                            <td>15.0</td>
+                                                            <td>5.0</td>
+                                                            <td>0.00</td>
+                                                            <td>96 </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>MAR</b>
+                                                            </td>
+                                                            <td>15.0</td>
+                                                            <td>5.0</td>
+                                                            <td>0.00</td>
+                                                            <td>20 </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>APRIL</b>
+                                                            </td>
+                                                            <td>15.0</td>
+                                                            <td>5.0</td>
+                                                            <td>0.00</td>
+                                                            <td>20</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>MAY</b>
+                                                            </td>
+                                                            <td>15.0</td>
+                                                            <td>5.0</td>
+                                                            <td>0.00</td>
+                                                            <td>20</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>JUNE</b>
+                                                            </td>
+                                                            <td>15.0</td>
+                                                            <td>5.0</td>
+                                                            <td>0.00</td>
+                                                            <td>20</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>JULY</b>
+                                                            </td>
+                                                            <td>15.0</td>
+                                                            <td>5.0</td>
+                                                            <td>0.00</td>
+                                                            <td>20</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b> AUG</b>
+                                                            </td>
+                                                            <td>15.0</td>
+                                                            <td>5.0</td>
+                                                            <td>0.00</td>
+                                                            <td>20</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b> SEP</b>
+                                                            </td>
+                                                            <td>15.0</td>
+                                                            <td>5.0</td>
+                                                            <td>0.00</td>
+                                                            <td>20</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>OCT</b>
+                                                            </td>
+                                                            <td>15.0</td>
+                                                            <td>5.0</td>
+                                                            <td>0.00</td>
+                                                            <td>20</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>NOV</b>
+                                                            </td>
+                                                            <td>15.0</td>
+                                                            <td>5.0</td>
+                                                            <td>0.00</td>
+                                                            <td>20</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>DEC</b>
+                                                            </td>
+                                                            <td>15.0</td>
+                                                            <td>5.0</td>
+                                                            <td>0.00</td>
+                                                            <td>20</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="btnSave" class="btn btn-sm btn-themebtn" onclick="Save('','')">Save</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
