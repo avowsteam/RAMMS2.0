@@ -78,7 +78,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 lstData.Add("YYYY", domainModelFormT4.T4dbhRevisionYear.ToString());
                 lstData.Add("RMU", domainModelFormT4.T4dbhRmu.ToString());
                 lstData.Add("RevisionNo", domainModelFormT4.T4dbhRevisionNo.ToString());
-                domainModelFormT4.T4dbhPkRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormB13, lstData);
+                domainModelFormT4.T4dbhPkRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormT4, lstData);
                 var res = _repo.SaveFormT4(domainModelFormT4);
 
                 FormT4.PkRefNo = res.Result.T4dbhPkRefNo;
