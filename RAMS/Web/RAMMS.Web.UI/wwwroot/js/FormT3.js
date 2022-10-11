@@ -859,6 +859,7 @@ function AppendPlannedData() {
                     $('#txt' + i + "M12").val(dec);
                     $('#txt' + i + "SubTotal").val(total);
                 }
+                MonthSumTotal();
             }
         },
         error: function (data) {
