@@ -307,8 +307,8 @@ function CrewDayreq(obj) {
 
 function SubTotalbyActivity(obj) {
 
-    if ($(obj).find(".CrewDayCost").text().trim() != "" && $(obj).find(".CDP").text().trim() != "") {
-        $(obj).find(".ActTotal").html((parseFloat($(obj).find(".CrewDayCost").text().trim()) * parseFloat($(obj).find(".CDP").text().trim())).toFixed(2));
+    if ($(obj).find(".CrewDayCost").text().trim() != "" && $(obj).find(".CrewDayReq").text().trim() != "") {
+        $(obj).find(".ActTotal").html((parseFloat($(obj).find(".CrewDayCost").text().trim()) * parseFloat($(obj).find(".CrewDayReq").text().trim())).toFixed(2));
     }
     else {
         $(obj).find(".ActTotal").html("");
@@ -318,7 +318,7 @@ function SubTotalbyActivity(obj) {
 function SumofSubTotalbyActivity(obj) {
     var tot = 0;
     $('#tblPPB > tbody  > tr').each(function (index, tr) {
-        if ($(this).find(".ActTotal").text().trim()) {
+        if ($(this).find(".ActTotal").text().trim() != "") {
             tot = tot + parseFloat($(this).find(".ActTotal").text().trim());
         }
     });
@@ -328,7 +328,7 @@ function SumofSubTotalbyActivity(obj) {
 
 
 function PlannedPercentage(obj) {
-    if ($(obj).find(".ActTotal").text().trim() != "" && $(obj).find(".CDP").text().trim() != "") {
+    if ($(obj).find(".ActTotal").text().trim() != "") {
         $(obj).find(".ActPer").html((parseFloat($(obj).find(".ActTotal").text().trim()) / parseFloat($("#SumofSubTotal").text().trim().replace(/,/g, "")) * 100).toFixed(2));
     }
     else {

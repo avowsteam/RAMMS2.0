@@ -508,7 +508,7 @@ function SubTotalbyActivity(obj) {
 function SumofSubTotalbyActivity(obj) {
     var tot = 0;
     $('#tblPPB > tbody  > tr').each(function (index, tr) {
-        if ($(this).find(".ActTotal").text().trim()) {
+        if ($(this).find(".ActTotal").text().trim() !="") {
             tot = tot + parseFloat($(this).find(".ActTotal").text().trim());
         }
     });
