@@ -307,8 +307,8 @@ function CrewDayreq(obj) {
 
 function SubTotalbyActivity(obj) {
 
-    if ($(obj).find(".CrewDayCost").text().trim() != "" && $(obj).find(".CrewDayReq").text().trim() != "") {
-        $(obj).find(".ActTotal").html((parseFloat($(obj).find(".CrewDayCost").text().trim()) * parseFloat($(obj).find(".CrewDayReq").text().trim())).toFixed(2));
+    if ($(obj).find(".CrewDayCost").text().trim() != "" && $(obj).find(".AWQTot").text().trim() != "") {
+        $(obj).find(".ActTotal").html((parseFloat($(obj).find(".CrewDayCost").text().trim()) * parseFloat($(obj).find(".AWQTot").text().trim())).toFixed(2));
     }
     else {
         $(obj).find(".ActTotal").html("");
