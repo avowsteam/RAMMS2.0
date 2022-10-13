@@ -1,5 +1,4 @@
-﻿
-var frmT3 = new function () {
+﻿var frmT3 = new function () {
     this.HeaderData = {};
     this.IsEdit = true;
     this.IsAdd = false;
@@ -275,12 +274,16 @@ var frmT3 = new function () {
             if ($("#pkRefNo").val() != "" && $("#pkRefNo").val() > 0) {
                 $("#formT3RMU").prop("disabled", true).trigger("chosen:updated");
                 $("#formT3Year").prop("disabled", true).trigger("chosen:updated");
-                if (this.HeaderData.FormT3Header != undefined)
+                if (this.HeaderData.FormT3Header != undefined) {
                     AppendData($("#pkRefNo").val(), this.HeaderData.FormT3Header.Status);
-                else
+                }
+                else {
                     AppendData($("#pkRefNo").val(), this.HeaderData.Status);
+                    frmT3.Save(false, 2);
+                }
                 $("[finddetailsdep]").show();
                 $("#btnFindDetails").hide();
+                
             }
             else {
                 $('#formT3RMU').attr("disabled", false).trigger("chosen:updated");
@@ -641,6 +644,7 @@ function AppendData(id, Status) {
         url: '/FormT3/GetHistoryData',
         type: 'POST',
         data: req,
+        async: false,
         dataType: "json",
         success: function (data) {
             if (data.result.length > 0) {
@@ -705,7 +709,7 @@ function AppendData(id, Status) {
             if (Status != "Verified" || Status != "Agreed" || Status != "Approved") {
                 AppendPlannedData();
                 AppendUnitData();
-            }           
+            }
             $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td><td style="text-align:center;"><span id="spTotal"></span></td></tr>');
             MonthSumTotal();
         }
@@ -826,6 +830,7 @@ function AppendPlannedData() {
         url: '/FormT3/GetPlannedBudgetData',
         dataType: 'JSON',
         data: req,
+        async: false,
         type: 'Post',
         success: function (data) {
             if (data.result.length > 0) {
@@ -878,6 +883,7 @@ function AppendUnitData() {
         url: '/FormT3/GetUnitData',
         dataType: 'JSON',
         data: req,
+        async: false,
         type: 'Post',
         success: function (data) {
             if (data.result.length > 0) {

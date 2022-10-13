@@ -156,7 +156,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 if (existsObj != null)
                 {
                     form.T3hAuditlog = existsObj.Log;
-                    form.T3hStatus = existsObj.Status;
+                    //form.T3hStatus = existsObj.Status;
                 }
 
             }
@@ -164,7 +164,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
             if (form.T3hSubmitSts && (string.IsNullOrEmpty(form.T3hStatus) || form.T3hStatus == Common.StatusList.FormQA1Saved || form.T3hStatus == Common.StatusList.FormQA1Rejected))
             {
-                form.T3hStatus = Common.StatusList.FormQA1Submitted;
+                //form.T3hStatus = Common.StatusList.FormQA1Submitted;
                 int? revNo = _repo.GetB14RevisionNo(form.T3hRmuCode, form.T3hRevisionYear);
                 string Comments = form.T3hRevisionYear + "+" + revNo;
                 form.T3hAuditlog = Utility.ProcessLog(form.T3hAuditlog, "Submitted", "Submitted", string.Empty, Comments, null, _security.UserName);
@@ -179,8 +179,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                     RmNotViewed = ""
                 }, true);
             }
-            else if (string.IsNullOrEmpty(form.T3hStatus) || form.T3hStatus == "Initialize")
-                form.T3hStatus = Common.StatusList.FormR1R2Saved;
+            //else if (string.IsNullOrEmpty(form.T3hStatus) || form.T3hStatus == "Initialize")
+            //    form.T3hStatus = Common.StatusList.FormR1R2Saved;
 
             return form;
         }

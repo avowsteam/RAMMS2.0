@@ -152,11 +152,20 @@ namespace RAMMS.Web.UI.Controllers
             formT3hdr = JsonConvert.DeserializeObject<FormT3HeaderDTO>(formT3hdrdata);
             formT3 = JsonConvert.DeserializeObject<List<FormT3HistoryDTO>>(formT3data);
             //await _formT3Service.SaveFormT3(formT3);
-            if (reload == 1)
+            
+            if (reload == 0)
+            {
+                formT3hdr.Status = Common.StatusList.FormT3Saved;
+            }
+            else if (reload == 1)
             {
                 formT3hdr.SubmitSts = true;
                 //formT3hdr.UseridProsd = _security.UserID;
                 //formT3hdr.DtProsd = DateTime.Today;
+            }
+            else if (reload == 2)
+            {
+                formT3hdr.Status = Common.StatusList.FormT3Initialize;
             }
             return await SaveAll(formT3hdr, formT3, false);
         }
@@ -168,7 +177,7 @@ namespace RAMMS.Web.UI.Controllers
 
             formT3hdr = JsonConvert.DeserializeObject<FormT3HeaderDTO>(formT3hdrdata);
             formT3 = JsonConvert.DeserializeObject<List<FormT3HistoryDTO>>(formT3data);
-
+            formT3hdr.Status = Common.StatusList.FormT3Submitted;
             formT3hdr.SubmitSts = true;
             //formT3hdr.UseridProsd = _security.UserID;
             //formT3hdr.DtProsd = DateTime.Today;
