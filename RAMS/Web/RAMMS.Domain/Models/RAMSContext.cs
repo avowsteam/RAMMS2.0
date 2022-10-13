@@ -62,6 +62,7 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmDepartment> RmDepartment { get; set; }
         public virtual DbSet<RmDivRmuSecMaster> RmDivRmuSecMaster { get; set; }
         public virtual DbSet<RmDivisionMaster> RmDivisionMaster { get; set; }
+        public virtual DbSet<RmDlpSpi> RmDlpSpi { get; set; }
         public virtual DbSet<RmFieldDisRightsDtl> RmFieldDisRightsDtl { get; set; }
         public virtual DbSet<RmFormADtl> RmFormADtl { get; set; }
         public virtual DbSet<RmFormAHdr> RmFormAHdr { get; set; }
@@ -4910,6 +4911,85 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("DIV_Name")
                     .HasMaxLength(100)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<RmDlpSpi>(entity =>
+            {
+                entity.HasKey(e => e.SpiPkRefNo);
+
+                entity.ToTable("RM_DLP_SPI");
+
+                entity.Property(e => e.SpiPkRefNo).HasColumnName("SPI_PK_Ref_No");
+
+                entity.Property(e => e.SpiActualPer)
+                    .HasColumnName("SPI_Actual_Per")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpiCActual)
+                    .HasColumnName("SPI_C_Actual")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpiCPlan)
+                    .HasColumnName("SPI_C_Plan")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpiCreatedDate)
+                    .HasColumnName("SPI_Created_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.SpiDivCode)
+                    .HasColumnName("SPI_Div_Code")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SpiDivName)
+                    .HasColumnName("SPI_Div_Name")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SpiEff)
+                    .HasColumnName("SPI_EFF")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpiIw)
+                    .HasColumnName("SPI_IW")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpiMActual)
+                    .HasColumnName("SPI_M_Actual")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpiMPlanned)
+                    .HasColumnName("SPI_M_Planned")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpiMonth).HasColumnName("SPI_Month");
+
+                entity.Property(e => e.SpiPai)
+                    .HasColumnName("SPI_PAI")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpiPiWorkActual)
+                    .HasColumnName("SPI_PI_Work_Actual")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpiPlannedPer)
+                    .HasColumnName("SPI_Planned_Per")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpiRb)
+                    .HasColumnName("SPI_RB")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpiSpi)
+                    .HasColumnName("SPI_SPI")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpiUpdatedDate)
+                    .HasColumnName("SPI_Updated_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.SpiYear).HasColumnName("SPI_Year");
             });
 
             modelBuilder.Entity<RmFieldDisRightsDtl>(entity =>
