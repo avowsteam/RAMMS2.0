@@ -283,7 +283,7 @@
                 }
                 $("[finddetailsdep]").show();
                 $("#btnFindDetails").hide();
-                
+
             }
             else {
                 $('#formT3RMU').attr("disabled", false).trigger("chosen:updated");

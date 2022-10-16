@@ -127,7 +127,7 @@ namespace RAMMS.Repository
 
         public int? GetMaxRev(int Year, string RmuCode)
         {
-            int? rev = (from rn in _context.RmT3Hdr where rn.T3hRevisionYear == Year && rn.T3hRmuCode == RmuCode select rn.T3hRevisionNo).DefaultIfEmpty().Max() + 1;
+            int? rev = (from rn in _context.RmT3Hdr where rn.T3hRevisionYear == Year && rn.T3hRmuCode == RmuCode && rn.T3hActiveYn == true select rn.T3hRevisionNo).DefaultIfEmpty().Max() + 1;
             if (rev == null)
                 rev = 1;
             return rev;

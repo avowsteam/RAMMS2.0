@@ -240,7 +240,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 worksheet.Cell((i + 7), 17).Value = res[i].T3hhSubTotal;
                                 worksheet.Cell((i + 7), 18).Value = res[i].T3hhUnitOfService;
                                 worksheet.Cell((i + 7), 19).Value = res[i].T3hhRemarks;
-                            }                            
+                            }
                         }
 
                     }
@@ -288,7 +288,29 @@ namespace RAMMS.Business.ServiceProvider.Services
         {
             List<RmB14History> res = _repo.GetPlannedBudgetData(RmuCode, year);
             List<FormB14HistoryDTO> FormB13 = new List<FormB14HistoryDTO>();
-            FormB13 = _mapper.Map<List<FormB14HistoryDTO>>(res);
+            FormB14HistoryDTO clsB13 = new FormB14HistoryDTO();
+            for (int i = 0; i < res.Count(); i++)
+            {
+                clsB13 = new FormB14HistoryDTO();
+                clsB13.B14hPkRefNo = res[i].B14hhB14hPkRefNo;
+                clsB13.PkRefNoHistory= res[i].B14hhPkRefNoHistory;
+                clsB13.Feature = res[i].B14hhFeature;
+                clsB13.Jan = (res[i].B14hhJan == null ? 0 : res[i].B14hhJan);
+                clsB13.Feb = clsB13.Jan + (res[i].B14hhFeb == null ? 0 : res[i].B14hhFeb);
+                clsB13.Mar = clsB13.Feb + (res[i].B14hhMar == null ? 0 : res[i].B14hhMar);
+                clsB13.Apr = clsB13.Mar + (res[i].B14hhApr == null ? 0 : res[i].B14hhApr);
+                clsB13.May = clsB13.Apr + (res[i].B14hhMay == null ? 0 : res[i].B14hhMay);
+                clsB13.Jun = clsB13.May + (res[i].B14hhJun == null ? 0 : res[i].B14hhJun);
+                clsB13.Jul = clsB13.Jun + (res[i].B14hhJul == null ? 0 : res[i].B14hhJul);
+                clsB13.Aug = clsB13.Jul + (res[i].B14hhAug == null ? 0 : res[i].B14hhAug);
+                clsB13.Sep = clsB13.Aug + (res[i].B14hhSep == null ? 0 : res[i].B14hhSep);
+                clsB13.Oct = clsB13.Sep + (res[i].B14hhOct == null ? 0 : res[i].B14hhOct);
+                clsB13.Nov = clsB13.Oct + (res[i].B14hhNov == null ? 0 : res[i].B14hhNov);
+                clsB13.Dec = clsB13.Nov + (res[i].B14hhDec == null ? 0 : res[i].B14hhDec);
+                clsB13.SubTotal = clsB13.Jan + clsB13.Feb + clsB13.Mar + clsB13.Apr + clsB13.May + clsB13.Jun + clsB13.Jul + clsB13.Aug + clsB13.Sep + clsB13.Oct + clsB13.Nov + clsB13.Dec;
+                FormB13.Add(clsB13);
+            }
+            //FormB13 = _mapper.Map<List<FormB14HistoryDTO>>(res);
             return FormB13;
         }
 
