@@ -22,7 +22,7 @@
                 return;
             }
             else {
-                GetfindDetails();
+                GetfindDetails(0);
             }
         }
     }
@@ -129,6 +129,7 @@
             url: action,
             data: { formT3hdrdata: FormT3HDRData, formT3data: FormT3Data, reload: IsReload },
             type: 'POST',
+            async: false,
             success: function (data) {
                 HideAjaxLoading();
                 if (data == -1) {
@@ -280,6 +281,7 @@
                 else {
                     AppendData($("#pkRefNo").val(), this.HeaderData.Status);
                     frmT3.Save(false, 2);
+                    GetfindDetails(1);
                 }
                 $("[finddetailsdep]").show();
                 $("#btnFindDetails").hide();
@@ -599,7 +601,7 @@ function enter($input, e) {
     };
 }
 
-function GetfindDetails() {
+function GetfindDetails(id) {
     debugger;
     InitAjaxLoading();
     var FormT3 = new Object();
@@ -613,6 +615,7 @@ function GetfindDetails() {
     $.ajax({
         url: '/FormT3/FindDetails',
         type: 'POST',
+        async: false,
         data: { formT3data: FormT3Data },
         dataType: "json",
         success: function (data) {
@@ -629,7 +632,8 @@ function GetfindDetails() {
                 frmT3.HeaderData = data;
                 $('#txtFormT3RefNum').val(data.PkRefId);
                 $("#pkRefNo").val(frmT3.HeaderData.PkRefNo);
-                frmT3.PageInit();
+                if (id == 0)
+                    frmT3.PageInit();
 
             }
         }
