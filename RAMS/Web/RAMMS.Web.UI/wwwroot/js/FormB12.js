@@ -2,9 +2,12 @@
 var frmB12 = new function () {
     this.HeaderData = {};
     this.IsEdit = true;
+    this.IsAdd = true;
+
     this.FindDetails = function () {
         if (ValidatePage("#divFindDetailsB12")) {
             GetfindDetails();
+            this.IsAdd = false;
         }
     };
 
@@ -77,18 +80,18 @@ var frmB12 = new function () {
             var actionSection = "<div class='btn-group dropright' rowidx='" + meta.row + "'><button type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button>";
             actionSection += "<div class='dropdown-menu'>";//dorpdown menu start
 
-            if (data.MaxRecord) { //if (tblFB12HGrid.Base.IsModify) {
-                actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB12.HeaderGrid.ActionClick(this);'>";
-                actionSection += "<span class='edit-icon'></span> Edit </button>";
-            }
+            //if (data.MaxRecord) { //if (tblFB12HGrid.Base.IsModify) {
+            //    actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB12.HeaderGrid.ActionClick(this);'>";
+            //    actionSection += "<span class='edit-icon'></span> Edit </button>";
+            //}
             if (tblFB12HGrid.Base.IsView) {
                 actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB12.HeaderGrid.ActionClick(this);'>";
                 actionSection += "<span class='view-icon'></span> View </button>";
             }
-            if (tblFB12HGrid.Base.IsDelete) {
-                actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB12.HeaderGrid.ActionClick(this);'>";
-                actionSection += "<span class='del-icon'></span> Delete </button>";
-            }
+            //if (tblFB12HGrid.Base.IsDelete) {
+            //    actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB12.HeaderGrid.ActionClick(this);'>";
+            //    actionSection += "<span class='del-icon'></span> Delete </button>";
+            //}
             actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmB12.HeaderGrid.ActionClick(this);'>";
             actionSection += "<span class='print-icon'></span> Print </button>";
 
@@ -144,15 +147,20 @@ var frmB12 = new function () {
         //debugger;
         if (this.IsEdit) {
             //if (this.HeaderData.FormB12Header && this.HeaderData.FormB12Header.PkRefNo && this.HeaderData.FormB12Header.PkRefNo > 0) {
-            if ($("#pkRefNo").val() != "" && $("#pkRefNo").val() > 0) {
+            if ($("#pkRefNo").val() != "" && $("#pkRefNo").val() >=  0) {
                
-                $("#formB12Year").prop("disabled", true).trigger("chosen:updated");
-                if (this.HeaderData.FormB12Header != undefined)
-                    AppendData($("#pkRefNo").val(), this.HeaderData.FormB12Header.Status);
-                else
-                    AppendData($("#pkRefNo").val(), this.HeaderData.Status);
+                
+                if(this.IsAdd == false){
+                    if (this.HeaderData.FormB12Header != undefined)
+                        AppendData($("#pkRefNo").val(), this.HeaderData.FormB12Header.Status);
+                    else
+                        AppendData($("#pkRefNo").val(), this.HeaderData.Status);
+                    $("#btnFindDetails").hide();
+                    $("#formB12Year").prop("disabled", true).trigger("chosen:updated");
+                }
+
                 $("[finddetailsdep]").show();
-                $("#btnFindDetails").hide();
+                
             }
             else {
                

@@ -86,6 +86,8 @@ namespace RAMMS.Repository
 
         private FormG1Repository _formG1Repository;
 
+        private DlpSpi _dlpSpi;
+
         public FormG1Repository FormG1Repository => _formG1Repository = _formG1Repository ?? new FormG1Repository(_context);
 
         private FormR1R2Repository _formR1Repository;
@@ -173,6 +175,8 @@ namespace RAMMS.Repository
         public FormDEduipmentRepository FormDEquipmentRepository => _formDEquipmentRepository = _formDEquipmentRepository ?? new FormDEduipmentRepository(_context);
 
         public FormADtlRepository FormADtlRepository => _formAdtlRepository = _formAdtlRepository ?? new FormADtlRepository(_context);
+
+        public DlpSpi  DlpSpi => _dlpSpi = _dlpSpi ?? new DlpSpi(_context);
 
         public FormJRepository FormJRepository => _formJRepositoryl = _formJRepositoryl ?? new FormJRepository(_context);
         public FormS2Repository FormS2Repository => _formS2Repository = _formS2Repository ?? new FormS2Repository(_context);
