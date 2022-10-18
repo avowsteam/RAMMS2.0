@@ -1,0 +1,498 @@
+﻿@using RAMMS.DTO.RequestBO;
+@using RAMMS.Business.ServiceProvider;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IUserService usr
+@inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService
+@model RAMMS.Web.UI.Models.FormP1Model;
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+@{
+    ViewBag.TabTitle = "Form Payment Certificate";
+    ViewData["Title"] = "Form Payment Certificate";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+
+    IEnumerable<SelectListItem> year = (await ddlService
+.GetLookups(new DDLookUpDTO { Type = "Year" }))
+.Select(s => new SelectListItem
+{
+    Text = s.DdlTypeValue,
+    Value = s.DdlTypeValue
+}).ToArray();
+
+    IEnumerable<SelectListItem> month = (await ddlService
+.GetLookups(new DDLookUpDTO { Type = "Month" }))
+.Select(s => new SelectListItem
+{
+    Text = s.DdlTypeValue,
+    Value = s.DdlTypeValue
+}).ToArray();
+}
+
+<div class="row bg-white pt-4">
+    <div class="w-100">
+        <div class="body-header w-100">
+            <div class="col-lg-12">
+                <div class=" w-100 d-flex justify-content-center py-1">
+                    <div class="form-group mb-0">
+                        <label style="float:left; padding: .5rem .5rem 0 !important;">Reference No.</label>
+                        <input class="form-control" style="width:330px;" type="text" value="" disabled="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-body mh-182 pt-4 pb-0">
+
+
+    <div class="container-fluid" id="divFindDetailsFC1C2">
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="Road_Name">
+                    Payment Certificate No
+                </label>
+                @Html.TextBoxFor(model => model.FormP1Header.PaymentCertificateNo, new { @readonly = true, @class = "form-control" })
+            </div>
+            <div class="form-group col-3">
+                <label for="Name_of_Crew_Supervisor">
+                    For Month:
+                </label>
+                @Html.DropDownListFor(Ahdr => Ahdr.FormP1Header.SubmissionMonth, month, "Select Month", new { @Id = "ddlMonth", @class = "form-control validate {required, Submission Year}" })
+            </div>
+            <div class="form-group col-3">
+                <label>Select Year  </label>
+                @Html.DropDownListFor(Ahdr => Ahdr.FormP1Header.SubmissionYear, year, "Select Year", new { @Id = "ddlYear", @class = "form-control validate {required, Submission Year}" })
+            </div>
+            <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">
+                <button id="formP1FindDetailsBtn" type="button" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right disablebtn"> Find Details </button>
+            </div>
+        </div>
+
+
+        <div class="row">
+
+            <div class="form-group col-3">
+                <label>
+                    Service Provider
+                </label>
+                <input id="" type="text" class="form-control" value="Endaya" disabled>
+            </div>
+            <div class="form-group col-3">
+                <label>
+                    Bank
+                </label>
+                @Html.TextBoxFor(model => model.FormP1Header.Bank, new { @class = "form-control" })
+
+            </div>
+            <div class="form-group col-3">
+                <label>
+                    A/C No.
+                </label>
+                @Html.TextBoxFor(model => model.FormP1Header.BankAccNo, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-3">
+                <label>
+                    Assignee
+                </label>
+                @Html.TextBoxFor(model => model.FormP1Header.Address, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-9">
+                <label>
+                    Address
+                </label>
+                @Html.TextAreaFor(m => m.FormP1Header.Address, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-3">
+                <label>
+                    Contract Period End on
+                </label>
+                @Html.EditorFor(m => m.FormP1Header.SubmissionDate, new { type = "date", htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="bg-white rounded landing-division w-100 float-left mb-3 border">
+
+                    <div class="px-3 pt-3 pb-1 float-left w-100">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row py-2 border-bottom">
+                                        <div class="col-8">
+                                            <label class="pt-1 mb-0">
+                                                <b class="lh30 mb-0">
+                                                    Contract Road Length x Rate from Part A (i)
+                                                </b>
+                                            </label>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">RM</span>
+                                                </div>
+                                                @Html.TextBoxFor(model => model.FormP1Header.ContractRoadLength, new { @readonly = true, @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row py-2 border-bottom">
+                                        <div class="col-8">
+                                            <label class="pt-1 mb-0" for="GeneralandPreliminaries">
+                                                <b class="lh30 mb-0">Net value of deduction from Part A (ii)</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">RM</span>
+                                                </div>
+                                                @Html.TextBoxFor(model => model.FormP1Header.NetValueDeduction, new { @readonly = true, @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row py-1 pt-2 border-bottom">
+                                        <div class="col-8">
+                                            <label for="Consultancy Fees" class="pt-1 mb-0">
+                                                <b class="lh30 mb-0">
+                                                    <span class="float-left pr-2">
+                                                        Net value of addition from Part A (iii)
+                                                    </span>
+
+                                                </b>
+                                            </label>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">RM</span>
+                                                </div>
+                                                @Html.TextBoxFor(model => model.FormP1Header.NetValueAddition, new { @readonly = true, @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row py-1  pt-2 border-bottom">
+                                        <div class="col-8">
+                                            <label for="Surveyworks" class="pt-1 mb-0">
+                                                <b class="lh30 mb-0"><span class="float-left pr-2">Net value of Instructed Works from Part B(i) </span>  </b>
+                                            </label>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">RM</span>
+                                                </div>
+                                                @Html.TextBoxFor(model => model.FormP1Header.NetValueInstructedWork, new { @readonly = true, @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row  pt-2">
+                                        <div class="col-8">
+                                            <label for="SiteInvestigation" class="pt-1 mb-0">
+                                                <b class="lh30 mb-0">
+                                                    <span class="float-left pr-2">
+                                                        Net value of LAD for Instructed Works from Part B(ii)
+                                                    </span>
+                                                </b>
+                                            </label>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">RM</span>
+                                                </div>
+                                                @Html.TextBoxFor(model => model.FormP1Header.NetValueLadInstructedWork, new { @readonly = true, @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="w-100 dt-tbl-section">
+
+                            <div class="w-100 float-left position-relative">
+
+                                <div id="headerListGrid" class="w-100 dt-tbl-section">
+                                    <div class="main-container" id="container">
+                                        <div id="content" class="table-responsive">
+                                            <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                                <div>
+                                                    <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%;">
+                                                        <div class="dataTables_scroll">
+                                                            <div class="w-100 position-relative in-tbl-btns custom-tbl">
+
+                                                                <table class="table w-100 nowrap dataTable no-footer">
+                                                                    <thead style="background-color: #c8e1ff">
+                                                                        <tr>
+                                                                            <th>Description</th>
+                                                                            <th>Type of Payment for</th>
+                                                                            <th>Payment (RM) Amount</th>
+                                                                            <th>Payment (RM) Addition</th>
+                                                                            <th>Payment (RM) Deduction / LAD<br /> for Instructed Works</th>
+                                                                            <th>Total of Previous <br /> Payment (RM)</th>
+                                                                            <th>Total To Date<br />(RM)</th>
+                                                                            <th>Amount Include in this <br />Payment Certificate (RM)</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+                                                                        <tr>
+                                                                            <td rowspan="2">(I) Service Provider</td>
+                                                                            <td>A) Contract Roads:</td>
+                                                                            <td><input class="PayAmt  form-control" type="text" /></td>
+                                                                            <td><input class="PayAdd form-control" type="text" /></td>
+                                                                            <td><input class="PayDed form-control" type="text" /></td>
+                                                                            <td><input class="TotPrevPay form-control" type="text" /></td>
+                                                                            <td><input class="TottoDate form-control" type="text" /></td>
+                                                                            <td><input class="AmtincPC form-control" type="text" /></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>B) Instructed Works:</td>
+                                                                            <td><input class="PayAmt  form-control" type="text" /></td>
+                                                                            <td>LAD:</td>
+                                                                            <td><input class="PayDed form-control" type="text" /></td>
+                                                                            <td><input class="TotPrevPay form-control" type="text" /></td>
+                                                                            <td><input class="TottoDate form-control" type="text" /></td>
+                                                                            <td><input class="AmtincPC form-control" type="text" /></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td rowspan="2">(II) Nominated Contractors / Sub-Contractors</td>
+                                                                            <td>A) Contract Roads:</td>
+                                                                            <td><input class="PayAmt  form-control" type="text" /></td>
+                                                                            <td><input class="PayAdd form-control" type="text" /></td>
+                                                                            <td><input class="PayDed form-control" type="text" /></td>
+                                                                            <td><input class="TotPrevPay form-control" type="text" /></td>
+                                                                            <td><input class="TottoDate form-control" type="text" /></td>
+                                                                            <td><input class="AmtincPC form-control" type="text" /></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>B) Instructed Works:</td>
+                                                                            <td><input class="PayAmt  form-control" type="text" /></td>
+                                                                            <td>LAD:</td>
+                                                                            <td><input class="PayDed form-control" type="text" /></td>
+                                                                            <td><input class="TotPrevPay form-control" type="text" /></td>
+                                                                            <td><input class="TottoDate form-control" type="text" /></td>
+                                                                            <td><input class="AmtincPC form-control" type="text" /></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td rowspan="2">(III)Nominated Suppliers</td>
+                                                                            <td>A) Contract Roads:</td>
+                                                                            <td><input class="PayAmt  form-control" type="text" /></td>
+                                                                            <td><input class="PayAdd form-control" type="text" /></td>
+                                                                            <td><input class="PayDed form-control" type="text" /></td>
+                                                                            <td><input class="TotPrevPay form-control" type="text" /></td>
+                                                                            <td><input class="TottoDate form-control" type="text" /></td>
+                                                                            <td><input class="AmtincPC form-control" type="text" /></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>B) Instructed Works:</td>
+                                                                            <td><input class="PayAmt  form-control" type="text" /></td>
+                                                                            <td>LAD:</td>
+                                                                            <td><input class="PayDed form-control" type="text" /></td>
+                                                                            <td><input class="TotPrevPay form-control" type="text" /></td>
+                                                                            <td><input class="TottoDate form-control" type="text" /></td>
+                                                                            <td><input class="AmtincPC form-control" type="text" /></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td rowspan="2">
+                                                                                Sub-total:
+
+                                                                            </td>
+                                                                            <td>A) Contract Roads:</td>
+                                                                            <td><input class="PayAmt  form-control" type="text" /></td>
+                                                                            <td><input class="PayAdd form-control" type="text" /></td>
+                                                                            <td><input class="PayDed form-control" type="text" /></td>
+                                                                            <td><input class="TotPrevPay form-control" type="text" /></td>
+                                                                            <td><input class="TottoDate form-control" type="text" /></td>
+                                                                            <td><input class="AmtincPC form-control" type="text" /></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>B) Instructed Works:</td>
+                                                                            <td><input class="PayAmt  form-control" type="text" /></td>
+                                                                            <td>LAD:</td>
+                                                                            <td><input class="PayDed form-control" type="text" /></td>
+                                                                            <td><input class="TotPrevPay form-control" type="text" /></td>
+                                                                            <td><input class="TottoDate form-control" type="text" /></td>
+                                                                            <td><input class="AmtincPC form-control" type="text" /></td>
+                                                                        </tr>
+                                                                    </tbody>
+
+                                                                </table>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="container-fluid" style="background-color:#e6e4e4d6">
+                                                        <table class="table w-100 nowrap dataTable no-footer">
+                                                            <tfoot>
+                                                                <tr>
+                                                                    <th style="width:20%"></th>
+                                                                    <th style="width:20%"></th>
+                                                                    <th style="width:20%"></th>
+                                                                    <th style="width:20%"></th>
+                                                                    <th style="width:20%"> Total of Previous<br /> Payment (RM) </th>
+                                                                    <th style="width:20%"> Total To Date (RM) </th>
+                                                                    <th class="text-right"> Amount Include in this<br /> Payment Certificate (RM)</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Grand Total:</td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td>23,77,585.79</td>
+                                                                    <td>23,77,585.79</td>
+                                                                    <td style="text-align:right">
+                                                                        23,77,585.79
+                                                                    </td>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                        <div class="row  pt-2">
+                                                            <div class="col-8">
+                                                                <label for="SiteInvestigation" class="pt-1 mb-0">
+                                                                    <b class="lh30 mb-0">
+                                                                        <span class="float-left pr-2">
+                                                                            Amount for which payment voucher will be made out
+                                                                        </span>
+                                                                    </b>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">RM</span>
+                                                                    </div>
+                                                                    <input class="form-control numeric allow_numeric text-right" disabled type="text" value=" 23,77,585.79">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-12">
+
+            </div>
+        </div>
+        <div class="col-lg-12 my-3 h6 border py-3" style="line-height: 30px;">
+            <span class="float-left"> I certify that under the terms of Contract No.  PWD/HO/P1Header0/2019  , the sum of </span><span class="float-left"><input type="text" class="form-control border-top border-right border-left" style="width: 496px;margin-left: 8px;" /></span>
+            is due to the Service Provider.
+        </div>
+        <div class="col-lg-10 offset-lg-1 mt-2">
+            <div class="bg-white rounded landing-division w-100 float-left  my-2">
+                <div class="row">
+                    <div class="col-lg-12 border-bottom py-2 my-2">
+                        <span class="font-14 font-weight-bold">
+                            Superintending Officer
+
+                        </span>
+                    </div>
+
+                    <div class="form-group col-lg-4">
+                        <label for="User_Id">
+                            User ID
+                        </label>
+                        @Html.DropDownListFor(Ahdr => Ahdr.FormP1Header.UseridSo, (IEnumerable<SelectListItem>)ViewData["User"], "User Id",  new { @disabled = true, Id = "ddlSO", @class = "form-control  {required,User ID}", @onchange = "OnSOChange(this);" })
+
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="User_Id">
+                            Name
+                        </label>
+                        @Html.TextBoxFor(model => model.FormP1Header.UsernameSo, new { @readonly = true, @class = "form-control" })
+
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="Designation">Designation</label>
+                        @Html.TextBoxFor(model => model.FormP1Header.DesignationSo, new { @readonly = true, @class = "form-control" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="Date__DD-MM-YYYY_">Date</label>
+                        @Html.EditorFor(m => m.FormP1Header.SignDateSo, new { type = "date", htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="form-group col-lg-1 float-left">
+                        <label>
+                            Sign
+                        </label>
+                        <div class="clear-b mt-2">
+                            @Html.CheckBoxFor(model => model.FormP1Header.SignSo, new { @disabled = true, @class = "{required,Sign}" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white rounded landing-division w-100 float-left mb-3">
+        @{
+            if (Model.FormP1Header.Status != "" && Model.FormP1Header.Status != "Initialize")
+                Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
+                {
+                    Form = "FormP1",
+                    RefId = Model.FormP1Header.PkRefNo,
+                    Stage = Model.FormP1Header.Status
+                });
+        }
+    </div>
+</div>
+<div class="col-md-12 mb-2 float-right text-right custom-footer">
+    <button type="button" class="btn btn-sm btn-outline-theme">Close</button>
+    <button type="button" class="btn btn-sm btn-themebtn">Save</button>
+    <button type="button" class="btn btn-sm btn-themebtn">Submit</button>
+
+</div>
+<style>
+    .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4) {
+        width: auto !important;
+        min-width: auto !important;
+    }
+
+    .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(2), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(2), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(3), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(3), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(5), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(5) {
+        width: auto !important;
+        min-width: auto !important;
+    }
+</style>
+
+@Html.HiddenFor(m => m.FormP1Header.PkRefNo)
+@Html.HiddenFor(m => m.FormP1Detail.PkRefNo)
+@Html.HiddenFor(m => m.FormP1Header.Status)
+@Html.HiddenFor(m => m.FormP1Header.SubmitSts)
+
+<input type="hidden" id="hdnView" value="@Model.view" />
+
+<script>
+
+     $(document).ready(function () {
+        process.Init("FormP1", "@Model.FormP1Header.Status", @Model.FormP1Header.PkRefNo);
+
+    });
+
+    $('#ddlSO').val("@Model.FormP1Header.UseridSo");
+    $('#ddlSO').trigger('chosen:updated');
+    $('#ddlSO').trigger("change");
+
+    
+
+</script>
+

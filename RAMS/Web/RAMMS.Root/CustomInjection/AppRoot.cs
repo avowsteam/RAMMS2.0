@@ -113,6 +113,7 @@ namespace RAMMS.Root.CustomInjection
             services.AddTransient<IFormB12Service, FormB12Service>();
             services.AddTransient<IFormT3Service, FormT3Service>();
             services.AddTransient<IFormT4Service, FormT4Service>();
+            services.AddTransient<IFormP1Service, FormP1Service>();
             services.AddTransient<IDlpSpiService, DlpSpiService>();
         }
 
@@ -191,6 +192,7 @@ namespace RAMMS.Root.CustomInjection
             services.AddTransient<IFormB12Repository, FormB12Repository>();
             services.AddTransient<IFormT3Repository, FormT3Repository>();
             services.AddTransient<IFormT4Repository, FormT4Repository>();
+            services.AddTransient<IFormP1Repository, FormP1Repository>();
             services.AddTransient<IDlpSpi, DlpSpi>();
         }
 

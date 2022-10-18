@@ -35,6 +35,7 @@ namespace RAMMS.Common.RefNumber
         public const string FormT3Header = "AWPB/Form T3/{RMU}/{YYYY}/{RevisionNo}";
         public const string FormB12Header = "AWPB/Form B12/{YYYY}/{RevisionNo}";
         public const string FormT4Header = "AWPB/Form T4/{RMU}/{YYYY}/{RevisionNo}";
+        public const string FormP1Header = "PC/Form P1/{YYYY}{MM}/{" + NewRunningNumber + "}";
 
         public static string GetRefNumber(FormType type, IDictionary<string, string> values)
         {
@@ -142,6 +143,9 @@ namespace RAMMS.Common.RefNumber
                 case FormType.FormT4:
                     format = FormT4Header;
                     break;
+                case FormType.FormP1:
+                    format = FormP1Header;
+                    break;
 
             }
             return format;
@@ -178,7 +182,8 @@ namespace RAMMS.Common.RefNumber
         FormB14,
         FormT3,
         FormB12,
-        FormT4
+        FormT4,
+        FormP1
     }
 
 }
