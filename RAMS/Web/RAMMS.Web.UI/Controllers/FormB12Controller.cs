@@ -59,7 +59,7 @@ namespace RAMMS.Web.UI.Controllers
             LoadLookupService("Year");
             var grid = new Models.CDataTable() { Name = "tblFB12HGrid", APIURL = "/FormB12/HeaderList", LeftFixedColumn = 1 };
             grid.IsModify = _security.IsPCModify(ModuleNameList.Annual_Work_Planned_Budget);
-            grid.IsDelete = _security.IsPCDelete(ModuleNameList.Annual_Work_Planned_Budget) && _security.isOperRAMSExecutive;
+            grid.IsDelete = _security.IsPCDelete(ModuleNameList.Annual_Work_Planned_Budget);
             grid.IsView = _security.IsPCView(ModuleNameList.Annual_Work_Planned_Budget);
             grid.Columns.Add(new CDataColumns() { data = null, title = "Action", IsFreeze = true, sortable = false, render = "frmB12.HeaderGrid.ActionRender", className = "" });
             grid.Columns.Add(new CDataColumns() { data = "ReferenceNo", title = "Reference No" });

@@ -1,5 +1,4 @@
-﻿
-var frmT3 = new function () {
+﻿var frmT3 = new function () {
     this.HeaderData = {};
     this.IsEdit = true;
     this.IsAdd = false;
@@ -23,7 +22,7 @@ var frmT3 = new function () {
                 return;
             }
             else {
-                GetfindDetails();
+                GetfindDetails(0);
             }
         }
     }
@@ -130,6 +129,7 @@ var frmT3 = new function () {
             url: action,
             data: { formT3hdrdata: FormT3HDRData, formT3data: FormT3Data, reload: IsReload },
             type: 'POST',
+            async: false,
             success: function (data) {
                 HideAjaxLoading();
                 if (data == -1) {
@@ -159,7 +159,7 @@ var frmT3 = new function () {
             var actionSection = "<div class='btn-group dropright' rowidx='" + meta.row + "'><button type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button>";
             actionSection += "<div class='dropdown-menu'>";//dorpdown menu start
 
-            if (data.Status != "Approved" && tblFT3HGrid.Base.IsModify) {
+            if (data.Status != "Submitted" && tblFT3HGrid.Base.IsModify) {
                 actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmT3.HeaderGrid.ActionClick(this);'>";
                 actionSection += "<span class='edit-icon'></span> Edit </button>";
             }
@@ -167,7 +167,7 @@ var frmT3 = new function () {
                 actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmT3.HeaderGrid.ActionClick(this);'>";
                 actionSection += "<span class='view-icon'></span> View </button>";
             }
-            if (tblFT3HGrid.Base.IsDelete) {
+            if (data.Status != "Submitted" && tblFT3HGrid.Base.IsDelete) {
                 actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmT3.HeaderGrid.ActionClick(this);'>";
                 actionSection += "<span class='del-icon'></span> Delete </button>";
             }
@@ -275,12 +275,17 @@ var frmT3 = new function () {
             if ($("#pkRefNo").val() != "" && $("#pkRefNo").val() > 0) {
                 $("#formT3RMU").prop("disabled", true).trigger("chosen:updated");
                 $("#formT3Year").prop("disabled", true).trigger("chosen:updated");
-                if (this.HeaderData.FormT3Header != undefined)
+                if (this.HeaderData.FormT3Header != undefined) {
                     AppendData($("#pkRefNo").val(), this.HeaderData.FormT3Header.Status);
-                else
+                }
+                else {
                     AppendData($("#pkRefNo").val(), this.HeaderData.Status);
+                    frmT3.Save(false, 2);
+                    GetfindDetails(1);
+                }
                 $("[finddetailsdep]").show();
                 $("#btnFindDetails").hide();
+
             }
             else {
                 $('#formT3RMU').attr("disabled", false).trigger("chosen:updated");
@@ -596,7 +601,7 @@ function enter($input, e) {
     };
 }
 
-function GetfindDetails() {
+function GetfindDetails(id) {
     debugger;
     InitAjaxLoading();
     var FormT3 = new Object();
@@ -610,6 +615,7 @@ function GetfindDetails() {
     $.ajax({
         url: '/FormT3/FindDetails',
         type: 'POST',
+        async: false,
         data: { formT3data: FormT3Data },
         dataType: "json",
         success: function (data) {
@@ -626,7 +632,8 @@ function GetfindDetails() {
                 frmT3.HeaderData = data;
                 $('#txtFormT3RefNum').val(data.PkRefId);
                 $("#pkRefNo").val(frmT3.HeaderData.PkRefNo);
-                frmT3.PageInit();
+                if (id == 0)
+                    frmT3.PageInit();
 
             }
         }
@@ -641,6 +648,7 @@ function AppendData(id, Status) {
         url: '/FormT3/GetHistoryData',
         type: 'POST',
         data: req,
+        async: false,
         dataType: "json",
         success: function (data) {
             if (data.result.length > 0) {
@@ -674,7 +682,7 @@ function AppendData(id, Status) {
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M10" value="' + oct + '" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M11" value="' + nov + '" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M12" value="' + dec + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + subTotal + '"/></td>');
+                    $(this).find("td:last").after('<td style="display:none;"> <input type="text" style="width:100px;display:none;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + subTotal + '"/></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled value="' + UnitOfService + '" /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Remark" class="form-control" value="' + Remarks + '" /></td>');
                     i = i + 1;
@@ -696,7 +704,7 @@ function AppendData(id, Status) {
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M10" disabled class="form-control" /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M11" disabled class="form-control" /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M12" disabled class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled /></td>');
+                    $(this).find("td:last").after('<td style="display:none;"> <input type="text" style="width:100px;display:none;" id="txt' + i + 'SubTotal" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Remark" class="form-control" /></td>');
                     i = i + 1;
@@ -705,8 +713,8 @@ function AppendData(id, Status) {
             if (Status != "Verified" || Status != "Agreed" || Status != "Approved") {
                 AppendPlannedData();
                 AppendUnitData();
-            }           
-            $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td><td style="text-align:center;"><span id="spTotal"></span></td></tr>');
+            }
+            $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td><td style="text-align:center;display:none;"><span id="spTotal"></span></td></tr>');
             MonthSumTotal();
         }
     });
@@ -755,12 +763,12 @@ function ViewData(id) {
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M10" value="' + oct + '" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M11" value="' + nov + '" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M12" value="' + dec + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + total + '" /></td>');
+                    $(this).find("td:last").after('<td style="display:none;"> <input type="text" style="width:100px;display:none;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + total + '" /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled value="' + UnitOfService + '" /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Remark" class="form-control" disabled value="' + Remarks + '" /></td>');
                     i = i + 1;
                 });
-                $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td><td style="text-align:center;"><span id="spTotal"></span></td></tr>');
+                $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td><td style="text-align:center;display:none;"><span id="spTotal"></span></td></tr>');
                 MonthSumTotal();
             }
         }
@@ -826,6 +834,7 @@ function AppendPlannedData() {
         url: '/FormT3/GetPlannedBudgetData',
         dataType: 'JSON',
         data: req,
+        async: false,
         type: 'Post',
         success: function (data) {
             if (data.result.length > 0) {
@@ -878,6 +887,7 @@ function AppendUnitData() {
         url: '/FormT3/GetUnitData',
         dataType: 'JSON',
         data: req,
+        async: false,
         type: 'Post',
         success: function (data) {
             if (data.result.length > 0) {
