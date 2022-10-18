@@ -1,0 +1,149 @@
+﻿
+<style>
+    .headcol {
+        position: sticky;
+        left: 0;
+    }
+</style>
+<div class="main-container" id="container">
+    <div id="content">
+        <table id="FormP1GridView" class="table w-100 nowrap">
+        </table>
+    </div>
+</div>
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+<script src="~/js/CDTGrid.js"></script>
+<script>
+
+
+    var isModifyPerm = @security.IsPCModify(ModuleNameList.Annual_Work_Planned_Budget).ToString().ToLowerInvariant()? "" : "hidden";
+    var isDeletePerm =@security.IsPCDelete(ModuleNameList.Annual_Work_Planned_Budget).ToString().ToLowerInvariant()? "" : "hidden";
+    var isViewPerm = @security.IsPCView(ModuleNameList.Annual_Work_Planned_Budget).ToString().ToLowerInvariant() ? "" : 'hidden';
+    var table_columns = [];
+    var actionCol = {
+        data: null, name: "Action", title: "Action", class: "", autoWidth: true, sortable: false, render: function (data) {
+            
+            if (data.maxRecord) {
+                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns'  data-backdrop='static' id='formAHeaderEdit'" + isModifyPerm + " onclick='javascript:editDetail(" + data.pkRefNo + ");'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns' " + isViewPerm + " data-toggle='modal' data-target='#FormAAddModal' data-backdrop='static' onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.pkRefNo + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
+                return actionSection;
+            }
+            else {
+                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' " + isViewPerm + " data-toggle='modal' data-target='#FormAAddModal' data-backdrop='static' onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.pkRefNo + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
+                return actionSection;
+            }
+        }
+    };
+    var ReferenceNo = { data: "refId", name: "ReferenceNo", title: "Reference No", autoWidth: true, sortable: true };
+    var year = { data: "submissionYear", name: "Year", title: "Year", autoWidth: true, sortable: true };
+    var month = { data: "submissionMonth", name: "Month", title: "Month", autoWidth: true, sortable: true };
+    
+    var SubmissionDate = {
+        data: null, name: "submissionDate", title: "Submission Date", autoWidth: true, sortable: true,
+        render: function (data) {
+            if (data.submissionDate) {
+                var d = new Date(data.submissionDate);
+                var day = d.getDate();
+                var month = d.getMonth() + 1;
+                var year = d.getFullYear();
+                if (day < 10) {
+                    day = "0" + day;
+                }
+                if (month < 10) {
+                    month = "0" + month;
+                }
+                var date = day + "/" + month + "/" + year;
+                return date;
+            }
+            else
+                return "";
+        }
+    };
+
+    var PaymentCertificateNo = { data: "paymentCertificateNo", name: "PaymentCertificateNo", title: "Payment Certificate No", autoWidth: true, sortable: true };
+    var TotalPayment = { data: "totalPayment", name: "TotalPayment", title: "Total Payment Amout", autoWidth: true, sortable: true };
+    var Status = { data: "status", name: "Status", title: "Status", autoWidth: true, sortable: true };
+
+   
+    table_columns.push(actionCol);
+    table_columns.push(ReferenceNo);
+    table_columns.push(year);
+    table_columns.push(month);
+    table_columns.push(SubmissionDate);
+    table_columns.push(PaymentCertificateNo);
+    table_columns.push(TotalPayment);
+    table_columns.push(Status);
+
+
+    function PrintForm(id) {
+        window.location.href = '/FormP1/FormP1Download?id=' + id;
+    }
+
+    function editDetail(id) {
+        window.location.href = '/FormP1/Add?id=' + id + '&isview=0';
+    }
+
+    function viewDetail(id) {
+
+        window.location.href = '/FormP1/Add?id=' + id + '&isview=1';
+    }
+
+
+
+    var filterData = new Object();
+
+    function InitializeGrid() {
+
+
+        var _currentGridSettings = new CustomGridSettings();
+        $.extend($.fn.dataTable.defaults, _currentGridSettings);
+
+        filterData.SmartSearch = $("#txtSmartSearch").val();
+        filterData.YearFrom = $("#ddlYearFrom").val()
+        filterData.YearTo = $("#ddlYearTo").val()
+        filterData.MonthFrom = $("#ddlMonthFrom").val()
+        filterData.MonthTo = $("#ddlMonthTo").val()
+        filterData.CertificateNo = $("#txtCertificateNo").val()
+
+        $('#FormP1GridView').DataTable({
+            ajax: {
+                url: "/FormP1/GetHeaderList",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    filterData
+                }
+            },
+            columns: table_columns
+        });
+    }
+
+
+    $(document).ready(function () {
+        InitializeGrid();
+
+        //Apply Custom search on jQuery DataTables here
+        oTable = $('#FormP1GridView').DataTable();
+
+        $("#btnClearSearch").click(function () {
+            $("#txtSmartSearch").val('');
+            $("#ddlYearFrom").val("").trigger("chosen:updated");
+            $("#ddlYearTo").val("").trigger("chosen:updated");
+            $("#ddlMonthFrom").val("").trigger("chosen:updated");
+            $("#ddlMonthTo").val("").trigger("chosen:updated");
+            $("#txtCertificateNo").val('');
+         
+        });
+
+        $('#btnSearch').click(function () {
+
+            oTable.columns(0).search($("#txtSmartSearch").val());
+            oTable.columns(1).search($("#ddlYearFrom").val());
+            oTable.columns(2).search($("#ddlYearTo").val());
+            oTable.columns(3).search($("#ddlMonthFrom").val());
+            oTable.columns(4).search($("#ddlMonthTo").val());
+            oTable.columns(5).search($("#txtCertificateNo").val());
+            oTable.data = filterData;
+            oTable.draw();
+        });
+    });
+</script>

@@ -307,8 +307,9 @@ function CrewDayreq(obj) {
 
 function SubTotalbyActivity(obj) {
 
-    if ($(obj).find(".CrewDayCost").text().trim() != "" && $(obj).find(".AWQTot").text().trim() != "") {
-        $(obj).find(".ActTotal").html((parseFloat($(obj).find(".CrewDayCost").text().trim()) * parseFloat($(obj).find(".AWQTot").text().trim())).toFixed(2));
+    if ($(obj).find(".CrewDayCost").text().trim() != "" && $(obj).find(".CrewDayReq").text().trim() != "") {
+       // $(obj).find(".ActTotal").html((parseFloat($(obj).find(".CrewDayCost").text().trim()) * parseFloat($(obj).find(".CrewDayReq").text().trim())).toFixed(2));
+        $(obj).find(".ActTotal").html(Number((parseFloat($(obj).find(".CrewDayCost").text().trim()) * parseFloat($(obj).find(".CrewDayReq").text().trim())).toFixed(2)).toLocaleString('en'));
     }
     else {
         $(obj).find(".ActTotal").html("");
@@ -319,7 +320,7 @@ function SumofSubTotalbyActivity(obj) {
     var tot = 0;
     $('#tblPPB > tbody  > tr').each(function (index, tr) {
         if ($(this).find(".ActTotal").text().trim() != "") {
-            tot = tot + parseFloat($(this).find(".ActTotal").text().trim());
+            tot = tot + parseFloat($(this).find(".ActTotal").text().trim().replace(/,/g,''));
         }
     });
 
@@ -329,7 +330,7 @@ function SumofSubTotalbyActivity(obj) {
 
 function PlannedPercentage(obj) {
     if ($(obj).find(".ActTotal").text().trim() != "") {
-        $(obj).find(".ActPer").html((parseFloat($(obj).find(".ActTotal").text().trim()) / parseFloat($("#SumofSubTotal").text().trim().replace(/,/g, "")) * 100).toFixed(2));
+        $(obj).find(".ActPer").html((parseFloat($(obj).find(".ActTotal").text().trim().replace(/,/g, '')) / parseFloat($("#SumofSubTotal").text().trim().replace(/,/g, "")) * 100).toFixed(2));
     }
     else {
         $(obj).find(".ActPer").html("");
@@ -347,20 +348,20 @@ function SubTotalbyFeature() {
 
         if ($(this).find("td:nth-child(1)").attr("rowspan") != undefined) {
             if (Lasttd != undefined)
-                $(Lasttd).html(tot.toFixed(2) + "<br>" + totPer.toFixed(2));
+                $(Lasttd).html(Number(parseFloat(tot.toFixed(2))).toLocaleString('en') + "<br>" + totPer.toFixed(2));
             Lasttd = $(this).find("td:last");
             tot = 0;
             totPer = 0;
         }
         if ($(this).find(".ActTotal").text().trim() != "") {
-            tot = tot + parseFloat($(this).find(".ActTotal").text().trim());
+            tot = tot + parseFloat($(this).find(".ActTotal").text().trim().replace(/,/g, ''));
         }
         if ($(this).find(".ActPer").text().trim() != "") {
             totPer = totPer + parseFloat($(this).find(".ActPer").text().trim());
         }
     });
 
-    $(Lasttd).html(tot.toFixed(2) + "<br>" + totPer.toFixed(2));
+    $(Lasttd).html(Number(parseFloat(tot.toFixed(2))).toLocaleString('en') + "<br>" + totPer.toFixed(2));
 }
 
 function CalAdjustableQty() {
@@ -368,10 +369,10 @@ function CalAdjustableQty() {
     var tot = 0;
 
     if ($('#tblPPB > tbody  > tr:eq(0)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(0)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(0)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(1)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(1)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(1)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     $("#FormT4Header_AdjustableQuantity").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
 
@@ -383,34 +384,34 @@ function CalRoutineMaintenance() {
     var tot = 0;
 
     if ($('#tblPPB > tbody  > tr:eq(9)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(9)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(9)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(13)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(13)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(13)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(14)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(14)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(14)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(15)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(15)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(15)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(18)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(18)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(18)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(19)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(19)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(19)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(22)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(22)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(22)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(24)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(24)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(24)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(27)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(27)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(27)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(28)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(28)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(28)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     $("#FormT4Header_RoutineMaintenance").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
 }
@@ -419,70 +420,70 @@ function CalPeriodicMaintenance() {
     var tot = 0;
 
     if ($('#tblPPB > tbody  > tr:eq(2)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(2)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(2)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(3)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(3)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(3)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(4)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(4)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(4)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(5)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(5)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(5)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(6)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(6)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(6)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(7)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(7)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(7)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(8)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(8)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(8)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(9)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(9)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(9)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(27)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(27)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(27)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(10)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(10)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(10)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(11)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(11)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(11)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(12)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(12)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(12)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(17)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(17)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(17)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(20)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(20)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(20)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(21)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(21)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(21)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(22)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(22)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(22)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(23)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(23)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(23)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(24)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(24)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(24)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(25)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(25)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(25)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(26)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(26)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(26)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(30)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(30)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(30)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(31)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(31)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(31)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
 
     $("#FormT4Header_PeriodicMaintenance").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
@@ -492,22 +493,22 @@ function CalOtherMaintenance() {
     var tot = 0;
 
     if ($('#tblPPB > tbody  > tr:eq(33)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(33)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(33)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(34)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(34)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(34)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(35)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(35)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(35)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(36)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(36)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(36)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(37)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(37)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(37)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     if ($('#tblPPB > tbody  > tr:eq(38)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(38)').find(".ActTotal").text().trim());
+        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(38)').find(".ActTotal").text().trim().replace(/,/g, ''));
 
     $("#FormT4Header_OtherMaintenance").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
 }
