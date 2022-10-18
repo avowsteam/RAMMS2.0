@@ -159,7 +159,7 @@
             var actionSection = "<div class='btn-group dropright' rowidx='" + meta.row + "'><button type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button>";
             actionSection += "<div class='dropdown-menu'>";//dorpdown menu start
 
-            if (data.Status != "Approved" && tblFT3HGrid.Base.IsModify) {
+            if (data.Status != "Submitted" && tblFT3HGrid.Base.IsModify) {
                 actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmT3.HeaderGrid.ActionClick(this);'>";
                 actionSection += "<span class='edit-icon'></span> Edit </button>";
             }
@@ -167,7 +167,7 @@
                 actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmT3.HeaderGrid.ActionClick(this);'>";
                 actionSection += "<span class='view-icon'></span> View </button>";
             }
-            if (tblFT3HGrid.Base.IsDelete) {
+            if (data.Status != "Submitted" && tblFT3HGrid.Base.IsDelete) {
                 actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmT3.HeaderGrid.ActionClick(this);'>";
                 actionSection += "<span class='del-icon'></span> Delete </button>";
             }
@@ -682,7 +682,7 @@ function AppendData(id, Status) {
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M10" value="' + oct + '" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M11" value="' + nov + '" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M12" value="' + dec + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + subTotal + '"/></td>');
+                    $(this).find("td:last").after('<td style="display:none;"> <input type="text" style="width:100px;display:none;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + subTotal + '"/></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled value="' + UnitOfService + '" /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Remark" class="form-control" value="' + Remarks + '" /></td>');
                     i = i + 1;
@@ -704,7 +704,7 @@ function AppendData(id, Status) {
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M10" disabled class="form-control" /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M11" disabled class="form-control" /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M12" disabled class="form-control" /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled /></td>');
+                    $(this).find("td:last").after('<td style="display:none;"> <input type="text" style="width:100px;display:none;" id="txt' + i + 'SubTotal" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Remark" class="form-control" /></td>');
                     i = i + 1;
@@ -714,7 +714,7 @@ function AppendData(id, Status) {
                 AppendPlannedData();
                 AppendUnitData();
             }
-            $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td><td style="text-align:center;"><span id="spTotal"></span></td></tr>');
+            $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td><td style="text-align:center;display:none;"><span id="spTotal"></span></td></tr>');
             MonthSumTotal();
         }
     });
@@ -763,12 +763,12 @@ function ViewData(id) {
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M10" value="' + oct + '" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M11" value="' + nov + '" class="form-control" disabled /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:70px;" id="txt' + i + 'M12" value="' + dec + '" class="form-control" disabled /></td>');
-                    $(this).find("td:last").after('<td> <input type="text" style="width:100px;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + total + '" /></td>');
+                    $(this).find("td:last").after('<td style="display:none;"> <input type="text" style="width:100px;display:none;" id="txt' + i + 'SubTotal" class="form-control" disabled value="' + total + '" /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Unit" class="form-control" disabled value="' + UnitOfService + '" /></td>');
                     $(this).find("td:last").after('<td> <input type="text" style="width:140px;" id="txt' + i + 'Remark" class="form-control" disabled value="' + Remarks + '" /></td>');
                     i = i + 1;
                 });
-                $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td><td style="text-align:center;"><span id="spTotal"></span></td></tr>');
+                $('#tblLabour tfoot').after('<tr><td style="text-align:right;" colspan="3"><span>SUB-TOTAL:</span></td><td style="text-align:center;"><span id="spJan"></span></td><td style="text-align:center;"><span id="spFeb"></span></td><td style="text-align:center;"><span id="spMar"></span></td><td style="text-align:center;"><span id="spApr"></span></td><td style="text-align:center;"><span id="spMay"></span></td><td style="text-align:center;"><span id="spJun"></span></td><td style="text-align:center;"><span id="spJul"></span></td><td style="text-align:center;"><span id="spAug"></span></td><td style="text-align:center;"><span id="spSep"></span></td><td style="text-align:center;"><span id="spOct"></span></td><td style="text-align:center;"><span id="spNov"></span></td><td style="text-align:center;"><span id="spDec"></span></td><td style="text-align:center;display:none;"><span id="spTotal"></span></td></tr>');
                 MonthSumTotal();
             }
         }

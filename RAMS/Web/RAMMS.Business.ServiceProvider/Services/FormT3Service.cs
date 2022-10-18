@@ -162,7 +162,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             }
 
 
-            if (form.T3hSubmitSts && (string.IsNullOrEmpty(form.T3hStatus) || form.T3hStatus == Common.StatusList.FormQA1Saved || form.T3hStatus == Common.StatusList.FormQA1Rejected))
+            if (form.T3hSubmitSts && (string.IsNullOrEmpty(form.T3hStatus) || form.T3hStatus == Common.StatusList.FormT3Submitted))
             {
                 //form.T3hStatus = Common.StatusList.FormQA1Submitted;
                 int? revNo = _repo.GetB14RevisionNo(form.T3hRmuCode, form.T3hRevisionYear);
@@ -237,9 +237,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 worksheet.Cell((i + 7), 14).Value = res[i].T3hhOct;
                                 worksheet.Cell((i + 7), 15).Value = res[i].T3hhNov;
                                 worksheet.Cell((i + 7), 16).Value = res[i].T3hhDec;
-                                worksheet.Cell((i + 7), 17).Value = res[i].T3hhSubTotal;
-                                worksheet.Cell((i + 7), 18).Value = res[i].T3hhUnitOfService;
-                                worksheet.Cell((i + 7), 19).Value = res[i].T3hhRemarks;
+                                //worksheet.Cell((i + 7), 17).Value = res[i].T3hhSubTotal;
+                                worksheet.Cell((i + 7), 17).Value = res[i].T3hhUnitOfService;
+                                worksheet.Cell((i + 7), 18).Value = res[i].T3hhRemarks;
                             }
                         }
 
