@@ -16,11 +16,16 @@ namespace RAMMS.Business.ServiceProvider.Services
 
     public class DlpSpiService : Interfaces.IDlpSpiService
     {
-        private readonly IRepositoryUnit _repoUnit; private readonly IMapper _mapper; private readonly ISecurity _security;
-        private readonly Repository.Interfaces.IDlpSpi _repo;
-        public DlpSpiService(IRepositoryUnit repoUnit, IMapper mapper, ISecurity security)
+        private readonly IRepositoryUnit _repoUnit; 
+        private readonly IMapper _mapper; 
+        private readonly ISecurity _security;
+        private readonly IDlpSpi _repo;
+        public DlpSpiService(IRepositoryUnit repoUnit, IMapper mapper, ISecurity security, IDlpSpi repo)
         {
-            _repoUnit = repoUnit ?? throw new ArgumentNullException(nameof(repoUnit)); _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper)); _security = security ?? throw new ArgumentNullException(nameof(security));
+            _repoUnit = repoUnit ?? throw new ArgumentNullException(nameof(repoUnit)); 
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper)); 
+            _security = security ?? throw new ArgumentNullException(nameof(security));
+            _repo = repo ?? throw new ArgumentNullException(nameof(repo));
         }
 
         public async Task<List<DlpSPIDTO>> GetDivisionMiri(int year)

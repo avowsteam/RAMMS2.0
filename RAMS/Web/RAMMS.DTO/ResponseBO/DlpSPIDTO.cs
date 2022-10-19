@@ -9,6 +9,7 @@ namespace RAMMS.DTO.ResponseBO
         public int PkRefNo { get; set; }
         public int? Year { get; set; }
         public int? Month { get; set; }
+
         public string DivCode { get; set; }
         public string DivName { get; set; }
         public decimal? MPlanned { get; set; }

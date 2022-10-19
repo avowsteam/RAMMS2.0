@@ -1,7 +1,10 @@
-﻿@using RAMMS.Business.ServiceProvider;
+﻿@model RAMMS.Web.UI.Models.DLPModel;
+@using RAMMS.Business.ServiceProvider;
 @using RAMMS.DTO.RequestBO;
 @inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService;
 @inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+
+
 @{
     ViewBag.TabTitle = "Service Provider Performance Indicator (SPI)";
     ViewData["Title"] = "Service Provider Performance Indicator (SPI)";
@@ -18,8 +21,16 @@
                     Text = s.DdlTypeValue,
                     Value = s.DdlTypeValue
                 }).ToArray();
+
+
+
 }
 
+<script type="text/javascript">
+    $(document).ready(function () {
+    $("#formDlpYear").val('@today').trigger('chosen:updated');
+    });
+</script>
 
 <div class="container-fluid">
     <div class="row">
@@ -30,7 +41,7 @@
         </div>
         <div class="col-lg-2 offset-lg-10 form-group mt-3">
             <label>Year</label>
-             @Html.DropDownList("DLPYear", (IEnumerable<SelectListItem>)year, "Select Year", new { @Id = "formDlpYear", @class = "form-control" })
+            @Html.DropDownList("DLPYear", (IEnumerable<SelectListItem>)year, "Select Year", new { @Id = "formDlpYear", @class = "form-control" })
         </div>
     </div>
 
@@ -105,28 +116,27 @@
 
                                                     </thead>
                                                     <tbody>
+                                                        @{
+                                                            for (int i = 0; i < Model.DivisionMiri.Count; i++)
+                                                            {
+                                                                <tr>
+                                                                    <td><b>@RAMMS.Common.Helpers.GetMonthName((int)Model.DivisionMiri[i].Month)</b></td>
+                                                                    <td>RM @Model.DivisionMiri[i].MPlanned</td>
+                                                                    <td>RM @Model.DivisionMiri[i].MActual</td>
+                                                                    <td>RM @Model.DivisionMiri[i].CPlan</td>
+                                                                    <td>RM @Model.DivisionMiri[i].CActual</td>
+                                                                    <td>@Model.DivisionMiri[i].PiWorkActual  </td>
+                                                                    <td>@Model.DivisionMiri[i].Pai</td>
+                                                                    <td>@Model.DivisionMiri[i].Eff</td>
+                                                                    <td>@Model.DivisionMiri[i].Rb</td>
+                                                                    <td>@Model.DivisionMiri[i].Iw</td>
+                                                                    <td>@Model.DivisionMiri[i].Spi</td>
+                                                                    <td>@Model.DivisionMiri[i].PlannedPer %</td>
+                                                                    <td>@Model.DivisionMiri[i].ActualPer %</td>
 
-                                                        <tr>
-                                                            <td>
-                                                                <b> January</b>
-                                                            </td>
-                                                            <td>
-                                                                RM 500,781,65
-                                                            </td>
-                                                            <td>RM 560,442.49</td>
-
-                                                            <td>RM 560,442.49</td>
-                                                            <td> RM 500,781.65</td>
-                                                            <td> 89.53  </td>
-                                                            <td>1.12</td>
-                                                            <td>15.00  </td>
-                                                            <td>5.00</td>
-                                                            <td> 0.00 </td>
-                                                            <td>109.53   </td>
-                                                            <td>3.26%</td>
-                                                            <td>  3.65%  </td>
-                                                        </tr>
-
+                                                                </tr>
+                                                            }
+                                                        }
 
                                                     </tbody>
                                                 </table>
@@ -232,26 +242,26 @@
                                                 </thead>
                                                 <tbody>
 
-                                                    <tr>
-                                                        <td>
-                                                            <b> January</b>
-                                                        </td>
-                                                        <td>
-                                                            RM 500,781,65
-                                                        </td>
-                                                        <td>RM 560,442.49</td>
-
-                                                        <td>RM 560,442.49</td>
-                                                        <td> RM 500,781.65</td>
-                                                        <td> 89.53  </td>
-                                                        <td>1.12</td>
-                                                        <td>15.00  </td>
-                                                        <td>5.00</td>
-                                                        <td> 0.00 </td>
-                                                        <td>109.53   </td>
-                                                        <td>3.26%</td>
-                                                        <td>  3.65%  </td>
-                                                    </tr>
+                                                    @{
+                                                        for (int i = 0; i < Model.RmuMiri.Count; i++)
+                                                        {
+                                                            <tr id="miri_@i" pkid="@Model.RmuMiri[i].PkRefNo">
+                                                                <td><b>@RAMMS.Common.Helpers.GetMonthName((int)Model.DivisionMiri[i].Month)</b></td>
+                                                                <td>RM @Model.RmuMiri[i].MPlanned</td>
+                                                                <td>RM @Model.RmuMiri[i].MActual</td>
+                                                                <td>RM @Model.RmuMiri[i].CPlan</td>
+                                                                <td>RM @Model.RmuMiri[i].CActual</td>
+                                                                <td> @Model.RmuMiri[i].PiWorkActual  </td>
+                                                                <td>@Model.RmuMiri[i].Pai</td>
+                                                                <td>@Model.RmuMiri[i].Eff</td>
+                                                                <td>@Model.RmuMiri[i].Rb</td>
+                                                                <td> @Model.RmuMiri[i].Iw</td>
+                                                                <td>@Model.RmuMiri[i].Spi</td>
+                                                                <td>@Model.RmuMiri[i].PlannedPer %</td>
+                                                                <td>@Model.RmuMiri[i].ActualPer %</td>
+                                                            </tr>
+                                                        }
+                                                    }
 
                                                 </tbody>
                                             </table>
@@ -355,26 +365,26 @@
                                                 </thead>
                                                 <tbody>
 
-                                                    <tr>
-                                                        <td>
-                                                            <b> January</b>
-                                                        </td>
-                                                        <td>
-                                                            RM 500,781,65
-                                                        </td>
-                                                        <td>RM 560,442.49</td>
-
-                                                        <td>RM 560,442.49</td>
-                                                        <td> RM 500,781.65</td>
-                                                        <td> 89.53  </td>
-                                                        <td>1.12</td>
-                                                        <td>15.00  </td>
-                                                        <td>5.00</td>
-                                                        <td> 0.00 </td>
-                                                        <td>109.53   </td>
-                                                        <td>3.26%</td>
-                                                        <td>  3.65%  </td>
-                                                    </tr>
+                                                    @{
+                                                        for (int i = 0; i < Model.RmuBTN.Count; i++)
+                                                        {
+                                                            <tr id="btn_@i" pkid="@Model.RmuBTN[i].PkRefNo">
+                                                                <td><b>@RAMMS.Common.Helpers.GetMonthName((int)Model.DivisionMiri[i].Month)</b></td>
+                                                                <td>RM @Model.RmuBTN[i].MPlanned</td>
+                                                                <td>RM @Model.RmuBTN[i].MActual</td>
+                                                                <td>RM @Model.RmuBTN[i].CPlan</td>
+                                                                <td>RM @Model.RmuBTN[i].CActual</td>
+                                                                <td> @Model.RmuBTN[i].PiWorkActual  </td>
+                                                                <td>@Model.RmuBTN[i].Pai</td>
+                                                                <td>@Model.RmuBTN[i].Eff</td>
+                                                                <td>@Model.RmuBTN[i].Rb</td>
+                                                                <td> @Model.RmuBTN[i].Iw</td>
+                                                                <td>@Model.RmuBTN[i].Spi</td>
+                                                                <td>@Model.RmuBTN[i].PlannedPer %</td>
+                                                                <td>@Model.RmuBTN[i].ActualPer %</td>
+                                                            </tr>
+                                                        }
+                                                    }
 
 
                                                 </tbody>
