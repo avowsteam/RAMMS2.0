@@ -201,7 +201,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                         if (worksheet != null)
                         {
-                            int i = 9;
+                            int i = 7;
 
                             foreach (var r in rpt)
                             {
@@ -223,8 +223,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                             }
  
                          
-                            worksheet.Cell(4, 22).Value = rptcol.RevisionNo;
-                            worksheet.Cell(4, 24).Value = rptcol.RevisionDate;
+                            worksheet.Cell(3, 22).Value = rptcol.RevisionNo;
+                            worksheet.Cell(3, 24).Value = rptcol.RevisionDate;
 
                           
                         }

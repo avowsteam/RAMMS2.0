@@ -348,7 +348,7 @@ function SubTotalbyFeature() {
 
         if ($(this).find("td:nth-child(1)").attr("rowspan") != undefined) {
             if (Lasttd != undefined)
-                $(Lasttd).html(Number(parseFloat(tot.toFixed(2))).toLocaleString('en') + "<br>" + totPer.toFixed(2));
+                $(Lasttd).html(Number(parseFloat(tot.toFixed(2))).toLocaleString('en') + "<br>" + totPer.toFixed(2) + "%");
             Lasttd = $(this).find("td:last");
             tot = 0;
             totPer = 0;
@@ -361,7 +361,7 @@ function SubTotalbyFeature() {
         }
     });
 
-    $(Lasttd).html(Number(parseFloat(tot.toFixed(2))).toLocaleString('en') + "<br>" + totPer.toFixed(2));
+    $(Lasttd).html(Number(parseFloat(tot.toFixed(2))).toLocaleString('en') + "<br>" + totPer.toFixed(2) +"%");
 }
 
 function CalAdjustableQty() {
