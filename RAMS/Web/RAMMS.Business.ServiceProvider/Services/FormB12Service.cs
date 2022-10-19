@@ -69,9 +69,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                 lstData.Add("RevisionNo", frmB12.RevisionNo.ToString());
                 frmB12.PkRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormB12, lstData);
 
-                header = _mapper.Map<RmB12Hdr>(frmB12);
-                header = await _repo.Save(header, false);
-                frmB12 = _mapper.Map<FormB12DTO>(header);
+                //header = _mapper.Map<RmB12Hdr>(frmB12);
+                //header = await _repo.Save(header, false);
+                //frmB12 = _mapper.Map<FormB12DTO>(header);
             }
             return frmB12;
         }
@@ -122,7 +122,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             foreach (var list in domainModelFormB12)
             {
                 list.B12dslhPkRefNo = 0;
-                //list.B12dslhB12hPkRefNo = frmb12hdr.PkRefNo;
+                list.B12dslhB12hPkRefNo = source.B12hPkRefNo;
             }
             await _repo.SaveFormB12(domainModelFormB12);
 

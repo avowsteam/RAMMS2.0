@@ -47,33 +47,23 @@
 
     <div class="row">
         <div class="col-12 mt-2">
-            <div class="row">
-                @*<div class="form-group col-3">
-                    <label for="Name_of_Crew_Supervisor">
-                    Select RMU
-                    </label>
-                    <select id="ddlFrom" class="form-control">
-                    <option value="2019">Select RMU</option>
-                    <option value="2020">Miri</option>
-                    <option value="2021">Batu Niah</option>
-                    </select>
-                    </div>*@
+            <div class="row" id="divFindDetailsB12">
                 <div class="form-group col-2">
                     <label>Select Year  </label>
-                    @Html.DropDownListFor(m => m.FormB12Header.RevisionYear, (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB12Year", @class = "form-control" })
+                    @Html.DropDownListFor(m => m.FormB12Header.RevisionYear, (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formB12Year", @class = "form-control validate {required, Year}" })
                 </div>
                 <div class="form-group col-3">
                     <label> Select the Revision No. </label>
-                    <input type="number" id="RevisionNo" disabled value="@Model.FormB12Header.RevisionNo" class="form-control">
+                    <input type="number" id="RevisionNo" disabled value="@Model.FormB12Header.RevisionNo" class="form-control validate {required, Revision}">
                 </div>
                 <div class="form-group col-2">
                     <label>Date </label>
-                    <input type="date" value="@today" class="form-control" id="date" readonly="readonly" />
+                    <input type="date" value="@today" class="form-control validate {required, Date}" id="date" readonly="readonly" />
 
                 </div>
                 <div class="form-group col-3">
                     <label>User Name </label>
-                    <input type="text" id="UserName" disabled value="@username" class="form-control">
+                    <input type="text" id="UserName" disabled value="@username" class="form-control validate {required, Username}">
 
                 </div>
                 <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">

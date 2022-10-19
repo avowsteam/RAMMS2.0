@@ -70,6 +70,7 @@ namespace RAMMS.Repository.Interfaces
         public FormQa1Repository FormQa1Repository { get; } 
         //End Vforms
 
+        public DlpSpi DlpSpi { get; }
 
         public FormG1Repository FormG1Repository { get; }
 

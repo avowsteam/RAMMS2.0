@@ -1,12 +1,25 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using RAMMS.Business.ServiceProvider;
+@using RAMMS.DTO.RequestBO;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService;
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
 @{
-    ViewBag.TabTitle = "Form T";
-    ViewData["Title"] = "Form T";
+    ViewBag.TabTitle = "Service Provider Performance Indicator (SPI)";
+    ViewData["Title"] = "Service Provider Performance Indicator (SPI)";
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
+
+    var username = security.UserName;
+
+    var today = DateTime.Today.Year;
+
+    IEnumerable<SelectListItem> year = (await ddlService
+        .GetLookups(new DDLookUpDTO { Type = "Year" })).Where(s => Convert.ToInt32(s.DdlTypeValue) >= 2020)
+        .Select(s => new SelectListItem
+                {
+                    Text = s.DdlTypeValue,
+                    Value = s.DdlTypeValue
+                }).ToArray();
 }
- 
+
 
 <div class="container-fluid">
     <div class="row">
@@ -17,7 +30,7 @@
         </div>
         <div class="col-lg-2 offset-lg-10 form-group mt-3">
             <label>Year</label>
-            <select class="form-control"> <option> Select Year</option></select>
+             @Html.DropDownList("DLPYear", (IEnumerable<SelectListItem>)year, "Select Year", new { @Id = "formDlpYear", @class = "form-control" })
         </div>
     </div>
 
@@ -114,7 +127,7 @@
                                                             <td>  3.65%  </td>
                                                         </tr>
 
-                                                        
+
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -363,7 +376,7 @@
                                                         <td>  3.65%  </td>
                                                     </tr>
 
-                                                   
+
                                                 </tbody>
                                             </table>
                                         </div>
