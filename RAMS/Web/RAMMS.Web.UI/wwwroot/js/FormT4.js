@@ -236,16 +236,23 @@ function CalculateValuesonLoad() {
         ASL(objtr);//Annual Service Level
         CrewDayreq(objtr); //Crew Days Required
         SubTotalbyActivity(objtr);// SubTotal by Activity
-        SumofSubTotalbyActivity();// Sum of SubTotal by Activity
-        PlannedPercentage(objtr);// Planned Percentage
-        
-        SubTotalbyFeature(objtr);// SubTotal by Feature
 
-        CalAdjustableQty();
-        CalRoutineMaintenance();
-        CalPeriodicMaintenance();
-        CalOtherMaintenance();
     });
+
+    SumofSubTotalbyActivity();// Sum of SubTotal by Activity
+
+    $('#tblPPB > tbody  > tr').each(function (index, tr) {
+        var objtr = $(this);
+        PlannedPercentage(objtr);// Planned Percentage
+        SubTotalbyFeature(objtr);// SubTotal by Feature
+    });
+
+
+    CalAdjustableQty();
+    CalRoutineMaintenance();
+    CalPeriodicMaintenance();
+    CalOtherMaintenance();
+
 }
 
 function ICTotalQty(obj) {

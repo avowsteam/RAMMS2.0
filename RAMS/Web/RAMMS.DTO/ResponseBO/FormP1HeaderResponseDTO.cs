@@ -18,6 +18,7 @@ namespace RAMMS.DTO.ResponseBO
         public string Bank { get; set; }
         public string BankAccNo { get; set; }
         public string Address { get; set; }
+        public string Assignee { get; set; }
         public int? PaymentCertificateNo { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
