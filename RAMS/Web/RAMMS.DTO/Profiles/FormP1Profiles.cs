@@ -11,11 +11,11 @@ namespace RAMMS.DTO.Profiles
     {
         public FormP1Profiles()
         {
-            string[] arrPrefix = new string[] { "P1pch", "P1dpc"  };
+            string[] arrPrefix = new string[] { "Pch", "Pc" };
             this.RecognizeDestinationPrefixes(arrPrefix);
             this.RecognizePrefixes(arrPrefix);
-            this.CreateMap<FormP1HeaderResponseDTO, RmPaymentCertificateHeader>().ReverseMap();
             this.CreateMap<FormP1ResponseDTO, RmPaymentCertificate>().ReverseMap();
+            this.CreateMap<FormP1HeaderResponseDTO, RmPaymentCertificateHeader>().ReverseMap();
         }
     }
 }

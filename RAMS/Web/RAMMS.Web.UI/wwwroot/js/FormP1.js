@@ -4,10 +4,7 @@ $(document).ready(function () {
     DisableHeader();
  
 
-    if ($("#hdnView").val() == 1) {
-        $("#saveFormB13Btn").hide();
-        $("#SubmitFormB13Btn").hide();
-    }
+   
 
     CalculateValuesonLoad();
 
@@ -19,10 +16,21 @@ function DisableHeader() {
 
     if ($("#FormP1Header_PkRefNo").val() != "0") {
         $("#headerDiv * > select").attr('disabled', true).trigger("chosen:updated");
-        $("#FormP1Header_RevisionDate").attr("readonly", "true");
+
         $("#btnFindDetails").hide();
     }
 
+    if ($("#hdnView").val() == 1) {
+        $("#saveFormP1Btn").hide();
+        $("#SubmitFormP1Btn").hide();
+        $("#FormP1Header_Bank").attr("readonly", "true");
+        $("#FormP1Header_BankAccNo").attr("readonly", "true");
+        $("#FormP1Header_Assignee").attr("readonly", "true");
+        $("#FormP1Header_Address").attr("readonly", "true");
+        $("#FormP1Header_Address").attr("readonly", "true");
+    }
+
+   
 }
 
 
@@ -53,28 +61,7 @@ function OnSOChange(tis) {
 }
  
 
-
-function getRevisionNo(id) {
-    var req = {};
-    req.Year = id;
-    req.RMU = $("#ddlRMU").val();
-    $.ajax({
-        url: '/FormB13/GetMaxRev',
-        dataType: 'JSON',
-        data: req,
-        type: 'Post',
-        success: function (data) {
-            $("#RevisionNo").val(data)
-        },
-        error: function (data) {
-            console.error(data);
-        }
-    });
-}
-
-
-
-
+ 
 
 function Save(SubmitType) {
 
@@ -91,102 +78,62 @@ function Save(SubmitType) {
     else if ($("#FormP1Header_Status").val() == "Initialize")
         $("#FormP1Header_Status").val("Saved");
 
+    var FormP1 = new Object();
+    FormP1.PkRefNo = $("#FormP1Header_PkRefNo").val()
+    FormP1.PaymentCertificateNo = $("#FormP1Header_PaymentCertificateNo").val()
+    FormP1.SubmissionMonth = $("#ddlMonth").val()
+    FormP1.SubmissionYear = $("#ddlYear").val()
+    FormP1.Bank = $("#FormP1Header_Bank").val()
+    FormP1.BankAccNo = $('#FormP1Header_BankAccNo').val();
+    FormP1.Assignee = $('#FormP1Header_Assignee').val();
+    FormP1.Address = $('#FormP1Header_Address').val();
+    FormP1.SubmissionDate = $('#FormP1Header_SubmissionDate').val();
+    FormP1.ContractRoadLength = $('#FormP1Header_ContractRoadLength').val();
+    FormP1.NetValueDeduction = $('#FormP1Header_NetValueDeduction').val();
+    FormP1.NetValueAddition = $('#FormP1Header_NetValueAddition').val();
+    FormP1.NetValueInstructedWork = $('#FormP1Header_NetValueInstructedWork').val();
+    FormP1.NetValueLadInstructedWork = $('#FormP1Header_NetValueLadInstructedWork').val();
+    FormP1.UseridSo = $('#ddlSO').val();
+    FormP1.UsernameSo = $('#FormP1Header_UsernameSo').val();
+    FormP1.DesignationSo = $('#FormP1Header_DesignationSo').val();
+    FormP1.SignSo = $('#FormP1Header_SignSo').val();
+    FormP1.Status = $('#FormP1Header_Status').val();
+    FormP1.SubmitSts = $('#FormP1Header_SubmitSts').val();
 
-    var FormB13 = new Object();
-    FormB13.PkRefNo = $("#FormP1Header_PkRefNo").val()
-    FormB13.PkRefId = $("#FormP1Header_PkRefId").val()
-    FormB13.Rmu = $("#ddlRMU").val()
-    FormB13.RevisionYear = $("#ddlYear").val()
-    FormB13.RevisionNo = $("#RevisionNo").val()
-    FormB13.RevisionDate = $("#FormP1Header_RevisionDate").val()
-    FormB13.Description = $("#Desc").val()
-     
-
-    FormB13.UseridProsd = $('#ddlSO').val();
-    FormB13.UsernameSo = $('#FormP1Header_UsernameSo').val();
-    FormB13.DtProsd = $('#FormP1Header_DtProsd').val();
-    FormB13.DesignationSo = $('#FormP1Header_DesignationSo').val();
-    FormB13.SignProsd = $('#FormP1Header_SignProsd').val();
-
-    FormB13.UseridFclitd = $('#ddlFacilitatedby').val();
-    FormB13.UserNameFclitd = $('#FormP1Header_UserNameFclitd').val();
-    FormB13.DtFclitd = $('#FormP1Header_DtFclitd').val();
-    FormB13.UserDesignationFclitd = $('#FormP1Header_UserDesignationFclitd').val();
-    FormB13.SignFclitd = $('#FormP1Header_SignFclitd').val();
-
-    FormB13.UseridAgrd = $('#ddlAgreedby').val();
-    FormB13.UserNameAgrd = $('#FormP1Header_UserNameAgrd').val();
-    FormB13.DtAgrd = $('#FormP1Header_DtAgrd').val();
-    FormB13.UserDesignationAgrd = $('#FormP1Header_UserDesignationAgrd').val();
-    FormB13.SignAgrd = $('#FormP1Header_SignAgrd').val();
-
-    FormB13.UseridEdosd = $('#FormP1Header_UseridEdosd').val();
-    FormB13.UserNameEdosd = $('#FormP1Header_UserNameEdosd').val();
-    FormB13.DtEdosd = $('#FormP1Header_DtEdosd').val();
-    FormB13.UserDesignationEdosd = $('#FormP1Header_UserDesignationEdosd').val();
-    FormB13.SignEdosd = $('#FormP1Header_SignEdosd').val();
-
-    FormB13.AdjustableQuantity = $('#FormP1Header_AdjustableQuantity').val();
-    FormB13.RoutineMaintenance = $('#FormP1Header_RoutineMaintenance').val();
-    FormB13.PeriodicMaintenance = $('#FormP1Header_PeriodicMaintenance').val();
-    FormB13.OtherMaintenance = $('#FormP1Header_OtherMaintenance').val();
-
-    FormB13.Status = $('#FormP1Header_Status').val();
-    FormB13.SubmitSts = $('#FormP1Header_SubmitSts').val();
-
-    var B13History = []
+    var P1Details = []
     var i = 0;
-    var Feature = "";
+    var Description = "";
     $('#tblPPB > tbody  > tr').each(function (index, tr) {
 
-        var B13 = new Object();
-        B13.B13pPkRefNo = $("#FormP1Header_PkRefNo").val();
+        var P1 = new Object();
+        P1.P1pPkRefNo = $("#FormP1Header_PkRefNo").val();
         if ($(this).find("td:nth-child(1)").attr("rowspan") != undefined) {
-            B13.Feature = $(this).find("td:nth-child(1)").text().trim();
-            Feature = B13.Feature;
+            P1.Description = $(this).find("td:nth-child(1)").text().trim();
+            Description = P1.Feature;
         }
         else {
-            B13.Feature = Feature;
+            P1.Description = Description;
         }
-        B13.Code = $(this).find(".Code").text().trim();
-        B13.Name = $(this).find(".Name").text().trim();
-        B13.InvCond1 = $(this).find(".IC1").val().trim();
-        B13.InvCond2 = $(this).find(".IC2").val().trim();
-        B13.InvCond3 = $(this).find(".IC3").val().trim();
-        B13.InvTotal = $(this).find(".TotQty").text().trim();
-        B13.SlCond1 = $(this).find(".SLC1").text().trim();
-        B13.SlCond2 = $(this).find(".SLC2").text().trim();
-        B13.SlCond3 = $(this).find(".SLC3").text().trim();
-        B13.AwqCond1 = $(this).find(".AWQC1").text().trim();
-        B13.AwqCond2 = $(this).find(".AWQC2").text().trim();
-        B13.AwqCond3 = $(this).find(".AWQC3").text().trim();
-        B13.AwqTotal = $(this).find(".AWQTot").text().trim();
-        B13.CrewDaysRequired = $(this).find(".CrewDayReq").text().trim();
-        B13.CdcLabour = $(this).find(".Lab").text().trim();
-        B13.CdcEquipment = $(this).find(".Equ").text().trim();
-        B13.CdcMaterial = $(this).find(".Mat").text().trim();
-        B13.CrewDaysCost = $(this).find(".CrewDayCost").text().trim();
-        B13.AverageDailyProduction = $(this).find(".ADP").text().trim();
-        B13.UnitOfService = $(this).find(".Unit").text().trim();
-        B13.SlDesired = $(this).find(".SLDesired").text().trim();
-        B13.SlPlanned = $(this).find(".SLPlan").text().trim();
-        B13.SlAvgDesired = $(this).find(".Desired").val().trim();
-        B13.SlAnnualWorkQuantity = $(this).find(".AWQ").text().trim();
-        B13.SlCrewDaysPlanned = $(this).find(".CDP").text().trim();
-        B13.SlTotalByActivity = $(this).find(".ActTotal").text().trim();
-        B13.SlPercentageByActivity = $(this).find(".ActPer").text().trim();
 
-        B13History.push(B13);
+        P1.PaymentType = $(this).find(".PT").text().trim();
+        P1.Amount = $(this).find(".PayAmt").val().trim();
+        P1.Addition = $(this).find(".PayAdd").val().trim();
+        P1.Deduction = $(this).find(".PayDed").val().trim();
+        P1.PreviousPayment = $(this).find(".TotPrevPay").val().trim();
+        P1.TottoDate = $(this).find(".TotalToDate").val().trim();
+        P1.AmountIncludedInPc = $(this).find(".TotalToDate").val().trim();
+ 
+        P1Details.push(P1);
 
     });
 
 
-    FormB13.FormB13History = B13History;
+    FormP1.FormP1Details = P1Details;
 
 
     $.ajax({
-        url: '/FormB13/UpdateFormB13',
-        data: FormB13,
+        url: '/FormP1/UpdateFormP1',
+        data: FormP1,
         type: 'POST',
         success: function (data) {
             HideAjaxLoading();
@@ -196,7 +143,7 @@ function Save(SubmitType) {
             else {
 
                 app.ShowSuccessMessage('Saved Successfully', false);
-                location.href = "/FormB13";
+                location.href = "/FormP1";
             }
         }
     });
@@ -210,11 +157,7 @@ function FindDetails() {
 
 
     if (ValidatePage('#headerDiv')) {
-
-        if (parseInt($("#RevisionNo").val()) > 4) {
-            app.ShowErrorMessage("More than 4 revisions are not allowed");
-            return;
-        }
+    
         
         if ($("#FormP1Header_Status").val() == "")
             $("#FormP1Header_Status").val("Initialize");
@@ -222,23 +165,30 @@ function FindDetails() {
             $("#FormP1Header_Status").val("Saved");
 
         InitAjaxLoading();
-        var FormB13 = new Object();
-        FormB13.PkRefNo = $("#FormP1Header_PkRefNo").val()
-        FormB13.Rmu = $("#ddlRMU").val()
-        FormB13.RevisionYear = $("#ddlYear").val()
-        FormB13.RevisionNo = $("#RevisionNo").val()
-        FormB13.RevisionDate = $("#FormP1Header_RevisionDate").val()
-        FormB13.UseridProsd = $('#ddlSO').val();
-        FormB13.UsernameSo = $('#FormP1Header_UsernameSo').val();
-        FormB13.DtProsd  = $('#FormP1Header_DTProsd').val();
-        FormB13.DesignationSo = $('#FormP1Header_DesignationSo').val();
-        FormB13.SignProsd = $('#FormP1Header_SignProsd').val();
-
-        FormB13.Status = $('#FormP1Header_Status').val();
+        var FormP1 = new Object();
+        FormP1.PkRefNo = $("#FormP1Header_PkRefNo").val()
+        FormP1.PaymentCertificateNo = $("#FormP1Header_PaymentCertificateNo").val()
+        FormP1.SubmissionMonth = $("#ddlMonth").val()
+        FormP1.SubmissionYear = $("#ddlYear").val()
+        FormP1.Bank = $("#FormP1Header_Bank").val()
+        FormP1.BankAccNo = $('#FormP1Header_BankAccNo').val();
+        FormP1.Assignee = $('#FormP1Header_Assignee').val();
+        FormP1.Address = $('#FormP1Header_Address').val();
+        FormP1.SubmissionDate = $('#FormP1Header_SubmissionDate').val();
+        FormP1.ContractRoadLength = $('#FormP1Header_ContractRoadLength').val();
+        FormP1.NetValueDeduction = $('#FormP1Header_NetValueDeduction').val();
+        FormP1.NetValueAddition = $('#FormP1Header_NetValueAddition').val();
+        FormP1.NetValueInstructedWork = $('#FormP1Header_NetValueInstructedWork').val();
+        FormP1.NetValueLadInstructedWork = $('#FormP1Header_NetValueLadInstructedWork').val();
+        FormP1.UseridSo = $('#ddlSO').val();
+        FormP1.UsernameSo = $('#FormP1Header_UsernameSo').val();
+        FormP1.DesignationSo = $('#FormP1Header_DesignationSo').val();
+        FormP1.SignSo = $('#FormP1Header_SignSo').val();
+        FormP1.Status = $('#FormP1Header_Status').val();
 
         $.ajax({
-            url: '/FormB13/SaveFormB13',
-            data: FormB13,
+            url: '/FormP1/SaveFormP1',
+            data: FormP1,
             type: 'POST',
             success: function (data) {
                 HideAjaxLoading();
@@ -247,7 +197,7 @@ function FindDetails() {
                 }
                 else {
                     app.ShowSuccessMessage('Saved Successfully', false);
-                    location.href = "/FormB13/Add?Id=" + data + "&view=0";
+                    location.href = "/FormP1/Add?Id=" + data + "&view=0";
                 }
             }
         });
@@ -260,13 +210,13 @@ function GoBack() {
     if ($("#hdnView").val() == "0") {
         if (app.Confirm("Unsaved changes will be lost. Are you sure you want to cancel?", function (e) {
             if (e) {
-                location.href = "/FormB13";
+                location.href = "/FormP1";
 
             }
         }));
     }
     else
-        location.href = "/FormB13";
+        location.href = "/FormP1";
 }
 
  

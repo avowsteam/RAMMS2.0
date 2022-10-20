@@ -105,6 +105,7 @@ namespace RAMMS.Repository
 
             var list = query.Select(s => new FormP1HeaderResponseDTO
             {
+                PkRefNo= s.x.PchPkRefNo,
                 RefId = s.x.PchRefId,
                 SubmissionYear = s.x.PchSubmissionYear,
                 SubmissionMonth = s.x.PchSubmissionMonth,
@@ -126,7 +127,14 @@ namespace RAMMS.Repository
         {
             RmPaymentCertificateHeader res = (from r in _context.RmPaymentCertificateHeader where r.PchPkRefNo == id select r).FirstOrDefault();
 
-
+           var resPA = (from r in _context.RmPaymentCertificateHeader where r.PchSubmissionYear == res.PchSubmissionYear && r.PchSubmissionMonth == res.PchSubmissionMonth select r).FirstOrDefault();
+           var resPB = (from r in _context.RmPaymentCertificateHeader where r.PchSubmissionYear == res.PchSubmissionYear && r.PchSubmissionMonth == res.PchSubmissionMonth select r).FirstOrDefault();
+           
+            res.PchContractRoadLength = resPA.PchContractRoadLength;
+            res.PchNetValueDeduction = resPA.PchNetValueDeduction; 
+            res.PchNetValueAddition = resPA.PchNetValueAddition;
+            res.PchNetValueInstructedWork = resPB.PchNetValueInstructedWork;
+            res.PchNetValueLadInstructedWork = resPB.PchNetValueLadInstructedWork;
 
             res.RmPaymentCertificate = (from r in _context.RmPaymentCertificate
                       where r.PcPchPkRefNo == id

@@ -22,21 +22,17 @@
     var table_columns = [];
     var actionCol = {
         data: null, name: "Action", title: "Action", class: "", autoWidth: true, sortable: false, render: function (data) {
-            
-            if (data.maxRecord) {
-                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns'  data-backdrop='static' id='formAHeaderEdit'" + isModifyPerm + " onclick='javascript:editDetail(" + data.pkRefNo + ");'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns' " + isViewPerm + " data-toggle='modal' data-target='#FormAAddModal' data-backdrop='static' onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.pkRefNo + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
-                return actionSection;
-            }
-            else {
-                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' " + isViewPerm + " data-toggle='modal' data-target='#FormAAddModal' data-backdrop='static' onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.pkRefNo + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
-                return actionSection;
-            }
+
+            var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns'  data-backdrop='static' id='formAHeaderEdit'" + isModifyPerm + " onclick='javascript:editDetail(" + data.pkRefNo + ");'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns' " + isViewPerm + " data-toggle='modal' data-target='#FormAAddModal' data-backdrop='static' onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:deleteHeader(" + data.pkRefNo + ");'><span class='del-icon'></span> Delete</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.pkRefNo + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
+            return actionSection;
+
         }
     };
+    var noCol = { data: "pkRefNo", name: "No", title: "NO", autoWidth: true, sortable: false, visible: false };
     var ReferenceNo = { data: "refId", name: "ReferenceNo", title: "Reference No", autoWidth: true, sortable: true };
     var year = { data: "submissionYear", name: "Year", title: "Year", autoWidth: true, sortable: true };
     var month = { data: "submissionMonth", name: "Month", title: "Month", autoWidth: true, sortable: true };
-    
+
     var SubmissionDate = {
         data: null, name: "submissionDate", title: "Submission Date", autoWidth: true, sortable: true,
         render: function (data) {
@@ -63,8 +59,9 @@
     var TotalPayment = { data: "totalPayment", name: "TotalPayment", title: "Total Payment Amout", autoWidth: true, sortable: true };
     var Status = { data: "status", name: "Status", title: "Status", autoWidth: true, sortable: true };
 
-   
+
     table_columns.push(actionCol);
+    table_columns.push(noCol);
     table_columns.push(ReferenceNo);
     table_columns.push(year);
     table_columns.push(month);
@@ -87,6 +84,34 @@
         window.location.href = '/FormP1/Add?id=' + id + '&isview=1';
     }
 
+    function deleteHeader(id) {
+        app.Confirm("Are you sure you want to delete the record?, If Yes click OK.", function (e) {
+            if (e) {
+                var req = {};
+                req.id = id;
+                $.ajax({
+                    url: '/FormP1/DeleteFormP1',
+                    dataType: 'JSON',
+                    data: req,
+                    type: 'Post',
+                    success: function (data) {
+                        if (data) {
+                            app.ShowSuccessMessage("Record deleted successfully");
+                            oTable.draw();
+                        }
+                        else {
+                            app.ShowErrorMessage("Please try again.")
+                        }
+
+                    },
+                    error: function (data) {
+
+                        console.error(data);
+                    }
+                });
+            }
+        });
+    }
 
 
     var filterData = new Object();
@@ -131,7 +156,7 @@
             $("#ddlMonthFrom").val("").trigger("chosen:updated");
             $("#ddlMonthTo").val("").trigger("chosen:updated");
             $("#txtCertificateNo").val('');
-         
+
         });
 
         $('#btnSearch').click(function () {

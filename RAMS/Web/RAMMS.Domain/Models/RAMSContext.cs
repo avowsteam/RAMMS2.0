@@ -177,8 +177,10 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmModuleRightsCode> RmModuleRightsCode { get; set; }
         public virtual DbSet<RmPaymentCertificate> RmPaymentCertificate { get; set; }
         public virtual DbSet<RmPaymentCertificateHeader> RmPaymentCertificateHeader { get; set; }
+        public virtual DbSet<RmRmiIri> RmRmiIri { get; set; }
         public virtual DbSet<RmRmuMaster> RmRmuMaster { get; set; }
         public virtual DbSet<RmRoadMaster> RmRoadMaster { get; set; }
+        public virtual DbSet<RmSpPlp> RmSpPlp { get; set; }
         public virtual DbSet<RmT3Hdr> RmT3Hdr { get; set; }
         public virtual DbSet<RmT3History> RmT3History { get; set; }
         public virtual DbSet<RmT4DesiredBdgt> RmT4DesiredBdgt { get; set; }
@@ -16785,6 +16787,11 @@ namespace RAMMS.Domain.Models
                     .HasMaxLength(4000)
                     .IsUnicode(false);
 
+                entity.Property(e => e.PchAssignee)
+                    .HasColumnName("PCH_Assignee")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.PchAuditLog).HasColumnName("PCH__AuditLog");
 
                 entity.Property(e => e.PchBank)
@@ -16868,6 +16875,42 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("PCH_Username_SO")
                     .HasMaxLength(100)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<RmRmiIri>(entity =>
+            {
+                entity.HasKey(e => e.RmiiriPkRefNo);
+
+                entity.ToTable("RM_RMI_IRI");
+
+                entity.Property(e => e.RmiiriPkRefNo).HasColumnName("RMIIRI_PK_Ref_No");
+
+                entity.Property(e => e.RmiiriConditionNo).HasColumnName("RMIIRI_Condition_No");
+
+                entity.Property(e => e.RmiiriCreatedDate)
+                    .HasColumnName("RMIIRI_Created_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.RmiiriMonth).HasColumnName("RMIIRI_Month");
+
+                entity.Property(e => e.RmiiriPercentage)
+                    .HasColumnName("RMIIRI_Percentage")
+                    .HasColumnType("decimal(9, 0)");
+
+                entity.Property(e => e.RmiiriRoadLength)
+                    .HasColumnName("RMIIRI_Road_Length")
+                    .HasColumnType("decimal(9, 0)");
+
+                entity.Property(e => e.RmiiriType)
+                    .HasColumnName("RMIIRI_Type")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmiiriUpdatedDate)
+                    .HasColumnName("RMIIRI_Updated_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.RmiiriYear).HasColumnName("RMIIRI_Year");
             });
 
             modelBuilder.Entity<RmRmuMaster>(entity =>
@@ -17012,6 +17055,85 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("RDM_TO_Loc")
                     .HasMaxLength(250)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<RmSpPlp>(entity =>
+            {
+                entity.HasKey(e => e.SpplpPkRefNo);
+
+                entity.ToTable("RM_SP_PLP");
+
+                entity.Property(e => e.SpplpPkRefNo).HasColumnName("SPPLP_PK_Ref_No");
+
+                entity.Property(e => e.SpplpActualPer)
+                    .HasColumnName("SPPLP_Actual_Per")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpplpCActual)
+                    .HasColumnName("SPPLP_C_Actual")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpplpCPlan)
+                    .HasColumnName("SPPLP_C_Plan")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpplpCreatedDate)
+                    .HasColumnName("SPPLP_Created_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.SpplpDivCode)
+                    .HasColumnName("SPPLP_Div_Code")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SpplpDivName)
+                    .HasColumnName("SPPLP_Div_Name")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SpplpEff)
+                    .HasColumnName("SPPLP_EFF")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpplpIw)
+                    .HasColumnName("SPPLP_IW")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpplpMActual)
+                    .HasColumnName("SPPLP_M_Actual")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpplpMPlanned)
+                    .HasColumnName("SPPLP_M_Planned")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpplpMonth).HasColumnName("SPPLP_Month");
+
+                entity.Property(e => e.SpplpPai)
+                    .HasColumnName("SPPLP_PAI")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpplpPiWorkActual)
+                    .HasColumnName("SPPLP_PI_Work_Actual")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpplpPlannedPer)
+                    .HasColumnName("SPPLP_Planned_Per")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpplpRb)
+                    .HasColumnName("SPPLP_RB")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpplpSpi)
+                    .HasColumnName("SPPLP_SPI")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.SpplpUpdatedDate)
+                    .HasColumnName("SPPLP_Updated_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.SpplpYear).HasColumnName("SPPLP_Year");
             });
 
             modelBuilder.Entity<RmT3Hdr>(entity =>

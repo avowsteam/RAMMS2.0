@@ -16,6 +16,7 @@ namespace RAMMS.Domain.Models
         public string PchBank { get; set; }
         public string PchBankAccNo { get; set; }
         public string PchAddress { get; set; }
+        public string PchAssignee { get; set; }
         public int? PchPaymentCertificateNo { get; set; }
         public DateTime? PchSubmissionDate { get; set; }
         public DateTime? PchContractsEndsOn { get; set; }
