@@ -53,6 +53,22 @@ namespace RAMMS.Web.UI.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> GetSPIByYearFormSPI(int Year)
+        {
+            DLPModel model = new DLPModel();
+            model.DivisionMiri = await _dlpSpiService.GetDivisionMiri(Year);
+            model.RmuMiri = await _dlpSpiService.GetDivisionRMUMiri(Year);
+            model.RmuBTN = await _dlpSpiService.GetDivisionRMUBTN(Year);
+            return Json(model);
+        }
+
+        public async Task<IActionResult> Save(List<SpiData> spiData)
+        {
+            await _dlpSpiService.Save(spiData);
+            return Json(1);
+        }
+
+
         public IActionResult FormIRI_RMI()
         {
             return View();

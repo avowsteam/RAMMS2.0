@@ -51,5 +51,10 @@ namespace RAMMS.Business.ServiceProvider.Services
             Dlp = _mapper.Map<List<DlpSPIDTO>>(res);
             return Dlp;
         }
+
+        public async Task<int> Save(List<SpiData> spiData)
+        {
+            return await _repo.Save(spiData);
+        }
     }
 }

@@ -28,5 +28,13 @@ namespace RAMMS.DTO.ResponseBO
         public DateTime? UpdatedDate { get; set; }
 
     }
+
+    public class SpiData
+    {
+        public int id { get; set; }
+        public string eff { get; set; }
+        public string rb { get; set; }
+        public string iw { get; set; }
+    }
 }
  

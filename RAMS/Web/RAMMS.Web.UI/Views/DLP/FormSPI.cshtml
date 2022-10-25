@@ -21,15 +21,213 @@
                     Text = s.DdlTypeValue,
                     Value = s.DdlTypeValue
                 }).ToArray();
-
-
-
 }
 
 <script type="text/javascript">
     $(document).ready(function () {
-    $("#formDlpYear").val('@today').trigger('chosen:updated');
+        $("#formDlpYear").val('@today').trigger('chosen:updated');
+
+        $("#formDlpYear").on("change", function () {
+            getData($("#formDlpYear").val());
+        });
+
+
     });
+
+    function getData(year) {
+        var req = {};
+        req.Year = year;
+        $.ajax({
+            url: '/DLP/GetSPIByYearFormSPI',
+            dataType: 'JSON',
+            data: req,
+            type: 'Post',
+            success: function (data) {
+                $('#tblDivision tbody tr').remove();
+                if(data.divisionMiri.length ==0){
+                    $('#tblDivision tbody').append("<tr><td colspan='13'>No Records Found</td>"
+                        + "</tr>");
+                 }
+                for (var i = 0; i < data.divisionMiri.length; i++) {
+
+                    $('#tblDivision tbody').append("<tr>"
+                        + "<td><b>"+ GetMonthName(data.divisionMiri[i].month) +"</b></td>"
+                        + "<td>RM "+ assignZero(data.divisionMiri[i].mPlanned) +"</td>"
+                        + "<td>RM "+ assignZero(data.divisionMiri[i].mActual) +"</td>"
+                        + "<td>RM "+ assignZero(data.divisionMiri[i].cPlan) +"</td>"
+                        + "<td>RM "+ assignZero(data.divisionMiri[i].cActual) +"</td>"
+                        + "<td>RM "+ assignZero(data.divisionMiri[i].piWorkActual) +"</td>"
+                        + "<td>"+ assignZero(data.divisionMiri[i].pai)+"</td>"
+                        + "<td>"+ assignZero(data.divisionMiri[i].eff) +"</td>"
+                        + "<td>"+ assignZero(data.divisionMiri[i].rb) +"</td>"
+                        + "<td>"+ assignZero(data.divisionMiri[i].iw) +"</td>"
+                        + "<td>"+ assignZero(data.divisionMiri[i].spi) +"</td>"
+                        + "<td>"+ assignZero(data.divisionMiri[i].plannedPer) +" %</td>"
+                        + "<td>"+ assignZero(data.divisionMiri[i].actualPer) +" %</td>"
+                        + "</tr>");
+                }
+                $('#tblMiri tbody tr').remove();
+                $("#editMiri").show();
+                if(data.rmuMiri.length ==0){
+                    $('#tblMiri tbody').append("<tr><td colspan='13'>No Records Found</td>"
+                        + "</tr>");
+                    $("#editMiri").hide();
+                    $("#saveMiri").hide();
+                    $("#cancelMiri").hide();
+
+                 }
+                for (var i = 0; i < data.rmuMiri.length; i++) {
+                    $('#tblMiri tbody').append("<tr id='miri_" + i + "' pkid='" + data.rmuMiri[i].pkRefNo + "'>"
+                        + "<td><b>"+ GetMonthName(data.rmuMiri[i].month) +"</b></td>"
+                        + "<td>RM "+ assignZero(data.rmuMiri[i].mPlanned) +"</td>"
+                        + "<td>RM "+ assignZero(data.rmuMiri[i].mActual) +"</td>"
+                        + "<td>RM "+ assignZero(data.rmuMiri[i].cPlan) +"</td>"
+                        + "<td>RM "+ assignZero(data.rmuMiri[i].cActual) +"</td>"
+                        + "<td>RM "+ assignZero(data.rmuMiri[i].piWorkActual) +"</td>"
+                        + "<td>"+ assignZero(data.rmuMiri[i].pai) +"</td>"
+                        + "<td class='editpai'>"+ assignZero(data.rmuMiri[i].eff) +"</td>"
+                        + "<td class='editeff'>"+ assignZero(data.rmuMiri[i].rb) +"</td>"
+                        + "<td class='editrb'>"+ assignZero(data.rmuMiri[i].iw) +"</td>"
+                        + "<td>"+ assignZero(data.rmuMiri[i].spi) +"</td>"
+                        + "<td>"+ assignZero(data.rmuMiri[i].plannedPer) +" %</td>"
+                        + "<td>"+ assignZero(data.rmuMiri[i].actualPer) +" %</td>"
+                        + "</tr>");
+                }
+                $('#tblBtn tbody tr').remove();
+                 $("#editBtn").show();
+                 if(data.rmuBTN.length ==0){
+                    $('#tblBtn tbody').append("<tr><td colspan='13'>No Records Found</td>"
+                        + "</tr>");
+                     $("#editBtn").hide();
+                    $("#saveBtn").hide();
+                    $("#cancelBtn").hide();
+                 }
+                for (var i = 0; i < data.rmuBTN.length; i++) {
+                    $('#tblBtn tbody').append("<tr id='btn_" + i + "' pkid='" + data.rmuBTN[i].pkRefNo + "'>"
+                        + "<td><b>"+ GetMonthName(data.rmuBTN[i].month) +"</b></td>"
+                        + "<td>RM "+ assignZero(data.rmuBTN[i].mPlanned) +"</td>"
+                        + "<td>RM "+ assignZero(data.rmuBTN[i].mActual) +"</td>"
+                        + "<td>RM "+ assignZero(data.rmuBTN[i].cPlan) +"</td>"
+                        + "<td>RM "+ assignZero(data.rmuBTN[i].cActual) +"</td>"
+                        + "<td>RM "+ assignZero(data.rmuBTN[i].piWorkActual) +"</td>"
+                        + "<td>"+ assignZero(data.rmuBTN[i].pai) +"</td>"
+                        + "<td class='editpai'>"+ assignZero(data.rmuBTN[i].eff) +"</td>"
+                        + "<td class='editeff'>"+ assignZero(data.rmuBTN[i].rb) +"</td>"
+                        + "<td class='editrb'>"+ assignZero(data.rmuBTN[i].iw) +"</td>"
+                        + "<td>"+ assignZero(data.rmuBTN[i].spi) +"</td>"
+                        + "<td>"+ assignZero(data.rmuBTN[i].plannedPer) +" %</td>"
+                        + "<td>"+ assignZero(data.rmuBTN[i].actualPer) +" %</td>"
+                        + "</tr>");
+                }
+            },
+            error: function (data) {
+                console.error(data);
+            }
+        });
+    }
+
+    function assignZero(val){
+        return typeof val == 'number' ? val.toFixed(2) : '0.00';
+    }
+
+    function GetMonthName(mnth){
+         switch (mnth)
+            {
+                case 1:
+                    return "January";
+                case 2:
+                    return "February";
+                case 3:
+                    return "March";
+                case 4:
+                    return "April";
+                case 5:
+                    return "May";
+                case 6:
+                    return "June";
+                case 7:
+                    return "July";
+                case 8:
+                    return "August";
+                case 9:
+                    return "September";
+                case 10:
+                    return "October";
+                case 11:
+                    return "November";
+                case 12:
+                    return "December";
+                default:
+                    return "";
+            }
+    }
+
+    function Edit(obj){
+        $("#tbl" + obj + " tbody tr").each(function(){
+            var one = $(this).find('.editpai').html();
+            $(this).find('.editpai').html("<input type='text' style='width:80px' preval='" + one + "' value='" + one + "' />")
+            var two = $(this).find('.editeff').html();
+            $(this).find('.editeff').html("<input type='text' style='width:80px'   preval='" + two + "'  value='" + two + "' />")
+            var three = $(this).find('.editrb').html();
+            $(this).find('.editrb').html("<input type='text' style='width:80px'   preval='" + three + "'  value='" + three + "' />")
+        });
+
+        $("#edit"+obj).hide();
+        $("#save"+obj).show();
+        $("#cancel"+obj).show();
+    }
+
+    function Save(obj){
+         InitAjaxLoading();
+         var Spi = [];
+        $("#tbl" + obj + " tbody tr").each(function(){
+            var one = $(this).find('.editpai').find("input").val();
+            var two = $(this).find('.editeff').find("input").val();
+            var three = $(this).find('.editrb').find("input").val();
+            var row = new Object();
+            row.id = $(this).attr("pkid");
+            row.eff = one
+            row.rb = two;
+            row.iw = three;
+            Spi.push(row);
+        });
+
+
+        $.ajax({
+            url: '/DLP/Save',
+            data: {spiData : Spi},
+            type: 'POST',
+            success: function (data) {
+                HideAjaxLoading();
+                if (data == -1) {
+                    app.ShowErrorMessage(data.errorMessage);
+                }
+                else {
+                    app.ShowSuccessMessage('Saved Successfully', false);
+                    location.href = "/DLP/FormSpi";
+                }
+            }
+        });
+
+        $("#edit"+obj).show();
+        $("#save"+obj).hide();
+        $("#cancel"+obj).hide();
+    }
+
+    function Cancel(obj){
+        $("#tbl" + obj + " tbody tr").each(function(){
+            var one = $(this).find('.editpai').find("input").attr("preval");
+            $(this).find('.editpai').html(one);
+            var two = $(this).find('.editeff').find("input").attr("preval");
+            $(this).find('.editeff').html(two);
+            var three = $(this).find('.editrb').find("input").attr("preval");
+            $(this).find('.editrb').html(three);
+        });
+
+        $("#edit"+obj).show();
+        $("#save"+obj).hide();
+        $("#cancel"+obj).hide();
+    }
 </script>
 
 <div class="container-fluid">
@@ -50,7 +248,7 @@
         <div class="card mb-0">
             <div class="card-header" id="headingOne">
                 <h5 class="m-0">
-                    <a class="custom-accordion-title py-1 collapsed" data-toggle="collapse" href="#AccordPage1" aria-expanded="false" aria-controls="collapseOne">
+                    <a class="custom-accordion-title py-1" data-toggle="collapse" href="#AccordPage1" aria-expanded="true" aria-controls="collapseOne">
                         <span class="float-left">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
@@ -61,7 +259,7 @@
                     </a>
                 </h5>
             </div>
-            <div id="AccordPage1" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingOne" data-parent="#custom-accordion-one">
+            <div id="AccordPage1" class="collapse avowmodal-form formgrp-section show" aria-labelledby="headingOne" data-parent="#custom-accordion-one">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
@@ -70,7 +268,7 @@
                                     <div class="dataTables_scrollBody">
                                         <div class="dataTables_scroll">
                                             <div class="w-100 position-relative in-tbl-btns custom-tbl">
-                                                <table class="table w-100 nowrap dataTable no-footer">
+                                                <table class="table w-100 nowrap dataTable no-footer" id="tblDivision">
                                                     <thead style="background-color: #c8e1ff">
                                                         <tr>
                                                             <th class="text-center">
@@ -117,6 +315,14 @@
                                                     </thead>
                                                     <tbody>
                                                         @{
+
+                                                            if (Model.DivisionMiri.Count == 0)
+                                                            {
+                                                                <tr>
+                                                                    <td colspan="13">No Records found</td>
+                                                                </tr>
+                                                            }
+
                                                             for (int i = 0; i < Model.DivisionMiri.Count; i++)
                                                             {
                                                                 <tr>
@@ -160,7 +366,7 @@
         <div class="card mb-0">
             <div class="card-header" id="headingTwo">
                 <h5 class="m-0">
-                    <a class="custom-accordion-title py-1 collapsed" data-toggle="collapse" href="#AccordPage2" aria-expanded="false" aria-controls="collapseTwo">
+                    <a class="custom-accordion-title py-1" data-toggle="collapse" href="#AccordPage2" aria-expanded="true" aria-controls="collapseTwo">
                         <span class="float-left">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
@@ -172,30 +378,33 @@
                     </a>
                 </h5>
             </div>
-            <div id="AccordPage2" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingTwo" data-parent="#custom-accordion-two">
+            <div id="AccordPage2" class="collapse avowmodal-form formgrp-section show" aria-labelledby="headingTwo" data-parent="#custom-accordion-two">
                 <div class="card-body">
                     <div id="EquipmentListGrid" class="w-100 dt-tbl-section">
                         <div class="text-right float-right p-2">
-                            <div class="btn-group dropright" id="actiondropdown">
+                            @*<div class="btn-group dropright" id="actiondropdown">
                                 <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    Click Me
+                                Click Me
                                 </button>
                                 <div class="dropdown-menu">
-                                    <button type="button" class="dropdown-item editdel-btns" data-toggle="modal" data-target="#myModal">
-                                        <span class="edit-icon"></span> Edit
-                                    </button>
-                                    <button type="button" class="dropdown-item editdel-btns" data-toggle="modal" data-target="#myModal1">
-                                        <span class="view-icon"></span> View
-                                    </button>
+                                <button type="button" class="dropdown-item editdel-btns" onclick="Edit('tblMiri')">
+                                <span class="edit-icon"></span> Edit
+                                </button>
+                                <button type="button" class="dropdown-item editdel-btns" data-toggle="modal" data-target="#myModal1">
+                                <span class="view-icon"></span> View
+                                </button>
                                 </div>
-                            </div>
+                                </div>*@
+                            <button id="editMiri" type="button" class="btn btn-sm btn-themebtn" onclick="Edit('Miri')">Edit</button>
+                            <button id="saveMiri" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Save('Miri')">Save</button>
+                            <button id="cancelMiri" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Cancel('Miri')">Cancel</button>
                         </div>
                         <div class="table-responsive">
                             <div class="dataTables_wrapper dt-bootstrap4 no-footer">
                                 <div class="dataTables_scrollBody">
                                     <div class="dataTables_scroll">
                                         <div class="w-100 position-relative in-tbl-btns custom-tbl">
-                                            <table class="table w-100 nowrap dataTable no-footer">
+                                            <table class="table w-100 nowrap dataTable no-footer" id="tblMiri">
                                                 <thead style="background-color: #c8e1ff">
                                                     <tr>
                                                         <th class="text-center">
@@ -243,6 +452,12 @@
                                                 <tbody>
 
                                                     @{
+                                                        if (Model.RmuMiri.Count == 0)
+                                                        {
+                                                            <tr>
+                                                                <td colspan="13">No Records found</td>
+                                                            </tr>
+                                                        }
                                                         for (int i = 0; i < Model.RmuMiri.Count; i++)
                                                         {
                                                             <tr id="miri_@i" pkid="@Model.RmuMiri[i].PkRefNo">
@@ -251,11 +466,11 @@
                                                                 <td>RM @Model.RmuMiri[i].MActual</td>
                                                                 <td>RM @Model.RmuMiri[i].CPlan</td>
                                                                 <td>RM @Model.RmuMiri[i].CActual</td>
-                                                                <td> @Model.RmuMiri[i].PiWorkActual  </td>
+                                                                <td>@Model.RmuMiri[i].PiWorkActual  </td>
                                                                 <td>@Model.RmuMiri[i].Pai</td>
-                                                                <td>@Model.RmuMiri[i].Eff</td>
-                                                                <td>@Model.RmuMiri[i].Rb</td>
-                                                                <td> @Model.RmuMiri[i].Iw</td>
+                                                                <td class="editpai">@Model.RmuMiri[i].Eff</td>
+                                                                <td class="editeff">@Model.RmuMiri[i].Rb</td>
+                                                                <td class="editrb"> @Model.RmuMiri[i].Iw</td>
                                                                 <td>@Model.RmuMiri[i].Spi</td>
                                                                 <td>@Model.RmuMiri[i].PlannedPer %</td>
                                                                 <td>@Model.RmuMiri[i].ActualPer %</td>
@@ -282,7 +497,7 @@
         <div class="card mb-0">
             <div class="card-header" id="headingTwo">
                 <h5 class="m-0">
-                    <a class="custom-accordion-title py-1 collapsed" data-toggle="collapse" href="#AccordPage3" aria-expanded="false" aria-controls="collapseThree">
+                    <a class="custom-accordion-title py-1 " data-toggle="collapse" href="#AccordPage3" aria-expanded="true" aria-controls="collapseThree">
                         <span class="float-left">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
@@ -294,31 +509,34 @@
                     </a>
                 </h5>
             </div>
-            <div id="AccordPage3" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingTwo" data-parent="#custom-accordion-two">
+            <div id="AccordPage3" class="collapse avowmodal-form formgrp-section show" aria-labelledby="headingTwo" data-parent="#custom-accordion-two">
 
                 <div class="card-body">
                     <div id="EquipmentListGrid" class="w-100 dt-tbl-section">
                         <div class="text-right float-right p-2">
-                            <div class="btn-group dropright" id="actiondropdown">
+                            @*<div class="btn-group dropright" id="actiondropdown">
                                 <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    Click Me
+                                Click Me
                                 </button>
                                 <div class="dropdown-menu">
-                                    <button type="button" class="dropdown-item editdel-btns">
-                                        <span class="edit-icon"></span> Edit
-                                    </button>
-                                    <button type="button" class="dropdown-item editdel-btns">
-                                        <span class="view-icon"></span> View
-                                    </button>
+                                <button type="button" class="dropdown-item editdel-btns" onclick="Edit('tblBtn')">
+                                <span class="edit-icon"></span> Edit
+                                </button>
+                                <button type="button" class="dropdown-item editdel-btns">
+                                <span class="view-icon"></span> View
+                                </button>
                                 </div>
-                            </div>
+                                </div>*@
+                            <button id="editBtn" type="button" class="btn btn-sm btn-themebtn" onclick="Edit('Btn')">Edit</button>
+                            <button id="saveBtn" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Save('Btn')">Save</button>
+                            <button id="cancelBtn" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Cancel('Btn')">Cancel</button>
                         </div>
                         <div class="table-responsive">
                             <div class="dataTables_wrapper dt-bootstrap4 no-footer">
                                 <div class="dataTables_scrollBody">
                                     <div class="dataTables_scroll">
                                         <div class="w-100 position-relative in-tbl-btns custom-tbl">
-                                            <table class="table w-100 nowrap dataTable no-footer">
+                                            <table class="table w-100 nowrap dataTable no-footer" id="tblBtn">
                                                 <thead style="background-color: #c8e1ff">
                                                     <tr>
                                                         <th class="text-center">
@@ -366,6 +584,14 @@
                                                 <tbody>
 
                                                     @{
+
+                                                        if (Model.RmuBTN.Count == 0)
+                                                        {
+                                                            <tr>
+                                                                <td colspan="13">No Records found</td>
+                                                            </tr>
+
+                                                        }
                                                         for (int i = 0; i < Model.RmuBTN.Count; i++)
                                                         {
                                                             <tr id="btn_@i" pkid="@Model.RmuBTN[i].PkRefNo">
@@ -376,9 +602,9 @@
                                                                 <td>RM @Model.RmuBTN[i].CActual</td>
                                                                 <td> @Model.RmuBTN[i].PiWorkActual  </td>
                                                                 <td>@Model.RmuBTN[i].Pai</td>
-                                                                <td>@Model.RmuBTN[i].Eff</td>
-                                                                <td>@Model.RmuBTN[i].Rb</td>
-                                                                <td> @Model.RmuBTN[i].Iw</td>
+                                                                <td class="editpai">@Model.RmuBTN[i].Eff</td>
+                                                                <td class="editeff">@Model.RmuBTN[i].Rb</td>
+                                                                <td class="editrb"> @Model.RmuBTN[i].Iw</td>
                                                                 <td>@Model.RmuBTN[i].Spi</td>
                                                                 <td>@Model.RmuBTN[i].PlannedPer %</td>
                                                                 <td>@Model.RmuBTN[i].ActualPer %</td>
