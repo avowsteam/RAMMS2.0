@@ -16,7 +16,7 @@ namespace RAMMS.Web.UI.Models
 
         public FormP1HeaderResponseDTO FormP1Header { get; set; }
 
-        public FormP1ResponseDTO FormP1Detail { get; set; }
+        public List<FormP1ResponseDTO> FormP1Detail { get; set; }
      
         public int view { get; set; }
 

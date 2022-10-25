@@ -169,6 +169,8 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmIwSrvProviderMaster> RmIwSrvProviderMaster { get; set; }
         public virtual DbSet<RmIwWorksDeptMaster> RmIwWorksDeptMaster { get; set; }
         public virtual DbSet<RmIwformImage> RmIwformImage { get; set; }
+        public virtual DbSet<RmMapDetails> RmMapDetails { get; set; }
+        public virtual DbSet<RmMapHeader> RmMapHeader { get; set; }
         public virtual DbSet<RmModule> RmModule { get; set; }
         public virtual DbSet<RmModuleForms> RmModuleForms { get; set; }
         public virtual DbSet<RmModuleGroupFieldRights> RmModuleGroupFieldRights { get; set; }
@@ -176,7 +178,11 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmModuleRightByForm> RmModuleRightByForm { get; set; }
         public virtual DbSet<RmModuleRightsCode> RmModuleRightsCode { get; set; }
         public virtual DbSet<RmPaymentCertificate> RmPaymentCertificate { get; set; }
+        public virtual DbSet<RmPaymentCertificateCrr> RmPaymentCertificateCrr { get; set; }
+        public virtual DbSet<RmPaymentCertificateCrra> RmPaymentCertificateCrra { get; set; }
+        public virtual DbSet<RmPaymentCertificateCrrd> RmPaymentCertificateCrrd { get; set; }
         public virtual DbSet<RmPaymentCertificateHeader> RmPaymentCertificateHeader { get; set; }
+        public virtual DbSet<RmPaymentCertificateMamw> RmPaymentCertificateMamw { get; set; }
         public virtual DbSet<RmRmiIri> RmRmiIri { get; set; }
         public virtual DbSet<RmRmuMaster> RmRmuMaster { get; set; }
         public virtual DbSet<RmRoadMaster> RmRoadMaster { get; set; }
@@ -16402,6 +16408,132 @@ namespace RAMMS.Domain.Models
                 entity.Property(e => e.FiwiSubmitSts).HasColumnName("FIWI_SUBMIT_STS");
             });
 
+            modelBuilder.Entity<RmMapDetails>(entity =>
+            {
+                entity.HasKey(e => e.RmmdPkRefNo);
+
+                entity.ToTable("RM_MAP_Details");
+
+                entity.Property(e => e.RmmdPkRefNo)
+                    .HasColumnName("RMMD_PK_Ref_No")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.RmmdActivityDate)
+                    .HasColumnName("RMMD_Activity_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.RmmdActivityId).HasColumnName("RMMD_Activity_Id");
+
+                entity.Property(e => e.RmmdActivityLocationCode).HasColumnName("RMMD_Activity_Location_Code");
+
+                entity.Property(e => e.RmmdActivityWeekDay).HasColumnName("RMMD_Activity_Week_Day");
+
+                entity.Property(e => e.RmmdActivityWeekDayNo).HasColumnName("RMMD_Activity_Week_Day_No");
+
+                entity.Property(e => e.RmmdActivityWeekNo).HasColumnName("RMMD_Activity_Week_No");
+
+                entity.Property(e => e.RmmdQuantityKm)
+                    .HasColumnName("RMMD_Quantity_Km")
+                    .HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.RmmdRmmhPkRefNo).HasColumnName("RMMD_RMMH_PK_Ref_No");
+
+                entity.HasOne(d => d.RmmdRmmhPkRefNoNavigation)
+                    .WithMany(p => p.RmMapDetails)
+                    .HasForeignKey(d => d.RmmdRmmhPkRefNo)
+                    .HasConstraintName("FK_RM_MAP_Details_RM_MAP_Details");
+            });
+
+            modelBuilder.Entity<RmMapHeader>(entity =>
+            {
+                entity.HasKey(e => e.RmmhPkRefNo)
+                    .HasName("PK_RM_MAP_HDR");
+
+                entity.ToTable("RM_MAP_Header");
+
+                entity.Property(e => e.RmmhPkRefNo).HasColumnName("RMMH_PK_Ref_No");
+
+                entity.Property(e => e.RmmhActiveYn).HasColumnName("RMMH_Active_YN");
+
+                entity.Property(e => e.RmmhAuditlog).HasColumnName("RMMH_Auditlog");
+
+                entity.Property(e => e.RmmhCheckedBy).HasColumnName("RMMH_Checked_By");
+
+                entity.Property(e => e.RmmhCheckedDate)
+                    .HasColumnName("RMMH_Checked__Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.RmmhCheckedDesig).HasColumnName("RMMH_Checked__Desig");
+
+                entity.Property(e => e.RmmhCheckedName).HasColumnName("RMMH_Checked__Name");
+
+                entity.Property(e => e.RmmhCheckedOffice).HasColumnName("RMMH_Checked__Office");
+
+                entity.Property(e => e.RmmhCheckedSign).HasColumnName("RMMH_Checked__Sign");
+
+                entity.Property(e => e.RmmhCrBy).HasColumnName("RMMH_CR_By");
+
+                entity.Property(e => e.RmmhCrDt)
+                    .HasColumnName("RMMH_CR_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.RmmhCreatedDate)
+                    .HasColumnName("RMMH_Created_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.RmmhModBy).HasColumnName("RMMH_Mod_By");
+
+                entity.Property(e => e.RmmhModDt)
+                    .HasColumnName("RMMH_Mod_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.RmmhMonth).HasColumnName("RMMH_Month");
+
+                entity.Property(e => e.RmmhPreparedBy).HasColumnName("RMMH_Prepared_By");
+
+                entity.Property(e => e.RmmhPreparedDate)
+                    .HasColumnName("RMMH_Prepared__Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.RmmhPreparedDesig).HasColumnName("RMMH_Prepared__Desig");
+
+                entity.Property(e => e.RmmhPreparedName).HasColumnName("RMMH_Prepared__Name");
+
+                entity.Property(e => e.RmmhPreparedOffice).HasColumnName("RMMH_Prepared__Office");
+
+                entity.Property(e => e.RmmhPreparedSign).HasColumnName("RMMH_Prepared__Sign");
+
+                entity.Property(e => e.RmmhRefId)
+                    .HasColumnName("RMMH_Ref_ID")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhRevisionNo).HasColumnName("RMMH_Revision_No");
+
+                entity.Property(e => e.RmmhRmuCode)
+                    .HasColumnName("RMMH_RMU_Code")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhStatus).HasColumnName("RMMH_Status");
+
+                entity.Property(e => e.RmmhSubmitSts).HasColumnName("RMMH_SUBMIT_STS");
+
+                entity.Property(e => e.RmmhVerifiedBy).HasColumnName("RMMH_Verified_By");
+
+                entity.Property(e => e.RmmhVerifiedDate)
+                    .HasColumnName("RMMH_Verified__Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.RmmhVerifiedDesig).HasColumnName("RMMH_Verified__Desig");
+
+                entity.Property(e => e.RmmhVerifiedName).HasColumnName("RMMH_Verified__Name");
+
+                entity.Property(e => e.RmmhVerifiedOffice).HasColumnName("RMMH_Verified__Office");
+
+                entity.Property(e => e.RmmhVerifiedSign).HasColumnName("RMMH_Verified__Sign");
+
+                entity.Property(e => e.RmmhYear).HasColumnName("RMMH_Year");
+            });
+
             modelBuilder.Entity<RmModule>(entity =>
             {
                 entity.HasKey(e => e.ModPkId);
@@ -16772,6 +16904,113 @@ namespace RAMMS.Domain.Models
                     .HasConstraintName("FK_RM_Payment_Certificate_RM_Payment_Certificate_Header");
             });
 
+            modelBuilder.Entity<RmPaymentCertificateCrr>(entity =>
+            {
+                entity.HasKey(e => e.CrrPkRefNo);
+
+                entity.ToTable("RM_Payment_Certificate_CRR");
+
+                entity.Property(e => e.CrrPkRefNo).HasColumnName("CRR_PK_Ref_No");
+
+                entity.Property(e => e.CrrContractRate)
+                    .HasColumnName("CRR_Contract_Rate")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.CrrDivision)
+                    .HasColumnName("CRR_Division")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CrrPaved)
+                    .HasColumnName("CRR_Paved")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.CrrPcmamwPkRefNo).HasColumnName("CRR_PCMAMW_PK_Ref_No");
+
+                entity.Property(e => e.CrrSubTotal)
+                    .HasColumnName("CRR_Sub_Total")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.CrrTotalAmount)
+                    .HasColumnName("CRR_Total_Amount")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.CrrUnpaved)
+                    .HasColumnName("CRR_Unpaved")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.HasOne(d => d.CrrPcmamwPkRefNoNavigation)
+                    .WithMany(p => p.RmPaymentCertificateCrr)
+                    .HasForeignKey(d => d.CrrPcmamwPkRefNo)
+                    .HasConstraintName("FK_RM_Payment_Certificate_CRR_RM_Payment_Certificate_MAMW");
+            });
+
+            modelBuilder.Entity<RmPaymentCertificateCrra>(entity =>
+            {
+                entity.HasKey(e => e.CrraPkRefNo);
+
+                entity.ToTable("RM_Payment_Certificate_CRRA");
+
+                entity.Property(e => e.CrraPkRefNo).HasColumnName("CRRA_PK_Ref_No");
+
+                entity.Property(e => e.CrraDescription)
+                    .HasColumnName("CRRA_Description")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CrraPcmamwPkRefNo).HasColumnName("CRRA_PCMAMW_PK_Ref_No");
+
+                entity.Property(e => e.CrraThisPayment)
+                    .HasColumnName("CRRA_This_Payment")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.CrraTillLastPayment)
+                    .HasColumnName("CRRA_Till_Last_Payment")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.CrraTotalToDate)
+                    .HasColumnName("CRRA_Total_To_Date")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.HasOne(d => d.CrraPcmamwPkRefNoNavigation)
+                    .WithMany(p => p.RmPaymentCertificateCrra)
+                    .HasForeignKey(d => d.CrraPcmamwPkRefNo)
+                    .HasConstraintName("FK_RM_Payment_Certificate_CRRA_RM_Payment_Certificate_MAMW");
+            });
+
+            modelBuilder.Entity<RmPaymentCertificateCrrd>(entity =>
+            {
+                entity.HasKey(e => e.CrrdPkRefNo);
+
+                entity.ToTable("RM_Payment_Certificate_CRRD");
+
+                entity.Property(e => e.CrrdPkRefNo).HasColumnName("CRRD_PK_Ref_No");
+
+                entity.Property(e => e.CrrdDescription)
+                    .HasColumnName("CRRD_Description")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CrrdPcmamwPkRefNo).HasColumnName("CRRD_PCMAMW_PK_Ref_No");
+
+                entity.Property(e => e.CrrdThisPayment)
+                    .HasColumnName("CRRD_This_Payment")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.CrrdTillLastPayment)
+                    .HasColumnName("CRRD_Till_Last_Payment")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.CrrdTotalToDate)
+                    .HasColumnName("CRRD_Total_To_Date")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.HasOne(d => d.CrrdPcmamwPkRefNoNavigation)
+                    .WithMany(p => p.RmPaymentCertificateCrrd)
+                    .HasForeignKey(d => d.CrrdPcmamwPkRefNo)
+                    .HasConstraintName("FK_RM_Payment_Certificate_CRRD_RM_Payment_Certificate_MAMW");
+            });
+
             modelBuilder.Entity<RmPaymentCertificateHeader>(entity =>
             {
                 entity.HasKey(e => e.PchPkRefNo);
@@ -16875,6 +17114,114 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("PCH_Username_SO")
                     .HasMaxLength(100)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<RmPaymentCertificateMamw>(entity =>
+            {
+                entity.HasKey(e => e.PcmamwPkRefNo);
+
+                entity.ToTable("RM_Payment_Certificate_MAMW");
+
+                entity.Property(e => e.PcmamwPkRefNo).HasColumnName("PCMAMW_PK_Ref_No");
+
+                entity.Property(e => e.PcmamwActiveYn).HasColumnName("PCMAMW_Active_YN");
+
+                entity.Property(e => e.PcmamwAuditLog).HasColumnName("PCMAMW__AuditLog");
+
+                entity.Property(e => e.PcmamwContractsEndsOn)
+                    .HasColumnName("PCMAMW_Contracts_Ends_On")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.PcmamwDesignationEc)
+                    .HasColumnName("PCMAMW_Designation_EC")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PcmamwDesignationSo)
+                    .HasColumnName("PCMAMW_Designation_SO")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PcmamwDesignationSp)
+                    .HasColumnName("PCMAMW_Designation_SP")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PcmamwRefId)
+                    .HasColumnName("PCMAMW_Ref_ID")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PcmamwSignDateEc)
+                    .HasColumnName("PCMAMW_Sign_Date_EC")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.PcmamwSignDateSo)
+                    .HasColumnName("PCMAMW_Sign_Date_SO")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.PcmamwSignDateSp)
+                    .HasColumnName("PCMAMW_Sign_Date_SP")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.PcmamwSignEc)
+                    .HasColumnName("PCMAMW_SIgn_EC")
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.PcmamwSignSo)
+                    .HasColumnName("PCMAMW_SIgn_SO")
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.PcmamwSignSp)
+                    .HasColumnName("PCMAMW_SIgn_SP")
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.PcmamwStatus)
+                    .HasColumnName("PCMAMW_Status")
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.PcmamwSubmissionDate)
+                    .HasColumnName("PCMAMW_Submission_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.PcmamwSubmissionMonth).HasColumnName("PCMAMW_Submission_Month");
+
+                entity.Property(e => e.PcmamwSubmissionYear).HasColumnName("PCMAMW_Submission_Year");
+
+                entity.Property(e => e.PcmamwSubmitSts).HasColumnName("PCMAMW_SUBMIT_STS");
+
+                entity.Property(e => e.PcmamwTotalPayment)
+                    .HasColumnName("PCMAMW_Total_Payment")
+                    .HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.PcmamwUseridEc).HasColumnName("PCMAMW_Userid_EC");
+
+                entity.Property(e => e.PcmamwUseridSo).HasColumnName("PCMAMW_Userid_SO");
+
+                entity.Property(e => e.PcmamwUseridSp).HasColumnName("PCMAMW_Userid_SP");
+
+                entity.Property(e => e.PcmamwUsernameEc)
+                    .HasColumnName("PCMAMW_Username_EC")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PcmamwUsernameSo)
+                    .HasColumnName("PCMAMW_Username_SO")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PcmamwUsernameSp)
+                    .HasColumnName("PCMAMW_Username_SP")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PcmamwWorkValueAddition)
+                    .HasColumnName("PCMAMW_Work_Value_Addition")
+                    .HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.PcmamwWorkValueDeduction)
+                    .HasColumnName("PCMAMW_Work_Value_Deduction")
+                    .HasColumnType("decimal(18, 0)");
             });
 
             modelBuilder.Entity<RmRmiIri>(entity =>
