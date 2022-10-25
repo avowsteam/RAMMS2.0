@@ -1,16 +1,130 @@
 ﻿
 $(document).ready(function () {
 
+    SetServiceProviderValues();
     DisableHeader();
- 
-
-   
 
     CalculateValuesonLoad();
 
-   
-
 });
+
+function SetServiceProviderValues() {
+
+    $(".PayAmt.SPCR").val($("#FormP1Header_ContractRoadLength").val());
+    $(".PayAdd.SPCR").val($("#FormP1Header_NetValueAddition").val());
+    $(".PayDed.SPCR").val($("#FormP1Header_NetValueDeduction").val());
+
+    $(".PayAmt.SPIC").val($("#FormP1Header_NetValueInstructedWork").val());
+    $(".PayDed.SPIC").val($("#FormP1Header_NetValueLadInstructedWork").val());
+}
+
+function ServiceProviderCal() {
+
+    var tot = 0;
+    if ($(".PayAmt.SPCR").val() != "")
+        tot = tot + parseFloat($(".PayAmt.SPCR").val()).toFixed(2);
+    if ($(".PayAdd.SPCR").val() != "")
+        tot = tot + parseFloat($(".PayAdd.SPCR").val()).toFixed(2);
+    if ($(".PayDed.SPCR").val() != "")
+        tot = tot + parseFloat($(".PayDed.SPCR").val()).toFixed(2);
+    if ($(".TotPrevPay.SPCR").val() != "")
+        tot = tot + parseFloat($(".TotPrevPay.SPCR").val()).toFixed(2);
+    $(".TottoDate.SPCR").val(tot);
+
+    tot = 0;
+    if ($(".PayAmt.SPIC").val() != "")
+        tot = tot + parseFloat($(".PayAmt.SPIC").val()).toFixed(2);
+    if ($(".PayDed.SPIC").val() != "")
+        tot = tot + parseFloat($(".PayDed.SPIC").val()).toFixed(2);
+    if ($(".TotPrevPay.SPIC").val() != "")
+        tot = tot + parseFloat($(".TotPrevPay.SPIC").val()).toFixed(2);
+    $(".TottoDate.SPIC").val(tot);
+
+    tot = 0;
+    if ($(".TotPrevPay.SPCR").val() != "")
+        tot = tot + parseFloat($(".TotPrevPay.SPCR").val()).toFixed(2);
+    if ($(".TottoDate.SPCR").val() != "")
+        tot = tot + parseFloat($(".PayDed.SPCR").val()).toFixed(2);
+    $(".AmtincPC.SPCR").val(tot);
+
+    tot = 0;
+    if ($(".TotPrevPay.SPIC").val() != "")
+        tot = tot + parseFloat($(".TotPrevPay.SPIC").val()).toFixed(2);
+    if ($(".TottoDate.SPIC").val() != "")
+        tot = tot + parseFloat($(".PayDed.SPIC").val()).toFixed(2);
+    $(".AmtincPC.SPIC").val(tot);
+
+
+
+}
+
+function TotalCal() {
+
+    //Amount Contract roads
+    $(".PayAmt.STCR").val(TotalCal("PayAmt", "CR") );
+
+    //Amount Instructed Works
+    $(".PayAmt.STIC").val(TotalCal("PayAmt", "IC"));
+
+
+   
+    //Amount Contract roads
+    $(".PayAdd.STCR").val(TotalCal("PayAdd", "CR"));
+    
+    //Deduction Contract roads
+    $(".PayDed.STCR").val(TotalCal("PayDed", "CR"));
+    
+    //Deduction Instructed Works
+    $(".PayDed.STIC").val(TotalCal("PayDed", "IC"));
+
+    //tot Prev Payment Contract roads
+    $(".TotPrevPay.STCR").val(TotalCal("TotPrevPay", "CR"));
+
+    //tot Prev Payment Instructed Works
+    $(".TotPrevPay.STIC").val(TotalCal("TotPrevPay", "IC"));
+
+    //tot to date Contract roads
+    $(".TottoDate.STCR").val(TotalCal("TottoDate", "CR"));
+
+    //tot to date Instructed Works
+    $(".TottoDate.STIC").val(TotalCal("TottoDate", "IC"));
+
+    //Amt Payment certificate Contract roads
+    $(".AmtincPC.STCR").val(TotalCal("AmtincPC", "CR"));
+
+    //Amt Payment certificate Instructed Works
+    $(".AmtincPC.STIC").val(TotalCal("AmtincPC", "IC"));
+
+
+}
+
+function TotalCal(col, type) {
+    var tot = 0;
+    if (type == "CR") {
+       
+        if ($("." + col + ".SPCR").val() != "")
+            tot = tot + parseFloat($("." + col + ".SPCR").val()).toFixed(2);
+        if ($("." + col + ".NCCR").val() != "")
+            tot = tot + parseFloat($("." + col + ".NCCR").val()).toFixed(2);
+        if ($("." + col + ".NSCR").val() != "")
+            tot = tot + parseFloat($("." + col + ".NSCR").val()).toFixed(2);
+        $("." + col + ".STCR").val(tot);
+    }
+    else {
+ 
+        if ($("." + col + ".SPIC").val() != "")
+            tot = tot + parseFloat($("." + col + ".SPIC").val()).toFixed(2);
+        if ($("." + col + ".NCIC").val() != "")
+            tot = tot + parseFloat($("." + col + ".NCIC").val()).toFixed(2);
+        if ($("." + col + ".NSIC").val() != "")
+            tot = tot + parseFloat($("." + col + ".NSIC").val()).toFixed(2);
+        $("." + col + ".STIC").val(tot);
+    }
+
+    return tot;
+}
+
+
 
 function DisableHeader() {
 
@@ -30,7 +144,7 @@ function DisableHeader() {
         $("#FormP1Header_Address").attr("readonly", "true");
     }
 
-   
+
 }
 
 
@@ -59,16 +173,16 @@ function OnSOChange(tis) {
         $('#FormP1Header_SignProsd').prop('checked', false);
     }
 }
- 
 
- 
+
+
 
 function Save(SubmitType) {
 
 
     if (SubmitType == "Submitted") {
         $("#FormP1Header_SubmitSts").val(true);
-        
+
     }
 
     InitAjaxLoading();
@@ -122,7 +236,7 @@ function Save(SubmitType) {
         P1.PreviousPayment = $(this).find(".TotPrevPay").val().trim();
         P1.TottoDate = $(this).find(".TotalToDate").val().trim();
         P1.AmountIncludedInPc = $(this).find(".TotalToDate").val().trim();
- 
+
         P1Details.push(P1);
 
     });
@@ -157,8 +271,8 @@ function FindDetails() {
 
 
     if (ValidatePage('#headerDiv')) {
-    
-        
+
+
         if ($("#FormP1Header_Status").val() == "")
             $("#FormP1Header_Status").val("Initialize");
         else if ($("#FormP1Header_Status").val() == "Initialize")
@@ -219,7 +333,7 @@ function GoBack() {
         location.href = "/FormP1";
 }
 
- 
+
 
 function formatDate(date) {
     var d = new Date(date),
@@ -331,7 +445,7 @@ function ServiceLevel(obj) {
     }
 
     //Planned Cal
-    
+
     if ($(obj).find(".SLDesired").text().trim() != "" && $(obj).find(".Desired").val().trim() != "") {
         $(obj).find(".SLPlan").html((parseFloat($(obj).find(".SLDesired").text().trim()) * parseFloat($(obj).find(".Desired").val().trim())).toFixed(2));
     }
@@ -376,7 +490,7 @@ function SubTotalbyActivity(obj) {
 function SumofSubTotalbyActivity(obj) {
     var tot = 0;
     $('#tblPPB > tbody  > tr').each(function (index, tr) {
-        if ($(this).find(".ActTotal").text().trim() !="") {
+        if ($(this).find(".ActTotal").text().trim() != "") {
             tot = tot + parseFloat($(this).find(".ActTotal").text().trim());
         }
     });
@@ -443,7 +557,7 @@ function CalAdjustableQty() {
 
     $("#FormP1Header_AdjustableQuantity").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
 
-    
+
 
 }
 

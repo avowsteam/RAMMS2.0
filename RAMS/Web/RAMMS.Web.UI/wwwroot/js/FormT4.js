@@ -292,7 +292,7 @@ function AnnualWorkQtyDesired(obj) {
 
 function ASL(obj) {
     if ($(obj).find(".AWQTot").text().trim() != "" && $(obj).find(".TotQty").text().trim() != "") {
-        $(obj).find(".ASL").html((parseFloat($(obj).find(".AWQTot").text().trim()) / parseFloat($(".TotQty").text().trim())).toFixed(2));
+        $(obj).find(".ASL").html((parseFloat($(obj).find(".AWQTot").text().trim()) / parseFloat($(obj).find(".TotQty").text().trim())).toFixed(2));
     }
     else {
         $(obj).find(".ASL").html("");

@@ -97,9 +97,17 @@ namespace RAMMS.Web.UI.Controllers
             LoadLookupService("User");
             FormP1Model _model = new FormP1Model();
             if (id > 0)
+            {
                 _model.FormP1Header = await _FormP1Service.GetHeaderById(id);
+                _model.FormP1Detail = _model.FormP1Header.FormP1Details;
+            }
             else
+            {
                 _model.FormP1Header = new FormP1HeaderResponseDTO();
+                _model.FormP1Detail = new List<FormP1ResponseDTO>();
+            }
+
+
 
             _model.view = isview;
 
