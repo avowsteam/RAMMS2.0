@@ -28,40 +28,69 @@ namespace RAMMS.Repository
         {
 
 
-            var query = (from x in _context.RmPaymentCertificateHeader
+            var query = (from x in _context.RmPaymentCertificateMamw
 
                          select new { x });
 
 
-            query = query.OrderByDescending(x => x.x.PchPkRefNo);
+            query = query.OrderByDescending(x => x.x.PcmamwPkRefNo);
 
-           
+
 
 
             if ((filterOptions.Filters.YearTo == null || filterOptions.Filters.YearTo == string.Empty) && (filterOptions.Filters.YearFrom != null && filterOptions.Filters.YearFrom != string.Empty))
-                query = query.Where(s => s.x.PchSubmissionYear >= Convert.ToInt32(filterOptions.Filters.YearFrom));
+                query = query.Where(s => s.x.PcmamwSubmissionYear >= Convert.ToInt32(filterOptions.Filters.YearFrom));
             else if ((filterOptions.Filters.YearTo != null || filterOptions.Filters.YearTo != string.Empty) && filterOptions.Filters.YearFrom != null && filterOptions.Filters.YearFrom != string.Empty)
-                query = query.Where(s => s.x.PchSubmissionYear >= Convert.ToInt32(filterOptions.Filters.YearFrom) && s.x.PchSubmissionYear <= Convert.ToInt32(filterOptions.Filters.YearTo));
+                query = query.Where(s => s.x.PcmamwSubmissionYear >= Convert.ToInt32(filterOptions.Filters.YearFrom) && s.x.PcmamwSubmissionYear <= Convert.ToInt32(filterOptions.Filters.YearTo));
             else if ((filterOptions.Filters.YearTo != null || filterOptions.Filters.YearTo != string.Empty) && (filterOptions.Filters.YearFrom == null && filterOptions.Filters.YearFrom == string.Empty))
-                query = query.Where(s => s.x.PchSubmissionYear <= Convert.ToInt32(filterOptions.Filters.YearTo));
+                query = query.Where(s => s.x.PcmamwSubmissionYear <= Convert.ToInt32(filterOptions.Filters.YearTo));
 
 
             if ((filterOptions.Filters.MonthTo == null || filterOptions.Filters.MonthTo == string.Empty) && (filterOptions.Filters.MonthFrom != null && filterOptions.Filters.MonthFrom != string.Empty))
-                query = query.Where(s => s.x.PchSubmissionMonth >= Convert.ToInt32(filterOptions.Filters.MonthFrom));
+                query = query.Where(s => s.x.PcmamwSubmissionMonth >= Convert.ToInt32(filterOptions.Filters.MonthFrom));
             else if ((filterOptions.Filters.MonthTo != null || filterOptions.Filters.MonthTo != string.Empty) && filterOptions.Filters.MonthFrom != null && filterOptions.Filters.MonthFrom != string.Empty)
-                query = query.Where(s => s.x.PchSubmissionMonth >= Convert.ToInt32(filterOptions.Filters.MonthFrom) && s.x.PchSubmissionMonth <= Convert.ToInt32(filterOptions.Filters.MonthTo));
+                query = query.Where(s => s.x.PcmamwSubmissionMonth >= Convert.ToInt32(filterOptions.Filters.MonthFrom) && s.x.PcmamwSubmissionMonth <= Convert.ToInt32(filterOptions.Filters.MonthTo));
             else if ((filterOptions.Filters.MonthTo != null || filterOptions.Filters.MonthTo != string.Empty) && (filterOptions.Filters.MonthFrom == null && filterOptions.Filters.MonthFrom == string.Empty))
-                query = query.Where(s => s.x.PchSubmissionMonth <= Convert.ToInt32(filterOptions.Filters.MonthTo));
+                query = query.Where(s => s.x.PcmamwSubmissionMonth <= Convert.ToInt32(filterOptions.Filters.MonthTo));
 
 
             if (!string.IsNullOrEmpty(filterOptions.Filters.SmartSearch))
             {
                 query = query.Where(s =>
-               (s.x.PchRefId.Contains(filterOptions.Filters.SmartSearch))||
-               (s.x.PchStatus.Contains(filterOptions.Filters.SmartSearch)) ||
-               (s.x.PchPaymentCertificateNo.HasValue ? s.x.PchPaymentCertificateNo.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
-               (s.x.PchSubmissionYear.HasValue ? s.x.PchSubmissionYear.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch)||
-               (s.x.PchSubmissionMonth.HasValue ? s.x.PchSubmissionMonth.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch));
+               (s.x.PcmamwRefId.Contains(filterOptions.Filters.SmartSearch)) ||
+               (s.x.PcmamwStatus.Contains(filterOptions.Filters.SmartSearch)) ||
+               (s.x.PcmamwWorkValueDeduction.HasValue ? s.x.PcmamwWorkValueDeduction.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
+               (s.x.PcmamwWorkValueAddition.HasValue ? s.x.PcmamwWorkValueAddition.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
+               (s.x.PcmamwSubmissionYear.HasValue ? s.x.PcmamwSubmissionYear.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
+               (s.x.PcmamwSubmissionMonth.HasValue ? s.x.PcmamwSubmissionMonth.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch));
+            }
+
+
+            if (!string.IsNullOrEmpty(filterOptions.Filters.SmartSearch))
+            {
+                DateTime dt;
+                if (DateTime.TryParseExact(filterOptions.Filters.SmartSearch, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dt))
+                {
+
+                    query = query.Where(s =>
+                   (s.x.PcmamwRefId.Contains(filterOptions.Filters.SmartSearch)) ||
+                   (s.x.PcmamwStatus.Contains(filterOptions.Filters.SmartSearch)) ||
+                   (s.x.PcmamwWorkValueDeduction.HasValue ? s.x.PcmamwWorkValueDeduction.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
+                   (s.x.PcmamwWorkValueAddition.HasValue ? s.x.PcmamwWorkValueAddition.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
+                   (s.x.PcmamwSubmissionYear.HasValue ? s.x.PcmamwSubmissionYear.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
+                   (s.x.PcmamwSubmissionMonth.HasValue ? s.x.PcmamwSubmissionMonth.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
+                   (s.x.PcmamwSignDateSp.HasValue ? (s.x.PcmamwSignDateSp.Value.Year == dt.Year && s.x.PcmamwSignDateSp.Value.Month == dt.Month && s.x.PcmamwSignDateSp.Value.Day == dt.Day) : true) && s.x.PcmamwSignDateSp != null);
+                }
+                else
+                {
+                    query = query.Where(s =>
+                 (s.x.PcmamwRefId.Contains(filterOptions.Filters.SmartSearch)) ||
+                 (s.x.PcmamwStatus.Contains(filterOptions.Filters.SmartSearch)) ||
+                 (s.x.PcmamwWorkValueDeduction.HasValue ? s.x.PcmamwWorkValueDeduction.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
+                 (s.x.PcmamwWorkValueAddition.HasValue ? s.x.PcmamwWorkValueAddition.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
+                 (s.x.PcmamwSubmissionYear.HasValue ? s.x.PcmamwSubmissionYear.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
+                 (s.x.PcmamwSubmissionMonth.HasValue ? s.x.PcmamwSubmissionMonth.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch));
+                }
             }
 
             if (filterOptions.sortOrder == SortOrder.Ascending)
@@ -98,18 +127,17 @@ namespace RAMMS.Repository
 
             }
 
-           
+
 
             var list = query.Select(s => new FormPAHeaderResponseDTO
             {
-                PkRefNo= s.x.PchPkRefNo,
+                PkRefNo = s.x.PchPkRefNo,
                 RefId = s.x.PchRefId,
                 SubmissionYear = s.x.PchSubmissionYear,
                 SubmissionMonth = s.x.PchSubmissionMonth,
                 SubmissionDate = s.x.PchSubmissionDate,
-                PaymentCertificateNo =s.x.PchPaymentCertificateNo,
                 TotalPayment = s.x.PchTotalPayment,
-                Status = s.x.PchStatus 
+                Status = s.x.PchStatus
             }).ToList();
 
 
@@ -124,34 +152,34 @@ namespace RAMMS.Repository
         {
             RmPaymentCertificateHeader res = (from r in _context.RmPaymentCertificateHeader where r.PchPkRefNo == id select r).FirstOrDefault();
 
-           var resPA = (from r in _context.RmPaymentCertificateHeader where r.PchSubmissionYear == res.PchSubmissionYear && r.PchSubmissionMonth == res.PchSubmissionMonth select r).FirstOrDefault();
-           var resPB = (from r in _context.RmPaymentCertificateHeader where r.PchSubmissionYear == res.PchSubmissionYear && r.PchSubmissionMonth == res.PchSubmissionMonth select r).FirstOrDefault();
-           
+            var resPA = (from r in _context.RmPaymentCertificateHeader where r.PchSubmissionYear == res.PchSubmissionYear && r.PchSubmissionMonth == res.PchSubmissionMonth select r).FirstOrDefault();
+            var resPB = (from r in _context.RmPaymentCertificateHeader where r.PchSubmissionYear == res.PchSubmissionYear && r.PchSubmissionMonth == res.PchSubmissionMonth select r).FirstOrDefault();
+
             res.PchContractRoadLength = resPA.PchContractRoadLength;
-            res.PchNetValueDeduction = resPA.PchNetValueDeduction; 
+            res.PchNetValueDeduction = resPA.PchNetValueDeduction;
             res.PchNetValueAddition = resPA.PchNetValueAddition;
             res.PchNetValueInstructedWork = resPB.PchNetValueInstructedWork;
             res.PchNetValueLadInstructedWork = resPB.PchNetValueLadInstructedWork;
 
             res.RmPaymentCertificate = (from r in _context.RmPaymentCertificate
-                      where r.PcPchPkRefNo == id
-                      select new RmPaymentCertificate
-                      {
-                          PcAddition = r.PcAddition,
-                          PcAmount=r.PcAmount,
-                          PcDeduction=r.PcDeduction,
-                          PcAmountIncludedInPc=r.PcAmountIncludedInPc,
-                          PcPaymentType=r.PcPaymentType,
-                          PcPchPkRefNo=r.PcPchPkRefNo,
-                          PcPchPkRefNoNavigation=r.PcPchPkRefNoNavigation,
-                          PcPkRefNo=r.PcPkRefNo,
-                          PcPreviousPayment=r.PcPreviousPayment,
-                          PcTotalToDate=r.PcTotalToDate 
-                      }).ToList();
+                                        where r.PcPchPkRefNo == id
+                                        select new RmPaymentCertificate
+                                        {
+                                            PcAddition = r.PcAddition,
+                                            PcAmount = r.PcAmount,
+                                            PcDeduction = r.PcDeduction,
+                                            PcAmountIncludedInPc = r.PcAmountIncludedInPc,
+                                            PcPaymentType = r.PcPaymentType,
+                                            PcPchPkRefNo = r.PcPchPkRefNo,
+                                            PcPchPkRefNoNavigation = r.PcPchPkRefNoNavigation,
+                                            PcPkRefNo = r.PcPkRefNo,
+                                            PcPreviousPayment = r.PcPreviousPayment,
+                                            PcTotalToDate = r.PcTotalToDate
+                                        }).ToList();
 
             return res;
         }
-        
+
 
         public async Task<int> SaveFormPA(RmPaymentCertificateHeader FormPA)
         {
@@ -218,7 +246,7 @@ namespace RAMMS.Repository
                     _context.SaveChanges();
                 }
 
-              
+
                 return 1;
 
             }
