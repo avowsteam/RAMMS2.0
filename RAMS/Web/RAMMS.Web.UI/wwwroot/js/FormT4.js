@@ -519,3 +519,9 @@ function CalOtherMaintenance() {
 
     $("#FormT4Header_OtherMaintenance").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
 }
+
+
+const format = (num, decimals) => num.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+});
