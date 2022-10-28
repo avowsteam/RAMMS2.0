@@ -14,6 +14,7 @@ namespace RAMMS.Domain.Models
         public string RmmhRefId { get; set; }
         public int? RmmhRevisionNo { get; set; }
         public string RmmhRmuCode { get; set; }
+        public string RmmhRmuName { get; set; }
         public int? RmmhYear { get; set; }
         public int? RmmhMonth { get; set; }
         public DateTime? RmmhCreatedDate { get; set; }

@@ -5,7 +5,7 @@ namespace RAMMS.Domain.Models
 {
     public partial class RmMapDetails
     {
-        public int RmmdPkRefNo { get; set; }
+        public int RmmdPkRefNoDetails { get; set; }
         public int? RmmdRmmhPkRefNo { get; set; }
         public int? RmmdActivityId { get; set; }
         public DateTime? RmmdActivityDate { get; set; }

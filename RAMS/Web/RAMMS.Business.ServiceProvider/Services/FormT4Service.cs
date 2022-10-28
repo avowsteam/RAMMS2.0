@@ -201,7 +201,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                         if (worksheet != null)
                         {
-                            worksheet.Cell(3, 1).Value = "DESIRED BUDGET FOR(" + rptcol.Rmu + ")";
+                            worksheet.Cell(3, 1).Value = "DESIRED BUDGET FOR (MIRI/RMU " + rptcol.Rmu.ToUpper() + ")";
 
                             int i = 8;
 

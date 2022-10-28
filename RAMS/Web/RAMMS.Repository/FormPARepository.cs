@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace RAMMS.Repository
 {
-    public class FormPARepository : RepositoryBase<RmPaymentCertificateHeader>, IFormPARepository
+    public class FormPARepository : RepositoryBase<RmPaymentCertificateMamw>, IFormPARepository
     {
         public FormPARepository(RAMMSContext context) : base(context)
         {
@@ -96,34 +96,38 @@ namespace RAMMS.Repository
             if (filterOptions.sortOrder == SortOrder.Ascending)
             {
                 if (filterOptions.ColumnIndex == 2)
-                    query = query.OrderBy(s => s.x.PchRefId);
+                    query = query.OrderBy(s => s.x.PcmamwRefId);
                 if (filterOptions.ColumnIndex == 3)
-                    query = query.OrderBy(s => s.x.PchSubmissionYear);
+                    query = query.OrderBy(s => s.x.PcmamwSubmissionYear);
                 if (filterOptions.ColumnIndex == 4)
-                    query = query.OrderBy(s => s.x.PchSubmissionMonth);
+                    query = query.OrderBy(s => s.x.PcmamwSubmissionMonth);
                 if (filterOptions.ColumnIndex == 5)
-                    query = query.OrderBy(s => s.x.PchSubmissionDate);
+                    query = query.OrderBy(s => s.x.PcmamwWorkValueDeduction);
                 if (filterOptions.ColumnIndex == 6)
-                    query = query.OrderBy(s => s.x.PchTotalPayment);
+                    query = query.OrderBy(s => s.x.PcmamwWorkValueAddition);
                 if (filterOptions.ColumnIndex == 7)
-                    query = query.OrderBy(s => s.x.PchStatus);
+                    query = query.OrderBy(s => s.x.PcmamwSignDateSp);
+                if (filterOptions.ColumnIndex == 8)
+                    query = query.OrderBy(s => s.x.PcmamwStatus);
 
 
             }
             else if (filterOptions.sortOrder == SortOrder.Descending)
             {
                 if (filterOptions.ColumnIndex == 2)
-                    query = query.OrderByDescending(s => s.x.PchRefId);
+                    query = query.OrderByDescending(s => s.x.PcmamwRefId);
                 if (filterOptions.ColumnIndex == 3)
-                    query = query.OrderByDescending(s => s.x.PchSubmissionYear);
+                    query = query.OrderByDescending(s => s.x.PcmamwSubmissionYear);
                 if (filterOptions.ColumnIndex == 4)
-                    query = query.OrderByDescending(s => s.x.PchSubmissionMonth);
+                    query = query.OrderByDescending(s => s.x.PcmamwSubmissionMonth);
                 if (filterOptions.ColumnIndex == 5)
-                    query = query.OrderByDescending(s => s.x.PchSubmissionDate);
+                    query = query.OrderByDescending(s => s.x.PcmamwWorkValueDeduction);
                 if (filterOptions.ColumnIndex == 6)
-                    query = query.OrderByDescending(s => s.x.PchTotalPayment);
+                    query = query.OrderByDescending(s => s.x.PcmamwWorkValueAddition);
                 if (filterOptions.ColumnIndex == 7)
-                    query = query.OrderByDescending(s => s.x.PchStatus);
+                    query = query.OrderByDescending(s => s.x.PcmamwSignDateSp);
+                if (filterOptions.ColumnIndex == 8)
+                    query = query.OrderByDescending(s => s.x.PcmamwStatus);
 
             }
 
@@ -131,13 +135,14 @@ namespace RAMMS.Repository
 
             var list = query.Select(s => new FormPAHeaderResponseDTO
             {
-                PkRefNo = s.x.PchPkRefNo,
-                RefId = s.x.PchRefId,
-                SubmissionYear = s.x.PchSubmissionYear,
-                SubmissionMonth = s.x.PchSubmissionMonth,
-                SubmissionDate = s.x.PchSubmissionDate,
-                TotalPayment = s.x.PchTotalPayment,
-                Status = s.x.PchStatus
+                PkRefNo = s.x.PcmamwPkRefNo,
+                RefId = s.x.PcmamwRefId,
+                SubmissionYear = s.x.PcmamwSubmissionYear,
+                SubmissionMonth = s.x.PcmamwSubmissionMonth,
+                WorkValueDeduction = s.x.PcmamwWorkValueDeduction,
+                WorkValueAddition = s.x.PcmamwWorkValueAddition,
+                SignDateSp = s.x.PcmamwSignDateSp,
+                Status = s.x.PcmamwStatus
             }).ToList();
 
 
@@ -148,48 +153,36 @@ namespace RAMMS.Repository
 
 
 
-        public RmPaymentCertificateHeader GetHeaderById(int id)
+        public RmPaymentCertificateMamw GetHeaderById(int id)
         {
-            RmPaymentCertificateHeader res = (from r in _context.RmPaymentCertificateHeader where r.PchPkRefNo == id select r).FirstOrDefault();
+            RmPaymentCertificateMamw res = (from r in _context.RmPaymentCertificateMamw where r.PcmamwPkRefNo == id select r).Include(x => x.RmPaymentCertificateCrr).Include(x => x.RmPaymentCertificateCrra).Include(x => x.RmPaymentCertificateCrrd).FirstOrDefault();
 
-            var resPA = (from r in _context.RmPaymentCertificateHeader where r.PchSubmissionYear == res.PchSubmissionYear && r.PchSubmissionMonth == res.PchSubmissionMonth select r).FirstOrDefault();
-            var resPB = (from r in _context.RmPaymentCertificateHeader where r.PchSubmissionYear == res.PchSubmissionYear && r.PchSubmissionMonth == res.PchSubmissionMonth select r).FirstOrDefault();
+            //res.RmPaymentCertificateCrr = (from r in _context.RmPaymentCertificateCrr
+            //                               where r.CrrPcmamwPkRefNo == id
+            //                               select new RmPaymentCertificateCrr
+            //                               {
+            //                                   CrrContractRate = r.CrrContractRate,
+            //                                   CrrDivision = r.CrrDivision,
+            //                                   CrrPaved = r.CrrPaved,
+            //                                   CrrPcmamwPkRefNo = r.CrrPcmamwPkRefNo,
+            //                                   CrrPkRefNo = r.CrrPkRefNo,
+            //                                   CrrSubTotal = r.CrrSubTotal,
+            //                                   CrrTotalAmount = r.CrrTotalAmount,
+            //                                   CrrUnpaved = r.CrrUnpaved
+            //                               }).ToList();
 
-            res.PchContractRoadLength = resPA.PchContractRoadLength;
-            res.PchNetValueDeduction = resPA.PchNetValueDeduction;
-            res.PchNetValueAddition = resPA.PchNetValueAddition;
-            res.PchNetValueInstructedWork = resPB.PchNetValueInstructedWork;
-            res.PchNetValueLadInstructedWork = resPB.PchNetValueLadInstructedWork;
-
-            res.RmPaymentCertificate = (from r in _context.RmPaymentCertificate
-                                        where r.PcPchPkRefNo == id
-                                        select new RmPaymentCertificate
-                                        {
-                                            PcAddition = r.PcAddition,
-                                            PcAmount = r.PcAmount,
-                                            PcDeduction = r.PcDeduction,
-                                            PcAmountIncludedInPc = r.PcAmountIncludedInPc,
-                                            PcPaymentType = r.PcPaymentType,
-                                            PcPchPkRefNo = r.PcPchPkRefNo,
-                                            PcPchPkRefNoNavigation = r.PcPchPkRefNoNavigation,
-                                            PcPkRefNo = r.PcPkRefNo,
-                                            PcPreviousPayment = r.PcPreviousPayment,
-                                            PcTotalToDate = r.PcTotalToDate
-                                        }).ToList();
 
             return res;
         }
 
 
-        public async Task<int> SaveFormPA(RmPaymentCertificateHeader FormPA)
+        public async Task<int> SaveFormPA(RmPaymentCertificateMamw FormPA)
         {
             try
             {
-
-                _context.RmPaymentCertificateHeader.Add(FormPA);
+                _context.RmPaymentCertificateMamw.Add(FormPA);
                 _context.SaveChanges();
-
-                return FormPA.PchPkRefNo;
+                return FormPA.PcmamwPkRefNo;
             }
             catch (Exception ex)
             {
@@ -197,26 +190,38 @@ namespace RAMMS.Repository
             }
         }
 
-        public async Task<int> UpdateFormPA(RmPaymentCertificateHeader FormPAHeader, List<RmPaymentCertificate> FormPADetails)
+        public async Task<int> UpdateFormPA(RmPaymentCertificateMamw FormPAHeader, List<RmPaymentCertificateCrr> FormPACrr, List<RmPaymentCertificateCrra> FormPACrra, List<RmPaymentCertificateCrrd> FormPACrrd)
         {
             try
             {
-
-                //_context.RmPaymentCertificateHeader.Add(FormPAHeader);
-                //_context.SaveChanges();
-
-                IList<RmPaymentCertificate> child = (from r in _context.RmPaymentCertificate where r.PcPchPkRefNo == FormPAHeader.PchPkRefNo select r).ToList();
+                IList<RmPaymentCertificateMamw> child = (from r in _context.RmPaymentCertificateMamw where r.PcmamwPkRefNo == FormPAHeader.PcmamwPkRefNo select r).ToList();
                 foreach (var item in child)
                 {
                     _context.Remove(item);
                     _context.SaveChanges();
                 }
 
-                foreach (var item in FormPADetails)
+                foreach (var item in FormPACrr)
                 {
-                    item.PcPchPkRefNo = FormPAHeader.PchPkRefNo;
-                    item.PcPkRefNo = 0;
-                    _context.RmPaymentCertificate.Add(item);
+                    item.CrrPcmamwPkRefNo = FormPAHeader.PcmamwPkRefNo;
+                    item.CrrPkRefNo = 0;
+                    _context.RmPaymentCertificateCrr.Add(item);
+                    _context.SaveChanges();
+                }
+
+                foreach (var item in FormPACrra)
+                {
+                    item.CrraPcmamwPkRefNo = FormPAHeader.PcmamwPkRefNo;
+                    item.CrraPkRefNo = 0;
+                    _context.RmPaymentCertificateCrra.Add(item);
+                    _context.SaveChanges();
+                }
+
+                foreach (var item in FormPACrrd)
+                {
+                    item.CrrdPcmamwPkRefNo = FormPAHeader.PcmamwPkRefNo;
+                    item.CrrdPkRefNo = 0;
+                    _context.RmPaymentCertificateCrrd.Add(item);
                     _context.SaveChanges();
                 }
 
@@ -232,15 +237,29 @@ namespace RAMMS.Repository
         {
             try
             {
-                IList<RmPaymentCertificate> child = (from r in _context.RmPaymentCertificate where r.PcPchPkRefNo == id select r).ToList();
-                foreach (var item in child)
+                IList<RmPaymentCertificateCrr> crr = (from r in _context.RmPaymentCertificateCrr where r.CrrPkRefNo == id select r).ToList();
+                foreach (var item in crr)
                 {
                     _context.Remove(item);
                     _context.SaveChanges();
                 }
 
-                IList<RmPaymentCertificateHeader> parent = (from r in _context.RmPaymentCertificateHeader where r.PchPkRefNo == id select r).ToList();
-                foreach (var item in parent)
+                IList<RmPaymentCertificateCrra> crra = (from r in _context.RmPaymentCertificateCrra where r.CrraPkRefNo == id select r).ToList();
+                foreach (var item in crra)
+                {
+                    _context.Remove(item);
+                    _context.SaveChanges();
+                }
+
+                IList<RmPaymentCertificateCrrd> crrd = (from r in _context.RmPaymentCertificateCrrd where r.CrrdPkRefNo == id select r).ToList();
+                foreach (var item in crrd)
+                {
+                    _context.Remove(item);
+                    _context.SaveChanges();
+                }
+
+                IList<RmPaymentCertificateMamw> Mamw = (from r in _context.RmPaymentCertificateMamw where r.PcmamwPkRefNo == id select r).ToList();
+                foreach (var item in Mamw)
                 {
                     _context.Remove(item);
                     _context.SaveChanges();
