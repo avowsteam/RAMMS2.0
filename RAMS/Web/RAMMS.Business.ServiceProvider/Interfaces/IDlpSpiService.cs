@@ -15,5 +15,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<List<DlpSPIDTO>> GetDivisionRMUMiri(int year);
 
         Task<List<DlpSPIDTO>> GetDivisionRMUBTN(int year);
+
+        Task<int> Save(List<SpiData> spiData);
     }
 }

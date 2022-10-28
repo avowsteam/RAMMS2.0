@@ -24,5 +24,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<int> DeleteImage(int headerId, int imgId);
         int Delete(int id);
         Byte[] FormDownload(string formname, int id, string basepath, string filepath);
+
+        Task<IEnumerable<SelectListItem>> GetCVIds(AssetDDLRequestDTO request);
     }
 }

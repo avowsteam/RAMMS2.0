@@ -24,11 +24,50 @@ namespace RAMMS.Web.UI.Controllers
 {
     public class DLPController : Models.BaseController
     {
-        public IActionResult FormSPI()
+        private readonly ILogger _logger;
+        private readonly ISecurity _security;
+        private readonly IDlpSpiService _dlpSpiService;
+       
+
+        public DLPController(
+           ISecurity security,
+           ILogger logger,
+           IDlpSpiService dlpSpiService
+           )
+        {
+           
+            _security = security;
+            _dlpSpiService = dlpSpiService ?? throw new ArgumentNullException(nameof(dlpSpiService));
+
+            _logger = logger;
+            
+        }
+
+        public async Task<IActionResult> FormSPI()
         {
             LoadLookupService("Year");
-            return View();
+            DLPModel model = new DLPModel();
+            model.DivisionMiri = await _dlpSpiService.GetDivisionMiri(DateTime.Today.Year);
+            model.RmuMiri = await _dlpSpiService.GetDivisionRMUMiri (DateTime.Today.Year);
+            model.RmuBTN = await _dlpSpiService.GetDivisionRMUBTN(DateTime.Today.Year);
+            return View(model);
         }
+
+        public async Task<IActionResult> GetSPIByYearFormSPI(int Year)
+        {
+            DLPModel model = new DLPModel();
+            model.DivisionMiri = await _dlpSpiService.GetDivisionMiri(Year);
+            model.RmuMiri = await _dlpSpiService.GetDivisionRMUMiri(Year);
+            model.RmuBTN = await _dlpSpiService.GetDivisionRMUBTN(Year);
+            return Json(model);
+        }
+
+        public async Task<IActionResult> Save(List<SpiData> spiData)
+        {
+            await _dlpSpiService.Save(spiData);
+            return Json(1);
+        }
+
 
         public IActionResult FormIRI_RMI()
         {
@@ -39,5 +78,7 @@ namespace RAMMS.Web.UI.Controllers
         {
             return View();
         }
+
+       
     }
 }

@@ -37,6 +37,8 @@ namespace RAMMS.DTO.ResponseBO
         public string InspectedDesig { get; set; }
         public DateTime? InspectedDt { get; set; }
         public bool? InspectedSign { get; set; }
+
+        public string InspectedSignature { get; set; }
         public int? CondRating { get; set; }
         public bool? IssuesFound { get; set; }
         public int? AuditedBy { get; set; }
@@ -44,6 +46,8 @@ namespace RAMMS.DTO.ResponseBO
         public string AuditedDesig { get; set; }
         public DateTime? AuditedDt { get; set; }
         public bool? AuditedSign { get; set; }
+
+        public string AuditedSignature { get; set; }
         public int? ModBy { get; set; }
         public DateTime? ModDt { get; set; }
         public int? CrBy { get; set; }
