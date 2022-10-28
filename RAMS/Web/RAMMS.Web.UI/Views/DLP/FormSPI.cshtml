@@ -23,12 +23,46 @@
                 }).ToArray();
 }
 
+<style>
+    .form-group .form-control.border-error,
+    .border-error {
+        border-color: red !important;
+        border-width: 1px;
+    }
+
+</style>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $("#formDlpYear").val('@today').trigger('chosen:updated');
 
         $("#formDlpYear").on("change", function () {
             getData($("#formDlpYear").val());
+        });
+
+        $('.allow_numeric').keypress(function (event) {
+            var $this = $(this);
+            if ((event.which != 46 || $this.val().indexOf('.') != -1) &&
+                ((event.which < 48 || event.which > 57) &&
+                    (event.which != 0 && event.which != 8))) {
+                event.preventDefault();
+            }
+
+            var text = $(this).val();
+            if ((event.which == 46) && (text.indexOf('.') == -1)) {
+                setTimeout(function () {
+                    if ($this.val().substring($this.val().indexOf('.')).length > 2) {
+                        $this.val($this.val().substring(0, $this.val().indexOf('.') + 2));
+                    }
+                }, 1);
+            }
+
+            if ((text.indexOf('.') != -1) &&
+                (text.substring(text.indexOf('.')).length > 2) &&
+                (event.which != 0 && event.which != 8) &&
+                ($(this)[0].selectionStart >= text.length - 2)) {
+                event.preventDefault();
+            }
         });
 
 
@@ -85,9 +119,9 @@
                         + "<td>RM "+ assignZero(data.rmuMiri[i].cActual) +"</td>"
                         + "<td>RM "+ assignZero(data.rmuMiri[i].piWorkActual) +"</td>"
                         + "<td>"+ assignZero(data.rmuMiri[i].pai) +"</td>"
-                        + "<td class='editpai'>"+ assignZero(data.rmuMiri[i].eff) +"</td>"
-                        + "<td class='editeff'>"+ assignZero(data.rmuMiri[i].rb) +"</td>"
-                        + "<td class='editrb'>"+ assignZero(data.rmuMiri[i].iw) +"</td>"
+                        + "<td class='editpai allow_numeric'>"+ assignZero(data.rmuMiri[i].eff) +"</td>"
+                        + "<td class='editeff allow_numeric'>"+ assignZero(data.rmuMiri[i].rb) +"</td>"
+                        + "<td class='editrb allow_numeric'>"+ assignZero(data.rmuMiri[i].iw) +"</td>"
                         + "<td>"+ assignZero(data.rmuMiri[i].spi) +"</td>"
                         + "<td>"+ assignZero(data.rmuMiri[i].plannedPer) +" %</td>"
                         + "<td>"+ assignZero(data.rmuMiri[i].actualPer) +" %</td>"
@@ -111,9 +145,9 @@
                         + "<td>RM "+ assignZero(data.rmuBTN[i].cActual) +"</td>"
                         + "<td>RM "+ assignZero(data.rmuBTN[i].piWorkActual) +"</td>"
                         + "<td>"+ assignZero(data.rmuBTN[i].pai) +"</td>"
-                        + "<td class='editpai'>"+ assignZero(data.rmuBTN[i].eff) +"</td>"
-                        + "<td class='editeff'>"+ assignZero(data.rmuBTN[i].rb) +"</td>"
-                        + "<td class='editrb'>"+ assignZero(data.rmuBTN[i].iw) +"</td>"
+                        + "<td class='editpai allow_numeric'>"+ assignZero(data.rmuBTN[i].eff) +"</td>"
+                        + "<td class='editeff allow_numeric'>"+ assignZero(data.rmuBTN[i].rb) +"</td>"
+                        + "<td class='editrb allow_numeric'>"+ assignZero(data.rmuBTN[i].iw) +"</td>"
                         + "<td>"+ assignZero(data.rmuBTN[i].spi) +"</td>"
                         + "<td>"+ assignZero(data.rmuBTN[i].plannedPer) +" %</td>"
                         + "<td>"+ assignZero(data.rmuBTN[i].actualPer) +" %</td>"
@@ -165,53 +199,109 @@
     function Edit(obj){
         $("#tbl" + obj + " tbody tr").each(function(){
             var one = $(this).find('.editpai').html();
-            $(this).find('.editpai').html("<input type='text' style='width:80px' preval='" + one + "' value='" + one + "' />")
+            $(this).find('.editpai').html("<input class='editp {lt,15,PI (EFF)}' type='text' style='width:80px' preval='" + one + "' value='" + one + "' />")
             var two = $(this).find('.editeff').html();
-            $(this).find('.editeff').html("<input type='text' style='width:80px'   preval='" + two + "'  value='" + two + "' />")
+            $(this).find('.editeff').html("<input  class='editr  {lt,5,PI (RB)}'  type='text' style='width:80px'   preval='" + two + "'  value='" + two + "' />")
             var three = $(this).find('.editrb').html();
-            $(this).find('.editrb').html("<input type='text' style='width:80px'   preval='" + three + "'  value='" + three + "' />")
+            $(this).find('.editrb').html("<input type='text'  class='editr {lt,5,PI (IW)}'  style='width:80px'   preval='" + three + "'  value='" + three + "' />")
         });
 
         $("#edit"+obj).hide();
         $("#save"+obj).show();
         $("#cancel"+obj).show();
+
+        $('.editp').blur(function (event) {
+            var pai = $(this).val();
+            if (pai != "" && +pai > 15){
+                app.ShowErrorMessage("Value cannot be more than 15.00");
+                $(this).val('');
+                 $(this).focus();
+                return false;
+            }
+            return true;
+        });
+
+        $('.editr').blur(function (event) {
+        var pai = $(this).val();
+            if (pai != "" && +pai > 5){
+                app.ShowErrorMessage("Value cannot be more than 5.00");
+                $(this).val('');
+                 $(this).focus();
+                return false;
+            }
+
+            return true;
+        });
     }
 
     function Save(obj){
          InitAjaxLoading();
          var Spi = [];
+
         $("#tbl" + obj + " tbody tr").each(function(){
-            var one = $(this).find('.editpai').find("input").val();
-            var two = $(this).find('.editeff').find("input").val();
-            var three = $(this).find('.editrb').find("input").val();
+            var one = $(this).find('.editpai').find("input");
+            var two = $(this).find('.editeff').find("input");
+            var three = $(this).find('.editrb').find("input");
+
+             var eff = one.val();
+             var rb = two.val();
+             var iw = three.val();
+
+             if (eff != "" && +eff > 15){
+                  $(one).addClass("validate");
+             }else{
+                 $(one).removeClass("validate");
+                 $(one).removeClass("border-error");
+             }
+
+
+             if (rb != "" && +rb > 5){
+                  $(two).addClass("validate");
+             }else{
+                 $(two).removeClass("validate");
+                 $(two).removeClass("border-error");
+             }
+
+             if (iw != "" && +iw > 5){
+                  $(three).addClass("validate");
+             }else{
+                 $(three).removeClass("validate");
+                 $(three).removeClass("border-error");
+             }
+
+
             var row = new Object();
             row.id = $(this).attr("pkid");
-            row.eff = one
-            row.rb = two;
-            row.iw = three;
+            row.eff = eff;
+            row.rb = rb;
+            row.iw = iw;
             Spi.push(row);
         });
-
-
-        $.ajax({
-            url: '/DLP/Save',
-            data: {spiData : Spi},
-            type: 'POST',
-            success: function (data) {
-                HideAjaxLoading();
-                if (data == -1) {
-                    app.ShowErrorMessage(data.errorMessage);
+         if (ValidatePage('#divSPI'))
+         {
+            $.ajax({
+                url: '/DLP/Save',
+                data: {spiData : Spi},
+                type: 'POST',
+                success: function (data) {
+                    HideAjaxLoading();
+                    if (data == -1) {
+                        app.ShowErrorMessage(data.errorMessage);
+                    }
+                    else {
+                        app.ShowSuccessMessage('Saved Successfully', false);
+                        location.href = "/DLP/FormSpi";
+                    }
                 }
-                else {
-                    app.ShowSuccessMessage('Saved Successfully', false);
-                    location.href = "/DLP/FormSpi";
-                }
-            }
-        });
+            });
 
-        $("#edit"+obj).show();
-        $("#save"+obj).hide();
-        $("#cancel"+obj).hide();
+            $("#edit"+obj).show();
+            $("#save"+obj).hide();
+            $("#cancel"+obj).hide();
+         }
+         else
+         HideAjaxLoading();
+
     }
 
     function Cancel(obj){
@@ -229,46 +319,182 @@
         $("#cancel"+obj).hide();
     }
 </script>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="w-100 d-flex justify-content-md-between py-2 align-items-center">
-                <span class="mb-0 font-weight-bold font-20 mt-3">    Service Provider Performance Indicator (SPI)</span>
+<form id="">
+    <div class="container-fluid" id="divSPI">
+        <div class="row">
+            <div class="col-12">
+                <div class="w-100 d-flex justify-content-md-between py-2 align-items-center">
+                    <span class="mb-0 font-weight-bold font-20 mt-3">    Service Provider Performance Indicator (SPI)</span>
+                </div>
+            </div>
+            <div class="col-lg-2 offset-lg-10 form-group mt-3">
+                <label>Year</label>
+                @Html.DropDownList("DLPYear", (IEnumerable<SelectListItem>)year, "Select Year", new { @Id = "formDlpYear", @class = "form-control" })
             </div>
         </div>
-        <div class="col-lg-2 offset-lg-10 form-group mt-3">
-            <label>Year</label>
-            @Html.DropDownList("DLPYear", (IEnumerable<SelectListItem>)year, "Select Year", new { @Id = "formDlpYear", @class = "form-control" })
-        </div>
-    </div>
 
 
-    <div class="accordion custom-accordion mb-3" id="custom-accordion-one">
-        <div class="card mb-0">
-            <div class="card-header" id="headingOne">
-                <h5 class="m-0">
-                    <a class="custom-accordion-title py-1" data-toggle="collapse" href="#AccordPage1" aria-expanded="true" aria-controls="collapseOne">
-                        <span class="float-left">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                        </span>
-                        <span class="float-left" style="padding: 4px 8px;">
-                            Division Miri
-                        </span>
-                    </a>
-                </h5>
+        <div class="accordion custom-accordion mb-3" id="custom-accordion-one">
+            <div class="card mb-0">
+                <div class="card-header" id="headingOne">
+                    <h5 class="m-0">
+                        <a class="custom-accordion-title py-1" data-toggle="collapse" href="#AccordPage1" aria-expanded="true" aria-controls="collapseOne">
+                            <span class="float-left">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                            </span>
+                            <span class="float-left" style="padding: 4px 8px;">
+                                Division Miri
+                            </span>
+                        </a>
+                    </h5>
+                </div>
+                <div id="AccordPage1" class="collapse avowmodal-form formgrp-section show" aria-labelledby="headingOne" data-parent="#custom-accordion-one">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                        <div class="dataTables_scrollBody">
+                                            <div class="dataTables_scroll">
+                                                <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                    <table class="table w-100 nowrap dataTable no-footer" id="tblDivision">
+                                                        <thead style="background-color: #c8e1ff">
+                                                            <tr>
+                                                                <th class="text-center">
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b> Monthly Planned</b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b>  Monthly Actual </b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b>Cul.Plan </b>
+                                                                </th>
+
+                                                                <th class="text-center">
+                                                                    <b>Cul.Actual</b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b> Plwork act </b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b> Pal(year 2022)</b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b> PL (EFF) </b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b> Pl(RB) </b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b>PI(IW) </b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b> SPI (year 2022) </b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b> Planned %</b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b> Actual%</b>
+                                                                </th>
+                                                            </tr>
+
+                                                        </thead>
+                                                        <tbody>
+                                                            @{
+
+                                                                if (Model.DivisionMiri.Count == 0)
+                                                                {
+                                                                    <tr>
+                                                                        <td colspan="13">No Records found</td>
+                                                                    </tr>
+                                                                }
+
+                                                                for (int i = 0; i < Model.DivisionMiri.Count; i++)
+                                                                {
+                                                                    <tr>
+                                                                        <td><b>@RAMMS.Common.Helpers.GetMonthName((int)Model.DivisionMiri[i].Month)</b></td>
+                                                                        <td>RM @Model.DivisionMiri[i].MPlanned</td>
+                                                                        <td>RM @Model.DivisionMiri[i].MActual</td>
+                                                                        <td>RM @Model.DivisionMiri[i].CPlan</td>
+                                                                        <td>RM @Model.DivisionMiri[i].CActual</td>
+                                                                        <td>@Model.DivisionMiri[i].PiWorkActual  </td>
+                                                                        <td>@Model.DivisionMiri[i].Pai</td>
+                                                                        <td>@Model.DivisionMiri[i].Eff</td>
+                                                                        <td>@Model.DivisionMiri[i].Rb</td>
+                                                                        <td>@Model.DivisionMiri[i].Iw</td>
+                                                                        <td>@Model.DivisionMiri[i].Spi</td>
+                                                                        <td>@Model.DivisionMiri[i].PlannedPer %</td>
+                                                                        <td>@Model.DivisionMiri[i].ActualPer %</td>
+
+                                                                    </tr>
+                                                                }
+                                                            }
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="AccordPage1" class="collapse avowmodal-form formgrp-section show" aria-labelledby="headingOne" data-parent="#custom-accordion-one">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
+        </div>
+        <div class="accordion custom-accordion mb-3" id="custom-accordion-two">
+            <div class="card mb-0">
+                <div class="card-header" id="headingTwo">
+                    <h5 class="m-0">
+                        <a class="custom-accordion-title py-1" data-toggle="collapse" href="#AccordPage2" aria-expanded="true" aria-controls="collapseTwo">
+                            <span class="float-left">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                            </span>
+                            <span class="float-left" style="padding: 4px 8px;">
+                                RMU Miri
+
+                            </span>
+                        </a>
+                    </h5>
+                </div>
+                <div id="AccordPage2" class="collapse avowmodal-form formgrp-section show" aria-labelledby="headingTwo" data-parent="#custom-accordion-two">
+                    <div class="card-body">
+                        <div id="EquipmentListGrid" class="w-100 dt-tbl-section">
+                            <div class="text-right float-right p-2">
+                                @*<div class="btn-group dropright" id="actiondropdown">
+                                    <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Click Me
+                                    </button>
+                                    <div class="dropdown-menu">
+                                    <button type="button" class="dropdown-item editdel-btns" onclick="Edit('tblMiri')">
+                                    <span class="edit-icon"></span> Edit
+                                    </button>
+                                    <button type="button" class="dropdown-item editdel-btns" data-toggle="modal" data-target="#myModal1">
+                                    <span class="view-icon"></span> View
+                                    </button>
+                                    </div>
+                                    </div>*@
+                                <button id="editMiri" type="button" class="btn btn-sm btn-themebtn" onclick="Edit('Miri')">Edit</button>
+                                <button id="saveMiri" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Save('Miri')">Save</button>
+                                <button id="cancelMiri" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Cancel('Miri')">Cancel</button>
+                            </div>
                             <div class="table-responsive">
                                 <div class="dataTables_wrapper dt-bootstrap4 no-footer">
                                     <div class="dataTables_scrollBody">
                                         <div class="dataTables_scroll">
                                             <div class="w-100 position-relative in-tbl-btns custom-tbl">
-                                                <table class="table w-100 nowrap dataTable no-footer" id="tblDivision">
+                                                <table class="table w-100 nowrap dataTable no-footer" id="tblMiri">
                                                     <thead style="background-color: #c8e1ff">
                                                         <tr>
                                                             <th class="text-center">
@@ -314,32 +540,30 @@
 
                                                     </thead>
                                                     <tbody>
-                                                        @{
 
-                                                            if (Model.DivisionMiri.Count == 0)
+                                                        @{
+                                                            if (Model.RmuMiri.Count == 0)
                                                             {
                                                                 <tr>
                                                                     <td colspan="13">No Records found</td>
                                                                 </tr>
                                                             }
-
-                                                            for (int i = 0; i < Model.DivisionMiri.Count; i++)
+                                                            for (int i = 0; i < Model.RmuMiri.Count; i++)
                                                             {
-                                                                <tr>
+                                                                <tr id="miri_@i" pkid="@Model.RmuMiri[i].PkRefNo">
                                                                     <td><b>@RAMMS.Common.Helpers.GetMonthName((int)Model.DivisionMiri[i].Month)</b></td>
-                                                                    <td>RM @Model.DivisionMiri[i].MPlanned</td>
-                                                                    <td>RM @Model.DivisionMiri[i].MActual</td>
-                                                                    <td>RM @Model.DivisionMiri[i].CPlan</td>
-                                                                    <td>RM @Model.DivisionMiri[i].CActual</td>
-                                                                    <td>@Model.DivisionMiri[i].PiWorkActual  </td>
-                                                                    <td>@Model.DivisionMiri[i].Pai</td>
-                                                                    <td>@Model.DivisionMiri[i].Eff</td>
-                                                                    <td>@Model.DivisionMiri[i].Rb</td>
-                                                                    <td>@Model.DivisionMiri[i].Iw</td>
-                                                                    <td>@Model.DivisionMiri[i].Spi</td>
-                                                                    <td>@Model.DivisionMiri[i].PlannedPer %</td>
-                                                                    <td>@Model.DivisionMiri[i].ActualPer %</td>
-
+                                                                    <td>RM @Model.RmuMiri[i].MPlanned</td>
+                                                                    <td>RM @Model.RmuMiri[i].MActual</td>
+                                                                    <td>RM @Model.RmuMiri[i].CPlan</td>
+                                                                    <td>RM @Model.RmuMiri[i].CActual</td>
+                                                                    <td>@Model.RmuMiri[i].PiWorkActual  </td>
+                                                                    <td>@Model.RmuMiri[i].Pai</td>
+                                                                    <td class="editpai allow_numeric">@Model.RmuMiri[i].Eff</td>
+                                                                    <td class="editeff allow_numeric">@Model.RmuMiri[i].Rb</td>
+                                                                    <td class="editrb allow_numeric"> @Model.RmuMiri[i].Iw</td>
+                                                                    <td>@Model.RmuMiri[i].Spi</td>
+                                                                    <td>@Model.RmuMiri[i].PlannedPer %</td>
+                                                                    <td>@Model.RmuMiri[i].ActualPer %</td>
                                                                 </tr>
                                                             }
                                                         }
@@ -353,460 +577,132 @@
 
                                 </div>
                             </div>
-
-
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="accordion custom-accordion mb-3" id="custom-accordion-two">
-        <div class="card mb-0">
-            <div class="card-header" id="headingTwo">
-                <h5 class="m-0">
-                    <a class="custom-accordion-title py-1" data-toggle="collapse" href="#AccordPage2" aria-expanded="true" aria-controls="collapseTwo">
-                        <span class="float-left">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                        </span>
-                        <span class="float-left" style="padding: 4px 8px;">
-                            RMU Miri
 
-                        </span>
-                    </a>
-                </h5>
-            </div>
-            <div id="AccordPage2" class="collapse avowmodal-form formgrp-section show" aria-labelledby="headingTwo" data-parent="#custom-accordion-two">
-                <div class="card-body">
-                    <div id="EquipmentListGrid" class="w-100 dt-tbl-section">
-                        <div class="text-right float-right p-2">
-                            @*<div class="btn-group dropright" id="actiondropdown">
-                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                Click Me
-                                </button>
-                                <div class="dropdown-menu">
-                                <button type="button" class="dropdown-item editdel-btns" onclick="Edit('tblMiri')">
-                                <span class="edit-icon"></span> Edit
-                                </button>
-                                <button type="button" class="dropdown-item editdel-btns" data-toggle="modal" data-target="#myModal1">
-                                <span class="view-icon"></span> View
-                                </button>
-                                </div>
-                                </div>*@
-                            <button id="editMiri" type="button" class="btn btn-sm btn-themebtn" onclick="Edit('Miri')">Edit</button>
-                            <button id="saveMiri" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Save('Miri')">Save</button>
-                            <button id="cancelMiri" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Cancel('Miri')">Cancel</button>
-                        </div>
-                        <div class="table-responsive">
-                            <div class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                <div class="dataTables_scrollBody">
-                                    <div class="dataTables_scroll">
-                                        <div class="w-100 position-relative in-tbl-btns custom-tbl">
-                                            <table class="table w-100 nowrap dataTable no-footer" id="tblMiri">
-                                                <thead style="background-color: #c8e1ff">
-                                                    <tr>
-                                                        <th class="text-center">
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> Monthly Planned</b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b>  Monthly Actual </b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b>Cul.Plan </b>
-                                                        </th>
+        <div class="accordion custom-accordion mb-3" id="custom-accordion-two">
+            <div class="card mb-0">
+                <div class="card-header" id="headingTwo">
+                    <h5 class="m-0">
+                        <a class="custom-accordion-title py-1 " data-toggle="collapse" href="#AccordPage3" aria-expanded="true" aria-controls="collapseThree">
+                            <span class="float-left">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                            </span>
+                            <span class="float-left" style="padding: 4px 8px;">
+                                RMU Batu Niah
 
-                                                        <th class="text-center">
-                                                            <b>Cul.Actual</b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> Plwork act </b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> Pal(year 2022)</b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> PL (EFF) </b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> Pl(RB) </b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b>PI(IW) </b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> SPI (year 2022) </b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> Planned %</b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> Actual%</b>
-                                                        </th>
-                                                    </tr>
+                            </span>
+                        </a>
+                    </h5>
+                </div>
+                <div id="AccordPage3" class="collapse avowmodal-form formgrp-section show" aria-labelledby="headingTwo" data-parent="#custom-accordion-two">
 
-                                                </thead>
-                                                <tbody>
-
-                                                    @{
-                                                        if (Model.RmuMiri.Count == 0)
-                                                        {
-                                                            <tr>
-                                                                <td colspan="13">No Records found</td>
-                                                            </tr>
-                                                        }
-                                                        for (int i = 0; i < Model.RmuMiri.Count; i++)
-                                                        {
-                                                            <tr id="miri_@i" pkid="@Model.RmuMiri[i].PkRefNo">
-                                                                <td><b>@RAMMS.Common.Helpers.GetMonthName((int)Model.DivisionMiri[i].Month)</b></td>
-                                                                <td>RM @Model.RmuMiri[i].MPlanned</td>
-                                                                <td>RM @Model.RmuMiri[i].MActual</td>
-                                                                <td>RM @Model.RmuMiri[i].CPlan</td>
-                                                                <td>RM @Model.RmuMiri[i].CActual</td>
-                                                                <td>@Model.RmuMiri[i].PiWorkActual  </td>
-                                                                <td>@Model.RmuMiri[i].Pai</td>
-                                                                <td class="editpai">@Model.RmuMiri[i].Eff</td>
-                                                                <td class="editeff">@Model.RmuMiri[i].Rb</td>
-                                                                <td class="editrb"> @Model.RmuMiri[i].Iw</td>
-                                                                <td>@Model.RmuMiri[i].Spi</td>
-                                                                <td>@Model.RmuMiri[i].PlannedPer %</td>
-                                                                <td>@Model.RmuMiri[i].ActualPer %</td>
-                                                            </tr>
-                                                        }
-                                                    }
-
-                                                </tbody>
-                                            </table>
-                                        </div>
+                    <div class="card-body">
+                        <div id="EquipmentListGrid" class="w-100 dt-tbl-section">
+                            <div class="text-right float-right p-2">
+                                @*<div class="btn-group dropright" id="actiondropdown">
+                                    <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Click Me
+                                    </button>
+                                    <div class="dropdown-menu">
+                                    <button type="button" class="dropdown-item editdel-btns" onclick="Edit('tblBtn')">
+                                    <span class="edit-icon"></span> Edit
+                                    </button>
+                                    <button type="button" class="dropdown-item editdel-btns">
+                                    <span class="view-icon"></span> View
+                                    </button>
                                     </div>
-
-                                </div>
-
+                                    </div>*@
+                                <button id="editBtn" type="button" class="btn btn-sm btn-themebtn" onclick="Edit('Btn')">Edit</button>
+                                <button id="saveBtn" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Save('Btn')">Save</button>
+                                <button id="cancelBtn" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Cancel('Btn')">Cancel</button>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="accordion custom-accordion mb-3" id="custom-accordion-two">
-        <div class="card mb-0">
-            <div class="card-header" id="headingTwo">
-                <h5 class="m-0">
-                    <a class="custom-accordion-title py-1 " data-toggle="collapse" href="#AccordPage3" aria-expanded="true" aria-controls="collapseThree">
-                        <span class="float-left">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                        </span>
-                        <span class="float-left" style="padding: 4px 8px;">
-                            RMU Batu Niah
-
-                        </span>
-                    </a>
-                </h5>
-            </div>
-            <div id="AccordPage3" class="collapse avowmodal-form formgrp-section show" aria-labelledby="headingTwo" data-parent="#custom-accordion-two">
-
-                <div class="card-body">
-                    <div id="EquipmentListGrid" class="w-100 dt-tbl-section">
-                        <div class="text-right float-right p-2">
-                            @*<div class="btn-group dropright" id="actiondropdown">
-                                <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                Click Me
-                                </button>
-                                <div class="dropdown-menu">
-                                <button type="button" class="dropdown-item editdel-btns" onclick="Edit('tblBtn')">
-                                <span class="edit-icon"></span> Edit
-                                </button>
-                                <button type="button" class="dropdown-item editdel-btns">
-                                <span class="view-icon"></span> View
-                                </button>
-                                </div>
-                                </div>*@
-                            <button id="editBtn" type="button" class="btn btn-sm btn-themebtn" onclick="Edit('Btn')">Edit</button>
-                            <button id="saveBtn" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Save('Btn')">Save</button>
-                            <button id="cancelBtn" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Cancel('Btn')">Cancel</button>
-                        </div>
-                        <div class="table-responsive">
-                            <div class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                <div class="dataTables_scrollBody">
-                                    <div class="dataTables_scroll">
-                                        <div class="w-100 position-relative in-tbl-btns custom-tbl">
-                                            <table class="table w-100 nowrap dataTable no-footer" id="tblBtn">
-                                                <thead style="background-color: #c8e1ff">
-                                                    <tr>
-                                                        <th class="text-center">
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> Monthly Planned</b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b>  Monthly Actual </b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b>Cul.Plan </b>
-                                                        </th>
-
-                                                        <th class="text-center">
-                                                            <b>Cul.Actual</b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> Plwork act </b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> Pal(year 2022)</b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> PL (EFF) </b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> Pl(RB) </b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b>PI(IW) </b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> SPI (year 2022) </b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> Planned %</b>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <b> Actual%</b>
-                                                        </th>
-                                                    </tr>
-
-                                                </thead>
-                                                <tbody>
-
-                                                    @{
-
-                                                        if (Model.RmuBTN.Count == 0)
-                                                        {
-                                                            <tr>
-                                                                <td colspan="13">No Records found</td>
-                                                            </tr>
-
-                                                        }
-                                                        for (int i = 0; i < Model.RmuBTN.Count; i++)
-                                                        {
-                                                            <tr id="btn_@i" pkid="@Model.RmuBTN[i].PkRefNo">
-                                                                <td><b>@RAMMS.Common.Helpers.GetMonthName((int)Model.DivisionMiri[i].Month)</b></td>
-                                                                <td>RM @Model.RmuBTN[i].MPlanned</td>
-                                                                <td>RM @Model.RmuBTN[i].MActual</td>
-                                                                <td>RM @Model.RmuBTN[i].CPlan</td>
-                                                                <td>RM @Model.RmuBTN[i].CActual</td>
-                                                                <td> @Model.RmuBTN[i].PiWorkActual  </td>
-                                                                <td>@Model.RmuBTN[i].Pai</td>
-                                                                <td class="editpai">@Model.RmuBTN[i].Eff</td>
-                                                                <td class="editeff">@Model.RmuBTN[i].Rb</td>
-                                                                <td class="editrb"> @Model.RmuBTN[i].Iw</td>
-                                                                <td>@Model.RmuBTN[i].Spi</td>
-                                                                <td>@Model.RmuBTN[i].PlannedPer %</td>
-                                                                <td>@Model.RmuBTN[i].ActualPer %</td>
-                                                            </tr>
-                                                        }
-                                                    }
-
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-lg">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-
-                    <h4 class="modal-title w-100">
-                        <span class="float-left w-75">
-                            Service Provider Performance Indicator (SPI)
-                        </span>
-                        <button type="button" class="close float-right" data-dismiss="modal">&times;</button>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
                             <div class="table-responsive">
                                 <div class="dataTables_wrapper dt-bootstrap4 no-footer">
                                     <div class="dataTables_scrollBody">
                                         <div class="dataTables_scroll">
                                             <div class="w-100 position-relative in-tbl-btns custom-tbl">
-                                                <table class="table w-100 nowrap dataTable no-footer">
+                                                <table class="table w-100 nowrap dataTable no-footer" id="tblBtn">
                                                     <thead style="background-color: #c8e1ff">
                                                         <tr>
                                                             <th class="text-center">
                                                             </th>
                                                             <th class="text-center">
-                                                                <b>PI(EFF)</b>
+                                                                <b> Monthly Planned</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b>PI(RB)</b>
+                                                                <b>  Monthly Actual </b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b>PI(IW)</b>
+                                                                <b>Cul.Plan </b>
                                                             </th>
-                                                            <th class="text-center">
-                                                                <b>SPI(Year 2022)</b>
-                                                            </th>
-                                                            <th class="text-center">
 
+                                                            <th class="text-center">
+                                                                <b>Cul.Actual</b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> Plwork act </b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> Pal(year 2022)</b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> PL (EFF) </b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> Pl(RB) </b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b>PI(IW) </b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> SPI (year 2022) </b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> Planned %</b>
+                                                            </th>
+                                                            <th class="text-center">
+                                                                <b> Actual%</b>
                                                             </th>
                                                         </tr>
 
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <b> JAN</b>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td>-- </td>
-                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-                                                        </tr>
 
-                                                        <tr>
-                                                            <td>
-                                                                <b>FEB</b>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td>-- </td>
-                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+                                                        @{
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>MAR</b>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td>-- </td>
-                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+                                                            if (Model.RmuBTN.Count == 0)
+                                                            {
+                                                                <tr>
+                                                                    <td colspan="13">No Records found</td>
+                                                                </tr>
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>APRIL</b>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td>-- </td>
-                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+                                                            }
+                                                            for (int i = 0; i < Model.RmuBTN.Count; i++)
+                                                            {
+                                                                <tr id="btn_@i" pkid="@Model.RmuBTN[i].PkRefNo">
+                                                                    <td><b>@RAMMS.Common.Helpers.GetMonthName((int)Model.DivisionMiri[i].Month)</b></td>
+                                                                    <td>RM @Model.RmuBTN[i].MPlanned</td>
+                                                                    <td>RM @Model.RmuBTN[i].MActual</td>
+                                                                    <td>RM @Model.RmuBTN[i].CPlan</td>
+                                                                    <td>RM @Model.RmuBTN[i].CActual</td>
+                                                                    <td> @Model.RmuBTN[i].PiWorkActual  </td>
+                                                                    <td>@Model.RmuBTN[i].Pai</td>
+                                                                    <td class="editpai allow_numeric">@Model.RmuBTN[i].Eff</td>
+                                                                    <td class="editeff allow_numeric">@Model.RmuBTN[i].Rb</td>
+                                                                    <td class="editrb allow_numeric"> @Model.RmuBTN[i].Iw</td>
+                                                                    <td>@Model.RmuBTN[i].Spi</td>
+                                                                    <td>@Model.RmuBTN[i].PlannedPer %</td>
+                                                                    <td>@Model.RmuBTN[i].ActualPer %</td>
+                                                                </tr>
+                                                            }
+                                                        }
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>MAY</b>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td>-- </td>
-                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>JUNE</b>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td>-- </td>
-                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>JULY</b>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td>-- </td>
-                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b> AUG</b>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td>-- </td>
-                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b> SEP</b>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td>-- </td>
-                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>OCT</b>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td>-- </td>
-                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>NOV</b>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td>-- </td>
-                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>DEC</b>
-                                                            </td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td><input type="text" class="form-control" /></td>
-                                                            <td>-- </td>
-                                                            <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -818,185 +714,380 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" id="btnSave" class="btn btn-sm btn-themebtn" onclick="Save('','')">Submit</button>
+
                 </div>
             </div>
-
         </div>
-    </div>
 
-    <div id="myModal1" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-lg">
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title w-100">
-                        <span class="float-left w-75">
-                            Service Provider Performance Indicator (SPI)
-                        </span>
-                        <button type="button" class="close float-right" data-dismiss="modal">&times;</button>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="table-responsive">
-                                <div class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                    <div class="dataTables_scrollBody">
-                                        <div class="dataTables_scroll">
-                                            <div class="w-100 position-relative in-tbl-btns custom-tbl">
-                                                <table class="table w-100 nowrap dataTable no-footer">
-                                                    <thead style="background-color: #c8e1ff">
-                                                        <tr>
-                                                            <th class="text-center">
-                                                            </th>
-                                                            <th class="text-center">
-                                                                <b>PI(EFF)</b>
-                                                            </th>
-                                                            <th class="text-center">
-                                                                <b>PI(RB)</b>
-                                                            </th>
-                                                            <th class="text-center">
-                                                                <b>PI(IW)</b>
-                                                            </th>
-                                                            <th class="text-center">
-                                                                <b>SPI(Year 2022)</b>
-                                                            </th>
-                                                        </tr>
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
 
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <b> JAN</b>
-                                                            </td>
-                                                            <td>15.0</td>
-                                                            <td>5.0</td>
-                                                            <td>0.00</td>
-                                                            <td>109</td>
-                                                        </tr>
+                        <h4 class="modal-title w-100">
+                            <span class="float-left w-75">
+                                Service Provider Performance Indicator (SPI)
+                            </span>
+                            <button type="button" class="close float-right" data-dismiss="modal">&times;</button>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                        <div class="dataTables_scrollBody">
+                                            <div class="dataTables_scroll">
+                                                <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                    <table class="table w-100 nowrap dataTable no-footer">
+                                                        <thead style="background-color: #c8e1ff">
+                                                            <tr>
+                                                                <th class="text-center">
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b>PI(EFF)</b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b>PI(RB)</b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b>PI(IW)</b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b>SPI(Year 2022)</b>
+                                                                </th>
+                                                                <th class="text-center">
 
-                                                        <tr>
-                                                            <td>
-                                                                <b>FEB</b>
-                                                            </td>
-                                                            <td>15.0</td>
-                                                            <td>5.0</td>
-                                                            <td>0.00</td>
-                                                            <td>96 </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>MAR</b>
-                                                            </td>
-                                                            <td>15.0</td>
-                                                            <td>5.0</td>
-                                                            <td>0.00</td>
-                                                            <td>20 </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>APRIL</b>
-                                                            </td>
-                                                            <td>15.0</td>
-                                                            <td>5.0</td>
-                                                            <td>0.00</td>
-                                                            <td>20</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>MAY</b>
-                                                            </td>
-                                                            <td>15.0</td>
-                                                            <td>5.0</td>
-                                                            <td>0.00</td>
-                                                            <td>20</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>JUNE</b>
-                                                            </td>
-                                                            <td>15.0</td>
-                                                            <td>5.0</td>
-                                                            <td>0.00</td>
-                                                            <td>20</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>JULY</b>
-                                                            </td>
-                                                            <td>15.0</td>
-                                                            <td>5.0</td>
-                                                            <td>0.00</td>
-                                                            <td>20</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b> AUG</b>
-                                                            </td>
-                                                            <td>15.0</td>
-                                                            <td>5.0</td>
-                                                            <td>0.00</td>
-                                                            <td>20</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b> SEP</b>
-                                                            </td>
-                                                            <td>15.0</td>
-                                                            <td>5.0</td>
-                                                            <td>0.00</td>
-                                                            <td>20</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>OCT</b>
-                                                            </td>
-                                                            <td>15.0</td>
-                                                            <td>5.0</td>
-                                                            <td>0.00</td>
-                                                            <td>20</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>NOV</b>
-                                                            </td>
-                                                            <td>15.0</td>
-                                                            <td>5.0</td>
-                                                            <td>0.00</td>
-                                                            <td>20</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b>DEC</b>
-                                                            </td>
-                                                            <td>15.0</td>
-                                                            <td>5.0</td>
-                                                            <td>0.00</td>
-                                                            <td>20</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                                </th>
+                                                            </tr>
+
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <b> JAN</b>
+                                                                </td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td>-- </td>
+                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>
+                                                                    <b>FEB</b>
+                                                                </td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td>-- </td>
+                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>MAR</b>
+                                                                </td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td>-- </td>
+                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>APRIL</b>
+                                                                </td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td>-- </td>
+                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>MAY</b>
+                                                                </td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td>-- </td>
+                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>JUNE</b>
+                                                                </td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td>-- </td>
+                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>JULY</b>
+                                                                </td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td>-- </td>
+                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b> AUG</b>
+                                                                </td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td>-- </td>
+                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b> SEP</b>
+                                                                </td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td>-- </td>
+                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>OCT</b>
+                                                                </td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td>-- </td>
+                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>NOV</b>
+                                                                </td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td>-- </td>
+                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>DEC</b>
+                                                                </td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td><input type="text" class="form-control" /></td>
+                                                                <td>-- </td>
+                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
+
                                         </div>
 
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="btnSave" class="btn btn-sm btn-themebtn" onclick="Save('','')">Submit</button>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" id="btnSave" class="btn btn-sm btn-themebtn" onclick="Save('','')">Save</button>
-                </div>
-            </div>
 
+            </div>
+        </div>
+
+        <div id="myModal1" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title w-100">
+                            <span class="float-left w-75">
+                                Service Provider Performance Indicator (SPI)
+                            </span>
+                            <button type="button" class="close float-right" data-dismiss="modal">&times;</button>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                        <div class="dataTables_scrollBody">
+                                            <div class="dataTables_scroll">
+                                                <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                    <table class="table w-100 nowrap dataTable no-footer">
+                                                        <thead style="background-color: #c8e1ff">
+                                                            <tr>
+                                                                <th class="text-center">
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b>PI(EFF)</b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b>PI(RB)</b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b>PI(IW)</b>
+                                                                </th>
+                                                                <th class="text-center">
+                                                                    <b>SPI(Year 2022)</b>
+                                                                </th>
+                                                            </tr>
+
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <b> JAN</b>
+                                                                </td>
+                                                                <td>15.0</td>
+                                                                <td>5.0</td>
+                                                                <td>0.00</td>
+                                                                <td>109</td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>
+                                                                    <b>FEB</b>
+                                                                </td>
+                                                                <td>15.0</td>
+                                                                <td>5.0</td>
+                                                                <td>0.00</td>
+                                                                <td>96 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>MAR</b>
+                                                                </td>
+                                                                <td>15.0</td>
+                                                                <td>5.0</td>
+                                                                <td>0.00</td>
+                                                                <td>20 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>APRIL</b>
+                                                                </td>
+                                                                <td>15.0</td>
+                                                                <td>5.0</td>
+                                                                <td>0.00</td>
+                                                                <td>20</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>MAY</b>
+                                                                </td>
+                                                                <td>15.0</td>
+                                                                <td>5.0</td>
+                                                                <td>0.00</td>
+                                                                <td>20</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>JUNE</b>
+                                                                </td>
+                                                                <td>15.0</td>
+                                                                <td>5.0</td>
+                                                                <td>0.00</td>
+                                                                <td>20</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>JULY</b>
+                                                                </td>
+                                                                <td>15.0</td>
+                                                                <td>5.0</td>
+                                                                <td>0.00</td>
+                                                                <td>20</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b> AUG</b>
+                                                                </td>
+                                                                <td>15.0</td>
+                                                                <td>5.0</td>
+                                                                <td>0.00</td>
+                                                                <td>20</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b> SEP</b>
+                                                                </td>
+                                                                <td>15.0</td>
+                                                                <td>5.0</td>
+                                                                <td>0.00</td>
+                                                                <td>20</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>OCT</b>
+                                                                </td>
+                                                                <td>15.0</td>
+                                                                <td>5.0</td>
+                                                                <td>0.00</td>
+                                                                <td>20</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>NOV</b>
+                                                                </td>
+                                                                <td>15.0</td>
+                                                                <td>5.0</td>
+                                                                <td>0.00</td>
+                                                                <td>20</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b>DEC</b>
+                                                                </td>
+                                                                <td>15.0</td>
+                                                                <td>5.0</td>
+                                                                <td>0.00</td>
+                                                                <td>20</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="btnSave" class="btn btn-sm btn-themebtn" onclick="Save('','')">Save</button>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
+</form>
