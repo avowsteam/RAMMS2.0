@@ -183,6 +183,8 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmPaymentCertificateCrrd> RmPaymentCertificateCrrd { get; set; }
         public virtual DbSet<RmPaymentCertificateHeader> RmPaymentCertificateHeader { get; set; }
         public virtual DbSet<RmPaymentCertificateMamw> RmPaymentCertificateMamw { get; set; }
+        public virtual DbSet<RmPbIw> RmPbIw { get; set; }
+        public virtual DbSet<RmPbIwDetails> RmPbIwDetails { get; set; }
         public virtual DbSet<RmRmiIri> RmRmiIri { get; set; }
         public virtual DbSet<RmRmuMaster> RmRmuMaster { get; set; }
         public virtual DbSet<RmRoadMaster> RmRoadMaster { get; set; }
@@ -16418,12 +16420,12 @@ namespace RAMMS.Domain.Models
 
             modelBuilder.Entity<RmMapDetails>(entity =>
             {
-                entity.HasKey(e => e.RmmdPkRefNo);
+                entity.HasKey(e => e.RmmdPkRefNoDetails);
 
                 entity.ToTable("RM_MAP_Details");
 
-                entity.Property(e => e.RmmdPkRefNo)
-                    .HasColumnName("RMMD_PK_Ref_No")
+                entity.Property(e => e.RmmdPkRefNoDetails)
+                    .HasColumnName("RMMD_PK_Ref_No_Details")
                     .ValueGeneratedNever();
 
                 entity.Property(e => e.RmmdActivityDate)
@@ -16520,6 +16522,8 @@ namespace RAMMS.Domain.Models
                 entity.Property(e => e.RmmhRmuCode)
                     .HasColumnName("RMMH_RMU_Code")
                     .IsUnicode(false);
+
+                entity.Property(e => e.RmmhRmuName).HasColumnName("RMMH_Rmu_Name");
 
                 entity.Property(e => e.RmmhStatus).HasColumnName("RMMH_Status");
 
@@ -17230,6 +17234,149 @@ namespace RAMMS.Domain.Models
                 entity.Property(e => e.PcmamwWorkValueDeduction)
                     .HasColumnName("PCMAMW_Work_Value_Deduction")
                     .HasColumnType("decimal(18, 0)");
+            });
+
+            modelBuilder.Entity<RmPbIw>(entity =>
+            {
+                entity.HasKey(e => e.PbiwPkRefNo);
+
+                entity.ToTable("RM_PB_IW");
+
+                entity.Property(e => e.PbiwPkRefNo).HasColumnName("PBIW_PK_Ref_No");
+
+                entity.Property(e => e.PbiwAmountBeforeLad)
+                    .HasColumnName("PBIW_Amount_Before_LAD")
+                    .HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.PbiwAuditLog).HasColumnName("PBIW__AuditLog");
+
+                entity.Property(e => e.PbiwDesignationEc)
+                    .HasColumnName("PBIW_Designation_EC")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PbiwDesignationSo)
+                    .HasColumnName("PBIW_Designation_SO")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PbiwDesignationSp)
+                    .HasColumnName("PBIW_Designation_SP")
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PbiwFinalPayment)
+                    .HasColumnName("PBIW_Final_Payment")
+                    .HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.PbiwLaDamage)
+                    .HasColumnName("PBIW_LA_Damage")
+                    .HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.PbiwRefId)
+                    .HasColumnName("PBIW_Ref_ID")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PbiwSignDateEc)
+                    .HasColumnName("PBIW_Sign_Date_EC")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.PbiwSignDateSo)
+                    .HasColumnName("PBIW_Sign_Date_SO")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.PbiwSignDateSp)
+                    .HasColumnName("PBIW_Sign_Date_SP")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.PbiwSignEc).HasColumnName("PBIW_SIgn_EC");
+
+                entity.Property(e => e.PbiwSignSo).HasColumnName("PBIW_SIgn_SO");
+
+                entity.Property(e => e.PbiwSignSp).HasColumnName("PBIW_SIgn_SP");
+
+                entity.Property(e => e.PbiwStatus)
+                    .HasColumnName("PBIW_Status")
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.PbiwSubmissionDate)
+                    .HasColumnName("PBIW_Submission_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.PbiwSubmissionMonth).HasColumnName("PBIW_Submission_Month");
+
+                entity.Property(e => e.PbiwSubmissionYear).HasColumnName("PBIW_Submission_Year");
+
+                entity.Property(e => e.PbiwSubmitSts).HasColumnName("PBIW_SUBMIT_STS");
+
+                entity.Property(e => e.PbiwUseridEc).HasColumnName("PBIW_Userid_EC");
+
+                entity.Property(e => e.PbiwUseridSo).HasColumnName("PBIW_Userid_SO");
+
+                entity.Property(e => e.PbiwUseridSp).HasColumnName("PBIW_Userid_SP");
+
+                entity.Property(e => e.PbiwUsernameEc)
+                    .HasColumnName("PBIW_Username_EC")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PbiwUsernameSo)
+                    .HasColumnName("PBIW_Username_SO")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PbiwUsernameSp)
+                    .HasColumnName("PBIW_Username_SP")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<RmPbIwDetails>(entity =>
+            {
+                entity.HasKey(e => e.PbiwdPkRefNo);
+
+                entity.ToTable("RM_PB_IW_Details");
+
+                entity.Property(e => e.PbiwdPkRefNo).HasColumnName("PBIWD_PK_Ref_No");
+
+                entity.Property(e => e.PbiwCompletionDate)
+                    .HasColumnName("PBIW_Completion_Date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.PbiwdAmountBeforeLad)
+                    .HasColumnName("PBIWD_Amount_Before_LAD")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.PbiwdCompletionRefNo)
+                    .HasColumnName("PBIWD_Completion_Ref_No")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PbiwdFinalPayment)
+                    .HasColumnName("PBIWD_Final_Payment")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.PbiwdIwRef)
+                    .HasColumnName("PBIWD_IW_Ref")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PbiwdLaDamage)
+                    .HasColumnName("PBIWD_LA_Damage")
+                    .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.PbiwdPbiwPkRefNo).HasColumnName("PBIWD_PBIW_PK_Ref_No");
+
+                entity.Property(e => e.PbiwdProjectTitle)
+                    .HasColumnName("PBIWD_Project_Title")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.PbiwdPbiwPkRefNoNavigation)
+                    .WithMany(p => p.RmPbIwDetails)
+                    .HasForeignKey(d => d.PbiwdPbiwPkRefNo)
+                    .HasConstraintName("FK_RM_PB_IW_Details_RM_PB_IW");
             });
 
             modelBuilder.Entity<RmRmiIri>(entity =>

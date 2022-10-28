@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="FormPARepository.cs" />
-    <Compile Remove="Interfaces\IFormPARepository.cs" />
+    <Compile Remove="FormPBRepository.cs" />
   </ItemGroup>
 
   <ItemGroup>

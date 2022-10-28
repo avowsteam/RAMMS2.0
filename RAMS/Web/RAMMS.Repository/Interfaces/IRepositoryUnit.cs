@@ -118,6 +118,8 @@ namespace RAMMS.Repository.Interfaces
 
         public FormP1Repository FormP1Repository { get; }
 
+        public FormPARepository FormPARepository { get; }
+
         int Commit();
         Task<int> CommitAsync();
         void Rollback();
