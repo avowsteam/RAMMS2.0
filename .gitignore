@@ -22,3 +22,10 @@
 /RAMS/Web/RAMMS.Web.UI/wwwroot/Uploads
 /RAMS/Web/RAMMS.Domain/Models/RmFormF1Dtl.cs
 /RAMS/Web/RAMMS.Domain/Models/RmFormF1Hdr.cs
+/RAMS/Web/RAMMS.Domain/Models/RmUvModuleGroupFieldRights1.cs
+/RAMS/Web/RAMMS.Domain/Models/RmPbIwDetails.cs
+/RAMS/Web/RAMMS.Domain/Models/RmPbIw.cs
+/RAMS/Web/RAMMS.Domain/Models/RmPaymentCertificateMamw.cs
+/RAMS/Web/RAMMS.Domain/Models/RmPaymentCertificateCrrd.cs
+/RAMS/Web/RAMMS.Domain/Models/RmPaymentCertificateCrra.cs
+/RAMS/Web/RAMMS.Domain/Models/RmPaymentCertificateCrr.cs
