@@ -9,6 +9,7 @@ namespace RAMMS.DTO.ResponseBO
         public int PkRefNo { get; set; }
         public int? Year { get; set; }
         public int? Month { get; set; }
+
         public string DivCode { get; set; }
         public string DivName { get; set; }
         public decimal? MPlanned { get; set; }
@@ -26,6 +27,14 @@ namespace RAMMS.DTO.ResponseBO
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
+    }
+
+    public class SpiData
+    {
+        public int id { get; set; }
+        public string eff { get; set; }
+        public string rb { get; set; }
+        public string iw { get; set; }
     }
 }
  

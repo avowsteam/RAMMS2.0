@@ -39,6 +39,7 @@ namespace RAMMS.Domain.Models
         public string Fr1hInspectedDesig { get; set; }
         public DateTime? Fr1hInspectedDt { get; set; }
         public bool? Fr1hInspectedSign { get; set; }
+        public string Fr1hInspectedSignature { get; set; }
         public int? Fr1hCondRating { get; set; }
         public bool? Fr1hIssuesFound { get; set; }
         public int? Fr1hAuditedBy { get; set; }
@@ -46,6 +47,7 @@ namespace RAMMS.Domain.Models
         public string Fr1hAuditedDesig { get; set; }
         public DateTime? Fr1hAuditedDt { get; set; }
         public bool? Fr1hAuditedSign { get; set; }
+        public string Fr1hAuditedSignature { get; set; }
         public int? Fr1hModBy { get; set; }
         public DateTime? Fr1hModDt { get; set; }
         public int? Fr1hCrBy { get; set; }

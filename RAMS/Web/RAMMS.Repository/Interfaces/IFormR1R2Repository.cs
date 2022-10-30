@@ -32,7 +32,7 @@ namespace RAMMS.Repository.Interfaces
         List<FormR1R2Rpt> GetReportData(int headerid);
 
 
-        //Task<IEnumerable<SelectListItem>> GetCVId(AssetDDLRequestDTO request);
+        Task<IEnumerable<SelectListItem>> GetCVId(AssetDDLRequestDTO request);
         Task<int> ImageCount(string type, long headerId);
         bool isF1Exist(int id);
     }

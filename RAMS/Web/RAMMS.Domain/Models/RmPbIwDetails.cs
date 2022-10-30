@@ -9,7 +9,7 @@ namespace RAMMS.Domain.Models
         public int? PbiwdPbiwPkRefNo { get; set; }
         public string PbiwdIwRef { get; set; }
         public string PbiwdProjectTitle { get; set; }
-        public DateTime? PbiwdCompletionDate { get; set; }
+        public DateTime? PbiwCompletionDate { get; set; }
         public string PbiwdCompletionRefNo { get; set; }
         public decimal? PbiwdAmountBeforeLad { get; set; }
         public decimal? PbiwdLaDamage { get; set; }

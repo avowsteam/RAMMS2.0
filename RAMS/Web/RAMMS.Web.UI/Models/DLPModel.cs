@@ -8,20 +8,15 @@ using RAMMS.DTO;
 using RAMMS.DTO.RequestBO;
 using RAMMS.DTO.ResponseBO;
 
-
 namespace RAMMS.Web.UI.Models
 {
-    public class FormP1Model
+    public class DLPModel
     {
+        public List<DlpSPIDTO> DivisionMiri { get; set; }
 
-        public FormP1HeaderResponseDTO FormP1Header { get; set; }
+        public List<DlpSPIDTO> RmuMiri { get; set; }
 
-        public List<FormP1ResponseDTO> FormP1Detail { get; set; }
-     
+        public List<DlpSPIDTO> RmuBTN { get; set; }
         public int view { get; set; }
-
-
     }
-
- 
 }

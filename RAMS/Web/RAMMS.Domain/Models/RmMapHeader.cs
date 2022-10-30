@@ -5,6 +5,11 @@ namespace RAMMS.Domain.Models
 {
     public partial class RmMapHeader
     {
+        public RmMapHeader()
+        {
+            RmMapDetails = new HashSet<RmMapDetails>();
+        }
+
         public int RmmhPkRefNo { get; set; }
         public string RmmhRefId { get; set; }
         public int? RmmhRevisionNo { get; set; }
@@ -39,5 +44,7 @@ namespace RAMMS.Domain.Models
         public bool? RmmhSubmitSts { get; set; }
         public string RmmhStatus { get; set; }
         public string RmmhAuditlog { get; set; }
+
+        public virtual ICollection<RmMapDetails> RmMapDetails { get; set; }
     }
 }

@@ -57,9 +57,9 @@ namespace RAMMS.Business.ServiceProvider.Services
             FormT4HeaderResponseDTO T4 = new FormT4HeaderResponseDTO();
             T4 = _mapper.Map<FormT4HeaderResponseDTO>(res);
             T4.FormT4 = _mapper.Map<List<FormT4ResponseDTO>>(res.RmT4DesiredBdgt);
-           
+
             return T4;
-            
+
         }
 
         public int? GetMaxRev(int Year, string RMU)
@@ -91,7 +91,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             }
         }
 
-        
+
         public async Task<int> UpdateFormT4(FormT4HeaderResponseDTO FormT4, List<FormT4ResponseDTO> FormT4History)
         {
             try
@@ -201,7 +201,9 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                         if (worksheet != null)
                         {
-                            int i = 7;
+                            worksheet.Cell(3, 1).Value = "DESIRED BUDGET FOR (MIRI/RMU " + rptcol.Rmu.ToUpper() + ")";
+
+                            int i = 8;
 
                             foreach (var r in rpt)
                             {
@@ -217,16 +219,16 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 worksheet.Cell(i, 19).Value = r.CdcLabour;
                                 worksheet.Cell(i, 20).Value = r.CdcEquipment;
                                 worksheet.Cell(i, 21).Value = r.CdcMaterial;
-                               
+
                                 i++;
 
                             }
- 
-                         
+
+
                             worksheet.Cell(3, 22).Value = rptcol.RevisionNo;
                             worksheet.Cell(3, 24).Value = rptcol.RevisionDate;
 
-                          
+
                         }
                     }
 

@@ -198,7 +198,6 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmUserNotification> RmUserNotification { get; set; }
         public virtual DbSet<RmUsers> RmUsers { get; set; }
         public virtual DbSet<RmUvModuleGroupFieldRights> RmUvModuleGroupFieldRights { get; set; }
-        public virtual DbSet<RmUvModuleGroupFieldRights1> RmUvModuleGroupFieldRights1 { get; set; }
         public virtual DbSet<RmUvModuleGroupRights> RmUvModuleGroupRights { get; set; }
         public virtual DbSet<RmWarImageDtl> RmWarImageDtl { get; set; }
         public virtual DbSet<RmWeekLookup> RmWeekLookup { get; set; }
@@ -16443,17 +16442,16 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.RmmdActivityWeekNo).HasColumnName("RMMD_Activity_Week_No");
 
-                entity.Property(e => e.RmmdOrder).HasColumnName("RMMD_Order");
-
-                entity.Property(e => e.RmmdProductUnit)
-                    .HasColumnName("RMMD_Product_Unit")
-                    .HasMaxLength(100);
-
                 entity.Property(e => e.RmmdQuantityKm)
                     .HasColumnName("RMMD_Quantity_Km")
                     .HasColumnType("decimal(18, 0)");
 
                 entity.Property(e => e.RmmdRmmhPkRefNo).HasColumnName("RMMD_RMMH_PK_Ref_No");
+
+                entity.HasOne(d => d.RmmdRmmhPkRefNoNavigation)
+                    .WithMany(p => p.RmMapDetails)
+                    .HasForeignKey(d => d.RmmdRmmhPkRefNo)
+                    .HasConstraintName("FK_RM_MAP_Details_RM_MAP_Details");
             });
 
             modelBuilder.Entity<RmMapHeader>(entity =>
@@ -17246,8 +17244,6 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.PbiwPkRefNo).HasColumnName("PBIW_PK_Ref_No");
 
-                entity.Property(e => e.PbiwActiveYn).HasColumnName("PBIW_Active_YN");
-
                 entity.Property(e => e.PbiwAmountBeforeLad)
                     .HasColumnName("PBIW_Amount_Before_LAD")
                     .HasColumnType("decimal(18, 0)");
@@ -17344,13 +17340,13 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.PbiwdPkRefNo).HasColumnName("PBIWD_PK_Ref_No");
 
+                entity.Property(e => e.PbiwCompletionDate)
+                    .HasColumnName("PBIW_Completion_Date")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.PbiwdAmountBeforeLad)
                     .HasColumnName("PBIWD_Amount_Before_LAD")
                     .HasColumnType("decimal(9, 2)");
-
-                entity.Property(e => e.PbiwdCompletionDate)
-                    .HasColumnName("PBIWD_Completion_Date")
-                    .HasColumnType("datetime");
 
                 entity.Property(e => e.PbiwdCompletionRefNo)
                     .HasColumnName("PBIWD_Completion_Ref_No")
@@ -18236,58 +18232,6 @@ namespace RAMMS.Domain.Models
             });
 
             modelBuilder.Entity<RmUvModuleGroupFieldRights>(entity =>
-            {
-                entity.HasKey(e => e.MgfrPkId);
-
-                entity.ToTable("RM_Uv_Module_Group_Field_Rights");
-
-                entity.Property(e => e.MgfrPkId).HasColumnName("MGFR_PkId");
-
-                entity.Property(e => e.MgfrCreatedBy)
-                    .IsRequired()
-                    .HasColumnName("MGFR_CreatedBy")
-                    .HasMaxLength(200);
-
-                entity.Property(e => e.MgfrCreatedOn)
-                    .HasColumnName("MGFR_CreatedOn")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.MgfrFieldName)
-                    .IsRequired()
-                    .HasColumnName("MGFR_FieldName")
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.MgfrIsDisabled).HasColumnName("MGFR_IsDisabled");
-
-                entity.Property(e => e.MgfrIsHide).HasColumnName("MGFR_IsHide");
-
-                entity.Property(e => e.MgfrModifiedBy)
-                    .IsRequired()
-                    .HasColumnName("MGFR_ModifiedBy")
-                    .HasMaxLength(200);
-
-                entity.Property(e => e.MgfrModifiedOn)
-                    .HasColumnName("MGFR_ModifiedOn")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.ModPkId).HasColumnName("Mod_PkId");
-
-                entity.HasOne(d => d.ModPk)
-                    .WithMany(p => p.RmUvModuleGroupFieldRights)
-                    .HasForeignKey(d => d.ModPkId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_RM_Uv_Module_Group_Field_Rights_RM_Module");
-
-                entity.HasOne(d => d.UgPk)
-                    .WithMany(p => p.RmUvModuleGroupFieldRights)
-                    .HasForeignKey(d => d.UgPkId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_RM_Uv_Module_Group_Field_Rights_RM_Group");
-            });
-
-            modelBuilder.Entity<RmUvModuleGroupFieldRights1>(entity =>
             {
                 entity.HasNoKey();
 
