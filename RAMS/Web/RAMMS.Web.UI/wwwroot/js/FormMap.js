@@ -425,7 +425,7 @@ function AppendData(id, Status) {
         });
     }
     AppendPlannedData();
-    //AppendWeek();
+    AppendWeek();
 }
 
 function AppendPlannedData() {
@@ -540,7 +540,7 @@ function ViewData(id) {
         }
     });
 
-    //AppendWeek();
+    AppendWeek();
 }
 
 function GetWeekNumber(year, month, day) {
@@ -554,12 +554,15 @@ function GetWeekNumber(year, month, day) {
     //    target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
     //}
     //return 1 + Math.ceil((firstThursday - target) / 604800000);
-    Date.prototype.getWeek = function () {
-        var onejan = new Date(year, month, day);
-        return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
-    }
-
-    return (new Date()).getWeek();
+    var datestr = year + "-" + month + "-" + day;
+    var date = new Date(datestr);
+    date.setHours(0, 0, 0, 0);
+    // Thursday in current week decides the year.
+    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+    // January 4 is always in week 1.
+    var week1 = new Date(date.getFullYear(), 0, 4);
+    // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
 }
 
 function AppendWeek() {
