@@ -36,7 +36,7 @@
                 <div class=" w-100 d-flex justify-content-center py-1">
                     <div class="form-group mb-0">
                         <label style="float:left; padding: .5rem .5rem 0 !important;">Reference No.</label>
-                        <input class="form-control" style="width:330px;" type="text" value="@Model.FormP1Header.RefId" disabled="">
+                        <input class="form-control" style="width:330px  ;" type="text" value="@Model.FormP1Header.RefId" disabled="">
                     </div>
                 </div>
             </div>
@@ -64,8 +64,9 @@
                 <label>Select Year  </label>
                 @Html.DropDownListFor(Ahdr => Ahdr.FormP1Header.SubmissionYear, year, "Select Year", new { @Id = "ddlYear", @class = "form-control validate {required, Submission Year}" })
             </div>
-            <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">
-                <button id="btnFindDetails" onclick="FindDetails()" type="button" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right disablebtn"> Find Details </button>
+            <div class="form-group col-3">
+                 <label>&nbsp; &nbsp; </label>
+                <button id="btnFindDetails" onclick="FindDetails()" type="button" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 float-right disablebtn"> Find Details </button>
             </div>
         </div>
 
@@ -403,9 +404,12 @@
 
             </div>
         </div>
+        <div class="row">
         <div class="col-lg-12 my-3 h6 border py-3" style="line-height: 30px;">
-            <span class="float-left"> I certify that under the terms of Contract No.  PWD/HO/P1Header0/2019  , the sum of </span><span class="float-left"><input type="text" class="form-control border-top border-right border-left" style="width: 496px;margin-left: 8px;" /></span>
-            is due to the Service Provider.
+            <span class="float-left"> I certify that under the terms of Contract No.  PWD/HO/P1Header0/2019  , the sum of </span>
+            <span class="float-left"><input type="text" class="form-control border-top border-right border-left" style="width: 300px;margin-left: 8px;" /></span>
+            <span class="float-left px-2">
+            is due to the Service Provider.</span>
         </div>
         <div class="col-lg-10 offset-lg-1 mt-2">
             <div class="bg-white rounded landing-division w-100 float-left  my-2">
@@ -450,6 +454,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <div class="bg-white rounded landing-division w-100 float-left mb-3">
         @{
