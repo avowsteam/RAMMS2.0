@@ -198,7 +198,6 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmUserNotification> RmUserNotification { get; set; }
         public virtual DbSet<RmUsers> RmUsers { get; set; }
         public virtual DbSet<RmUvModuleGroupFieldRights> RmUvModuleGroupFieldRights { get; set; }
-        public virtual DbSet<RmUvModuleGroupFieldRights1> RmUvModuleGroupFieldRights1 { get; set; }
         public virtual DbSet<RmUvModuleGroupRights> RmUvModuleGroupRights { get; set; }
         public virtual DbSet<RmWarImageDtl> RmWarImageDtl { get; set; }
         public virtual DbSet<RmWeekLookup> RmWeekLookup { get; set; }
