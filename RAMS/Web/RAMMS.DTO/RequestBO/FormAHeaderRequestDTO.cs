@@ -106,6 +106,13 @@ namespace RAMMS.DTO.RequestBO
         public string searchString { get; set; }
         public int? Page_No { get; set; }
         public int? pageSize { get; set; }
-        
+        public string RFCRMU { get; set; }
+        public int? RFCYear { get; set; }
+        public int? FshPkRefNo { get; set; }
+        public string RFCFeature { get; set; }
+        public decimal? RFCondition1 { get; set; }
+        public decimal? RFCondition2 { get; set; }
+        public decimal? RFCondition3 { get; set; }
+        public decimal? TotalFeatureCond { get; set; }
     }
 }

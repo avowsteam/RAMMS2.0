@@ -15,6 +15,7 @@ namespace RAMMS.Business.ServiceProvider.Services
     {
         private readonly IRepositoryUnit _repoUnit;
         private readonly IDDLookUpRepository _repolookup;
+        private readonly IFormFSDetailRepository _repoFormFSDetail;
         public LandingHomeService(IRepositoryUnit repoUnit, IDDLookUpRepository repoLookup)
         {
             _repoUnit = repoUnit;
@@ -259,5 +260,25 @@ namespace RAMMS.Business.ServiceProvider.Services
         }
         #endregion
 
+
+      
+        public async Task<List<FormAHeaderRequestDTO>> GetRoadFurnitureConditionPieChart(string RFCRMU, int RFCYear)
+        {
+            var result = new List<FormAHeaderRequestDTO>();
+            try
+            {
+                if (RFCRMU != null || RFCYear != 0)
+                {
+                    result = await _repoUnit.FormARepository.GetRoadFurnitureConditionPieChart(RFCRMU, RFCYear);
+                   
+                }
+                
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -276,6 +276,22 @@ namespace RAMS.Repository
         }
         #endregion
         
+        public async Task<IEnumerable<FormAHeaderRequestDTO>> GetDdYearDetails()
+        {
+            return await (from a  in _context.RmFormFsInsHdr
+                          select new FormAHeaderRequestDTO
+                          {
+                              RFCYear = a.FshYearOfInsp
+                          }).Distinct().ToListAsync();
+        }
+        public async Task<IEnumerable<FormAHeaderRequestDTO>> GetDdRMUDetails()
+        {
+            return await (from a in _context.RmFormFsInsHdr
+                          select new FormAHeaderRequestDTO
+                          {
+                              RFCRMU = a.FshRmuName
+                          }).Distinct().ToListAsync();
+        }
     }
 }
 

@@ -36,6 +36,7 @@ namespace RAMMS.Common.RefNumber
         public const string FormB12Header = "AWPB/Form B12/{YYYY}/{RevisionNo}";
         public const string FormT4Header = "AWPB/Form T4/{RMU}/{YYYY}/{RevisionNo}";
         public const string FormP1Header = "PC/Form P1/{YYYY}{MM}/{" + NewRunningNumber + "}";
+        public const string FormMapHeader = "AWPB/Form Map/{RMU}/{YYYY}"; 
         public const string FormPAHeader = "PC/Form PA/{YYYY}{MM}/{" + NewRunningNumber + "}";
         public const string FormPBHeader = "PC/Form PB/{YYYY}{MM}/{" + NewRunningNumber + "}";
 
@@ -154,6 +155,9 @@ namespace RAMMS.Common.RefNumber
                 case FormType.FormPB:
                     format = FormPBHeader;
                     break;
+                case FormType.FormMap:
+                    format = FormMapHeader;
+                    break;
 
             }
             return format;
@@ -193,7 +197,8 @@ namespace RAMMS.Common.RefNumber
         FormT4,
         FormP1,
         FormPA,
-        FormPB
+        FormPB,
+        FormMap
     }
 
 }

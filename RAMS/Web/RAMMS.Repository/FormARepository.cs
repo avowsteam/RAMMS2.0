@@ -645,5 +645,21 @@ namespace RAMS.Repository
         {
             return await _context.RmFormAHdr.Where(x => x.FahActiveYn == true && x.FahSubmitSts == false).CountAsync();
         }
+        public async Task<List<FormAHeaderRequestDTO>> GetRoadFurnitureConditionPieChart(string RFCRMU,int? RFCYear)
+        {
+            var RoadCondiDetails = (from o in _context.RmFormFsInsHdr
+                                   join h in _context.RmFormFsInsDtl on o.FshPkRefNo equals h.FsdFshPkRefNo
+                                   where o.FshRmuName == RFCRMU && o.FshYearOfInsp == RFCYear
+                                   select h);
+            return RoadCondiDetails.Select(s => new FormAHeaderRequestDTO
+            {
+                RFCondition1 = s.FsdCondition1 / (s.FsdCondition1+ s.FsdCondition2+ s.FsdCondition3),
+                RFCondition2 = s.FsdCondition2 / (s.FsdCondition1 + s.FsdCondition2 + s.FsdCondition3),
+                RFCondition3 = s.FsdCondition3 / (s.FsdCondition1 + s.FsdCondition2 + s.FsdCondition3),
+                RFCFeature = s.FsdFeature
+               
+            }).ToList();
+            //return await _context.RmFormFsInsHdr.Where(x => x.FshRmuName == RFCRMU && x.FshYearOfInsp == RFCYear).ToListAsync();
+        }
     }
 }
