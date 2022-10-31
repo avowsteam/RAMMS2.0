@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq.Expressions;
 using System.Reflection;
 using RAMMS.DTO.ResponseBO;
+using RAMMS.DTO;
 
 namespace RAMMS.Repository
 {
@@ -86,12 +87,14 @@ namespace RAMMS.Repository
                     form.SpiEff = Convert.ToDecimal(spi.eff);
                     form.SpiRb = Convert.ToDecimal(spi.rb);
                     form.SpiIw = Convert.ToDecimal(spi.iw);
+                    form.SpiSpi = Convert.ToDecimal(spi.spi);
 
                     _context.RmDlpSpi.Attach(form);
                     var entry = _context.Entry(form);
                     entry.Property(x => x.SpiEff).IsModified = true;
                     entry.Property(x => x.SpiRb).IsModified = true;
                     entry.Property(x => x.SpiIw).IsModified = true;
+                    entry.Property(x => x.SpiSpi).IsModified = true;
                     _context.SaveChanges();
            
                 }
@@ -102,5 +105,72 @@ namespace RAMMS.Repository
                 return 500;
             }
         }
+
+        #region RMI & IRI
+        public async Task<int> SaveIRI(List<DlpIRIDTO> iRIData)
+        {
+            try
+            {
+                foreach (var spi in iRIData)
+                {
+                    var form = await _context.RmRmiIri.Where(a => a.RmiiriPkRefNo == spi.RmiiriPkRefNo).FirstOrDefaultAsync();
+                    if (form == null)
+                        form = new RmRmiIri();
+                    form.RmiiriYear = spi.RmiiriYear;
+                    form.RmiiriMonth = spi.RmiiriMonth;
+                    form.RmiiriConditionNo = spi.RmiiriConditionNo;
+                    form.RmiiriType = spi.RmiiriType;
+                    form.RmiiriPercentage = spi.RmiiriPercentage;
+                    form.RmiiriRoadLength = spi.RmiiriRoadLength;
+                    if (form.RmiiriPkRefNo != 0)
+                    {
+                        form.RmiiriUpdatedDate = DateTime.Now;
+                    }
+                    else
+                    {
+                        form.RmiiriCreatedDate = DateTime.Now;
+                    }
+                    _context.RmRmiIri.Add(form);
+                    _context.SaveChanges();
+
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return 500;
+            }
+        }
+
+        public async Task<List<RmRmiIri>> GetFilteredRecordList(FilteredPagingDefinition<FormASearchGridDTO> filterOptions)
+        {
+            List<RmRmiIri> result = new List<RmRmiIri>();
+            var query = (from x in _context.RmRmiIri
+                         select new { x });
+
+            result = await query.Select(s => s.x).Skip(filterOptions.StartPageNo)
+                                .Take(filterOptions.RecordsPerPage)
+                                .ToListAsync();
+            return result;
+        }
+
+        public async Task<int> GetFilteredRecordCount(FilteredPagingDefinition<FormASearchGridDTO> filterOptions)
+        {
+            var query = (from x in _context.RmRmiIri
+                         select new { x });
+            return await query.CountAsync().ConfigureAwait(false);
+        }
+
+        public async Task<List<RmRmiIri>> GetIRIData(int year)
+        {
+            List<RmRmiIri> result = new List<RmRmiIri>();
+            var query = (from x in _context.RmRmiIri.Where(a => a.RmiiriYear.Value == year)
+                         select new { x });
+
+            result = await query.Select(s => s.x)
+                                .ToListAsync();
+            return result;
+        }
+        #endregion
     }
 }

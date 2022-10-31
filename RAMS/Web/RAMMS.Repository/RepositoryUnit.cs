@@ -79,6 +79,7 @@ namespace RAMMS.Repository
         private FormT4Repository _formT4Repository;
         private FormP1Repository _formP1Repository;
         private FormPARepository _formPARepository;
+        private FormPBRepository _formPBRepository;
 
         private FormB14Repository _formB14Repository;
 
@@ -115,6 +116,7 @@ namespace RAMMS.Repository
         public FormP1Repository FormP1Repository => _formP1Repository = _formP1Repository ?? new FormP1Repository(_context);
 
         public FormPARepository FormPARepository => _formPARepository = _formPARepository ?? new FormPARepository(_context);
+        public FormPBRepository FormPBRepository => _formPBRepository = _formPBRepository ?? new FormPBRepository(_context);
 
         public FormB7Repository FormB7Repository => _formB7Repository = _formB7Repository ?? new FormB7Repository(_context);
 

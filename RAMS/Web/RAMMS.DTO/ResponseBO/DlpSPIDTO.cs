@@ -35,6 +35,8 @@ namespace RAMMS.DTO.ResponseBO
         public string eff { get; set; }
         public string rb { get; set; }
         public string iw { get; set; }
+
+        public string spi { get; set; }
     }
 }
  

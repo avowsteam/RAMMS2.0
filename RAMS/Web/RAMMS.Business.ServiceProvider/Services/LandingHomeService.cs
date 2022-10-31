@@ -2,6 +2,7 @@
 using RAMMS.Domain.Models;
 using RAMMS.DTO.RequestBO;
 using RAMMS.DTO.ResponseBO;
+using RAMMS.DTO.ResponseBO.DLP;
 using RAMMS.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace RAMMS.Business.ServiceProvider.Services
     {
         private readonly IRepositoryUnit _repoUnit;
         private readonly IDDLookUpRepository _repolookup;
+        private readonly IFormFSDetailRepository _repoFormFSDetail;
         public LandingHomeService(IRepositoryUnit repoUnit, IDDLookUpRepository repoLookup)
         {
             _repoUnit = repoUnit;
@@ -209,6 +211,69 @@ namespace RAMMS.Business.ServiceProvider.Services
                     }
                 }
                 return selectListItems;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        #region DLP SP
+        public async Task<List<RMSPPLPDTO>> getRMSPPLPData(string keyWord)
+        {
+            return await _repolookup.getRMSPPLPData(keyWord);
+        }
+
+        public async Task<List<RMDlpSpiDTO>> getDLPSPSCurveData(string keyWord)
+        {
+            return await _repolookup.getDLPSPSCurveData(keyWord);
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetDLPSPYears()
+        {
+            var ddLookUpItem = new List<SelectListItem>();
+            try
+            {
+                var ddList = await _repolookup.GetDLPSPYears();
+                foreach (var list in ddList)
+                {
+                    ddLookUpItem.Add(new SelectListItem
+                    {
+                        Value = list.ToString(),
+                        Text = list.ToString(),
+                    });
+                }
+                return ddLookUpItem;
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+        }
+
+        #endregion
+
+        #region RMI & IRI
+        public async Task<List<DlpIRIDTO>> getRMIIRIData()
+        {
+            return await _repolookup.getRMIIRIData();
+        }
+        #endregion
+
+
+      
+        public async Task<List<FormAHeaderRequestDTO>> GetRoadFurnitureConditionPieChart(string RFCRMU, int RFCYear)
+        {
+            var result = new List<FormAHeaderRequestDTO>();
+            try
+            {
+                if (RFCRMU != null || RFCYear != 0)
+                {
+                    result = await _repoUnit.FormARepository.GetRoadFurnitureConditionPieChart(RFCRMU, RFCYear);
+                   
+                }
+                
+                return result;
             }
             catch (Exception ex)
             {

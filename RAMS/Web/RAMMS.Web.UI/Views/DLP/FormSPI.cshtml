@@ -118,11 +118,11 @@
                         + "<td>RM "+ assignZero(data.rmuMiri[i].cPlan) +"</td>"
                         + "<td>RM "+ assignZero(data.rmuMiri[i].cActual) +"</td>"
                         + "<td>RM "+ assignZero(data.rmuMiri[i].piWorkActual) +"</td>"
-                        + "<td>"+ assignZero(data.rmuMiri[i].pai) +"</td>"
-                        + "<td class='editpai allow_numeric'>"+ assignZero(data.rmuMiri[i].eff) +"</td>"
-                        + "<td class='editeff allow_numeric'>"+ assignZero(data.rmuMiri[i].rb) +"</td>"
-                        + "<td class='editrb allow_numeric'>"+ assignZero(data.rmuMiri[i].iw) +"</td>"
-                        + "<td>"+ assignZero(data.rmuMiri[i].spi) +"</td>"
+                        + "<td class='editpi'>"+ assignZero(data.rmuMiri[i].pai) +"</td>"
+                        + "<td class='editeff allow_numeric'>"+ assignZero(data.rmuMiri[i].eff) +"</td>"
+                        + "<td class='editrb allow_numeric'>"+ assignZero(data.rmuMiri[i].rb) +"</td>"
+                        + "<td class='editiw allow_numeric'>"+ assignZero(data.rmuMiri[i].iw) +"</td>"
+                        + "<td class='editspi'>"+ assignZero(data.rmuMiri[i].spi) +"</td>"
                         + "<td>"+ assignZero(data.rmuMiri[i].plannedPer) +" %</td>"
                         + "<td>"+ assignZero(data.rmuMiri[i].actualPer) +" %</td>"
                         + "</tr>");
@@ -144,11 +144,11 @@
                         + "<td>RM "+ assignZero(data.rmuBTN[i].cPlan) +"</td>"
                         + "<td>RM "+ assignZero(data.rmuBTN[i].cActual) +"</td>"
                         + "<td>RM "+ assignZero(data.rmuBTN[i].piWorkActual) +"</td>"
-                        + "<td>"+ assignZero(data.rmuBTN[i].pai) +"</td>"
-                        + "<td class='editpai allow_numeric'>"+ assignZero(data.rmuBTN[i].eff) +"</td>"
-                        + "<td class='editeff allow_numeric'>"+ assignZero(data.rmuBTN[i].rb) +"</td>"
-                        + "<td class='editrb allow_numeric'>"+ assignZero(data.rmuBTN[i].iw) +"</td>"
-                        + "<td>"+ assignZero(data.rmuBTN[i].spi) +"</td>"
+                        + "<td class='editspi'>"+ assignZero(data.rmuBTN[i].pai) +"</td>"
+                        + "<td class='editeff allow_numeric'>"+ assignZero(data.rmuBTN[i].eff) +"</td>"
+                        + "<td class='editrb allow_numeric'>"+ assignZero(data.rmuBTN[i].rb) +"</td>"
+                        + "<td class='editiw allow_numeric'>"+ assignZero(data.rmuBTN[i].iw) +"</td>"
+                        + "<td class='editspi'>"+ assignZero(data.rmuBTN[i].spi) +"</td>"
                         + "<td>"+ assignZero(data.rmuBTN[i].plannedPer) +" %</td>"
                         + "<td>"+ assignZero(data.rmuBTN[i].actualPer) +" %</td>"
                         + "</tr>");
@@ -198,12 +198,14 @@
 
     function Edit(obj){
         $("#tbl" + obj + " tbody tr").each(function(){
-            var one = $(this).find('.editpai').html();
-            $(this).find('.editpai').html("<input class='editp {lt,15,PI (EFF)}' type='text' style='width:80px' preval='" + one + "' value='" + one + "' />")
-            var two = $(this).find('.editeff').html();
-            $(this).find('.editeff').html("<input  class='editr  {lt,5,PI (RB)}'  type='text' style='width:80px'   preval='" + two + "'  value='" + two + "' />")
-            var three = $(this).find('.editrb').html();
-            $(this).find('.editrb').html("<input type='text'  class='editr {lt,5,PI (IW)}'  style='width:80px'   preval='" + three + "'  value='" + three + "' />")
+            var one = $(this).find('.editeff').html();
+            $(this).find('.editeff').html("<input class='allow_numeric editp {lt,15,PI (EFF)}' type='text' style='width:80px' preval='" + one + "' value='" + one + "' />")
+            var two = $(this).find('.editrb').html();
+            $(this).find('.editrb').html("<input  class='allow_numeric editr {lt,5,PI (RB)}'  type='text' style='width:80px'   preval='" + two + "'  value='" + two + "' />")
+            var three = $(this).find('.editiw').html();
+            $(this).find('.editiw').html("<input type='text'  class='allow_numeric editr {lt,5,PI (IW)}'  style='width:80px'   preval='" + three + "'  value='" + three + "' />")
+            var four = $(this).find('.editspi').html();
+            $(this).find('.editspi').html("<input type='text' disabled  style='width:80px'   preval='" + four + "'  value='" + four + "' />")
         });
 
         $("#edit"+obj).hide();
@@ -211,41 +213,64 @@
         $("#cancel"+obj).show();
 
         $('.editp').blur(function (event) {
-            var pai = $(this).val();
-            if (pai != "" && +pai > 15){
+           
+            var eff = $(this).val();
+           
+            if (eff != "" && +eff > 15){
                 app.ShowErrorMessage("Value cannot be more than 15.00");
                 $(this).val('');
                  $(this).focus();
                 return false;
             }
+            Calculate($(this));
             return true;
         });
 
         $('.editr').blur(function (event) {
-        var pai = $(this).val();
-            if (pai != "" && +pai > 5){
+        var rb = $(this).val();
+            if (rb != "" && +rb > 5){
                 app.ShowErrorMessage("Value cannot be more than 5.00");
                 $(this).val('');
                  $(this).focus();
                 return false;
             }
-
+            Calculate($(this));
             return true;
         });
     }
+
+   function Calculate(obj){
+       var tr = $(obj).closest("tr");
+        var pi = $(tr).find(".editpi").html();
+        pi = (pi != "" ? parseFloat(pi) : 0)*80;
+        
+        var eff = $(tr).find(".editeff").find("input").val();
+        eff = (eff != "" ? parseFloat(eff) : 0);
+        
+        var rb = $(tr).find(".editrb").find("input").val();
+        rb = (rb != "" ? parseFloat(rb) : 0);
+        
+        var iw = $(tr).find(".editiw").find("input").val();
+        iw = (iw != "" ? parseFloat(iw) : 0);
+
+        var spi = $(tr).find(".editspi").find("input");
+        spi.val(parseFloat(pi+eff+rb-iw))
+   }
 
     function Save(obj){
          InitAjaxLoading();
          var Spi = [];
 
         $("#tbl" + obj + " tbody tr").each(function(){
-            var one = $(this).find('.editpai').find("input");
-            var two = $(this).find('.editeff').find("input");
-            var three = $(this).find('.editrb').find("input");
+            var one = $(this).find('.editeff').find("input");
+            var two = $(this).find('.editrb').find("input");
+            var three = $(this).find('.editiw').find("input");
+             var four = $(this).find('.editspi').find("input");
 
              var eff = one.val();
              var rb = two.val();
              var iw = three.val();
+             var spi = four.val();
 
              if (eff != "" && +eff > 15){
                   $(one).addClass("validate");
@@ -275,6 +300,7 @@
             row.eff = eff;
             row.rb = rb;
             row.iw = iw;
+            row.spi = spi;
             Spi.push(row);
         });
          if (ValidatePage('#divSPI'))
@@ -306,12 +332,14 @@
 
     function Cancel(obj){
         $("#tbl" + obj + " tbody tr").each(function(){
-            var one = $(this).find('.editpai').find("input").attr("preval");
-            $(this).find('.editpai').html(one);
-            var two = $(this).find('.editeff').find("input").attr("preval");
-            $(this).find('.editeff').html(two);
-            var three = $(this).find('.editrb').find("input").attr("preval");
-            $(this).find('.editrb').html(three);
+            var one = $(this).find('.editeff').find("input").attr("preval");
+            $(this).find('.editeff').html(one);
+            var two = $(this).find('.editrb').find("input").attr("preval");
+            $(this).find('.editrb').html(two);
+            var three = $(this).find('.editiw').find("input").attr("preval");
+            $(this).find('.editiw').html(three);
+            var four = $(this).find('.editspi').find("input").attr("preval");
+            $(this).find('.editspi').html(four);
         });
 
         $("#edit"+obj).show();
@@ -557,11 +585,11 @@
                                                                     <td>RM @Model.RmuMiri[i].CPlan</td>
                                                                     <td>RM @Model.RmuMiri[i].CActual</td>
                                                                     <td>@Model.RmuMiri[i].PiWorkActual  </td>
-                                                                    <td>@Model.RmuMiri[i].Pai</td>
-                                                                    <td class="editpai allow_numeric">@Model.RmuMiri[i].Eff</td>
-                                                                    <td class="editeff allow_numeric">@Model.RmuMiri[i].Rb</td>
-                                                                    <td class="editrb allow_numeric"> @Model.RmuMiri[i].Iw</td>
-                                                                    <td>@Model.RmuMiri[i].Spi</td>
+                                                                    <td class="editpi">@Model.RmuMiri[i].Pai</td>
+                                                                    <td class="editeff">@Model.RmuMiri[i].Eff</td>
+                                                                    <td class="editrb">@Model.RmuMiri[i].Rb</td>
+                                                                    <td class="editiw"> @Model.RmuMiri[i].Iw</td>
+                                                                    <td class="editspi">@Model.RmuMiri[i].Spi</td>
                                                                     <td>@Model.RmuMiri[i].PlannedPer %</td>
                                                                     <td>@Model.RmuMiri[i].ActualPer %</td>
                                                                 </tr>
@@ -691,11 +719,11 @@
                                                                     <td>RM @Model.RmuBTN[i].CPlan</td>
                                                                     <td>RM @Model.RmuBTN[i].CActual</td>
                                                                     <td> @Model.RmuBTN[i].PiWorkActual  </td>
-                                                                    <td>@Model.RmuBTN[i].Pai</td>
-                                                                    <td class="editpai allow_numeric">@Model.RmuBTN[i].Eff</td>
-                                                                    <td class="editeff allow_numeric">@Model.RmuBTN[i].Rb</td>
-                                                                    <td class="editrb allow_numeric"> @Model.RmuBTN[i].Iw</td>
-                                                                    <td>@Model.RmuBTN[i].Spi</td>
+                                                                    <td class="editpi">@Model.RmuBTN[i].Pai</td>
+                                                                    <td class="editeff">@Model.RmuBTN[i].Eff</td>
+                                                                    <td class="editrb">@Model.RmuBTN[i].Rb</td>
+                                                                    <td class="editiw"> @Model.RmuBTN[i].Iw</td>
+                                                                    <td  class="editspi">@Model.RmuBTN[i].Spi</td>
                                                                     <td>@Model.RmuBTN[i].PlannedPer %</td>
                                                                     <td>@Model.RmuBTN[i].ActualPer %</td>
                                                                 </tr>
@@ -716,377 +744,6 @@
                     </div>
 
                 </div>
-            </div>
-        </div>
-
-        <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-
-                        <h4 class="modal-title w-100">
-                            <span class="float-left w-75">
-                                Service Provider Performance Indicator (SPI)
-                            </span>
-                            <button type="button" class="close float-right" data-dismiss="modal">&times;</button>
-                        </h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="table-responsive">
-                                    <div class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                        <div class="dataTables_scrollBody">
-                                            <div class="dataTables_scroll">
-                                                <div class="w-100 position-relative in-tbl-btns custom-tbl">
-                                                    <table class="table w-100 nowrap dataTable no-footer">
-                                                        <thead style="background-color: #c8e1ff">
-                                                            <tr>
-                                                                <th class="text-center">
-                                                                </th>
-                                                                <th class="text-center">
-                                                                    <b>PI(EFF)</b>
-                                                                </th>
-                                                                <th class="text-center">
-                                                                    <b>PI(RB)</b>
-                                                                </th>
-                                                                <th class="text-center">
-                                                                    <b>PI(IW)</b>
-                                                                </th>
-                                                                <th class="text-center">
-                                                                    <b>SPI(Year 2022)</b>
-                                                                </th>
-                                                                <th class="text-center">
-
-                                                                </th>
-                                                            </tr>
-
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <b> JAN</b>
-                                                                </td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td>-- </td>
-                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>
-                                                                    <b>FEB</b>
-                                                                </td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td>-- </td>
-                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>MAR</b>
-                                                                </td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td>-- </td>
-                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>APRIL</b>
-                                                                </td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td>-- </td>
-                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>MAY</b>
-                                                                </td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td>-- </td>
-                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>JUNE</b>
-                                                                </td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td>-- </td>
-                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>JULY</b>
-                                                                </td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td>-- </td>
-                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b> AUG</b>
-                                                                </td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td>-- </td>
-                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b> SEP</b>
-                                                                </td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td>-- </td>
-                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>OCT</b>
-                                                                </td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td>-- </td>
-                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>NOV</b>
-                                                                </td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td>-- </td>
-                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>DEC</b>
-                                                                </td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td><input type="text" class="form-control" /></td>
-                                                                <td>-- </td>
-                                                                <td><button class="btn btn-sm btn-themebtn"> <i class="fa fa-save"></i></button> </td>
-
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" id="btnSave" class="btn btn-sm btn-themebtn" onclick="Save('','')">Submit</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div id="myModal1" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title w-100">
-                            <span class="float-left w-75">
-                                Service Provider Performance Indicator (SPI)
-                            </span>
-                            <button type="button" class="close float-right" data-dismiss="modal">&times;</button>
-                        </h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="table-responsive">
-                                    <div class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                        <div class="dataTables_scrollBody">
-                                            <div class="dataTables_scroll">
-                                                <div class="w-100 position-relative in-tbl-btns custom-tbl">
-                                                    <table class="table w-100 nowrap dataTable no-footer">
-                                                        <thead style="background-color: #c8e1ff">
-                                                            <tr>
-                                                                <th class="text-center">
-                                                                </th>
-                                                                <th class="text-center">
-                                                                    <b>PI(EFF)</b>
-                                                                </th>
-                                                                <th class="text-center">
-                                                                    <b>PI(RB)</b>
-                                                                </th>
-                                                                <th class="text-center">
-                                                                    <b>PI(IW)</b>
-                                                                </th>
-                                                                <th class="text-center">
-                                                                    <b>SPI(Year 2022)</b>
-                                                                </th>
-                                                            </tr>
-
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <b> JAN</b>
-                                                                </td>
-                                                                <td>15.0</td>
-                                                                <td>5.0</td>
-                                                                <td>0.00</td>
-                                                                <td>109</td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>
-                                                                    <b>FEB</b>
-                                                                </td>
-                                                                <td>15.0</td>
-                                                                <td>5.0</td>
-                                                                <td>0.00</td>
-                                                                <td>96 </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>MAR</b>
-                                                                </td>
-                                                                <td>15.0</td>
-                                                                <td>5.0</td>
-                                                                <td>0.00</td>
-                                                                <td>20 </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>APRIL</b>
-                                                                </td>
-                                                                <td>15.0</td>
-                                                                <td>5.0</td>
-                                                                <td>0.00</td>
-                                                                <td>20</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>MAY</b>
-                                                                </td>
-                                                                <td>15.0</td>
-                                                                <td>5.0</td>
-                                                                <td>0.00</td>
-                                                                <td>20</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>JUNE</b>
-                                                                </td>
-                                                                <td>15.0</td>
-                                                                <td>5.0</td>
-                                                                <td>0.00</td>
-                                                                <td>20</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>JULY</b>
-                                                                </td>
-                                                                <td>15.0</td>
-                                                                <td>5.0</td>
-                                                                <td>0.00</td>
-                                                                <td>20</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b> AUG</b>
-                                                                </td>
-                                                                <td>15.0</td>
-                                                                <td>5.0</td>
-                                                                <td>0.00</td>
-                                                                <td>20</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b> SEP</b>
-                                                                </td>
-                                                                <td>15.0</td>
-                                                                <td>5.0</td>
-                                                                <td>0.00</td>
-                                                                <td>20</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>OCT</b>
-                                                                </td>
-                                                                <td>15.0</td>
-                                                                <td>5.0</td>
-                                                                <td>0.00</td>
-                                                                <td>20</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>NOV</b>
-                                                                </td>
-                                                                <td>15.0</td>
-                                                                <td>5.0</td>
-                                                                <td>0.00</td>
-                                                                <td>20</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <b>DEC</b>
-                                                                </td>
-                                                                <td>15.0</td>
-                                                                <td>5.0</td>
-                                                                <td>0.00</td>
-                                                                <td>20</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" id="btnSave" class="btn btn-sm btn-themebtn" onclick="Save('','')">Save</button>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>

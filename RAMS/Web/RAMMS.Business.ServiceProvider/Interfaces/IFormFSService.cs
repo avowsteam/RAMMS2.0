@@ -23,5 +23,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         FormFSRpt GetReportData(int headerid);
         Byte[] FormDownload(string formname, int id, string basepath, string filepath);
         Task<List<FormFSDetailRequestDTO>> GetRecordList(int headerId);
+       // Task<PagingResult<FormFSDetailRequestDTO>> GetRoadFurnitureConditionPieChart(FilteredPagingDefinition<FormFSDetailRequestDTO> filterOptions);
+        
     }
 }

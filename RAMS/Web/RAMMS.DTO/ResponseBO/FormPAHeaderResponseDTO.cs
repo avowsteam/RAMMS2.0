@@ -48,8 +48,8 @@ namespace RAMMS.DTO.ResponseBO
         public string Status { get; set; }
         public string AuditLog { get; set; }
 
-        public List<RmPaymentCertificateCrr> RmPaymentCertificateCrr { get; set; }
-        public List<RmPaymentCertificateCrra> RmPaymentCertificateCrra { get; set; }
-        public List<RmPaymentCertificateCrrd> RmPaymentCertificateCrrd { get; set; }
+        public List<FormPACRRResponseDTO> RmPaymentCertificateCrr { get; set; }
+        public List<FormPACRRAResponseDTO> RmPaymentCertificateCrra { get; set; }
+        public List<FormPACRRDResponseDTO> RmPaymentCertificateCrrd { get; set; }
     }
 }

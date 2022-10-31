@@ -13,18 +13,18 @@ using System.Threading.Tasks;
 
 namespace RAMMS.Repository.Interfaces
 {
-    public interface IFormPBRepository : IRepositoryBase<RmPaymentCertificateHeader>
+    public interface IFormPBRepository : IRepositoryBase<RmPbIw>
     {
         //   Task<IEnumerable<RmFormF1Dtl>> FindFormF1DtlByID(int Id);
 
 
         Task<List<FormPBHeaderResponseDTO>> GetFilteredRecordList(FilteredPagingDefinition<FormPBSearchGridDTO> filterOptions);
 
-        RmPaymentCertificateHeader GetHeaderById(int id);
+        RmPbIw GetHeaderById(int id);
 
-        Task<int> SaveFormPB(RmPaymentCertificateHeader FormPB);
+        Task<int> SaveFormPB(RmPbIw FormPB);
       
-        Task<int> UpdateFormPB(RmPaymentCertificateHeader FormPBHeader, List<RmPaymentCertificate> FormPB);
+        Task<int> UpdateFormPB(RmPbIw FormPBHeader, List<RmPbIwDetails> FormPB);
 
         int? DeleteFormPB(int id);
 

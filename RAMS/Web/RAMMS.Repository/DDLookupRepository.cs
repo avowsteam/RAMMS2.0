@@ -13,6 +13,7 @@ using RAMMS.Repository.Interfaces;
 using RAMMS.DTO.RequestBO;
 using RAMMS.DTO.ResponseBO;
 using RAMMS.Repository;
+using RAMMS.DTO.ResponseBO.DLP;
 
 namespace RAMS.Repository
 {
@@ -180,6 +181,116 @@ namespace RAMS.Repository
         {
             return await _context.RmFormRDistressDetails.ToListAsync();
 
+        }
+
+        #region Get DLP SP
+        public async Task<List<RMDlpSpiDTO>> getDLPSPSCurveData(string keyWord)
+        {
+            return await _context.RmDlpSpi.Select(a => new RMDlpSpiDTO
+            {
+               SpiActualPer = a.SpiActualPer,
+               SpiCActual = a.SpiCActual,
+               SpiCPlan = a.SpiCPlan,
+               SpiCreatedDate = a.SpiCreatedDate,
+               SpiDivCode = a.SpiDivCode,
+               SpiDivName = a.SpiDivName,
+               SpiEff = a.SpiEff,
+               SpiIw = a.SpiIw,
+               SpiMActual = a.SpiMActual,
+               SpiMonth = a.SpiMonth,
+               SpiMPlanned = a.SpiMPlanned,
+               SpiPai = a.SpiPai,
+               SpiPiWorkActual = a.SpiPiWorkActual,
+               SpiPkRefNo = a.SpiPkRefNo,
+               SpiPlannedPer = a.SpiPlannedPer,
+               SpiRb = a.SpiRb,
+               SpiSpi = a.SpiSpi,
+               SpiYear = a.SpiYear,
+               SpiUpdatedDate = a.SpiUpdatedDate
+            }).ToListAsync();
+
+        }
+
+        public async Task<List<RMSPPLPDTO>> getRMSPPLPData(string keyWord)
+        {
+            //return await _context.UvwSearchData.Where(x => x.RefId.Contains(keyWord)).ToListAsync();
+            return await _context.RmSpPlp.Select(a => new RMSPPLPDTO
+            {
+                SpplpActualPer = a.SpplpActualPer,
+                SpplpCActual = a.SpplpCActual,
+                SpplpCPlan = a.SpplpCPlan,
+                SpplpCreatedDate = a.SpplpCreatedDate,
+                SpplpDivCode = a.SpplpDivCode,
+                SpplpDivName = a.SpplpDivName,
+                SpplpEff = a.SpplpEff,
+                SpplpIw = a.SpplpIw,
+                SpplpMActual = a.SpplpMActual,
+                SpplpMonth = a.SpplpMonth,
+                SpplpMPlanned = a.SpplpMPlanned,
+                SpplpPai = a.SpplpPai,
+                SpplpPiWorkActual = a.SpplpPiWorkActual,
+                SpplpPkRefNo = a.SpplpPkRefNo,
+                SpplpPlannedPer = a.SpplpPlannedPer,
+                SpplpRb = a.SpplpRb,
+                SpplpSpi = a.SpplpSpi,
+                SpplpUpdatedDate = a.SpplpUpdatedDate,
+                SpplpYear = a.SpplpYear
+            }).ToListAsync();
+
+        }
+
+        public async Task<List<RmRmiIri>> GetFilteredRecordList()
+        {
+            List<RmRmiIri> result = new List<RmRmiIri>();
+            var query = (from x in _context.RmRmiIri
+                         select new { x });
+
+            result = await query.Select(s => s.x)
+                                .ToListAsync();
+            return result;
+        }
+
+        public async Task<List<int>> GetDLPSPYears()
+        {
+            return await _context.RmDlpSpi.GroupBy(a => a.SpiYear).Select(a => a.Key.Value).ToListAsync();
+
+        }
+
+        #endregion
+
+
+        #region RMI & IRI
+        public async Task<List<DlpIRIDTO>> getRMIIRIData()
+        {
+            return await _context.RmRmiIri.Select(a => new DlpIRIDTO
+            {
+                RmiiriConditionNo = a.RmiiriConditionNo,
+                RmiiriCreatedDate = a.RmiiriCreatedDate,
+                RmiiriMonth = a.RmiiriMonth,
+                RmiiriPercentage = a.RmiiriPercentage,
+                RmiiriRoadLength = a.RmiiriRoadLength,
+                RmiiriPkRefNo = a.RmiiriPkRefNo,
+                RmiiriType = a.RmiiriType,
+                RmiiriYear = a.RmiiriYear
+            }).ToListAsync();
+        }
+        #endregion
+        
+        public async Task<IEnumerable<FormAHeaderRequestDTO>> GetDdYearDetails()
+        {
+            return await (from a  in _context.RmFormFsInsHdr
+                          select new FormAHeaderRequestDTO
+                          {
+                              RFCYear = a.FshYearOfInsp
+                          }).Distinct().ToListAsync();
+        }
+        public async Task<IEnumerable<FormAHeaderRequestDTO>> GetDdRMUDetails()
+        {
+            return await (from a in _context.RmFormFsInsHdr
+                          select new FormAHeaderRequestDTO
+                          {
+                              RFCRMU = a.FshRmuName
+                          }).Distinct().ToListAsync();
         }
     }
 }

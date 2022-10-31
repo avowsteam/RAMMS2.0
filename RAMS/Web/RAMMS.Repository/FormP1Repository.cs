@@ -152,14 +152,14 @@ namespace RAMMS.Repository
         {
             RmPaymentCertificateHeader res = (from r in _context.RmPaymentCertificateHeader where r.PchPkRefNo == id select r).FirstOrDefault();
 
-            var resPA = (from r in _context.RmPaymentCertificateHeader where r.PchSubmissionYear == res.PchSubmissionYear && r.PchSubmissionMonth == res.PchSubmissionMonth select r).FirstOrDefault();
-            var resPB = (from r in _context.RmPaymentCertificateHeader where r.PchSubmissionYear == res.PchSubmissionYear && r.PchSubmissionMonth == res.PchSubmissionMonth select r).FirstOrDefault();
+            var resPA = (from r in _context.RmPaymentCertificateMamw where r.PcmamwSubmissionYear == res.PchSubmissionYear && r.PcmamwSubmissionMonth == res.PchSubmissionMonth select r).FirstOrDefault();
+            var resPB = (from r in _context.RmPbIw where r.PbiwSubmissionYear == res.PchSubmissionYear && r.PbiwSubmissionMonth == res.PchSubmissionMonth select r).FirstOrDefault();
 
-            res.PchContractRoadLength = resPA.PchContractRoadLength;
-            res.PchNetValueDeduction = resPA.PchNetValueDeduction;
-            res.PchNetValueAddition = resPA.PchNetValueAddition;
-            res.PchNetValueInstructedWork = resPB.PchNetValueInstructedWork;
-            res.PchNetValueLadInstructedWork = resPB.PchNetValueLadInstructedWork;
+            res.PchContractRoadLength = resPA.PcmamwTotalPayment;
+            res.PchNetValueDeduction = resPA.PcmamwWorkValueDeduction;
+            res.PchNetValueAddition = resPA.PcmamwWorkValueAddition;
+            res.PchNetValueInstructedWork = resPB.PbiwAmountBeforeLad;
+            res.PchNetValueLadInstructedWork = resPB.PbiwLaDamage;
 
             res.RmPaymentCertificate = (from r in _context.RmPaymentCertificate
                                         where r.PcPchPkRefNo == id

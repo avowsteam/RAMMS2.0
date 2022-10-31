@@ -272,10 +272,10 @@
                                 </a>
 
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;">
-                                    <li class="nav-link custom-menu" >
+                                    <li class="nav-link custom-menu">
                                         <ul>
                                             <li class="nav-item">
-                                                <span  class="menu-title">Visual Distress Survey</span>
+                                                <span class="menu-title">Visual Distress Survey</span>
                                             </li>
                                             <li class="nav-item">
                                                 <a href="@Url.Action("Index", "FormR1R2")" class="nav-link"><span class="text-truncate" style="white-space: break-spaces;"> Retaining  Wall Visual Inspection Record  (Form R1/R2)</span></a>
@@ -326,7 +326,7 @@
                                                 <a href="@Url.Action("Index", "FrmT")" class="nav-link"><span class="text-truncate">Traffic Volume Count Form (Form T)</span></a>
                                             </li>
                                         </ul>
-                                  
+
                                 </ul>
                             </li>
                         }
@@ -344,7 +344,7 @@
                                         <a href="@Url.Action("Index", "InstructedWorks")" class="nav-link"><span class="text-truncate">Instructed Works (IW)</span></a>
                                     </li>
                                     @*<li class="nav-item">
-                                            <a href="@Url.Action("IWIndex", "InstructedWorks")" class="nav-link"><span class="text-truncate">Instructed Works</span></a>
+                                        <a href="@Url.Action("IWIndex", "InstructedWorks")" class="nav-link"><span class="text-truncate">Instructed Works</span></a>
                                         </li>*@
                                 </ul>
                             </li>
@@ -387,22 +387,53 @@
                         }
 
                         <li class="navbar-vertical-aside-has-menu">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="DLPForm" href="javascript:;" title="Detail Landing Page">
-                                    <i class="icon-settings nav-icon"></i>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Detail Landing Page</span>
-                                </a>
+                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="DLPForm" href="javascript:;" title="Detail Landing Page">
+                                <i class="icon-settings nav-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Detail Landing Page</span>
+                            </a>
 
-                                <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;">
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("FormSPI", "DLP")" class="nav-link"><span class="text-truncate">Service Provider Performance Indicator (SPI)</span></a>
-                                       
+                            <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("FormSPI", "DLP")" class="nav-link"><span class="text-truncate">Service Provider Performance Indicator (SPI)</span></a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("FormIRI_RMI", "DLP")" class="nav-link"><span class="text-truncate">International Roughness Index (IRI) & Road Maintenance Indicator (RMI)</span></a>
+
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="navbar-vertical-aside-has-menu">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="payForm" href="javascript:;" title="Payment Certificate">
+                                <i class="fa fa-wallet nav-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Payment Certificate</span>
+                            </a>
+
+                            <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "FormP1")" class="nav-link">
+                                        <span class="text-truncate">Payment Certificate (Form P1)</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "FormPA")" class="nav-link">
+                                        <span class="text-truncate">Management and Maintenance Works (Form PA)</span>
+                                    </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="@Url.Action("FormIRI_RMI", "DLP")" class="nav-link"><span class="text-truncate">International Roughness Index (IRI) & Road Maintenance Indicator (RMI)</span></a>
-                                         
-                                    </li>
-                                </ul>
-                            </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "FormPB")" class="nav-link">
+                                        <span class="text-truncate">Instructed Works (Form PB)</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <li class="navbar-vertical-aside-has-menu">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="mapForm" href="javascript:;" title="MAP">
+                                <i class="fa fa-calendar nav-icon"></i><span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">MAP</span>
+                            </a>
+                        </li>
 
                         @*@if (security.IsPCView(ModuleNameList.User_Management) || security.HasGroup(GroupNameList.Admin))
                             {*@
@@ -436,19 +467,19 @@
 
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;">
                                     @*<li class="nav-item">
-                                            <a href="@Url.Action("list", "Administration",new {id="division"})" class="nav-link"><span class="text-truncate">Division</span></a>
+                                        <a href="@Url.Action("list", "Administration",new {id="division"})" class="nav-link"><span class="text-truncate">Division</span></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("list", "Administration",new { id="rmu"})" class="nav-link"><span class="text-truncate">RMU</span></a>
+                                        <a href="@Url.Action("list", "Administration",new { id="rmu"})" class="nav-link"><span class="text-truncate">RMU</span></a>
                                         </li>*@
                                     <li class="nav-item">
                                         <a href="@Url.Action("list", "Administration",new { id="division"})" class="nav-link"><span class="text-truncate">Division/RMU/Section</span></a>
                                     </li>
                                     @*<li class="nav-item">
-                                            <a href="@Url.Action("list", "Administration",new { id="assettype"})" class="nav-link"><span class="text-truncate">Asset Type</span></a>
+                                        <a href="@Url.Action("list", "Administration",new { id="assettype"})" class="nav-link"><span class="text-truncate">Asset Type</span></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="@Url.Action("list", "Administration",new { id="defect"})" class="nav-link"><span class="text-truncate">Defect</span></a>
+                                        <a href="@Url.Action("list", "Administration",new { id="defect"})" class="nav-link"><span class="text-truncate">Defect</span></a>
                                         </li>*@
                                     <li class="nav-item">
                                         <a href="@Url.Action("list", "Administration",new { id="road"})" class="nav-link"><span class="text-truncate">List of Road</span></a>
@@ -457,12 +488,12 @@
                             </li>
                         }
                         @*<li class="nav-item">
-                                <a class="js-nav-tooltip-link nav-link svg-hover" id="" href="" data-placement="left" data-original-title="Audit Log">
-                                    <svg style="width: 22px; height: 24px; margin-left: -2px;" viewBox="0 0 22 22">
-                                        <path style="width:22px;height:24px;" d="M15.5,12C18,12 20,14 20,16.5C20,17.38 19.75,18.21 19.31,18.9L22.39,22L21,23.39L17.88,20.32C17.19,20.75 16.37,21 15.5,21C13,21 11,19 11,16.5C11,14 13,12 15.5,12M15.5,14A2.5,2.5 0 0,0 13,16.5A2.5,2.5 0 0,0 15.5,19A2.5,2.5 0 0,0 18,16.5A2.5,2.5 0 0,0 15.5,14M5,3H19C20.11,3 21,3.89 21,5V13.03C20.5,12.23 19.81,11.54 19,11V5H5V19H9.5C9.81,19.75 10.26,20.42 10.81,21H5C3.89,21 3,20.11 3,19V5C3,3.89 3.89,3 5,3M7,7H17V9H7V7M7,11H12.03C11.23,11.5 10.54,12.19 10,13H7V11M7,15H9.17C9.06,15.5 9,16 9,16.5V17H7V15Z" />
-                                    </svg>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Audit Log</span>
-                                </a>
+                            <a class="js-nav-tooltip-link nav-link svg-hover" id="" href="" data-placement="left" data-original-title="Audit Log">
+                            <svg style="width: 22px; height: 24px; margin-left: -2px;" viewBox="0 0 22 22">
+                            <path style="width:22px;height:24px;" d="M15.5,12C18,12 20,14 20,16.5C20,17.38 19.75,18.21 19.31,18.9L22.39,22L21,23.39L17.88,20.32C17.19,20.75 16.37,21 15.5,21C13,21 11,19 11,16.5C11,14 13,12 15.5,12M15.5,14A2.5,2.5 0 0,0 13,16.5A2.5,2.5 0 0,0 15.5,19A2.5,2.5 0 0,0 18,16.5A2.5,2.5 0 0,0 15.5,14M5,3H19C20.11,3 21,3.89 21,5V13.03C20.5,12.23 19.81,11.54 19,11V5H5V19H9.5C9.81,19.75 10.26,20.42 10.81,21H5C3.89,21 3,20.11 3,19V5C3,3.89 3.89,3 5,3M7,7H17V9H7V7M7,11H12.03C11.23,11.5 10.54,12.19 10,13H7V11M7,15H9.17C9.06,15.5 9,16 9,16.5V17H7V15Z" />
+                            </svg>
+                            <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Audit Log</span>
+                            </a>
                             </li>*@
                     </ul>
                 </div>
@@ -484,7 +515,7 @@
                     </div>
                     <div class="col-4 al-575-r d-flex justify-content-end">
                         @*<span class="notify-group position-relative float-right d-none d-md-block">
-                             <span class="notify-icon"></span>
+                            <span class="notify-icon"></span>
                             </span>*@
                         <div class="navbar-custom">
                             <ul class="list-unstyled topbar-right-menu float-right mb-0 d-flex align-items-lg-center">
@@ -534,7 +565,6 @@
                                         </div>
 
                                         <div class="slimscroll overflow-auto" style="max-height: 230px;" notificationItem>
-
                                         </div>
 
                                         <!-- All-->
@@ -631,214 +661,214 @@
 
 
     <script type="text/javascript">
-        //insert this in your jquery
-        //control the resizing of menu and go down the content in the correct position
-        $(document).ready(function () {
-            AutoComplete("globalSearch", "Home/GlobalSearchData", function (data, mode) {
-                if (data) {
-                    window.location = data.data.Url;
-                }
-            }, 3);
+                //insert this in your jquery
+                //control the resizing of menu and go down the content in the correct position
+                $(document).ready(function () {
+                    AutoComplete("globalSearch", "Home/GlobalSearchData", function (data, mode) {
+                        if (data) {
+                            window.location = data.data.Url;
+                        }
+                    }, 3);
 
-            if ($('#liInspection ul li').length == 0) {
-                $('#liInspection').remove();
-            }
-            if ($('#liEvent ul li').length == 0) {
-                $('#liEvent').remove();
-            }
-            if ($('#liWorksManagement ul li').length == 0) {
-                $('#liWorksManagement').remove();
-            }
-            if ($('#liWorkPrograms ul li').length == 0) {
-                $('#liWorkPrograms').remove();
-            }
-            if ($('#liRoutineWork ul li').length == 0) {
-                $('#liRoutineWork').remove();
-            }
-
-            if ($('#liUserManagement ul li').length == 0) {
-                $('#liUserManagement').remove();
-            }
-
-            if ($('#liAdministration ul li').length == 0) {
-                $('#liAdministration').remove();
-            }
-
-            if ($('#liBuilding ul li').length == 0) {
-                $('#liBuilding').remove();
-            }
-            if ($('#liLandscaping ul li').length == 0) {
-                $('#liLandscaping').remove();
-            }
-            if ($('#liCarriageway ul li').length == 0) {
-                $('#liCarriageway').remove();
-            }
-            if ($('#liDelineation ul li').length == 0) {
-                $('#liDelineation').remove();
-            }
-            if ($('#liDrainage ul li').length == 0) {
-                $('#liDrainage').remove();
-            }
-            if ($('#liMEE ul li').length == 0) {
-                $('#liMEE').remove();
-            }
-            if ($('#liPavement ul li').length == 0) {
-                $('#liPavement').remove();
-            }
-            if ($('#liRoadFurniture ul li').length == 0) {
-                $('#liRoadFurniture').remove();
-            }
-            if ($('#liSlopes ul li').length == 0) {
-                $('#liSlopes').remove();
-            }
-            if ($('#liTunnel ul li').length == 0) {
-                $('#liTunnel').remove();
-            }
-
-            if ($('#liAsset ul li').length == 0) {
-                $('#liAsset').remove();
-            }
-            if ($('#liMCSCivil ul li').length == 0) {
-                $('#liMCSCivil').remove();
-            }
-            if ($('#liMCSMEE ul li').length == 0) {
-                $('#liMCSMEE').remove();
-            }
-            if ($('#liMCSCivilBacklog ul li').length == 0) {
-                $('#liMCSCivilBacklog').remove();
-            }
-            if ($('#liMCS ul li').length == 0) {
-                $('#liMCS').remove();
-            }
-            if ($('#liPIT ul li').length == 0) {
-                $('#liPIT').remove();
-            }
-            //Report
-
-            if ($('#liAssetReport ul li').length == 0) {
-                $('#liAssetReport').remove();
-            }
-            if ($('#liBreakdownAndDefects ul li').length == 0) {
-                $('#liBreakdownAndDefects').remove();
-            }
-            if ($('#liMeeMonthly ul li').length == 0) {
-                $('#liMeeMonthly').remove();
-            }
-            if ($('#liWorksReport ul li').length == 0) {
-                $('#liWorksReport').remove();
-            }
-            if ($('#liPavementReport ul li').length == 0) {
-                $('#liPavementReport').remove();
-            }
-            if ($('#liMcsCivilReport ul li').length == 0) {
-                $('#liMcsCivilReport').remove();
-            }
-            if ($('#liMcsMeeReport ul li').length == 0) {
-                $('#liMcsMeeReport').remove();
-            }
-            if ($('#liMcsCivilBacklogReport ul li').length == 0) {
-                $('#liMcsCivilBacklogReport').remove();
-            }
-            if ($('#liPitFormReport ul li').length == 0) {
-                $('#liPitFormReport').remove();
-            }
-
-            if ($('#liReport ul li').length == 0) {
-                $('#liReport').remove();
-            }
-
-            // Handler for .ready() called.
-            $(window).resize(function () {
-                $('#godown').height($("#navMenu").height() + 10);
-            });
-
-            if ($("#navMenu").height() > $('#godown').height()) {
-                $('#godown').height($("#navMenu").height() + 10);
-            }
-
-            $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-                $(this).parent().siblings().removeClass('open');
-                $(this).parent().toggleClass('open');
-            });
-
-            /* Anything that gets to the document
-will hide the dropdown */
-            $(document).click(function () {
-                $('#navMenu').css('position', 'fixed');
-                $('#navMenu').css('margin-bottom', '20px');
-                $('#godown').show();
-                // window.scrollTo(0,0);
-            });
-
-            /* Clicks within the dropdown won't make
-               it past the dropdown itself */
-            $("#dropdown").click(function (e) {
-                // e.stopPropagation();
-
-            });
-
-            $('li.dropdown [data-toggle=dropdown]').on('click', function (event) {
-                $('#navMenu').css('position', 'relative');
-                $('#navMenu').css('margin-bottom', '9px');
-                $('#godown').hide();
-                window.scrollTo(0, 0);
-            });
-
-            window.TryParseInt = function (e) {
-                try {
-                    if (e != null && e != undefined && e != "") {
-                        return parseInt(e);
+                    if ($('#liInspection ul li').length == 0) {
+                        $('#liInspection').remove();
                     }
-                    else {
-                        return 0;
+                    if ($('#liEvent ul li').length == 0) {
+                        $('#liEvent').remove();
                     }
+                    if ($('#liWorksManagement ul li').length == 0) {
+                        $('#liWorksManagement').remove();
+                    }
+                    if ($('#liWorkPrograms ul li').length == 0) {
+                        $('#liWorkPrograms').remove();
+                    }
+                    if ($('#liRoutineWork ul li').length == 0) {
+                        $('#liRoutineWork').remove();
+                    }
+
+                    if ($('#liUserManagement ul li').length == 0) {
+                        $('#liUserManagement').remove();
+                    }
+
+                    if ($('#liAdministration ul li').length == 0) {
+                        $('#liAdministration').remove();
+                    }
+
+                    if ($('#liBuilding ul li').length == 0) {
+                        $('#liBuilding').remove();
+                    }
+                    if ($('#liLandscaping ul li').length == 0) {
+                        $('#liLandscaping').remove();
+                    }
+                    if ($('#liCarriageway ul li').length == 0) {
+                        $('#liCarriageway').remove();
+                    }
+                    if ($('#liDelineation ul li').length == 0) {
+                        $('#liDelineation').remove();
+                    }
+                    if ($('#liDrainage ul li').length == 0) {
+                        $('#liDrainage').remove();
+                    }
+                    if ($('#liMEE ul li').length == 0) {
+                        $('#liMEE').remove();
+                    }
+                    if ($('#liPavement ul li').length == 0) {
+                        $('#liPavement').remove();
+                    }
+                    if ($('#liRoadFurniture ul li').length == 0) {
+                        $('#liRoadFurniture').remove();
+                    }
+                    if ($('#liSlopes ul li').length == 0) {
+                        $('#liSlopes').remove();
+                    }
+                    if ($('#liTunnel ul li').length == 0) {
+                        $('#liTunnel').remove();
+                    }
+
+                    if ($('#liAsset ul li').length == 0) {
+                        $('#liAsset').remove();
+                    }
+                    if ($('#liMCSCivil ul li').length == 0) {
+                        $('#liMCSCivil').remove();
+                    }
+                    if ($('#liMCSMEE ul li').length == 0) {
+                        $('#liMCSMEE').remove();
+                    }
+                    if ($('#liMCSCivilBacklog ul li').length == 0) {
+                        $('#liMCSCivilBacklog').remove();
+                    }
+                    if ($('#liMCS ul li').length == 0) {
+                        $('#liMCS').remove();
+                    }
+                    if ($('#liPIT ul li').length == 0) {
+                        $('#liPIT').remove();
+                    }
+                    //Report
+
+                    if ($('#liAssetReport ul li').length == 0) {
+                        $('#liAssetReport').remove();
+                    }
+                    if ($('#liBreakdownAndDefects ul li').length == 0) {
+                        $('#liBreakdownAndDefects').remove();
+                    }
+                    if ($('#liMeeMonthly ul li').length == 0) {
+                        $('#liMeeMonthly').remove();
+                    }
+                    if ($('#liWorksReport ul li').length == 0) {
+                        $('#liWorksReport').remove();
+                    }
+                    if ($('#liPavementReport ul li').length == 0) {
+                        $('#liPavementReport').remove();
+                    }
+                    if ($('#liMcsCivilReport ul li').length == 0) {
+                        $('#liMcsCivilReport').remove();
+                    }
+                    if ($('#liMcsMeeReport ul li').length == 0) {
+                        $('#liMcsMeeReport').remove();
+                    }
+                    if ($('#liMcsCivilBacklogReport ul li').length == 0) {
+                        $('#liMcsCivilBacklogReport').remove();
+                    }
+                    if ($('#liPitFormReport ul li').length == 0) {
+                        $('#liPitFormReport').remove();
+                    }
+
+                    if ($('#liReport ul li').length == 0) {
+                        $('#liReport').remove();
+                    }
+
+                    // Handler for .ready() called.
+                    $(window).resize(function () {
+                        $('#godown').height($("#navMenu").height() + 10);
+                    });
+
+                    if ($("#navMenu").height() > $('#godown').height()) {
+                        $('#godown').height($("#navMenu").height() + 10);
+                    }
+
+                    $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        $(this).parent().siblings().removeClass('open');
+                        $(this).parent().toggleClass('open');
+                    });
+
+                    /* Anything that gets to the document
+        will hide the dropdown */
+                    $(document).click(function () {
+                        $('#navMenu').css('position', 'fixed');
+                        $('#navMenu').css('margin-bottom', '20px');
+                        $('#godown').show();
+                        // window.scrollTo(0,0);
+                    });
+
+                    /* Clicks within the dropdown won't make
+                       it past the dropdown itself */
+                    $("#dropdown").click(function (e) {
+                        // e.stopPropagation();
+
+                    });
+
+                    $('li.dropdown [data-toggle=dropdown]').on('click', function (event) {
+                        $('#navMenu').css('position', 'relative');
+                        $('#navMenu').css('margin-bottom', '9px');
+                        $('#godown').hide();
+                        window.scrollTo(0, 0);
+                    });
+
+                    window.TryParseInt = function (e) {
+                        try {
+                            if (e != null && e != undefined && e != "") {
+                                return parseInt(e);
+                            }
+                            else {
+                                return 0;
+                            }
+                        }
+                        catch (e) {
+                            return 0;
+                        }
+                    };
+
+                    InitnumericValidation();
+                });
+
+                function InitnumericValidation() {
+                    $("input[class*='numeric']").keydown(function (event) {
+                        if (event.shiftKey == true) {
+                            event.preventDefault();
+                        }
+
+                        if ((event.keyCode >= 48 && event.keyCode <= 57) ||
+                            (event.keyCode >= 96 && event.keyCode <= 105) ||
+                            event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 ||
+                            event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190) {
+
+                        } else {
+                            event.preventDefault();
+                        }
+
+                        if ($(this).val().indexOf('.') !== -1 && event.keyCode == 190)
+                            event.preventDefault();
+
+                    });
+
+                    $("input[class*='alphaNumeric']").keypress(function (e) {
+                        var regex = new RegExp("^[a-zA-Z0-9 ]+$");
+                        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                        if (!regex.test(key)) {
+                            event.preventDefault();
+                            return false;
+                        }
+                    });
                 }
-                catch (e) {
-                    return 0;
+                function redirectUrl(action, controller) {
+                    location.href = '/' + controller + '/' + action;
                 }
-            };
-
-            InitnumericValidation();
-        });
-
-        function InitnumericValidation() {
-            $("input[class*='numeric']").keydown(function (event) {
-                if (event.shiftKey == true) {
-                    event.preventDefault();
-                }
-
-                if ((event.keyCode >= 48 && event.keyCode <= 57) ||
-                    (event.keyCode >= 96 && event.keyCode <= 105) ||
-                    event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 ||
-                    event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190) {
-
-                } else {
-                    event.preventDefault();
-                }
-
-                if ($(this).val().indexOf('.') !== -1 && event.keyCode == 190)
-                    event.preventDefault();
-
-            });
-
-            $("input[class*='alphaNumeric']").keypress(function (e) {
-                var regex = new RegExp("^[a-zA-Z0-9 ]+$");
-                var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-                if (!regex.test(key)) {
-                    event.preventDefault();
-                    return false;
-                }
-            });
-        }
-        function redirectUrl(action, controller) {
-            location.href = '/' + controller + '/' + action;
-        }
-        $(document).on('ready', function () {
-            var sidebar = $('.js-navbar-vertical-aside').hsSideNav();
-            $("input[type='date'][msg]").on("blur", function () { jsMaster.DateCtrlValidate(this); });
-        });
+                $(document).on('ready', function () {
+                    var sidebar = $('.js-navbar-vertical-aside').hsSideNav();
+                    $("input[type='date'][msg]").on("blur", function () { jsMaster.DateCtrlValidate(this); });
+                });
 
     </script>
     @if (security.IsLogin)
