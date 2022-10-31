@@ -8,5 +8,7 @@ namespace RAMMS.DTO.RequestBO
     {
         public List<string> RMU { get; set; }
         public string Section { get; set; }
+        public string RFCRMU { get; set; }
+        public int RFCYear { get; set; }
     }
 }

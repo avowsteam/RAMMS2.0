@@ -31,5 +31,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<IEnumerable<RmDdLookup>> GetLookups(DDLookUpDTO DdLookUp);
         object GetDdlLookupByCode(string TypeCode);
         Task<IEnumerable<SelectListItem>> GetDdDistressDetails();
+        Task<IEnumerable<SelectListItem>> GetDdYearDetails();
+        Task<IEnumerable<SelectListItem>> GetDdRMUDetails();
     }
 }

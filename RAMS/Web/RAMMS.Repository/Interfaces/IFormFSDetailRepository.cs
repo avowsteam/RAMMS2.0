@@ -14,5 +14,6 @@ namespace RAMMS.Repository.Interfaces
         List<RmFormFsInsDtl> GetDetailsforInsert(int headerid, int userid, RmFormFsInsHdr hdr);
         int BulkInsert(List<RmFormFsInsDtl> details, int headerid);
         Task<List<FormFSDetailRequestDTO>> GetRecordList(int headerId);
+        //Task<List<FormFSDetailRequestDTO>> GetRoadFurnitureConditionPieChart(int headerId);
     }
 }

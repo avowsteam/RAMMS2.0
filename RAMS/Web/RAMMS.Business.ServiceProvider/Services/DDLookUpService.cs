@@ -456,5 +456,47 @@ namespace RAMMS.Business.ServiceProvider.Services
             }
 
         }
+        public async Task<IEnumerable<SelectListItem>> GetDdYearDetails()
+        {
+            var ddLookUpItem = new List<SelectListItem>();
+            try
+            {
+                var ddList = await _lookupRepo.GetDdYearDetails();
+                foreach (var list in ddList)
+                {
+                    ddLookUpItem.Add(new SelectListItem
+                    {
+                        Value = list.RFCYear.ToString(),
+                        Text = list.RFCYear.ToString()
+                    });
+                }
+                return ddLookUpItem.ToList();
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+        }
+        public async Task<IEnumerable<SelectListItem>> GetDdRMUDetails()
+        {
+            var ddLookUpItem = new List<SelectListItem>();
+            try
+            {
+                var ddList = await _lookupRepo.GetDdRMUDetails();
+                foreach (var list in ddList)
+                {
+                    ddLookUpItem.Add(new SelectListItem
+                    {
+                        Value = list.RFCRMU.ToString(),
+                        Text = list.RFCRMU.ToString()
+                    });
+                }
+                return ddLookUpItem.ToList();
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+        }
     }
 }

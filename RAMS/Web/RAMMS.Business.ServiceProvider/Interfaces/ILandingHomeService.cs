@@ -17,5 +17,6 @@ namespace RAMMS.Business.ServiceProvider.Services
         Task<int> getNCRActiveCount();
         Task<LandingHomeResponseDTO> GetHomeActiveCount(LandingHomeRequestDTO requestDTO);
         Task<List<UvwSearchData>> GlobalSearchData(string keyWord);
+        Task<List<FormAHeaderRequestDTO>> GetRoadFurnitureConditionPieChart(string RFCRMU, int RFCYear);
     }
 }

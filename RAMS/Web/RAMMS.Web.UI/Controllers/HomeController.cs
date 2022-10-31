@@ -27,13 +27,15 @@ namespace RAMMS.Web.UI.Controllers
         private readonly IFormAService _formAService;
         private readonly IRoadMasterRepository _rmService;
         private readonly ILandingHomeService _landingHomeService;
-        public HomeController(ILogger<HomeController> logger, IDDLookUpService ddLookupService, IFormAService formAService, IRoadMasterRepository rmService, ILandingHomeService landingHomeService)
+        private readonly IFormFSService _formfsService;
+        public HomeController(ILogger<HomeController> logger, IDDLookUpService ddLookupService, IFormAService formAService, IRoadMasterRepository rmService, ILandingHomeService landingHomeService,IFormFSService formfsService)
         {
             _logger = logger;
             _ddLookupService = ddLookupService;
             _formAService = formAService;
             _rmService = rmService;
             _landingHomeService = landingHomeService;
+            _formfsService = formfsService;
         }
 
 
@@ -44,23 +46,31 @@ namespace RAMMS.Web.UI.Controllers
             //_logger.LogWarning("This is Warning Log");
             //_logger.LogError("This is Error Log");
             //_logger.LogCritical("This is Critical Log");
-
+            FormAModel FormAModel = new FormAModel();
+            FormAModel.SaveFormAModel = new FormAHeaderRequestDTO();
             await LoadDropDowns();
-            return View();
+            return View(FormAModel);
         }
 
         public async Task LoadDropDowns()
         {
             DDLookUpDTO ddlookup = new DDLookUpDTO();
+            FormAHeaderRequestDTO DllHeaderRequestDTO = new FormAHeaderRequestDTO();
+
 
             ddlookup.Type = "RMU";
             ViewData["RMU"] = await _ddLookupService.GetLookUpCodeDesc(ddlookup);
             ddlookup.Type = "Section Code";
             ViewData["Section"] = await _ddLookupService.GetDdLookup(ddlookup);
+            ViewData["RFCYear"] = _ddLookupService.GetDdYearDetails().Result;
+           // DllHeaderRequestDTO.RFCYear = _ddLookupService.GetDdYearDetails().Result;
+            ViewData["RFCRMU"] = _ddLookupService.GetDdRMUDetails().Result;
+           // DllHeaderRequestDTO.RFCYear = ViewData["RFCRMU"];
+            // var data = _ddLookupService.GetDdYearDetails().se(x => new { x.RdmSecName, x.RdmRdName, x.RdmRdCode }).OrderBy(x => x.RdmRdName).ToList();
         }
         public async Task<IActionResult> GetRMUSection(string RMU)
         {
-            try
+           try
             {
                 var obj = await _formAService.GetSectionByRMU(RMU);
                 return Ok(obj);
@@ -193,5 +203,32 @@ namespace RAMMS.Web.UI.Controllers
             });
             return Json(lstAuto, Utility.JsonOption);
         }
+        [HttpPost]
+        public async Task<IActionResult> GetRFCbyRMU(LandingHomeRequestDTO landingHomeRequestDTO)
+        {
+            try
+            {
+                var result = await _landingHomeService.GetSectionByRMU(landingHomeRequestDTO);
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        public async Task<IActionResult> GetRoadFurnitureConditionPieChart(string RFCRMU, int RFCYear)
+        {
+            try
+            {
+                var result = await _landingHomeService.GetRoadFurnitureConditionPieChart(RFCRMU, RFCYear);
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
     }
 }

@@ -22,6 +22,8 @@ namespace RAMMS.Business.ServiceProvider
         public int ToKm { get; set; }
         public string ToM { get; set; }
         public string Office { get; set; }
+        public int? FshPkRefNo { get; set; }
+
 
     }
     public class CSelectListItem : CSelectListItem<string>

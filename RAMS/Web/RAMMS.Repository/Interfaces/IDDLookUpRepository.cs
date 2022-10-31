@@ -24,5 +24,7 @@ namespace RAMMS.Repository.Interfaces
         string GetConcatenateDdlTypeDesc(DDLookUpDTO dto);
         string GetConcatenateDdlTypeValue(DDLookUpDTO dto);
         Task<IEnumerable<RmFormRDistressDetails>> GetDdDistressDetails();
+        Task<IEnumerable<FormAHeaderRequestDTO>> GetDdYearDetails();
+        Task<IEnumerable<FormAHeaderRequestDTO>> GetDdRMUDetails();
     }
 }
