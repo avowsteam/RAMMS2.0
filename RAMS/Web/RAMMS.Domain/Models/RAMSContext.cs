@@ -18238,59 +18238,9 @@ namespace RAMMS.Domain.Models
                     .IsUnicode(false);
             });
 
+           
+
             modelBuilder.Entity<RmUvModuleGroupFieldRights>(entity =>
-            {
-                entity.HasKey(e => e.MgfrPkId);
-
-                entity.ToTable("RM_Uv_Module_Group_Field_Rights");
-
-                entity.Property(e => e.MgfrPkId).HasColumnName("MGFR_PkId");
-
-                entity.Property(e => e.MgfrCreatedBy)
-                    .IsRequired()
-                    .HasColumnName("MGFR_CreatedBy")
-                    .HasMaxLength(200);
-
-                entity.Property(e => e.MgfrCreatedOn)
-                    .HasColumnName("MGFR_CreatedOn")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.MgfrFieldName)
-                    .IsRequired()
-                    .HasColumnName("MGFR_FieldName")
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.MgfrIsDisabled).HasColumnName("MGFR_IsDisabled");
-
-                entity.Property(e => e.MgfrIsHide).HasColumnName("MGFR_IsHide");
-
-                entity.Property(e => e.MgfrModifiedBy)
-                    .IsRequired()
-                    .HasColumnName("MGFR_ModifiedBy")
-                    .HasMaxLength(200);
-
-                entity.Property(e => e.MgfrModifiedOn)
-                    .HasColumnName("MGFR_ModifiedOn")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.ModPkId).HasColumnName("Mod_PkId");
-
-                entity.HasOne(d => d.ModPk)
-                    .WithMany(p => p.RmUvModuleGroupFieldRights)
-                    .HasForeignKey(d => d.ModPkId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_RM_Uv_Module_Group_Field_Rights_RM_Module");
-
-                entity.HasOne(d => d.UgPk)
-                    .WithMany(p => p.RmUvModuleGroupFieldRights)
-                    .HasForeignKey(d => d.UgPkId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_RM_Uv_Module_Group_Field_Rights_RM_Group");
-            });
-
-            modelBuilder.Entity<RmUvModuleGroupFieldRights1>(entity =>
             {
                 entity.HasNoKey();
 
