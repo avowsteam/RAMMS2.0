@@ -16424,9 +16424,7 @@ namespace RAMMS.Domain.Models
 
                 entity.ToTable("RM_MAP_Details");
 
-                entity.Property(e => e.RmmdPkRefNoDetails)
-                    .HasColumnName("RMMD_PK_Ref_No_Details")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.RmmdPkRefNoDetails).HasColumnName("RMMD_PK_Ref_No_Details");
 
                 entity.Property(e => e.RmmdActivityDate)
                     .HasColumnName("RMMD_Activity_Date")
@@ -16441,6 +16439,12 @@ namespace RAMMS.Domain.Models
                 entity.Property(e => e.RmmdActivityWeekDayNo).HasColumnName("RMMD_Activity_Week_Day_No");
 
                 entity.Property(e => e.RmmdActivityWeekNo).HasColumnName("RMMD_Activity_Week_No");
+
+                entity.Property(e => e.RmmdOrder).HasColumnName("RMMD_Order");
+
+                entity.Property(e => e.RmmdProductUnit)
+                    .HasColumnName("RMMD_Product_Unit")
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.RmmdQuantityKm)
                     .HasColumnName("RMMD_Quantity_Km")
@@ -17244,6 +17248,8 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.PbiwPkRefNo).HasColumnName("PBIW_PK_Ref_No");
 
+                entity.Property(e => e.PbiwActiveYn).HasColumnName("PBIW_Active_YN");
+
                 entity.Property(e => e.PbiwAmountBeforeLad)
                     .HasColumnName("PBIW_Amount_Before_LAD")
                     .HasColumnType("decimal(18, 0)");
@@ -17340,13 +17346,13 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.PbiwdPkRefNo).HasColumnName("PBIWD_PK_Ref_No");
 
-                entity.Property(e => e.PbiwCompletionDate)
-                    .HasColumnName("PBIW_Completion_Date")
-                    .HasColumnType("datetime");
-
                 entity.Property(e => e.PbiwdAmountBeforeLad)
                     .HasColumnName("PBIWD_Amount_Before_LAD")
                     .HasColumnType("decimal(9, 2)");
+
+                entity.Property(e => e.PbiwdCompletionDate)
+                    .HasColumnName("PBIWD_Completion_Date")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.PbiwdCompletionRefNo)
                     .HasColumnName("PBIWD_Completion_Ref_No")

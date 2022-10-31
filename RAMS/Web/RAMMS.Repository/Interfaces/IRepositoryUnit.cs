@@ -120,6 +120,8 @@ namespace RAMMS.Repository.Interfaces
 
         public FormPARepository FormPARepository { get; }
 
+        public FormPBRepository FormPBRepository { get; }
+
         int Commit();
         Task<int> CommitAsync();
         void Rollback();

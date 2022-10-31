@@ -33,6 +33,7 @@ namespace RAMMS.Domain.Models
         public string PbiwUsernameSo { get; set; }
         public string PbiwDesignationSo { get; set; }
         public DateTime? PbiwSignDateSo { get; set; }
+        public bool? PbiwActiveYn { get; set; }
         public bool PbiwSubmitSts { get; set; }
         public string PbiwStatus { get; set; }
         public string PbiwAuditLog { get; set; }

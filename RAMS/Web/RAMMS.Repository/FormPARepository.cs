@@ -152,6 +152,12 @@ namespace RAMMS.Repository
         }
 
 
+        public class Employee
+        {
+            public int ID { get; set; }
+            public string Description { get; set; }
+
+        }
 
         public RmPaymentCertificateMamw GetHeaderById(int id)
         {
@@ -170,6 +176,9 @@ namespace RAMMS.Repository
             //                                   CrrTotalAmount = r.CrrTotalAmount,
             //                                   CrrUnpaved = r.CrrUnpaved
             //                               }).ToList();
+
+
+
 
 
             return res;

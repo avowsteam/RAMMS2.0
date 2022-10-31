@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace RAMMS.Repository
 {
-    public class FormPBRepository : RepositoryBase<RmPaymentCertificateHeader>, IFormPBRepository
+    public class FormPBRepository : RepositoryBase<RmPbIw>, IFormPBRepository
     {
         public FormPBRepository(RAMMSContext context) : base(context)
         {
@@ -171,7 +171,7 @@ namespace RAMMS.Repository
                                  where r.PbiwdPbiwPkRefNo == id
                                         select new RmPbIwDetails
                                         {
-                                            PbiwCompletionDate=r.PbiwCompletionDate,
+                                            PbiwdCompletionDate=r.PbiwdCompletionDate,
                                             PbiwdAmountBeforeLad=r.PbiwdAmountBeforeLad,
                                             PbiwdCompletionRefNo=r.PbiwdCompletionRefNo,
                                             PbiwdFinalPayment=r.PbiwdFinalPayment,
