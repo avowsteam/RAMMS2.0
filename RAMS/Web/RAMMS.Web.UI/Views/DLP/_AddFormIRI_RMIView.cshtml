@@ -1,0 +1,269 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using X.PagedList
+@using X.PagedList.Mvc.Core;
+@using RAMMS.Domain.Models;
+@model RAMMS.Web.UI.Models.DlpIRIModel;
+@using RAMMS.DTO.RequestBO;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IUserService usr
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+@{
+    ViewData["Title"] = "Grid View Page";
+    ViewBag.TabTitle = "Grid View Page";
+}
+@*<script type="text/javascript">
+        $(document).ready(function () {
+            process.Init("FormA", "@Model.SaveFormAModel.Status", @Model.SaveFormAModel.No);
+        });
+    </script>*@
+<style>
+    .box-sdw-0020 {
+        box-shadow: 0px 0px 2px 0px;
+    }
+
+    .br-rds-25 {
+        border-radius: 25px;
+    }
+
+    .disableinput {
+    }
+
+    .disablebtn {
+    }
+
+    .editdisable {
+    }
+</style>
+
+@*@using (Html.BeginForm())
+    {*@
+<input type="hidden" value="@Model.RmiiriPkRefNo" id="RmiiriPkRefNo" />
+<input type="hidden" value="0" id="IsViewDetail" />
+<div id="headerDiv" class="modal-body mh-182">
+    <div class="bg-white rounded pt-3 pb-1 px-lg-3 px-md-2 landing-division w-100 mb-3">
+        <div class="row">
+            <div class="col-lg-10">
+                @*<div class="form-group col-xl-1" style="max-width:1%;flex:0 0 1%">/</div>*@
+                <div class="form-group col-lg-2 col-md-4">
+
+                    @Html.Label("Year (YYYY)", "Year (YYYY)")
+                    @Html.DropDownListFor(Ahdr => Ahdr.RmiiriYear, (IEnumerable
+                    <SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "RmiiriYear", @class = "form-control disableinput editdisable" })
+                </div>
+            </div>
+            <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">
+                <button id="searchHeaderBtn" type="button" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right disablebtn">Find Details</button>
+            </div>
+        </div>
+    </div>
+    <div class="clear-b"></div>
+    <div class="w-100 position-relative in-tbl-btns">
+        <div class="grid-btns">
+            <button type="button" id="addFADBtn" class="btn btn-sm btn-themebtn" data-toggle="modal" data-target="#FormAAdddetailsModal" data-backdrop="static" onclick="javascript: AddNewForm(0);"><span class="intbl-add-icon"></span></button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="divDetails" style="display:none;" class="col-lg-12 px-lg-5">
+
+            <div class="col-lg-10 offset-lg-1 mt-2">
+                <div class="table-responsive">
+                    <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+                        <div class="dataTables_scrollBody">
+                            <div class="dataTables_scroll">
+                                <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                    <table class="table w-100 nowrap dataTable no-footer">
+                                        <thead style="background-color: #c8e1ff">
+                                            <tr>
+                                                <th colspan="1" class="text-center">
+
+                                                </th>
+                                                <th colspan="1" class="text-center">
+
+                                                </th>
+                                                <th colspan="1" class="text-center">
+                                                    Percentage%
+                                                </th>
+                                                <th colspan="1" class="text-center">
+                                                    Road Length (KM)
+                                                </th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    RMI
+                                                </td>
+                                                <td>
+                                                    -
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(m => m.RmiiriPercentage, new { @Id = "RmiiriPercentage", @class = "form-control disableinput editdisable" })
+                                                    @*<input type="text" class="form-control" />*@
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(m => m.RmiiriRoadLength, new { @Id = "RmiiriRoadLength", @class = "form-control disableinput editdisable" })
+                                                    @*<input type="text" class="form-control" />*@
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="3">
+                                                    IRI
+                                                </td>
+                                                <td>
+                                                    Condition 1
+
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(m => m.RmiiriPercentage1, new { @Id = "RmiiriPercentage1", @readonly = "readonly", @class = "form-control disableinput editdisable" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(m => m.RmiiriRoadLength1, new { @Id = "RmiiriRoadLength1", @class = "form-control disableinput editdisable" })
+                                                    @*<input type="text" class="form-control" />*@
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Condition 2
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(m => m.RmiiriPercentage2, new { @Id = "RmiiriPercentage2", @readonly = "readonly", @class = "form-control disableinput editdisable" })
+                                                    @*<input type="text" disabled class="form-control" />*@
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(m => m.RmiiriRoadLength2, new { @Id = "RmiiriRoadLength2", @class = "form-control disableinput editdisable" })
+                                                    @*<input type="text" class="form-control" />*@
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Condition 3
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(m => m.RmiiriPercentage3, new { @Id = "RmiiriPercentage3", @readonly = "readonly", @class = "form-control disableinput editdisable" })
+                                                    @*<input type="text" disabled class="form-control" />*@
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(m => m.RmiiriRoadLength3, new { @Id = "RmiiriRoadLength3", @class = "form-control disableinput editdisable" })
+                                                    @*<input type="text" class="form-control" />*@
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            
+
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer float-left w-100">
+    <button type="button" class="btn btn-sm btn-outline-theme disablebtn" onclick="javascript:cancel();">Cancel</button>
+    <button type="button" class="btn btn-sm btn-themebtn" onclick="javascript:saveIRI(false);">Save</button>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#searchHeaderBtn').click(function () {
+            alert($('#RmiiriYear').val());
+
+            $.ajax({
+                url: '/DLP/GetIRIData?year=' + $('#RmiiriYear').val(),
+                //data: saveObj,
+                type: 'Get',
+                success: function (data) {
+                    //debugger;
+                    debugger;
+                    var data1 = data;
+                    $('#RmiiriRoadLength').val(data.RmiiriRoadLength);
+                    $('#RmiiriPercentage').val(data.RmiiriPercentage);
+                    $('#RmiiriPercentage1').val(data.RmiiriPercentage1);
+                    $('#RmiiriRoadLength1').val(data.RmiiriRoadLength1);
+                    $('#RmiiriPercentage2').val(data.RmiiriPercentage2);
+                    $('#RmiiriRoadLength2').val(data.RmiiriRoadLength2);
+                    $('#RmiiriPercentage3').val(data.RmiiriPercentage3);
+                    $('#RmiiriRoadLength3').val(data.RmiiriRoadLength3);
+                },
+                error: function (data) {
+                    HideAjaxLoading();
+                    app.ShowErrorMessage(data.responseText);
+                }
+
+            });
+
+        });
+    });
+
+    function saveIRI(isSubmit) {
+        debugger;
+        //if (isSubmit) {
+        //    $("#divDetails .svalidate").addClass("validate");
+        //}
+        //else {
+        //    $("#divDetails .svalidate").removeClass("validate");
+        //}
+        // Validation.ResetErrStyles("#divDetails");
+        //if (ValidatePage(("#headerDiv"), "", "validate")) {
+        var saveObj = new Object();
+        //saveObj.FormADetails = saveFormADetList;
+        saveObj.SubmitSts = isSubmit;
+        saveObj.RmiiriYear = $("#RmiiriYear").val();
+
+        saveObj.RmiiriPercentage = $("#RmiiriPercentage").val();
+        saveObj.RmiiriRoadLength = $("#RmiiriRoadLength").val();
+
+        saveObj.RmiiriPercentage1 = $("#RmiiriPercentage1").val();
+        saveObj.RmiiriRoadLength1 = $("#RmiiriRoadLength1").val();
+
+        saveObj.RmiiriPercentage2 = $("#RmiiriPercentage2").val();
+        saveObj.RmiiriRoadLength2 = $("#RmiiriRoadLength2").val();
+
+        saveObj.RmiiriPercentage3 = $("#RmiiriPercentage3").val();
+        saveObj.RmiiriRoadLength3 = $("#RmiiriRoadLength3").val();
+
+        InitAjaxLoading();
+        //$("#saveFormABtn").prop("disabled", true);
+        //$("#SubmitFormABtn").prop("disabled", true);
+        $.ajax({
+            url: '/DLP/SaveIRI',
+            data: saveObj,
+            type: 'POST',
+            success: function (data) {
+                //debugger;
+                HideAjaxLoading();
+                searchHeaderList();
+                $("#saveFormABtn").prop("disabled", false);
+                $("#SubmitFormABtn").prop("disabled", false);
+                app.ShowSuccessMessage('Successfully Saved', false);
+                $("#cancelFormABtn").click();
+                if (isSubmit) {
+                    $("#FormAAddModal").modal('hide');
+                    $("#divDetails .svalidate").removeClass("validate");
+                }
+            },
+            error: function (data) {
+                HideAjaxLoading();
+                app.ShowErrorMessage(data.responseText);
+            }
+
+        });
+        //}
+    }
+</script>
+
+@*}*@
+
+

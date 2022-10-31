@@ -16,6 +16,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using RAMMS.Domain.Models;
 using RAMMS.Common;
+using RAMMS.DTO.ResponseBO;
 
 namespace RAMMS.Web.UI.Controllers
 {
@@ -49,7 +50,193 @@ namespace RAMMS.Web.UI.Controllers
             FormAModel FormAModel = new FormAModel();
             FormAModel.SaveFormAModel = new FormAHeaderRequestDTO();
             await LoadDropDowns();
+
+            try
+            {
+                var resulit1 = await _landingHomeService.getDLPSPSCurveData(DateTime.Now.Year.ToString());
+
+                if (resulit1.Any())
+                {
+                    ViewBag.SPIData = resulit1.ToList();
+
+                    string monthPlanned = "";
+                    string monthActual = "";
+                    string cutPlan = "";
+                    string cutActual = "";
+                    string Planned = "";
+                    string Actual = "";
+                    int i = 1;
+                    foreach (var item in resulit1.Where(a => a.SpiDivCode.ToString().ToUpper() == "MIRI").OrderBy(a => a.SpiMonth))
+                    {
+                        if (i == item.SpiMonth)
+                        {
+                            monthPlanned += !string.IsNullOrEmpty(monthPlanned) ? ("," + item.SpiMPlanned.ToString()) : item.SpiMPlanned.ToString();
+                            monthActual += !string.IsNullOrEmpty(monthActual) ? "," + item.SpiMActual.ToString() : item.SpiMActual.ToString();
+                            cutPlan += !string.IsNullOrEmpty(cutPlan) ? "," + item.SpiCPlan.ToString() : item.SpiCPlan.ToString();
+                            cutActual += !string.IsNullOrEmpty(cutActual) ? "," + item.SpiCActual.ToString() : item.SpiCActual.ToString();
+                            Planned += !string.IsNullOrEmpty(Planned) ? "," + item.SpiPlannedPer.ToString() : item.SpiPlannedPer.ToString();
+                            Actual += !string.IsNullOrEmpty(Actual) ? "," + item.SpiActualPer.ToString() : item.SpiActualPer.ToString();
+                        }
+                        else
+                        {
+                            monthPlanned += !string.IsNullOrEmpty(monthPlanned) ? ("," + "0") : "0";
+                            monthActual += !string.IsNullOrEmpty(monthActual) ? ("," + "0") : "0";
+                            cutPlan += !string.IsNullOrEmpty(cutPlan) ? ("," + "0") : "0";
+                            cutActual += !string.IsNullOrEmpty(cutActual) ? ("," + "0") : "0";
+                            Planned += !string.IsNullOrEmpty(Planned) ? ("," + "0") : "0";
+                            Actual += !string.IsNullOrEmpty(Actual) ? ("," + "0") : "0";
+                        }
+                        i++;
+                    }
+                    ViewBag.SpplpMPlanned = monthPlanned;
+                    ViewBag.SpplpMActual = monthActual;
+                    ViewBag.SpplpCPlan = cutPlan;
+                    ViewBag.SpplpCActual = cutActual;
+                    ViewBag.SpplpPlannedPer = Planned;
+                    ViewBag.Actual = Actual;
+                }
+
+                //var result = await _landingHomeService.getRMSPPLPData(DateTime.Now.Year.ToString());
+                //if (result.Any())
+                //{
+                //    ViewBag.SPIData = result.ToList();
+
+                //    string monthPlanned = "";
+                //    string monthActual = "";
+                //    string cutPlan = "";
+                //    string cutActual = "";
+                //    string Planned = "";
+                //    string Actual = "";
+                //    int i = 1;
+                //    foreach (var item in result.OrderBy(a => a.SpplpMonth))
+                //    {
+                //        if (i == item.SpplpMonth)
+                //        {
+                //            monthPlanned += !string.IsNullOrEmpty(monthPlanned) ? ("," + item.SpplpMPlanned.ToString()) : item.SpplpMPlanned.ToString();
+                //            monthActual += !string.IsNullOrEmpty(monthActual) ? "," + item.SpplpMActual.ToString() : item.SpplpMActual.ToString();
+                //            cutPlan += !string.IsNullOrEmpty(cutPlan) ? "," + item.SpplpCPlan.ToString() : item.SpplpCPlan.ToString();
+                //            cutActual += !string.IsNullOrEmpty(cutActual) ? "," + item.SpplpCActual.ToString() : item.SpplpCActual.ToString();
+                //            Planned += !string.IsNullOrEmpty(Planned) ? "," + item.SpplpPlannedPer.ToString() : item.SpplpPlannedPer.ToString();
+                //            Actual += !string.IsNullOrEmpty(Actual) ? "," + item.SpplpActualPer.ToString() : item.SpplpActualPer.ToString();
+                //        }
+                //        else
+                //        {
+                //            monthPlanned += !string.IsNullOrEmpty(monthPlanned) ? ("," + "0") : "0";
+                //            monthActual += !string.IsNullOrEmpty(monthActual) ? ("," + "0") : "0";
+                //            cutPlan += !string.IsNullOrEmpty(cutPlan) ? ("," + "0") : "0";
+                //            cutActual += !string.IsNullOrEmpty(cutActual) ? ("," + "0") : "0";
+                //            Planned += !string.IsNullOrEmpty(Planned) ? ("," + "0") : "0";
+                //            Actual += !string.IsNullOrEmpty(Actual) ? ("," + "0") : "0";
+                //        }
+                //        i++;
+                //    }
+                //    ViewBag.SpplpMPlanned = monthPlanned;
+                //    ViewBag.SpplpMActual = monthActual;
+                //    ViewBag.SpplpCPlan = cutPlan;
+                //    ViewBag.SpplpCActual = cutActual;
+                //    ViewBag.SpplpPlannedPer = Planned;
+                //    ViewBag.Actual = Actual;
+                //}
+                //var SPIYears = _landingHomeService.getRMSPPLYears();
+
+                var iRIresult = await _landingHomeService.getRMIIRIData();
+                if (iRIresult.Any())
+                {
+                    List<DlpIRIDTO> iRIList = new List<DlpIRIDTO>();
+
+                    var yearList = iRIresult.Select(a => a.RmiiriYear).GroupBy(a => a.Value).ToList();
+                    foreach (var item in yearList)
+                    {
+                        DlpIRIDTO model = new DlpIRIDTO();
+
+                        foreach (var listData in iRIresult.Where(a => a.RmiiriYear == item.Key).ToList())
+                        {
+                            if (listData.RmiiriType == "RMI")
+                            {
+                                model.RmiiriRoadLength = listData.RmiiriRoadLength;
+                                model.RmiiriPercentage = listData.RmiiriPercentage;
+                            }
+                            if (listData.RmiiriType == "IRI")
+                            {
+                                switch (listData.RmiiriConditionNo.Value)
+                                {
+                                    case 1:
+                                        model.RmiiriPercentage1 = listData.RmiiriPercentage;
+                                        model.RmiiriRoadLength1 = listData.RmiiriRoadLength;
+                                        break;
+                                    case 2:
+                                        model.RmiiriPercentage2 = listData.RmiiriPercentage;
+                                        model.RmiiriRoadLength2 = listData.RmiiriRoadLength;
+                                        break;
+                                    case 3:
+                                        model.RmiiriPercentage3 = listData.RmiiriPercentage;
+                                        model.RmiiriRoadLength3 = listData.RmiiriRoadLength;
+                                        break;
+                                }
+                                model.RmiiriPkRefNo = listData.RmiiriPkRefNo;
+                            }
+
+                        }
+                        model.RmiiriYear = item.Key;
+                        iRIList.Add(model);
+                    }
+                    ViewBag.RMIIRIData = iRIList.FirstOrDefault();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string str = ex.Message;
+            }
+            return View();
             return View(FormAModel);
+        }
+
+        public async Task<IActionResult> Details()
+        {
+            var resulit1 = await _landingHomeService.getDLPSPSCurveData(DateTime.Now.Year.ToString());
+
+            if (resulit1.Any())
+            {
+                ViewBag.SPIData = resulit1.ToList();
+
+                string monthPlanned = "";
+                string monthActual = "";
+                string cutPlan = "";
+                string cutActual = "";
+                string Planned = "";
+                string Actual = "";
+                int i = 1;
+                foreach (var item in resulit1.Where(a => a.SpiDivCode.ToString().ToUpper() == "MIRI").OrderBy(a => a.SpiMonth))
+                {
+                    if (i == item.SpiMonth)
+                    {
+                        monthPlanned += !string.IsNullOrEmpty(monthPlanned) ? ("," + item.SpiMPlanned.ToString()) : item.SpiMPlanned.ToString();
+                        monthActual += !string.IsNullOrEmpty(monthActual) ? "," + item.SpiMActual.ToString() : item.SpiMActual.ToString();
+                        cutPlan += !string.IsNullOrEmpty(cutPlan) ? "," + item.SpiCPlan.ToString() : item.SpiCPlan.ToString();
+                        cutActual += !string.IsNullOrEmpty(cutActual) ? "," + item.SpiCActual.ToString() : item.SpiCActual.ToString();
+                        Planned += !string.IsNullOrEmpty(Planned) ? "," + item.SpiPlannedPer.ToString() : item.SpiPlannedPer.ToString();
+                        Actual += !string.IsNullOrEmpty(Actual) ? "," + item.SpiActualPer.ToString() : item.SpiActualPer.ToString();
+                    }
+                    else
+                    {
+                        monthPlanned += !string.IsNullOrEmpty(monthPlanned) ? ("," + "0") : "0";
+                        monthActual += !string.IsNullOrEmpty(monthActual) ? ("," + "0") : "0";
+                        cutPlan += !string.IsNullOrEmpty(cutPlan) ? ("," + "0") : "0";
+                        cutActual += !string.IsNullOrEmpty(cutActual) ? ("," + "0") : "0";
+                        Planned += !string.IsNullOrEmpty(Planned) ? ("," + "0") : "0";
+                        Actual += !string.IsNullOrEmpty(Actual) ? ("," + "0") : "0";
+                    }
+                    i++;
+                }
+                ViewBag.SpplpMPlanned = monthPlanned;
+                ViewBag.SpplpMActual = monthActual;
+                ViewBag.SpplpCPlan = cutPlan;
+                ViewBag.SpplpCActual = cutActual;
+                ViewBag.SpplpPlannedPer = Planned;
+                ViewBag.Actual = Actual;
+            }
+            return PartialView("_SPIpartial");
         }
 
         public async Task LoadDropDowns()
@@ -62,6 +249,7 @@ namespace RAMMS.Web.UI.Controllers
             ViewData["RMU"] = await _ddLookupService.GetLookUpCodeDesc(ddlookup);
             ddlookup.Type = "Section Code";
             ViewData["Section"] = await _ddLookupService.GetDdLookup(ddlookup);
+            ViewData["DLPSPLYear"] = await _landingHomeService.GetDLPSPYears();
             ViewData["RFCYear"] = _ddLookupService.GetDdYearDetails().Result;
            // DllHeaderRequestDTO.RFCYear = _ddLookupService.GetDdYearDetails().Result;
             ViewData["RFCRMU"] = _ddLookupService.GetDdRMUDetails().Result;
