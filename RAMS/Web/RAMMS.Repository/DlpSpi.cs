@@ -86,12 +86,14 @@ namespace RAMMS.Repository
                     form.SpiEff = Convert.ToDecimal(spi.eff);
                     form.SpiRb = Convert.ToDecimal(spi.rb);
                     form.SpiIw = Convert.ToDecimal(spi.iw);
+                    form.SpiSpi = Convert.ToDecimal(spi.spi);
 
                     _context.RmDlpSpi.Attach(form);
                     var entry = _context.Entry(form);
                     entry.Property(x => x.SpiEff).IsModified = true;
                     entry.Property(x => x.SpiRb).IsModified = true;
                     entry.Property(x => x.SpiIw).IsModified = true;
+                    entry.Property(x => x.SpiSpi).IsModified = true;
                     _context.SaveChanges();
            
                 }
