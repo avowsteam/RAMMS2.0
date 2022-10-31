@@ -1,0 +1,128 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+
+<div class="main-container" id="container">
+    <div id="content">
+        <table id="FormAGridView" class="table w-100 nowrap">
+        </table>
+    </div>
+</div>
+<script src="~/js/CDTGrid.js"></script>
+<script>
+    var isModifyPerm = @security.IsPCModify(ModuleNameList.NOD).ToString().ToLowerInvariant()? "" : "hidden";
+    var isDeletePerm =@security.IsPCDelete(ModuleNameList.NOD).ToString().ToLowerInvariant()? "" : "hidden";
+    var isViewPerm = @security.IsPCView(ModuleNameList.NOD).ToString().ToLowerInvariant() ? "" : 'hidden';
+
+    var table_columns = [];
+    var actionCol = {
+        data: null, name: "Action", title: "Action", class: "headcol", autoWidth: true, sortable: false, render: function (data) {
+            var title = "";
+
+            if (data.rmiirirkrefno != "" && data.rmiirirkrefno != null) {
+                title = data.rmiirirkrefno;
+            }
+            if (data.submitSts) {
+                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' " + isViewPerm + " data-target='#FormAAddModal' onclick='javascript:ViewDetailHeader(" + data.rmiirirkrefno + ",&#39;" + title + "&#39;);'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns' " + isDeletePerm + " onclick='javascript:DeleteHeaderRecord(" + data.rmiirirkrefno + ");'><span class='del-icon'></span> Delete</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.rmiirirkrefno + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
+                return actionSection;
+            }
+            else {
+                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' data-target='#FormAAddModal' id='formAHeaderEdit'" + isModifyPerm + " onclick='javascript:openFormAModel(" + data.rmiirirkrefno + ",&#39;" + title + "&#39;);'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' data-target='#FormAAddModal' " + isViewPerm + " onclick='javascript:ViewDetailHeader(" + data.rmiirirkrefno + ",&#39;" + title + "&#39;);'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:DeleteHeaderRecord(" + data.rmiirirkrefno + ");'><span class='del-icon'></span> Delete</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.rmiirirkrefno + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
+                return actionSection;
+            }
+        }
+    };
+    var rmiirirkrefnoCol = { data: "rmiiriPkRefNo", name: "RmiiriPkRefNo", title: "NO", autoWidth: true, sortable: false, visible: false };
+    var rmiiriyearCol = { data: "rmiiriYear", name: "RmiiriYear", title: "Year", autoWidth: true, sortable: true };
+    var rmiiriroadlength1Col = { data: "rmiiriRoadLength1", name: "RmiiriRoadLength1", title: "IRI Condition 1 (KM)", autoWidth: true, sortable: true };
+    var rmiiriroadlength2Col = { data: "rmiiriRoadLength2", name: "RmiiriRoadLength2", title: "IRI Condition 2 (KM)", autoWidth: true, sortable: true };
+    var rmiiriroadlength3Col = { data: "rmiiriRoadLength3", name: "Section Code", title: "IRI Condition 3 (KM)", autoWidth: true, sortable: true };
+    var rmiiriroadlengthCol = { data: "rmiiriRoadLength", name: "RmiiriRoadLength", title: "RMI (KM)", autoWidth: true, sortable: true };
+ 
+    table_columns.push(rmiirirkrefnoCol);
+    table_columns.push(actionCol);
+    table_columns.push(rmiiriyearCol);
+    table_columns.push(rmiiriroadlength1Col);
+    table_columns.push(rmiiriroadlength2Col);
+    table_columns.push(rmiiriroadlength3Col);
+    table_columns.push(rmiiriroadlengthCol);
+    //table_columns.push(rmuSection);
+
+    function PrintForm(id) {
+        window.location.href = '/nod/FormADownload?id=' + id;
+    }
+
+    var filterData = new Object();
+    function InitializeGrid() {
+        var _currentGridSettings = new CustomGridSettings();
+        $.extend($.fn.dataTable.defaults, _currentGridSettings);
+
+        filterData.SmartInputValue = $("#FormASmartSearch").val();
+        filterData.Rmu = $("#formADetSrchRMU").val();
+        filterData.Section = $("#formADetSrchSec").val();
+        filterData.RoadCode = $("#formADetSrchRoadCode option:selected").val();
+        filterData.AssetGroupCode = $("#formADetSrchAsstGrp").val();
+        filterData.Month = $("#formADetSrchMonth").val();
+        filterData.Year = $("#formADetSrchYear").val();
+        filterData.ChinageFromKm = $("#formAFromKm").val();
+        filterData.ChinageFromM = $("#formAFromM").val();
+        filterData.ChinageToKm = $("#formAToKm").val();
+        filterData.ChinageToM = $("#formAToM").val();
+
+        $('#FormAGridView').DataTable({
+            ajax: {
+                url: "/DLP/LoadHeaderList",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    filterData
+                }
+            },
+            columns: table_columns
+        });
+    }
+
+    $(document).ready(function () {
+        InitializeGrid();
+        //Apply Custom search on jQuery DataTables here
+        oHdrTable = $('#FormAGridView').DataTable();
+        $("#FormASmartSearch").on("keyup", function (event) {
+            //debugger;
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                //debugger;
+                $("#formASearchBtn").click();
+            }
+        })
+        $('#formASearchBtn').click(function () {
+            //debugger;
+            oHdrTable.columns(0).search($("#FormASmartSearch").val().trim());
+            oHdrTable.columns(1).search($("#formADetSrchRMU").val().trim());
+            oHdrTable.columns(2).search($("#formADetSrchSec").val().trim());
+            if ($("#formADetSrchRoadCode option:selected").val() != "") {
+                oHdrTable.columns(3).search($("#formADetSrchRoadCode option:selected").val().trim());
+            }
+            else {
+                oHdrTable.columns(3).search("");
+            }
+            oHdrTable.columns(4).search($("#formADetSrchAsstGrp").val().trim());
+            oHdrTable.columns(5).search($("#formADetSrchMonth").val().trim());
+            oHdrTable.columns(6).search($("#formADetSrchYear").val().trim());
+            oHdrTable.columns(7).search($("#formAFromKm").val().trim());
+            oHdrTable.columns(8).search($("#formAFromM").val().trim());
+            oHdrTable.columns(9).search($("#formAToKm").val().trim());
+            oHdrTable.columns(10).search($("#formAToM").val().trim());
+            oHdrTable.data = filterData;
+            oHdrTable.draw();
+        });
+    });
+
+
+</script>
+<style>
+    .headcol {
+        position: sticky;
+        left: 0;
+    }
+</style>

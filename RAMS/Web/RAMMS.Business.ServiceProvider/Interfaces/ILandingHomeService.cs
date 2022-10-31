@@ -2,6 +2,7 @@
 using RAMMS.Domain.Models;
 using RAMMS.DTO.RequestBO;
 using RAMMS.DTO.ResponseBO;
+using RAMMS.DTO.ResponseBO.DLP;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,5 +18,18 @@ namespace RAMMS.Business.ServiceProvider.Services
         Task<int> getNCRActiveCount();
         Task<LandingHomeResponseDTO> GetHomeActiveCount(LandingHomeRequestDTO requestDTO);
         Task<List<UvwSearchData>> GlobalSearchData(string keyWord);
+
+
+        #region DLP SP
+        Task<List<RMSPPLPDTO>> getRMSPPLPData(string keyWord);
+
+        Task<List<RMDlpSpiDTO>> getDLPSPSCurveData(string keyWord);
+
+        Task<IEnumerable<SelectListItem>> GetDLPSPYears();
+        #endregion
+
+        #region RMI & IRI
+        Task<List<DlpIRIDTO>> getRMIIRIData();
+        #endregion
     }
 }

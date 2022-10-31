@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RAMMS.Domain.Models;
+using RAMMS.DTO.JQueryModel;
 using RAMMS.DTO.ResponseBO;
 using RAMMS.DTO.Wrappers;
 
@@ -17,5 +18,10 @@ namespace RAMMS.Repository.Interfaces
         Task<List<RmDlpSpi>> GetDivisionRMUBTN(int year);
 
         Task<int> Save(List<SpiData> spiData);
+
+        #region RMI & IRI
+        Task<int> SaveIRI(List<DlpIRIDTO> model);
+        Task<List<RmRmiIri>> GetIRIData(int year);
+        #endregion
     }
 }
