@@ -197,8 +197,7 @@ namespace RAMMS.Common.RefNumber
         FormT4,
         FormP1,
         FormPA,
-        FormPB
-        FormP1,
+        FormPB,
         FormMap
     }
 

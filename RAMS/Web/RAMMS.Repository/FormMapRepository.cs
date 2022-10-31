@@ -82,7 +82,7 @@ namespace RAMMS.Repository
         public RmMapHeader GetHeaderById(int id, bool view)
         {
             RmMapHeader res = (from r in _context.RmMapHeader where r.RmmhPkRefNo == id select r).FirstOrDefault();
-            //res.RmMapDetails = (from r in _context.RmMapDetails where r.RmmdRmmhPkRefNo == id select r).ToList();//sakthivel
+            res.RmMapDetails = (from r in _context.RmMapDetails where r.RmmdRmmhPkRefNo == id select r).ToList();
 
             return res;
         }
@@ -99,34 +99,51 @@ namespace RAMMS.Repository
         public async Task<RmMapHeader> FindDetails(RmMapHeader frmT3)
         {
             //return await _context.RmFormMHdr.Include(x => x.RmFormMAuditDetails).ThenInclude(x => x.FmadFmhPkRefNoNavigation).Where(x => x.Fr1hAssetId == frmR1R2.Fr1hAssetId && x.Fr1hYearOfInsp == frmR1R2.Fr1hYearOfInsp && x.Fr1hActiveYn == true).FirstOrDefaultAsync();
-            //return await _context.RmMapHeader.Include(x => x.RmMapDetails).ThenInclude(x => x.RmmdRmmhPkRefNoNavigation).Where(x => x.RmmhRmuCode == frmT3.RmmhRmuCode && x.RmmhYear == frmT3.RmmhYear && x.RmmhRevisionNo == frmT3.RmmhRevisionNo && x.RmmhActiveYn == true).FirstOrDefaultAsync(); sakthivel
-            return await _context.RmMapHeader.FirstAsync();
+            return await _context.RmMapHeader.Include(x => x.RmMapDetails).ThenInclude(x => x.RmmdRmmhPkRefNoNavigation).Where(x => x.RmmhRmuCode == frmT3.RmmhRmuCode && x.RmmhYear == frmT3.RmmhYear && x.RmmhMonth == frmT3.RmmhMonth && x.RmmhActiveYn == true).FirstOrDefaultAsync();
         }
 
-        public async Task<RmMapHeader> Save(RmMapHeader frmT3, bool updateSubmit)
+        public List<RmFormDHdr> GetForDDetails(string RMU, int Year, int Month)
+        {
+            List<RmFormDHdr> res = (from r in _context.RmFormDHdr where r.FdhRmu == RMU && r.FdhYear == Year && r.FdhDate.Value.Month == Month && r.FdhActiveYn==true select r).ToList();
+            List<RmFormDDtl> lstRMDtl = new List<RmFormDDtl>();
+            for(int i = 0; i < res.Count(); i++){
+                lstRMDtl = new List<RmFormDDtl>();
+                lstRMDtl = (from r in _context.RmFormDDtl where r.FddFdhPkRefNo == res[i].FdhPkRefNo select r).ToList();
+                res[i].RmFormDDtl = lstRMDtl;
+            }            
+            return res;
+        }
+
+        public List<RmMapDetails> GetForMapDetails(int ID)
+        {
+            List<RmMapDetails> res = (from r in _context.RmMapDetails where r.RmmdRmmhPkRefNo == ID select r).ToList();            
+            return res;
+        }
+
+        public async Task<RmMapHeader> Save(RmMapHeader frmmap, bool updateSubmit)
         {
             bool isAdd = false;
-            if (frmT3.RmmhPkRefNo == 0)
+            if (frmmap.RmmhPkRefNo == 0)
             {
                 isAdd = true;
-                frmT3.RmmhActiveYn = true;
+                frmmap.RmmhActiveYn = true;
                 IDictionary<string, string> lstRef = new Dictionary<string, string>();
                 //lstRef.Add("Year", Utility.ToString(frmR1R2.Fr1hYearOfInsp));
                 //lstRef.Add("AssetID", Utility.ToString(frmR1R2.Fr1hAssetId));
                 //frmR1R2.FmhPkRefNo = Common.RefNumber.FormRefNumber.GetRefNumber(FormType.FormR1R2, lstRef);
-                _context.RmMapHeader.Add(frmT3);
+                _context.RmMapHeader.Add(frmmap);
             }
             else
             {
                 string[] arrNotReqUpdate = new string[] { "RmmhPkRefNo",
-                    "RmmhYear", "RmmhRmuName"
+                    "RmmhYear", "RmmhRmuName","RmmhMonth"
                 };
                 //_context.RmFormS1Dtl.Update(formS1Details);
                 //var dtls = frmR1R2.RmFormR2Hdr;
                 //frmR1R2.RmFormR2Hdr = null;
-                _context.RmMapHeader.Attach(frmT3);
+                _context.RmMapHeader.Attach(frmmap);
 
-                var entry = _context.Entry(frmT3);
+                var entry = _context.Entry(frmmap);
                 entry.Properties.Where(x => !arrNotReqUpdate.Contains(x.Metadata.Name)).ToList().ForEach((p) =>
                 {
                     p.IsModified = true;
@@ -140,7 +157,7 @@ namespace RAMMS.Repository
             if (isAdd)
             {
                 IDictionary<string, string> lstData = new Dictionary<string, string>();
-                //lstData.Add("RoadCode", frmT3.T3hRmuCode);
+                //lstData.Add("RoadCode", frmB14.B14hRmuCode);
                 ////lstData.Add("ActivityCode", frmR1R2.FmhActCode);
                 ////lstData.Add("Date", Utility.ToString(frmR1R2.FmhAuditedDate, "YYYYMMDD"));
                 //lstData.Add("Year", frmR1R2.FmhAuditedDate.Value.Year.ToString());
@@ -150,19 +167,29 @@ namespace RAMMS.Repository
                 //frmR1R2.FmhRefId = FormRefNumber.GetRefNumber(FormType.FormM, lstData);
                 await _context.SaveChangesAsync();
             }
-            return frmT3;
+            return frmmap;
         }
 
-        public List<RmFormDHdr> GetForDDetails(string RMU, int Year, int Month)
+        public async Task<int> SaveFormB14(List<RmMapDetails> Formmap)
         {
-            List<RmFormDHdr> res = (from r in _context.RmFormDHdr where r.FdhRmu == RMU && r.FdhYear == Year && r.FdhDate.Value.Month == Month && r.FdhActiveYn==true select r).ToList();
-            List<RmFormDDtl> lstRMDtl = new List<RmFormDDtl>();
-            for(int i = 0; i < res.Count(); i++){
-                lstRMDtl = new List<RmFormDDtl>();
-                lstRMDtl = (from r in _context.RmFormDDtl where r.FddFdhPkRefNo == res[i].FdhPkRefNo select r).ToList();
-                res[i].RmFormDDtl = lstRMDtl;
-            }            
-            return res;
+            try
+            {
+                if (Formmap[0].RmmdPkRefNoDetails == 0)
+                {
+                    _context.RmMapDetails.AddRange(Formmap);
+                }
+                else
+                {
+                    _context.RmMapDetails.UpdateRange(Formmap);
+                }
+                _context.SaveChanges();
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
         }
     }
 }

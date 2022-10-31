@@ -21,6 +21,8 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         //Task<List<FormMapDetailsDTO>> GetHistoryData(int historyID);
         //Byte[] FormDownload(string formname, int id, string basepath, string filepath);
         Task<List<FormDHeaderResponseDTO>> GetForDDetails(string RMU, int Year, int Month);
+        Task<List<FormMapDetailsDTO>> GetForMapDetails(int ID);
         int Delete(int id);
+        Task<FormMapHeaderDTO> SaveMap(FormMapHeaderDTO frmmaphdr, List<FormMapDetailsDTO> frmmap, bool updateSubmit);
     }
 }

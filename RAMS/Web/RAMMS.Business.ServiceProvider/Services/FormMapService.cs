@@ -22,7 +22,7 @@ using RAMMS.Repository.Interfaces;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
-    public class FormMapService:IFormMapService
+    public class FormMapService : IFormMapService
     {
         private readonly IFormMapRepository _repo;
         private readonly IRepositoryUnit _repoUnit;
@@ -53,7 +53,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             RmMapHeader res = _repo.GetHeaderById(id, view);
             FormMapHeaderDTO FormMap = new FormMapHeaderDTO();
             FormMap = _mapper.Map<FormMapHeaderDTO>(res);
-            //FormMap.RmMapDetails = _mapper.Map<List<FormMapDetailsDTO>>(res.RmMapDetails); sakthivel
+            FormMap.RmMapDetails = _mapper.Map<List<FormMapDetailsDTO>>(res.RmMapDetails);
             return FormMap;
         }
 
@@ -113,6 +113,72 @@ namespace RAMMS.Business.ServiceProvider.Services
             List<FormDHeaderResponseDTO> FormD = new List<FormDHeaderResponseDTO>();
             FormD = _mapper.Map<List<FormDHeaderResponseDTO>>(res);
             return FormD;
+        }
+
+        public async Task<List<FormMapDetailsDTO>> GetForMapDetails(int ID)
+        {
+            List<RmMapDetails> res = _repo.GetForMapDetails(ID);
+            List<FormMapDetailsDTO> FormD = new List<FormMapDetailsDTO>();
+            FormD = _mapper.Map<List<FormMapDetailsDTO>>(res);
+            return FormD;
+        }
+
+        public async Task<FormMapHeaderDTO> SaveMap(FormMapHeaderDTO frmmaphdr, List<FormMapDetailsDTO> frmmap, bool updateSubmit)
+        {
+            RmMapHeader frmb14hdr_1 = this._mapper.Map<RmMapHeader>((object)frmmaphdr);
+            frmb14hdr_1 = UpdateStatus(frmb14hdr_1);
+
+            RmMapHeader source = await this._repo.Save(frmb14hdr_1, updateSubmit);
+
+            var domainModelFormB14 = _mapper.Map<List<RmMapDetails>>(frmmap);
+            foreach (var list in domainModelFormB14)
+            {
+                list.RmmdPkRefNoDetails = list.RmmdPkRefNoDetails;
+                list.RmmdRmmhPkRefNo = frmmaphdr.PkRefNo;
+            }
+            await _repo.SaveFormB14(domainModelFormB14);
+
+
+            frmmaphdr = this._mapper.Map<FormMapHeaderDTO>((object)source);
+            return frmmaphdr;
+        }
+
+        public RmMapHeader UpdateStatus(RmMapHeader form)
+        {
+            if (form.RmmhPkRefNo > 0)
+            {
+                var existsObj = _repoUnit.FormR1Repository._context.RmMapHeader.Where(x => x.RmmhPkRefNo == form.RmmhPkRefNo).Select(x => new { Status = x.RmmhStatus, Log = x.RmmhAuditlog }).FirstOrDefault();
+                if (existsObj != null)
+                {
+                    form.RmmhAuditlog = existsObj.Log;
+                    form.RmmhStatus = existsObj.Status;
+                }
+
+            }
+
+
+            if (form.RmmhSubmitSts == true && (string.IsNullOrEmpty(form.RmmhStatus) || form.RmmhStatus == Common.StatusList.FormQA1Saved || form.RmmhStatus == Common.StatusList.FormQA1Rejected))
+            {
+                //form.Fg1hInspectedBy = _security.UserID;
+                //form.Fg1hInspectedName = _security.UserName;
+                //form.Fg1hInspectedDt = DateTime.Today;
+                form.RmmhStatus = Common.StatusList.FormQA1Submitted;
+                form.RmmhAuditlog = Utility.ProcessLog(form.RmmhAuditlog, "Submitted", "Submitted", form.RmmhPreparedName, string.Empty, form.RmmhPreparedDate, _security.UserName);
+                processService.SaveNotification(new RmUserNotification()
+                {
+                    RmNotCrBy = _security.UserName,
+                    RmNotGroup = GroupNames.OperationsExecutive,
+                    RmNotMessage = "Executed By:" + form.RmmhPreparedName + " - Form M (" + form.RmmhPkRefNo + ")",//doubt
+                    RmNotOn = DateTime.Now,
+                    RmNotUrl = "/FormMap/Edit/" + form.RmmhPkRefNo.ToString() + "?view=1",
+                    RmNotUserId = "",
+                    RmNotViewed = ""
+                }, true);
+            }
+            else if (string.IsNullOrEmpty(form.RmmhStatus) || form.RmmhStatus == "Initialize")
+                form.RmmhStatus = Common.StatusList.FormR1R2Saved;
+
+            return form;
         }
     }
 }

@@ -56,25 +56,31 @@
         FormMapHDR.CrDt = $("#date").val();
 
         var MapDetails = []
-        var i = 0;
-        $('#tblLabour > tbody  > tr').each(function (index, tr) {
+        var j = 0;
+        $('#tblLabour > tbody  > tr:even').each(function (index, tr) {
             debugger;
             var Map = new Object();
-
-            Map.PkRefNoDetails = frmMap.HeaderData.FormMapHeader.length == 0 ? 0 : frmMap.HeaderData.FormMapHeader[i].PkRefNoDetails;
-            Map.PkRefNo = $("#pkRefNo").val();
-            Map.ActivityId = $('#spx' + i).text().trim();
-            Map.ActivityDate = $(this).find("td.x01").text().trim();
-            Map.ActivityWeekDayNo = $(this).find("td.x01").text().trim();
-            Map.ActivityLocationCode = $(this).find("td.x02").text().trim();
-            Map.QuantityKm = $('#txt' + i + 'M1').val().replace(/,/g, "");
-            Map.ProductUnit = $('#txt' + i + 'M1').val().replace(/,/g, "");
-            Map.Order = i;
-            MapDetails.push(Map);
-            i = i + 1;
+            var Year = $("#formMapYear").val();
+            var Month = $("#formMapMonth").val();
+            var dayCount = daysInMonth(Month, Year);
+            for (var i = 1; i <= dayCount; i++) {
+                var Map = new Object();
+                var d = new Date(Year + '-' + Month + '-' + i);
+                Map.PkRefNoDetails = frmMap.HeaderData.RmMapDetails.length == 0 ? 0 : frmMap.HeaderData.RmMapDetails[i].PkRefNoDetails;
+                Map.PkRefNo = $("#pkRefNo").val();
+                Map.ActivityId = $(this).find("td.x01").text().trim();
+                Map.ActivityDate = Year + '-' + Month + '-' + i;
+                Map.ActivityWeekDayNo = i;
+                Map.ActivityLocationCode = $('#tdloc' + Map.ActivityId + i).text().trim();
+                Map.QuantityKm = $('#tdqan' + Map.ActivityId + i).text().trim();
+                Map.ProductUnit = $('#sp0' + Map.ActivityId).text();
+                Map.Order = j;
+                MapDetails.push(Map);
+                j = j + 1;
+            }
         });
 
-        FormMap = MapHistory;
+        FormMap = MapDetails;
         var FormMapData = JSON.stringify(FormMap);
         var FormMapHDRData = JSON.stringify(FormMapHDR);
 
@@ -240,7 +246,7 @@
             else {
                 $('#formMapRMU').attr("disabled", false).trigger("chosen:updated");
                 $("#formMapYear").prop("disabled", false).trigger("chosen:updated");
-                $("#formMapMonth").prop("disabled", true).trigger("chosen:updated");
+                $("#formMapMonth").prop("disabled", false).trigger("chosen:updated");
                 $("[finddetailsdep]").hide();
                 $("#btnFindDetails").show();
             }
@@ -248,6 +254,7 @@
         else {
             $("#formMapRMU").prop("disabled", true).trigger("chosen:updated");
             $("#formMapYear").prop("disabled", true).trigger("chosen:updated");
+            $("#formMapMonth").prop("disabled", true).trigger("chosen:updated");
             $("[finddetailsdep]").hide();
             $("#btnFindDetails").hide();
             ViewData($("#pkRefNo").val());
@@ -405,8 +412,9 @@ function AppendData(id, Status) {
     var Month = $("#formMapMonth").val();
     var dayCount = daysInMonth(Month, Year);
     for (var i = 1; i <= dayCount; i++) {
-        $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" x:str><span style="width:70px;float:left;text-align:center">' + GetDayName(Month + '/' + i + '/' + Year) + ' </span></th>');
-        $('#tblLabour thead tr:eq(1) th:last').after('<th class="xl65" x:str><span style="width:70px;float:left;text-align:center">' + i + ' </span></th>');
+        debugger;
+        $('#tblLabour thead tr:eq(1) th:last').after('<th class="xl65" x:str><span style="width:70px;float:left;text-align:center">' + GetDayName(Month + '/' + i + '/' + Year) + ' </span></th>');
+        $('#tblLabour thead tr:eq(2) th:last').after('<th class="xl65" x:str><span style="width:70px;float:left;text-align:center">' + i + ' </span></th>');
         $('#tblLabour tbody tr:even').each(function () {
             var actCode = $(this).find(".x01").text();
             $(this).find("td:last").after('<td id="tdloc' + actCode + i + '" style="width:80px;border-left:1px solid #dee2e6;"></td>');
@@ -417,6 +425,7 @@ function AppendData(id, Status) {
         });
     }
     AppendPlannedData();
+    //AppendWeek();
 }
 
 function AppendPlannedData() {
@@ -482,4 +491,100 @@ function AppendPlannedData() {
             console.error(data);
         }
     });
+}
+
+function ViewData(id) {
+    var Year = $("#formMapYear").val();
+    var Month = $("#formMapMonth").val();
+    var dayCount = daysInMonth(Month, Year);
+    for (var i = 1; i <= dayCount; i++) {
+        $('#tblLabour thead tr:eq(1) th:last').after('<th class="xl65" x:str><span style="width:70px;float:left;text-align:center">' + GetDayName(Month + '/' + i + '/' + Year) + ' </span></th>');
+        $('#tblLabour thead tr:eq(2) th:last').after('<th class="xl65" x:str><span style="width:70px;float:left;text-align:center">' + i + ' </span></th>');
+        $('#tblLabour tbody tr:even').each(function () {
+            var actCode = $(this).find(".x01").text();
+            $(this).find("td:last").after('<td id="tdloc' + actCode + i + '" style="width:80px;border-left:1px solid #dee2e6;"></td>');
+        });
+        $('#tblLabour tbody tr:odd').each(function () {
+            var actCode = $(this).find(".sp02").text();
+            $(this).find("td:last").after('<td id="tdqan' + actCode + i + '" style="width:80px;border-left:1px solid #dee2e6;"></td>');
+        });
+    }
+
+    //Append Data
+    var req = {};
+    var detailID = id;
+    req.ID = detailID;
+    $.ajax({
+        url: '/FormMap/GetForMapDetails',
+        dataType: 'JSON',
+        data: req,
+        async: false,
+        type: 'Post',
+        success: function (data) {
+            debugger;
+            if (data.result.length > 0) {
+                for (var i = 0; i < data.result.length; i++) {
+                    var actCode = data.result[i].activityId;
+                    var weekdayNo = data.result[i].activityWeekDayNo;
+                    var prodUnit = data.result[i].productUnit;
+                    var prodQty = data.result[i].quantityKm;
+                    var roadCode = data.result[i].activityLocationCode;
+                    $('#tdloc' + actCode + weekdayNo).text(roadCode);
+                    $('#tdqan' + actCode + weekdayNo).text(prodQty);
+                    $('#sp0' + actCode).text("Quantity (" + prodUnit + ")");
+                }
+            }
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+
+    //AppendWeek();
+}
+
+function GetWeekNumber(year, month, day) {
+    debugger;
+    //var target = new Date(year, month, day);
+    //var dayNr = (target.getDay() + 6) % 7;
+    //target.setDate(target.getDate() - dayNr + 3);
+    //var firstThursday = target.valueOf();
+    //target.setMonth(0, 1);
+    //if (target.getDay() != 4) {
+    //    target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
+    //}
+    //return 1 + Math.ceil((firstThursday - target) / 604800000);
+    Date.prototype.getWeek = function () {
+        var onejan = new Date(year, month, day);
+        return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+    }
+
+    return (new Date()).getWeek();
+}
+
+function AppendWeek() {
+    var Year = $("#formMapYear").val();
+    var Month = $("#formMapMonth").val();
+    var dayCount = daysInMonth(Month, Year);
+    var weekCount = 0;
+    var ExistweekNumber = 0;
+    var currweekNumber = 0;
+    for (var i = 1; i <= dayCount; i++) {
+        debugger;
+        currweekNumber = GetWeekNumber(Year, Month, i);
+        if (i == 1) {
+            ExistweekNumber = currweekNumber;
+        }
+        if (currweekNumber != ExistweekNumber) {
+            $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" colspan=' + weekCount + ' x:str style="border-left:1px solid #dee2e6;"><span style="width:70px;float:left;text-align:center"> Week' + ExistweekNumber + ' </span></th>');
+            ExistweekNumber = currweekNumber;
+            weekCount = 1;
+        }
+        else {
+            weekCount = weekCount + 1;
+        }
+        if (i == dayCount) {
+            $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" colspan=' + weekCount + ' x:str style="border-left:1px solid #dee2e6;"><span style="width:70px;float:left;text-align:center"> Week' + currweekNumber + ' </span></th>');
+        }
+    }
 }

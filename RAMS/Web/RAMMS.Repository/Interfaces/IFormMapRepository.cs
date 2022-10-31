@@ -16,8 +16,10 @@ namespace RAMMS.Repository.Interfaces
         Task<GridWrapper<object>> GetHeaderGrid(DataTableAjaxPostModel searchData);
         Task<RmMapHeader> FindDetails(RmMapHeader frmT3);
         RmMapHeader GetHeaderById(int id, bool view);
-        Task<RmMapHeader> Save(RmMapHeader frm, bool updateSubmit);
         int DeleteHeader(RmMapHeader frmT3);
         List<RmFormDHdr> GetForDDetails(string RMU, int Year, int Month);
+        List<RmMapDetails> GetForMapDetails(int ID);
+        Task<RmMapHeader> Save(RmMapHeader frm, bool updateSubmit);
+        Task<int> SaveFormB14(List<RmMapDetails> Formmap);
     }
 }

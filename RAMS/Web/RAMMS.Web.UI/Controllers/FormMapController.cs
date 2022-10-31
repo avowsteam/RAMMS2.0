@@ -137,5 +137,38 @@ namespace RAMMS.Web.UI.Controllers
         {
             return Json(_formMapService.GetForDDetails(RmuCode, Year, Month));
         }
+
+        public async Task<IActionResult> SaveFormMap(string formMaphdrdata, string formMapdata, int reload)
+        {
+            FormMapHeaderDTO formmaphdr = new FormMapHeaderDTO();
+            List<FormMapDetailsDTO> formmap = new List<FormMapDetailsDTO>();
+
+            formmaphdr = JsonConvert.DeserializeObject<FormMapHeaderDTO>(formMaphdrdata);
+            formmap = JsonConvert.DeserializeObject<List<FormMapDetailsDTO>>(formMapdata);
+            //await _formB14Service.SaveFormB14(formb14);
+            if (reload == 1)
+            {
+                formmaphdr.SubmitSts = true;
+                formmaphdr.PreparedBy = _security.UserID;
+                formmaphdr.PreparedDate = DateTime.Today;
+            }
+            return await SaveAll(formmaphdr, formmap, false);
+        }
+
+        private async Task<JsonResult> SaveAll(DTO.ResponseBO.FormMapHeaderDTO formmaphdr, List<DTO.ResponseBO.FormMapDetailsDTO> formmap, bool updateSubmit)
+        {
+            formmaphdr.CrBy = _security.UserID;
+            formmaphdr.ModBy = _security.UserID;
+            formmaphdr.ModDt = DateTime.UtcNow;
+            formmaphdr.CrDt = DateTime.UtcNow;
+            formmaphdr.ActiveYn = true;
+            var result = await _formMapService.SaveMap(formmaphdr, formmap, updateSubmit);
+            return Json(new { Id = result.PkRefNo }, JsonOption());
+        }
+
+        public async Task<IActionResult> GetForMapDetails(int ID)
+        {
+            return Json(_formMapService.GetForMapDetails(ID));
+        }
     }
 }
