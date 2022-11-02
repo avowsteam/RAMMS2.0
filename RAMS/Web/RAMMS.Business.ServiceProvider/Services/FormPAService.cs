@@ -70,13 +70,16 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 var domainModelFormPA = _mapper.Map<RmPaymentCertificateMamw>(FormPA);
                 domainModelFormPA.PcmamwPkRefNo = 0;
+               
+                var res = _repo.SaveFormPA(domainModelFormPA);
                 IDictionary<string, string> lstData = new Dictionary<string, string>();
                 lstData.Add("YYYY", domainModelFormPA.PcmamwSubmissionYear.ToString());
                 lstData.Add("MM", domainModelFormPA.PcmamwSubmissionMonth.ToString());
+                lstData.Add(FormRefNumber.NewRunningNumber, Utility.ToString(res.Result));
                 domainModelFormPA.PcmamwRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormPA, lstData);
-                var res = _repo.SaveFormPA(domainModelFormPA);
-                 
-                return res.Result;
+                var result = _repo.SaveFormPA(domainModelFormPA,true);
+
+                return result.Result;
             }
             catch (Exception ex)
             {
@@ -93,6 +96,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                 var domainModelFormPA = _mapper.Map<RmPaymentCertificateMamw>(FormPAHeader);
                 domainModelFormPA.PcmamwPkRefNo = PkRefNo;
                 domainModelFormPA.PcmamwActiveYn = true;
+                domainModelFormPA.RmPaymentCertificateCrr = new List<RmPaymentCertificateCrr>();
+                domainModelFormPA.RmPaymentCertificateCrrd = new List<RmPaymentCertificateCrrd>();
+                domainModelFormPA.RmPaymentCertificateCrra = new List<RmPaymentCertificateCrra>();
                 domainModelFormPA = UpdateStatus(domainModelFormPA);
                 _repoUnit.FormPARepository.Update(domainModelFormPA);
                 await _repoUnit.CommitAsync();
@@ -100,6 +106,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 var domainModelFormPACrr = _mapper.Map<List<RmPaymentCertificateCrr>>(FormPACrr);
                 var domainModelFormPACrra = _mapper.Map<List<RmPaymentCertificateCrra>>(FormPACrra);
                 var domainModelFormPACrrd = _mapper.Map<List<RmPaymentCertificateCrrd>>(FormPACrrd);
+               
                 return await _repo.UpdateFormPA(domainModelFormPA, domainModelFormPACrr, domainModelFormPACrra, domainModelFormPACrrd);
             }
             catch (Exception ex)

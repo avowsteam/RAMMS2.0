@@ -170,7 +170,7 @@ function OnSOChange(tis) {
     else {
         $("#FormP1Header_UsernameSo").val('');
         $("#FormP1Header_DesignationSo").val('');
-        $('#FormP1Header_SignProsd').prop('checked', false);
+        $('#FormP1Header_SignSo').prop('checked', false);
     }
 }
 
@@ -194,6 +194,7 @@ function Save(SubmitType) {
 
     var FormP1 = new Object();
     FormP1.PkRefNo = $("#FormP1Header_PkRefNo").val()
+    FormP1.PkRefId = $("#FormP1Header_RefId").val()
     FormP1.PaymentCertificateNo = $("#FormP1Header_PaymentCertificateNo").val()
     FormP1.SubmissionMonth = $("#ddlMonth").val()
     FormP1.SubmissionYear = $("#ddlYear").val()

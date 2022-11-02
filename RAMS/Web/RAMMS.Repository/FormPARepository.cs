@@ -185,11 +185,14 @@ namespace RAMMS.Repository
         }
 
 
-        public async Task<int> SaveFormPA(RmPaymentCertificateMamw FormPA)
+        public async Task<int> SaveFormPA(RmPaymentCertificateMamw FormPA, bool update = false)
         {
             try
             {
-                _context.RmPaymentCertificateMamw.Add(FormPA);
+                if (!update)
+                    _context.RmPaymentCertificateMamw.Add(FormPA);
+                else
+                    _context.RmPaymentCertificateMamw.Update(FormPA);
                 _context.SaveChanges();
                 return FormPA.PcmamwPkRefNo;
             }
@@ -203,7 +206,7 @@ namespace RAMMS.Repository
         {
             try
             {
-                IList<RmPaymentCertificateMamw> child = (from r in _context.RmPaymentCertificateMamw where r.PcmamwPkRefNo == FormPAHeader.PcmamwPkRefNo select r).ToList();
+                IList<RmPaymentCertificateCrr> child = (from r in _context.RmPaymentCertificateCrr where r.CrrPcmamwPkRefNo == FormPAHeader.PcmamwPkRefNo select r).ToList();
                 foreach (var item in child)
                 {
                     _context.Remove(item);
@@ -218,11 +221,10 @@ namespace RAMMS.Repository
                     _context.SaveChanges();
                 }
 
-                foreach (var item in FormPACrra)
+                IList<RmPaymentCertificateCrrd> child2 = (from r in _context.RmPaymentCertificateCrrd where r.CrrdPcmamwPkRefNo == FormPAHeader.PcmamwPkRefNo select r).ToList();
+                foreach (var item in child2)
                 {
-                    item.CrraPcmamwPkRefNo = FormPAHeader.PcmamwPkRefNo;
-                    item.CrraPkRefNo = 0;
-                    _context.RmPaymentCertificateCrra.Add(item);
+                    _context.Remove(item);
                     _context.SaveChanges();
                 }
 
@@ -233,6 +235,23 @@ namespace RAMMS.Repository
                     _context.RmPaymentCertificateCrrd.Add(item);
                     _context.SaveChanges();
                 }
+                
+
+                IList<RmPaymentCertificateCrra> child3 = (from r in _context.RmPaymentCertificateCrra where r.CrraPcmamwPkRefNo == FormPAHeader.PcmamwPkRefNo select r).ToList();
+                foreach (var item in child3)
+                {
+                    _context.Remove(item);
+                    _context.SaveChanges();
+                }
+
+                foreach (var item in FormPACrra)
+                {
+                    item.CrraPcmamwPkRefNo = FormPAHeader.PcmamwPkRefNo;
+                    item.CrraPkRefNo = 0;
+                    _context.RmPaymentCertificateCrra.Add(item);
+                    _context.SaveChanges();
+                }
+
 
                 return 1;
             }

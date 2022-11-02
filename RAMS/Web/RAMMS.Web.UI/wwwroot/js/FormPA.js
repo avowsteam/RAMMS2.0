@@ -1,152 +1,83 @@
 ﻿
 $(document).ready(function () {
 
-    SetServiceProviderValues();
     DisableHeader();
-
-    CalculateValuesonLoad();
-
+    CalculateValues();
 });
-
-function SetServiceProviderValues() {
-
-    $(".PayAmt.SPCR").val($("#FormP1Header_ContractRoadLength").val());
-    $(".PayAdd.SPCR").val($("#FormP1Header_NetValueAddition").val());
-    $(".PayDed.SPCR").val($("#FormP1Header_NetValueDeduction").val());
-
-    $(".PayAmt.SPIC").val($("#FormP1Header_NetValueInstructedWork").val());
-    $(".PayDed.SPIC").val($("#FormP1Header_NetValueLadInstructedWork").val());
-}
-
-function ServiceProviderCal() {
-
-    var tot = 0;
-    if ($(".PayAmt.SPCR").val() != "")
-        tot = tot + parseFloat($(".PayAmt.SPCR").val()).toFixed(2);
-    if ($(".PayAdd.SPCR").val() != "")
-        tot = tot + parseFloat($(".PayAdd.SPCR").val()).toFixed(2);
-    if ($(".PayDed.SPCR").val() != "")
-        tot = tot + parseFloat($(".PayDed.SPCR").val()).toFixed(2);
-    if ($(".TotPrevPay.SPCR").val() != "")
-        tot = tot + parseFloat($(".TotPrevPay.SPCR").val()).toFixed(2);
-    $(".TottoDate.SPCR").val(tot);
-
-    tot = 0;
-    if ($(".PayAmt.SPIC").val() != "")
-        tot = tot + parseFloat($(".PayAmt.SPIC").val()).toFixed(2);
-    if ($(".PayDed.SPIC").val() != "")
-        tot = tot + parseFloat($(".PayDed.SPIC").val()).toFixed(2);
-    if ($(".TotPrevPay.SPIC").val() != "")
-        tot = tot + parseFloat($(".TotPrevPay.SPIC").val()).toFixed(2);
-    $(".TottoDate.SPIC").val(tot);
-
-    tot = 0;
-    if ($(".TotPrevPay.SPCR").val() != "")
-        tot = tot + parseFloat($(".TotPrevPay.SPCR").val()).toFixed(2);
-    if ($(".TottoDate.SPCR").val() != "")
-        tot = tot + parseFloat($(".PayDed.SPCR").val()).toFixed(2);
-    $(".AmtincPC.SPCR").val(tot);
-
-    tot = 0;
-    if ($(".TotPrevPay.SPIC").val() != "")
-        tot = tot + parseFloat($(".TotPrevPay.SPIC").val()).toFixed(2);
-    if ($(".TottoDate.SPIC").val() != "")
-        tot = tot + parseFloat($(".PayDed.SPIC").val()).toFixed(2);
-    $(".AmtincPC.SPIC").val(tot);
-
-
-
-}
-
-function TotalCal() {
-
-    //Amount Contract roads
-    $(".PayAmt.STCR").val(TotalCal("PayAmt", "CR") );
-
-    //Amount Instructed Works
-    $(".PayAmt.STIC").val(TotalCal("PayAmt", "IC"));
-
-
-   
-    //Amount Contract roads
-    $(".PayAdd.STCR").val(TotalCal("PayAdd", "CR"));
-    
-    //Deduction Contract roads
-    $(".PayDed.STCR").val(TotalCal("PayDed", "CR"));
-    
-    //Deduction Instructed Works
-    $(".PayDed.STIC").val(TotalCal("PayDed", "IC"));
-
-    //tot Prev Payment Contract roads
-    $(".TotPrevPay.STCR").val(TotalCal("TotPrevPay", "CR"));
-
-    //tot Prev Payment Instructed Works
-    $(".TotPrevPay.STIC").val(TotalCal("TotPrevPay", "IC"));
-
-    //tot to date Contract roads
-    $(".TottoDate.STCR").val(TotalCal("TottoDate", "CR"));
-
-    //tot to date Instructed Works
-    $(".TottoDate.STIC").val(TotalCal("TottoDate", "IC"));
-
-    //Amt Payment certificate Contract roads
-    $(".AmtincPC.STCR").val(TotalCal("AmtincPC", "CR"));
-
-    //Amt Payment certificate Instructed Works
-    $(".AmtincPC.STIC").val(TotalCal("AmtincPC", "IC"));
-
-
-}
-
-function TotalCal(col, type) {
-    var tot = 0;
-    if (type == "CR") {
-       
-        if ($("." + col + ".SPCR").val() != "")
-            tot = tot + parseFloat($("." + col + ".SPCR").val()).toFixed(2);
-        if ($("." + col + ".NCCR").val() != "")
-            tot = tot + parseFloat($("." + col + ".NCCR").val()).toFixed(2);
-        if ($("." + col + ".NSCR").val() != "")
-            tot = tot + parseFloat($("." + col + ".NSCR").val()).toFixed(2);
-        $("." + col + ".STCR").val(tot);
-    }
-    else {
- 
-        if ($("." + col + ".SPIC").val() != "")
-            tot = tot + parseFloat($("." + col + ".SPIC").val()).toFixed(2);
-        if ($("." + col + ".NCIC").val() != "")
-            tot = tot + parseFloat($("." + col + ".NCIC").val()).toFixed(2);
-        if ($("." + col + ".NSIC").val() != "")
-            tot = tot + parseFloat($("." + col + ".NSIC").val()).toFixed(2);
-        $("." + col + ".STIC").val(tot);
-    }
-
-    return tot;
-}
-
 
 
 function DisableHeader() {
 
-    if ($("#FormP1Header_PkRefNo").val() != "0") {
+    if ($("#FormPAHeader_PkRefNo").val() != "0") {
         $("#headerDiv * > select").attr('disabled', true).trigger("chosen:updated");
 
         $("#btnFindDetails").hide();
     }
 
     if ($("#hdnView").val() == 1) {
-        $("#saveFormP1Btn").hide();
-        $("#SubmitFormP1Btn").hide();
-        $("#FormP1Header_Bank").attr("readonly", "true");
-        $("#FormP1Header_BankAccNo").attr("readonly", "true");
-        $("#FormP1Header_Assignee").attr("readonly", "true");
-        $("#FormP1Header_Address").attr("readonly", "true");
-        $("#FormP1Header_Address").attr("readonly", "true");
+        $("#saveFormPABtn").hide();
+        $("#SubmitFormPABtn").hide();
+        $("#FormPAHeader_Bank").attr("readonly", "true");
+        $("#FormPAHeader_BankAccNo").attr("readonly", "true");
+        $("#FormPAHeader_Assignee").attr("readonly", "true");
+        $("#FormPAHeader_Address").attr("readonly", "true");
+        $("#FormPAHeader_Address").attr("readonly", "true");
     }
 
 
 }
 
+function OnSPChange(tis) {
+
+    var ctrl = $(tis);
+    if (ctrl.val() != null)
+        $('#ddlSP').val(ctrl.val());
+    if ($('#ddlSP').val() != "") {
+        $("#FormPAHeader_UsernameSp").val(ctrl.find("option:selected").attr("Item1"));
+        $("#FormPAHeader_DesignationSp").val(ctrl.find("option:selected").attr("Item2"));
+
+        if ($('#ddlSP').val() == "99999999") {
+            $("#FormPAHeader_UsernameSp").removeAttr("readonly");
+            $("#FormPAHeader_DesignationSp").removeAttr("readonly");
+
+        } else {
+            $("#FormPAHeader_UsernameSp").attr("readonly", "true");
+            $("#FormPAHeader_DesignationSp").attr("readonly", "true");
+        }
+        $('#FormPAHeader_SignProsd').prop('checked', true);
+    }
+    else {
+        $("#FormPAHeader_UsernameSp").val('');
+        $("#FormPAHeader_DesignationSp").val('');
+        $('#FormPAHeader_SignProsdsp').prop('checked', false);
+    }
+}
+
+function OnECChange(tis) {
+
+    var ctrl = $(tis);
+    if (ctrl.val() != null)
+        $('#ddlEC').val(ctrl.val());
+    if ($('#ddlEC').val() != "") {
+        $("#FormPAHeader_UsernameEc").val(ctrl.find("option:selected").attr("Item1"));
+        $("#FormPAHeader_DesignationEc").val(ctrl.find("option:selected").attr("Item2"));
+
+        if ($('#ddlEC').val() == "99999999") {
+            $("#FormPAHeader_UsernameEc").removeAttr("readonly");
+            $("#FormPAHeader_DesignationEc").removeAttr("readonly");
+
+        } else {
+            $("#FormPAHeader_UsernameEc").attr("readonly", "true");
+            $("#FormPAHeader_DesignationEc").attr("readonly", "true");
+        }
+        $('#FormPAHeader_SignProsd').prop('checked', true);
+    }
+    else {
+        $("#FormPAHeader_UsernameEc").val('');
+        $("#FormPAHeader_DesignationEc").val('');
+        $('#FormPAHeader_SignProsdEc').prop('checked', false);
+    }
+}
 
 function OnSOChange(tis) {
 
@@ -154,26 +85,25 @@ function OnSOChange(tis) {
     if (ctrl.val() != null)
         $('#ddlSO').val(ctrl.val());
     if ($('#ddlSO').val() != "") {
-        $("#FormP1Header_UsernameSo").val(ctrl.find("option:selected").attr("Item1"));
-        $("#FormP1Header_DesignationSo").val(ctrl.find("option:selected").attr("Item2"));
+        $("#FormPAHeader_UsernameSo").val(ctrl.find("option:selected").attr("Item1"));
+        $("#FormPAHeader_DesignationSo").val(ctrl.find("option:selected").attr("Item2"));
 
         if ($('#ddlSO').val() == "99999999") {
-            $("#FormP1Header_UsernameSo").removeAttr("readonly");
-            $("#FormP1Header_DesignationSo").removeAttr("readonly");
+            $("#FormPAHeader_UsernameSo").removeAttr("readonly");
+            $("#FormPAHeader_DesignationSo").removeAttr("readonly");
 
         } else {
-            $("#FormP1Header_UsernameSo").attr("readonly", "true");
-            $("#FormP1Header_DesignationSo").attr("readonly", "true");
+            $("#FormPAHeader_UsernameSo").attr("readonly", "true");
+            $("#FormPAHeader_DesignationSo").attr("readonly", "true");
         }
-        $('#FormP1Header_SignProsd').prop('checked', true);
+        $('#FormPAHeader_SignProsd').prop('checked', true);
     }
     else {
-        $("#FormP1Header_UsernameSo").val('');
-        $("#FormP1Header_DesignationSo").val('');
-        $('#FormP1Header_SignProsd').prop('checked', false);
+        $("#FormPAHeader_UsernameSo").val('');
+        $("#FormPAHeader_DesignationSo").val('');
+        $('#FormPAHeader_SignProsdSo').prop('checked', false);
     }
 }
-
 
 
 
@@ -181,73 +111,98 @@ function Save(SubmitType) {
 
 
     if (SubmitType == "Submitted") {
-        $("#FormP1Header_SubmitSts").val(true);
+        $("#FormPAHeader_SubmitSts").val(true);
 
     }
 
     InitAjaxLoading();
 
-    if ($("#FormP1Header_Status").val() == "")
-        $("#FormP1Header_Status").val("Initialize");
-    else if ($("#FormP1Header_Status").val() == "Initialize")
-        $("#FormP1Header_Status").val("Saved");
+    if ($("#FormPAHeader_Status").val() == "")
+        $("#FormPAHeader_Status").val("Initialize");
+    else if ($("#FormPAHeader_Status").val() == "Initialize")
+        $("#FormPAHeader_Status").val("Saved");
 
-    var FormP1 = new Object();
-    FormP1.PkRefNo = $("#FormP1Header_PkRefNo").val()
-    FormP1.PaymentCertificateNo = $("#FormP1Header_PaymentCertificateNo").val()
-    FormP1.SubmissionMonth = $("#ddlMonth").val()
-    FormP1.SubmissionYear = $("#ddlYear").val()
-    FormP1.Bank = $("#FormP1Header_Bank").val()
-    FormP1.BankAccNo = $('#FormP1Header_BankAccNo').val();
-    FormP1.Assignee = $('#FormP1Header_Assignee').val();
-    FormP1.Address = $('#FormP1Header_Address').val();
-    FormP1.SubmissionDate = $('#FormP1Header_SubmissionDate').val();
-    FormP1.ContractRoadLength = $('#FormP1Header_ContractRoadLength').val();
-    FormP1.NetValueDeduction = $('#FormP1Header_NetValueDeduction').val();
-    FormP1.NetValueAddition = $('#FormP1Header_NetValueAddition').val();
-    FormP1.NetValueInstructedWork = $('#FormP1Header_NetValueInstructedWork').val();
-    FormP1.NetValueLadInstructedWork = $('#FormP1Header_NetValueLadInstructedWork').val();
-    FormP1.UseridSo = $('#ddlSO').val();
-    FormP1.UsernameSo = $('#FormP1Header_UsernameSo').val();
-    FormP1.DesignationSo = $('#FormP1Header_DesignationSo').val();
-    FormP1.SignSo = $('#FormP1Header_SignSo').val();
-    FormP1.Status = $('#FormP1Header_Status').val();
-    FormP1.SubmitSts = $('#FormP1Header_SubmitSts').val();
+    var FormPA = new Object();
+    FormPA.PkRefNo = $("#FormPAHeader_PkRefNo").val()
+    FormPA.PkRefId = $("#FormPAHeader_RefId").val()
+    FormPA.SubmissionMonth = $("#ddlMonth").val()
+    FormPA.SubmissionYear = $("#ddlYear").val()
+    FormPA.WorkValueDeduction = $('.tottodateded').text().trim();
+    FormPA.WorkValueAddition = $('.tottodateAdd').text().trim();
+    FormPA.TotalPayment = $('.totAmtGrand').text().trim();
+    FormPA.UseridSp = $('#ddlSP').val();
+    FormPA.UsernameSp = $('#FormPAHeader_UsernameSp').val();
+    FormPA.DesignationSp = $('#FormPAHeader_DesignationSp').val();
+    FormPA.SignDateSp = $('#FormPAHeader_SignDateSp').val();
+    FormPA.SignSp = $('#FormPAHeader_SignSp').val();
+    FormPA.UseridEc = $('#ddlEC').val();
+    FormPA.UsernameEc = $('#FormPAHeader_UsernameEc').val();
+    FormPA.DesignationEc = $('#FormPAHeader_DesignationEc').val();
+    FormPA.SignDateEc = $('#FormPAHeader_SignDateEc').val();
+    FormPA.SignEc = $('#FormPAHeader_SignEc').val();
+    FormPA.UseridSo = $('#ddlSO').val();
+    FormPA.UsernameSo = $('#FormPAHeader_UsernameSo').val();
+    FormPA.DesignationSo = $('#FormPAHeader_DesignationSo').val();
+    FormPA.SignDateSo = $('#FormPAHeader_SignDateSo').val();
+    FormPA.SignSo = $('#FormPAHeader_SignSo').val();
 
-    var P1Details = []
-    var i = 0;
-    var Description = "";
-    $('#tblPPB > tbody  > tr').each(function (index, tr) {
+    FormPA.Status = $('#FormPAHeader_Status').val();
+    FormPA.SubmitSts = $('#FormPAHeader_SubmitSts').val();
 
-        var P1 = new Object();
-        P1.P1pPkRefNo = $("#FormP1Header_PkRefNo").val();
-        if ($(this).find("td:nth-child(1)").attr("rowspan") != undefined) {
-            P1.Description = $(this).find("td:nth-child(1)").text().trim();
-            Description = P1.Feature;
-        }
-        else {
-            P1.Description = Description;
-        }
+    var PACRR = []
 
-        P1.PaymentType = $(this).find(".PT").text().trim();
-        P1.Amount = $(this).find(".PayAmt").val().trim();
-        P1.Addition = $(this).find(".PayAdd").val().trim();
-        P1.Deduction = $(this).find(".PayDed").val().trim();
-        P1.PreviousPayment = $(this).find(".TotPrevPay").val().trim();
-        P1.TottoDate = $(this).find(".TotalToDate").val().trim();
-        P1.AmountIncludedInPc = $(this).find(".TotalToDate").val().trim();
+    $('#tblCRR > tbody  > tr').each(function (index, tr) {
 
-        P1Details.push(P1);
+        var PA = new Object();
+        PA.PcmamwPkRefNo = $("#FormPAHeader_PkRefNo").val();
+        PA.Division = $(this).find("td:nth-child(1)").text().trim();
+        PA.Paved = $(this).find("td:nth-child(2)").find("input").val();
+        PA.Unpaved = $(this).find("td:nth-child(3)").find("input").val();
+        PA.SubTotal = $(this).find("td:nth-child(4)").find("input").val();
+        PA.ContractRate = $(this).find("td:nth-child(5)").find("input").val();
+        PA.TotalAmount = $(this).find("td:nth-child(6)").find("input").val();
+        PACRR.push(PA);
 
     });
 
+    FormPA.RmPaymentCertificateCrr = PACRR;
 
-    FormP1.FormP1Details = P1Details;
+    var PACRRD = []
+
+    $('#tblCRRD > tbody  > tr').each(function (index, tr) {
+
+        var PA = new Object();
+        PA.PcmamwPkRefNo = $("#FormPAHeader_PkRefNo").val();
+        PA.Description = $(this).find("td:nth-child(1)").text().trim();
+        PA.ThisPayment = $(this).find("td:nth-child(2)").find("input").val();
+        PA.TillLastPayment = $(this).find("td:nth-child(3)").find("input").val();
+        PA.TotalToDate = $(this).find("td:nth-child(4)").find("input").val();
+        PACRRD.push(PA);
+
+    });
+
+    FormPA.RmPaymentCertificateCrrd = PACRRD;
+
+    var PACRRA = []
+
+    $('#tblCRRA > tbody  > tr').each(function (index, tr) {
+
+        var PA = new Object();
+        PA.PcmamwPkRefNo = $("#FormPAHeader_PkRefNo").val();
+        PA.Description = $(this).find("td:nth-child(1)").text().trim();
+        PA.ThisPayment = $(this).find("td:nth-child(2)").find("input").val();
+        PA.TillLastPayment = $(this).find("td:nth-child(3)").find("input").val();
+        PA.TotalToDate = $(this).find("td:nth-child(4)").find("input").val();
+        PACRRA.push(PA);
+
+    });
+
+    FormPA.RmPaymentCertificateCrra = PACRRA;
 
 
     $.ajax({
-        url: '/FormP1/UpdateFormP1',
-        data: FormP1,
+        url: '/FormPA/UpdateFormPA',
+        data: FormPA,
         type: 'POST',
         success: function (data) {
             HideAjaxLoading();
@@ -257,7 +212,7 @@ function Save(SubmitType) {
             else {
 
                 app.ShowSuccessMessage('Saved Successfully', false);
-                location.href = "/FormP1";
+                location.href = "/FormPA";
             }
         }
     });
@@ -273,36 +228,29 @@ function FindDetails() {
     if (ValidatePage('#headerDiv')) {
 
 
-        if ($("#FormP1Header_Status").val() == "")
-            $("#FormP1Header_Status").val("Initialize");
-        else if ($("#FormP1Header_Status").val() == "Initialize")
-            $("#FormP1Header_Status").val("Saved");
+        if ($("#FormPAHeader_Status").val() == "")
+            $("#FormPAHeader_Status").val("Initialize");
+        else if ($("#FormPAHeader_Status").val() == "Initialize")
+            $("#FormPAHeader_Status").val("Saved");
 
         InitAjaxLoading();
-        var FormP1 = new Object();
-        FormP1.PkRefNo = $("#FormP1Header_PkRefNo").val()
-        FormP1.PaymentCertificateNo = $("#FormP1Header_PaymentCertificateNo").val()
-        FormP1.SubmissionMonth = $("#ddlMonth").val()
-        FormP1.SubmissionYear = $("#ddlYear").val()
-        FormP1.Bank = $("#FormP1Header_Bank").val()
-        FormP1.BankAccNo = $('#FormP1Header_BankAccNo').val();
-        FormP1.Assignee = $('#FormP1Header_Assignee').val();
-        FormP1.Address = $('#FormP1Header_Address').val();
-        FormP1.SubmissionDate = $('#FormP1Header_SubmissionDate').val();
-        FormP1.ContractRoadLength = $('#FormP1Header_ContractRoadLength').val();
-        FormP1.NetValueDeduction = $('#FormP1Header_NetValueDeduction').val();
-        FormP1.NetValueAddition = $('#FormP1Header_NetValueAddition').val();
-        FormP1.NetValueInstructedWork = $('#FormP1Header_NetValueInstructedWork').val();
-        FormP1.NetValueLadInstructedWork = $('#FormP1Header_NetValueLadInstructedWork').val();
-        FormP1.UseridSo = $('#ddlSO').val();
-        FormP1.UsernameSo = $('#FormP1Header_UsernameSo').val();
-        FormP1.DesignationSo = $('#FormP1Header_DesignationSo').val();
-        FormP1.SignSo = $('#FormP1Header_SignSo').val();
-        FormP1.Status = $('#FormP1Header_Status').val();
+        var FormPA = new Object();
+        FormPA.PkRefNo = $("#FormPAHeader_PkRefNo").val()
+        FormPA.SubmissionMonth = $("#ddlMonth").val()
+        FormPA.SubmissionYear = $("#ddlYear").val()
+        FormPA.WorkValueDeduction = $('.tottodateded').text().trim();
+        FormPA.WorkValueAddition = $('.tottodateAdd').text().trim();
+        FormPA.TotalPayment = $('.totAmtGrand').text().trim();
+        FormPA.UseridSp = $('#ddlSp').val();
+        FormPA.UsernameSp = $('#FormPAHeader_UsernameSp').val();
+        FormPA.DesignationSp = $('#FormPAHeader_DesignationSp').val();
+        FormPA.SignSp = $('#FormPAHeader_SignSp').val();
+        FormPA.SignDateSp = $('#FormPAHeader_SignDateSp').val();
+        FormPA.Status = $('#FormPAHeader_Status').val();
 
         $.ajax({
-            url: '/FormP1/SaveFormP1',
-            data: FormP1,
+            url: '/FormPA/SaveFormPA',
+            data: FormPA,
             type: 'POST',
             success: function (data) {
                 HideAjaxLoading();
@@ -311,7 +259,7 @@ function FindDetails() {
                 }
                 else {
                     app.ShowSuccessMessage('Saved Successfully', false);
-                    location.href = "/FormP1/Add?Id=" + data + "&view=0";
+                    location.href = "/FormPA/Add?Id=" + data + "&view=0";
                 }
             }
         });
@@ -324,13 +272,13 @@ function GoBack() {
     if ($("#hdnView").val() == "0") {
         if (app.Confirm("Unsaved changes will be lost. Are you sure you want to cancel?", function (e) {
             if (e) {
-                location.href = "/FormP1";
+                location.href = "/FormPA";
 
             }
         }));
     }
     else
-        location.href = "/FormP1";
+        location.href = "/FormPA";
 }
 
 
@@ -347,349 +295,122 @@ function formatDate(date) {
     return [year, month, day].join('-');
 }
 
-function CalculateValues(obj) {
-    var objtr = $(obj).parent(0).parent(0);
-    ICTotalQty(objtr); //Total Quantity Calculation
-    AnnualWorkQtyDesired(objtr);// Annual Work Qty C1 C2 C3 and Total Calculation
-    CrewDayreq(objtr); //Crew Days Required
-    ServiceLevel(objtr);// Service Level Calculation
-    AnnualWorkQtyPlanned(objtr); // Annual Work Qty Planned
-    CrewDayplanned(objtr); //Crew Days Planned
-    SubTotalbyActivity(objtr);// SubTotal by Activity
-    SumofSubTotalbyActivity();// Sum of SubTotal by Activity
-    PlannedPercentage(objtr);// Planned Percentage
-    SumofSubTotalPercentage(); // Sum of SubTotal Percentage
-    SubTotalbyFeature(objtr);// SubTotal by Feature
-
-    CalAdjustableQty();
-    CalRoutineMaintenance();
-    CalPeriodicMaintenance();
-    CalOtherMaintenance();
-}
-
-function CalculateValuesonLoad() {
-
-    $('#tblPPB > tbody  > tr').each(function (index, tr) {
-
-        var objtr = $(this);
-        ICTotalQty(objtr); //Total Quantity Calculation
-        AnnualWorkQtyDesired(objtr);// Annual Work Qty C1 C2 C3 and Total Calculation
-        CrewDayreq(objtr); //Crew Days Required
-        ServiceLevel(objtr);// Service Level Calculation
-        AnnualWorkQtyPlanned(objtr); // Annual Work Qty Planned
-        CrewDayplanned(objtr); //Crew Days Planned
-        SubTotalbyActivity(objtr);// SubTotal by Activity
-        SumofSubTotalbyActivity();// Sum of SubTotal by Activity
-        PlannedPercentage(objtr);// Planned Percentage
-        SumofSubTotalPercentage(); // Sum of SubTotal Percentage
-        SubTotalbyFeature(objtr);// SubTotal by Feature
-
-        CalAdjustableQty();
-        CalRoutineMaintenance();
-        CalPeriodicMaintenance();
-        CalOtherMaintenance();
-    });
-}
-
-function ICTotalQty(obj) {
-    var IC1 = $(obj).find(".IC1").val() != "" ? parseFloat($(obj).find(".IC1").val()) : 0
-    var IC2 = $(obj).find(".IC2").val() != "" ? parseFloat($(obj).find(".IC2").val()) : 0
-    var IC3 = $(obj).find(".IC3").val() != "" ? parseFloat($(obj).find(".IC3").val()) : 0
-    var tot = (IC1 + IC2 + IC3).toFixed(2);
-    if (tot == 0)
-        tot = "";
-
-    $(obj).find(".TotQty").html(tot);
-}
-
-function AnnualWorkQtyDesired(obj) {
-    var IC1 = $(obj).find(".IC1").val() != "" ? parseFloat($(obj).find(".IC1").val()) : 0
-    var SLC1 = $(obj).find(".SLC1").text().trim() != "" ? parseFloat($(obj).find(".SLC1").text().trim()) : 0
-    var C1 = IC1 * SLC1;
-    $(obj).find(".AWQC1").html(C1.toFixed(2));
-
-    var IC2 = $(obj).find(".IC2").val() != "" ? parseFloat($(obj).find(".IC2").val()) : 0
-    var SLC2 = $(obj).find(".SLC2").text().trim() != "" ? parseFloat($(obj).find(".SLC2").text().trim()) : 0
-    var C2 = IC2 * SLC2;
-    $(obj).find(".AWQC2").html(C2.toFixed(2));
-
-    var IC3 = $(obj).find(".IC3").val() != "" ? parseFloat($(obj).find(".IC3").val()) : 0
-    var SLC3 = $(obj).find(".SLC3").text().trim() != "" ? parseFloat($(obj).find(".SLC3").text().trim()) : 0
-    var C3 = IC3 * SLC3;
-    $(obj).find(".AWQC3").html(C3.toFixed(2));
-    var tot = (C1 + C2 + C3).toFixed(2);
-    if (tot == 0)
-        tot = "";
-
-    $(obj).find(".AWQTot").html(tot);
-
-}
-
-function CrewDayreq(obj) {
-    if ($(obj).find(".AWQTot").text().trim() != "" && $(obj).find(".ADP").text().trim() != "") {
-        $(obj).find(".CrewDayReq").html((parseFloat($(obj).find(".AWQTot").text().trim()) / parseFloat($(obj).find(".ADP").text().trim())).toFixed(2));
-    }
-    else {
-        $(obj).find(".CrewDayReq").html("");
-    }
-}
-
-function ServiceLevel(obj) {
-
-    //Desirer cal
-    if ($(obj).find(".AWQTot").text().trim() != "" && $(obj).find(".TotQty").text().trim() != "") {
-        $(obj).find(".SLDesired").html((parseFloat($(obj).find(".AWQTot").text().trim()) / parseFloat($(obj).find(".TotQty").text().trim())).toFixed(2));
-    }
-    else {
-        $(obj).find(".SLDesired").html("");
-    }
-
-    //Planned Cal
-
-    if ($(obj).find(".SLDesired").text().trim() != "" && $(obj).find(".Desired").val().trim() != "") {
-        $(obj).find(".SLPlan").html((parseFloat($(obj).find(".SLDesired").text().trim()) * parseFloat($(obj).find(".Desired").val().trim())).toFixed(2));
-    }
-    else {
-        $(obj).find(".SLPlan").html("");
-    }
-
-
-}
-
-function AnnualWorkQtyPlanned(obj) {
-
-    if ($(obj).find(".Desired").val().trim() != "" && $(obj).find(".AWQTot").text().trim() != "") {
-        $(obj).find(".AWQ").html((parseFloat($(obj).find(".Desired").val().trim()) * parseFloat($(obj).find(".AWQTot").text().trim())).toFixed(2));
-    }
-    else {
-        $(obj).find(".AWQ").html("");
-    }
+function CalculateValues() {
+    ContractRoadCal();
+    DeductionCal();
+    AdditionCal()
 }
 
 
-function CrewDayplanned(obj) {
+function ContractRoadCal() {
 
-    if ($(obj).find(".AWQ").text().trim() != "" && $(obj).find(".ADP").text().trim() != "") {
-        $(obj).find(".CDP").html((parseFloat($(obj).find(".AWQ").text().trim()) / parseFloat($(obj).find(".ADP").text().trim())).toFixed(2));
-    }
-    else {
-        $(obj).find(".CDP").html("");
-    }
-}
+    var totPaved = 0;
+    var totUnPaved = 0;
+    var totSubTotal = 0;
+    var totTotalAmount = 0;
 
-function SubTotalbyActivity(obj) {
+    $('#tblCRR > tbody  > tr').each(function (index, tr) {
+        var Paved = 0;
+        var Unpaved = 0;
 
-    if ($(obj).find(".CrewDayCost").text().trim() != "" && $(obj).find(".CDP").text().trim() != "") {
-        $(obj).find(".ActTotal").html((parseFloat($(obj).find(".CrewDayCost").text().trim()) * parseFloat($(obj).find(".CDP").text().trim())).toFixed(2));
-    }
-    else {
-        $(obj).find(".ActTotal").html("");
-    }
-}
-
-function SumofSubTotalbyActivity(obj) {
-    var tot = 0;
-    $('#tblPPB > tbody  > tr').each(function (index, tr) {
-        if ($(this).find(".ActTotal").text().trim() != "") {
-            tot = tot + parseFloat($(this).find(".ActTotal").text().trim());
+        if ($(this).find("td:nth-child(2)").find("input").val() != "") {
+            Paved = parseFloat($(this).find("td:nth-child(2)").find("input").val());
         }
+        if ($(this).find("td:nth-child(3)").find("input").val() != "") {
+            Unpaved = parseFloat($(this).find("td:nth-child(3)").find("input").val());
+        }
+
+        var SubTotal = (Paved + Unpaved).toFixed(2);
+
+        $(this).find("td:nth-child(4)").find("input").val(SubTotal);
+
+        var ContractRate = 0;
+        if ($(this).find("td:nth-child(5)").find("input").val() != "") {
+            ContractRate = $(this).find("td:nth-child(5)").find("input").val();
+        }
+
+        var TotalAmount = (SubTotal * ContractRate).toFixed(2);
+
+        $(this).find("td:nth-child(6)").find("input").val(TotalAmount);
+
+        totPaved = (parseFloat(totPaved) + parseFloat(Paved)).toFixed(2);
+        totUnPaved = (parseFloat(totUnPaved) + parseFloat(Unpaved)).toFixed(2);
+        totSubTotal = (parseFloat(totSubTotal) + parseFloat(SubTotal)).toFixed(2);
+        totTotalAmount = (parseFloat(totTotalAmount) + parseFloat(TotalAmount)).toFixed(2);
+
     });
 
-    $("#SumofSubTotal").html(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
+    $(".totPaved").text(totPaved);
+    $(".totunPaved").text(totUnPaved);
+    $(".totsubtotal").text(totSubTotal);
+    $(".totAmtGrand").text(totTotalAmount);
 }
 
+function DeductionCal() {
 
-function PlannedPercentage(obj) {
-    if ($(obj).find(".ActTotal").text().trim() != "" && $(obj).find(".CDP").text().trim() != "") {
-        $(obj).find(".ActPer").html((parseFloat($(obj).find(".ActTotal").text().trim()) / parseFloat($("#SumofSubTotal").text().trim().replace(/,/g, "")) * 100).toFixed(2));
-    }
-    else {
-        $(obj).find(".ActPer").html("");
-    }
-}
+    var totThisPay = 0;
+    var totTillPay = 0;
+    var totTottoDate = 0;
 
-function SumofSubTotalPercentage(obj) {
-    var tot = 0;
-    $('#tblPPB > tbody  > tr').each(function (index, tr) {
-        if ($(this).find(".ActPer").text().trim()) {
-            tot = tot + parseFloat($(this).find(".ActPer").text().trim());
+    $('#tblCRRD > tbody  > tr').each(function (index, tr) {
+        var ThisPay = 0;
+        var TillPay = 0;
+
+        if ($(this).find("td:nth-child(2)").find("input").val() != "") {
+            ThisPay = parseFloat($(this).find("td:nth-child(2)").find("input").val());
         }
+        if ($(this).find("td:nth-child(3)").find("input").val() != "") {
+            TillPay = parseFloat($(this).find("td:nth-child(3)").find("input").val());
+        }
+
+        var TottoDate = (parseFloat(ThisPay) + parseFloat(TillPay)).toFixed(2);
+
+        $(this).find("td:nth-child(4)").find("input").val(TottoDate);
+
+        totThisPay = (parseFloat(totThisPay) + parseFloat(ThisPay)).toFixed(2);
+        totTillPay = (parseFloat(totTillPay) + parseFloat(TillPay)).toFixed(2);
+        totTottoDate = (parseFloat(totTottoDate) + parseFloat(TottoDate)).toFixed(2);
+
+
     });
 
-    $("#SumofSubTotalPerc").html(tot.toFixed(2));
+    $(".totThisPayAdd").text(totThisPay);
+    $(".totTillPayAdd").text(totTillPay);
+    $(".tottodateAdd").text(totTottoDate);
+
 }
 
-function SubTotalbyFeature() {
-    var Lasttd;
-    var tot = 0;
-    var totPer = 0;
 
-    $('#tblPPB > tbody  > tr').each(function (index, tr) {
+function AdditionCal() {
+
+    var totThisPay = 0;
+    var totTillPay = 0;
+    var totTottoDate = 0;
+
+    $('#tblCRRA > tbody  > tr').each(function (index, tr) {
+        var ThisPay = 0;
+        var TillPay = 0;
+
+        if ($(this).find("td:nth-child(2)").find("input").val() != "") {
+            ThisPay = parseFloat($(this).find("td:nth-child(2)").find("input").val());
+        }
+        if ($(this).find("td:nth-child(3)").find("input").val() != "") {
+            TillPay = parseFloat($(this).find("td:nth-child(3)").find("input").val());
+        }
+
+        var TottoDate = (parseFloat(ThisPay) + parseFloat(TillPay)).toFixed(2);
+
+        $(this).find("td:nth-child(4)").find("input").val(TottoDate);
+
+        totThisPay = (parseFloat(totThisPay) + parseFloat(ThisPay)).toFixed(2);
+        totTillPay = (parseFloat(totTillPay) + parseFloat(TillPay)).toFixed(2);
+        totTottoDate = (parseFloat(totTottoDate) + parseFloat(TottoDate)).toFixed(2);
 
 
-        if ($(this).find("td:nth-child(1)").attr("rowspan") != undefined) {
-            if (Lasttd != undefined)
-                $(Lasttd).html(tot.toFixed(2) + "<br>" + totPer.toFixed(2));
-            Lasttd = $(this).find("td:last");
-            tot = 0;
-            totPer = 0;
-        }
-        if ($(this).find(".ActTotal").text().trim() != "") {
-            tot = tot + parseFloat($(this).find(".ActTotal").text().trim());
-        }
-        if ($(this).find(".ActPer").text().trim() != "") {
-            totPer = totPer + parseFloat($(this).find(".ActPer").text().trim());
-        }
     });
 
-    $(Lasttd).html(tot.toFixed(2) + "<br>" + totPer.toFixed(2));
-}
+    $(".totThisPayded").text(totThisPay);
+    $(".totTillPayded").text(totTillPay);
+    $(".tottodateded").text(totTottoDate);
 
-function CalAdjustableQty() {
-
-    var tot = 0;
-
-    if ($('#tblPPB > tbody  > tr:eq(0)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(0)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(1)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(1)').find(".ActTotal").text().trim());
-
-    $("#FormP1Header_AdjustableQuantity").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
-
-
-
-}
-
-function CalRoutineMaintenance() {
-    var tot = 0;
-
-    if ($('#tblPPB > tbody  > tr:eq(9)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(9)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(13)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(13)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(14)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(14)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(15)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(15)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(18)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(18)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(19)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(19)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(22)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(22)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(24)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(24)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(27)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(27)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(28)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(28)').find(".ActTotal").text().trim());
-
-    $("#FormP1Header_RoutineMaintenance").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
-}
-
-function CalPeriodicMaintenance() {
-    var tot = 0;
-
-    if ($('#tblPPB > tbody  > tr:eq(2)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(2)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(3)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(3)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(4)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(4)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(5)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(5)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(6)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(6)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(7)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(7)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(8)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(8)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(9)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(9)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(27)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(27)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(10)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(10)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(11)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(11)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(12)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(12)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(17)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(17)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(20)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(20)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(21)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(21)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(22)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(22)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(23)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(23)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(24)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(24)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(25)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(25)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(26)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(26)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(30)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(30)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(31)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(31)').find(".ActTotal").text().trim());
-
-
-    $("#FormP1Header_PeriodicMaintenance").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
-}
-
-function CalOtherMaintenance() {
-    var tot = 0;
-
-    if ($('#tblPPB > tbody  > tr:eq(33)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(33)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(34)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(34)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(35)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(35)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(36)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(36)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(37)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(37)').find(".ActTotal").text().trim());
-
-    if ($('#tblPPB > tbody  > tr:eq(38)').find(".ActTotal").text().trim() != "")
-        tot = tot + parseFloat($('#tblPPB > tbody  > tr:eq(38)').find(".ActTotal").text().trim());
-
-    $("#FormP1Header_OtherMaintenance").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
 }
