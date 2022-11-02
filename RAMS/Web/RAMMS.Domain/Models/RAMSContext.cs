@@ -17180,17 +17180,11 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("PCMAMW_Sign_Date_SP")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.PcmamwSignEc)
-                    .HasColumnName("PCMAMW_SIgn_EC")
-                    .HasMaxLength(1);
+                entity.Property(e => e.PcmamwSignEc).HasColumnName("PCMAMW_SIgn_EC");
 
-                entity.Property(e => e.PcmamwSignSo)
-                    .HasColumnName("PCMAMW_SIgn_SO")
-                    .HasMaxLength(1);
+                entity.Property(e => e.PcmamwSignSo).HasColumnName("PCMAMW_SIgn_SO");
 
-                entity.Property(e => e.PcmamwSignSp)
-                    .HasColumnName("PCMAMW_SIgn_SP")
-                    .HasMaxLength(1);
+                entity.Property(e => e.PcmamwSignSp).HasColumnName("PCMAMW_SIgn_SP");
 
                 entity.Property(e => e.PcmamwStatus)
                     .HasColumnName("PCMAMW_Status")

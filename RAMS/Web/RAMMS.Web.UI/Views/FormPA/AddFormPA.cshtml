@@ -46,7 +46,7 @@
 <div class="modal-body mh-182 pt-4 pb-0">
     <div class="container-fluid" id="divFindDetailsFC1C2">
 
-        <div class="row">
+        <div class="row" id="headerDiv">
             <div class="form-group col-5">
                 <label for="Name_of_Crew_Supervisor">
                     For Month:
@@ -95,7 +95,7 @@
                                                                     <div id="FormDLabourGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                                                         <div class="dataTables_scroll">
                                                                             <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
-                                                                                <table class="table w-100 table-bordered nowrap dataTable no-footer ">
+                                                                                <table id="tblCRR" class="table w-100 table-bordered nowrap dataTable no-footer ">
                                                                                     <thead style="background-color: #c8e1ff">
                                                                                         <tr>
                                                                                             <th rowspan="3"><span style="width:180px; float:left">Division</span></th>
@@ -116,18 +116,18 @@
                                                                                                 <tr>
                                                                                                     <td>@Model.FormPACRR[i].Division</td>
                                                                                                     <td>
-                                                                                                        <input class="form-control numeric allow_numeric text-right" value="@Model.FormPACRR[i].Paved" type="text">
+                                                                                                        <input class="form-control numeric allow_numeric text-right" onchange="CalculateValues()" value="@Model.FormPACRR[i].Paved" type="text">
                                                                                                     </td>
                                                                                                     <td>
-                                                                                                        <input class="form-control numeric allow_numeric text-right" value="@Model.FormPACRR[i].Unpaved" type="text">
+                                                                                                        <input class="form-control numeric allow_numeric text-right" onchange="CalculateValues()" value="@Model.FormPACRR[i].Unpaved" type="text">
                                                                                                     </td>
-                                                                                                    <td> <input class="form-control numeric allow_numeric text-right" value="@Model.FormPACRR[i].SubTotal" disabled type="text"></td>
+                                                                                                    <td> <input class="form-control numeric allow_numeric text-right" onchange="CalculateValues()" value="@Model.FormPACRR[i].SubTotal" disabled type="text"></td>
                                                                                                     <td>
                                                                                                         <div class="input-group">
                                                                                                             <div class="input-group-prepend">
                                                                                                                 <span class="input-group-text">RM</span>
                                                                                                             </div>
-                                                                                                            <input class="form-control numeric allow_numeric text-right" value="@Model.FormPACRR[i].ContractRate" type="text">
+                                                                                                            <input class="form-control numeric allow_numeric text-right" onchange="CalculateValues()" value="@Model.FormPACRR[i].ContractRate" type="text">
                                                                                                         </div>
                                                                                                     </td>
                                                                                                     <td>
@@ -135,7 +135,7 @@
                                                                                                             <div class="input-group-prepend">
                                                                                                                 <span class="input-group-text">RM</span>
                                                                                                             </div>
-                                                                                                            <input class="form-control numeric allow_numeric text-right" value="@Model.FormPACRR[i].TotalAmount" disabled type="text">
+                                                                                                            <input class="form-control numeric allow_numeric text-right" onchange="CalculateValues()" value="@Model.FormPACRR[i].TotalAmount" disabled type="text">
                                                                                                         </div>
                                                                                                     </td>
                                                                                                 </tr>
@@ -151,15 +151,15 @@
                                                                         <div style="background-color:#e6e4e4d6">
                                                                             <table class="table w-100 nowrap dataTable no-footer">
                                                                                 <tr height="30.50" style='height:15.25pt;'>
-                                                                                    <th class="text-center totPaved" style="width:20%">Sub-total:</th>
+                                                                                    <th class="text-center" style="width:20%">Sub-total:</th>
+                                                                                    <th class="text-center totPaved" style="width:20%"></th>
                                                                                     <th class="text-center totunPaved" style="width:13.5%"></th>
                                                                                     <th class="text-center totsubtotal" style="width:16%"></th>
-                                                                                    <th class="text-center totContRate" style="width:10%"></th>
-                                                                                    <th class="text-center totAmt" colspan="2"></th>
+                                                                                    
                                                                                 </tr>
                                                                                 <tr height="30.50" style='height:15.25pt;'>
                                                                                     <th class="xl118" height="30.50" colspan="5"><span style="width:50%;float:left">Total Amount (Total Length of Contract Roads x Rate)</span></th>
-                                                                                    <th class="xl120"><span style="width:70%; float:right;text-align:center" class="totAmt"></span></th>
+                                                                                    <th class="xl120"><span style="width:70%; float:right;text-align:center" class="totAmtGrand"></span></th>
                                                                                 </tr>
                                                                             </table>
                                                                         </div>
@@ -199,7 +199,7 @@
                                                                     <div class="dataTables_scroll">
 
                                                                         <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
-                                                                            <table class="table w-100 nowrap dataTable no-footer ">
+                                                                            <table id="tblCRRD" class="table w-100 nowrap dataTable no-footer ">
                                                                                 <thead style="background-color: #c8e1ff">
                                                                                     <tr height="78" style='height:39.00pt;'>
                                                                                         <th class="xl81" rowspan="2"></th>
@@ -220,7 +220,7 @@
                                                                                                         <div class="input-group-prepend">
                                                                                                             <span class="input-group-text">RM</span>
                                                                                                         </div>
-                                                                                                        <input class="form-control numeric allow_numeric text-right" value="@Model.FormPACRRD[i].ThisPayment" type="text">
+                                                                                                        <input class="form-control numeric allow_numeric text-right" onchange="CalculateValues()" value="@Model.FormPACRRD[i].ThisPayment" type="text">
                                                                                                     </div>
                                                                                                 </td>
                                                                                                 <td>
@@ -228,7 +228,7 @@
                                                                                                         <div class="input-group-prepend">
                                                                                                             <span class="input-group-text">RM</span>
                                                                                                         </div>
-                                                                                                        <input class="form-control numeric allow_numeric text-right" value="@Model.FormPACRRD[i].TillLastPayment" type="text">
+                                                                                                        <input class="form-control numeric allow_numeric text-right" onchange="CalculateValues()" value="@Model.FormPACRRD[i].TillLastPayment" type="text">
                                                                                                     </div>
                                                                                                 </td>
                                                                                                 <td>
@@ -236,7 +236,7 @@
                                                                                                         <div class="input-group-prepend">
                                                                                                             <span class="input-group-text">RM</span>
                                                                                                         </div>
-                                                                                                        <input class="form-control numeric allow_numeric text-right" value="@Model.FormPACRRD[i].TotalToDate" disabled type="text">
+                                                                                                        <input class="form-control numeric allow_numeric text-right" onchange="CalculateValues()" value="@Model.FormPACRRD[i].TotalToDate" disabled type="text">
                                                                                                     </div>
                                                                                                 </td>
                                                                                             </tr>
@@ -287,7 +287,7 @@
                                                                 <div id="FormDLabourGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                                                     <div class="dataTables_scroll">
                                                                         <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
-                                                                            <table class="table w-100 nowrap dataTable no-footer ">
+                                                                            <table  id="tblCRRA" class="table w-100 nowrap dataTable no-footer ">
                                                                                 <thead style="background-color: #c8e1ff">
                                                                                     <tr>
                                                                                         <th>Description</th>
@@ -308,7 +308,7 @@
                                                                                                         <div class="input-group-prepend">
                                                                                                             <span class="input-group-text">RM</span>
                                                                                                         </div>
-                                                                                                        <input class="form-control numeric allow_numeric text-right" value="@Model.FormPACRRA[i].ThisPayment" type="text">
+                                                                                                        <input class="form-control numeric allow_numeric text-right" onchange="CalculateValues()" value="@Model.FormPACRRA[i].ThisPayment" type="text">
                                                                                                     </div>
                                                                                                 </td>
                                                                                                 <td>
@@ -316,7 +316,7 @@
                                                                                                         <div class="input-group-prepend">
                                                                                                             <span class="input-group-text">RM</span>
                                                                                                         </div>
-                                                                                                        <input class="form-control numeric allow_numeric text-right" value="@Model.FormPACRRA[i].TillLastPayment" type="text">
+                                                                                                        <input class="form-control numeric allow_numeric text-right" onchange="CalculateValues()" value="@Model.FormPACRRA[i].TillLastPayment" type="text">
                                                                                                     </div>
                                                                                                 </td>
                                                                                                 <td>
@@ -324,7 +324,7 @@
                                                                                                         <div class="input-group-prepend">
                                                                                                             <span class="input-group-text">RM</span>
                                                                                                         </div>
-                                                                                                        <input class="form-control numeric allow_numeric text-right" value="@Model.FormPACRRA[i].TotalToDate" disabled type="text">
+                                                                                                        <input class="form-control numeric allow_numeric text-right" onchange="CalculateValues()" value="@Model.FormPACRRA[i].TotalToDate" disabled type="text">
                                                                                                     </div>
                                                                                                 </td>
                                                                                             </tr>
@@ -367,30 +367,30 @@
                                                     <label for="User_Id">
                                                         User ID
                                                     </label>
-                                                    @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "User", "Select Users", new { @disabled = true, Id = "ddlSO", @class = "form-control  {required,User}", @onchange = "OnSOChange(this);" })
+                                                    @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "User", "Select Users", new { @disabled = true, Id = "ddlSP", @class = "form-control  {required,User}", @onchange = "OnSPChange(this);" })
 
                                                 </div>
                                                 <div class="form-group col-lg-3">
                                                     <label for="User_Id">
                                                         Name
                                                     </label>
-                                                    @Html.TextBoxFor(model => model.FormPAHeader.UsernameSo, new { @readonly = true, @class = "form-control" })
+                                                    @Html.TextBoxFor(model => model.FormPAHeader.UsernameSp, new { @readonly = true, @class = "form-control" })
 
                                                 </div>
                                                 <div class="form-group col-lg-3">
                                                     <label for="Designation">Designation</label>
-                                                    @Html.TextBoxFor(model => model.FormPAHeader.DesignationSo, new { @readonly = true, @class = "form-control" })
+                                                    @Html.TextBoxFor(model => model.FormPAHeader.DesignationSp, new { @readonly = true, @class = "form-control" })
                                                 </div>
                                                 <div class="form-group col-lg-2">
                                                     <label for="Date__DD-MM-YYYY_">Date</label>
-                                                    @Html.EditorFor(m => m.FormPAHeader.SignDateSo, new { type = "date", htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.EditorFor(m => m.FormPAHeader.SignDateSp, new { type = "date", htmlAttributes = new { @class = "form-control" } })
                                                 </div>
                                                 <div class="form-group col-lg-1 float-left">
                                                     <label>
                                                         Sign
                                                     </label>
                                                     <div class="clear-b mt-2">
-                                                        @Html.CheckBoxFor(model => model.FormPAHeader.SignSo, new { @disabled = true, @class = "{required,Sign}" })
+                                                        @Html.CheckBoxFor(model => model.FormPAHeader.SignSp, new { @disabled = true, @class = "{required,Sign}" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -407,7 +407,7 @@
                                                     <label for="User_Id">
                                                         User ID
                                                     </label>
-                                                    @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "User", "Select Users", new { @disabled = true, Id = "ddlEC", @class = "form-control  {required,User}", @onchange = "OnSOChange(this);" })
+                                                    @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "User", "Select Users", new { @disabled = true, Id = "ddlEC", @class = "form-control  {required,User}", @onchange = "OnECChange(this);" })
 
                                                 </div>
                                                 <div class="form-group col-lg-3">
@@ -473,98 +473,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-lg-12 border-bottom py-2 my-2">
-                                                    <span class="font-14 font-weight-bold">
-                                                        Engineering Consultant's Representative
-                                                    </span>
-                                                </div>
-
-                                                @*<div class="form-group col-lg-3">
-                <label for="Name">
-                    User ID
-                </label>
-                <select class="form-control validate {req, Name of Reported By}" id="formDReportedByUserId" name="SaveFormDModel.ReportedByUserId">
-                    <option value="">Select Users</option>
-                    <option value="100000035">100000035 - Jelayan Anak Mawar</option>
-                    <option value="100000034">100000034 - Ramlee Nor</option>
-                    <option value="100000015">100000015 - Galigie Anak Ungau</option>
-                    <option value="100000020">100000020 - Francis Nanang Anak Edward August</option>
-
-                </select>
-
-            </div>*@
-                                                <div class="form-group col-lg-4">
-                                                    <label for="User_Id">
-                                                        Name
-                                                    </label>
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                                <div class="form-group col-lg-4">
-                                                    <label for="Designation">Designation</label>
-                                                    <input type="text" name="UserDesignationPlan" userdest="" class="form-control cvalidate {req,Planned By User Designation}">
-                                                </div>
-                                                <div class="form-group col-lg-3">
-                                                    <label for="Date__DD-MM-YYYY_">Date</label>
-                                                    <input type="date" name="DtPlan" id="FsiihDtPlan" value="" class="form-control svalidate {req,Planned By Date}">
-                                                </div>
-                                                <div class="form-group col-lg-1 float-left">
-                                                    <label>
-                                                        Sign
-
-                                                    </label>
-                                                    <div class="clear-b mt-2">
-                                                        <input class="{required, Requested By Signature}" data-val="true" data-val-required="The SignReq field is required." id="FormW1_SignReq" name="FormW1.SignReq" type="checkbox" value="true">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-lg-12 border-bottom py-2 my-2">
-                                                    <span class="font-14 font-weight-bold">
-                                                        S.O.'s Representative
-
-                                                    </span>
-                                                </div>
-
-                                                @*<div class="form-group col-lg-3">
-                <label for="Name">
-                    User ID
-                </label>
-                <select class="form-control validate {req, Name of Reported By}" id="formDReportedByUserId" name="SaveFormDModel.ReportedByUserId">
-                    <option value="">Select Users</option>
-                    <option value="100000035">100000035 - Jelayan Anak Mawar</option>
-                    <option value="100000034">100000034 - Ramlee Nor</option>
-                    <option value="100000015">100000015 - Galigie Anak Ungau</option>
-                    <option value="100000020">100000020 - Francis Nanang Anak Edward August</option>
-
-                </select>
-
-            </div>*@
-                                                <div class="form-group col-lg-4">
-                                                    <label for="User_Id">
-                                                        Name
-                                                    </label>
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                                <div class="form-group col-lg-4">
-                                                    <label for="Designation">Designation</label>
-                                                    <input type="text" name="UserDesignationPlan" userdest="" class="form-control cvalidate {req,Planned By User Designation}">
-                                                </div>
-                                                <div class="form-group col-lg-3">
-                                                    <label for="Date__DD-MM-YYYY_">Date</label>
-                                                    <input type="date" name="DtPlan" id="FsiihDtPlan" value="" class="form-control svalidate {req,Planned By Date}">
-                                                </div>
-                                                <div class="form-group col-lg-1 float-left">
-                                                    <label>
-                                                        Sign
-
-                                                    </label>
-                                                    <div class="clear-b mt-2">
-                                                        <input class="{required, Requested By Signature}" data-val="true" data-val-required="The SignReq field is required." id="FormW1_SignReq" name="FormW1.SignReq" type="checkbox" value="true">
-                                                    </div>
-                                                </div>
-                                            </div>
 
                                         </div>
                                     </div>
@@ -576,11 +484,30 @@
             </div>
         </div>
     </div>
+
+    <div class="bg-white rounded landing-division w-100 float-left mb-3">
+        @{
+            if (Model.FormPAHeader.Status != "" && Model.FormPAHeader.Status != "Initialize")
+                Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
+                {
+                    Form = "FormPA",
+                    RefId = Model.FormPAHeader.PkRefNo,
+                    Stage = Model.FormPAHeader.Status
+                });
+        }
+    </div>
 </div>
 <div class="col-md-12 mb-2 float-right text-right custom-footer">
-    <button type="button" class="btn btn-sm btn-outline-theme">Close</button>
-    <button type="button" class="btn btn-sm btn-themebtn">Save</button>
-    <button type="button" class="btn btn-sm btn-themebtn">Submit</button>
+    <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
+    @{
+
+        if (isSubmit && (Model.FormPAHeader.Status != null && Model.FormPAHeader.Status != ""))
+        {
+            <button id="saveFormPABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Saved')">Save</button>
+            <button id="SubmitFormPABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Submitted')">Submit</button>
+        }
+
+    }
 </div>
 
 @Html.HiddenFor(m => m.FormPAHeader.PkRefNo)
@@ -594,13 +521,20 @@
      $(document).ready(function () {
         process.Init("FormPA", "@Model.FormPAHeader.Status", @Model.FormPAHeader.PkRefNo);
 
-    });
+     });
+
+    $('#ddlSP').val("@Model.FormPAHeader.UseridSp");
+    $('#ddlSP').trigger('chosen:updated');
+    $('#ddlSP').trigger("change");
 
     $('#ddlSO').val("@Model.FormPAHeader.UseridSo");
     $('#ddlSO').trigger('chosen:updated');
     $('#ddlSO').trigger("change");
 
+    $('#ddlEC').val("@Model.FormPAHeader.UseridEc");
+    $('#ddlEC').trigger('chosen:updated');
+    $('#ddlEC').trigger("change");
 
-
+  
 </script>
 

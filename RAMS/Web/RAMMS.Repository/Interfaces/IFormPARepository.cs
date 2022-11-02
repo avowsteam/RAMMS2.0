@@ -22,7 +22,7 @@ namespace RAMMS.Repository.Interfaces
 
         RmPaymentCertificateMamw GetHeaderById(int id);
 
-        Task<int> SaveFormPA(RmPaymentCertificateMamw FormPA);
+        Task<int> SaveFormPA(RmPaymentCertificateMamw FormPA, bool update = false);
 
         Task<int> UpdateFormPA(RmPaymentCertificateMamw FormPAHeader, List<RmPaymentCertificateCrr> FormPACrr, List<RmPaymentCertificateCrra> FormPACrra, List<RmPaymentCertificateCrrd> FormPACrrd);
 

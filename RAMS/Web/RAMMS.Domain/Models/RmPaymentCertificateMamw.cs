@@ -21,17 +21,17 @@ namespace RAMMS.Domain.Models
         public decimal? PcmamwWorkValueDeduction { get; set; }
         public decimal? PcmamwWorkValueAddition { get; set; }
         public decimal? PcmamwTotalPayment { get; set; }
-        public string PcmamwSignSp { get; set; }
+        public bool? PcmamwSignSp { get; set; }
         public int? PcmamwUseridSp { get; set; }
         public string PcmamwUsernameSp { get; set; }
         public string PcmamwDesignationSp { get; set; }
         public DateTime? PcmamwSignDateSp { get; set; }
-        public string PcmamwSignEc { get; set; }
+        public bool? PcmamwSignEc { get; set; }
         public int? PcmamwUseridEc { get; set; }
         public string PcmamwUsernameEc { get; set; }
         public string PcmamwDesignationEc { get; set; }
         public DateTime? PcmamwSignDateEc { get; set; }
-        public string PcmamwSignSo { get; set; }
+        public bool? PcmamwSignSo { get; set; }
         public int? PcmamwUseridSo { get; set; }
         public string PcmamwUsernameSo { get; set; }
         public string PcmamwDesignationSo { get; set; }

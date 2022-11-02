@@ -130,7 +130,10 @@ namespace RAMMS.Business.ServiceProvider.Services
                 case "frmB14":
                     iResult = await SaveFormB14(process);
                     break;
-                
+                case "FormPA":
+                    iResult = await SaveFormPA(process);
+                    break;
+
             }
             return iResult;
         }
@@ -263,6 +266,15 @@ namespace RAMMS.Business.ServiceProvider.Services
                     break;
                 case "FormT4":
                     logs = this.context.RmT4DesiredBdgtHeader.Where(x => x.T4dbhPkRefNo == RefId).Select(x => x.T4dbhAuditLog).FirstOrDefault();
+                    break;
+                case "FormP1":
+                    logs = this.context.RmPaymentCertificateHeader.Where(x => x.PchPkRefNo == RefId).Select(x => x.PchAuditLog).FirstOrDefault();
+                    break;
+                case "FormPA":
+                    logs = this.context.RmPaymentCertificateMamw.Where(x => x.PcmamwPkRefNo == RefId).Select(x => x.PcmamwAuditLog).FirstOrDefault();
+                    break;
+                case "FormPB":
+                    logs = this.context.RmPbIw.Where(x => x.PbiwPkRefNo == RefId).Select(x => x.PbiwAuditLog).FirstOrDefault();
                     break;
             }
             return Utility.ProcessLog(logs);
@@ -2664,6 +2676,71 @@ namespace RAMMS.Business.ServiceProvider.Services
             }
             return await context.SaveChangesAsync();
         }
+
+
+
+        private async Task<int> SaveFormPA(DTO.RequestBO.ProcessDTO process)
+        {
+            var form = context.RmPaymentCertificateMamw.Where(x => x.PcmamwPkRefNo == process.RefId).FirstOrDefault();
+            if (form != null)
+            {
+                string strTitle = "";
+                string strNotURL = "";
+                string strNotMsg = "";
+                string strNotGroupName = "";
+                string strNotUserID = "";
+                string strStatus = "";
+
+
+                if (process.Stage == Common.StatusList.Submitted)
+                {
+                    form.PcmamwStatus = process.IsApprove ? Common.StatusList.CertifiedbyEC : Common.StatusList.Saved;
+                    strTitle = "Certified by EC";
+                    strStatus = "Certified by EC";
+                    form.PcmamwUseridEc = Convert.ToInt32(process.UserID);
+                    form.PcmamwUsernameEc = process.UserName;
+                    form.PcmamwDesignationEc = process.UserDesignation;
+                    form.PcmamwSignDateEc = process.ApproveDate;
+                    form.PcmamwSignEc = true;
+                }
+                else if (process.Stage == Common.StatusList.CertifiedbyEC)
+                {
+                    form.PcmamwStatus = process.IsApprove ? Common.StatusList.CertifiedbySO : Common.StatusList.Saved;
+                    strTitle = "Certified by SO";
+                    strStatus = "Certified by SO";
+                    form.PcmamwUseridSo = Convert.ToInt32(process.UserID);
+                    form.PcmamwUsernameSo = process.UserName;
+                    form.PcmamwDesignationSo = process.UserDesignation;
+                    form.PcmamwSignDateSo = process.ApproveDate;
+                    form.PcmamwSignSo = true;
+                }
+                
+
+                if (!process.IsApprove)
+                {
+                    if (process.Stage == Common.StatusList.Submitted)
+                    {
+                        form.PcmamwSubmitSts = false;
+                    }
+                }
+
+                form.PcmamwAuditLog = Utility.ProcessLog(form.PcmamwAuditLog, strTitle, process.IsApprove ? strStatus : "Rejected", process.UserName, process.Remarks, process.ApproveDate, security.UserName);
+                strNotMsg = (process.IsApprove ? "" : "Rejected - ") + strTitle + ":" + process.UserName + " - Form B13 (" + form.PcmamwPkRefNo + ")";
+                strNotURL = "/FormPA/Add?id=" + form.PcmamwPkRefNo.ToString() + "&View=0";
+                SaveNotification(new RmUserNotification()
+                {
+                    RmNotCrBy = security.UserName,
+                    RmNotGroup = strNotGroupName,
+                    RmNotMessage = strNotMsg,
+                    RmNotOn = DateTime.Now,
+                    RmNotUrl = strNotURL,
+                    RmNotUserId = strNotUserID,
+                    RmNotViewed = ""
+                }, false);
+            }
+            return await context.SaveChangesAsync();
+        }
+
 
     }
 }
