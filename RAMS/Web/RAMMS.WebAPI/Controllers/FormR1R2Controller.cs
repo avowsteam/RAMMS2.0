@@ -104,5 +104,7 @@ namespace RAMMS.WebAPI.Controllers
             int response = await _formR1R2Service.DeleteImage(headerid, imgId);
             return RAMMSApiSuccessResponse(response);
         }
+
+        
     }
 }
