@@ -99,13 +99,13 @@
                                         <label for="Name_of_Crew_Supervisor">
                                             From Year
                                         </label>
-                                        @Html.DropDownList("FromYear", (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formMapfromYear", @class = "form-control", @param = "Year", @clear = "rebind" })
+                                        @Html.DropDownList("FromYear", (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formMapfromYear", @class = "form-control", @param = "FromYear", @clear = "rebind" })
                                     </div>
                                     <div class="form-group col-3">
                                         <label for="Name_of_Crew_Supervisor">
                                             To Year
                                         </label>
-                                        @Html.DropDownList("ToYear", (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formMaptoYear", @class = "form-control", @param = "Year", @clear = "rebind" })
+                                        @Html.DropDownList("ToYear", (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formMaptoYear", @class = "form-control", @param = "ToYear", @clear = "rebind" })
                                     </div>
 
                                 </div>

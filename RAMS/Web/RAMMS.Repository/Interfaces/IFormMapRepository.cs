@@ -21,5 +21,7 @@ namespace RAMMS.Repository.Interfaces
         List<RmMapDetails> GetForMapDetails(int ID);
         Task<RmMapHeader> Save(RmMapHeader frm, bool updateSubmit);
         Task<int> SaveFormB14(List<RmMapDetails> Formmap);
+        List<FormMapRpt> GetReportData(int headerid);
+        List<RmMapDetails> GetHistoryData(int year);
     }
 }
