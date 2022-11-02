@@ -18231,6 +18231,8 @@ namespace RAMMS.Domain.Models
                     .IsUnicode(false);
             });
 
+           
+
             modelBuilder.Entity<RmUvModuleGroupFieldRights>(entity =>
             {
                 entity.HasNoKey();

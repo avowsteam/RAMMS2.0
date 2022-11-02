@@ -1,17 +1,16 @@
 ﻿using AutoMapper.Configuration.Conventions;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace RAMMS.DTO.RequestBO
+namespace RAMMS.DTO.ResponseBO.IRI
 {
-    public class FormAHeaderRequestDTO
+    public class DlpIRIResponseDTO
     {
-        public FormAHeaderRequestDTO()
+        public DlpIRIResponseDTO()
         {
-            FormADetails = new List<FormADetailsRequestDTO>();
+            RmiIriDto = new List<DlpIRIDTO>();
         }
-
-        public string SmartInputValue { get; set; }
 
         [MapTo("FahPkRefNo")]
         public int No { get; set; }
@@ -25,6 +24,8 @@ namespace RAMMS.DTO.RequestBO
         [MapTo("FahRmu")]
         public string Rmu { get; set; }
 
+        public string RmuName { get; set; }
+
         [MapTo("FahRoadName")]
         public string RoadName { get; set; }
 
@@ -36,7 +37,6 @@ namespace RAMMS.DTO.RequestBO
 
         [MapTo("FahMonth")]
         public int? Month { get; set; }
-
 
         [MapTo("FahYear")]
         public int? Year { get; set; }
@@ -91,28 +91,17 @@ namespace RAMMS.DTO.RequestBO
 
         [MapTo("FahActiveYn")]
         public bool? ActiveYn { get; set; }
-        
+
+        public string SectionCode { get; set; }
+
         [MapTo("FahSection")]
         public string section { get; set; }
-        [MapTo("FahStatus")]
-        public string Status { get; set; }
-        [MapTo("FahAuditLog")]
-        public string AuditLog { get; set; }
-        public List<FormADetailsRequestDTO> FormADetails { get; set; }
+        public List<DlpIRIDTO> RmiIriDto { get; set; }
 
-        
-        public string sortOrder { get; set; }
-        public string currentFilter { get; set; }
-        public string searchString { get; set; }
-        public int? Page_No { get; set; }
-        public int? pageSize { get; set; }
-        public string RFCRMU { get; set; }
-        public int? RFCYear { get; set; }
-        public int? FshPkRefNo { get; set; }
-        public string RFCFeature { get; set; }
-        public decimal? RFCondition1 { get; set; }
-        public decimal? RFCondition2 { get; set; }
-        public decimal? RFCondition3 { get; set; }
-        public decimal? TotalFeatureCond { get; set; }
+        public string MonthYear { get; set; }
+
+        public string Status { get; set; }
+
+        public string ProcessStatus { get; set; }
     }
 }

@@ -1,0 +1,679 @@
+﻿@model RAMMS.Web.UI.Models.FormMapModel;
+@using RAMMS.Business.ServiceProvider;
+@using RAMMS.DTO.RequestBO;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService;
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+@{
+    ViewBag.TabTitle = "Form Map";
+    ViewData["Title"] = "Form Map";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+    var today = DateTime.Today.ToString("yyyy-MM-dd");
+    bool isSubmit = false;
+    string strRefId = string.Empty;
+    if (Model != null)
+    {
+        //strAssestID = Model.AssetId;
+        //strYear = Model.YearOfInsp.HasValue ? Model.YearOfInsp.Value.ToString() : "";
+        strRefId = Model.FormMapHeader.RefId;
+    }
+
+    IEnumerable<SelectListItem> year = (await ddlService
+.GetLookups(new DDLookUpDTO { Type = "Year" })).Where(s => Convert.ToInt32(s.DdlTypeValue) >= Model.FormMapHeader.Year)
+.Select(s => new SelectListItem
+{
+    Text = s.DdlTypeValue,
+    Value = s.DdlTypeValue
+}).ToArray();
+}
+
+
+<script type="text/javascript" src="~/js/FormMap.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    debugger;
+         frmMap.HeaderData = @Html.Raw(RAMMS.Common.Utility.JSerialize(Model));
+    frmMap.IsEdit = @(ViewBag.IsEdit ? "true" : "false");
+    frmMap.IsAdd = @(ViewBag.IsAdd ? "true" : "false");
+    $(document).ready(function () {
+        debugger;
+        process.Init("frmMap", "@Model.FormMapHeader.Status", @Model.FormMapHeader.PkRefNo);
+
+        if (frmMap.HeaderData.FormMapHeader.Status == "Submitted") {
+            var val = frmMap.HeaderData.FormMapHeader.UseridProsd;
+            $("#formMapProposedBy").val(val).trigger("chosen:updated");
+            $('#formMapProposedBy').trigger('chosen:updated');
+            $("#formMapProposedBy").trigger("change");
+            $("#ProposedSign").prop("checked", true);
+        }
+        else if (frmMap.HeaderData.FormMapHeader.Status == "Approved") {
+            var val = frmMap.HeaderData.FormMapHeader.UseridProsd;
+            $("#formMapProposedBy").val(val).trigger("chosen:updated");
+            $('#formMapProposedBy').trigger('chosen:updated');
+            $("#formMapProposedBy").trigger("change");
+            $("#ProposedSign").prop("checked", true);
+
+            var val2 = frmMap.HeaderData.FormMapHeader.UseridFclitd;
+            $("#formMapVerifiedBy").val(val2).trigger("chosen:updated");
+            $('#formMapVerifiedBy').trigger('chosen:updated');
+            $("#formMapVerifiedBy").trigger("change");
+            $("#VerifiedSign").prop("checked", true);
+        }
+        else if (frmMap.HeaderData.FormMapHeader.Status == "Agreed") {
+            var val = frmMap.HeaderData.FormMapHeader.UseridProsd;
+            $("#formMapProposedBy").val(val).trigger("chosen:updated");
+            $('#formMapProposedBy').trigger('chosen:updated');
+            $("#formMapProposedBy").trigger("change");
+            $("#ProposedSign").prop("checked", true);
+
+            var val2 = frmMap.HeaderData.FormMapHeader.UseridFclitd;
+            $("#formMapVerifiedBy").val(val2).trigger("chosen:updated");
+            $('#formMapVerifiedBy').trigger('chosen:updated');
+            $("#formMapVerifiedBy").trigger("change");
+            $("#VerifiedSign").prop("checked", true);
+
+            var val3 = frmMap.HeaderData.FormMapHeader.UseridAgrd;
+            $("#formMapAgreedBy").val(val3).trigger("chosen:updated");
+            $('#formMapAgreedBy').trigger('chosen:updated');
+            $("#formMapAgreedBy").trigger("change");
+            $("#AgreedSign").prop("checked", true);
+        }
+        else if (frmMap.HeaderData.FormMapHeader.Status == "Approved") {
+            var val = frmMap.HeaderData.FormMapHeader.UseridProsd;
+            $("#formMapProposedBy").val(val).trigger("chosen:updated");
+            $('#formMapProposedBy').trigger('chosen:updated');
+            $("#formMapProposedBy").trigger("change");
+            $("#ProposedSign").prop("checked", true);
+
+            var val2 = frmMap.HeaderData.FormMapHeader.UseridFclitd;
+            $("#formMapVerifiedBy").val(val2).trigger("chosen:updated");
+            $('#formMapVerifiedBy').trigger('chosen:updated');
+            $("#formMapVerifiedBy").trigger("change");
+            $("#VerifiedSign").prop("checked", true);
+
+            var val3 = frmMap.HeaderData.FormMapHeader.UseridAgrd;
+            $("#formMapAgreedBy").val(val3).trigger("chosen:updated");
+            $('#formMapAgreedBy').trigger('chosen:updated');
+            $("#formMapAgreedBy").trigger("change");
+            $("#AgreedSign").prop("checked", true);
+        }
+    });
+</script>
+
+<div class="row bg-white pt-3">
+    <div class="w-100">
+        <div class="body-header w-100">
+            <div class="col-lg-12">
+                <div class="d-flex justify-content-center pt-2 pb-2">
+                    <div class="form-group mb-0">
+                        <p class="font-20 pb-0 mb-0">
+                            <span class="float-left w-100 text-center">
+                                Endaya Construction Sdn Bhd Monthly Activities Progress
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-body mh-182 pt-0 pb-0">
+    <div class="d-flex justify-content-center pt-3 pb-3">
+        <div class="form-group mb-0">
+            <label style="float:left; padding: .5rem .5rem 0 !important;">Form Map No.</label>
+            <input id="txtFormMapRefNum" class="form-control" style="width:355px;" type="text" value="@strRefId" disabled>
+        </div>
+    </div>
+    <div class="clear-b"></div>
+
+    <div class="bg-white rounded pt-3 pb-1 px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetailsB14">
+        <div class="row">
+            <div class="form-group col-3">
+                <label for="Name_of_Crew_Supervisor">
+                    Select RMU
+                </label>
+                @Html.DropDownListFor(m => m.FormMapHeader.RmuCode, (IEnumerable<SelectListItem>)ViewData["RMU"], "Select RMU", new { @Id = "formMapRMU", @class = "form-control validate {req,RMU}", @param = "RMU", @clear = "rebind" })
+            </div>
+            <div class="form-group col-2">
+                <label>Select Year  </label>
+                @Html.DropDownListFor(m => m.FormMapHeader.Year, (IEnumerable<SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formMapYear", @class = "form-control validate {req,Year}", @param = "Year", @clear = "rebind" })
+            </div>
+            <div class="form-group col-2">
+                <label>Select Month  </label>
+                @Html.DropDownListFor(m => m.FormMapHeader.Month, (IEnumerable<SelectListItem>)ViewData["Months"], "Select Month", new { @Id = "formMapMonth", @class = "form-control validate {req,Month}", @param = "Month", @clear = "rebind" })
+            </div>
+            <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">
+                <button id="btnFindDetails" type="button" onclick="frmMap.FindDetails();" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right"> Find Details </button>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="w-100 bg-white py-4">
+                <div class="col-lg-12">
+                    <div id="accordion">
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="FormMapTabPage1">
+
+                                <div class="row">
+                                    <div class="col-12 bg-white px-0">
+                                        <div class="w-100 bg-white">
+                                            <div id="content">
+                                                <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                                    <div id="FormMapGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                                        <div class="dataTables_scroll">
+                                                            <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
+                                                                <table class="table w-100 nowrap dataTable no-footer" id="tblLabour">
+                                                                    <thead style="background-color: #c8e1ff">
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Activities</th>
+                                                                            <th>Day</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">1011</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="1011"><span id="sp1011" style="display:none;"></span><span class="sp02" style="display:none;">1011</span><span id="sp01011">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">1012</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="1012"><span id="sp1012" style="display:none;"></span><span class="sp02" style="display:none;">1012</span><span id="sp01012">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">3013</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="3013"><span id="sp3013" style="display:none;"></span><span class="sp02" style="display:none;">3013</span><span id="sp03013">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">3014</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="3014"><span id="sp3014" style="display:none;"></span><span class="sp02" style="display:none;">3014</span><span id="sp03014">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">3015</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="3015"><span id="sp3015" style="display:none;"></span><span class="sp02" style="display:none;">3015</span><span id="sp03015">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">3016</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="3016"><span id="sp3016" style="display:none;"></span><span class="sp02" style="display:none;">3016</span><span id="sp03016">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">3017</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="3017"><span id="sp3017" style="display:none;"></span><span class="sp02" style="display:none;">3017</span><span id="sp03017">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">3018</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="3018"><span id="sp3018" style="display:none;"></span><span class="sp02" style="display:none;">3018</span><span id="sp03018">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">3019</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="3019"><span id="sp3019" style="display:none;"></span><span class="sp02" style="display:none;">3019</span><span id="sp03019">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">1021</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="1021"><span id="sp1021" style="display:none;"></span><span class="sp02" style="display:none;">1021</span><span id="sp01021">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">3022</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="3022"><span id="sp3022" style="display:none;"></span><span class="sp02" style="display:none;">3022</span><span id="sp03022">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">3023</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="3023"><span id="sp3023" style="display:none;"></span><span class="sp02" style="display:none;">3023</span><span id="sp03023">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">3024</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="3024"><span id="sp3024" style="display:none;"></span><span class="sp02" style="display:none;">3024</span><span id="sp03024">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">1041</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="1041"><span id="sp1041" style="display:none;"></span><span class="sp02" style="display:none;">1041</span><span id="sp01041">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">1042</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="1042"><span id="sp1042" style="display:none;"></span><span class="sp02" style="display:none;">1042</span><span id="sp0142">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">1043</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="1043"><span id="sp1043" style="display:none;"></span><span class="sp02" style="display:none;">1043</span><span id="sp01043">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">4044</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="4044"><span id="sp4044" style="display:none;"></span><span class="sp02" style="display:none;">4044</span><span id="sp04044">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">4045</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="4045"><span id="sp4045" style="display:none;"></span><span class="sp02" style="display:none;">4045</span><span id="sp04045">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">1031</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="1031"><span id="sp1031" style="display:none;"></span><span class="sp02" style="display:none;">1031</span><span id="sp01031">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">1032</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="1032"><span id="sp1032" style="display:none;"></span><span class="sp02" style="display:none;">1032</span><span id="sp01032">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">4033</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="4033"><span id="sp4033" style="display:none;"></span><span class="sp02" style="display:none;">4033</span><span id="sp04033">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">4034</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="4034"><span id="sp4034" style="display:none;"></span><span class="sp02" style="display:none;">4034</span><span id="sp04034">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">1051</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="1051"><span id="sp1051" style="display:none;"></span><span class="sp02" style="display:none;">1051</span><span id="sp01051">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">6052</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="6052"><span id="sp6052" style="display:none;"></span><span class="sp02" style="display:none;">6052</span><span id="sp06052">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">1061</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="1061"><span id="sp1061" style="display:none;"></span><span class="sp02" style="display:none;">1061</span><span id="sp01061">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">6062</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="6062"><span id="sp6062" style="display:none;"></span><span class="sp02" style="display:none;">6062</span><span id="sp06062">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">6063</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="6063"><span id="sp6063" style="display:none;"></span><span class="sp02" style="display:none;">6063</span><span id="sp06063">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">1071</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="1071"><span id="sp1071" style="display:none;"></span><span class="sp02" style="display:none;">1071</span><span id="sp01071">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">1072</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="1072"><span id="sp1072" style="display:none;"></span><span class="sp02" style="display:none;">1072</span><span id="sp01072">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">1073</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="1073"><span id="sp1073" style="display:none;"></span><span class="sp02" style="display:none;">1073</span><span id="sp01073">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">7074</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="7074"><span id="sp7074" style="display:none;"></span><span class="sp02" style="display:none;">7074</span><span id="sp07074">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">7075</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="7075"><span id="sp7075" style="display:none;"></span><span class="sp02" style="display:none;">7075</span><span id="sp07075">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">9091</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="9091"><span id="sp9091" style="display:none;"></span><span class="sp02" style="display:none;">9091</span><span id="sp09091">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">9092</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="9092"><span id="sp9092" style="display:none;"></span><span class="sp02" style="display:none;">9092</span><span id="sp09092">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">9093</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="9093"><span id="sp9093" style="display:none;"></span><span class="sp02" style="display:none;">9093</span><span id="sp09093">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">9194</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="9194"><span id="sp9194" style="display:none;"></span><span class="sp02" style="display:none;">9194</span><span id="sp09194">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">9195</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="9195"><span id="sp9195" style="display:none;"></span><span class="sp02" style="display:none;">9195</span><span id="sp09195">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x01" rowspan="2">9500</td>
+                                                                            <td class="x02">Location (Code)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="x02" id="9500"><span id="sp9500" style="display:none;"></span><span class="sp02" style="display:none;">9500</span><span id="sp09500">Quantity (SQM)</span></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-10 offset-lg-1 mt-2">
+                                                <div class="bg-white rounded landing-division w-100 float-left  my-2">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 border-bottom py-2 my-2">
+                                                            <span class="font-14 font-weight-bold">
+                                                                Prepared by
+                                                            </span>
+                                                        </div>
+                                                        <div userIdGroup>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="Name">
+                                                                    User ID
+                                                                </label>
+                                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "UseridProposed", "Select Users", new { @Id = "formMapProposedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
+                                                                @*@Html.DropDownListFor(m => m.FormMapHeader.UseridProsd, (IEnumerable<SelectListItem>)ViewData["User"], "Select User", new { @id = "formMapProposedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })*@
+                                                            </div>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="User_Id">
+                                                                    Name
+                                                                </label>
+                                                                <input name="UsernameAuthorised" class="form-control ssvalidate {req,Authorised By User Name}" type="text" value="" userName disabled />
+                                                            </div>
+                                                            <div class="form-group col-lg-2">
+                                                                <label for="Designation">Designation</label>
+                                                                <input name="DesignationProposed" class="form-control ssvalidate {req,Proposed By User Designation}" type="text" value="" userDest disabled />
+                                                            </div>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="Date__DD-MM-YYYY_">Date (DD-MM-YYYY)</label>
+                                                                @*<input name="DateProposed" class="form-control ssvalidate {req,Proposed by date}" type="date" value="@Model.FormMapHeader.DtProsd" disabled="disabled" />*@
+                                                                @Html.EditorFor(m => m.FormMapHeader.PreparedDate, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
+                                                            </div>
+                                                            <div class="form-group col-lg-1 float-left">
+                                                                <label>
+                                                                    Sign
+                                                                    @{
+                                                                        var _insSign = false;
+                                                                        if (Model != null)
+                                                                        {
+                                                                            _insSign = Model.FormMapHeader.PreparedSign == null || Model.FormMapHeader.PreparedSign == false ? false : true;
+                                                                        }
+                                                                    }
+                                                                </label>
+                                                                <div class="clear-b mt-2">
+                                                                    <input class="{required, Requested By Signature}" checked="_insSign" id="ProposedSign" name="SignProposed" type="checkbox">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div userIdGroup>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 border-bottom py-2 my-2">
+                                                                <span class="font-14 font-weight-bold">
+                                                                    Checked by
+                                                                </span>
+                                                            </div>
+
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="Name">
+                                                                    User ID
+                                                                </label>
+                                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "UseridVerified", "Select Users", new { @Id = "formMapVerifiedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
+
+                                                            </div>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="User_Id">
+                                                                    Name
+                                                                </label>
+                                                                <input name="UsernameVerified" class="form-control ssvalidate {req,Verified By User Name}" type="text" value="" userName disabled />
+                                                            </div>
+                                                            <div class="form-group col-lg-2">
+                                                                <label for="Designation">Designation</label>
+                                                                <input name="DesignationVerified" class="form-control ssvalidate {req,Verified By User Designation}" type="text" value="" userDest disabled />
+                                                            </div>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="Date__DD-MM-YYYY_">Date (DD-MM-YYYY)</label>
+                                                                @*<input name="DateVerified" class="form-control ssvalidate {req,Verified by date}" type="date" value="@Model.FormMapHeader.DtFclitd" disabled="disabled" />*@
+                                                                @Html.EditorFor(m => m.FormMapHeader.CheckedDate, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
+                                                            </div>
+                                                            <div class="form-group col-lg-1 float-left">
+                                                                <label>
+                                                                    Sign
+                                                                    @{
+                                                                        var _insSignfc = false;
+                                                                        if (Model != null)
+                                                                        {
+                                                                            _insSignfc = Model.FormMapHeader.CheckedSign == null || Model.FormMapHeader.CheckedSign == false ? false : true;
+                                                                        }
+                                                                    }
+                                                                </label>
+                                                                <div class="clear-b mt-2">
+                                                                    <input class="{required, Requested By Signature}" checked="_insSignfc" id="VerifiedSign" name="SignVerified" type="checkbox">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div userIdGroup>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 border-bottom py-2 my-2">
+                                                                <span class="font-14 font-weight-bold">
+                                                                    Verified by
+                                                                </span>
+                                                            </div>
+
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="Name">
+                                                                    User ID
+                                                                </label>
+                                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "UseridAgreed", "Select Users", new { @Id = "formMapAgreedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
+                                                            </div>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="User_Id">
+                                                                    Name
+                                                                </label>
+                                                                <input name="UsernameAgreed" class="form-control ssvalidate {req,Agreed By User Name}" type="text" value="" userName disabled />
+                                                            </div>
+                                                            <div class="form-group col-lg-2">
+                                                                <label for="Designation">Designation</label>
+                                                                <input name="DesignationAgreed" class="form-control ssvalidate {req,Agreed By User Designation}" type="text" value="" userDest disabled />
+                                                            </div>
+                                                            <div class="form-group col-lg-3">
+                                                                <label for="Date__DD-MM-YYYY_">Date (DD-MM-YYYY)</label>
+                                                                @*<input name="DateAgreed" class="form-control ssvalidate {req,Agreed by date}" type="date" value="@Model.FormMapHeader.DtAgrd" disabled="disabled" />*@
+                                                                @Html.EditorFor(m => m.FormMapHeader.VerifiedDate, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control" } })
+                                                            </div>
+                                                            <div class="form-group col-lg-1 float-left">
+                                                                <label>
+                                                                    Sign
+                                                                    @{
+                                                                        var _insSignAg = false;
+                                                                        if (Model != null)
+                                                                        {
+                                                                            _insSignAg = Model.FormMapHeader.VerifiedSign == null || Model.FormMapHeader.VerifiedSign == false ? false : true;
+                                                                        }
+                                                                    }
+                                                                </label>
+                                                                <div class="clear-b mt-2">
+                                                                    <input class="{required, Requested By Signature}" checked="_insSignAg" id="AgreedSign" name="SignAgreed" type="checkbox">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @{
+                    if (Model != null)
+                    {
+                        Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
+                        {
+                            Form = "FormMap",
+                            RefId = Model.FormMapHeader.PkRefNo,
+                            Stage = Model.FormMapHeader.Status
+                        });
+
+                    }
+                }
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<div class="col-md-12 mb-2 float-right text-right custom-footer">
+    <button type="button" class="btn btn-sm btn-outline-theme" onclick="frmMap.Cancel()">Cancel</button>
+    @{
+        var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
+
+        //isSubmit = (security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsExecutive || security.IsInstructedWorkEngg || security.isEnggAssistant || security.IsSupervisor || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        //bool isVerify = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg || security.isEnggConsultanttant);
+        //bool IsAgreed = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        //bool IsApproved = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+
+        isSubmit = (security.IsRegionManager || security.IsHeadMaintenance || security.isQuantitySurveyor || security.isPlanningEngineer);
+        bool isVerify = (security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        bool IsAgreed = (security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        bool IsApproved = (security.IsJKRSHQ);
+
+    }
+    <button type="button" class="btn btn-sm btn-themebtn" onclick="frmMap.Save(false,0)" finddetailsdep>Save</button>
+    @if (isSubmit && (Model == null || Model.FormMapHeader.Status == "" || Model.FormMapHeader.Status == "Initialize" || Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Saved))
+    {
+        <button type="button" class="btn btn-sm btn-themebtn" finddetailsdep onclick="frmMap.Save(true,0)">Submit</button>
+    }
+    @if (isVerify && (Model != null && (Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Submitted || Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Rejected)))
+    {
+        <button type="button" class="btn btn-sm btn-themebtn">Approve</button>
+    }
+    @*@if (IsAgreed && (Model != null && (Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Verified || Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Rejected)))
+        {
+            <button type="button" class="btn btn-sm btn-themebtn" onclick="process.ShowApprove('@groupname','Verified By (JKRS)');">Verified (JKRS)</button>
+        }
+        @if (IsApproved && (Model != null && (Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Agreed || Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Rejected)))
+        {
+            <button type="button" class="btn btn-sm btn-themebtn" onclick="process.ShowApprove('@groupname','Approved (Endrosed By)');">Approved (Endrosed By)</button>
+        }*@
+</div>
+@*@Html.HiddenFor(m => m.FormMapHeader.PkRefNo);*@
+<input type="hidden" id="pkRefNo" value="@Model.FormMapHeader.PkRefNo" />
+<input type="hidden" id="UserId" value="@security.UserID" />
+<input type="hidden" id="UserName" value="@security.UserName" />
+<style>
+    .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4) {
+        width: auto !important;
+        min-width: auto !important;
+    }
+
+    .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(2), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(2), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(3), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(3), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(5), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(5) {
+        width: auto !important;
+        min-width: auto !important;
+    }
+</style>
+
+

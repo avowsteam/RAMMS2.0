@@ -1,10 +1,10 @@
 ﻿@*@{
-        ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home Page";
     }
 
     <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     </div>
 *@
 @model RAMMS.Web.UI.Models.FormAModel;
@@ -12,8 +12,21 @@
     ViewBag.TabTitle = "Road Asset Management and Maintenance System";
     ViewData["Title"] = "Road Asset Management and Maintenance System";
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
+    RAMMS.DTO.ResponseBO.DlpIRIDTO rMIIRMData = new RAMMS.DTO.ResponseBO.DlpIRIDTO();
+    if (ViewBag.RMIIRIData != null)
+    {
+        rMIIRMData = (RAMMS.DTO.ResponseBO.DlpIRIDTO)ViewBag.RMIIRIData;
+
+    }
+    decimal roadLength = rMIIRMData.RmiiriRoadLength.HasValue ? rMIIRMData.RmiiriRoadLength.Value : 0;
+    decimal roadLength1 = rMIIRMData.RmiiriRoadLength1.HasValue ? rMIIRMData.RmiiriRoadLength1.Value : 0;
+    decimal roadLength2 = rMIIRMData.RmiiriRoadLength2.HasValue ? rMIIRMData.RmiiriRoadLength2.Value : 0;
+    decimal roadLength3 = rMIIRMData.RmiiriRoadLength3.HasValue ? rMIIRMData.RmiiriRoadLength3.Value : 0;
+
+
 }
 
+<link href="~/css/style_Map.css" rel="stylesheet" />
 
 <div class="map-section pt-1">
     <div class="map-bg mt-3">
@@ -25,19 +38,19 @@
                 </svg>
             </div>
             @*<a href="@Url.Action("Index", "Map")" class="rmu-miri-2">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44">
-                        <path fill="#FF0000" stroke="#ff0000" stroke-width="0.09375" d="M41.1,10.9L41.1,10.9c-2.4-4.5-6.7-8-11.7-9.5l0.1,0c-1.3-0.4-2.5-0.6-3-0.7c-1.2-0.2-2.3-0.3-3.4-0.3l0,0	c-0.3,0-0.6,0-1,0c-0.1,0-0.2,0-0.3,0c-6.1,0-8.2,1.3-8.2,1.3l0,0C8.4,3.7,4,7.9,1.9,13.2l0,0c0,0-2.1,4.4-1.4,11.2l0,0	c0,0,0.5,5.8,2.3,8.3l0,0c2.1,4.4,6,7.7,10.5,9.5l0,0c0,0,11.5,5,21.6-2L34.8,40c3.7-2.5,6.5-6.4,7.8-10.7l0,0	C46.2,19.2,41.1,10.9,41.1,10.9z M35.8,33.8c-5.4,6.3-15.3,8.3-22.5,4c-8.7-4.3-12-16.3-7.1-24.5C8.3,8.7,12.8,6,17.4,4.4	c7-1.6,15.1,0.9,19.3,7C41.5,17.9,41.1,27.6,35.8,33.8z" />
-                    </svg>
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44">
+                <path fill="#FF0000" stroke="#ff0000" stroke-width="0.09375" d="M41.1,10.9L41.1,10.9c-2.4-4.5-6.7-8-11.7-9.5l0.1,0c-1.3-0.4-2.5-0.6-3-0.7c-1.2-0.2-2.3-0.3-3.4-0.3l0,0	c-0.3,0-0.6,0-1,0c-0.1,0-0.2,0-0.3,0c-6.1,0-8.2,1.3-8.2,1.3l0,0C8.4,3.7,4,7.9,1.9,13.2l0,0c0,0-2.1,4.4-1.4,11.2l0,0	c0,0,0.5,5.8,2.3,8.3l0,0c2.1,4.4,6,7.7,10.5,9.5l0,0c0,0,11.5,5,21.6-2L34.8,40c3.7-2.5,6.5-6.4,7.8-10.7l0,0	C46.2,19.2,41.1,10.9,41.1,10.9z M35.8,33.8c-5.4,6.3-15.3,8.3-22.5,4c-8.7-4.3-12-16.3-7.1-24.5C8.3,8.7,12.8,6,17.4,4.4	c7-1.6,15.1,0.9,19.3,7C41.5,17.9,41.1,27.6,35.8,33.8z" />
+                </svg>
                 </a>
                 <a href="@Url.Action("Index", "Map")" class="rmu-miri-3">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44">
-                        <path fill="#FF0000" stroke="#ff0000" stroke-width="0.09375" d="M41.1,10.9L41.1,10.9c-2.4-4.5-6.7-8-11.7-9.5l0.1,0c-1.3-0.4-2.5-0.6-3-0.7c-1.2-0.2-2.3-0.3-3.4-0.3l0,0	c-0.3,0-0.6,0-1,0c-0.1,0-0.2,0-0.3,0c-6.1,0-8.2,1.3-8.2,1.3l0,0C8.4,3.7,4,7.9,1.9,13.2l0,0c0,0-2.1,4.4-1.4,11.2l0,0	c0,0,0.5,5.8,2.3,8.3l0,0c2.1,4.4,6,7.7,10.5,9.5l0,0c0,0,11.5,5,21.6-2L34.8,40c3.7-2.5,6.5-6.4,7.8-10.7l0,0	C46.2,19.2,41.1,10.9,41.1,10.9z M35.8,33.8c-5.4,6.3-15.3,8.3-22.5,4c-8.7-4.3-12-16.3-7.1-24.5C8.3,8.7,12.8,6,17.4,4.4	c7-1.6,15.1,0.9,19.3,7C41.5,17.9,41.1,27.6,35.8,33.8z" />
-                    </svg>
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44">
+                <path fill="#FF0000" stroke="#ff0000" stroke-width="0.09375" d="M41.1,10.9L41.1,10.9c-2.4-4.5-6.7-8-11.7-9.5l0.1,0c-1.3-0.4-2.5-0.6-3-0.7c-1.2-0.2-2.3-0.3-3.4-0.3l0,0	c-0.3,0-0.6,0-1,0c-0.1,0-0.2,0-0.3,0c-6.1,0-8.2,1.3-8.2,1.3l0,0C8.4,3.7,4,7.9,1.9,13.2l0,0c0,0-2.1,4.4-1.4,11.2l0,0	c0,0,0.5,5.8,2.3,8.3l0,0c2.1,4.4,6,7.7,10.5,9.5l0,0c0,0,11.5,5,21.6-2L34.8,40c3.7-2.5,6.5-6.4,7.8-10.7l0,0	C46.2,19.2,41.1,10.9,41.1,10.9z M35.8,33.8c-5.4,6.3-15.3,8.3-22.5,4c-8.7-4.3-12-16.3-7.1-24.5C8.3,8.7,12.8,6,17.4,4.4	c7-1.6,15.1,0.9,19.3,7C41.5,17.9,41.1,27.6,35.8,33.8z" />
+                </svg>
                 </a>*@
             @*<a href="@Url.Action("Index", "Map")" class="rmu-niah">
-                    <svg viewBox="0 0 190 109" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="#ffde00" stroke="#ffde00" stroke-width="0.09375" opacity="1.00" d=" M 81.0 10.0 C 84.8 7.4 88.0 3.9 92.1 1.8 C 99.1 2.1 105.9 3.6 112.9 4.1 C 138.0 7.7 163.3 9.1 188.6 11.7 C 189.0 12.8 189.5 13.9 190.0 15.0 L 190.0 15.8 C 187.0 25.8 182.3 35.2 178.9 45.1 C 172.8 60.9 166.5 76.7 160.4 92.5 C 159.2 96.0 155.5 97.2 152.4 98.2 C 139.8 101.8 127.2 105.3 114.6 109.0 L 111.4 109.0 C 77.2 98.6 43.1 88.2 8.9 78.0 C 5.1 77.0 0.7 75.4 0.0 70.9 L 0.0 70.1 C 0.5 67.3 2.6 65.3 5.0 64.0 C 19.3 54.8 33.2 44.8 47.4 35.4 C 58.7 27.1 69.6 18.3 81.0 10.0 M 51.2 39.2 C 44.5 43.9 37.5 48.0 31.0 53.0 C 22.3 59.0 13.1 64.4 4.7 70.8 C 8.7 72.6 12.8 73.8 17.0 75.0 C 49.0 84.6 81.0 94.4 113.0 104.0 C 124.4 100.7 135.8 97.5 147.2 94.2 C 149.9 93.4 152.9 93.0 155.3 91.3 C 165.1 65.9 175.2 40.5 184.9 15.0 C 182.8 15.0 180.6 15.1 178.6 14.4 C 175.3 13.5 171.7 14.5 168.4 13.6 C 164.3 12.2 159.8 13.8 155.6 12.4 C 152.3 11.5 148.7 12.5 145.4 11.6 C 141.6 10.3 137.4 11.7 133.6 10.4 C 129.9 9.4 126.1 10.6 122.4 9.6 C 120.1 8.8 117.6 9.1 115.2 8.8 C 108.6 7.3 101.9 6.0 95.1 5.6 C 80.6 17.0 65.8 27.9 51.2 39.2 Z" />
-                    </svg>
+                <svg viewBox="0 0 190 109" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#ffde00" stroke="#ffde00" stroke-width="0.09375" opacity="1.00" d=" M 81.0 10.0 C 84.8 7.4 88.0 3.9 92.1 1.8 C 99.1 2.1 105.9 3.6 112.9 4.1 C 138.0 7.7 163.3 9.1 188.6 11.7 C 189.0 12.8 189.5 13.9 190.0 15.0 L 190.0 15.8 C 187.0 25.8 182.3 35.2 178.9 45.1 C 172.8 60.9 166.5 76.7 160.4 92.5 C 159.2 96.0 155.5 97.2 152.4 98.2 C 139.8 101.8 127.2 105.3 114.6 109.0 L 111.4 109.0 C 77.2 98.6 43.1 88.2 8.9 78.0 C 5.1 77.0 0.7 75.4 0.0 70.9 L 0.0 70.1 C 0.5 67.3 2.6 65.3 5.0 64.0 C 19.3 54.8 33.2 44.8 47.4 35.4 C 58.7 27.1 69.6 18.3 81.0 10.0 M 51.2 39.2 C 44.5 43.9 37.5 48.0 31.0 53.0 C 22.3 59.0 13.1 64.4 4.7 70.8 C 8.7 72.6 12.8 73.8 17.0 75.0 C 49.0 84.6 81.0 94.4 113.0 104.0 C 124.4 100.7 135.8 97.5 147.2 94.2 C 149.9 93.4 152.9 93.0 155.3 91.3 C 165.1 65.9 175.2 40.5 184.9 15.0 C 182.8 15.0 180.6 15.1 178.6 14.4 C 175.3 13.5 171.7 14.5 168.4 13.6 C 164.3 12.2 159.8 13.8 155.6 12.4 C 152.3 11.5 148.7 12.5 145.4 11.6 C 141.6 10.3 137.4 11.7 133.6 10.4 C 129.9 9.4 126.1 10.6 122.4 9.6 C 120.1 8.8 117.6 9.1 115.2 8.8 C 108.6 7.3 101.9 6.0 95.1 5.6 C 80.6 17.0 65.8 27.9 51.2 39.2 Z" />
+                </svg>
                 </a>*@
         </div>
         @*href="@Url.Action("Index", "Map")"*@
@@ -60,10 +73,10 @@
             <div class="form-group col-md-3 mb-md-1">
                 <label>RMU</label>
                 @Html.ListBoxFor(m => m.SaveFormAModel.Rmu, (IEnumerable
-                         <SelectListItem>)ViewData["RMU"], new { @Id = "RMU", @class = "chosen-select", @multiple = "true" })
+                <SelectListItem>)ViewData["RMU"], new { @Id = "RMU", @class = "chosen-select", @multiple = "true" })
                 @*<select id="rmu-dd" class="form-control custom-select" multiple onchange="RMUChange()">
-                        <option selected value="Miri">Miri</option>
-                        <option value="batuniah">Batu Niah</option>
+                    <option selected value="Miri">Miri</option>
+                    <option value="batuniah">Batu Niah</option>
                     </select>*@
             </div>
             <div class="form-group col-md-6 mb-md-1">
@@ -71,7 +84,7 @@
                 @*<select id="section-dd" class="form-control">
                     </select>*@
                 @Html.DropDownListFor(m => m.SaveFormAModel.section, (IEnumerable
-                       <SelectListItem>)ViewData["Section"], new { @Id = "section-dd", @class = "form-control" })
+                <SelectListItem>)ViewData["Section"], new { @Id = "section-dd", @class = "form-control" })
             </div>
         </div>
     </form>
@@ -154,13 +167,10 @@
                     </h5>
                 </div>
                 <div id="AccordSPI" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingSPI" data-parent="#custom-accordion-spi">
-                    <div class="card-body">
+                    @{
 
-                        <div class="col-md-12 offset-md-1">
-                            <img src="~/assets/media/MIRI-Division-SPI.png" class="img-responsive" />
-                        </div>
-
-                    </div>
+                        Html.RenderPartial("_SPIpartial.cshtml");
+                    }
                 </div>
             </div>
         </div>
@@ -183,8 +193,40 @@
                 <div id="AccordIRIRMI" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingIRIRMI" data-parent="#custom-accordion-iri-rmi">
                     <div class="card-body">
 
-                        <div class="col-md-8 offset-md-2">
-                            <img src="~/assets/media/OverallIRI-RMI.png" class="img-responsive" />
+                        <div class="row">
+
+
+                            <div class="col-lg-10 offset-lg-1 mt-2 border-bottom" style="height:90%">
+                                <canvas id="myChart2"></canvas>
+
+                            </div>
+                            <div class="col-lg-12 table-responsive">
+
+                                @if (rMIIRMData != null)
+                                {
+                                    <table style="font-size:x-small" class="table w-100 nowrap dataTable no-footer">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width:18%">Road Length(km)</td>
+                                                <td style="width:20%">@rMIIRMData.RmiiriRoadLength KM</td>
+                                                <td style="width:20%">@rMIIRMData.RmiiriRoadLength1 KM</td>
+                                                <td style="width:20%">@rMIIRMData.RmiiriRoadLength2 KM</td>
+                                                <td style="width:20%">@rMIIRMData.RmiiriRoadLength3 KM</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Percentage (%)</td>
+                                                <td>@rMIIRMData.RmiiriPercentage %</td>
+                                                <td>@rMIIRMData.RmiiriPercentage1 %</td>
+                                                <td>@rMIIRMData.RmiiriPercentage2 %</td>
+                                                <td>@rMIIRMData.RmiiriPercentage3 %</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                }
+
+
+                            </div>
+
                         </div>
 
                     </div>
@@ -208,275 +250,162 @@
                     </h5>
                 </div>
                 <div id="AccordRoadRating" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingRoadRating" data-parent="#custom-accordion-roadrating">
+                    <div class="container-fluid">
+                        <div class="row my-2">
+                            <div class="col-md-12 mb-2">
+                                <div class="float-left form-group">
+                                    <label>RMU</label>
+
+                                    @Html.DropDownListFor(m => m.SaveFormAModel.RFCRMU, (IEnumerable
+                                    <SelectListItem>)ViewData["RFCRMU"], new { @Id = "RFCRMU", @class = "form-control", @default = "MRI" })
+
+                                </div>
+                                <div class="float-right form-group">
+                                    <label>Year</label>
+
+                                    @Html.DropDownListFor(m => m.SaveFormAModel.RFCYear, (IEnumerable
+                                    <SelectListItem>)ViewData["RFCYear"], new { @Id = "RFCYear", @class = "form-control" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <div class="row" id="divPie">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-4 mt-4">
+                <div class="card">
                     <div class="card-body">
-
-                        <div class="col-md-12">
-                            <div class="w-100 ld-innerhead">RMU Miri</div>
-                            <div class="col-md-8 offset-md-2">
-                                <img src="~/assets/media/RoadFurnitureRating/MIRI/MIRI.png" />
-
-                            </div>
-                            @*<div class="w-100 ld-innersubhead">Right Hand Side</div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Edge Line Marking</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/MIRI/RHSMIRI-1.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-md-0 mt-sm-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Ditch &amp; Drain</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/MIRI/RHSMIRI-2.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-md-0 mt-sm-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Shoulder</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/MIRI/RHSMIRI-3.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="w-100 ld-innersubhead mt-3">Left Hand Side</div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Edge Line Marking</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-1.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-md-0 mt-sm-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Ditch &amp; Drain</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-2.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-md-0 mt-sm-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Shoulder</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-3.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 mt-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Carriageway</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-4.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Centreline Marking</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-5.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Sign</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-6.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 mt-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Culvert</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-7.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Bridge</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-8.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Guardrail</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-9.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>*@
-                        </div>
-
-                        <div class="col-md-12 mt-4">
-                            <div class="w-100 ld-innerhead">RMU Niah</div>
-                            <div class="col-md-8 offset-md-2">
-                                <img src="~/assets/media/RoadFurnitureRating/NIAH/NIAH.png" />
-
-                            </div>
-                            @*<div class="w-100 ld-innersubhead">Right Hand Side</div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Edge Line Marking</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/NIAH/RHSNIAH-1.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-md-0 mt-sm-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Ditch &amp; Drain</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/NIAH/RHSNIAH-2.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-md-0 mt-sm-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Shoulder</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/NIAH/RHSNIAH-3.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="w-100 ld-innersubhead mt-3">Left Hand Side</div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Edge Line Marking</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-1.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-md-0 mt-sm-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Ditch &amp; Drain</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-2.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-md-0 mt-sm-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Shoulder</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-3.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 mt-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Carriageway</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-4.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Centreline Marking</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-5.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Sign</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-6.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 mt-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Culvert</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-7.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Bridge</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-8.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="ldcardheader">Guardrail</div>
-                                            <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-9.svg" class="px-lg-4 img-fluid" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>*@
-                        </div>
-
+                        <div class="ldcardheader">Culvert</div>
+                        <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-7.svg" class="px-lg-4 img-fluid" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="ldcardheader">Bridge</div>
+                        <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-8.svg" class="px-lg-4 img-fluid" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="ldcardheader">Guardrail</div>
+                        <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-9.svg" class="px-lg-4 img-fluid" />
                     </div>
                 </div>
             </div>
         </div>
-     @*   <div class="accordion custom-accordion mb-4" id="custom-accordion-roadrating">
-            <div class="card mb-0">
-                <div class="card-header" id="headingRoadRating">
-                    <h5 class="m-0">
-                        <a class="custom-accordion-title py-1 collapsed" data-toggle="collapse" href="#AccordInstructedWork" aria-expanded="false" aria-controls="collapseRoadRating">
-                            <span class="float-left">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                            </span>
-                            <span class="float-left" style="padding: 4px 8px;">
-                                Instructed Work Listing
-                            </span>
-                        </a>
-                    </h5>
-                </div>
-                <div id="AccordInstructedWork" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingRoadRating" data-parent="#custom-accordion-roadrating">
-                    <div class="card-body">
-
-                        <div class="col-md-12">
-                            @*<div class="w-100 ld-innerhead"></div>@
-                            <div class="col-md-8 offset-md-1">
-                                <img src="~/assets/media/InstructedWorkListing.png" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    </div>
+    <div class="col-md-4 mt-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="ldcardheader">Culvert</div>
+                <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-7.svg" class="px-lg-4 img-fluid" />
             </div>
-        </div>*@
+        </div>
+    </div>
+    <div class="col-md-4 mt-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="ldcardheader">Bridge</div>
+                <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-8.svg" class="px-lg-4 img-fluid" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mt-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="ldcardheader">Guardrail</div>
+                <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-9.svg" class="px-lg-4 img-fluid" />
+            </div>
+        </div>
     </div>
 </div>
+<!--</div>
+
+</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    @*var SpplpMPlanned = "@ViewBag.SpplpMPlanned";
+        var SpplpMActual = "@ViewBag.SpplpMActual";
+        var cutPlan = "@ViewBag.SpplpCPlan";
+        var cutActual = "@ViewBag.SpplpCActual";
+        var Planned = "@ViewBag.SpplpPlannedPer";
+        var Actual =  "@ViewBag.Actual";*@
+    const labels1 = [
+        'RMI',
+        'Condition 1',
+        'Condition 2',
+        'Condition 3'
+    ];
+    const data1 = {
+        labels: labels1,
+        datasets: [{
+            label: ['RMI', 'Condition 1', 'Condition 2', 'Condition 3'],
+            data: [@roadLength, @roadLength1, @roadLength2, @roadLength3],
+            backgroundColor: [
+                'rgba(0, 107, 180, 1)',
+                'rgba(0, 212, 86, 1)',
+                'rgba(238, 148, 18, 1)',
+                'rgba(255, 5, 5, 1)'
+            ],
+            borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(200, 86, 1)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)'
+            ],
+            borderWidth: 1
+        }]
+    }
+
+    const config1 = {
+        type: 'bar',
+        data: data1,
+        options: {}
+    };
+</script>
+<script>
+    const myChart1 = new Chart(
+        document.getElementById('myChart2'),
+        config1
+    );
+</script>
+
+<script src='https://cdn.plot.ly/plotly-2.16.1.min.js'></script>
 <script>
     $(document).ready(function () {
         $("#RMU").chosen();
-        $("#section-dd").val("")
+        $("#section-dd").val("");
+        var dt = new Date();
+        var CurrentYear = dt.getFullYear();
+        $("#RFCRMU").val('MRI').trigger('chosen:updated');
+        $("#RFCYear").val(CurrentYear).trigger('chosen:updated');
         var values = [];
+        GetHomePageCount({});
+        GetSectionByRMU({});
+        $('#ddlDLPSPYear').change(function () {
+            alert($('#ddlDLPSPYear').val());
+            $('#divSPI').load('@Url.Action("Details", "Home")');
+        });
         GetHomePageCount({})
         GetSectionByRMU({})
+        GetRoadFurnConditionPieChart({})
     });
     $("#RMU").on('change', function () {
         var obj = new Object();
@@ -492,7 +421,14 @@
         var obj = new Object();
         GetHomePageCount(obj)
     })
-
+    $("#RFCRMU").on('change', function () {
+        var obj = new Object();
+        GetRoadFurnConditionPieChart({obj})
+    });
+    $("#RFCYear").on('change', function () {
+        var obj = new Object();
+        GetRoadFurnConditionPieChart({obj})
+    });
     //Calling New landing Service
     function GetClosedNODResult(reqObj) {
         reqObj.RMU = $("#RMU").val();
@@ -579,6 +515,7 @@
     }
 
     function GetHomePageCount(reqObj) {
+        debugger;
         reqObj.RMU = $("#RMU").val();
         reqObj.Section = $("#section-dd").val();
         InitAjaxLoading();
@@ -603,4 +540,82 @@
         );
     }
 
+    function GetRoadFurnConditionPieChart(reqObj) {
+        var ultimateColors = [
+            ['rgb(0,173,78)', 'rgb(251,189,0)', 'rgb(251,0,0)']];
+        reqObj.RFCRM = $("#RFCRMU").val();
+        reqObj.RFCYr = $("#RFCYear").val();
+        reqObj.Section = $("#section-dd").val();
+        InitAjaxLoading();
+        console.log(reqObj)
+        $.ajax(
+            {
+                url: "/home/GetRoadFurnitureConditionPieChart",
+                data: { RFCRMU: $("#RFCRMU").val(), RFCYear: $("#RFCYear").val()},
+                type: 'post',
+                success: function (data) {
+                    HideAjaxLoading();
+                    var html = '';
+                    var x = 1;
+                    for (var i in data) {
+                        debugger;
+                        html =
+                            '<div class="col-md-4 my-2">'+
+                        '<div class="card">' +
+                        ' <div class="card-header bg-light text-center font-14 font-weight-bold">' +
+                        '<span id="RFCFeature">' + data[i].rfcFeature + '</span>' +
+                          '</div>'+
+                        '<div class="card-body">' +
+                        '<div id="divRFCPie_' + x + '" style="width:100%;height:100%;">' +
+                            '</div>'+
+                        '</div>' +
+                        '</div>' +
+                            '</div >';
+                        $('#divPie').append(html);
+                        var datapie = [{
+                            values: [data[i].rfCondition1, data[i].rfCondition2, data[i].rfCondition3],
+                            labels: ['Condition1', 'Condition2', 'Condition3'],
+                            type: 'pie',
+                            marker: {
+                                colors: ultimateColors[0]
+                            },
+                            domain: {
+                                row: i,
+                                column: i-1
+                            },
+                            hoverinfo: 'label+percent+name',
+                            textinfo: 'percent+name'
+
+                        }];
+                        var layout = {
+                            autosize: true,
+                            height: 300,
+                            width: 300,
+                        };
+
+
+                        Plotly.newPlot('divRFCPie_' + x, datapie, layout);
+                        x++;
+                    }
+
+                },
+                error: function (data) {
+                    HideAjaxLoading();
+                    app.ShowErrorMessage(data.message);
+                }
+            }
+        );
+    }
+
 </script>
+<style>
+    .svg-container > svg {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    .modebar-group {
+        display: none;
+        visibility: hidden
+    }
+</style>
