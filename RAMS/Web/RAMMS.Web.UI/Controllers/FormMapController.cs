@@ -155,6 +155,21 @@ namespace RAMMS.Web.UI.Controllers
             return await SaveAll(formmaphdr, formmap, false);
         }
 
+
+        public async Task<IActionResult> Submit(string formMaphdrdata, string formMapdata, int reload)
+        {
+            FormMapHeaderDTO formmaphdr = new FormMapHeaderDTO();
+            List<FormMapDetailsDTO> formmap = new List<FormMapDetailsDTO>();
+
+            formmaphdr = JsonConvert.DeserializeObject<FormMapHeaderDTO>(formMaphdrdata);
+            formmap = JsonConvert.DeserializeObject<List<FormMapDetailsDTO>>(formMapdata);
+
+            formmaphdr.SubmitSts = true;
+            formmaphdr.PreparedBy = _security.UserID;
+            formmaphdr.PreparedDate = DateTime.Today;
+            return await SaveAll(formmaphdr, formmap, true);
+        }
+
         private async Task<JsonResult> SaveAll(DTO.ResponseBO.FormMapHeaderDTO formmaphdr, List<DTO.ResponseBO.FormMapDetailsDTO> formmap, bool updateSubmit)
         {
             formmaphdr.CrBy = _security.UserID;
@@ -169,6 +184,13 @@ namespace RAMMS.Web.UI.Controllers
         public async Task<IActionResult> GetForMapDetails(int ID)
         {
             return Json(_formMapService.GetForMapDetails(ID));
+        }
+
+        public IActionResult Download(int id)
+        {
+            var content1 = _formMapService.FormDownload("FormMap", id, _webHostEnvironment.WebRootPath, _webHostEnvironment.WebRootPath + "/Templates/FormMap.xlsx");
+            string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            return File(content1, contentType1, "FormMap" + ".xlsx");
         }
     }
 }

@@ -180,5 +180,121 @@ namespace RAMMS.Business.ServiceProvider.Services
 
             return form;
         }
+
+        public byte[] FormDownload(string formname, int id, string basepath, string filepath)
+        {
+            //string structureCode = _repoUnit.DDLookUpRepository.GetConcatenateDdlTypeValue(new DTO.RequestBO.DDLookUpDTO { Type = "Structure Code", TypeCode = "Y" });
+            string Oldfilename = "";
+            string filename = "";
+            string cachefile = "";
+            basepath = $"{basepath}/Uploads";
+            if (!filepath.Contains(".xlsx"))
+            {
+                Oldfilename = filepath + formname + ".xlsx";// formdetails.FgdFilePath+"\\" + formdetails.FgdFileName+ ".xlsx";
+                filename = formname + DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString();
+                cachefile = filepath + filename + ".xlsx";
+            }
+            else
+            {
+                Oldfilename = filepath;
+                filename = filepath.Replace(".xlsx", DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString() + ".xlsx");
+                cachefile = filename;
+            }
+
+            try
+            {
+                List<FormMapRpt> _rpt = this.GetReportData(id);
+                List<RmMapDetails> res = _repo.GetHistoryData(id);
+                System.IO.File.Copy(Oldfilename, cachefile, true);
+                using (var workbook = new XLWorkbook(cachefile))
+                {
+                    IXLWorksheet worksheet = workbook.Worksheet(1);
+
+                    using (var book = new XLWorkbook(cachefile))
+                    {
+                        if (worksheet != null)
+                        {
+                            var rptCount = _rpt.Count;
+                            var rpt = _rpt[rptCount - 1];
+                            worksheet.Cell(2, 1).Value = "Monthly Activities Progress For The Month of (" + rpt.Month + ") (" + rpt.Year + ")";
+
+                            //worksheet.Cell(2, 1).Value = "PROPOSED ANNUAL WORK PROGRAMME AND BUDGET " + rpt.RevisionYear + " (PROPOSED PLANNED BUDGET)";
+                            //worksheet.Cell(5, 14).Value = rpt.RevisionNo;
+                            //worksheet.Cell(5, 17).Value = rpt.RevisionDate;
+
+                            for (int i = 0; i < res.Count; i++)
+                            {
+                                worksheet.Cell((i + 7), 9).Value = res[i].RmmdActivityLocationCode;
+                                //worksheet.Cell((i + 9), 5).Value = res[i].B14hhJan;
+                                //worksheet.Cell((i + 9), 6).Value = res[i].B14hhFeb;
+                                //worksheet.Cell((i + 9), 7).Value = res[i].B14hhMar;
+                                //worksheet.Cell((i + 9), 8).Value = res[i].B14hhApr;
+                                //worksheet.Cell((i + 9), 9).Value = res[i].B14hhMay;
+                                //worksheet.Cell((i + 9), 10).Value = res[i].B14hhJun;
+                                //worksheet.Cell((i + 9), 11).Value = res[i].B14hhJul;
+                                //worksheet.Cell((i + 9), 12).Value = res[i].B14hhAug;
+                                //worksheet.Cell((i + 9), 13).Value = res[i].B14hhSep;
+                                //worksheet.Cell((i + 9), 14).Value = res[i].B14hhOct;
+                                //worksheet.Cell((i + 9), 15).Value = res[i].B14hhNov;
+                                //worksheet.Cell((i + 9), 16).Value = res[i].B14hhDec;
+                                //worksheet.Cell((i + 9), 17).Value = res[i].B14hhSubTotal;
+                                //worksheet.Cell((i + 9), 18).Value = res[i].B14hhUnitOfService;
+                            }
+
+                            //if (rpt.UserNameProsd != null)
+                            //{
+                            //    worksheet.Cell(51, 4).Value = rpt.UserNameProsd;
+                            //    worksheet.Cell(52, 4).Value = rpt.UserDesignationProsd;
+                            //}
+                            //if (rpt.UserNameFclitd != null)
+                            //{
+                            //    worksheet.Cell(51, 5).Value = rpt.UserNameFclitd;
+                            //    worksheet.Cell(52, 5).Value = rpt.UserDesignationFclitd;
+                            //}
+                            //if (rpt.UserNameAgrd != null)
+                            //{
+                            //    worksheet.Cell(51, 9).Value = rpt.UserNameAgrd;
+                            //    worksheet.Cell(52, 9).Value = rpt.UserDesignationAgrd;
+                            //}
+                            //if (rpt.UserNameEndosd != null)
+                            //{
+                            //    worksheet.Cell(51, 14).Value = rpt.UserNameEndosd;
+                            //    worksheet.Cell(52, 14).Value = rpt.UserDesignationEndosd;
+                            //}
+                        }
+
+                    }
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        System.IO.File.Delete(cachefile);
+                        return content;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.Copy(Oldfilename, cachefile, true);
+                using (var workbook = new XLWorkbook(cachefile))
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        System.IO.File.Delete(cachefile);
+                        return content;
+                    }
+                }
+
+            }
+        }
+
+        public List<FormMapRpt> GetReportData(int headerid)
+        {
+            return _repo.GetReportData(headerid);
+        }
+
     }
 }

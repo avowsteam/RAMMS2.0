@@ -119,7 +119,7 @@
             var actionSection = "<div class='btn-group dropright' rowidx='" + meta.row + "'><button type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button>";
             actionSection += "<div class='dropdown-menu'>";//dorpdown menu start
 
-            if (data.Status != "Submitted" && tblFMapHGrid.Base.IsModify) {
+            if (data.Status != "Approved" && tblFMapHGrid.Base.IsModify) {
                 actionSection += "<button type='button' class='dropdown-item editdel-btns' onclick='frmMap.HeaderGrid.ActionClick(this);'>";
                 actionSection += "<span class='edit-icon'></span> Edit </button>";
             }
@@ -291,6 +291,9 @@ function GetfindDetails() {
                 frmMap.HeaderData = data;
                 $('#txtFormMapRefNum').val(data.RefId);
                 $("#pkRefNo").val(frmMap.HeaderData.PkRefNo);
+                if (frmMap.HeaderData.SubmitSts) {
+                    window.location = _APPLocation + "FormMap/View/" + frmMap.HeaderData.PkRefNo;
+                }
                 frmMap.PageInit();
 
             }
