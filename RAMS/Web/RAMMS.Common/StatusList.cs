@@ -17,6 +17,10 @@ namespace RAMMS.Common
         public const string Agreed = "Agreed";
         public const string Endorsed = "Endorsed";
 
+        public const string CertifiedbySP = "Certified by SP";
+        public const string CertifiedbyEC = "Certified by EC";
+        public const string CertifiedbySO = "Certified by SO";
+
         public const string Supervisor = "Supervisor";
         public const string Executive = "Executive";
         public const string HeadMaintenance = "HeadMaintenance";

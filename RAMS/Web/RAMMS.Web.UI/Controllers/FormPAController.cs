@@ -112,7 +112,19 @@ namespace RAMMS.Web.UI.Controllers
 
             _model.view = isview;
 
-            if ((_model.FormPAHeader.UseridSo == null || _model.FormPAHeader.UseridSo == 0 || _model.FormPAHeader.SubmitSts == false))
+            if ((_model.FormPAHeader.UseridSp == null || _model.FormPAHeader.UseridSp == 0 || _model.FormPAHeader.SubmitSts == false))
+            {
+                _model.FormPAHeader.UseridSp = _security.UserID;
+                _model.FormPAHeader.SignDateSp = DateTime.Today;
+                _model.FormPAHeader.SignSp = true;
+            }
+            else if ((_model.FormPAHeader.UseridEc == null || _model.FormPAHeader.UseridEc == 0) && _model.FormPAHeader.Status == RAMMS.Common.StatusList.Submitted)
+            {
+                _model.FormPAHeader.UseridEc = _security.UserID;
+                _model.FormPAHeader.SignDateEc = DateTime.Today;
+                _model.FormPAHeader.SignEc = true;
+            }
+            else if ((_model.FormPAHeader.UseridSo == null || _model.FormPAHeader.UseridSo == 0) && _model.FormPAHeader.Status == RAMMS.Common.StatusList.CertifiedbyEC)
             {
                 _model.FormPAHeader.UseridSo = _security.UserID;
                 _model.FormPAHeader.SignDateSo = DateTime.Today;

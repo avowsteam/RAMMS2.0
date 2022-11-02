@@ -36,7 +36,7 @@
     var SubmissionDate = {
         data: null, name: "submissionDate", title: "Date Submission", autoWidth: true, sortable: true,
         render: function (data) {
-            if (data.submissionDate) {
+            if (data.signDateSp) {
                 var d = new Date(data.signDateSp);
                 var day = d.getDate();
                 var month = d.getMonth() + 1;
@@ -55,8 +55,8 @@
         }
     };
 
-    var WorkValueDeduction = { data: "workValueDeduction", name: "PaymentCertificateNo", title: "RMMS Work Value Deductions(RM)", autoWidth: true, sortable: true };
-    var WorkValueAddition = { data: "workValueDeduction", name: "PaymentCertificateNo", title: "RMMS Work Value Additions(RM)", autoWidth: true, sortable: true };
+    var WorkValueDeduction = { data: "workValueDeduction", name: "workValueDeduction", title: "RMMS Work Value Deductions(RM)", autoWidth: true, sortable: true };
+    var WorkValueAddition = { data: "workValueAddition", name: "workValueAddition", title: "RMMS Work Value Additions(RM)", autoWidth: true, sortable: true };
     var Status = { data: "status", name: "Status", title: "Status", autoWidth: true, sortable: true };
 
 
