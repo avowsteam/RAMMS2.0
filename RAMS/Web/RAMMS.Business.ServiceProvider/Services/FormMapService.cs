@@ -222,9 +222,15 @@ namespace RAMMS.Business.ServiceProvider.Services
                             //worksheet.Cell(5, 14).Value = rpt.RevisionNo;
                             //worksheet.Cell(5, 17).Value = rpt.RevisionDate;
 
+                            int dayCount = res.Count > 0 ? res.Where(x => x.RmmdActivityId == 1011).Count() : 0;
+
                             for (int i = 0; i < res.Count; i++)
                             {
-                                worksheet.Cell((i + 7), 9).Value = res[i].RmmdActivityLocationCode;
+                                for (int j = 0; j < dayCount; j++)
+                                {
+                                    worksheet.Cell((i + 7), (j + 9)).Value = res[i].RmmdActivityLocationCode;
+                                }
+
                                 //worksheet.Cell((i + 9), 5).Value = res[i].B14hhJan;
                                 //worksheet.Cell((i + 9), 6).Value = res[i].B14hhFeb;
                                 //worksheet.Cell((i + 9), 7).Value = res[i].B14hhMar;

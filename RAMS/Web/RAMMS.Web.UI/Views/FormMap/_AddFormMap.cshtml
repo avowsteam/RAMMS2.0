@@ -617,9 +617,9 @@
         //bool IsAgreed = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
         //bool IsApproved = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
 
-        isSubmit = (security.IsRegionManager || security.IsHeadMaintenance || security.isQuantitySurveyor || security.isPlanningEngineer);
-        bool isVerify = (security.IsRegionManager || security.IsHeadMaintenance || security.isQuantitySurveyor || security.isPlanningEngineer);//(security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
-        bool IsApproved = (security.IsRegionManager || security.IsHeadMaintenance || security.isQuantitySurveyor || security.isPlanningEngineer);//(security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        isSubmit = (security.isOperRAMSExecutive || security.IsExecutive || security.IsRegionManager || security.IsHeadMaintenance);
+        bool isVerify = (security.isOperRAMSExecutive || security.isRoadMaintenanceEngineer || security.isEnggAssistant || security.IsHeadMaintenance);//(security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        bool IsApproved = (security.IsRegionManager || security.IsHeadMaintenance);//(security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
 
 
     }
