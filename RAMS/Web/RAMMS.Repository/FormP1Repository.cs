@@ -155,11 +155,17 @@ namespace RAMMS.Repository
             var resPA = (from r in _context.RmPaymentCertificateMamw where r.PcmamwSubmissionYear == res.PchSubmissionYear && r.PcmamwSubmissionMonth == res.PchSubmissionMonth select r).FirstOrDefault();
             var resPB = (from r in _context.RmPbIw where r.PbiwSubmissionYear == res.PchSubmissionYear && r.PbiwSubmissionMonth == res.PchSubmissionMonth select r).FirstOrDefault();
 
-            res.PchContractRoadLength = resPA.PcmamwTotalPayment;
-            res.PchNetValueDeduction = resPA.PcmamwWorkValueDeduction;
-            res.PchNetValueAddition = resPA.PcmamwWorkValueAddition;
-            res.PchNetValueInstructedWork = resPB.PbiwAmountBeforeLad;
-            res.PchNetValueLadInstructedWork = resPB.PbiwLaDamage;
+            if (resPA != null)
+            {
+                res.PchContractRoadLength = resPA.PcmamwTotalPayment;
+                res.PchNetValueDeduction = resPA.PcmamwWorkValueDeduction;
+                res.PchNetValueAddition = resPA.PcmamwWorkValueAddition;
+            }
+            if (resPB != null)
+            {
+                res.PchNetValueInstructedWork = resPB.PbiwAmountBeforeLad;
+                res.PchNetValueLadInstructedWork = resPB.PbiwLaDamage;
+            }
 
             res.RmPaymentCertificate = (from r in _context.RmPaymentCertificate
                                         where r.PcPchPkRefNo == id
@@ -181,12 +187,14 @@ namespace RAMMS.Repository
         }
 
 
-        public async Task<int> SaveFormP1(RmPaymentCertificateHeader FormP1)
+        public async Task<int> SaveFormP1(RmPaymentCertificateHeader FormP1, bool update = false)
         {
             try
             {
-
-                _context.RmPaymentCertificateHeader.Add(FormP1);
+                if (!update)
+                    _context.RmPaymentCertificateHeader.Add(FormP1);
+                else
+                    _context.RmPaymentCertificateHeader.Update(FormP1);
                 _context.SaveChanges();
 
                 return FormP1.PchPkRefNo;
@@ -196,6 +204,7 @@ namespace RAMMS.Repository
                 return 0;
             }
         }
+ 
 
         public async Task<int> UpdateFormP1(RmPaymentCertificateHeader FormP1Header, List<RmPaymentCertificate> FormP1Details)
         {

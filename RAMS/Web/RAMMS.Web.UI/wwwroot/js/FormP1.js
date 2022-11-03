@@ -66,16 +66,24 @@ function TotalCal() {
     //Amount Instructed Works
     $(".PayAmt.STIC").val(TotalCal("PayAmt", "IC"));
 
+    $(".totamt").text(parseFloat($(".PayAmt.STCR").val()) + parseFloat($(".PayAmt.STIC").val()));
 
    
-    //Amount Contract roads
+    //Addition Contract roads
     $(".PayAdd.STCR").val(TotalCal("PayAdd", "CR"));
+
+    //Addition Instructed Works
+    $(".PayAdd.STIR").val(TotalCal("PayAdd", "IC"));
+
+    $(".totadd").text(parseFloat($(".PayAdd.STCR").val()) + parseFloat($(".PayAdd.STIC").val()));
     
     //Deduction Contract roads
     $(".PayDed.STCR").val(TotalCal("PayDed", "CR"));
-    
+
     //Deduction Instructed Works
     $(".PayDed.STIC").val(TotalCal("PayDed", "IC"));
+
+    $(".totDed").text(parseFloat($(".PayDed.STCR").val()) + parseFloat($(".PayDed.STIC").val()));
 
     //tot Prev Payment Contract roads
     $(".TotPrevPay.STCR").val(TotalCal("TotPrevPay", "CR"));
@@ -83,17 +91,23 @@ function TotalCal() {
     //tot Prev Payment Instructed Works
     $(".TotPrevPay.STIC").val(TotalCal("TotPrevPay", "IC"));
 
+    $(".TotPrevPay").text(parseFloat($(".TotPrevPay.STCR").val()) + parseFloat($(".TotPrevPay.STIC").val()));
+
     //tot to date Contract roads
     $(".TottoDate.STCR").val(TotalCal("TottoDate", "CR"));
 
     //tot to date Instructed Works
     $(".TottoDate.STIC").val(TotalCal("TottoDate", "IC"));
 
+    $(".TotToDate").text(parseFloat($(".TottoDate.STCR").val()) + parseFloat($(".TottoDate.STIC").val()));
+
     //Amt Payment certificate Contract roads
     $(".AmtincPC.STCR").val(TotalCal("AmtincPC", "CR"));
 
     //Amt Payment certificate Instructed Works
     $(".AmtincPC.STIC").val(TotalCal("AmtincPC", "IC"));
+
+    $(".TotAmtIncPC").text(parseFloat($(".AmtincPC.STCR").val()) + parseFloat($(".AmtincPC.STIC").val()));
 
 
 }
@@ -194,7 +208,7 @@ function Save(SubmitType) {
 
     var FormP1 = new Object();
     FormP1.PkRefNo = $("#FormP1Header_PkRefNo").val()
-    FormP1.PkRefId = $("#FormP1Header_RefId").val()
+    FormP1.RefId = $("#FormP1Header_RefId").val()
     FormP1.PaymentCertificateNo = $("#FormP1Header_PaymentCertificateNo").val()
     FormP1.SubmissionMonth = $("#ddlMonth").val()
     FormP1.SubmissionYear = $("#ddlYear").val()

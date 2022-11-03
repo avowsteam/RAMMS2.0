@@ -17,11 +17,7 @@ function DisableHeader() {
     if ($("#hdnView").val() == 1) {
         $("#saveFormPABtn").hide();
         $("#SubmitFormPABtn").hide();
-        $("#FormPAHeader_Bank").attr("readonly", "true");
-        $("#FormPAHeader_BankAccNo").attr("readonly", "true");
-        $("#FormPAHeader_Assignee").attr("readonly", "true");
-        $("#FormPAHeader_Address").attr("readonly", "true");
-        $("#FormPAHeader_Address").attr("readonly", "true");
+        
     }
 
 
@@ -124,7 +120,7 @@ function Save(SubmitType) {
 
     var FormPA = new Object();
     FormPA.PkRefNo = $("#FormPAHeader_PkRefNo").val()
-    FormPA.PkRefId = $("#FormPAHeader_RefId").val()
+    FormPA.RefId = $("#FormPAHeader_RefId").val()
     FormPA.SubmissionMonth = $("#ddlMonth").val()
     FormPA.SubmissionYear = $("#ddlYear").val()
     FormPA.WorkValueDeduction = $('.tottodateded').text().trim();

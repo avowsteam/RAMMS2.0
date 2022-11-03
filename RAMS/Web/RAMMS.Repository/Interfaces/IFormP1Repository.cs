@@ -22,8 +22,8 @@ namespace RAMMS.Repository.Interfaces
 
         RmPaymentCertificateHeader GetHeaderById(int id);
 
-        Task<int> SaveFormP1(RmPaymentCertificateHeader FormP1);
-      
+        Task<int> SaveFormP1(RmPaymentCertificateHeader FormP1, bool update = false);
+         
         Task<int> UpdateFormP1(RmPaymentCertificateHeader FormP1Header, List<RmPaymentCertificate> FormP1);
 
         int? DeleteFormP1(int id);

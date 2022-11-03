@@ -26,24 +26,29 @@ namespace RAMMS.Repository
 
         public async Task<List<FormPBHeaderResponseDTO>> GetFilteredRecordList(FilteredPagingDefinition<FormPBSearchGridDTO> filterOptions)
         {
- 
+
 
             var query = (from hdr in _context.RmPbIw
-                         from dtl in _context.RmPbIwDetails.Where(a => a.PbiwdPbiwPkRefNo == hdr.PbiwPkRefNo).DefaultIfEmpty()
-                         select new { hdr,dtl});
+                         from dtl in _context.RmPbIwDetails.Where(a => a.PbiwdPbiwPkRefNo == 0).DefaultIfEmpty()
+                         select new { hdr, dtl });
 
 
 
             query = query.OrderByDescending(x => x.hdr.PbiwPkRefNo);
 
-            if (filterOptions.Filters.IWRefNo != null && filterOptions.Filters.IWRefNo != string.Empty)
-            {
-                query = query.Where(s => s.hdr.PbiwRefId == filterOptions.Filters.IWRefNo);
-            }
+          
 
             if (filterOptions.Filters.ProjectTitle != null && filterOptions.Filters.ProjectTitle != string.Empty)
             {
-                query = query.Where(s => s.dtl.PbiwdProjectTitle == filterOptions.Filters.IWRefNo);
+                query = (from hdr in _context.RmPbIw
+                         from dtl in _context.RmPbIwDetails.Where(a => a.PbiwdPbiwPkRefNo == hdr.PbiwPkRefNo).DefaultIfEmpty()
+                         where dtl.PbiwdProjectTitle.Contains(filterOptions.Filters.ProjectTitle)
+                         select new { hdr, dtl });
+            }
+
+            if (filterOptions.Filters.IWRefNo != null && filterOptions.Filters.IWRefNo != string.Empty)
+            {
+                query = query.Where(s => s.hdr.PbiwRefId == filterOptions.Filters.IWRefNo);
             }
 
 
@@ -83,7 +88,7 @@ namespace RAMMS.Repository
                (s.hdr.PbiwStatus.Contains(filterOptions.Filters.SmartSearch)) ||
                (s.dtl.PbiwdProjectTitle.Contains(filterOptions.Filters.SmartSearch)) ||
                (s.hdr.PbiwSubmissionYear.HasValue ? s.hdr.PbiwSubmissionYear.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
-               (s.hdr.PbiwSubmissionMonth.HasValue ? s.hdr.PbiwSubmissionMonth.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch)||
+               (s.hdr.PbiwSubmissionMonth.HasValue ? s.hdr.PbiwSubmissionMonth.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
                (s.hdr.PbiwSignDateSo.HasValue ? (s.hdr.PbiwSignDateSo.Value.Year == dt.Year && s.hdr.PbiwSignDateSo.Value.Month == dt.Month && s.hdr.PbiwSignDateSo.Value.Day == dt.Day) : true) && s.hdr.PbiwSignDateSo != null);
                 }
                 else
@@ -169,29 +174,31 @@ namespace RAMMS.Repository
 
             res.RmPbIwDetails = (from r in _context.RmPbIwDetails
                                  where r.PbiwdPbiwPkRefNo == id
-                                        select new RmPbIwDetails
-                                        {
-                                            PbiwdCompletionDate=r.PbiwdCompletionDate,
-                                            PbiwdAmountBeforeLad=r.PbiwdAmountBeforeLad,
-                                            PbiwdCompletionRefNo=r.PbiwdCompletionRefNo,
-                                            PbiwdFinalPayment=r.PbiwdFinalPayment,
-                                            PbiwdIwRef=r.PbiwdIwRef,
-                                            PbiwdLaDamage=r.PbiwdLaDamage,
-                                            PbiwdPbiwPkRefNo=r.PbiwdPbiwPkRefNo,
-                                            PbiwdPkRefNo=r.PbiwdPkRefNo,
-                                            PbiwdProjectTitle=r.PbiwdProjectTitle
-                                        }).ToList();
+                                 select new RmPbIwDetails
+                                 {
+                                     PbiwdCompletionDate = r.PbiwdCompletionDate,
+                                     PbiwdAmountBeforeLad = r.PbiwdAmountBeforeLad,
+                                     PbiwdCompletionRefNo = r.PbiwdCompletionRefNo,
+                                     PbiwdFinalPayment = r.PbiwdFinalPayment,
+                                     PbiwdIwRef = r.PbiwdIwRef,
+                                     PbiwdLaDamage = r.PbiwdLaDamage,
+                                     PbiwdPbiwPkRefNo = r.PbiwdPbiwPkRefNo,
+                                     PbiwdPkRefNo = r.PbiwdPkRefNo,
+                                     PbiwdProjectTitle = r.PbiwdProjectTitle
+                                 }).ToList();
 
             return res;
         }
 
 
-        public async Task<int> SaveFormPB(RmPbIw FormPB)
+        public async Task<int> SaveFormPB(RmPbIw FormPB, bool update = false)
         {
             try
             {
-
-                _context.RmPbIw.Add(FormPB);
+                if (!update)
+                    _context.RmPbIw.Add(FormPB);
+                else
+                    _context.RmPbIw.Update(FormPB);
                 _context.SaveChanges();
 
                 return FormPB.PbiwPkRefNo;
@@ -202,11 +209,12 @@ namespace RAMMS.Repository
             }
         }
 
+
         public async Task<int> UpdateFormPB(RmPbIw FormPBHeader, List<RmPbIwDetails> FormPBDetails)
         {
             try
             {
- 
+
                 IList<RmPbIwDetails> child = (from r in _context.RmPbIwDetails where r.PbiwdPbiwPkRefNo == FormPBHeader.PbiwPkRefNo select r).ToList();
                 foreach (var item in child)
                 {

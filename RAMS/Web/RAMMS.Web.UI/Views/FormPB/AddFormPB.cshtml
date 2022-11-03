@@ -1,0 +1,348 @@
+﻿@using RAMMS.DTO.RequestBO;
+@using RAMMS.Business.ServiceProvider;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService
+@model RAMMS.Web.UI.Models.FormPBModel;
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+@{
+    ViewBag.TabTitle = "PBRT B: Instructed Works";
+    ViewData["Title"] = "PBRT B: Instructed Works";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+
+    IEnumerable<SelectListItem>
+    year = (await ddlService
+    .GetLookups(new DDLookUpDTO { Type = "Year" }))
+    .Select(s => new SelectListItem
+    {
+        Text = s.DdlTypeValue,
+        Value = s.DdlTypeValue
+    }).ToArray();
+
+    IEnumerable<SelectListItem>
+        month = (await ddlService
+        .GetLookups(new DDLookUpDTO { Type = "Month" }))
+        .Select(s => new SelectListItem
+        {
+            Text = s.DdlTypeValue,
+            Value = s.DdlTypeValue
+        }).ToArray();
+
+    bool isSubmit = (security.IsRegionManager || security.IsHeadMaintenance || security.isQuantitySurveyor);
+    bool Isverified = (security.isEnggConsultanttant);
+    bool IsApproved = (security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+    var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
+
+}
+
+<script type="text/javascript" src="~/js/FormPB.js" asp-append-version="true"></script>
+
+<div class="row bg-white pt-4">
+    <div class="w-100">
+        <div class="body-header w-100">
+            <div class="col-lg-12">
+                <div class=" w-100 d-flex justify-content-center py-1">
+                    <div class="form-group mb-0">
+                        <label style="float:left; padding: .5rem .5rem 0 !important;">Reference No.</label>
+                        <input class="form-control" style="width:330px;" type="text" value="@Model.FormPBHeader.RefId" disabled="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-body mh-182 pt-4 pb-0">
+    <div class="container-fluid" id="divFindDetailsFC1C2">
+        <div id="headerDiv" class="row">
+            <div class="form-group col-5">
+                <label for="Name_of_Crew_Supervisor">
+                    For Month:
+
+                </label>
+                @Html.DropDownListFor(Ahdr => Ahdr.FormPBHeader.SubmissionMonth, month, "Select Month", new { @Id = "ddlMonth", @class = "form-control validate {required, Submission Year}" })
+            </div>
+            <div class="form-group col-5">
+                <label>Select Year  </label>
+                @Html.DropDownListFor(Ahdr => Ahdr.FormPBHeader.SubmissionYear, year, "Select Year", new { @Id = "ddlYear", @class = "form-control validate {required, Submission Year}" })
+            </div>
+            <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">
+                <button id="btnFindDetails" onclick="FindDetails()" type="button" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 float-right disablebtn"> Find Details </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="accordion">
+                    <div class="tab-content">
+                        <div class="tab-pane show active" id="FormB1TabPage1">
+
+                            <div class="row">
+                                <div class="w-100 position-relative in-tbl-btns custom-tbl">
+                                    <div id="FormDLabourGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+
+                                        <div class="dataTables_scroll">
+
+                                            <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
+                                                <table id="tblDetails" class="table w-100 nowrap dataTable no-footer ">
+                                                    <thead style="background-color: #c8e1ff">
+                                                        <tr>
+                                                            <th rowspan="2" class="text-center"> <span style="width:150px;float:left">Description<br /> IW Ref</span></th>
+                                                            <th rowspan="2" class="text-center"> <span style="width:150px;float:left">Description<br /> Project Title</span></th>
+                                                            <th rowspan="2" class="text-center">Certificate of Practical Completion<br /> Date</th>
+                                                            <th rowspan="2" class="text-center">Certificate of Practical Completion <br />Ref.</th>
+                                                            <th class="text-center" width="327" rowspan="3">(i)<br /> Final Amount Before LAD  (if any)</th>
+                                                            <th class="text-center" width="397" rowspan="3">(ii) <br />Liquidated and Ascertained  Damages (LAD)</th>
+                                                            <th class="text-center" width="236" rowspan="3">Final Payment for  this Instructed Work</th>
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+                                                        @{
+                                                            for (int i = 0; i < 5; i++)
+                                                            {
+                                                                <tr height="29" style='height:14.50pt;'>
+                                                                    <td> <input type="text" class="form-control" /></td>
+                                                                    <td> <input type="text" class="form-control" /></td>
+                                                                    <td> <input type="date" class="form-control" /></td>
+                                                                    <td><input type="text" class="form-control" /></td>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text">RM</span>
+                                                                            </div>
+                                                                            <input onchange="CalculateValues()" class="form-control numeric allow_numeric text-right" type="text">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text">RM</span>
+                                                                            </div>
+                                                                            <input onchange="CalculateValues()" class="form-control numeric allow_numeric text-right" type="text">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text">RM</span>
+                                                                            </div>
+                                                                            <input class="form-control numeric allow_numeric text-right" disabled type="text">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                    <tfoot style="background-color:#e6e4e4d6">
+                                                        <tr height="29" style='height:14.50pt;'>
+                                                            <th class="xl86" height="29" colspan="4" style='height:14.50pt;border-right:none;border-bottom:none;' x:str>Amount Payable for this corresponding period:</th>
+                                                            <th class="xl87" x:fmla="=SUM(E4:E8)" x:num="0."><span style='mso-spacerun:yes;'>&nbsp;</span>RM<span style='mso-spacerun:yes;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="totAmountBeforeLad"></span><span style='mso-spacerun:yes;'>&nbsp;&nbsp;&nbsp;</span></th>
+                                                            <th class="xl87" x:fmla="=SUM(F4:F8)" x:num="0."><span style='mso-spacerun:yes;'>&nbsp;</span>RM<span style='mso-spacerun:yes;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="totLaDamage"></span><span style='mso-spacerun:yes;'>&nbsp;&nbsp;&nbsp;</span></th>
+                                                            <th class="xl88" x:fmla="=SUM(G4:G8)" x:num="0."><span style='mso-spacerun:yes;'>&nbsp;</span>RM<span style='mso-spacerun:yes;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="totFinalPayment"></span><span style='mso-spacerun:yes;'>&nbsp;&nbsp;&nbsp;</span></th>
+                                                        </tr>
+                                                    </tfoot>
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-10 offset-lg-1 mt-2">
+                                    <div class="bg-white rounded landing-division w-100 float-left  my-2">
+
+                                        <div class="row">
+                                            <div class="col-lg-12 border-bottom py-2 my-2">
+                                                <span class="font-14 font-weight-bold">
+                                                    Service Provider's Representative
+
+                                                </span>
+                                            </div>
+
+                                            <div class="form-group col-lg-3">
+                                                <label for="User_Id">
+                                                    User ID
+                                                </label>
+                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "User", "Select Users", new { @disabled = true, Id = "ddlSP", @class = "form-control  {required,User}", @onchange = "OnSPChange(this);" })
+
+                                            </div>
+                                            <div class="form-group col-lg-3">
+                                                <label for="User_Id">
+                                                    Name
+                                                </label>
+                                                @Html.TextBoxFor(model => model.FormPBHeader.UsernameSp, new { @readonly = true, @class = "form-control" })
+
+                                            </div>
+                                            <div class="form-group col-lg-3">
+                                                <label for="Designation">Designation</label>
+                                                @Html.TextBoxFor(model => model.FormPBHeader.DesignationSp, new { @readonly = true, @class = "form-control" })
+                                            </div>
+                                            <div class="form-group col-lg-2">
+                                                <label for="Date__DD-MM-YYYY_">Date</label>
+                                                @Html.EditorFor(m => m.FormPBHeader.SignDateSp, new { type = "date", htmlAttributes = new { @class = "form-control" } })
+                                            </div>
+                                            <div class="form-group col-lg-1 float-left">
+                                                <label>
+                                                    Sign
+                                                </label>
+                                                <div class="clear-b mt-2">
+                                                    @Html.CheckBoxFor(model => model.FormPBHeader.SignSp, new { @disabled = true, @class = "{required,Sign}" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-lg-12 border-bottom py-2 my-2">
+                                                <span class="font-14 font-weight-bold">
+                                                    Engineering Consultant's Representative
+                                                </span>
+                                            </div>
+
+                                            <div class="form-group col-lg-3">
+                                                <label for="User_Id">
+                                                    User ID
+                                                </label>
+                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "User", "Select Users", new { @disabled = true, Id = "ddlEC", @class = "form-control  {required,User}", @onchange = "OnECChange(this);" })
+
+                                            </div>
+                                            <div class="form-group col-lg-3">
+                                                <label for="User_Id">
+                                                    Name
+                                                </label>
+                                                @Html.TextBoxFor(model => model.FormPBHeader.UsernameEc, new { @readonly = true, @class = "form-control" })
+
+                                            </div>
+                                            <div class="form-group col-lg-3">
+                                                <label for="Designation">Designation</label>
+                                                @Html.TextBoxFor(model => model.FormPBHeader.DesignationEc, new { @readonly = true, @class = "form-control" })
+                                            </div>
+                                            <div class="form-group col-lg-2">
+                                                <label for="Date__DD-MM-YYYY_">Date</label>
+                                                @Html.EditorFor(m => m.FormPBHeader.SignDateEc, new { type = "date", htmlAttributes = new { @class = "form-control" } })
+                                            </div>
+                                            <div class="form-group col-lg-1 float-left">
+                                                <label>
+                                                    Sign
+                                                </label>
+                                                <div class="clear-b mt-2">
+                                                    @Html.CheckBoxFor(model => model.FormPBHeader.SignEc, new { @disabled = true, @class = "{required,Sign}" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-12 border-bottom py-2 my-2">
+                                                <span class="font-14 font-weight-bold">
+                                                    S.O.'s Representative
+                                                </span>
+                                            </div>
+
+                                            <div class="form-group col-lg-3">
+                                                <label for="User_Id">
+                                                    User ID
+                                                </label>
+                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "User", "Select Users", new { @disabled = true, Id = "ddlSO", @class = "form-control  {required,User}", @onchange = "OnSOChange(this);" })
+
+                                            </div>
+                                            <div class="form-group col-lg-3">
+                                                <label for="User_Id">
+                                                    Name
+                                                </label>
+                                                @Html.TextBoxFor(model => model.FormPBHeader.UsernameSo, new { @readonly = true, @class = "form-control" })
+
+                                            </div>
+                                            <div class="form-group col-lg-3">
+                                                <label for="Designation">Designation</label>
+                                                @Html.TextBoxFor(model => model.FormPBHeader.DesignationSo, new { @readonly = true, @class = "form-control" })
+                                            </div>
+                                            <div class="form-group col-lg-2">
+                                                <label for="Date__DD-MM-YYYY_">Date</label>
+                                                @Html.EditorFor(m => m.FormPBHeader.SignDateSo, new { type = "date", htmlAttributes = new { @class = "form-control" } })
+                                            </div>
+                                            <div class="form-group col-lg-1 float-left">
+                                                <label>
+                                                    Sign
+                                                </label>
+                                                <div class="clear-b mt-2">
+                                                    @Html.CheckBoxFor(model => model.FormPBHeader.SignSo, new { @disabled = true, @class = "{required,Sign}" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white rounded landing-division w-100 float-left mb-3">
+        @{
+            if (Model.FormPBHeader.Status != "" && Model.FormPBHeader.Status != "Initialize")
+                Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
+                {
+                    Form = "FormPB",
+                    RefId = Model.FormPBHeader.PkRefNo,
+                    Stage = Model.FormPBHeader.Status
+                });
+        }
+    </div>
+</div>
+
+<div class="col-md-12 mb-2 float-right text-right custom-footer">
+    <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
+
+
+    @{
+
+        if (isSubmit && (Model.FormPBHeader.Status == null || Model.FormPBHeader.Status == "" || Model.FormPBHeader.Status == "Initialize" || Model.FormPBHeader.Status == "Saved") || Model.FormPBHeader.Status == RAMMS.Common.StatusList.Rejected)
+        {
+            <button id="saveFormPBBtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Saved')">Save</button>
+            <button id="SubmitFormPBBtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Submitted')">Submit</button>
+        }
+
+        if (Isverified && (Model.FormPBHeader.Status == RAMMS.Common.StatusList.Submitted))
+        {
+            <button id="SubmitFormPBBtn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Certified By EC');"> Verify </button>
+        }
+        else if (IsApproved && (Model.FormPBHeader.Status == RAMMS.Common.StatusList.CertifiedbyEC))
+        {
+            <button id="SubmitFormPBBtn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Certified By SO');"> Verify </button>
+        }
+
+    }
+</div>
+
+@Html.HiddenFor(m => m.FormPBHeader.PkRefNo)
+@Html.HiddenFor(m => m.FormPBHeader.Status)
+@Html.HiddenFor(m => m.FormPBHeader.SubmitSts)
+
+<input type="hidden" id="hdnView" value="@Model.view" />
+
+<script>
+
+            $(document).ready(function () {
+                process.Init("FormPB", "@Model.FormPBHeader.Status", @Model.FormPBHeader.PkRefNo);
+
+             });
+
+            $('#ddlSP').val("@Model.FormPBHeader.UseridSp");
+            $('#ddlSP').trigger('chosen:updated');
+            $('#ddlSP').trigger("change");
+
+            $('#ddlSO').val("@Model.FormPBHeader.UseridSo");
+            $('#ddlSO').trigger('chosen:updated');
+            $('#ddlSO').trigger("change");
+
+            $('#ddlEC').val("@Model.FormPBHeader.UseridEc");
+            $('#ddlEC').trigger('chosen:updated');
+            $('#ddlEC').trigger("change");
+
+    var jsonObj = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.FormPBDetail) as String);
+
+
+ 
+
+</script>
+

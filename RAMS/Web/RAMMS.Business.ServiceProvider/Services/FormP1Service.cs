@@ -70,12 +70,15 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 var domainModelFormP1 = _mapper.Map<RmPaymentCertificateHeader>(FormP1);
                 domainModelFormP1.PchPkRefNo = 0;
+                var res = _repo.SaveFormP1(domainModelFormP1);
+
                 IDictionary<string, string> lstData = new Dictionary<string, string>();
                 lstData.Add("YYYY", domainModelFormP1.PchSubmissionYear.ToString());
                 lstData.Add("MM", domainModelFormP1.PchSubmissionMonth.ToString());
+                lstData.Add(FormRefNumber.NewRunningNumber, Utility.ToString(res.Result));
                 domainModelFormP1.PchRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormP1, lstData);
-                var res = _repo.SaveFormP1(domainModelFormP1);
-                 
+                var result = _repo.SaveFormP1(domainModelFormP1, true);
+
                 return res.Result;
             }
             catch (Exception ex)

@@ -133,6 +133,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                 case "FormPA":
                     iResult = await SaveFormPA(process);
                     break;
+                case "FormPB":
+                    iResult = await SaveFormPB(process);
+                    break;
 
             }
             return iResult;
@@ -2741,6 +2744,67 @@ namespace RAMMS.Business.ServiceProvider.Services
             return await context.SaveChangesAsync();
         }
 
+        private async Task<int> SaveFormPB(DTO.RequestBO.ProcessDTO process)
+        {
+            var form = context.RmPbIw.Where(x => x.PbiwPkRefNo == process.RefId).FirstOrDefault();
+            if (form != null)
+            {
+                string strTitle = "";
+                string strNotURL = "";
+                string strNotMsg = "";
+                string strNotGroupName = "";
+                string strNotUserID = "";
+                string strStatus = "";
+
+
+                if (process.Stage == Common.StatusList.Submitted)
+                {
+                    form.PbiwStatus = process.IsApprove ? Common.StatusList.CertifiedbyEC : Common.StatusList.Saved;
+                    strTitle = "Certified by EC";
+                    strStatus = "Certified by EC";
+                    form.PbiwUseridEc = Convert.ToInt32(process.UserID);
+                    form.PbiwUsernameEc = process.UserName;
+                    form.PbiwDesignationEc = process.UserDesignation;
+                    form.PbiwSignDateEc = process.ApproveDate;
+                    form.PbiwSignEc = true;
+                }
+                else if (process.Stage == Common.StatusList.CertifiedbyEC)
+                {
+                    form.PbiwStatus = process.IsApprove ? Common.StatusList.CertifiedbySO : Common.StatusList.Saved;
+                    strTitle = "Certified by SO";
+                    strStatus = "Certified by SO";
+                    form.PbiwUseridSo = Convert.ToInt32(process.UserID);
+                    form.PbiwUsernameSo = process.UserName;
+                    form.PbiwDesignationSo = process.UserDesignation;
+                    form.PbiwSignDateSo = process.ApproveDate;
+                    form.PbiwSignSo = true;
+                }
+
+
+                if (!process.IsApprove)
+                {
+                    if (process.Stage == Common.StatusList.Submitted)
+                    {
+                        form.PbiwSubmitSts = false;
+                    }
+                }
+
+                form.PbiwAuditLog = Utility.ProcessLog(form.PbiwAuditLog, strTitle, process.IsApprove ? strStatus : "Rejected", process.UserName, process.Remarks, process.ApproveDate, security.UserName);
+                strNotMsg = (process.IsApprove ? "" : "Rejected - ") + strTitle + ":" + process.UserName + " - Form B13 (" + form.PbiwPkRefNo + ")";
+                strNotURL = "/FormPB/Add?id=" + form.PbiwPkRefNo.ToString() + "&View=0";
+                SaveNotification(new RmUserNotification()
+                {
+                    RmNotCrBy = security.UserName,
+                    RmNotGroup = strNotGroupName,
+                    RmNotMessage = strNotMsg,
+                    RmNotOn = DateTime.Now,
+                    RmNotUrl = strNotURL,
+                    RmNotUserId = strNotUserID,
+                    RmNotViewed = ""
+                }, false);
+            }
+            return await context.SaveChangesAsync();
+        }
 
     }
 }

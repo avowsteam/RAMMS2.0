@@ -1,0 +1,178 @@
+﻿@using RAMMS.DTO.RequestBO;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security
+@{
+    ViewBag.TabTitle = "Form Payment Certificate";
+    ViewData["Title"] = "Form Payment Certificate";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+
+    IEnumerable<SelectListItem> year = (await ddlService
+.GetLookups(new DDLookUpDTO { Type = "Year" }))
+.Select(s => new SelectListItem
+{
+    Text = s.DdlTypeValue,
+    Value = s.DdlTypeValue
+}).ToArray();
+
+    IEnumerable<SelectListItem> month = (await ddlService
+.GetLookups(new DDLookUpDTO { Type = "Month" }))
+.Select(s => new SelectListItem
+{
+    Text = s.DdlTypeValue,
+    Value = s.DdlTypeValue
+}).ToArray();
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#btnAdvSearch").on("click", function () {
+            $("#formPBAdvSearch").toggle();
+        });
+
+        //Listener for Smart and Detail Search
+        document.getElementById("txtSmartSearch").focus();
+        element = document.querySelector("#formPBAdvSearch");
+        element.addEventListener("keyup", () => {
+            if (event.keyCode === 13) {
+                $("#btnSearch").click();
+            }
+        });
+
+        $("#txtSmartSearch").keyup(function () {
+            if (event.keyCode === 13) {
+                $("#btnSearch").click();
+            }
+        })
+    });
+
+        function fnEditForm(pid, view) {
+        window.location = '@Url.Action("Add", "FormPB")' + "?id=" + pid + "&view=" + view;
+    }
+
+
+</script>
+
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="body-header w-100">
+            <div class="row bg-white pt-4">
+                <div class="w-100">
+                    <div class="body-header w-100">
+                        <div class="col-lg-12">
+                            <div class="w-100 d-flex justify-content-md-between py-2 align-items-center">
+                                <span class="mb-0 font-weight-bold font-20">
+                                    INSTRUCTED WORKS - FormPB
+                                </span>
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb breadcrumb-alt mb-0 bg-transparent">
+                                        <li class="breadcrumb-item">Home</li>
+                                        <li class="breadcrumb-item">
+                                            AWBP
+                                        </li>
+                                        <li class="breadcrumb-item" aria-current="page">
+                                            INSTRUCTED WORKS - FormPB
+
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="search-section">
+                <div class="justify-content-center mb-1">
+                    <div class="search-content">
+                        <div class="input-group">
+                            <input autocomplete="off" class="form-control" id="txtSmartSearch" name="SearchObj.SmartInputValue" onfocus="this.removeAttribute('readonly')" placeholder="Search..." spellcheck="false" type="text" value="">
+                            <div class="input-group-append">
+                                <div class="btn-group">
+                                    <button id="btnSearch" type="button" class="bg-theme-color js-tooltip-enabled px-2 border-0" style="line-height: 18px;"><span class="search-icon"></span></button>
+                                    <button id="btnAdvSearch" type="button" class="bg-theme-color js-tooltip-enabled px-3 border-0" data-toggle="collapse" data-target="#div_advsearch"><span class="filter-icon"></span></button>
+                                    <button id="btnClearSearch" type="button" onclick="clearHeaderSearch()" class="bg-theme-color js-tooltip-enabled px-3 border-0 rounded-right">Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="formPBAdvSearch" class="collapse">
+                        <div class="col-lg-10 offset-lg-1">
+                            <div class="bg-white rounded float-left pt-3 pb-1 px-lg-4 px-md-3 advance-search-group w-100">
+                                <div class="row">
+                                    <div class="form-group col-2">
+                                        <label>
+                                            Year From
+                                        </label>
+                                        @Html.DropDownList("yrFrom", year, "Select Year", new { @Id = "ddlYearFrom", @class = "form-control" })
+                                    </div>
+                                    <div class="form-group col-2">
+                                        <label>
+                                            Year To
+                                        </label>
+                                        @Html.DropDownList("yrTo", year, "Select Year", new { @Id = "ddlYearTo", @class = "form-control" })
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label>
+                                            Month From
+                                        </label>
+                                        @Html.DropDownList("mnTo", month, "Select Month", new { @Id = "ddlMonthTo", @class = "form-control" })
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label>
+                                            Month To
+                                        </label>
+                                        @Html.DropDownList("mnTo", month, "Select Month", new { @Id = "ddlMonthTo", @class = "form-control" })
+                                    </div>
+                                  
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-2">
+                                        <label>
+                                            IW Reference No
+                                        </label>
+                                        <input id="txtIWReferenceNo" class="form-control" type="text">
+                                    </div>
+                                    <div class="form-group col-2">
+                                        <label>
+                                            Project Title
+                                        </label>
+                                        <input id="txtProjectTitle" class="form-control" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="w-100 dt-tbl-section">
+
+                <div class="w-100 float-left position-relative">
+                    <div class="grid-btns">
+                        <button type="button" class="btn btn-sm btn-themebtn" onclick="javascript:fnEditForm(0,0);"><span class="add-icon"></span> Add Form PB</button>
+                    </div>
+                    <div id="headerListGrid" class="w-100 dt-tbl-section">
+                        @{
+                            Html.RenderPartial("_HeaderListGrid.cshtml");
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

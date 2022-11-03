@@ -25,6 +25,10 @@
     }).ToArray();
 
     bool isSubmit = (security.IsRegionManager || security.IsHeadMaintenance || security.isQuantitySurveyor);
+    bool Isverified = (security.isEnggConsultanttant);
+    bool IsApproved = (security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+    var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
+
 }
 
 <script type="text/javascript" src="~/js/FormPA.js" asp-append-version="true"></script>
@@ -155,7 +159,7 @@
                                                                                     <th class="text-center totPaved" style="width:20%"></th>
                                                                                     <th class="text-center totunPaved" style="width:13.5%"></th>
                                                                                     <th class="text-center totsubtotal" style="width:16%"></th>
-                                                                                    
+
                                                                                 </tr>
                                                                                 <tr height="30.50" style='height:15.25pt;'>
                                                                                     <th class="xl118" height="30.50" colspan="5"><span style="width:50%;float:left">Total Amount (Total Length of Contract Roads x Rate)</span></th>
@@ -287,7 +291,7 @@
                                                                 <div id="FormDLabourGridView_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                                                     <div class="dataTables_scroll">
                                                                         <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%; height: 100%;">
-                                                                            <table  id="tblCRRA" class="table w-100 nowrap dataTable no-footer ">
+                                                                            <table id="tblCRRA" class="table w-100 nowrap dataTable no-footer ">
                                                                                 <thead style="background-color: #c8e1ff">
                                                                                     <tr>
                                                                                         <th>Description</th>
@@ -499,12 +503,23 @@
 </div>
 <div class="col-md-12 mb-2 float-right text-right custom-footer">
     <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
+
+
     @{
 
-        if (isSubmit && (Model.FormPAHeader.Status != null && Model.FormPAHeader.Status != ""))
+        if (isSubmit && (Model.FormPAHeader.Status == null || Model.FormPAHeader.Status == "" || Model.FormPAHeader.Status == "Initialize" || Model.FormPAHeader.Status == "Saved") || Model.FormPAHeader.Status == RAMMS.Common.StatusList.Rejected)
         {
             <button id="saveFormPABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Saved')">Save</button>
             <button id="SubmitFormPABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Submitted')">Submit</button>
+        }
+
+        if (Isverified && (Model.FormPAHeader.Status == RAMMS.Common.StatusList.Submitted))
+        {
+            <button id="SubmitFormPABtn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Certified By EC');"> Verify </button>
+        }
+        else if (IsApproved && (Model.FormPAHeader.Status == RAMMS.Common.StatusList.CertifiedbyEC))
+        {
+            <button id="SubmitFormPABtn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Certified By SO');"> Verify </button>
         }
 
     }
@@ -535,6 +550,6 @@
     $('#ddlEC').trigger('chosen:updated');
     $('#ddlEC').trigger("change");
 
-  
+
 </script>
 
