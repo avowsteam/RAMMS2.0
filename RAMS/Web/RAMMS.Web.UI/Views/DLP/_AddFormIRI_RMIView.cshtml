@@ -4,7 +4,7 @@
 @using X.PagedList
 @using X.PagedList.Mvc.Core;
 @using RAMMS.Domain.Models;
-@model RAMMS.Web.UI.Models.DlpIRIModel;
+@model RAMMS.DTO.ResponseBO.DlpIRIDTO;
 @using RAMMS.DTO.RequestBO;
 @inject RAMMS.Business.ServiceProvider.Interfaces.IUserService usr
 @inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
@@ -178,7 +178,6 @@
 
     $(document).ready(function () {
         $('#searchHeaderBtn').click(function () {
-            alert($('#RmiiriYear').val());
 
             $.ajax({
                 url: '/DLP/GetIRIData?year=' + $('#RmiiriYear').val(),
@@ -208,7 +207,6 @@
     });
 
     function saveIRI(isSubmit) {
-        debugger;
         //if (isSubmit) {
         //    $("#divDetails .svalidate").addClass("validate");
         //}
@@ -234,7 +232,8 @@
         saveObj.RmiiriPercentage3 = $("#RmiiriPercentage3").val();
         saveObj.RmiiriRoadLength3 = $("#RmiiriRoadLength3").val();
 
-        InitAjaxLoading();
+        //InitAjaxLoading();
+
         //$("#saveFormABtn").prop("disabled", true);
         //$("#SubmitFormABtn").prop("disabled", true);
         $.ajax({
@@ -262,6 +261,7 @@
         });
         //}
     }
+
 </script>
 
 @*}*@

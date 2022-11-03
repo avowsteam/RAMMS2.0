@@ -125,20 +125,16 @@ namespace RAMMS.Web.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> HeaderListEdit(DataTableAjaxPostModel<FormADetailsRequestDTO> searchData)
         {
-            FormAModel _formAModel = new FormAModel();
             await LoadDropDowns();
-            int headerId = searchData.filterData.HeaderNo;
-            _formAModel.SaveFormAModel = new FormAHeaderRequestDTO();
-            if (headerId > 0)
-            {
-                var Result = await _formAService.GetFormAWithDetailsByNoAsync(headerId);
-                _formAModel.SaveFormAModel = Result;
-                _formAModel.SaveFormAModel.Id = headerId.ToString();
-            }
-            DlpIRIModel _formIRIModel = new DlpIRIModel();
+            DlpIRIDTO _formIRIModel = new DlpIRIDTO();
             searchData.length = 10;
             searchData.start = 0;
-
+            int year = 0;
+            if (searchData != null && searchData.filterData != null && searchData.filterData.HeaderNo != 0)
+            {
+                year = searchData.filterData.HeaderNo;
+                _formIRIModel = _dlpSpiService.GetIRIData(year).Result;
+            }
             //return PartialView("~/Views/DLP/_AddFormAView.cshtml", _formIRIModel);
             return PartialView("~/Views/DLP/_AddFormIRI_RMIView.cshtml", _formIRIModel);
 

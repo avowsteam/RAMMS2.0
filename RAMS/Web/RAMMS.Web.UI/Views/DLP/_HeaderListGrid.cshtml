@@ -24,11 +24,11 @@
                 title = data.rmiirirkrefno;
             }
             if (data.submitSts) {
-                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' " + isViewPerm + " data-target='#FormAAddModal' onclick='javascript:ViewDetailHeader(" + data.rmiirirkrefno + ",&#39;" + title + "&#39;);'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns' " + isDeletePerm + " onclick='javascript:DeleteHeaderRecord(" + data.rmiirirkrefno + ");'><span class='del-icon'></span> Delete</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.rmiirirkrefno + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
+                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' " + isViewPerm + " data-target='#FormAAddModal' onclick='javascript:ViewDetailHeader(" + data.rmiirirkrefno + ",&#39;" + title + "&#39;);'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns' " + isDeletePerm + " onclick='javascript:DeleteHeaderRecord(" + data.rmiirirkrefno + ");'><span class='del-icon'></span> Delete</button></div></div>";
                 return actionSection;
             }
             else {
-                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' data-target='#FormAAddModal' id='formAHeaderEdit'" + isModifyPerm + " onclick='javascript:openFormAModel(" + data.rmiirirkrefno + ",&#39;" + title + "&#39;);'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' data-target='#FormAAddModal' " + isViewPerm + " onclick='javascript:ViewDetailHeader(" + data.rmiirirkrefno + ",&#39;" + title + "&#39;);'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:DeleteHeaderRecord(" + data.rmiirirkrefno + ");'><span class='del-icon'></span> Delete</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.rmiirirkrefno + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
+                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' data-target='#FormAAddModal' id='formAHeaderEdit'" + isModifyPerm + " onclick='javascript:openFormIRIRMIModel(" + data.rmiiriYear + ",&#39;" + title + "&#39;);'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' data-target='#FormAAddModal' " + isViewPerm + " onclick='javascript:ViewDetailHeader(" + data.rmiirirkrefno + ",&#39;" + title + "&#39;);'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:DeleteHeaderRecord(" + data.rmiirirkrefno + ");'><span class='del-icon'></span> Delete</button></div></div>";
                 return actionSection;
             }
         }
@@ -39,7 +39,7 @@
     var rmiiriroadlength2Col = { data: "rmiiriRoadLength2", name: "RmiiriRoadLength2", title: "IRI Condition 2 (KM)", autoWidth: true, sortable: true };
     var rmiiriroadlength3Col = { data: "rmiiriRoadLength3", name: "Section Code", title: "IRI Condition 3 (KM)", autoWidth: true, sortable: true };
     var rmiiriroadlengthCol = { data: "rmiiriRoadLength", name: "RmiiriRoadLength", title: "RMI (KM)", autoWidth: true, sortable: true };
- 
+
     table_columns.push(rmiirirkrefnoCol);
     table_columns.push(actionCol);
     table_columns.push(rmiiriyearCol);
@@ -118,6 +118,53 @@
         });
     });
 
+     function openFormIRIRMIModel(pid, title) {
+        //debugger
+        //var AssetTypeName = '@ViewBag.AssetType';
+            $("body").addClass("loading");
+            var filterData = new Object();
+            filterData.HeaderNo = pid;
+
+            if (pid != 0 && title != "" && title !=null) {
+                $('#FormAAddModalid').text("Edit Form A Detail | Ref-" + title);
+
+            }
+            else {
+                $('#FormAAddModalid').text("Add Form A Detail");
+            }
+            $.ajax({
+                url: '/DLP/HeaderListEdit',
+                //url: '/NOD/DetailedListEdit',
+                data: { filterData },
+                type: 'POST',
+                success: function (data) {
+                    $("#div-data-container").html(data);
+                    var e = $('#divDetails');
+                    var d = $("#addFADBtn");
+                    var s = $("#saveFormABtn");
+                    var su = $('#SubmitFormABtn');
+                    if (pid != 0 && e != undefined) {
+                        $('#searchHeaderBtn').hide();
+                        $(".editdisable").prop("disabled", true);
+                        e.show();
+                        d.show();
+                        s.show();
+                        su.show();
+                        //InitializeGrid(pid);
+                    }
+                    else if (e != undefined) {
+                        //e.hide();
+                        e.show();
+                        d.hide();
+                        s.hide();
+                        su.hide();
+                    }
+                    else {
+                    }
+                    $("body").removeClass("loading");
+                }
+            });
+        }
 
 </script>
 <style>
