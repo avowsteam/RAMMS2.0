@@ -50,13 +50,16 @@ namespace RAMMS.Repository
                             DateTime? dtSearch = Utility.ToDateTime(strVal);
                             query = query.Where(x =>
                                  (x.RevisionYear.HasValue ? x.RevisionYear.Value.ToString() : "").Contains(strVal)
-                                 || (x.RevisionNo.HasValue ? x.RevisionNo.Value.ToString() : "").Contains(strVal)
                                  || (x.RMU ?? "").Contains(strVal)
                                  );
                             break;
-                        case "Year":
+                        case "FromYear":
                             int iFYr = Utility.ToInt(strVal);
-                            query = query.Where(x => x.RevisionYear.HasValue && x.RevisionYear == iFYr);
+                            query = query.Where(x => x.RevisionYear.HasValue && x.RevisionYear >= iFYr);
+                            break;
+                        case "ToYear":
+                            int iTYr = Utility.ToInt(strVal);
+                            query = query.Where(x => x.RevisionYear.HasValue && x.RevisionYear <= iTYr);
                             break;
                         case "RMU":
                             query = query.Where(x => x.RMU == strVal);
@@ -190,6 +193,57 @@ namespace RAMMS.Repository
             {
                 return 0;
             }
+        }
+
+        public List<RmMapDetails> GetHistoryData(int Id)
+        {
+            List<RmMapDetails> res = (from r in _context.RmMapDetails where r.RmmdRmmhPkRefNo == Id select r).OrderBy(x => x.RmmdActivityId).OrderBy(x=>x.RmmdActivityWeekDayNo).ToList();
+            return res;
+        }
+
+        public List<FormMapRpt> GetReportData(int headerid)
+        {
+            return GetReportDataV2(headerid);
+        }
+
+        public List<FormMapRpt> GetReportDataV2(int headerid)
+        {
+
+            List<FormMapRpt> detail = (from o in _context.RmMapHeader
+                                           //where (o.Fr1hAiRdCode == roadcode.Fr1hAiRdCode && o.Fr1hDtOfInsp.HasValue && o.Fr1hDtOfInsp < roadcode.Fr1hDtOfInsp) || o.Fr1hPkRefNo == headerid
+                                       where o.RmmhPkRefNo == headerid
+                                       let formB14 = _context.RmMapDetails.OrderBy(x => x.RmmdActivityId).OrderBy(x=>x.RmmdActivityWeekDayNo).FirstOrDefault(x => x.RmmdRmmhPkRefNo == o.RmmhPkRefNo)
+                                       let formB14UID = _context.RmUsers.FirstOrDefault(x => x.UsrPkId == o.RmmhPreparedBy)
+                                       select new FormMapRpt
+                                       {
+                                           Month=o.RmmhMonth,
+                                           Year=o.RmmhYear,
+
+                                           PreparedBy = o.RmmhPreparedBy,
+                                           PreparedName = formB14UID.UsrUserName,
+                                           PreparedDesig = formB14UID.UsrPosition,
+                                           PreparedDate = o.RmmhPreparedDate,
+                                           PreparedSign = o.RmmhPreparedSign,
+                                           
+                                           CheckedBy = o.RmmhCheckedBy,
+                                           CheckedName = o.RmmhCheckedName,
+                                           CheckedDesig = o.RmmhCheckedDesig,
+                                           CheckedDate = o.RmmhCheckedDate,
+                                           CheckedSign = o.RmmhCheckedSign,
+
+                                           VerifiedBy = o.RmmhVerifiedBy,
+                                           VerifiedName = o.RmmhVerifiedName,
+                                           VerifiedDesig = o.RmmhVerifiedDesig,
+                                           VerifiedDate = o.RmmhVerifiedDate,
+                                           VerifiedSign = o.RmmhVerifiedSign,
+
+                                          
+                                           ActivityLocationCode = formB14.RmmdActivityLocationCode,
+                                           QuantityKm = formB14.RmmdQuantityKm,
+                                           ProductUnit = formB14.RmmdProductUnit,                                           
+                                       }).ToList();
+
+            return detail;
         }
     }
 }

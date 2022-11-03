@@ -328,5 +328,13 @@ namespace RAMMS.WebAPI
             }
             return RAMMSApiSuccessResponse(response);
         }
+
+        [Route("api/ddlDistressObserved")]
+        [HttpPost]
+        public async Task<IActionResult> GetDistressObserved()
+        {
+            IEnumerable<SelectListItem> listItems = await _DDLookUpService.GetDdDistressDetails();
+            return RAMMSApiSuccessResponse(listItems);
+        }
     }
 }

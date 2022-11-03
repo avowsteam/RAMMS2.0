@@ -207,6 +207,12 @@ namespace RAMMS.Common
 
         public const string FormT3Saved = "Saved";
         public const string FormT3Submitted = "Submitted";
-        public const string FormT3Initialize = "Initialize"; 
+        public const string FormT3Initialize = "Initialize";
+
+        public const string FormMapSaved = "Saved";
+        public const string FormMapSubmitted = "Submitted";
+        public const string FormMapApproved = "Approved";
+        public const string FormMapVerified = "Verified";
+
     }
 }

@@ -38,62 +38,43 @@
         process.Init("frmMap", "@Model.FormMapHeader.Status", @Model.FormMapHeader.PkRefNo);
 
         if (frmMap.HeaderData.FormMapHeader.Status == "Submitted") {
-            var val = frmMap.HeaderData.FormMapHeader.UseridProsd;
+            var val = frmMap.HeaderData.FormMapHeader.PreparedBy;
             $("#formMapProposedBy").val(val).trigger("chosen:updated");
             $('#formMapProposedBy').trigger('chosen:updated');
             $("#formMapProposedBy").trigger("change");
             $("#ProposedSign").prop("checked", true);
+        }
+        else if (frmMap.HeaderData.FormMapHeader.Status == "Verified") {
+            var val = frmMap.HeaderData.FormMapHeader.PreparedBy;
+            $("#formMapProposedBy").val(val).trigger("chosen:updated");
+            $('#formMapProposedBy').trigger('chosen:updated');
+            $("#formMapProposedBy").trigger("change");
+            $("#ProposedSign").prop("checked", true);
+
+            var val2 = frmMap.HeaderData.FormMapHeader.CheckedBy;
+            $("#formMapCheckedBy").val(val2).trigger("chosen:updated");
+            $('#formMapCheckedBy').trigger('chosen:updated');
+            $("#formMapCheckedBy").trigger("change");
+            $("#CheckedSign").prop("checked", true);
         }
         else if (frmMap.HeaderData.FormMapHeader.Status == "Approved") {
-            var val = frmMap.HeaderData.FormMapHeader.UseridProsd;
+            var val = frmMap.HeaderData.FormMapHeader.PreparedBy;
             $("#formMapProposedBy").val(val).trigger("chosen:updated");
             $('#formMapProposedBy').trigger('chosen:updated');
             $("#formMapProposedBy").trigger("change");
             $("#ProposedSign").prop("checked", true);
 
-            var val2 = frmMap.HeaderData.FormMapHeader.UseridFclitd;
-            $("#formMapVerifiedBy").val(val2).trigger("chosen:updated");
+            var val2 = frmMap.HeaderData.FormMapHeader.CheckedBy;
+            $("#formMapCheckedBy").val(val2).trigger("chosen:updated");
+            $('#formMapCheckedBy').trigger('chosen:updated');
+            $("#formMapCheckedBy").trigger("change");
+            $("#CheckedSign").prop("checked", true);
+
+            var val3 = frmMap.HeaderData.FormMapHeader.VerifiedBy;
+            $("#formMapVerifiedBy").val(val3).trigger("chosen:updated");
             $('#formMapVerifiedBy').trigger('chosen:updated');
             $("#formMapVerifiedBy").trigger("change");
             $("#VerifiedSign").prop("checked", true);
-        }
-        else if (frmMap.HeaderData.FormMapHeader.Status == "Agreed") {
-            var val = frmMap.HeaderData.FormMapHeader.UseridProsd;
-            $("#formMapProposedBy").val(val).trigger("chosen:updated");
-            $('#formMapProposedBy').trigger('chosen:updated');
-            $("#formMapProposedBy").trigger("change");
-            $("#ProposedSign").prop("checked", true);
-
-            var val2 = frmMap.HeaderData.FormMapHeader.UseridFclitd;
-            $("#formMapVerifiedBy").val(val2).trigger("chosen:updated");
-            $('#formMapVerifiedBy').trigger('chosen:updated');
-            $("#formMapVerifiedBy").trigger("change");
-            $("#VerifiedSign").prop("checked", true);
-
-            var val3 = frmMap.HeaderData.FormMapHeader.UseridAgrd;
-            $("#formMapAgreedBy").val(val3).trigger("chosen:updated");
-            $('#formMapAgreedBy').trigger('chosen:updated');
-            $("#formMapAgreedBy").trigger("change");
-            $("#AgreedSign").prop("checked", true);
-        }
-        else if (frmMap.HeaderData.FormMapHeader.Status == "Approved") {
-            var val = frmMap.HeaderData.FormMapHeader.UseridProsd;
-            $("#formMapProposedBy").val(val).trigger("chosen:updated");
-            $('#formMapProposedBy').trigger('chosen:updated');
-            $("#formMapProposedBy").trigger("change");
-            $("#ProposedSign").prop("checked", true);
-
-            var val2 = frmMap.HeaderData.FormMapHeader.UseridFclitd;
-            $("#formMapVerifiedBy").val(val2).trigger("chosen:updated");
-            $('#formMapVerifiedBy').trigger('chosen:updated');
-            $("#formMapVerifiedBy").trigger("change");
-            $("#VerifiedSign").prop("checked", true);
-
-            var val3 = frmMap.HeaderData.FormMapHeader.UseridAgrd;
-            $("#formMapAgreedBy").val(val3).trigger("chosen:updated");
-            $('#formMapAgreedBy').trigger('chosen:updated');
-            $("#formMapAgreedBy").trigger("change");
-            $("#AgreedSign").prop("checked", true);
         }
     });
 </script>
@@ -467,7 +448,7 @@
                                                                     User ID
                                                                 </label>
                                                                 @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "UseridProposed", "Select Users", new { @Id = "formMapProposedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
-                                                                @*@Html.DropDownListFor(m => m.FormMapHeader.UseridProsd, (IEnumerable<SelectListItem>)ViewData["User"], "Select User", new { @id = "formMapProposedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })*@
+                                                                @*@Html.DropDownListFor(m => m.FormMapHeader.VerifiedBy, (IEnumerable<SelectListItem>)ViewData["User"], "Select User", new { @id = "formMapProposedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })*@
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label for="User_Id">
@@ -513,18 +494,18 @@
                                                                 <label for="Name">
                                                                     User ID
                                                                 </label>
-                                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "UseridVerified", "Select Users", new { @Id = "formMapVerifiedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
+                                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "UseridChecked", "Select Users", new { @Id = "formMapCheckedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
 
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label for="User_Id">
                                                                     Name
                                                                 </label>
-                                                                <input name="UsernameVerified" class="form-control ssvalidate {req,Verified By User Name}" type="text" value="" userName disabled />
+                                                                <input name="UsernameChecked" class="form-control ssvalidate {req,Verified By User Name}" type="text" value="" userName disabled />
                                                             </div>
                                                             <div class="form-group col-lg-2">
                                                                 <label for="Designation">Designation</label>
-                                                                <input name="DesignationVerified" class="form-control ssvalidate {req,Verified By User Designation}" type="text" value="" userDest disabled />
+                                                                <input name="DesignationChecked" class="form-control ssvalidate {req,Verified By User Designation}" type="text" value="" userDest disabled />
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label for="Date__DD-MM-YYYY_">Date (DD-MM-YYYY)</label>
@@ -543,7 +524,7 @@
                                                                     }
                                                                 </label>
                                                                 <div class="clear-b mt-2">
-                                                                    <input class="{required, Requested By Signature}" checked="_insSignfc" id="VerifiedSign" name="SignVerified" type="checkbox">
+                                                                    <input class="{required, Requested By Signature}" checked="_insSignfc" id="CheckedSign" name="SignVerified" type="checkbox">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -560,17 +541,17 @@
                                                                 <label for="Name">
                                                                     User ID
                                                                 </label>
-                                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "UseridAgreed", "Select Users", new { @Id = "formMapAgreedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
+                                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "UseridAgreed", "Select Users", new { @Id = "formMapVerifiedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label for="User_Id">
                                                                     Name
                                                                 </label>
-                                                                <input name="UsernameAgreed" class="form-control ssvalidate {req,Agreed By User Name}" type="text" value="" userName disabled />
+                                                                <input name="UsernameVerified" class="form-control ssvalidate {req,Agreed By User Name}" type="text" value="" userName disabled />
                                                             </div>
                                                             <div class="form-group col-lg-2">
                                                                 <label for="Designation">Designation</label>
-                                                                <input name="DesignationAgreed" class="form-control ssvalidate {req,Agreed By User Designation}" type="text" value="" userDest disabled />
+                                                                <input name="DesignationVerified" class="form-control ssvalidate {req,Agreed By User Designation}" type="text" value="" userDest disabled />
                                                             </div>
                                                             <div class="form-group col-lg-3">
                                                                 <label for="Date__DD-MM-YYYY_">Date (DD-MM-YYYY)</label>
@@ -589,7 +570,7 @@
                                                                     }
                                                                 </label>
                                                                 <div class="clear-b mt-2">
-                                                                    <input class="{required, Requested By Signature}" checked="_insSignAg" id="AgreedSign" name="SignAgreed" type="checkbox">
+                                                                    <input class="{required, Requested By Signature}" checked="_insSignAg" id="VerifiedSign" name="SignAgreed" type="checkbox">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -636,10 +617,10 @@
         //bool IsAgreed = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
         //bool IsApproved = (security.IsRegionManager || security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.IsExecutive || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
 
-        isSubmit = (security.IsRegionManager || security.IsHeadMaintenance || security.isQuantitySurveyor || security.isPlanningEngineer);
-        bool isVerify = (security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
-        bool IsAgreed = (security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
-        bool IsApproved = (security.IsJKRSHQ);
+        isSubmit = (security.isOperRAMSExecutive || security.IsExecutive || security.IsRegionManager || security.IsHeadMaintenance);
+        bool isVerify = (security.isOperRAMSExecutive || security.isRoadMaintenanceEngineer || security.isEnggAssistant || security.IsHeadMaintenance);//(security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+        bool IsApproved = (security.IsRegionManager || security.IsHeadMaintenance);//(security.isEnggConsultanttant || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+
 
     }
     <button type="button" class="btn btn-sm btn-themebtn" onclick="frmMap.Save(false,0)" finddetailsdep>Save</button>
@@ -649,16 +630,12 @@
     }
     @if (isVerify && (Model != null && (Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Submitted || Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Rejected)))
     {
-        <button type="button" class="btn btn-sm btn-themebtn">Approve</button>
+        <button type="button" class="btn btn-sm btn-themebtn" onclick="process.ShowApprove('@groupname','Check by');">Verified</button>
     }
-    @*@if (IsAgreed && (Model != null && (Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Verified || Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Rejected)))
-        {
-            <button type="button" class="btn btn-sm btn-themebtn" onclick="process.ShowApprove('@groupname','Verified By (JKRS)');">Verified (JKRS)</button>
-        }
-        @if (IsApproved && (Model != null && (Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Agreed || Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Rejected)))
-        {
-            <button type="button" class="btn btn-sm btn-themebtn" onclick="process.ShowApprove('@groupname','Approved (Endrosed By)');">Approved (Endrosed By)</button>
-        }*@
+    @if (IsApproved && (Model != null && (Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Verified || Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Rejected)))
+    {
+        <button type="button" class="btn btn-sm btn-themebtn" onclick="process.ShowApprove('@groupname','Verified');">Approve</button>
+    }
 </div>
 @*@Html.HiddenFor(m => m.FormMapHeader.PkRefNo);*@
 <input type="hidden" id="pkRefNo" value="@Model.FormMapHeader.PkRefNo" />
