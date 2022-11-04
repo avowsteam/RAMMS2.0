@@ -70,12 +70,15 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 var domainModelFormPB = _mapper.Map<RmPbIw>(FormPB);
                 domainModelFormPB.PbiwPkRefNo = 0;
+                var res = _repo.SaveFormPB(domainModelFormPB);
+
                 IDictionary<string, string> lstData = new Dictionary<string, string>();
                 lstData.Add("YYYY", domainModelFormPB.PbiwSubmissionYear.ToString());
                 lstData.Add("MM", domainModelFormPB.PbiwSubmissionMonth.ToString());
+                lstData.Add(FormRefNumber.NewRunningNumber, Utility.ToString(res.Result));
                 domainModelFormPB.PbiwRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormPB, lstData);
-                var res = _repo.SaveFormPB(domainModelFormPB);
-                 
+                var result = _repo.SaveFormPB(domainModelFormPB,true);
+
                 return res.Result;
             }
             catch (Exception ex)

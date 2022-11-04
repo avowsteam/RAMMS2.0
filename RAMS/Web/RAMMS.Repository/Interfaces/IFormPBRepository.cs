@@ -22,8 +22,9 @@ namespace RAMMS.Repository.Interfaces
 
         RmPbIw GetHeaderById(int id);
 
-        Task<int> SaveFormPB(RmPbIw FormPB);
-      
+        Task<int> SaveFormPB(RmPbIw FormPB, bool update = false);
+
+
         Task<int> UpdateFormPB(RmPbIw FormPBHeader, List<RmPbIwDetails> FormPB);
 
         int? DeleteFormPB(int id);

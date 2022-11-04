@@ -389,44 +389,42 @@
                                                     <table class="table w-100 nowrap dataTable no-footer" id="tblDivision">
                                                         <thead style="background-color: #c8e1ff">
                                                             <tr>
+                                                                <th class="text-center">&nbsp;</th>
                                                                 <th class="text-center">
+                                                                    <b>Monthly Planned</b>
                                                                 </th>
                                                                 <th class="text-center">
-                                                                    <b> Monthly Planned</b>
+                                                                    <b>Monthly Actual</b>
                                                                 </th>
                                                                 <th class="text-center">
-                                                                    <b>  Monthly Actual </b>
+                                                                    <b>Cul.Plan</b>
                                                                 </th>
-                                                                <th class="text-center">
-                                                                    <b>Cul.Plan </b>
-                                                                </th>
-
                                                                 <th class="text-center">
                                                                     <b>Cul.Actual</b>
                                                                 </th>
                                                                 <th class="text-center">
-                                                                    <b> Plwork act </b>
+                                                                    <b>PI work act</b>
                                                                 </th>
                                                                 <th class="text-center">
-                                                                    <b> Pal(year 2022)</b>
+                                                                    <b>PAI</b>
                                                                 </th>
                                                                 <th class="text-center">
-                                                                    <b> PL (EFF) </b>
+                                                                    <b>PI (EFF)</b>
                                                                 </th>
                                                                 <th class="text-center">
-                                                                    <b> Pl(RB) </b>
+                                                                    <b>PI (RB)</b>
                                                                 </th>
                                                                 <th class="text-center">
-                                                                    <b>PI(IW) </b>
+                                                                    <b>PI (IW)</b>
                                                                 </th>
                                                                 <th class="text-center">
-                                                                    <b> SPI (year 2022) </b>
+                                                                    <b>SPI</b>
                                                                 </th>
                                                                 <th class="text-center">
-                                                                    <b> Planned %</b>
+                                                                    <b>Planned %</b>
                                                                 </th>
                                                                 <th class="text-center">
-                                                                    <b> Actual%</b>
+                                                                    <b>Actual %</b>
                                                                 </th>
                                                             </tr>
 
@@ -445,19 +443,18 @@
                                                                 {
                                                                     <tr>
                                                                         <td><b>@RAMMS.Common.Helpers.GetMonthName((int)Model.DivisionMiri[i].Month)</b></td>
-                                                                        <td>RM @Model.DivisionMiri[i].MPlanned</td>
-                                                                        <td>RM @Model.DivisionMiri[i].MActual</td>
-                                                                        <td>RM @Model.DivisionMiri[i].CPlan</td>
-                                                                        <td>RM @Model.DivisionMiri[i].CActual</td>
-                                                                        <td>@Model.DivisionMiri[i].PiWorkActual  </td>
-                                                                        <td>@Model.DivisionMiri[i].Pai</td>
-                                                                        <td>@Model.DivisionMiri[i].Eff</td>
-                                                                        <td>@Model.DivisionMiri[i].Rb</td>
-                                                                        <td>@Model.DivisionMiri[i].Iw</td>
-                                                                        <td>@Model.DivisionMiri[i].Spi</td>
-                                                                        <td>@Model.DivisionMiri[i].PlannedPer %</td>
-                                                                        <td>@Model.DivisionMiri[i].ActualPer %</td>
-
+                                                                        <td style="text-align:right">RM @Model.DivisionMiri[i].MPlanned</td>
+                                                                        <td style="text-align:right">RM @Model.DivisionMiri[i].MActual</td>
+                                                                        <td style="text-align:right">RM @Model.DivisionMiri[i].CPlan</td>
+                                                                        <td style="text-align:right">RM @Model.DivisionMiri[i].CActual</td>
+                                                                        <td style="text-align:center">@Model.DivisionMiri[i].PiWorkActual  </td>
+                                                                        <td style="text-align:center">@Model.DivisionMiri[i].Pai</td>
+                                                                        <td style="text-align:center">@Model.DivisionMiri[i].Eff</td>
+                                                                        <td style="text-align:center">@Model.DivisionMiri[i].Rb</td>
+                                                                        <td style="text-align:center">@Model.DivisionMiri[i].Iw</td>
+                                                                        <td style="text-align:center">@Model.DivisionMiri[i].Spi</td>
+                                                                        <td style="text-align:center">@Model.DivisionMiri[i].PlannedPer %</td>
+                                                                        <td style="text-align:center">@Model.DivisionMiri[i].ActualPer %</td>
                                                                     </tr>
                                                                 }
                                                             }
@@ -528,41 +525,41 @@
                                                             <th class="text-center">
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> Monthly Planned</b>
+                                                                <b>Monthly Planned</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b>  Monthly Actual </b>
+                                                                <b> Monthly Actual</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b>Cul.Plan </b>
+                                                                <b>Cul.Plan</b>
                                                             </th>
 
                                                             <th class="text-center">
                                                                 <b>Cul.Actual</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> Plwork act </b>
+                                                                <b>PI work act</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> Pal(year 2022)</b>
+                                                                <b>PAI</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> PL (EFF) </b>
+                                                                <b>PI (EFF)</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> Pl(RB) </b>
+                                                                <b>PI (RB)</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b>PI(IW) </b>
+                                                                <b>PI (IW)</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> SPI (year 2022) </b>
+                                                                <b>SPI</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> Planned %</b>
+                                                                <b>Planned %</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> Actual%</b>
+                                                                <b>Actual %</b>
                                                             </th>
                                                         </tr>
 
@@ -580,18 +577,18 @@
                                                             {
                                                                 <tr id="miri_@i" pkid="@Model.RmuMiri[i].PkRefNo">
                                                                     <td><b>@RAMMS.Common.Helpers.GetMonthName((int)Model.DivisionMiri[i].Month)</b></td>
-                                                                    <td>RM @Model.RmuMiri[i].MPlanned</td>
-                                                                    <td>RM @Model.RmuMiri[i].MActual</td>
-                                                                    <td>RM @Model.RmuMiri[i].CPlan</td>
-                                                                    <td>RM @Model.RmuMiri[i].CActual</td>
-                                                                    <td>@Model.RmuMiri[i].PiWorkActual  </td>
-                                                                    <td class="editpi">@Model.RmuMiri[i].Pai</td>
-                                                                    <td class="editeff">@Model.RmuMiri[i].Eff</td>
-                                                                    <td class="editrb">@Model.RmuMiri[i].Rb</td>
-                                                                    <td class="editiw"> @Model.RmuMiri[i].Iw</td>
-                                                                    <td class="editspi">@Model.RmuMiri[i].Spi</td>
-                                                                    <td>@Model.RmuMiri[i].PlannedPer %</td>
-                                                                    <td>@Model.RmuMiri[i].ActualPer %</td>
+                                                                    <td style="text-align:right">RM @Model.RmuMiri[i].MPlanned</td>
+                                                                    <td style="text-align:right">RM @Model.RmuMiri[i].MActual</td>
+                                                                    <td style="text-align:right">RM @Model.RmuMiri[i].CPlan</td>
+                                                                    <td style="text-align:right">RM @Model.RmuMiri[i].CActual</td>
+                                                                    <td style="text-align:center">@Model.RmuMiri[i].PiWorkActual  </td>
+                                                                    <td style="text-align:center" class="editpi">@Model.RmuMiri[i].Pai</td>
+                                                                    <td style="text-align:center" class="editeff">@Model.RmuMiri[i].Eff</td>
+                                                                    <td style="text-align:center" class="editrb">@Model.RmuMiri[i].Rb</td>
+                                                                    <td style="text-align:center" class="editiw"> @Model.RmuMiri[i].Iw</td>
+                                                                    <td style="text-align:center" class="editspi">@Model.RmuMiri[i].Spi</td>
+                                                                    <td style="text-align:center">@Model.RmuMiri[i].PlannedPer %</td>
+                                                                    <td style="text-align:center">@Model.RmuMiri[i].ActualPer %</td>
                                                                 </tr>
                                                             }
                                                         }
@@ -660,10 +657,10 @@
                                                             <th class="text-center">
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> Monthly Planned</b>
+                                                                <b>Monthly Planned</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b>  Monthly Actual </b>
+                                                                <b>Monthly Actual</b>
                                                             </th>
                                                             <th class="text-center">
                                                                 <b>Cul.Plan </b>
@@ -673,28 +670,28 @@
                                                                 <b>Cul.Actual</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> Plwork act </b>
+                                                                <b>PI work act</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> Pal(year 2022)</b>
+                                                                <b>PAI</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> PL (EFF) </b>
+                                                                <b>PI (EFF)</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> Pl(RB) </b>
+                                                                <b>PI (RB)</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b>PI(IW) </b>
+                                                                <b>PI (IW) </b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> SPI (year 2022) </b>
+                                                                <b>SPI</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> Planned %</b>
+                                                                <b>Planned %</b>
                                                             </th>
                                                             <th class="text-center">
-                                                                <b> Actual%</b>
+                                                                <b>Actual%</b>
                                                             </th>
                                                         </tr>
 
@@ -714,18 +711,18 @@
                                                             {
                                                                 <tr id="btn_@i" pkid="@Model.RmuBTN[i].PkRefNo">
                                                                     <td><b>@RAMMS.Common.Helpers.GetMonthName((int)Model.DivisionMiri[i].Month)</b></td>
-                                                                    <td>RM @Model.RmuBTN[i].MPlanned</td>
-                                                                    <td>RM @Model.RmuBTN[i].MActual</td>
-                                                                    <td>RM @Model.RmuBTN[i].CPlan</td>
-                                                                    <td>RM @Model.RmuBTN[i].CActual</td>
-                                                                    <td> @Model.RmuBTN[i].PiWorkActual  </td>
-                                                                    <td class="editpi">@Model.RmuBTN[i].Pai</td>
-                                                                    <td class="editeff">@Model.RmuBTN[i].Eff</td>
-                                                                    <td class="editrb">@Model.RmuBTN[i].Rb</td>
-                                                                    <td class="editiw"> @Model.RmuBTN[i].Iw</td>
-                                                                    <td  class="editspi">@Model.RmuBTN[i].Spi</td>
-                                                                    <td>@Model.RmuBTN[i].PlannedPer %</td>
-                                                                    <td>@Model.RmuBTN[i].ActualPer %</td>
+                                                                    <td style="text-align:right">RM @Model.RmuBTN[i].MPlanned</td>
+                                                                    <td style="text-align:right">RM @Model.RmuBTN[i].MActual</td>
+                                                                    <td style="text-align:right">RM @Model.RmuBTN[i].CPlan</td>
+                                                                    <td style="text-align:right">RM @Model.RmuBTN[i].CActual</td>
+                                                                    <td style="text-align:center"> @Model.RmuBTN[i].PiWorkActual  </td>
+                                                                    <td style="text-align:center" class="editpi">@Model.RmuBTN[i].Pai</td>
+                                                                    <td style="text-align:center" class="editeff">@Model.RmuBTN[i].Eff</td>
+                                                                    <td style="text-align:center" class="editrb">@Model.RmuBTN[i].Rb</td>
+                                                                    <td style="text-align:center" class="editiw"> @Model.RmuBTN[i].Iw</td>
+                                                                    <td style="text-align:center"  class="editspi">@Model.RmuBTN[i].Spi</td>
+                                                                    <td style="text-align:center">@Model.RmuBTN[i].PlannedPer %</td>
+                                                                    <td style="text-align:center">@Model.RmuBTN[i].ActualPer %</td>
                                                                 </tr>
                                                             }
                                                         }
