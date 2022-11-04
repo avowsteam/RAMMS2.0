@@ -52,9 +52,9 @@ namespace RAMMS.Repository
                               SpiCActual = x.Sum(y => y.SpiCPlan),
                               SpiPiWorkActual = x.Sum(y => y.SpiPiWorkActual),
                               SpiPai = x.Sum(y => y.SpiPai),
-                              SpiEff = (x.Sum(y => y.SpiEff)/2),
-                              SpiRb = (x.Sum(y => y.SpiRb)/2),
-                              SpiIw = (x.Sum(y => y.SpiIw)/2),
+                              SpiEff = (x.Sum(y => y.SpiEff) / 2),
+                              SpiRb = (x.Sum(y => y.SpiRb) / 2),
+                              SpiIw = (x.Sum(y => y.SpiIw) / 2),
                               SpiSpi = x.Sum(y => y.SpiSpi),
                               SpiPlannedPer = x.Sum(y => y.SpiPlannedPer),
                               SpiActualPer = x.Sum(y => y.SpiActualPer),
@@ -96,7 +96,7 @@ namespace RAMMS.Repository
                     entry.Property(x => x.SpiIw).IsModified = true;
                     entry.Property(x => x.SpiSpi).IsModified = true;
                     _context.SaveChanges();
-           
+
                 }
                 return 1;
             }
@@ -105,6 +105,71 @@ namespace RAMMS.Repository
                 return 500;
             }
         }
+
+        public async Task<int> SyncMiri(int year)
+        {
+
+            var context = _context;
+            {
+                var connection = context.Database.GetDbConnection();
+
+                try
+                {
+                    var cmd = connection.CreateCommand();
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "sp_syncspi_miri";
+                    cmd.CommandTimeout = 2000;
+                    var p = cmd.CreateParameter();
+                    p.ParameterName = "@year";
+                    p.Value = year;
+                    cmd.Parameters.Add(p);
+                    connection.Open();
+                    int ret = await cmd.ExecuteNonQueryAsync();
+                    return ret;
+                }
+                catch (Exception ex)
+                {
+                    return 500;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        public async Task<int> SyncBTN(int year)
+        {
+
+            var context = _context;
+            {
+                var connection = context.Database.GetDbConnection();
+
+                try
+                {
+                    var cmd = connection.CreateCommand();
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "sp_syncspi_btn";
+                    cmd.CommandTimeout = 2000;
+                    var p = cmd.CreateParameter();
+                    p.ParameterName = "@year";
+                    p.Value = year;
+                    cmd.Parameters.Add(p);
+                    connection.Open();
+                    int ret = await cmd.ExecuteNonQueryAsync();
+                    return ret;
+                }
+                catch (Exception ex)
+                {
+                    return 500;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
 
         #region RMI & IRI
         public async Task<int> SaveIRI(List<DlpIRIDTO> iRIData)

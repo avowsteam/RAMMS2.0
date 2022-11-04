@@ -19,6 +19,10 @@ namespace RAMMS.Repository.Interfaces
 
         Task<int> Save(List<SpiData> spiData);
 
+        Task<int> SyncBTN(int year);
+
+        Task<int> SyncMiri(int year);
+
         #region RMI & IRI
         Task<int> SaveIRI(List<DlpIRIDTO> model);
         Task<List<RmRmiIri>> GetIRIData(int year);

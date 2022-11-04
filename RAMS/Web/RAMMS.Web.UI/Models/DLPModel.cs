@@ -12,6 +12,7 @@ namespace RAMMS.Web.UI.Models
 {
     public class DLPModel
     {
+        public int Year { get; set; } 
         public List<DlpSPIDTO> DivisionMiri { get; set; }
 
         public List<DlpSPIDTO> RmuMiri { get; set; }

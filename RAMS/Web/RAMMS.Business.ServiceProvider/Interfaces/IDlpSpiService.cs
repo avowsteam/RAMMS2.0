@@ -20,6 +20,10 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
 
         Task<int> Save(List<SpiData> spiData);
 
+        Task<int> SyncBTN(int year);
+
+        Task<int> SyncMiri(int year);
+
         #region RMI IRI
         Task<int> SaveIRI(List<DlpIRIDTO> spiData);
 

@@ -60,6 +60,17 @@ namespace RAMMS.Business.ServiceProvider.Services
             return await _repo.Save(spiData);
         }
 
+
+        public async Task<int> SyncBTN(int year)
+        {
+            return await _repo.SyncBTN(year);
+        }
+
+        public async Task<int> SyncMiri(int year)
+        {
+            return await _repo.SyncMiri(year);
+        }
+
         #region RMI IRI
 
         public async Task<int> SaveIRI(List<DlpIRIDTO> model)
@@ -178,7 +189,6 @@ namespace RAMMS.Business.ServiceProvider.Services
                 throw ex;
             }
         }
-
         #endregion
     }
 }

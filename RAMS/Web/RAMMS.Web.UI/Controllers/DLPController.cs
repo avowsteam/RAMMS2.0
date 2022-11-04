@@ -49,13 +49,15 @@ namespace RAMMS.Web.UI.Controllers
 
         }
 
-        public async Task<IActionResult> FormSPI()
+        public async Task<IActionResult> FormSPI(int year)
         {
+            year = year == 0 ? DateTime.Today.Year : year;
             LoadLookupService("Year");
             DLPModel model = new DLPModel();
-            model.DivisionMiri = await _dlpSpiService.GetDivisionMiri(DateTime.Today.Year);
-            model.RmuMiri = await _dlpSpiService.GetDivisionRMUMiri(DateTime.Today.Year);
-            model.RmuBTN = await _dlpSpiService.GetDivisionRMUBTN(DateTime.Today.Year);
+            model.Year = year;
+            model.DivisionMiri = await _dlpSpiService.GetDivisionMiri(year);
+            model.RmuMiri = await _dlpSpiService.GetDivisionRMUMiri(year);
+            model.RmuBTN = await _dlpSpiService.GetDivisionRMUBTN(year);
             return View(model);
         }
 
@@ -71,6 +73,13 @@ namespace RAMMS.Web.UI.Controllers
         public async Task<IActionResult> Save(List<SpiData> spiData)
         {
             await _dlpSpiService.Save(spiData);
+            return Json(1);
+        }
+
+        public async Task<IActionResult> Sync(int year)
+        {
+            await _dlpSpiService.SyncMiri(year);
+            await _dlpSpiService.SyncBTN(year);
             return Json(1);
         }
 
