@@ -77,6 +77,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 lstData.Add("MM", domainModelFormP1.PchSubmissionMonth.ToString());
                 lstData.Add(FormRefNumber.NewRunningNumber, Utility.ToString(res.Result));
                 domainModelFormP1.PchRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormP1, lstData);
+                domainModelFormP1.PchPaymentCertificateNo = res.Result;
                 var result = _repo.SaveFormP1(domainModelFormP1, true);
 
                 return res.Result;
