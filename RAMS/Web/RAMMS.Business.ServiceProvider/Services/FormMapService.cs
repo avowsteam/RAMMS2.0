@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -216,19 +217,98 @@ namespace RAMMS.Business.ServiceProvider.Services
                         {
                             var rptCount = _rpt.Count;
                             var rpt = _rpt[rptCount - 1];
-                            worksheet.Cell(2, 1).Value = "Monthly Activities Progress For The Month of (" + rpt.Month + ") (" + rpt.Year + ")";
 
-                            //worksheet.Cell(2, 1).Value = "PROPOSED ANNUAL WORK PROGRAMME AND BUDGET " + rpt.RevisionYear + " (PROPOSED PLANNED BUDGET)";
-                            //worksheet.Cell(5, 14).Value = rpt.RevisionNo;
-                            //worksheet.Cell(5, 17).Value = rpt.RevisionDate;
+                            DateTime dt = new DateTime(Convert.ToInt32(rpt.Year), Convert.ToInt32(rpt.Month), 1);
+                            string MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(dt.Month);
+                            int dayCount = CultureInfo.CurrentCulture.Calendar.GetDaysInMonth(dt.Year, dt.Month);
 
-                            int dayCount = res.Count > 0 ? res.Where(x => x.RmmdActivityId == 1011).Count() : 0;
+                            worksheet.Cell(2, 1).Value = "Monthly Activities Progress For The Month of (" + MonthName + ") (" + rpt.Year + ")";
 
-                            for (int i = 0; i < res.Count; i++)
+
+                            List<int> lstActivityCode = new List<int>();
+                            lstActivityCode = res.Select(x => Convert.ToInt32(x.RmmdActivityId)).Distinct().ToList();
+                            lstActivityCode.Sort();
+
+                            for (int i = 0; i < lstActivityCode.Count; i++)
                             {
-                                for (int j = 0; j < dayCount; j++)
+                                List<RmMapDetails> lstDetail = res.Where(x => x.RmmdActivityId == lstActivityCode[i]).OrderBy(x => x.RmmdOrder).ToList();
+                                for (int j = 1; j <= dayCount; j++)
                                 {
-                                    worksheet.Cell((i + 7), (j + 9)).Value = res[i].RmmdActivityLocationCode;
+                                    if (i == 0)
+                                    {
+                                        DateTime dtSeq = new DateTime(Convert.ToInt32(rpt.Year), Convert.ToInt32(rpt.Month), j);
+                                        int weekNumber = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(dtSeq, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+                                        worksheet.Cell(4, (j + 6)).Value = "WK" + weekNumber;
+                                        worksheet.Cell(4, (j + 6)).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell(4, (j + 6)).Style.Border.OutsideBorderColor = XLColor.Black;
+
+
+                                        worksheet.Cell(5, (j + 6)).Value = dtSeq.DayOfWeek.ToString().Substring(0, 3);
+                                        worksheet.Cell(5, (j + 6)).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell(5, (j + 6)).Style.Border.OutsideBorderColor = XLColor.Black;
+
+                                        worksheet.Cell(6, (j + 6)).Value = j;
+                                        worksheet.Cell(6, (j + 6)).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell(6, (j + 6)).Style.Border.OutsideBorderColor = XLColor.Black;
+                                        worksheet.Cell(6, (6 + dayCount + 1)).Value = "Total";
+                                        worksheet.Cell(6, (6 + dayCount + 1)).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell(6, (6 + dayCount + 1)).Style.Border.OutsideBorderColor = XLColor.Black;
+
+                                        worksheet.Cell(7, (j + 6)).Value = lstDetail[j - 1].RmmdActivityLocationCode;
+                                        worksheet.Cell(7, (j + 6)).Style.Border.BottomBorder = XLBorderStyleValues.Dashed;
+                                        worksheet.Cell(7, (j + 6)).Style.Border.BottomBorderColor = XLColor.Gray;
+                                        worksheet.Cell(7, (j + 6)).Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell(7, (j + 6)).Style.Border.RightBorderColor = XLColor.Black;
+
+                                        worksheet.Cell((7 + 1), (j + 6)).Value = lstDetail[j - 1].RmmdQuantityKm;
+                                        worksheet.Cell((7 + 1), 2).Value = lstDetail[j - 1].RmmdProductUnit;
+                                        worksheet.Cell((7 + 1), (j + 6)).Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell((7 + 1), (j + 6)).Style.Border.BottomBorderColor = XLColor.Black;
+                                        worksheet.Cell((7 + 1), (j + 6)).Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell((7 + 1), (j + 6)).Style.Border.RightBorderColor = XLColor.Black;
+
+                                        worksheet.Cell((7 + 1), (6 + dayCount + 1)).Value = lstDetail.Select(x => x.RmmdQuantityKm).Sum().ToString();
+                                        worksheet.Cell((7 + 1), (6 + dayCount + 1)).Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell((7 + 1), (6 + dayCount + 1)).Style.Border.RightBorderColor = XLColor.Black;
+                                        worksheet.Cell((7 + 1), (6 + dayCount + 1)).Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell((7 + 1), (6 + dayCount + 1)).Style.Border.TopBorderColor = XLColor.Black;
+                                        worksheet.Cell((7 + 1), (6 + dayCount + 1)).Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell((7 + 1), (6 + dayCount + 1)).Style.Border.BottomBorderColor = XLColor.Black;
+
+                                        worksheet.Cell(((7 + 1) - 1), (6 + dayCount + 1)).Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell(((7 + 1) - 1), (6 + dayCount + 1)).Style.Border.RightBorderColor = XLColor.Black;
+                                        
+                                    }
+                                    else
+                                    {
+                                        worksheet.Cell((i + 7 + i), (j + 6)).Value = lstDetail[j - 1].RmmdActivityLocationCode;
+
+                                        worksheet.Cell((i + 7 + i), (j + 6)).Style.Border.BottomBorder = XLBorderStyleValues.Dashed;
+                                        worksheet.Cell((i + 7 + i), (j + 6)).Style.Border.BottomBorderColor = XLColor.Gray;
+                                        worksheet.Cell((i + 7 + i), (j + 6)).Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell((i + 7 + i), (j + 6)).Style.Border.RightBorderColor = XLColor.Black;
+
+                                        worksheet.Cell((i + 8 + i), (j + 6)).Value = lstDetail[j - 1].RmmdQuantityKm;
+                                        worksheet.Cell((i + 8 + i), 2).Value = lstDetail[j - 1].RmmdProductUnit;
+                                        worksheet.Cell((i + 8 + i), (j + 6)).Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell((i + 8 + i), (j + 6)).Style.Border.BottomBorderColor = XLColor.Black;
+                                        worksheet.Cell((i + 8 + i), (j + 6)).Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell((i + 8 + i), (j + 6)).Style.Border.RightBorderColor = XLColor.Black;
+
+                                        worksheet.Cell((i + 8 + i), (6 + dayCount + 1)).Value = lstDetail.Select(x => x.RmmdQuantityKm).Sum().ToString();
+
+                                        worksheet.Cell((i + 8 + i), (6 + dayCount + 1)).Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell((i + 8 + i), (6 + dayCount + 1)).Style.Border.RightBorderColor = XLColor.Black;
+                                        worksheet.Cell((i + 8 + i), (6 + dayCount + 1)).Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell((i + 8 + i), (6 + dayCount + 1)).Style.Border.BottomBorderColor = XLColor.Black;
+                                        worksheet.Cell((i + 8 + i), (6 + dayCount + 1)).Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell((i + 8 + i), (6 + dayCount + 1)).Style.Border.TopBorderColor = XLColor.Black;
+
+                                        worksheet.Cell(((i + 8 + i) - 1), (6 + dayCount + 1)).Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                                        worksheet.Cell(((i + 8 + i) - 1), (6 + dayCount + 1)).Style.Border.RightBorderColor = XLColor.Black;
+                                    }
+
                                 }
 
                                 //worksheet.Cell((i + 9), 5).Value = res[i].B14hhJan;
@@ -247,21 +327,24 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 //worksheet.Cell((i + 9), 18).Value = res[i].B14hhUnitOfService;
                             }
 
-                            //if (rpt.UserNameProsd != null)
-                            //{
-                            //    worksheet.Cell(51, 4).Value = rpt.UserNameProsd;
-                            //    worksheet.Cell(52, 4).Value = rpt.UserDesignationProsd;
-                            //}
-                            //if (rpt.UserNameFclitd != null)
-                            //{
-                            //    worksheet.Cell(51, 5).Value = rpt.UserNameFclitd;
-                            //    worksheet.Cell(52, 5).Value = rpt.UserDesignationFclitd;
-                            //}
-                            //if (rpt.UserNameAgrd != null)
-                            //{
-                            //    worksheet.Cell(51, 9).Value = rpt.UserNameAgrd;
-                            //    worksheet.Cell(52, 9).Value = rpt.UserDesignationAgrd;
-                            //}
+                            if (rpt.PreparedName != null)
+                            {
+                                worksheet.Cell(87, 4).Value = rpt.PreparedName;
+                                worksheet.Cell(89, 4).Value = rpt.PreparedDesig;
+                                worksheet.Cell(91, 4).Value = rpt.PreparedDate;
+                            }
+                            if (rpt.CheckedName != null)
+                            {
+                                worksheet.Cell(87, 14).Value = rpt.CheckedName;
+                                worksheet.Cell(89, 14).Value = rpt.CheckedDesig;
+                                worksheet.Cell(91, 14).Value = rpt.CheckedDate;
+                            }
+                            if (rpt.VerifiedName != null)
+                            {
+                                worksheet.Cell(87, 23).Value = rpt.VerifiedName;
+                                worksheet.Cell(89, 23).Value = rpt.VerifiedDesig;
+                                worksheet.Cell(91, 23).Value = rpt.VerifiedDate;
+                            }
                             //if (rpt.UserNameEndosd != null)
                             //{
                             //    worksheet.Cell(51, 14).Value = rpt.UserNameEndosd;
