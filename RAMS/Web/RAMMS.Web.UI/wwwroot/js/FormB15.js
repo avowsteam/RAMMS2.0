@@ -93,7 +93,7 @@ var frmB15 = new function () {
             B15.PkRefNoHistory = frmB15.HeaderData.RmB15History.length == 0 ? 0 : frmB15.HeaderData.RmB15History[i].PkRefNoHistory;
             B15.B15hPkRefNo = $("#pkRefNo").val();
             B15.Feature = $('#spx' + i).text().trim();
-            B15.ActCode = $(this).find("td.x01").text().trim();
+            B15.ActCode = $(this).find("td.x01").text().trim().replace($('#spx' + i).text().trim(), "");
             B15.ActName = $(this).find("td.x02").text().trim();
             B15.Jan = $('#txt' + i + 'M1').val().replace(/,/g, "");
             B15.Feb = $('#txt' + i + 'M2').val().replace(/,/g, "");

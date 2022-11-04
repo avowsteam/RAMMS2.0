@@ -134,20 +134,16 @@ namespace RAMMS.Web.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> HeaderListEdit(DataTableAjaxPostModel<FormADetailsRequestDTO> searchData)
         {
-            FormAModel _formAModel = new FormAModel();
             await LoadDropDowns();
-            int headerId = searchData.filterData.HeaderNo;
-            _formAModel.SaveFormAModel = new FormAHeaderRequestDTO();
-            if (headerId > 0)
-            {
-                var Result = await _formAService.GetFormAWithDetailsByNoAsync(headerId);
-                _formAModel.SaveFormAModel = Result;
-                _formAModel.SaveFormAModel.Id = headerId.ToString();
-            }
-            DlpIRIModel _formIRIModel = new DlpIRIModel();
+            DlpIRIDTO _formIRIModel = new DlpIRIDTO();
             searchData.length = 10;
             searchData.start = 0;
-
+            int year = 0;
+            if (searchData != null && searchData.filterData != null && searchData.filterData.HeaderNo != 0)
+            {
+                year = searchData.filterData.HeaderNo;
+                _formIRIModel = _dlpSpiService.GetIRIData(year).Result;
+            }
             //return PartialView("~/Views/DLP/_AddFormAView.cshtml", _formIRIModel);
             return PartialView("~/Views/DLP/_AddFormIRI_RMIView.cshtml", _formIRIModel);
 
@@ -186,69 +182,6 @@ namespace RAMMS.Web.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> LoadHeaderList(DataTableAjaxPostModel<FormASearchGridDTO> searchData)
         {
-            if (Request.Form.ContainsKey("columns[0][search][value]"))
-            {
-                searchData.filterData.SmartInputValue = Request.Form["columns[0][search][value]"].ToString();
-            }
-            if (Request.Form.ContainsKey("columns[1][search][value]"))
-            {
-                searchData.filterData.RMU = Request.Form["columns[1][search][value]"].ToString();
-            }
-            if (Request.Form.ContainsKey("columns[2][search][value]"))
-            {
-                searchData.filterData.Section = Request.Form["columns[2][search][value]"].ToString();
-            }
-            if (Request.Form.ContainsKey("columns[3][search][value]"))
-            {
-                searchData.filterData.Road_Code = Request.Form["columns[3][search][value]"].ToString();
-            }
-            if (Request.Form.ContainsKey("columns[4][search][value]"))
-            {
-                searchData.filterData.Asset_GroupCode = Request.Form["columns[4][search][value]"].ToString();
-            }
-            if (Request.Form.ContainsKey("columns[5][search][value]"))
-            {
-                if (!string.IsNullOrEmpty(Request.Form["columns[5][search][value]"].ToString()))
-                {
-                    searchData.filterData.Month = Convert.ToInt32(Request.Form["columns[5][search][value]"].ToString());
-                }
-            }
-            if (Request.Form.ContainsKey("columns[6][search][value]"))
-            {
-                if (!string.IsNullOrEmpty(Request.Form["columns[6][search][value]"].ToString()))
-                {
-                    searchData.filterData.Year = Convert.ToInt32(Request.Form["columns[6][search][value]"].ToString());
-                }
-            }
-            if (Request.Form.ContainsKey("columns[7][search][value]"))
-            {
-                if (!string.IsNullOrEmpty(Request.Form["columns[7][search][value]"].ToString()))
-                {
-                    searchData.filterData.ChinageFromKm = Convert.ToInt32(Request.Form["columns[7][search][value]"].ToString());
-                }
-            }
-            if (Request.Form.ContainsKey("columns[8][search][value]"))
-            {
-                if (!string.IsNullOrEmpty(Request.Form["columns[8][search][value]"].ToString()))
-                {
-                    searchData.filterData.ChinageFromM = Request.Form["columns[8][search][value]"].ToString();
-                }
-            }
-            if (Request.Form.ContainsKey("columns[9][search][value]"))
-            {
-                if (!string.IsNullOrEmpty(Request.Form["columns[9][search][value]"].ToString()))
-                {
-                    searchData.filterData.ChinageToKm = Convert.ToInt32(Request.Form["columns[9][search][value]"].ToString());
-                }
-            }
-            if (Request.Form.ContainsKey("columns[10][search][value]"))
-            {
-                if (!string.IsNullOrEmpty(Request.Form["columns[10][search][value]"].ToString()))
-                {
-                    searchData.filterData.ChinageToM = Request.Form["columns[10][search][value]"].ToString();
-                }
-            }
-
             FilteredPagingDefinition<FormASearchGridDTO> filteredPagingDefinition = new FilteredPagingDefinition<FormASearchGridDTO>();
 
             filteredPagingDefinition.Filters = searchData.filterData;

@@ -647,18 +647,49 @@ namespace RAMS.Repository
         }
         public async Task<List<FormAHeaderRequestDTO>> GetRoadFurnitureConditionPieChart(string RFCRMU,int? RFCYear)
         {
-            var RoadCondiDetails = (from o in _context.RmFormFsInsHdr
-                                   join h in _context.RmFormFsInsDtl on o.FshPkRefNo equals h.FsdFshPkRefNo
-                                   where o.FshRmuName == RFCRMU && o.FshYearOfInsp == RFCYear
-                                   select h);
-            return RoadCondiDetails.Select(s => new FormAHeaderRequestDTO
+            //var RoadCondiDetails = (from o in _context.RmFormFsInsHdr
+            //                       join h in _context.RmFormFsInsDtl on o.FshPkRefNo equals h.FsdFshPkRefNo
+            //                       where o.FshRmuName == RFCRMU && o.FshYearOfInsp == RFCYear
+            //                       select h);
+            var RMURoadCondiDetails = (from o in _context.RmFormFsInsHdr
+                                   
+                                    where o.FshRmuName == RFCRMU && o.FshYearOfInsp == RFCYear
+                                    select o);
+            var RoadCondiDetailsYear = (from o in _context.RmFormFsInsHdr
+                                   join h in RMURoadCondiDetails on o.FshPkRefNo equals h.FshPkRefNo
+                                    where o.FshYearOfInsp== RFCYear 
+                                    select o).ToList();
+            var RoadCondiDetails = (from o in RoadCondiDetailsYear
+                                    join h in _context.RmFormFsInsDtl on o.FshPkRefNo equals h.FsdFshPkRefNo
+                                    //where o.FshYearOfInsp == RFCYear
+                                    select h).ToList();
+            var roadConditionDetails = RoadCondiDetails.GroupBy(s => s.FsdFeature).Select(a => a.Key).ToList();
+               List<FormAHeaderRequestDTO> _HdDtoList = new List<FormAHeaderRequestDTO>();
+
+            foreach (var Details in roadConditionDetails)
             {
-                RFCondition1 = s.FsdCondition1 / (s.FsdCondition1+ s.FsdCondition2+ s.FsdCondition3),
-                RFCondition2 = s.FsdCondition2 / (s.FsdCondition1 + s.FsdCondition2 + s.FsdCondition3),
-                RFCondition3 = s.FsdCondition3 / (s.FsdCondition1 + s.FsdCondition2 + s.FsdCondition3),
-                RFCFeature = s.FsdFeature
+                FormAHeaderRequestDTO HdDto = new FormAHeaderRequestDTO();
+                var TotalConditions = RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition1) + RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition2) + RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition3);
+                HdDto.RFCondition1 = (RoadCondiDetails.Where(x=>x.FsdFeature == Details).Sum(x => x.FsdCondition1))/TotalConditions;
+                HdDto.RFCondition2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition2))/ TotalConditions;
+                HdDto.RFCondition3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition3))/ TotalConditions;
+                HdDto.RFCFeature = Details;
+                _HdDtoList.Add(HdDto);
+            }
+            return _HdDtoList;
+            //return RoadCondiDetails.Select(s => new FormAHeaderRequestDTO
+            //{
+            //    RFCondition1 = (s.FsdCondition1) / (s.FsdCondition1 + s.FsdCondition2+ s.FsdCondition3),
+            //    RFCondition2 = (s.FsdCondition2) / (s.FsdCondition1 + s.FsdCondition2 + s.FsdCondition3),
+            //    RFCondition3 = (s.FsdCondition3) / (s.FsdCondition1 + s.FsdCondition2 + s.FsdCondition3),
+            //    RFCFeature = s.FsdFeature
                
-            }).ToList();
+            //}).ToList();
+
+          
+//var groupedCustomerList = userList.GroupBy(u => u.GroupID).Select(grp => grp.ToList()).ToList();
+
+
             //return await _context.RmFormFsInsHdr.Where(x => x.FshRmuName == RFCRMU && x.FshYearOfInsp == RFCYear).ToListAsync();
         }
     }
