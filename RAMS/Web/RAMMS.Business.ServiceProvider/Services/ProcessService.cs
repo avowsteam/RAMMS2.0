@@ -116,7 +116,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                     iResult = await SaveFormF1(process);
                     break;
                 case "frmM":
-                    iResult = await SaveFormM(process);
+                    iResult = await 
+                        SaveFormM(process);
                     break;
                 case "FormT":
                     iResult = await SaveFormT(process);
@@ -143,7 +144,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 case "frmMap":
                     iResult = await SaveFormMap(process);
                     break;
-                case "FormUCUA":
+                case "FrmUCUA":
                     iResult = await SaveFormUCUA(process);
                     break;
 
@@ -2958,29 +2959,37 @@ namespace RAMMS.Business.ServiceProvider.Services
                 string strStatus = "";
                 string strNotStatus = "";
 
-                if (process.Stage == Common.StatusList.Submitted)
+                if (process.Stage == Common.StatusList.FormUcuaSubmitted)
                 {
                     //strNotGroupName = process.IsApprove ? GroupNames.OpeHeadMaintenance : GroupNames.Supervisor;
-                    form.RmmhStatus = process.IsApprove ? Common.StatusList.Approved : Common.StatusList.Submitted;
-                    strTitle = "Headed By";
-                    strStatus = "Approved";
-                    strNotStatus = Common.StatusList.Saved;
-                    //form.FmtUseridHdd = Convert.ToInt32(process.UserID);
-                    //form.FmtUsernameHdd = process.UserName;
-                    //form.FmtDesignationHdd = process.UserDesignation;
-                    //form.FmtDateHdd = process.ApproveDate;
-                    //form.FmtSignHdd = true;
+                    form.RmmhStatus = process.IsApprove ? Common.StatusList.FormUcuaVerified : Common.StatusList.FormUcuaSaved;
+                    strTitle = "Verified By";
+                    strStatus = "Verified";
+                    strNotStatus = Common.StatusList.FormUcuaSaved;
+                    //form.FmhUseridWit = Convert.ToInt32(process.UserID);
+                    //form.FmhUsernameWit = process.UserName;
+                    //form.FmhDesignationWit = process.UserDesignation;
+                    //form.FmhDateWit = process.ApproveDate;
+                    //form.FmhSignWit = true;
+                }
+
+                if (process.IsApprove)
+                {
+                    List<int> lstNotUserId = new List<int>();
+
+                    strNotUserID = string.Join(",", lstNotUserId.Distinct());
                 }
                 else
                 {
-                    if (process.Stage == Common.StatusList.Submitted)
+                    if (process.Stage == Common.StatusList.FormUcuaSubmitted)
                     {
                         form.RmmhSubmitYn = false;
                     }
                 }
+
                 form.RmmhAuditLog = Utility.ProcessLog(form.RmmhAuditLog, strTitle, process.IsApprove ? strStatus : "Rejected", process.UserName, process.Remarks, process.ApproveDate, security.UserName);
-                strNotMsg = (process.IsApprove ? "" : "Rejected - ") + strTitle + ":" + process.UserName + " - Form f1 (" + form.RmmhPkRefNo + ")";
-                strNotURL = "/FormsT/EditFormT?id=" + form.RmmhPkRefNo.ToString() + "&View=0";
+                strNotMsg = (process.IsApprove ? "" : "Rejected - ") + strTitle + ":" + process.UserName + " - Form UCUA (" + form.RmmhPkRefNo + ")";
+              //  strNotURL = "/FormM/Edit/" + form.RmmhPkRefNo.ToString() + "?View=0";
                 SaveNotification(new RmUserNotification()
                 {
                     RmNotCrBy = security.UserName,

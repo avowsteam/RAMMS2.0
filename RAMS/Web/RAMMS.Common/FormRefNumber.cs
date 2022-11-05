@@ -39,7 +39,7 @@ namespace RAMMS.Common.RefNumber
         public const string FormMapHeader = "{RMU}/MAP/{YYYY}{MM}/{" + NewRunningNumber + "}";
         public const string FormPAHeader = "PC/Form PA/{YYYY}{MM}/{" + NewRunningNumber + "}";
         public const string FormPBHeader = "PC/Form PB/{YYYY}{MM}/{" + NewRunningNumber + "}";
-        public const string FormUCUAHeader = "CI/Form UCUA/{YYYYMMDD}";
+        public const string FormUCUAHeader = "CI/Form UCUA/{YYYYMMDD}/{RefNo}";
         public static string GetRefNumber(FormType type, IDictionary<string, string> values)
         {
             string format = GetFormat(type);

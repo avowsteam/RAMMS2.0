@@ -39,77 +39,38 @@ namespace RAMMS.Repository
 
             }
         }
-        public async Task<FORMTRpt> GetReportData(int headerid)
+        public async Task<FormUCUARpt> GetReportData(int headerid)
         {
-            int? pkrefno = (from s in _context.RmFormTDailyInspection
-                            where s.FmtdiPkRefNo == headerid
-                            select s.FmtdiFmtPkRefNo).FirstOrDefault();
 
-            FORMTRpt result = (from s in _context.RmFormTHdr
-                               where s.FmtPkRefNo == pkrefno
-                               select new FORMTRpt
+            FormUCUARpt result = (from s in _context.RmUcua
+                               where s.RmmhPkRefNo == headerid
+                               select new FormUCUARpt
                                {
-                                   InspectedDate = s.FmtInspectionDate,
-                                   RMU = (from r in _context.RmDdLookup where r.DdlType == "RMU" && r.DdlTypeCode == s.FmtRmuCode select r.DdlTypeDesc).FirstOrDefault(),
-                                   RoadCode = s.FmtRdCode,
-                                   RoadName = s.FmtRdName,
-                                   HdDate = s.FmtDateHdd,
-                                   HdName = s.FmtUsernameHdd,
-                                   HdDesg = s.FmtDesignationHdd,
-                                   RecDate = s.FmtDateRcd,
-                                   RecDesg = s.FmtDesignationRcd,
-                                   RecName = s.FmtUsernameRcd,
-                                   RefId = s.FmtPkRefId,
-                                   RefNo = s.FmtReferenceNo,
+                                   RefId = s.RmmhRefId,
+                                   ReportingName = s.RmmhReportingName,
+                                   Location = s.RmmhLocation,
+                                   WorkScope = s.RmmhWorkScope,
+                                   UnsafeAct = s.RmmhUnsafeAct,
+                                   UnsafeActDescription = s.RmmhUnsafeActDescription,
+                                   UnsafeCondition = s.RmmhUnsafeCondition,
+                                   UnsafeConditionDescription = s.RmmhUnsafeConditionDescription,
+                                   ImprovementRecommendation = s.RmmhImprovementRecommendation,
+                                   DateReceived = s.RmmhDateReceived,
+                                   DateCommitteeReview = s.RmmhDateCommitteeReview,
+                                   CommentsOfficeUse = s.RmmhCommentsOfficeUse,
+                                   HseSection = s.RmmhHseSection,
+                                   SafteyCommitteeChairman = s.RmmhSafteyCommitteeChairman,
+                                   ImsRep = s.RmmhImprovementRecommendation,
+                                   DateActionTaken = s.RmmhDateActionTaken,
+                                   ActionTakenBy = s.RmmhActionTakenBy,
+                                   ActionDescription = s.RmmhActionDescription,
+                                   DateEffectivenessActionTaken = s.RmmhDateEffectivenessActionTaken,
+                                   EffectivenessActionTakenBy = s.RmmhEffectivenessActionTakenBy,
+                                   EffectivenessActionDescription = s.RmmhEffectivenessActionDescription,
+                                   Status = s.RmmhStatus,
+                                   ActiveYn = s.RmmhActiveYn,
+                                   SubmitYn = s.RmmhSubmitYn,
                                }).FirstOrDefault();
-
-
-            result.Details = (from d in _context.RmFormTDailyInspection
-                              where d.FmtdiPkRefNo == headerid
-                              select new FORMTRptDetail
-                              {
-
-                                  Day = d.FmtdiDay,
-                                  Description = d.FmtdiDescription,
-                                  DescriptionHV = d.FmtdiDescriptionHv,
-                                  DescriptionMC = d.FmtdiDescriptionMc,
-                                  DescriptionPC = d.FmtdiDescriptionPc,
-                                  DirectionFrom = d.FmtdiDirectionFrm,
-                                  DirectionTo = d.FmtdiDirectionTo,
-                                  FromTime = d.FmtdiAuditTimeFrm,
-                                  HourlycountPerDay = d.FmtdiHourlyCountPerDay,
-                                  TotalDay = d.FmtdiTotalDay,
-                                  ToTime = d.FmtdiAuditTimeTo
-
-                              }).FirstOrDefault();
-
-
-            result.Details.Vechilce = (from v in _context.RmFormTVechicle
-                                       where v.FmtvFmtdiPkRefNo == headerid
-                                       select new FORMTRptVechicle
-                                       {
-                                           Axle = v.FmtvAxle,
-                                           Count = v.FmtvCount,
-                                           Loading = v.FmtvLoading,
-                                           Time = Convert.ToInt32(v.FmtvTime),
-                                           VechicleType = v.FmtvVechicleType
-                                       }).ToArray();
-
-            var DailyIns = (from d in _context.RmFormTDailyInspection where d.FmtdiFmtPkRefNo == pkrefno && d.FmtdiPkRefNo < headerid select d.FmtdiPkRefNo).DefaultIfEmpty();
-
-            result.TotalPC = (from v in _context.RmFormTVechicle
-                              where DailyIns.Contains(v.FmtvFmtdiPkRefNo) && v.FmtvVechicleType == "PC"
-                              select v.FmtvCount).Sum();
-
-            result.TotalHV = (from v in _context.RmFormTVechicle
-                              where DailyIns.Contains(v.FmtvFmtdiPkRefNo) && v.FmtvVechicleType == "HV"
-                              select v.FmtvCount).Sum();
-
-            result.TotalMC = (from v in _context.RmFormTVechicle
-                              where DailyIns.Contains(v.FmtvFmtdiPkRefNo) && v.FmtvVechicleType == "MC"
-                              select v.FmtvCount).Sum();
-
-
 
             return result;
 
@@ -259,6 +220,24 @@ namespace RAMMS.Repository
 
 
             }).ToList();
+        }
+        public int? DeleteFormUCUA(int id)
+        {
+            try
+            {
+
+                var res = _context.Set<RmUcua>().FindAsync(id);
+                res.Result.RmmhActiveYn = false;
+                _context.Set<RmUcua>().Attach(res.Result);
+                _context.Entry<RmUcua>(res.Result).State = EntityState.Modified;
+                _context.SaveChanges();
+                return 1;
+
+            }
+            catch (Exception ex)
+            {
+                return 500;
+            }
         }
     }
 }

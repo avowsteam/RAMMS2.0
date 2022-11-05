@@ -14,8 +14,9 @@ namespace RAMMS.Repository.Interfaces
    public interface IFormUCUARepository : IRepositoryBase<RmUcua>
     {
         int? SaveFormUCUA(RmUcua FormUCUA);
-        Task<FORMTRpt> GetReportData(int headerid); 
+        Task<FormUCUARpt> GetReportData(int headerid); 
         Task<List<FormUCUAHeaderRequestDTO>> GetFilteredRecordList(FilteredPagingDefinition<FormUCUASearchGridDTO> filterOptions);
+        int? DeleteFormUCUA(int id);
     }
     
 }
