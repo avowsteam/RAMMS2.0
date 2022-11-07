@@ -56,12 +56,12 @@ namespace RAMMS.Business.ServiceProvider.Services
             RmPaymentCertificateMamw res = _repo.GetHeaderById(id);
             FormPAHeaderResponseDTO PA = new FormPAHeaderResponseDTO();
             PA = _mapper.Map<FormPAHeaderResponseDTO>(res);
-          //  PA.FormPADetails= _mapper.Map<List<FormPAResponseDTO>>(res.RmPaymentCertificate);
-           
+            //  PA.FormPADetails= _mapper.Map<List<FormPAResponseDTO>>(res.RmPaymentCertificate);
+
             return PA;
         }
 
-       
+
 
 
         public async Task<int> SaveFormPA(FormPAHeaderResponseDTO FormPA)
@@ -70,14 +70,14 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 var domainModelFormPA = _mapper.Map<RmPaymentCertificateMamw>(FormPA);
                 domainModelFormPA.PcmamwPkRefNo = 0;
-               
+
                 var res = _repo.SaveFormPA(domainModelFormPA);
                 IDictionary<string, string> lstData = new Dictionary<string, string>();
                 lstData.Add("YYYY", domainModelFormPA.PcmamwSubmissionYear.ToString());
-                lstData.Add("MM", domainModelFormPA.PcmamwSubmissionMonth.ToString());
+                lstData.Add("MM", domainModelFormPA.PcmamwSubmissionMonth < 10 ? "0" + domainModelFormPA.PcmamwSubmissionMonth.ToString() : domainModelFormPA.PcmamwSubmissionMonth.ToString());
                 lstData.Add(FormRefNumber.NewRunningNumber, Utility.ToString(res.Result));
                 domainModelFormPA.PcmamwRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormPA, lstData);
-                var result = _repo.SaveFormPA(domainModelFormPA,true);
+                var result = _repo.SaveFormPA(domainModelFormPA, true);
 
                 return result.Result;
             }
@@ -87,7 +87,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 throw ex;
             }
         }
- 
+
         public async Task<int> UpdateFormPA(FormPAHeaderResponseDTO FormPAHeader, List<FormPACRRResponseDTO> FormPACrr, List<FormPACRRAResponseDTO> FormPACrra, List<FormPACRRDResponseDTO> FormPACrrd)
         {
             try
@@ -106,7 +106,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 var domainModelFormPACrr = _mapper.Map<List<RmPaymentCertificateCrr>>(FormPACrr);
                 var domainModelFormPACrra = _mapper.Map<List<RmPaymentCertificateCrra>>(FormPACrra);
                 var domainModelFormPACrrd = _mapper.Map<List<RmPaymentCertificateCrrd>>(FormPACrrd);
-               
+
                 return await _repo.UpdateFormPA(domainModelFormPA, domainModelFormPACrr, domainModelFormPACrra, domainModelFormPACrrd);
             }
             catch (Exception ex)
