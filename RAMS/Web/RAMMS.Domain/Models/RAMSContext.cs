@@ -193,6 +193,7 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmT3History> RmT3History { get; set; }
         public virtual DbSet<RmT4DesiredBdgt> RmT4DesiredBdgt { get; set; }
         public virtual DbSet<RmT4DesiredBdgtHeader> RmT4DesiredBdgtHeader { get; set; }
+        public virtual DbSet<RmUcua> RmUcua { get; set; }
         public virtual DbSet<RmUserGroup> RmUserGroup { get; set; }
         public virtual DbSet<RmUserGroupRights> RmUserGroupRights { get; set; }
         public virtual DbSet<RmUserNotification> RmUserNotification { get; set; }
@@ -10329,6 +10330,12 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.FmhSignWitone).HasColumnName("FMH_Sign_WITONE");
 
+                entity.Property(e => e.FmhSignatureAudit).HasColumnName("FMH_Signature_AUDIT");
+
+                entity.Property(e => e.FmhSignatureWit).HasColumnName("FMH_Signature_WIT");
+
+                entity.Property(e => e.FmhSignatureWitone).HasColumnName("FMH_Signature_WITONE");
+
                 entity.Property(e => e.FmhSrProvider)
                     .HasColumnName("FMH_SR_Provider")
                     .HasMaxLength(100);
@@ -17397,11 +17404,11 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.RmiiriPercentage)
                     .HasColumnName("RMIIRI_Percentage")
-                    .HasColumnType("decimal(9, 0)");
+                    .HasColumnType("decimal(9, 2)");
 
                 entity.Property(e => e.RmiiriRoadLength)
                     .HasColumnName("RMIIRI_Road_Length")
-                    .HasColumnType("decimal(9, 0)");
+                    .HasColumnType("decimal(9, 2)");
 
                 entity.Property(e => e.RmiiriType)
                     .HasColumnName("RMIIRI_Type")
@@ -17974,6 +17981,123 @@ namespace RAMMS.Domain.Models
                 entity.Property(e => e.T4dbhSubmitSts).HasColumnName("T4DBH_SUBMIT_STS");
             });
 
+            modelBuilder.Entity<RmUcua>(entity =>
+            {
+                entity.HasKey(e => e.RmmhPkRefNo)
+                    .HasName("PK__RM_UCUA__8BF27D9A5D15EF08");
+
+                entity.ToTable("RM_UCUA");
+
+                entity.Property(e => e.RmmhPkRefNo)
+                    .HasColumnName("RMMH_PK_Ref_No")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.RmmhActionDescription)
+                    .HasColumnName("RMMH_Action_Description")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhActionTakenBy)
+                    .HasColumnName("RMMH_Action_Taken_By")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhCommentsOfficeUse)
+                    .HasColumnName("RMMH_Comments_Office_Use")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhDateActionTaken)
+                    .HasColumnName("RMMH_Date_Action_Taken")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.RmmhDateCommitteeReview)
+                    .HasColumnName("RMMH_Date_Committee_Review")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.RmmhDateEffectivenessActionTaken)
+                    .HasColumnName("RMMH_Date_Effectiveness_Action_Taken")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.RmmhDateReceived)
+                    .HasColumnName("RMMH_Date_Received")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.RmmhEffectivenessActionDescription)
+                    .HasColumnName("RMMH_Effectiveness_Action_Description")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhEffectivenessActionTakenBy)
+                    .HasColumnName("RMMH_Effectiveness_Action_Taken_By")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhHseSection)
+                    .HasColumnName("RMMH_HSE_Section")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhImprovementRecommendation)
+                    .HasColumnName("RMMH_Improvement_Recommendation")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhImsRep)
+                    .HasColumnName("RMMH_IMS_Rep")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhLocation)
+                    .HasColumnName("RMMH_Location")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhRefId)
+                    .HasColumnName("RMMH_Ref_ID")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhReportingName)
+                    .HasColumnName("RMMH_Reporting_Name")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhSafteyCommitteeChairman)
+                    .HasColumnName("RMMH_Saftey_Committee_Chairman")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhStatus)
+                    .HasColumnName("RMMH_Status")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.RmmhUnsafeAct)
+                    .HasColumnName("RMMH_Unsafe_Act")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhUnsafeActDescription)
+                    .HasColumnName("RMMH_Unsafe_Act_Description")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhUnsafeCondition)
+                    .HasColumnName("RMMH_Unsafe_Condition")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhUnsafeConditionDescription)
+                    .HasColumnName("RMMH_Unsafe_Condition_Description")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RmmhWorkScope)
+                    .HasColumnName("RMMH_Work_Scope")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<RmUserGroup>(entity =>
             {
                 entity.HasKey(e => e.UgPkId)
@@ -18230,8 +18354,6 @@ namespace RAMMS.Domain.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
             });
-
-           
 
             modelBuilder.Entity<RmUvModuleGroupFieldRights>(entity =>
             {
