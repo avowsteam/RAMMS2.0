@@ -188,7 +188,7 @@ namespace RAMMS.Web.UI.Controllers
             {
                 string str = ex.Message;
             }
-            return View();
+            //return View();
             return View(FormAModel);
         }
 

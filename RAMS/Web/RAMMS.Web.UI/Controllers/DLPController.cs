@@ -90,7 +90,7 @@ namespace RAMMS.Web.UI.Controllers
             FormAModel formAModel = new FormAModel();
             FormASearchGridDTO filterData = new FormASearchGridDTO();
             formAModel.SearchObj = filterData;
-            FormAModel _formAModel = new FormAModel();
+            DlpIRIDTO _formAModel = new DlpIRIDTO();
 
             //return View("~/Views/NOD/FormA/landingpage.cshtml", _formAModel);
             return View(_formAModel);

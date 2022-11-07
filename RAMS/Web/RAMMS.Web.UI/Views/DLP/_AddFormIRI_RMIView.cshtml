@@ -169,7 +169,7 @@
     </div>
 </div>
 <div class="modal-footer float-left w-100">
-    <button type="button" class="btn btn-sm btn-outline-theme disablebtn" onclick="javascript:cancel();">Cancel</button>
+    <button type="button" class="btn btn-sm btn-outline-theme disablebtn" onclick="javascript:cancelIRI();">Cancel</button>
     <button type="button" class="btn btn-sm btn-themebtn" onclick="javascript:saveIRI(false);">Save</button>
 </div>
 
@@ -205,6 +205,17 @@
 
         });
     });
+
+    function cancelIRI() {
+        if ($("#IsViewDetail").val() == "1") {
+            $("#FormAAddModal").modal('hide');
+        }
+        else if (app.Confirm("Unsaved changes will be lost. Are you sure you want to cancel?", function (e) {
+            if (e) {
+                $("#FormAAddModal").modal('hide');
+            }
+        }));
+    }
 
     function saveIRI(isSubmit) {
         //if (isSubmit) {
@@ -243,7 +254,7 @@
             success: function (data) {
                 //debugger;
                 HideAjaxLoading();
-                searchHeaderList();
+                searchIRIHeaderList();
                 $("#saveFormABtn").prop("disabled", false);
                 $("#SubmitFormABtn").prop("disabled", false);
                 app.ShowSuccessMessage('Successfully Saved', false);
@@ -260,6 +271,27 @@
 
         });
         //}
+    }
+
+    function searchIRIHeaderList() {
+        var filterData = new Object();
+        filterData.SmartInputValue = $("#FormASmartSearch").val();
+        filterData.Rmu = $("#formADetSrchRMU").val();
+        filterData.section = $("#formADetSrchSec").val();
+        filterData.RoadCode = $("#formADetSrchRoadCode").val();
+        filterData.AssetGroupCode = $("#formADetSrchAsstGrp").val();
+        filterData.Month = $("#formADetSrchMonth").val();
+        $("body").addClass("loading");
+        $.ajax({
+            url: '/DLP/LoadHeaderList',
+            data: filterData,
+            type: 'POST',
+            success: function (data) {
+
+                $("#headerListGrid").html(data);
+                $("body").removeClass("loading");
+            }
+        });
     }
 
 </script>
