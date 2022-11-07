@@ -91,15 +91,17 @@ namespace RAMMS.Business.ServiceProvider.Services
                 frmMap.CrBy = frmMap.ModBy = createdBy;
                 frmMap.CrDt = frmMap.ModDt = DateTime.UtcNow;
 
-                IDictionary<string, string> lstData = new Dictionary<string, string>();
-                if (frmMap.RmuCode.ToUpper() == "MRI")
-                    lstData.Add("RMU", "Miri");
-                else if (frmMap.RmuCode.ToUpper() == "BTN")
-                    lstData.Add("RMU", "Batu Niah");
-                else
-                    lstData.Add("RMU", frmMap.RmuCode.ToString());
-                lstData.Add("YYYY", frmMap.Year.ToString());
-                frmMap.RefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormMap, lstData);
+                //IDictionary<string, string> lstData = new Dictionary<string, string>();
+                //if (frmMap.RmuCode.ToUpper() == "MRI")
+                //    lstData.Add("RMU", "Miri");
+                //else if (frmMap.RmuCode.ToUpper() == "BTN")
+                //    lstData.Add("RMU", "Batu Niah");
+                //else
+                //    lstData.Add("RMU", frmMap.RmuCode.ToString());
+                //lstData.Add("YYYY", frmMap.Year.ToString());
+                //lstData.Add("MM", frmMap.Month.ToString());
+                //lstData.Add(FormRefNumber.NewRunningNumber, Utility.ToString(header.RmmhPkRefNo));
+                //frmMap.RefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormMap, lstData);
 
                 header = _mapper.Map<RmMapHeader>(frmMap);
                 header = await _repo.Save(header, false);
@@ -223,6 +225,12 @@ namespace RAMMS.Business.ServiceProvider.Services
                             int dayCount = CultureInfo.CurrentCulture.Calendar.GetDaysInMonth(dt.Year, dt.Month);
 
                             worksheet.Cell(2, 1).Value = "Monthly Activities Progress For The Month of (" + MonthName + ") (" + rpt.Year + ")";
+                            string rmuName = string.Empty;
+                            if (rpt.RmuCode.ToUpper() == "MRI")
+                                rmuName = "Miri";
+                            else if (rpt.RmuCode.ToUpper() == "BTN")
+                                rmuName = "Batu Niah";
+                            worksheet.Cell(3, 1).Value = "RMU (" + rmuName + ")";
 
 
                             List<int> lstActivityCode = new List<int>();
@@ -239,7 +247,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                                         DateTime dtSeq = new DateTime(Convert.ToInt32(rpt.Year), Convert.ToInt32(rpt.Month), j);
                                         int weekNumber = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(dtSeq, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
 
-                                        worksheet.Cell(4, (j + 6)).Value = "WK" + weekNumber;
+                                        worksheet.Cell(4, (j + 6)).Value = "W" + weekNumber;
                                         worksheet.Cell(4, (j + 6)).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                                         worksheet.Cell(4, (j + 6)).Style.Border.OutsideBorderColor = XLColor.Black;
 
@@ -278,7 +286,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                                         worksheet.Cell(((7 + 1) - 1), (6 + dayCount + 1)).Style.Border.RightBorder = XLBorderStyleValues.Thin;
                                         worksheet.Cell(((7 + 1) - 1), (6 + dayCount + 1)).Style.Border.RightBorderColor = XLColor.Black;
-                                        
+
                                     }
                                     else
                                     {

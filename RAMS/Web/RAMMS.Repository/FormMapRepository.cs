@@ -7,6 +7,7 @@ using RAMMS.DTO.Report;
 using RAMMS.DTO.RequestBO;
 using RAMMS.DTO.ResponseBO;
 using RAMMS.Repository.Interfaces;
+using RAMMS.Common.RefNumber;
 using RAMS.Repository;
 using System;
 using System.Collections.Generic;
@@ -107,19 +108,20 @@ namespace RAMMS.Repository
 
         public List<RmFormDHdr> GetForDDetails(string RMU, int Year, int Month)
         {
-            List<RmFormDHdr> res = (from r in _context.RmFormDHdr where r.FdhRmu == RMU && r.FdhYear == Year && r.FdhDate.Value.Month == Month && r.FdhActiveYn==true select r).ToList();
+            List<RmFormDHdr> res = (from r in _context.RmFormDHdr where r.FdhRmu == RMU && r.FdhYear == Year && r.FdhDate.Value.Month == Month && r.FdhActiveYn == true select r).ToList();
             List<RmFormDDtl> lstRMDtl = new List<RmFormDDtl>();
-            for(int i = 0; i < res.Count(); i++){
+            for (int i = 0; i < res.Count(); i++)
+            {
                 lstRMDtl = new List<RmFormDDtl>();
                 lstRMDtl = (from r in _context.RmFormDDtl where r.FddFdhPkRefNo == res[i].FdhPkRefNo select r).ToList();
                 res[i].RmFormDDtl = lstRMDtl;
-            }            
+            }
             return res;
         }
 
         public List<RmMapDetails> GetForMapDetails(int ID)
         {
-            List<RmMapDetails> res = (from r in _context.RmMapDetails where r.RmmdRmmhPkRefNo == ID select r).ToList();            
+            List<RmMapDetails> res = (from r in _context.RmMapDetails where r.RmmdRmmhPkRefNo == ID select r).ToList();
             return res;
         }
 
@@ -130,10 +132,6 @@ namespace RAMMS.Repository
             {
                 isAdd = true;
                 frmmap.RmmhActiveYn = true;
-                IDictionary<string, string> lstRef = new Dictionary<string, string>();
-                //lstRef.Add("Year", Utility.ToString(frmR1R2.Fr1hYearOfInsp));
-                //lstRef.Add("AssetID", Utility.ToString(frmR1R2.Fr1hAssetId));
-                //frmR1R2.FmhPkRefNo = Common.RefNumber.FormRefNumber.GetRefNumber(FormType.FormR1R2, lstRef);
                 _context.RmMapHeader.Add(frmmap);
             }
             else
@@ -160,14 +158,16 @@ namespace RAMMS.Repository
             if (isAdd)
             {
                 IDictionary<string, string> lstData = new Dictionary<string, string>();
-                //lstData.Add("RoadCode", frmB14.B14hRmuCode);
-                ////lstData.Add("ActivityCode", frmR1R2.FmhActCode);
-                ////lstData.Add("Date", Utility.ToString(frmR1R2.FmhAuditedDate, "YYYYMMDD"));
-                //lstData.Add("Year", frmR1R2.FmhAuditedDate.Value.Year.ToString());
-                //lstData.Add("MonthNo", frmR1R2.FmhAuditedDate.Value.Month.ToString());
-                //lstData.Add("Day", frmR1R2.FmhAuditedDate.Value.Day.ToString());
-                //lstData.Add(FormRefNumber.NewRunningNumber, Utility.ToString(frmR1R2.FmhPkRefNo));
-                //frmR1R2.FmhRefId = FormRefNumber.GetRefNumber(FormType.FormM, lstData);
+                if (frmmap.RmmhRmuCode.ToUpper() == "MRI")
+                    lstData.Add("RMU", "Miri");
+                else if (frmmap.RmmhRmuCode.ToUpper() == "BTN")
+                    lstData.Add("RMU", "Batu Niah");
+                else
+                    lstData.Add("RMU", frmmap.RmmhRmuCode.ToString());
+                lstData.Add("YYYY", frmmap.RmmhYear.ToString());
+                lstData.Add("MM", frmmap.RmmhMonth.ToString());
+                lstData.Add(FormRefNumber.NewRunningNumber, Utility.ToString(frmmap.RmmhPkRefNo));
+                frmmap.RmmhRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormMap, lstData);
                 await _context.SaveChangesAsync();
             }
             return frmmap;
@@ -197,7 +197,7 @@ namespace RAMMS.Repository
 
         public List<RmMapDetails> GetHistoryData(int Id)
         {
-            List<RmMapDetails> res = (from r in _context.RmMapDetails where r.RmmdRmmhPkRefNo == Id select r).OrderBy(x => x.RmmdActivityId).OrderBy(x=>x.RmmdActivityWeekDayNo).ToList();
+            List<RmMapDetails> res = (from r in _context.RmMapDetails where r.RmmdRmmhPkRefNo == Id select r).OrderBy(x => x.RmmdActivityId).OrderBy(x => x.RmmdActivityWeekDayNo).ToList();
             return res;
         }
 
@@ -212,19 +212,20 @@ namespace RAMMS.Repository
             List<FormMapRpt> detail = (from o in _context.RmMapHeader
                                            //where (o.Fr1hAiRdCode == roadcode.Fr1hAiRdCode && o.Fr1hDtOfInsp.HasValue && o.Fr1hDtOfInsp < roadcode.Fr1hDtOfInsp) || o.Fr1hPkRefNo == headerid
                                        where o.RmmhPkRefNo == headerid
-                                       let formB14 = _context.RmMapDetails.OrderBy(x => x.RmmdActivityId).OrderBy(x=>x.RmmdActivityWeekDayNo).FirstOrDefault(x => x.RmmdRmmhPkRefNo == o.RmmhPkRefNo)
+                                       let formB14 = _context.RmMapDetails.OrderBy(x => x.RmmdActivityId).OrderBy(x => x.RmmdActivityWeekDayNo).FirstOrDefault(x => x.RmmdRmmhPkRefNo == o.RmmhPkRefNo)
                                        let formB14UID = _context.RmUsers.FirstOrDefault(x => x.UsrPkId == o.RmmhPreparedBy)
                                        select new FormMapRpt
                                        {
-                                           Month=o.RmmhMonth,
-                                           Year=o.RmmhYear,
+                                           Month = o.RmmhMonth,
+                                           Year = o.RmmhYear,
+                                           RmuCode = o.RmmhRmuCode,
 
                                            PreparedBy = o.RmmhPreparedBy,
                                            PreparedName = formB14UID.UsrUserName,
                                            PreparedDesig = formB14UID.UsrPosition,
                                            PreparedDate = o.RmmhPreparedDate,
                                            PreparedSign = o.RmmhPreparedSign,
-                                           
+
                                            CheckedBy = o.RmmhCheckedBy,
                                            CheckedName = o.RmmhCheckedName,
                                            CheckedDesig = o.RmmhCheckedDesig,
@@ -237,10 +238,10 @@ namespace RAMMS.Repository
                                            VerifiedDate = o.RmmhVerifiedDate,
                                            VerifiedSign = o.RmmhVerifiedSign,
 
-                                          
+
                                            ActivityLocationCode = formB14.RmmdActivityLocationCode,
                                            QuantityKm = formB14.RmmdQuantityKm,
-                                           ProductUnit = formB14.RmmdProductUnit,                                           
+                                           ProductUnit = formB14.RmmdProductUnit,
                                        }).ToList();
 
             return detail;

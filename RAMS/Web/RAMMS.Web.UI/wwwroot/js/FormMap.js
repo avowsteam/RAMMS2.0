@@ -17,7 +17,7 @@
     }
 
     this.UserIdChange = function (tis) {
-        debugger;
+
         var sel = $(tis);
         var opt = sel.find(":selected");
         var par = sel.closest("[userIdGroup]");
@@ -41,7 +41,7 @@
         var failed = false;
         var action = isSubmit ? "/FormMap/Submit" : "/FormMap/SaveFormMap";
         var isvalid = true;
-        debugger;
+
 
         var FormMapHDR = new Object();
         var FormMap = new Object();
@@ -58,7 +58,7 @@
         var MapDetails = []
         var j = 0;
         $('#tblLabour > tbody  > tr:even').each(function (index, tr) {
-            debugger;
+
             var Map = new Object();
             var Year = $("#formMapYear").val();
             var Month = $("#formMapMonth").val();
@@ -140,7 +140,7 @@
             return actionSection;
         }
         this.ActionClick = function (tis) {
-            debugger;
+
             var obj = $(tis);
             var type = $.trim(obj.text());
             var rowidx = parseInt(obj.closest("[rowidx]").attr("rowidx"), 10);
@@ -229,7 +229,7 @@
     }
 
     this.PageInit = function () {
-        debugger;
+
         if (this.IsEdit) {
             //if (this.HeaderData.FormB14Header && this.HeaderData.FormB14Header.PkRefNo && this.HeaderData.FormB14Header.PkRefNo > 0) {
             if ($("#pkRefNo").val() != "" && $("#pkRefNo").val() > 0) {
@@ -263,7 +263,7 @@
 }
 
 function GetfindDetails() {
-    debugger;
+
     InitAjaxLoading();
     var FormMap = new Object();
 
@@ -278,7 +278,7 @@ function GetfindDetails() {
         data: { formMapdata: FormMapData },
         dataType: "json",
         success: function (data) {
-            debugger;
+
             HideAjaxLoading();
             if (data == -1) {
                 app.ShowErrorMessage(data.errorMessage);
@@ -410,29 +410,32 @@ function GetDayName(date) {
 }
 
 function AppendData(id, Status) {
-    debugger;
+
     var Year = $("#formMapYear").val();
     var Month = $("#formMapMonth").val();
     var dayCount = daysInMonth(Month, Year);
     for (var i = 1; i <= dayCount; i++) {
-        debugger;
+
         $('#tblLabour thead tr:eq(1) th:last').after('<th class="xl65" x:str><span style="width:70px;float:left;text-align:center">' + GetDayName(Month + '/' + i + '/' + Year) + ' </span></th>');
         $('#tblLabour thead tr:eq(2) th:last').after('<th class="xl65" x:str><span style="width:70px;float:left;text-align:center">' + i + ' </span></th>');
         $('#tblLabour tbody tr:even').each(function () {
             var actCode = $(this).find(".x01").text();
             $(this).find("td:last").after('<td id="tdloc' + actCode + i + '" style="width:80px;border-left:1px solid #dee2e6;"></td>');
+            //$(this).find("td:last").after('<td id="tdloctot' + actCode + i + '" style="width:80px;border-left:1px solid #dee2e6;"></td>');
         });
         $('#tblLabour tbody tr:odd').each(function () {
             var actCode = $(this).find(".sp02").text();
             $(this).find("td:last").after('<td id="tdqan' + actCode + i + '" style="width:80px;border-left:1px solid #dee2e6;"></td>');
+            //$(this).find("td:last").after('<td id="tdtot' + actCode + i + '" style="width:80px;border-left:1px solid #dee2e6;"></td>');
         });
     }
     AppendPlannedData();
     AppendWeek();
+    QuantityTotal();
 }
 
 function AppendPlannedData() {
-    debugger;
+
     var req = {};
     var rmucode = $('#formMapRMU').val();
     var year = $("#formMapYear").val();
@@ -447,7 +450,7 @@ function AppendPlannedData() {
         async: false,
         type: 'Post',
         success: function (data) {
-            debugger;
+
             if (data.result.length > 0) {
                 for (var i = 0; i < data.result.length; i++) {
                     var d = new Date(data.result[i].weekDate);
@@ -511,8 +514,7 @@ function ViewData(id) {
             var actCode = $(this).find(".sp02").text();
             $(this).find("td:last").after('<td id="tdqan' + actCode + i + '" style="width:80px;border-left:1px solid #dee2e6;"></td>');
         });
-    }
-
+    }    
     //Append Data
     var req = {};
     var detailID = id;
@@ -524,7 +526,7 @@ function ViewData(id) {
         async: false,
         type: 'Post',
         success: function (data) {
-            debugger;
+
             if (data.result.length > 0) {
                 for (var i = 0; i < data.result.length; i++) {
                     var actCode = data.result[i].activityId;
@@ -544,10 +546,11 @@ function ViewData(id) {
     });
 
     AppendWeek();
+    QuantityTotal();
 }
 
 function GetWeekNumber(year, month, day) {
-    debugger;
+
     //var target = new Date(year, month, day);
     //var dayNr = (target.getDay() + 6) % 7;
     //target.setDate(target.getDate() - dayNr + 3);
@@ -576,7 +579,7 @@ function AppendWeek() {
     var ExistweekNumber = 0;
     var currweekNumber = 0;
     for (var i = 1; i <= dayCount; i++) {
-        debugger;
+
         currweekNumber = GetWeekNumber(Year, Month, i);
         if (i == 1) {
             ExistweekNumber = currweekNumber;
@@ -593,4 +596,27 @@ function AppendWeek() {
             $('#tblLabour thead tr:eq(0) th:last').after('<th class="xl65" colspan=' + weekCount + ' x:str style="border-left:1px solid #dee2e6;"><span style="width:70px;float:left;text-align:center"> Week' + currweekNumber + ' </span></th>');
         }
     }
+}
+
+function QuantityTotal() {
+    debugger;
+    var Year = $("#formMapYear").val();
+    var Month = $("#formMapMonth").val();
+    var dayCount = daysInMonth(Month, Year);
+    $('#tblLabour tbody tr:even').each(function () {
+        var actCode = $(this).find(".x01").text();
+        $(this).find("td:last").after('<td id="tdloctotal' + actCode + '" style="width:80px;border-left:1px solid #dee2e6;"></td>');
+    });
+    $('#tblLabour tbody tr:odd').each(function () {
+        var actCode = $(this).find(".sp02").text();
+        var total = 0;
+        for (var i = 1; i <= dayCount; i++) {
+            total = parseFloat(total) + ($('#tdqan' + actCode + i).text() != '' ? parseFloat($('#tdqan' + actCode + i).text()) : 0);
+        }
+        $(this).find("td:last").after('<td id="tdtot' + actCode + i + '" style="width:80px;border-left:1px solid #dee2e6;"></td>');
+        $('#tdtot' + actCode + i).text(total);
+    });
+    $("#tblLabour thead tr:eq(0) th:last").after('<th style="width:80px;border-left:1px solid #dee2e6;"></td>');
+    $("#tblLabour thead tr:eq(1) th:last").after('<th style="width:80px;border-left:1px solid #dee2e6;"></td>');
+    $("#tblLabour thead tr:eq(2) th:last").after('<th style="width:80px;border-left:1px solid #dee2e6;">Total</td>');
 }
