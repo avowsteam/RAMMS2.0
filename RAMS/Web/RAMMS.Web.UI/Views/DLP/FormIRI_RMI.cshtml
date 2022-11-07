@@ -7,402 +7,8 @@
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
 }
 
-<!--Old Code-->
-<!--<div class="container-fluid">
-    <div class="row">
-
-        <div class="body-header w-100">
-            <div class="col-lg-12">
-                <div class="w-100 d-flex justify-content-md-between py-2 align-items-center">
-                    <span class="mb-0 font-weight-bold font-20">
-                        International Roughness Index (IRI) & Road Maintenance Indicator (RMI)
-                    </span>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb breadcrumb-alt mb-0 bg-transparent">
-                            <li class="breadcrumb-item">Home</li>-->
-@*<li class="breadcrumb-item" aria-current="page">Form V1</li>*@
-<!--</ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12" style="display:none">
-            <div class="row">
-                <div class="col-2 form-group">
-                    <label>Year</label>
-                    <select class="form-control"> <option> Select Year</option></select>
-                </div>
-                <div class="col-8"></div>
-                <div class="col-2 form-group">
-                    <button id="btnFindDetails" type="button" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right mt-3">Find Details</button>
-                </div>
-                <div class="col-lg-10 offset-lg-1 mt-2">
-                    <div class="table-responsive">
-                        <div class="dataTables_wrapper dt-bootstrap4 no-footer">
-                            <div class="dataTables_scrollBody">
-                                <div class="dataTables_scroll">
-                                    <div class="w-100 position-relative in-tbl-btns custom-tbl">
-                                        <table class="table w-100 nowrap dataTable no-footer">
-                                            <thead style="background-color: #c8e1ff">
-                                                <tr>
-                                                    <th colspan="1" class="text-center">
-
-                                                    </th>
-                                                    <th colspan="1" class="text-center">
-
-                                                    </th>
-                                                    <th colspan="1" class="text-center">
-                                                        Percentage%
-                                                    </th>
-                                                    <th colspan="1" class="text-center">
-                                                        Road Length (km)
-                                                    </th>
-                                                </tr>
-
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <b>RMI</b>
-                                                    </td>
-                                                    <td>
-                                                        -
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" disabled class="form-control" />
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control" />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td rowspan="3">
-                                                        <b>IRI</b>
-                                                    </td>
-                                                    <td>
-                                                        Condition 1
-
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" disabled class="form-control" />
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control" />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-
-                                                    <td>
-                                                        Condition 2
-
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" disabled class="form-control" />
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control" />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        Condition 3
-
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" disabled class="form-control" />
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control" />
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>   <div class="col-md-12 float-right text-right custom-footer">
-                <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
-                <button id="saveFormN2Btn" type="button" class="btn btn-sm btn-themebtn">Save</button>
-            </div>
-        </div>
-        <div class="col-12">
-
-            <div class="w-100 dt-tbl-section mt-3">
-                <div class="w-100 float-left position-relative">
-
-                    <div class="col-2 form-group">
-                        <label>Year</label>
-                        <select class="form-control"> <option> Select Year</option></select>
-                    </div>
-                    <div class="grid-btns">
-                        <button type="button" class="btn btn-sm btn-themebtn"><span class="add-icon"></span> Add</button>
-                    </div>
-                    <div id="headerListGrid" class="w-100 dt-tbl-section">
-                        <div class="main-container" id="container">
-                            <div id="content" class="table-responsive">
-                                <div class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                    <div class="top">
-                                        <div class="dataTables_length">
-                                            <label>Show <select name="FormDGridView_length" aria-controls="FormDGridView" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10 rows</option><option value="25">25 rows</option><option value="50">50 rows</option><option value="100">100 rows</option><option value="500">500 rows</option><option value="100000">All</option></select> entries</label>
-                                        </div><div class="dataTables_paginate paging_simple_numbers" id="FormDGridView_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="FormDGridView_previous"><a href="#" aria-controls="FormDGridView" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="FormDGridView" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="FormDGridView" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="FormDGridView" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="FormDGridView" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="FormDGridView" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item disabled" id="FormDGridView_ellipsis"><a href="#" aria-controls="FormDGridView" data-dt-idx="6" tabindex="0" class="page-link">...</a></li><li class="paginate_button page-item "><a href="#" aria-controls="FormDGridView" data-dt-idx="7" tabindex="0" class="page-link">9</a></li><li class="paginate_button page-item next" id="FormDGridView_next"><a href="#" aria-controls="FormDGridView" data-dt-idx="8" tabindex="0" class="page-link">Next</a></li></ul></div>
-                                    </div><div id="FormDGridView_processing" class="dataTables_processing card" style="display: none;">Processing...</div><div class="dataTables_scroll">
-                                        <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
-                                            <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 1325.71px; padding-right: 0px;">
-                                            </div>
-                                        </div><div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 100%;">
-
-
-
-                                            <div class="dataTables_scroll">
-                                                <div class="w-100 position-relative in-tbl-btns custom-tbl">
-
-                                                    <table class="table w-100 nowrap dataTable no-footer">
-
-                                                        <thead style="background-color: #c8e1ff">
-                                                            <tr>
-                                                                <th></th>
-                                                                <th colspan="1">
-                                                                    Year
-                                                                </th>
-                                                                <th colspan="1">
-
-                                                                    IRI Condition1 (KM)
-                                                                </th>
-                                                                <th colspan="1">
-
-                                                                    IRI Condition2 (KM)
-                                                                </th>
-                                                                <th colspan="1">
-
-                                                                    IRI Condition3 (KM)
-                                                                </th>
-
-
-                                                                <th colspan="1">
-
-                                                                    RMI (KM)
-
-                                                                </th>
-                                                            </tr>
-
-                                                        </thead>
-                                                        <tbody>
-
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="btn-group dropright" id="actiondropdown">
-                                                                        <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                                            Click Me
-                                                                        </button>
-                                                                        <div class="dropdown-menu">
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="edit-icon"></span> Edit
-                                                                            </button>
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="del-icon"></span> Delete
-                                                                            </button>
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="view-icon"></span> View
-                                                                            </button>
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="print-icon"></span> Print
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-
-                                                                <td>
-                                                                    -----
-                                                                </td>
-                                                                <td>
-                                                                    -----
-                                                                </td>
-
-                                                                <td>
-                                                                    -----
-                                                                </td>
-                                                                <td>
-                                                                    -----
-                                                                </td>
-                                                                <td>
-                                                                    -----
-                                                                </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="btn-group dropright" id="actiondropdown">
-                                                                        <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                                            Click Me
-                                                                        </button>
-                                                                        <div class="dropdown-menu">
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="edit-icon"></span> Edit
-                                                                            </button>
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="del-icon"></span> Delete
-                                                                            </button>
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="view-icon"></span> View
-                                                                            </button>
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="print-icon"></span> Print
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-
-                                                                <td>
-                                                                    -----
-                                                                </td>
-                                                                <td>
-                                                                    -----
-                                                                </td>
-
-                                                                <td>
-                                                                    -----
-                                                                </td>
-                                                                <td>
-                                                                    -----
-                                                                </td>
-                                                                <td>
-                                                                    -----
-                                                                </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="btn-group dropright" id="actiondropdown">
-                                                                        <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                                            Click Me
-                                                                        </button>
-                                                                        <div class="dropdown-menu">
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="edit-icon"></span> Edit
-                                                                            </button>
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="del-icon"></span> Delete
-                                                                            </button>
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="view-icon"></span> View
-                                                                            </button>
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="print-icon"></span> Print
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-
-                                                                <td>
-                                                                    -----
-                                                                </td>
-                                                                <td>
-                                                                    -----
-                                                                </td>
-
-                                                                <td>
-                                                                    -----
-                                                                </td>
-                                                                <td>
-                                                                    -----
-                                                                </td>
-                                                                <td>
-                                                                    -----
-                                                                </td>
-
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="btn-group dropright" id="actiondropdown">
-                                                                        <button id="actionclick" type="button" class="btn btn-sm btn-themebtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                                            Click Me
-                                                                        </button>
-                                                                        <div class="dropdown-menu">
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="edit-icon"></span> Edit
-                                                                            </button>
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="del-icon"></span> Delete
-                                                                            </button>
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="view-icon"></span> View
-                                                                            </button>
-                                                                            <button type="button" class="dropdown-item editdel-btns">
-                                                                                <span class="print-icon"></span> Print
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-
-                                                                <td>
-                                                                    -----
-                                                                </td>
-                                                                <td>
-                                                                    -----
-                                                                </td>
-
-                                                                <td>
-                                                                    -----
-                                                                </td>
-                                                                <td>
-                                                                    -----
-                                                                </td>
-                                                                <td>
-                                                                    -----
-                                                                </td>
-
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="bottom d-flex justify-content-md-between">
-                                        <div class="dataTables_info" id="FormDGridView_info" role="status" aria-live="polite">Showing 1 to 10 of 90 entries</div>
-                                        <div class="dataTables_paginate paging_simple_numbers">
-                                            <ul class="pagination">
-                                                <li class="paginate_button page-item previous disabled">
-                                                    <a href="#" aria-controls="FormDGridView" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-                                                </li>
-                                                <li class="paginate_button page-item active"><a href="#" aria-controls="FormDGridView" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                                                <li class="paginate_button page-item "><a href="#" aria-controls="FormDGridView" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-                                                <li class="paginate_button page-item "><a href="#" aria-controls="FormDGridView" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-                                                <li class="paginate_button page-item "><a href="#" aria-controls="FormDGridView" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-                                                <li class="paginate_button page-item "><a href="#" aria-controls="FormDGridView" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-                                                <li class="paginate_button page-item disabled"><a href="#" aria-controls="FormDGridView" data-dt-idx="6" tabindex="0" class="page-link"> ...</a></li>
-                                                <li class="paginate_button page-item "><a href="#" aria-controls="FormDGridView" data-dt-idx="7" tabindex="0" class="page-link">9</a></li>
-                                                <li class="paginate_button page-item next"><a href="#" aria-controls="FormDGridView" data-dt-idx="8" tabindex="0" class="page-link">Next</a></li>
-                                            </ul>
-                                        </div>
-                                    </div><div class="clear"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-
-    </div>
-
-</div>-->
-<!--Old Code End-->
-
 @inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
-@model RAMMS.Web.UI.Models.FormAModel;
+@model RAMMS.DTO.ResponseBO.DlpIRIDTO;
 <script type="text/javascript">
     $(document).ready(function () {
         $("#formAAdvSearch").hide();
@@ -658,13 +264,27 @@
     <main id="main-container" class="row">
         <div class="col-lg-12">
             <div class="w-100 float-left position-relative">
-                @if (security.IsPCModify(ModuleNameList.NOD))
+                @*@if (security.IsPCModify(ModuleNameList.NOD))
                 {
                     <div class="grid-btns">
-                        <button type="button" @isModifyPerm class="btn btn-sm btn-themebtn" data-toggle="modal" data-target="#FormAAddModal" data-backdrop="static" onclick="javascript:openFormAModel(0);"><span class="add-icon"></span> Add</button>
+                        <button type="button" @isModifyPerm class="btn btn-sm btn-themebtn" data-toggle="modal" data-target="#FormAAddModal" data-backdrop="static" onclick="javascript:openFormAModel(0);"><span class="add-icon"></span> Add IRI and RMI</button>
                     </div>
-                }
+                }*@
 
+                <div class="row">
+                    <div class="col-lg-10">
+                        @*<div class="form-group col-xl-1" style="max-width:1%;flex:0 0 1%">/</div>*@
+                        <div class="form-group col-lg-2 col-md-4">
+
+                            @Html.Label("Year (YYYY)", "Year (YYYY)")
+                            @Html.DropDownListFor(Ahdr => Ahdr.RmiiriYear, (IEnumerable
+                            <SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "RmiiriYear", @class = "form-control disableinput editdisable" })
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4 text-right">
+                        <button type="button" class="btn btn-sm btn-themebtn" data-toggle="modal" data-target="#FormAAddModal" data-backdrop="static" onclick="javascript:openFormAModel(0);"><span class="add-icon"></span> Add IRI and RMI</button>
+                    </div>
+                </div>
 
                 @* Add Form A Modal *@
                 <div class="modal fade" id="FormAAddModal" tabindex="-1" role="dialog" aria-labelledby="FormAAddModalid" aria-hidden="true">
@@ -687,7 +307,7 @@
 
                 @*<div id="headerListGrid">
 
-                    </div>*@
+        </div>*@
 
                 <div id="headerListGrid" class="w-100 dt-tbl-section">
                     @{
@@ -703,6 +323,13 @@
 @if (ViewBag.ViewId != null && ViewBag.ViewId != "")
 {
     <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#RmiiriYear').change(function () {
+                var itemID = $('#RmiiriYear').val();
+            });
+        });
+
         $(function () {
             setTimeout(function () {
                 $("#FormAAddModal").modal();
