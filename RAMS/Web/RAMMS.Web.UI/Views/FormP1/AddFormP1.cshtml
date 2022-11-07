@@ -36,7 +36,7 @@
                 <div class=" w-100 d-flex justify-content-center py-1">
                     <div class="form-group mb-0">
                         <label style="float:left; padding: .5rem .5rem 0 !important;">Reference No.</label>
-                        <input class="form-control" style="width:330px  ;" type="text" value="@Model.FormP1Header.RefId" disabled="">
+                        <input class="form-control" style="width:330px  ;" type="text" id="FormP1Header_RefId" value="@Model.FormP1Header.RefId" disabled="">
                     </div>
                 </div>
             </div>
@@ -234,7 +234,7 @@
                                                         <div class="dataTables_scroll">
                                                             <div class="w-100 position-relative in-tbl-btns custom-tbl">
 
-                                                                <table class="table w-100 nowrap dataTable no-footer">
+                                                                <table id="tbldetails" class="table w-100 nowrap dataTable no-footer">
                                                                     <thead style="background-color: #c8e1ff">
                                                                         <tr>
                                                                             <th>Description</th>
@@ -256,8 +256,8 @@
                                                                             <td><input class="PayAdd SPCR form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[0].Addition:null)" /></td>
                                                                             <td><input class="PayDed SPCR form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[0].Deduction:null)" /></td>
                                                                             <td><input class="TotPrevPay SPCR form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[0].PreviousPayment:null)" /></td>
-                                                                            <td><input class="TottoDate SPCR form-control" type="number" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[0].TotalToDate:null)" /></td>
-                                                                            <td><input class="AmtincPC SPCR form-control" type="number" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[0].AmountIncludedInPc:null)" /></td>
+                                                                            <td><input class="TottoDate SPCR form-control" type="number" disabled value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[0].TotalToDate:null)" /></td>
+                                                                            <td><input class="AmtincPC SPCR form-control" type="number" disabled value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[0].AmountIncludedInPc:null)" /></td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td class="PT">B) Instructed Works:</td>
@@ -265,8 +265,8 @@
                                                                             <td><input class="PayAdd SPIC form-control" type="text" value="LAD:" disabled /></td>
                                                                             <td><input class="PayDed SPIC form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[1].Deduction:null)" /></td>
                                                                             <td><input class="TotPrevPay SPIC form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[1].PreviousPayment:null)" /></td>
-                                                                            <td><input class="TottoDate SPIC form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[1].TotalToDate:null)" /></td>
-                                                                            <td><input class="AmtincPC SPIC form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[1].AmountIncludedInPc:null)" /></td>
+                                                                            <td><input class="TottoDate SPIC form-control" type="number" disabled onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[1].TotalToDate:null)" /></td>
+                                                                            <td><input class="AmtincPC SPIC form-control" type="number" disabled onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[1].AmountIncludedInPc:null)" /></td>
 
                                                                         </tr>
                                                                         <tr>
@@ -276,8 +276,8 @@
                                                                             <td><input class="PayAdd NCCR form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[2].Addition:null)" /></td>
                                                                             <td><input class="PayDed NCCR form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[2].Deduction:null)" /></td>
                                                                             <td><input class="TotPrevPay NCCR form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[2].PreviousPayment:null)" /></td>
-                                                                            <td><input class="TottoDate NCCR form-control" type="number" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[2].TotalToDate:null)" /></td>
-                                                                            <td><input class="AmtincPC NCCR form-control" type="number" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[2].AmountIncludedInPc:null)" /></td>
+                                                                            <td><input class="TottoDate NCCR form-control" type="number" disabled value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[2].TotalToDate:null)" /></td>
+                                                                            <td><input class="AmtincPC NCCR form-control" type="number" disabled value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[2].AmountIncludedInPc:null)" /></td>
 
                                                                         </tr>
                                                                         <tr>
@@ -286,8 +286,8 @@
                                                                             <td><input class="PayAdd NCIC form-control" type="text" value="LAD:" disabled /></td>
                                                                             <td><input class="PayDed NCIC form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[3].Deduction:null)" /></td>
                                                                             <td><input class="TotPrevPay NCIC form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[3].PreviousPayment:null)" /></td>
-                                                                            <td><input class="TottoDate NCIC form-control" type="number" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[3].TotalToDate:null)" /></td>
-                                                                            <td><input class="AmtincPC NCIC form-control" type="number" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[3].AmountIncludedInPc:null)" /></td>
+                                                                            <td><input class="TottoDate NCIC form-control" type="number" disabled value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[3].TotalToDate:null)" /></td>
+                                                                            <td><input class="AmtincPC NCIC form-control" type="number" disabled value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[3].AmountIncludedInPc:null)" /></td>
 
                                                                         </tr>
                                                                         <tr>
@@ -297,8 +297,8 @@
                                                                             <td><input class="PayAdd NSCR form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[4].Addition:null)" /></td>
                                                                             <td><input class="PayDed NSCR form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[4].Deduction:null)" /></td>
                                                                             <td><input class="TotPrevPay NSCR form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[4].PreviousPayment:null)" /></td>
-                                                                            <td><input class="TottoDate NSCR form-control" type="number" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[4].TotalToDate:null)" /></td>
-                                                                            <td><input class="AmtincPC NSCR form-control" type="number" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[4].AmountIncludedInPc:null)" /></td>
+                                                                            <td><input class="TottoDate NSCR form-control" type="number" disabled value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[4].TotalToDate:null)" /></td>
+                                                                            <td><input class="AmtincPC NSCR form-control" type="number" disabled value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[4].AmountIncludedInPc:null)" /></td>
 
                                                                         </tr>
                                                                         <tr>
@@ -307,8 +307,8 @@
                                                                             <td><input class="PayAdd NSIC form-control" type="text" value="LAD:" disabled /></td>
                                                                             <td><input class="PayDed NSIC form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[5].Deduction:null)" /></td>
                                                                             <td><input class="TotPrevPay NSIC form-control" type="number" onchange="CalculateValues(this)" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[5].PreviousPayment:null)" /></td>
-                                                                            <td><input class="TottoDate NSIC form-control" type="number" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[5].TotalToDate:null)" /></td>
-                                                                            <td><input class="AmtincPC NSIC form-control" type="number" value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[5].AmountIncludedInPc:null)" /></td>
+                                                                            <td><input class="TottoDate NSIC form-control" type="number" disabled value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[5].TotalToDate:null)" /></td>
+                                                                            <td><input class="AmtincPC NSIC form-control" type="number" disabled value="@(Model.FormP1Detail.Count>0? Model.FormP1Detail[5].AmountIncludedInPc:null)" /></td>
 
                                                                         </tr>
                                                                         <tr>
@@ -317,21 +317,21 @@
 
                                                                             </td>
                                                                             <td class="PT">A) Contract Roads:</td>
-                                                                            <td><input class="PayAmt  STCR form-control" type="number" onchange="CalculateValues(this)" /></td>
-                                                                            <td><input class="PayAdd  STCR form-control" type="number" onchange="CalculateValues(this)" /></td>
-                                                                            <td><input class="PayDed  STCR form-control" type="number" onchange="CalculateValues(this)" /></td>
-                                                                            <td><input class="TotPrevPay STCR form-control" type="number" onchange="CalculateValues(this)" /></td>
-                                                                            <td><input class="TottoDate STCR form-control" type="number" onchange="CalculateValues(this)" /></td>
-                                                                            <td><input class="AmtincPC STCR form-control" type="number" onchange="CalculateValues(this)" /></td>
+                                                                            <td><input class="PayAmt  STCR form-control" type="number" disabled onchange="CalculateValues(this)" /></td>
+                                                                            <td><input class="PayAdd  STCR form-control" type="number" disabled onchange="CalculateValues(this)" /></td>
+                                                                            <td><input class="PayDed  STCR form-control" type="number" disabled onchange="CalculateValues(this)" /></td>
+                                                                            <td><input class="TotPrevPay STCR form-control" type="number" disabled onchange="CalculateValues(this)" /></td>
+                                                                            <td><input class="TottoDate STCR form-control" type="number" disabled onchange="CalculateValues(this)" /></td>
+                                                                            <td><input class="AmtincPC STCR form-control" type="number" disabled onchange="CalculateValues(this)" /></td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td class="PT">B) Instructed Works:</td>
-                                                                            <td><input class="PayAmt STIC form-control" type="number" onchange="CalculateValues(this)" /></td>
-                                                                            <td><input class="PayAdd STIC form-control" type="text" value="LAD:" disabled /></td> 
-                                                                            <td><input class="PayDed STIC form-control" type="number" onchange="CalculateValues(this)" /></td>
-                                                                            <td><input class="TotPrevPay STIC form-control" type="number" onchange="CalculateValues(this)" /></td>
-                                                                            <td><input class="TottoDate STIC form-control" type="number" onchange="CalculateValues(this)" /></td>
-                                                                            <td><input class="AmtincPC STIC form-control" type="number" onchange="CalculateValues(this)" /></td>
+                                                                            <td><input class="PayAmt STIC form-control" type="number" disabled onchange="CalculateValues(this)" /></td>
+                                                                            <td><input class="form-control" type="text" value="LAD:"  disabled /></td> 
+                                                                            <td><input class="PayDed STIC form-control" type="number" disabled onchange="CalculateValues(this)" /></td>
+                                                                            <td><input class="TotPrevPay STIC form-control" type="number" disabled onchange="CalculateValues(this)" /></td>
+                                                                            <td><input class="TottoDate STIC form-control" type="number" disabled onchange="CalculateValues(this)" /></td>
+                                                                            <td><input class="AmtincPC STIC form-control" type="number" disabled onchange="CalculateValues(this)" /></td>
                                                                         </tr>
                                                                     </tbody>
 
@@ -379,7 +379,7 @@
                                                                     <div class="input-group-prepend">
                                                                         <span class="input-group-text">RM</span>
                                                                     </div>
-                                                                    <input class="form-control numeric allow_numeric text-right" disabled type="text" value="">
+                                                                    <input  id="txtGrandTotal" class="form-control numeric allow_numeric text-right" disabled type="text" value="">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -407,7 +407,7 @@
         <div class="row">
         <div class="col-lg-12 my-3 h6 border py-3" style="line-height: 30px;">
             <span class="float-left"> I certify that under the terms of Contract No.  PWD/HO/P1Header0/2019  , the sum of </span>
-            <span class="float-left"><input type="text" class="form-control border-top border-right border-left" style="width: 300px;margin-left: 8px;" /></span>
+            <span class="float-left"><input id="txtTotalPayment"   value="@Model.FormP1Header.TotalPayment" type="number" class="form-control border-top border-right border-left" style="width: 300px;margin-left: 8px;" /></span>
             <span class="float-left px-2">
             is due to the Service Provider.</span>
         </div>

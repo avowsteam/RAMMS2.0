@@ -2,7 +2,7 @@
 $(document).ready(function () {
 
     $('#tblDetails > tbody  > tr').each(function (i, tr) {
-        if (jsonObj[i].length > 0) {
+        if (i < jsonObj.length) {
             $(this).find("td:nth-child(1)").find("input").val(jsonObj[i].IwRef)
             $(this).find("td:nth-child(2)").find("input").val(jsonObj[i].ProjectTitle)
 
