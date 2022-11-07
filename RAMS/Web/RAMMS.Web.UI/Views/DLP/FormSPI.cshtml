@@ -45,17 +45,16 @@
                 <div class="w-100 d-flex justify-content-md-between py-2 align-items-center">
                     <span class="mb-0 font-weight-bold font-20 mt-3">Service Provider Performance Indicator (SPI)</span>
                 </div>
+            </div>         
+            <div class="col-lg-2 offset-lg-10 form-group mt-3">
+                <label>Year</label>
+                @Html.DropDownList("DLPYear", (IEnumerable<SelectListItem>)year, "Select Year", new { @Id = "formDlpYear", @class = "form-control" })
             </div>
-
             <div class="col-md-12 mb-2">
                 <div class="float-left form-group">
                     <button id="syncBtn" type="button" class="btn btn-sm btn-themebtn" onclick="Sync()">Sync</button>
                 </div>
 
-            </div>
-            <div class="col-lg-2 offset-lg-10 form-group mt-3">
-                <label>Year</label>
-                @Html.DropDownList("DLPYear", (IEnumerable<SelectListItem>)year, "Select Year", new { @Id = "formDlpYear", @class = "form-control" })
             </div>
         </div>
 
