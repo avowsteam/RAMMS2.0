@@ -392,7 +392,8 @@
                             {
                                 if (item.SpiCActual.HasValue && item.SpiCPlan.HasValue)
                                 {
-                                    decimal pai = item.SpiCActual.Value / item.SpiCPlan.Value;
+                                    //decimal val = item.SpiCPlan.Value;
+                                    decimal pai = item.SpiPai.Value;// val > 0 ? item.SpiCActual.Value / val : 0;
                                     <td>@pai.ToString("0.00")</td>
                                 }
                                 else
@@ -410,7 +411,7 @@
                             {
                                 if (item.SpiPiWorkActual.HasValue && item.SpiEff.HasValue && item.SpiRb.HasValue && item.SpiPiWorkActual.HasValue)
                                 {
-                                    decimal pai = item.SpiPiWorkActual.Value + item.SpiEff.Value + item.SpiRb.Value - item.SpiPiWorkActual.Value;
+                                    decimal pai = item.SpiSpi.Value;// item.SpiPiWorkActual.Value + item.SpiEff.Value + item.SpiRb.Value - item.SpiPiWorkActual.Value;
                                     <td>@pai.ToString("0.00")</td>
                                 }
                                 else
