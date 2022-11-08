@@ -572,9 +572,10 @@
                         '</div>' +
                             '</div >';
                         $('#divPie').append(html);
+                        debugger;
                         var datapie = [{
-                            values: [data[i].rfCondition1, data[i].rfCondition2, data[i].rfCondition3],
-                            labels: ['Condition1', 'Condition2', 'Condition3'],
+                            values: [data[i].rfConditionper1, data[i].rfConditionper2, data[i].rfConditionper3],
+                            labels: ['Condition1 ' + '(' + data[i].rfCondition1 + 'km' + ')', 'Condition2 ' + '(' + data[i].rfCondition2 + 'km' + ')', 'Condition3 ' + '(' + data[i].rfCondition3 + 'km' + ')'],
                             type: 'pie',
                             marker: {
                                 colors: ultimateColors[0]
