@@ -30,6 +30,8 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<PagingResult<DlpIRIDTO>> GetFilteredFormAGrid(FilteredPagingDefinition<FormASearchGridDTO> filterOptions);
 
         Task<DlpIRIDTO> GetIRIData(int year);
+
+        int? DeleteFormIRI(int id);
         #endregion
 
     }

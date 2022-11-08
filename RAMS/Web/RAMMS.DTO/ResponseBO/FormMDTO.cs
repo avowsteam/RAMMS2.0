@@ -37,12 +37,16 @@ namespace RAMMS.DTO.ResponseBO
         public string Findings { get; set; }
         public string CorrectiveActions { get; set; }
         public bool? SignAudit { get; set; }
+
+        public string SignatureAudit { get; set; }
         public int? UseridAudit { get; set; }
         public string UsernameAudit { get; set; }
         public string DesignationAudit { get; set; }
         public DateTime? DateAudit { get; set; }
         public string OfAudit { get; set; }
         public bool? SignWit { get; set; }
+
+        public string SignatureWit { get; set; }
         public int? UseridWit { get; set; }
         public string UsernameWit { get; set; }
         public string DesignationWit { get; set; }
@@ -50,6 +54,8 @@ namespace RAMMS.DTO.ResponseBO
         public string OfWit { get; set; }
 
         public bool? SignWitone { get; set; }
+
+        public string SignatureWitone { get; set; }
         public int? UseridWitone { get; set; }
         public string UsernameWitone { get; set; }
         public string DesignationWitone { get; set; }

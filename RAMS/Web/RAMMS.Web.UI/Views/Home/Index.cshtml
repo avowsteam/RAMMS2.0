@@ -194,37 +194,48 @@
                     <div class="card-body">
 
                         <div class="row">
-
-
-                            <div class="col-lg-10 offset-lg-1 mt-2 border-bottom" style="height:90%">
-                                <canvas id="myChart2"></canvas>
-
+                            <div class="col-2 form-group">
                             </div>
-                            <div class="col-lg-12 table-responsive">
+                            <div class="col-md-8 text-right">
+                                <div class="col-lg-10 offset-lg-1 mt-2 border-bottom" style="height:80%">
+                                    <canvas id="myChart2"></canvas>
+                                </div>
+                                <div class="col-lg-10 table-responsive">
 
-                                @if (rMIIRMData != null)
-                                {
-                                    <table style="font-size:x-small" class="table w-100 nowrap dataTable no-footer">
-                                        <tbody>
-                                            <tr>
-                                                <td style="width:18%">Road Length(km)</td>
-                                                <td style="width:20%">@rMIIRMData.RmiiriRoadLength KM</td>
-                                                <td style="width:20%">@rMIIRMData.RmiiriRoadLength1 KM</td>
-                                                <td style="width:20%">@rMIIRMData.RmiiriRoadLength2 KM</td>
-                                                <td style="width:20%">@rMIIRMData.RmiiriRoadLength3 KM</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Percentage (%)</td>
-                                                <td>@rMIIRMData.RmiiriPercentage %</td>
-                                                <td>@rMIIRMData.RmiiriPercentage1 %</td>
-                                                <td>@rMIIRMData.RmiiriPercentage2 %</td>
-                                                <td>@rMIIRMData.RmiiriPercentage3 %</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                }
+                                    @if (rMIIRMData != null)
+                                    {
+                                        <table style="font-size:x-small" class="table w-100 nowrap dataTable no-footer">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width:18%">Road Length(km)</td>
+                                                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength KM</td>
+                                                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength1 KM</td>
+                                                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength2 KM</td>
+                                                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength3 KM</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Percentage (%)</td>
+                                                    <td>@rMIIRMData.RmiiriPercentage %</td>
+                                                    <td>@rMIIRMData.RmiiriPercentage1 %</td>
+                                                    <td>@rMIIRMData.RmiiriPercentage2 %</td>
+                                                    <td>@rMIIRMData.RmiiriPercentage3 %</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    }
 
 
+                                </div>
+                            </div>
+                            <div class="col-2 form-group">
+                                @*@Html.DropDownListFor(m => m.SaveFormAModel.section, (IEnumerable
+                                    <SelectListItem>)ViewData["DLPSPLYear"], new { @Id = "section-dd", @class = "form-control" })*@
+                                <select id="ddlDLPSPYear" class="form-control">
+                                    <option>Year</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option selected="selected" value="2022">2022</option>
+                                </select>
                             </div>
 
                         </div>
@@ -279,56 +290,56 @@
                 </div>
 
             </div>
-           @* <div class="col-md-4 mt-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="ldcardheader">Culvert</div>
-                        <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-7.svg" class="px-lg-4 img-fluid" />
+            @* <div class="col-md-4 mt-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="ldcardheader">Culvert</div>
+                            <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-7.svg" class="px-lg-4 img-fluid" />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 mt-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="ldcardheader">Bridge</div>
-                        <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-8.svg" class="px-lg-4 img-fluid" />
+                <div class="col-md-4 mt-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="ldcardheader">Bridge</div>
+                            <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-8.svg" class="px-lg-4 img-fluid" />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 mt-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="ldcardheader">Guardrail</div>
-                        <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-9.svg" class="px-lg-4 img-fluid" />
+                <div class="col-md-4 mt-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="ldcardheader">Guardrail</div>
+                            <img src="~/assets/media/RoadFurnitureRating/MIRI/LHSMIRI-9.svg" class="px-lg-4 img-fluid" />
+                        </div>
                     </div>
+                </div>*@
+        </div>
+    </div>
+    @* <div class="col-md-4 mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="ldcardheader">Culvert</div>
+                    <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-7.svg" class="px-lg-4 img-fluid" />
                 </div>
-            </div>*@
-        </div>
-    </div>
-   @* <div class="col-md-4 mt-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="ldcardheader">Culvert</div>
-                <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-7.svg" class="px-lg-4 img-fluid" />
             </div>
         </div>
-    </div>
-    <div class="col-md-4 mt-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="ldcardheader">Bridge</div>
-                <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-8.svg" class="px-lg-4 img-fluid" />
+        <div class="col-md-4 mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="ldcardheader">Bridge</div>
+                    <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-8.svg" class="px-lg-4 img-fluid" />
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4 mt-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="ldcardheader">Guardrail</div>
-                <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-9.svg" class="px-lg-4 img-fluid" />
+        <div class="col-md-4 mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="ldcardheader">Guardrail</div>
+                    <img src="~/assets/media/RoadFurnitureRating/NIAH/LHSNIAH-9.svg" class="px-lg-4 img-fluid" />
+                </div>
             </div>
-        </div>
-    </div>*@
+        </div>*@
 </div>
 <!--</div>
 
@@ -355,7 +366,8 @@
     ];
     const data1 = {
         labels: labels1,
-        datasets: [{
+        datasets: [
+            {
             label: ['RMI', 'Condition 1', 'Condition 2', 'Condition 3'],
             data: [@roadLength, @roadLength1, @roadLength2, @roadLength3],
             backgroundColor: [
@@ -400,7 +412,6 @@
         GetHomePageCount({});
         GetSectionByRMU({});
         $('#ddlDLPSPYear').change(function () {
-            alert($('#ddlDLPSPYear').val());
             $('#divSPI').load('@Url.Action("Details", "Home")');
         });
         GetHomePageCount({})
@@ -572,9 +583,10 @@
                         '</div>' +
                             '</div >';
                         $('#divPie').append(html);
+                        debugger;
                         var datapie = [{
-                            values: [data[i].rfCondition1, data[i].rfCondition2, data[i].rfCondition3],
-                            labels: ['Condition1', 'Condition2', 'Condition3'],
+                            values: [data[i].rfConditionper1, data[i].rfConditionper2, data[i].rfConditionper3],
+                            labels: ['Condition1 ' + '(' + data[i].rfCondition1 + 'km' + ')', 'Condition2 ' + '(' + data[i].rfCondition2 + 'km' + ')', 'Condition3 ' + '(' + data[i].rfCondition3 + 'km' + ')'],
                             type: 'pie',
                             marker: {
                                 colors: ultimateColors[0]
