@@ -130,6 +130,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                 case "frmB14":
                     iResult = await SaveFormB14(process);
                     break;
+                case "FormP1":
+                    iResult = await SaveFormP1(process);
+                    break;
                 case "FormPA":
                     iResult = await SaveFormPA(process);
                     break;
@@ -2687,6 +2690,51 @@ namespace RAMMS.Business.ServiceProvider.Services
             return await context.SaveChangesAsync();
         }
 
+
+        private async Task<int> SaveFormP1(DTO.RequestBO.ProcessDTO process)
+        {
+            var form = context.RmPaymentCertificateHeader.Where(x => x.PchPkRefNo == process.RefId).FirstOrDefault();
+            if (form != null)
+            {
+                string strTitle = "";
+                string strNotURL = "";
+                string strNotMsg = "";
+                string strNotGroupName = "";
+                string strNotUserID = "";
+                string strStatus = "";
+
+                if (process.Stage == Common.StatusList.Submitted)
+                {
+                    form.PchStatus = process.IsApprove ? Common.StatusList.Certified : Common.StatusList.Saved;
+                    strTitle = "Approved by";
+                    strStatus = "Certified";
+                     
+                }
+                if (!process.IsApprove)
+                {
+                    if (process.Stage == Common.StatusList.Submitted)
+                    {
+                        
+                        form.PchSubmitSts = false;
+                    }
+                }
+
+                form.PchAuditLog = Utility.ProcessLog(form.PchAuditLog, strTitle, process.IsApprove ? strStatus : "Rejected", process.UserName, process.Remarks, process.ApproveDate, security.UserName);
+                strNotMsg = (process.IsApprove ? "" : "Rejected - ") + strTitle + ":" + process.UserName + " - Form B13 (" + form.PchPkRefNo + ")";
+                strNotURL = "/FormPA/Add?id=" + form.PchPkRefNo.ToString() + "&View=0";
+                SaveNotification(new RmUserNotification()
+                {
+                    RmNotCrBy = security.UserName,
+                    RmNotGroup = strNotGroupName,
+                    RmNotMessage = strNotMsg,
+                    RmNotOn = DateTime.Now,
+                    RmNotUrl = strNotURL,
+                    RmNotUserId = strNotUserID,
+                    RmNotViewed = ""
+                }, false);
+            }
+            return await context.SaveChangesAsync();
+        }
 
 
         private async Task<int> SaveFormPA(DTO.RequestBO.ProcessDTO process)

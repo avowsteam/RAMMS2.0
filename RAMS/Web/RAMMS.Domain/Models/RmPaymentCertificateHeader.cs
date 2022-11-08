@@ -27,7 +27,7 @@ namespace RAMMS.Domain.Models
         public decimal? PchNetValueAddition { get; set; }
         public decimal? PchNetValueInstructedWork { get; set; }
         public decimal? PchNetValueLadInstructedWork { get; set; }
-        public decimal? PchTotalPayment { get; set; }
+        public string PchTotalPayment { get; set; }
         public bool? PchSignSo { get; set; }
         public int? PchUseridSo { get; set; }
         public string PchUsernameSo { get; set; }

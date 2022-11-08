@@ -13,9 +13,9 @@ $(document).ready(function () {
             }
 
             $(this).find("td:nth-child(4)").find("input").val(jsonObj[i].CompletionRefNo)
-            $(this).find("td:nth-child(5)").find("input").val(jsonObj[i].AmountBeforeLad)
-            $(this).find("td:nth-child(6)").find("input").val(jsonObj[i].LaDamage)
-            $(this).find("td:nth-child(7)").find("input").val(jsonObj[i].FinalPayment)
+            $(this).find("td:nth-child(5)").find("input").val(jsonObj[i].AmountBeforeLad == null ? jsonObj[i].AmountBeforeLad: (jsonObj[i].AmountBeforeLad).toFixed(2))
+            $(this).find("td:nth-child(6)").find("input").val(jsonObj[i].LaDamage == null ? jsonObj[i].LaDamage : (jsonObj[i].LaDamage).toFixed(2))
+            $(this).find("td:nth-child(7)").find("input").val(jsonObj[i].FinalPayment == null ? jsonObj[i].FinalPayment : (jsonObj[i].FinalPayment).toFixed(2))
         }
     });
 

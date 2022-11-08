@@ -25,6 +25,8 @@
 }).ToArray();
 
     bool isSubmit = (security.IsRegionManager || security.IsHeadMaintenance || security.isQuantitySurveyor);
+    bool IsApproved = (security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+    var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
 }
 
 <script type="text/javascript" src="~/js/FormP1.js" asp-append-version="true"></script>
@@ -478,7 +480,10 @@
             <button id="saveFormP1Btn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Saved')">Save</button>
             <button id="SubmitFormP1Btn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Submitted')">Submit</button>
         }
-
+        if (IsApproved && (Model.FormP1Header.Status == RAMMS.Common.StatusList.Submitted))
+        {
+            <button id="SubmitFormP1Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Verified By');"> Verify </button>
+        }
     }
 </div>
 

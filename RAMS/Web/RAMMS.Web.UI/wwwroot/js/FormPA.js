@@ -370,9 +370,9 @@ function DeductionCal() {
 
     });
 
-    $(".totThisPayAdd").text(totThisPay);
-    $(".totTillPayAdd").text(totTillPay);
-    $(".tottodateAdd").text(totTottoDate);
+    $(".totThisPayded").text(totThisPay);
+    $(".totTillPayded").text(totTillPay);
+    $(".tottodateded").text(totTottoDate);
 
 }
 
@@ -405,8 +405,8 @@ function AdditionCal() {
 
     });
 
-    $(".totThisPayded").text(totThisPay);
-    $(".totTillPayded").text(totTillPay);
-    $(".tottodateded").text(totTottoDate);
+    $(".totThisPayAdd").text(totThisPay);
+    $(".totTillPayAdd").text(totTillPay);
+    $(".tottodateAdd").text(totTottoDate);
 
 }
