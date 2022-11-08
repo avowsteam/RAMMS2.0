@@ -212,6 +212,12 @@ namespace RAMMS.Web.UI.Controllers
             return Json(await _dlpSpiService.GetIRIData(year), JsonOption());
         }
 
+        public async Task<IActionResult> DeleteFormIRI(int id)
+        {
+            int? rowsAffected = 0;
+            rowsAffected = _dlpSpiService.DeleteFormIRI(id);
+            return Json(rowsAffected);
+        }
         #endregion
 
     }

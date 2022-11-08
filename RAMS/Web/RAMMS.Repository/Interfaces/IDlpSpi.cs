@@ -26,6 +26,8 @@ namespace RAMMS.Repository.Interfaces
         #region RMI & IRI
         Task<int> SaveIRI(List<DlpIRIDTO> model);
         Task<List<RmRmiIri>> GetIRIData(int year);
+
+        int? DeleteFormIRI(int id);
         #endregion
     }
 }
