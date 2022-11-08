@@ -186,6 +186,31 @@ namespace RAMS.Repository
         #region Get DLP SP
         public async Task<List<RMDlpSpiDTO>> getDLPSPSCurveData(string keyWord)
         {
+            if(!string.IsNullOrEmpty(keyWord))
+                return await _context.RmDlpSpi.Where(a => a.SpiYear.ToString() == keyWord).Select(a => new RMDlpSpiDTO
+                {
+                    SpiActualPer = a.SpiActualPer,
+                    SpiCActual = a.SpiCActual,
+                    SpiCPlan = a.SpiCPlan,
+                    SpiCreatedDate = a.SpiCreatedDate,
+                    SpiDivCode = a.SpiDivCode,
+                    SpiDivName = a.SpiDivName,
+                    SpiEff = a.SpiEff,
+                    SpiIw = a.SpiIw,
+                    SpiMActual = a.SpiMActual,
+                    SpiMonth = a.SpiMonth,
+                    SpiMPlanned = a.SpiMPlanned,
+                    SpiPai = a.SpiPai,
+                    SpiPiWorkActual = a.SpiPiWorkActual,
+                    SpiPkRefNo = a.SpiPkRefNo,
+                    SpiPlannedPer = a.SpiPlannedPer,
+                    SpiRb = a.SpiRb,
+                    SpiSpi = a.SpiSpi,
+                    SpiYear = a.SpiYear,
+                    SpiUpdatedDate = a.SpiUpdatedDate
+                }).ToListAsync();
+
+
             return await _context.RmDlpSpi.Select(a => new RMDlpSpiDTO
             {
                SpiActualPer = a.SpiActualPer,

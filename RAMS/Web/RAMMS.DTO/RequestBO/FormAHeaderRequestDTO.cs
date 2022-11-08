@@ -113,6 +113,9 @@ namespace RAMMS.DTO.RequestBO
         public decimal? RFCondition1 { get; set; }
         public decimal? RFCondition2 { get; set; }
         public decimal? RFCondition3 { get; set; }
+        public decimal? RFConditionper1 { get; set; }
+        public decimal? RFConditionper2 { get; set; }
+        public decimal? RFConditionper3 { get; set; }
         public decimal? TotalFeatureCond { get; set; }
     }
 }

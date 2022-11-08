@@ -189,6 +189,11 @@ namespace RAMMS.Business.ServiceProvider.Services
                 throw ex;
             }
         }
+
+        public int? DeleteFormIRI(int id)
+        {
+            return _repo.DeleteFormIRI(id);
+        }
         #endregion
     }
 }

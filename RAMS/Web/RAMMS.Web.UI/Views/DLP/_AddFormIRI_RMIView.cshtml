@@ -49,7 +49,7 @@
 
                     @Html.Label("Year (YYYY)", "Year (YYYY)")
                     @Html.DropDownListFor(Ahdr => Ahdr.RmiiriYear, (IEnumerable
-                    <SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "RmiiriYear", @class = "form-control disableinput editdisable" })
+                    <SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "RmiiriYear1", @class = "form-control disableinput editdisable" })
                 </div>
             </div>
             <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">
@@ -180,7 +180,7 @@
         $('#searchHeaderBtn').click(function () {
 
             $.ajax({
-                url: '/DLP/GetIRIData?year=' + $('#RmiiriYear').val(),
+                url: '/DLP/GetIRIData?year=' + $('#RmiiriYear1').val(),
                 //data: saveObj,
                 type: 'Get',
                 success: function (data) {
@@ -229,7 +229,7 @@
         var saveObj = new Object();
         //saveObj.FormADetails = saveFormADetList;
         saveObj.SubmitSts = isSubmit;
-        saveObj.RmiiriYear = $("#RmiiriYear").val();
+        saveObj.RmiiriYear = $("#RmiiriYear1").val();
 
         saveObj.RmiiriPercentage = $("#RmiiriPercentage").val();
         saveObj.RmiiriRoadLength = $("#RmiiriRoadLength").val();

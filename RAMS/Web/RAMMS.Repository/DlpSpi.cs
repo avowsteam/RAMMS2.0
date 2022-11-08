@@ -236,6 +236,22 @@ namespace RAMMS.Repository
                                 .ToListAsync();
             return result;
         }
+
+        public int? DeleteFormIRI(int id)
+        {
+            try
+            {
+                var rmRmiIri = _context.RmRmiIri.Where(x => x.RmiiriYear == id).ToList();
+                if (!rmRmiIri.Any())
+                    return null;
+                _context.RmRmiIri.RemoveRange(rmRmiIri);
+                return _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return 500;
+            }
+        }
         #endregion
     }
 }

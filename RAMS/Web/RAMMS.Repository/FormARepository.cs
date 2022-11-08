@@ -670,9 +670,12 @@ namespace RAMS.Repository
             {
                 FormAHeaderRequestDTO HdDto = new FormAHeaderRequestDTO();
                 var TotalConditions = RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition1) + RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition2) + RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition3);
-                HdDto.RFCondition1 = (RoadCondiDetails.Where(x=>x.FsdFeature == Details).Sum(x => x.FsdCondition1))/TotalConditions;
-                HdDto.RFCondition2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition2))/ TotalConditions;
-                HdDto.RFCondition3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition3))/ TotalConditions;
+                HdDto.RFCondition1 = RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition1);
+                HdDto.RFCondition2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition2));
+                HdDto.RFCondition3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition3));
+                HdDto.RFConditionper1 = (RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition1)) / TotalConditions;
+                HdDto.RFConditionper2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition2)) / TotalConditions;
+                HdDto.RFConditionper3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition3)) / TotalConditions;
                 HdDto.RFCFeature = Details;
                 _HdDtoList.Add(HdDto);
             }
