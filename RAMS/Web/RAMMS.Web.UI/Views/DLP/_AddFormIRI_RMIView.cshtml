@@ -58,11 +58,11 @@
         </div>
     </div>
     <div class="clear-b"></div>
-    <div class="w-100 position-relative in-tbl-btns">
+    @*<div class="w-100 position-relative in-tbl-btns">
         <div class="grid-btns">
             <button type="button" id="addFADBtn" class="btn btn-sm btn-themebtn" data-toggle="modal" data-target="#FormAAdddetailsModal" data-backdrop="static" onclick="javascript: AddNewForm(0);"><span class="intbl-add-icon"></span></button>
         </div>
-    </div>
+    </div>*@
 
     <div class="row">
         <div id="divDetails" style="display:none;" class="col-lg-12 px-lg-5">
@@ -170,7 +170,7 @@
 </div>
 <div class="modal-footer float-left w-100">
     <button type="button" class="btn btn-sm btn-outline-theme disablebtn" onclick="javascript:cancelIRI();">Cancel</button>
-    <button type="button" class="btn btn-sm btn-themebtn" onclick="javascript:saveIRI(false);">Save</button>
+    <button type="button" class="btn btn-sm btn-themebtn" id="btnAdd" onclick="javascript:saveIRI(true);">Save</button>
 </div>
 
 

@@ -33,7 +33,7 @@ namespace RAMMS.Repository.Interfaces
         #endregion
 
         #region RMI & IRI
-        Task<List<DlpIRIDTO>> getRMIIRIData();
+        Task<List<DlpIRIDTO>> getRMIIRIData(int year);
         #endregion
         Task<IEnumerable<FormAHeaderRequestDTO>> GetDdYearDetails();
         Task<IEnumerable<FormAHeaderRequestDTO>> GetDdRMUDetails();

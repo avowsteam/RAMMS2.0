@@ -285,9 +285,9 @@ namespace RAMS.Repository
 
 
         #region RMI & IRI
-        public async Task<List<DlpIRIDTO>> getRMIIRIData()
+        public async Task<List<DlpIRIDTO>> getRMIIRIData(int year)
         {
-            return await _context.RmRmiIri.Select(a => new DlpIRIDTO
+            return await _context.RmRmiIri.Where(a => a.RmiiriYear == year).Select(a => new DlpIRIDTO
             {
                 RmiiriConditionNo = a.RmiiriConditionNo,
                 RmiiriCreatedDate = a.RmiiriCreatedDate,

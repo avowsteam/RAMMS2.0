@@ -6,7 +6,7 @@
 
 <div class="main-container" id="container">
     <div id="content">
-        
+
         <table id="FormAGridView" class="table w-100 nowrap">
         </table>
     </div>
@@ -21,16 +21,17 @@
     var actionCol = {
         data: null, name: "Action", title: "Action", class: "headcol", autoWidth: true, sortable: false, render: function (data) {
             var title = "";
+            var viewtitle = "view";
 
             if (data.rmiirirkrefno != "" && data.rmiirirkrefno != null) {
                 title = data.rmiirirkrefno;
             }
             if (data.submitSts) {
-                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' " + isViewPerm + " data-target='#FormAAddModal' onclick='javascript:ViewDetailHeader(" + data.rmiirirkrefno + ",&#39;" + title + "&#39;);'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns' " + isDeletePerm + " onclick='javascript:DeleteHeaderRecord(" + data.rmiirirkrefno + ");'><span class='del-icon'></span> Delete</button></div></div>";
+                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' " + isViewPerm + " data-target='#FormAAddModal' onclick='javascript:ViewDetailHeader(" + data.rmiiriYear + ",&#39;" + title + "&#39;);'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns' " + isDeletePerm + " onclick='javascript:DeleteHeaderRecord(" + data.rmiirirkrefno + ");'><span class='del-icon'></span> Delete</button></div></div>";
                 return actionSection;
             }
             else {
-                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' data-target='#FormAAddModal' id='formAHeaderEdit'" + isModifyPerm + " onclick='javascript:openFormIRIRMIModel(" + data.rmiiriYear + ",&#39;" + title + "&#39;);'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' data-target='#FormAAddModal' " + isViewPerm + " onclick='javascript:openFormIRIRMIModel(" + data.rmiiriYear + ",&#39;" + title + "&#39;);'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:DeleteHeaderRecord(" + data.rmiiriYear + ");'><span class='del-icon'></span> Delete</button></div></div>";
+                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' data-target='#FormAAddModal' id='formAHeaderEdit'" + isModifyPerm + " onclick='javascript:openFormIRIRMIModel(" + data.rmiiriYear + ",&#39;" + title + "&#39;);'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' data-target='#FormAAddModal' " + isViewPerm + " onclick='javascript:openFormIRIRMIModel(" + data.rmiiriYear + ",&#39;" + viewtitle + "&#39;);'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:DeleteHeaderRecord(" + data.rmiiriYear + ");'><span class='del-icon'></span> Delete</button></div></div>";
                 return actionSection;
             }
         }
@@ -120,20 +121,23 @@
         });
     });
 
-     function openFormIRIRMIModel(pid, title) {
+    function openFormIRIRMIModel(pid, title) {
+         
         //debugger
         //var AssetTypeName = '@ViewBag.AssetType';
             $("body").addClass("loading");
             var filterData = new Object();
             filterData.HeaderNo = pid;
-
             if (pid != 0 && title != "" && title !=null) {
-                $('#FormAAddModalid').text("Edit Form A Detail | Ref-" + title);
+                $('#FormAAddModalid').text("Edit Form IRI & RMI Detail | Ref-" + title);
 
             }
             else {
-                $('#FormAAddModalid').text("Add Form A Detail");
-            }
+                $('#FormAAddModalid').text("Add Form IRI & RMI Detail");
+        }
+        if (title == 'view') {
+            $('#FormAAddModalid').text("View Form IRI & RMI Detail");
+        }
             $.ajax({
                 url: '/DLP/HeaderListEdit',
                 //url: '/NOD/DetailedListEdit',
@@ -147,11 +151,16 @@
                     var su = $('#SubmitFormABtn');
                     if (pid != 0 && e != undefined) {
                         $('#searchHeaderBtn').hide();
-                        $(".editdisable").prop("disabled", true);
+                        //$(".editdisable").prop("disabled", true);
                         e.show();
                         d.show();
                         s.show();
                         su.show();
+                        if (title == 'view') {
+                            $("#btnAdd").prop("disabled", true);
+                        } else {
+                            $("#btnAdd").prop("disabled", false);
+                        }
                         //InitializeGrid(pid);
                     }
                     else if (e != undefined) {

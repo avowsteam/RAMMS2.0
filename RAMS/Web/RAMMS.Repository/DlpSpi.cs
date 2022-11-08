@@ -176,28 +176,70 @@ namespace RAMMS.Repository
         {
             try
             {
-                foreach (var spi in iRIData)
+                if (_context.RmRmiIri.Count(a => a.RmiiriYear == iRIData.FirstOrDefault().RmiiriYear) == 0)
                 {
-                    var form = await _context.RmRmiIri.Where(a => a.RmiiriPkRefNo == spi.RmiiriPkRefNo).FirstOrDefaultAsync();
-                    if (form == null)
-                        form = new RmRmiIri();
-                    form.RmiiriYear = spi.RmiiriYear;
-                    form.RmiiriMonth = spi.RmiiriMonth;
-                    form.RmiiriConditionNo = spi.RmiiriConditionNo;
-                    form.RmiiriType = spi.RmiiriType;
-                    form.RmiiriPercentage = spi.RmiiriPercentage;
-                    form.RmiiriRoadLength = spi.RmiiriRoadLength;
-                    if (form.RmiiriPkRefNo != 0)
+                    foreach (var spi in iRIData)
                     {
-                        form.RmiiriUpdatedDate = DateTime.Now;
-                    }
-                    else
-                    {
-                        form.RmiiriCreatedDate = DateTime.Now;
-                    }
-                    _context.RmRmiIri.Add(form);
-                    _context.SaveChanges();
+                        var form = await _context.RmRmiIri.Where(a => a.RmiiriPkRefNo == spi.RmiiriPkRefNo).FirstOrDefaultAsync();
+                        if (form == null)
+                            form = new RmRmiIri();
+                        form.RmiiriYear = spi.RmiiriYear;
+                        form.RmiiriMonth = spi.RmiiriMonth;
+                        form.RmiiriConditionNo = spi.RmiiriConditionNo;
+                        form.RmiiriType = spi.RmiiriType;
+                        form.RmiiriPercentage = spi.RmiiriPercentage;
+                        form.RmiiriRoadLength = spi.RmiiriRoadLength;
+                        if (form.RmiiriPkRefNo != 0)
+                        {
+                            form.RmiiriUpdatedDate = DateTime.Now;
+                        }
+                        else
+                        {
+                            form.RmiiriCreatedDate = DateTime.Now;
+                        }
+                        _context.RmRmiIri.Add(form);
+                        _context.SaveChanges();
 
+                    }
+                }
+                else
+                {
+                    int conditionNo = 1;
+                    foreach (var spi in iRIData)
+                    {
+                        if (spi.RmiiriType == "RMI")
+                        {
+                            conditionNo = 1;
+                        }
+                        else if (spi.RmiiriType == "IRI")
+                        {
+                            if (spi.RmiiriRoadLength1.HasValue && spi.RmiiriRoadLength1.Value != 0)
+                            {
+                                conditionNo = 1;
+                            }
+                            if (spi.RmiiriRoadLength2.HasValue && spi.RmiiriRoadLength2.Value != 0)
+                            {
+                                conditionNo = 2;
+                            }
+                            if (spi.RmiiriRoadLength3.HasValue && spi.RmiiriRoadLength3.Value != 0)
+                            {
+                                conditionNo = 3;
+                            }
+                        }
+                        var form = await _context.RmRmiIri.Where(a => a.RmiiriYear == spi.RmiiriYear && a.RmiiriType == spi.RmiiriType && a.RmiiriConditionNo == conditionNo).FirstOrDefaultAsync();
+                        if (form != null)
+                        {
+                            form.RmiiriYear = spi.RmiiriYear;
+                            form.RmiiriMonth = spi.RmiiriMonth;
+                            form.RmiiriConditionNo = spi.RmiiriConditionNo;
+                            form.RmiiriType = spi.RmiiriType;
+                            form.RmiiriPercentage = spi.RmiiriPercentage;
+                            form.RmiiriRoadLength = spi.RmiiriRoadLength;
+                            form.RmiiriUpdatedDate = DateTime.Now;
+                            _context.SaveChanges();
+                        }
+
+                    }
                 }
                 return 1;
             }
@@ -213,9 +255,11 @@ namespace RAMMS.Repository
             var query = (from x in _context.RmRmiIri
                          select new { x });
 
-            result = await query.Select(s => s.x).Skip(filterOptions.StartPageNo)
-                                .Take(filterOptions.RecordsPerPage)
-                                .ToListAsync();
+            result = await query.Select(s => s.x).ToListAsync();
+
+            //result = await query.Select(s => s.x).Skip(filterOptions.StartPageNo)
+            //                    .Take(filterOptions.RecordsPerPage)
+            //                    .ToListAsync();
             return result;
         }
 

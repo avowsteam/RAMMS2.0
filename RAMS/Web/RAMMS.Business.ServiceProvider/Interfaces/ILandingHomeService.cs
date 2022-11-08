@@ -30,7 +30,7 @@ namespace RAMMS.Business.ServiceProvider.Services
         #endregion
 
         #region RMI & IRI
-        Task<List<DlpIRIDTO>> getRMIIRIData();
+        Task<List<DlpIRIDTO>> getRMIIRIData(int year);
         #endregion
     }
 }

@@ -139,7 +139,7 @@ namespace RAMMS.Web.UI.Controllers
                 //}
                 //var SPIYears = _landingHomeService.getRMSPPLYears();
 
-                var iRIresult = await _landingHomeService.getRMIIRIData();
+                var iRIresult = await _landingHomeService.getRMIIRIData(DateTime.Now.Year);
                 if (iRIresult.Any())
                 {
                     List<DlpIRIDTO> iRIList = new List<DlpIRIDTO>();
@@ -192,9 +192,11 @@ namespace RAMMS.Web.UI.Controllers
             return View(FormAModel);
         }
 
-        public async Task<IActionResult> Details()
+        public async Task<IActionResult> Details(string year)
         {
-            var resulit1 = await _landingHomeService.getDLPSPSCurveData(DateTime.Now.Year.ToString());
+            await LoadDropDowns();
+
+            var resulit1 = await _landingHomeService.getDLPSPSCurveData(year);
 
             if (resulit1.Any())
             {
@@ -237,6 +239,54 @@ namespace RAMMS.Web.UI.Controllers
                 ViewBag.Actual = Actual;
             }
             return PartialView("_SPIpartial");
+        }
+
+        public ActionResult IRMDetails(int year)
+        {
+            var iRIresult = _landingHomeService.getRMIIRIData(year).Result;
+            if (iRIresult.Any())
+            {
+                List<DlpIRIDTO> iRIList = new List<DlpIRIDTO>();
+
+                var yearList = iRIresult.Select(a => a.RmiiriYear).GroupBy(a => a.Value).ToList();
+                foreach (var item in yearList)
+                {
+                    DlpIRIDTO model = new DlpIRIDTO();
+
+                    foreach (var listData in iRIresult.Where(a => a.RmiiriYear == item.Key).ToList())
+                    {
+                        if (listData.RmiiriType == "RMI")
+                        {
+                            model.RmiiriRoadLength = listData.RmiiriRoadLength;
+                            model.RmiiriPercentage = listData.RmiiriPercentage;
+                        }
+                        if (listData.RmiiriType == "IRI")
+                        {
+                            switch (listData.RmiiriConditionNo.Value)
+                            {
+                                case 1:
+                                    model.RmiiriPercentage1 = listData.RmiiriPercentage;
+                                    model.RmiiriRoadLength1 = listData.RmiiriRoadLength;
+                                    break;
+                                case 2:
+                                    model.RmiiriPercentage2 = listData.RmiiriPercentage;
+                                    model.RmiiriRoadLength2 = listData.RmiiriRoadLength;
+                                    break;
+                                case 3:
+                                    model.RmiiriPercentage3 = listData.RmiiriPercentage;
+                                    model.RmiiriRoadLength3 = listData.RmiiriRoadLength;
+                                    break;
+                            }
+                            model.RmiiriPkRefNo = listData.RmiiriPkRefNo;
+                        }
+
+                    }
+                    model.RmiiriYear = item.Key;
+                    iRIList.Add(model);
+                }
+                ViewBag.RMIIRIData = iRIList.FirstOrDefault();
+            }
+            return PartialView("_iRMPartial");
         }
 
         public async Task LoadDropDowns()
