@@ -265,21 +265,21 @@ namespace RAMMS.Repository
         {
             try
             {
-                IList<RmPaymentCertificateCrr> crr = (from r in _context.RmPaymentCertificateCrr where r.CrrPkRefNo == id select r).ToList();
+                IList<RmPaymentCertificateCrr> crr = (from r in _context.RmPaymentCertificateCrr where r.CrrPcmamwPkRefNo == id select r).ToList();
                 foreach (var item in crr)
                 {
                     _context.Remove(item);
                     _context.SaveChanges();
                 }
 
-                IList<RmPaymentCertificateCrra> crra = (from r in _context.RmPaymentCertificateCrra where r.CrraPkRefNo == id select r).ToList();
+                IList<RmPaymentCertificateCrra> crra = (from r in _context.RmPaymentCertificateCrra where r.CrraPcmamwPkRefNo == id select r).ToList();
                 foreach (var item in crra)
                 {
                     _context.Remove(item);
                     _context.SaveChanges();
                 }
 
-                IList<RmPaymentCertificateCrrd> crrd = (from r in _context.RmPaymentCertificateCrrd where r.CrrdPkRefNo == id select r).ToList();
+                IList<RmPaymentCertificateCrrd> crrd = (from r in _context.RmPaymentCertificateCrrd where r.CrrdPcmamwPkRefNo == id select r).ToList();
                 foreach (var item in crrd)
                 {
                     _context.Remove(item);

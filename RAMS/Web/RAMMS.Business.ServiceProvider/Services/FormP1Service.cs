@@ -74,7 +74,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                 IDictionary<string, string> lstData = new Dictionary<string, string>();
                 lstData.Add("YYYY", domainModelFormP1.PchSubmissionYear.ToString());
-                lstData.Add("MM", domainModelFormP1.PchSubmissionMonth.ToString());
+                lstData.Add("MM", domainModelFormP1.PchSubmissionMonth < 10 ? "0" + domainModelFormP1.PchSubmissionMonth.ToString() : domainModelFormP1.PchSubmissionMonth.ToString());
                 lstData.Add(FormRefNumber.NewRunningNumber, Utility.ToString(res.Result));
                 domainModelFormP1.PchRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormP1, lstData);
                 domainModelFormP1.PchPaymentCertificateNo = res.Result;
