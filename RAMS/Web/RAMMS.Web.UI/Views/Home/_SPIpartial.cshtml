@@ -386,14 +386,14 @@
                     </tr>
                     <tr>
                         <td class="font-weight-bold">PAI</td>
-                        @if (rMSPPLPData.Any() && rMSPPLPData.Count(a => a.SpiDivCode.ToUpper() == "MIRI") != 0)
+                        @if (rMSPPLPData.Any() && rMSPPLPData.Count(a => a.SpiDivCode.ToUpper() == "MIRI" || a.SpiDivCode.ToUpper() == "BTN") != 0)
                         {
-                            foreach (var item in rMSPPLPData.Where(a => a.SpiDivCode.ToUpper() == "MIRI").OrderBy(a => a.SpiMonth))
+                            foreach (var item in rMSPPLPData.Where(a => a.SpiDivCode.ToUpper() == "MIRI" || a.SpiDivCode.ToUpper() == "BTN").OrderBy(a => a.SpiMonth).GroupBy(a => a.SpiMonth).Select(a => a.Key))
                             {
-                                if (item.SpiCActual.HasValue && item.SpiCPlan.HasValue)
+                                if (item.Value != 0)
                                 {
                                     //decimal val = item.SpiCPlan.Value;
-                                    decimal pai = item.SpiPai.Value;// val > 0 ? item.SpiCActual.Value / val : 0;
+                                    decimal pai = rMSPPLPData.Where(a =>a.SpiMonth.Value == item.Value).Sum(a => a.SpiPai.Value);// val > 0 ? item.SpiCActual.Value / val : 0;
                                     <td>@pai.ToString("0.00")</td>
                                 }
                                 else
@@ -405,13 +405,14 @@
                     </tr>
                     <tr>
                         <td class="font-weight-bold">SPI</td>
-                        @if (rMSPPLPData.Any() && rMSPPLPData.Count(a => a.SpiDivCode.ToUpper() == "MIRI") != 0)
+                        @if (rMSPPLPData.Any() && rMSPPLPData.Count(a => a.SpiDivCode.ToUpper() == "MIRI" || a.SpiDivCode.ToUpper() == "BTN") != 0)
                         {
-                            foreach (var item in rMSPPLPData.Where(a => a.SpiDivCode.ToUpper() == "MIRI").OrderBy(a => a.SpiMonth))
+                            foreach (var item in rMSPPLPData.Where(a => a.SpiDivCode.ToUpper() == "MIRI" || a.SpiDivCode.ToUpper() == "BTN").OrderBy(a => a.SpiMonth).GroupBy(a => a.SpiMonth).Select(a => a.Key))
                             {
-                                if (item.SpiPiWorkActual.HasValue && item.SpiEff.HasValue && item.SpiRb.HasValue && item.SpiPiWorkActual.HasValue)
+                                if (item.Value != 0)
                                 {
-                                    decimal pai = item.SpiSpi.Value;// item.SpiPiWorkActual.Value + item.SpiEff.Value + item.SpiRb.Value - item.SpiPiWorkActual.Value;
+                                    //decimal val = item.SpiCPlan.Value;
+                                    decimal pai = rMSPPLPData.Where(a => a.SpiMonth.Value == item.Value).Sum(a => a.SpiSpi.Value);// val > 0 ? item.SpiCActual.Value / val : 0;
                                     <td>@pai.ToString("0.00")</td>
                                 }
                                 else
