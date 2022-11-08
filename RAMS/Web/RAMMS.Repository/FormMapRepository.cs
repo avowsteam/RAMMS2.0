@@ -165,7 +165,7 @@ namespace RAMMS.Repository
                 else
                     lstData.Add("RMU", frmmap.RmmhRmuCode.ToString());
                 lstData.Add("YYYY", frmmap.RmmhYear.ToString());
-                lstData.Add("MM", frmmap.RmmhMonth.ToString());
+                lstData.Add("MM", frmmap.RmmhMonth < 10 ? '0' + frmmap.RmmhMonth.ToString() : frmmap.RmmhMonth.ToString());
                 lstData.Add(FormRefNumber.NewRunningNumber, Utility.ToString(frmmap.RmmhPkRefNo));
                 frmmap.RmmhRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormMap, lstData);
                 await _context.SaveChangesAsync();
