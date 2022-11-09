@@ -12,7 +12,11 @@
     decimal roadLength1 = rMIIRMData.RmiiriRoadLength1.HasValue ? rMIIRMData.RmiiriRoadLength1.Value : 0;
     decimal roadLength2 = rMIIRMData.RmiiriRoadLength2.HasValue ? rMIIRMData.RmiiriRoadLength2.Value : 0;
     decimal roadLength3 = rMIIRMData.RmiiriRoadLength3.HasValue ? rMIIRMData.RmiiriRoadLength3.Value : 0;
-
+    bool isIRUpdate = false;
+    if (ViewBag.IRUpdate != null)
+    {
+        isIRUpdate = true;
+    }
 }
 <div class="col-lg-10 offset-lg-1 mt-2 border-bottom" style="height:80%">
     <canvas id="myChart2"></canvas>
@@ -42,51 +46,110 @@
     }
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    if ('@isIRUpdate' == 'False') {
+        const IRIlabels1 = [
+            'RMI',
+            'Condition 1',
+            'Condition 2',
+            'Condition 3'
+        ];
+        const IRIdata = {
+            labels: IRIlabels1,
+            datasets: [
+                {
+                    label: [],
+                    data: [@roadLength, @roadLength1, @roadLength2, @roadLength3],
+                    backgroundColor: [
+                        'rgba(0, 107, 180, 1)',
+                        'rgba(0, 212, 86, 1)',
+                        'rgba(238, 148, 18, 1)',
+                        'rgba(255, 5, 5, 1)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(200, 86, 1)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)'
+                    ],
+                    borderWidth: 1
+                }]
+        }
 
-    <script>
-    @*var SpplpMPlanned = "@ViewBag.SpplpMPlanned";
-        var SpplpMActual = "@ViewBag.SpplpMActual";
-        var cutPlan = "@ViewBag.SpplpCPlan";
-        var cutActual = "@ViewBag.SpplpCActual";
-        var Planned = "@ViewBag.SpplpPlannedPer";
-        var Actual =  "@ViewBag.Actual";*@
-    const labels1 = [
-        'RMI',
-        'Condition 1',
-        'Condition 2',
-        'Condition 3'
-    ];
-    const data1 = {
-        labels: labels1,
-        datasets: [
-            {
-            label: ['RMI', 'Condition 1', 'Condition 2', 'Condition 3'],
-            data: [@roadLength, @roadLength1, @roadLength2, @roadLength3],
-            backgroundColor: [
-                'rgba(0, 107, 180, 1)',
-                'rgba(0, 212, 86, 1)',
-                'rgba(238, 148, 18, 1)',
-                'rgba(255, 5, 5, 1)'
-            ],
-            borderColor: [
-                'rgb(255, 99, 132)',
-                'rgb(200, 86, 1)',
-                'rgb(255, 205, 86)',
-                'rgb(75, 192, 192)'
-            ],
-            borderWidth: 1
-        }]
-    }
+        const config1 = {
+            type: 'bar',
+            data: IRIdata,
+            options: {
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return tooltipItem.yLabel;
+                        }
+                    }
+                }
+            }
+        };
 
-    const config1 = {
-        type: 'bar',
-        data: data1,
-        options: {}
-    };
-    </script>
-    <script>
         const myChart1 = new Chart(
             document.getElementById('myChart2'),
             config1
         );
-    </script>
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        if ('@isIRUpdate' == 'True') {
+        //     const IRIlabels2 = [
+        //    'RMI',
+        //    'Condition 1',
+        //    'Condition 2',
+        //    'Condition 3'
+        //];
+        const IRIdata2 = {
+            //labels: IRIlabels2,
+            datasets: [
+                {
+                    label: ['RMI', 'Condition 1', 'Condition 2', 'Condition 3'],
+                    data: [@roadLength, @roadLength1, @roadLength2, @roadLength3],
+                    backgroundColor: [
+                        'rgba(0, 107, 180, 1)',
+                        'rgba(0, 212, 86, 1)',
+                        'rgba(238, 148, 18, 1)',
+                        'rgba(255, 5, 5, 1)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(200, 86, 1)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)'
+                    ],
+                    borderWidth: 1
+                }]
+        }
+
+        const IRIconfig2 = {
+            type: 'bar',
+            data: IRIdata2,
+            options: {
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    enabled: false
+                }
+            }
+        };
+
+        const myIRIChart2 = new Chart(
+            document.getElementById('myChart2'),
+            IRIconfig2
+        );
+        }
+    });
+</script>
