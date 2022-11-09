@@ -17079,6 +17079,11 @@ namespace RAMMS.Domain.Models
                     .HasMaxLength(250)
                     .IsUnicode(false);
 
+                entity.Property(e => e.PchDueAmount)
+                    .HasColumnName("PCH_Due_Amount")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.PchNetValueAddition)
                     .HasColumnName("PCH_Net_Value_Addition")
                     .HasColumnType("decimal(18, 2)");
@@ -17129,8 +17134,7 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.PchTotalPayment)
                     .HasColumnName("PCH_Total_Payment")
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
+                    .HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.PchUseridSo).HasColumnName("PCH_Userid_SO");
 
@@ -17984,14 +17988,9 @@ namespace RAMMS.Domain.Models
 
             modelBuilder.Entity<RmUcua>(entity =>
             {
-                entity.HasKey(e => e.RmmhPkRefNo)
-                    .HasName("PK__RM_UCUA__8BF27D9A5D15EF08");
+                entity.HasNoKey();
 
                 entity.ToTable("RM_UCUA");
-
-                entity.Property(e => e.RmmhPkRefNo)
-                    .HasColumnName("RMMH_PK_Ref_No")
-                    .ValueGeneratedNever();
 
                 entity.Property(e => e.RmmhActionDescription)
                     .HasColumnName("RMMH_Action_Description")
@@ -18053,6 +18052,10 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("RMMH_Location")
                     .HasMaxLength(100)
                     .IsUnicode(false);
+
+                entity.Property(e => e.RmmhPkRefNo)
+                    .HasColumnName("RMMH_PK_Ref_No")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.RmmhRefId)
                     .HasColumnName("RMMH_Ref_ID")

@@ -134,7 +134,7 @@ namespace RAMMS.Repository
                 RefId = s.x.PchRefId,
                 SubmissionYear = s.x.PchSubmissionYear,
                 SubmissionMonth = s.x.PchSubmissionMonth,
-                SubmissionDate = s.x.PchSubmissionDate,
+                SubmissionDate = s.x.PchSignDateSo,
                 PaymentCertificateNo = s.x.PchPaymentCertificateNo,
                 TotalPayment = s.x.PchTotalPayment,
                 Status = s.x.PchStatus

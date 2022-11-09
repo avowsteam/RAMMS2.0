@@ -197,12 +197,12 @@ namespace RAMMS.Web.UI.Controllers
             return Json(rowsAffected);
         }
 
-        //public async Task<IActionResult> FormPADownload(int id, [FromServices] IWebHostEnvironment _environment)
-        //{
-        //    var content1 = await _FormPAService.FormDownload("FORMPA", id, _environment.WebRootPath + "/Templates/FORMPA.xlsx");
-        //    string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        //    return File(content1, contentType1, "FORMPA" + ".xlsx");
-        //}
+        public async Task<IActionResult> FormPADownload(int id, [FromServices] IWebHostEnvironment _environment)
+        {
+            var content1 = await _FormPAService.FormDownload("FORMPA", id, _environment.WebRootPath + "/Templates/FORMPA.xlsx");
+            string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            return File(content1, contentType1, "FORMPA" + ".xlsx");
+        }
 
     }
 }

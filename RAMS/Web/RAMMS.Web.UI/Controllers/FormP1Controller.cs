@@ -144,12 +144,12 @@ namespace RAMMS.Web.UI.Controllers
             return Json(rowsAffected);
         }
 
-        //public async Task<IActionResult> FormP1Download(int id, [FromServices] IWebHostEnvironment _environment)
-        //{
-        //    var content1 = await _FormP1Service.FormDownload("FORMP1", id, _environment.WebRootPath + "/Templates/FORMP1.xlsx");
-        //    string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        //    return File(content1, contentType1, "FORMP1" + ".xlsx");
-        //}
+        public async Task<IActionResult> FormP1Download(int id, [FromServices] IWebHostEnvironment _environment)
+        {
+            var content1 = await _FormP1Service.FormDownload("FORMP1", id, _environment.WebRootPath + "/Templates/FORMP1.xlsx");
+            string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            return File(content1, contentType1, "FORMP1" + ".xlsx");
+        }
 
     }
 }

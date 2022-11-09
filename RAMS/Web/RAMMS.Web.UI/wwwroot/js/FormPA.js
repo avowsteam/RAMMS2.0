@@ -123,8 +123,8 @@ function Save(SubmitType) {
     FormPA.RefId = $("#FormPAHeader_RefId").val()
     FormPA.SubmissionMonth = $("#ddlMonth").val()
     FormPA.SubmissionYear = $("#ddlYear").val()
-    FormPA.WorkValueDeduction = $('.tottodateded').text().trim();
-    FormPA.WorkValueAddition = $('.tottodateAdd').text().trim();
+    FormPA.WorkValueDeduction = $('.totThisPayded').text().trim();
+    FormPA.WorkValueAddition = $('.totThisPayAdd').text().trim();
     FormPA.TotalPayment = $('.totAmtGrand').text().trim();
     FormPA.UseridSp = $('#ddlSP').val();
     FormPA.UsernameSp = $('#FormPAHeader_UsernameSp').val();
