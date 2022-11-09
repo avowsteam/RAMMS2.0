@@ -388,50 +388,55 @@
                                 </ul>
                             </li>
                         }
+                        @if (security.IsPCView(ModuleNameList.Detailed_Landing_Page) || security.HasGroup(GroupNameList.Admin))
+                        {
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="DLPForm" href="javascript:;" title="Detail Landing Page">
+                                    <i class="icon-settings nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Detail Landing Page</span>
+                                </a>
 
-                        <li class="navbar-vertical-aside-has-menu">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="DLPForm" href="javascript:;" title="Detail Landing Page">
-                                <i class="icon-settings nav-icon"></i>
-                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Detail Landing Page</span>
-                            </a>
+                                <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;">
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("FormSPI", "DLP")" class="nav-link"><span class="text-truncate">Service Provider Performance Indicator (SPI)</span></a>
 
-                            <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;">
-                                <li class="nav-item">
-                                    <a href="@Url.Action("FormSPI", "DLP")" class="nav-link"><span class="text-truncate">Service Provider Performance Indicator (SPI)</span></a>
-
-                                </li>
-                                <li class="nav-item">
-                                    <a href="@Url.Action("FormIRI_RMI", "DLP")" class="nav-link"><span class="text-truncate">International Roughness Index (IRI) & Road Maintenance Indicator (RMI)</span></a>
-
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="navbar-vertical-aside-has-menu">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="payForm" href="javascript:;" title="Payment Certificate">
-                                <i class="fa fa-wallet nav-icon"></i>
-                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Payment Certificate</span>
-                            </a>
-
-                            <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;">
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index", "FormP1")" class="nav-link">
-                                        <span class="text-truncate">Payment Certificate (Form P1)</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index", "FormPA")" class="nav-link">
-                                        <span class="text-truncate">Management and Maintenance Works (Form PA)</span>
-                                    </a>
                                     </li>
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index", "FormPB")" class="nav-link">
-                                        <span class="text-truncate">Instructed Works (Form PB)</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("FormIRI_RMI", "DLP")" class="nav-link"><span class="text-truncate">International Roughness Index (IRI) & Road Maintenance Indicator (RMI)</span></a>
+
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+                         @if (security.IsPCView(ModuleNameList.Payment_Certificate) || security.HasGroup(GroupNameList.Admin))
+                        {
+
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="payForm" href="javascript:;" title="Payment Certificate">
+                                    <i class="fa fa-wallet nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Payment Certificate</span>
+                                </a>
+
+                                <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;">
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "FormP1")" class="nav-link">
+                                            <span class="text-truncate">Payment Certificate (Form P1)</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "FormPA")" class="nav-link">
+                                            <span class="text-truncate">Management and Maintenance Works (Form PA)</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="@Url.Action("Index", "FormPB")" class="nav-link">
+                                            <span class="text-truncate">Instructed Works (Form PB)</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
                         @*<li class="navbar-vertical-aside-has-menu">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="mapForm" href="@Url.Action("Index", "FormMap")" title="MAP">
                                 <i class="fa fa-calendar nav-icon"></i><span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">MAP</span>
