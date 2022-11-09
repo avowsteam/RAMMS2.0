@@ -66,16 +66,16 @@ namespace RAMMS.Web.UI.Controllers
                     string Planned = "";
                     string Actual = "";
                     int i = 1;
-                    foreach (var item in resulit1.Where(a => a.SpiDivCode.ToString().ToUpper() == "MIRI").OrderBy(a => a.SpiMonth))
+                    foreach (var item in resulit1.OrderBy(a => a.SpiMonth).GroupBy(a => a.SpiMonth).Select(a => a.Key))
                     {
-                        if (i == item.SpiMonth)
+                        if (i == item.Value)
                         {
-                            monthPlanned += !string.IsNullOrEmpty(monthPlanned) ? ("," + item.SpiMPlanned.ToString()) : item.SpiMPlanned.ToString();
-                            monthActual += !string.IsNullOrEmpty(monthActual) ? "," + item.SpiMActual.ToString() : item.SpiMActual.ToString();
-                            cutPlan += !string.IsNullOrEmpty(cutPlan) ? "," + item.SpiCPlan.ToString() : item.SpiCPlan.ToString();
-                            cutActual += !string.IsNullOrEmpty(cutActual) ? "," + item.SpiCActual.ToString() : item.SpiCActual.ToString();
-                            Planned += !string.IsNullOrEmpty(Planned) ? "," + item.SpiPlannedPer.ToString() : item.SpiPlannedPer.ToString();
-                            Actual += !string.IsNullOrEmpty(Actual) ? "," + item.SpiActualPer.ToString() : item.SpiActualPer.ToString();
+                            monthPlanned += !string.IsNullOrEmpty(monthPlanned) ? "," + resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiMPlanned).ToString() : resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiMPlanned).ToString();
+                            monthActual += !string.IsNullOrEmpty(monthActual) ? "," + resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiMActual).ToString() : resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiMActual).ToString();
+                            cutPlan += !string.IsNullOrEmpty(cutPlan) ? "," + resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiCPlan).ToString() : resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiCPlan).ToString();
+                            cutActual += !string.IsNullOrEmpty(cutActual) ? "," + resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiCActual).ToString() : resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiCActual).ToString();
+                            Planned += !string.IsNullOrEmpty(Planned) ? "," + resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiPlannedPer).ToString() : resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiPlannedPer).ToString();
+                            Actual += !string.IsNullOrEmpty(Actual) ? "," + resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiActualPer).ToString() : resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiActualPer).ToString();
                         }
                         else
                         {
@@ -96,50 +96,7 @@ namespace RAMMS.Web.UI.Controllers
                     ViewBag.Actual = Actual;
                 }
 
-                //var result = await _landingHomeService.getRMSPPLPData(DateTime.Now.Year.ToString());
-                //if (result.Any())
-                //{
-                //    ViewBag.SPIData = result.ToList();
-
-                //    string monthPlanned = "";
-                //    string monthActual = "";
-                //    string cutPlan = "";
-                //    string cutActual = "";
-                //    string Planned = "";
-                //    string Actual = "";
-                //    int i = 1;
-                //    foreach (var item in result.OrderBy(a => a.SpplpMonth))
-                //    {
-                //        if (i == item.SpplpMonth)
-                //        {
-                //            monthPlanned += !string.IsNullOrEmpty(monthPlanned) ? ("," + item.SpplpMPlanned.ToString()) : item.SpplpMPlanned.ToString();
-                //            monthActual += !string.IsNullOrEmpty(monthActual) ? "," + item.SpplpMActual.ToString() : item.SpplpMActual.ToString();
-                //            cutPlan += !string.IsNullOrEmpty(cutPlan) ? "," + item.SpplpCPlan.ToString() : item.SpplpCPlan.ToString();
-                //            cutActual += !string.IsNullOrEmpty(cutActual) ? "," + item.SpplpCActual.ToString() : item.SpplpCActual.ToString();
-                //            Planned += !string.IsNullOrEmpty(Planned) ? "," + item.SpplpPlannedPer.ToString() : item.SpplpPlannedPer.ToString();
-                //            Actual += !string.IsNullOrEmpty(Actual) ? "," + item.SpplpActualPer.ToString() : item.SpplpActualPer.ToString();
-                //        }
-                //        else
-                //        {
-                //            monthPlanned += !string.IsNullOrEmpty(monthPlanned) ? ("," + "0") : "0";
-                //            monthActual += !string.IsNullOrEmpty(monthActual) ? ("," + "0") : "0";
-                //            cutPlan += !string.IsNullOrEmpty(cutPlan) ? ("," + "0") : "0";
-                //            cutActual += !string.IsNullOrEmpty(cutActual) ? ("," + "0") : "0";
-                //            Planned += !string.IsNullOrEmpty(Planned) ? ("," + "0") : "0";
-                //            Actual += !string.IsNullOrEmpty(Actual) ? ("," + "0") : "0";
-                //        }
-                //        i++;
-                //    }
-                //    ViewBag.SpplpMPlanned = monthPlanned;
-                //    ViewBag.SpplpMActual = monthActual;
-                //    ViewBag.SpplpCPlan = cutPlan;
-                //    ViewBag.SpplpCActual = cutActual;
-                //    ViewBag.SpplpPlannedPer = Planned;
-                //    ViewBag.Actual = Actual;
-                //}
-                //var SPIYears = _landingHomeService.getRMSPPLYears();
-
-                var iRIresult = await _landingHomeService.getRMIIRIData();
+                var iRIresult = await _landingHomeService.getRMIIRIData(DateTime.Now.Year);
                 if (iRIresult.Any())
                 {
                     List<DlpIRIDTO> iRIList = new List<DlpIRIDTO>();
@@ -192,9 +149,11 @@ namespace RAMMS.Web.UI.Controllers
             return View(FormAModel);
         }
 
-        public async Task<IActionResult> Details()
+        public async Task<IActionResult> Details(string year)
         {
-            var resulit1 = await _landingHomeService.getDLPSPSCurveData(DateTime.Now.Year.ToString());
+            //await LoadDropDowns();
+
+            var resulit1 = await _landingHomeService.getDLPSPSCurveData(year);
 
             if (resulit1.Any())
             {
@@ -207,16 +166,16 @@ namespace RAMMS.Web.UI.Controllers
                 string Planned = "";
                 string Actual = "";
                 int i = 1;
-                foreach (var item in resulit1.Where(a => a.SpiDivCode.ToString().ToUpper() == "MIRI").OrderBy(a => a.SpiMonth))
+                foreach (var item in resulit1.OrderBy(a => a.SpiMonth).GroupBy(a => a.SpiMonth).Select(a => a.Key))
                 {
-                    if (i == item.SpiMonth)
+                    if (i == item.Value)
                     {
-                        monthPlanned += !string.IsNullOrEmpty(monthPlanned) ? ("," + item.SpiMPlanned.ToString()) : item.SpiMPlanned.ToString();
-                        monthActual += !string.IsNullOrEmpty(monthActual) ? "," + item.SpiMActual.ToString() : item.SpiMActual.ToString();
-                        cutPlan += !string.IsNullOrEmpty(cutPlan) ? "," + item.SpiCPlan.ToString() : item.SpiCPlan.ToString();
-                        cutActual += !string.IsNullOrEmpty(cutActual) ? "," + item.SpiCActual.ToString() : item.SpiCActual.ToString();
-                        Planned += !string.IsNullOrEmpty(Planned) ? "," + item.SpiPlannedPer.ToString() : item.SpiPlannedPer.ToString();
-                        Actual += !string.IsNullOrEmpty(Actual) ? "," + item.SpiActualPer.ToString() : item.SpiActualPer.ToString();
+                        monthPlanned += !string.IsNullOrEmpty(monthPlanned) ? "," + resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiMPlanned).ToString() : resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiMPlanned).ToString();
+                        monthActual += !string.IsNullOrEmpty(monthActual) ? "," + resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiMActual).ToString() : resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiMActual).ToString();
+                        cutPlan += !string.IsNullOrEmpty(cutPlan) ? "," + resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiCPlan).ToString() : resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiCPlan).ToString();
+                        cutActual += !string.IsNullOrEmpty(cutActual) ? "," + resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiCActual).ToString() : resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiCActual).ToString();
+                        Planned += !string.IsNullOrEmpty(Planned) ? "," + resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiPlannedPer).ToString() : resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiPlannedPer).ToString();
+                        Actual += !string.IsNullOrEmpty(Actual) ? "," + resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiActualPer).ToString() : resulit1.Where(a => a.SpiMonth == item.Value).Sum(a => a.SpiActualPer).ToString();
                     }
                     else
                     {
@@ -237,6 +196,55 @@ namespace RAMMS.Web.UI.Controllers
                 ViewBag.Actual = Actual;
             }
             return PartialView("_SPIpartial");
+        }
+
+        public ActionResult IRMDetails(int year)
+        {
+            var iRIresult = _landingHomeService.getRMIIRIData(year).Result;
+            if (iRIresult.Any())
+            {
+                List<DlpIRIDTO> iRIList = new List<DlpIRIDTO>();
+
+                var yearList = iRIresult.Select(a => a.RmiiriYear).GroupBy(a => a.Value).ToList();
+                foreach (var item in yearList)
+                {
+                    DlpIRIDTO model = new DlpIRIDTO();
+
+                    foreach (var listData in iRIresult.Where(a => a.RmiiriYear == item.Key).ToList())
+                    {
+                        if (listData.RmiiriType == "RMI")
+                        {
+                            model.RmiiriRoadLength = listData.RmiiriRoadLength;
+                            model.RmiiriPercentage = listData.RmiiriPercentage;
+                        }
+                        if (listData.RmiiriType == "IRI")
+                        {
+                            switch (listData.RmiiriConditionNo.Value)
+                            {
+                                case 1:
+                                    model.RmiiriPercentage1 = listData.RmiiriPercentage;
+                                    model.RmiiriRoadLength1 = listData.RmiiriRoadLength;
+                                    break;
+                                case 2:
+                                    model.RmiiriPercentage2 = listData.RmiiriPercentage;
+                                    model.RmiiriRoadLength2 = listData.RmiiriRoadLength;
+                                    break;
+                                case 3:
+                                    model.RmiiriPercentage3 = listData.RmiiriPercentage;
+                                    model.RmiiriRoadLength3 = listData.RmiiriRoadLength;
+                                    break;
+                            }
+                            model.RmiiriPkRefNo = listData.RmiiriPkRefNo;
+                        }
+
+                    }
+                    model.RmiiriYear = item.Key;
+                    iRIList.Add(model);
+                }
+                ViewBag.RMIIRIData = iRIList.FirstOrDefault();
+            }
+            ViewBag.IRUpdate = true;
+            return PartialView("_iRMPartial");
         }
 
         public async Task LoadDropDowns()

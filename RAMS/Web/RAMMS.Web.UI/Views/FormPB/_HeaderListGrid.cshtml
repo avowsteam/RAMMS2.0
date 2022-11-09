@@ -55,9 +55,39 @@
         }
     };
 
-    var AmountBeforeLad = { data: "amountBeforeLad", name: "FinalAmountBeforeLAD", title: "Final Amount Before LAD", autoWidth: true, sortable: true };
-    var laDamage = { data: "laDamage", name: "laDamage", title: "Liquidated and Acertained Damages", autoWidth: true, sortable: true };
-    var FinalPayment = { data: "finalPayment", name: "FinalPayment", title: "Final Payment", autoWidth: true, sortable: true };
+    var AmountBeforeLad = {
+        data: null, name: "amountBeforeLad", title: "Final Amount Before LAD", autoWidth: true, sortable: true,
+        render: function (data) {
+            if (data.amountBeforeLad !=null) {
+                return data.amountBeforeLad.toFixed(2);
+            }
+            else
+                return "";
+        }
+    };
+
+    var laDamage = {
+        data: null, name: "laDamage", title: "Liquidated and Acertained Damages", autoWidth: true, sortable: true,
+        render: function (data) {
+            if (data.laDamage != null) {
+                return data.laDamage.toFixed(2);
+            }
+            else
+                return "";
+        }
+    };
+
+    var FinalPayment = {
+        data: null, name: "finalPayment", title: "Final Payment", autoWidth: true, sortable: true,
+        render: function (data) {
+            if (data.finalPayment != null) {
+                return data.finalPayment.toFixed(2);
+            }
+            else
+                return "";
+        }
+    };
+
     var Status = { data: "status", name: "Status", title: "Status", autoWidth: true, sortable: true };
 
 

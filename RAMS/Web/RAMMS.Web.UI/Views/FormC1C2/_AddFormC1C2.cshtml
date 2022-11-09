@@ -712,7 +712,7 @@
                                     <div class="border-top px-2 pt-3 pb-1 float-left w-100" userIdGroup>
                                         <div class="form-group col-lg-2 float-left">
                                             @Html.Label("User ID", "User ID")
-                                            @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "SerProviderUserId", "Select Users", new { @Id = "formC1C2InspectedBy", @class = "form-control svalidate {req,Inspected By User Id}", @useridChange = "", @disabled = IsSupervisor ? "false" : "disabled" })
+                                            @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "SerProviderUserId", "Select Users", new { @Id = "formC1C2InspectedBy", @class = "form-control svalidate {req,Inspected By User Id}", @useridChange = "" })
                                         </div>
                                         <div class="form-group col-lg-3 float-left">
                                             @Html.Label("Name", "Name")

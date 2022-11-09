@@ -30,7 +30,12 @@
     var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
 
 }
-
+<style>
+    .input-group {
+        
+        width: 200px!important;
+    }
+</style>
 <script type="text/javascript" src="~/js/FormPA.js" asp-append-version="true"></script>
 
 <div class="row bg-white pt-4">
@@ -40,7 +45,7 @@
                 <div class=" w-100 d-flex justify-content-center py-1">
                     <div class="form-group mb-0">
                         <label style="float:left; padding: .5rem .5rem 0 !important;">Reference No.</label>
-                        <input class="form-control" style="width:330px;" type="text" value="@Model.FormPAHeader.RefId" disabled="">
+                        <input class="form-control" id="FormPAHeader_RefId" style="width:330px;" type="text" value="@Model.FormPAHeader.RefId" disabled="">
                     </div>
                 </div>
             </div>
@@ -251,9 +256,9 @@
                                                                                 <tfoot style="background: #e6e4e4d6">
                                                                                     <tr height="30.50" style='height:15.25pt;'>
                                                                                         <th>Net value of deduction:</th>
-                                                                                        <th class="text-center totThisPayAdd"></th>
-                                                                                        <th class="text-center totTillPayAdd"></th>
-                                                                                        <th class="text-center tottodateAdd"></th>
+                                                                                        <th class="text-center totThisPayded"></th>
+                                                                                        <th class="text-center totTillPayded"></th>
+                                                                                        <th class="text-center tottodateded"></th>
                                                                                     </tr>
                                                                                 </tfoot>
                                                                             </table>
@@ -338,9 +343,9 @@
                                                                                 <tfoot style="background-color:#e6e4e4d6">
                                                                                     <tr height="30.50" style='height:15.25pt;'>
                                                                                         <th>Net value of addition:</th>
-                                                                                        <th class="text-center totThisPayded"></th>
-                                                                                        <th class="text-center totTillPayded"></th>
-                                                                                        <th class="text-center tottodateded"></th>
+                                                                                        <th class="text-center totThisPayAdd"></th>
+                                                                                        <th class="text-center totTillPayAdd"></th>
+                                                                                        <th class="text-center tottodateAdd"></th>
                                                                                     </tr>
                                                                                 </tfoot>
                                                                             </table>
