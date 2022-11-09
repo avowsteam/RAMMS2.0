@@ -10,57 +10,6 @@
 @inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
 @model RAMMS.DTO.ResponseBO.DlpIRIDTO;
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("#formAAdvSearch").hide();
-        $('#formADetSrchRMU').trigger("chosen:updated");
-      //  searchHeaderList();
-
-        document.getElementById("FormASmartSearch").focus();
-        //Listener for Smart and Detail Search
-        element = document.querySelector("#detailSearch");
-        element.addEventListener("keyup", () => {
-            if (event.keyCode === 13) {
-                $('#formASearchBtn').trigger('click');
-            }
-        });
-        $("#FormASmartSearch").keyup(function () {
-            if (event.keyCode === 13) {
-                $('#formASearchBtn').trigger('click');
-            }
-        })
-
-        ////$('#formAFromKm').keypress(function (event) {
-        ////    var keycode = (event.keyCode ? event.keyCode : event.which);
-        ////    if (keycode == '13') {
-        ////        $("#formASearchBtn").click();
-        ////    }
-        ////    event.stopPropagation();
-        ////});
-
-        ////$('#formAFromM').keypress(function (event) {
-        ////    var keycode = (event.keyCode ? event.keyCode : event.which);
-        ////    if (keycode == '13') {
-        ////        $("#formASearchBtn").click();
-        ////    }
-        ////    event.stopPropagation();
-        ////});
-
-        ////$('#formAToKm').keypress(function (event) {
-        ////    var keycode = (event.keyCode ? event.keyCode : event.which);
-        ////    if (keycode == '13') {
-        ////        $("#formASearchBtn").click();
-        ////    }
-        ////    event.stopPropagation();
-        ////});
-
-        ////$('#formAToM').keypress(function (event) {
-        ////    var keycode = (event.keyCode ? event.keyCode : event.which);
-        ////    if (keycode == '13') {
-        ////        $("#formASearchBtn").click();
-        ////    }
-        ////    event.stopPropagation();
-        ////});
-    });
 
     function openFormAModel(pid, title) {
         //debugger
@@ -107,136 +56,15 @@
                     else {
                         //InitializeGrid(0);
                     }
-                    //if (view == 1) {
-                    //    $("#div-data-container *").attr("disabled", "disabled").off('click');
-                    //    $("#div-data-container").addClass("disableAssetImageAddBtn");
-                    //}
-                    //else {
-                    //    $("#div-data-container").removeClass("disableAssetImageAddBtn");
-                    //}
                     $("body").removeClass("loading");
                 }
             });
         }
 
-    function ViewDetailHeader(pid, title) {
-        var filterData = new Object();
-        filterData.HeaderNo = pid;
-        if (title != "") {$('#FormAAddModalid').text("View Form A Detail | Ref-" + title); }
-        else { $('#FormAAddModalid').text("View Form A Detail");}
-        $.ajax({
-            url: '/NOD/HeaderListEdit',
-            //url: '/NOD/DetailedListEdit',
-            data: { filterData },
-            type: 'POST',
-            success: function (data) {
-                //$("#FormAAddModal").modal("show");
-                $("#div-data-container").html(data);
-                $(".disableinput").prop("disabled", true);
-
-                var e = $('#divDetails');
-                if (pid != 0 && e != undefined) {
-                    $("#IsViewDetail").val("1");
-                    $("#addFADBtn").hide();
-                    $("#saveFormABtn").hide();
-                    $("#SubmitFormABtn").hide();
-                    $('#searchHeaderBtn').hide();
-                    e.show();
-                    InitializeGrid(pid);
-                }
-                else if (e != undefined) {
-                    //e.hide();
-                    e.show();
-                }
-                //if (view == 1) {
-                //    $("#div-data-container *").attr("disabled", "disabled").off('click');
-                //    $("#div-data-container").addClass("disableAssetImageAddBtn");
-                //}
-                //else {
-                //    $("#div-data-container").removeClass("disableAssetImageAddBtn");
-                //}
-                $("body").removeClass("loading");
-            }
-        });
-    }
-
-    function detailSearch() {
-        $("#formAAdvSearch").slideToggle(500);
-    }
-
-    function searchHeaderList() {
-        var filterData = new Object();
-        filterData.SmartInputValue = $("#FormASmartSearch").val();
-        filterData.Rmu = $("#formADetSrchRMU").val();
-        filterData.section = $("#formADetSrchSec").val();
-        filterData.RoadCode = $("#formADetSrchRoadCode").val();
-        filterData.AssetGroupCode = $("#formADetSrchAsstGrp").val();
-        filterData.Month = $("#formADetSrchMonth").val();
-        //filterData.FromCh = $("#DetSrchChFrom").val();
-        //filterData.ToCh = $("#DetSrchChTo").val();
-        $("body").addClass("loading");
-        $.ajax({
-            url: '/NOD/SearchHeaderList',
-            data: filterData,
-            type: 'POST',
-            success: function (data) {
-
-                $("#headerListGrid").html(data);
-                $("body").removeClass("loading");
-            }
-        });
-    }
-
-    function DeleteHeaderRecord(id) {
-        var headerId = id;
-        app.Confirm("Are you sure you want to delete the record?, If Yes click OK.", function (e) {
-            if (e) {
-                $("body").addClass("loading");
-                $.ajax({
-                    url: '/NOD/HeaderListDelete',
-                    data: { headerId },
-                    type: 'POST',
-                    success: function (data) {
-                        if (data > 0) {
-                            $("body").removeClass("loading");
-                            app.ShowSuccessMessage("Successfully Deleted");
-                            searchHeaderList();
-                        }
-                        else {
-                            alert("Error in Deleted. Kindly retry later.");
-                            $("body").removeClass("loading");
-                        }
-                    }
-                });
-            }
-        });
-    }
-
-
-    function EditHeaderRecord(id){
-        var headerId = id;
-        localStorage.setItem("headeridvalue", headerId);
-
-        window.location = "@Url.Action("HeaderListEdit", "NOD")" +
-                "?headerId=" + headerId;
-
-        ////$("body").addClass("loading");
-        //$.ajax({
-        //    url: '/NOD/HeaderListEdit',
-        //    data: { headerId },
-        //    type: 'POST',
-        //    success: function (data) {
-        //  //   $("#DetailListGrid").html(data);
-
-        //        //$("body").removeClass("loading");
-        //}
-        //});
-    }
-
 </script>
 @{
-    var isModifyPerm = security.IsPCModify(ModuleNameList.NOD) ? "" : "hidden";
-    var isDeletePerm = security.IsPCDelete(ModuleNameList.NOD) ? "" : "hidden";
+    var isModifyPerm = security.IsPCModify(ModuleNameList.Detailed_Landing_Page) ? "" : "hidden";
+    var isDeletePerm = security.IsPCDelete(ModuleNameList.Detailed_Landing_Page) ? "" : "hidden";
 }
 @using (Html.BeginForm())
 {
@@ -278,7 +106,7 @@
 
                             @Html.Label("Year (YYYY)", "Year (YYYY)")
                             @Html.DropDownListFor(Ahdr => Ahdr.RmiiriYear, (IEnumerable
-                            <SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "RmiiriYear", @class = "form-control disableinput editdisable" })
+                            <SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "SearchRmiiriYear", @class = "form-control disableinput editdisable" })
                         </div>
                     </div>
                     <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4 text-right">
@@ -320,95 +148,11 @@
     </main>
 }
 <script type="text/javascript" src="~/js/Landing.js" asp-append-version="true"></script>
-@if (ViewBag.ViewId != null && ViewBag.ViewId != "")
-{
+
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $('#RmiiriYear').change(function () {
-                debugger;
-                var itemID = $('#RmiiriYear').val();
-                search();
-            });
+          
         });
-
-        $(function () {
-            setTimeout(function () {
-                $("#FormAAddModal").modal();
-                ViewDetailHeader(@ViewBag.ViewId, "");
-            }, 1000);
-        });
-
-        function search() {
-
-                var isModifyPerm = @security.IsPCModify(ModuleNameList.NOD).ToString().ToLowerInvariant()? "" : "hidden";
-    var isDeletePerm =@security.IsPCDelete(ModuleNameList.NOD).ToString().ToLowerInvariant()? "" : "hidden";
-    var isViewPerm = @security.IsPCView(ModuleNameList.NOD).ToString().ToLowerInvariant() ? "" : 'hidden';
-
-    var table_columns = [];
-    var actionCol = {
-        data: null, name: "Action", title: "Action", class: "headcol", autoWidth: true, sortable: false, render: function (data) {
-            var title = "";
-            var viewtitle = "view";
-
-            if (data.rmiirirkrefno != "" && data.rmiirirkrefno != null) {
-                title = data.rmiirirkrefno;
-            }
-            if (data.submitSts) {
-                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' " + isViewPerm + " data-target='#FormAAddModal' onclick='javascript:ViewDetailHeader(" + data.rmiiriYear + ",&#39;" + title + "&#39;);'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns' " + isDeletePerm + " onclick='javascript:DeleteHeaderRecord(" + data.rmiirirkrefno + ");'><span class='del-icon'></span> Delete</button></div></div>";
-                return actionSection;
-            }
-            else {
-                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' data-target='#FormAAddModal' id='formAHeaderEdit'" + isModifyPerm + " onclick='javascript:openFormIRIRMIModel(" + data.rmiiriYear + ",&#39;" + title + "&#39;);'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' data-target='#FormAAddModal' " + isViewPerm + " onclick='javascript:openFormIRIRMIModel(" + data.rmiiriYear + ",&#39;" + viewtitle + "&#39;);'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:DeleteHeaderRecord(" + data.rmiiriYear + ");'><span class='del-icon'></span> Delete</button></div></div>";
-                return actionSection;
-            }
-        }
-    };
-    var rmiirirkrefnoCol = { data: "rmiiriPkRefNo", name: "RmiiriPkRefNo", title: "NO", autoWidth: true, sortable: false, visible: false };
-    var rmiiriyearCol = { data: "rmiiriYear", name: "RmiiriYear", title: "Year", autoWidth: true, sortable: true };
-    var rmiiriroadlength1Col = { data: "rmiiriRoadLength1", name: "RmiiriRoadLength1", title: "IRI Condition 1 (KM)", autoWidth: true, sortable: true };
-    var rmiiriroadlength2Col = { data: "rmiiriRoadLength2", name: "RmiiriRoadLength2", title: "IRI Condition 2 (KM)", autoWidth: true, sortable: true };
-    var rmiiriroadlength3Col = { data: "rmiiriRoadLength3", name: "Section Code", title: "IRI Condition 3 (KM)", autoWidth: true, sortable: true };
-    var rmiiriroadlengthCol = { data: "rmiiriRoadLength", name: "RmiiriRoadLength", title: "RMI (KM)", autoWidth: true, sortable: true };
-
-    table_columns.push(rmiirirkrefnoCol);
-    table_columns.push(actionCol);
-    table_columns.push(rmiiriyearCol);
-    table_columns.push(rmiiriroadlength1Col);
-    table_columns.push(rmiiriroadlength2Col);
-    table_columns.push(rmiiriroadlength3Col);
-    table_columns.push(rmiiriroadlengthCol);
-
-            var filterData = new Object();
-            function InitializeGrid() {
-                var _currentGridSettings = new CustomGridSettings();
-                $.extend($.fn.dataTable.defaults, _currentGridSettings);
-
-                filterData.SmartInputValue = $("#FormASmartSearch").val();
-                filterData.Rmu = $("#formADetSrchRMU").val();
-                filterData.Section = $("#formADetSrchSec").val();
-                filterData.RoadCode = $("#formADetSrchRoadCode option:selected").val();
-                filterData.AssetGroupCode = $("#formADetSrchAsstGrp").val();
-                filterData.Month = $("#formADetSrchMonth").val();
-                filterData.Year = $("#formADetSrchYear").val();
-                filterData.ChinageFromKm = $("#formAFromKm").val();
-                filterData.ChinageFromM = $("#formAFromM").val();
-                filterData.ChinageToKm = $("#formAToKm").val();
-                filterData.ChinageToM = $("#formAToM").val();
-
-                $('#FormAGridView').DataTable({
-                    ajax: {
-                        url: "/DLP/LoadHeaderList",
-                        type: "POST",
-                        datatype: "json",
-                        data: {
-                            filterData
-                        }
-                    },
-                    columns: table_columns
-                });
-            }
-        }
 
     </script>
-}
