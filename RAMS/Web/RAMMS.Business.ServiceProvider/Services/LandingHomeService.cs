@@ -20,7 +20,7 @@ namespace RAMMS.Business.ServiceProvider.Services
         {
             _repoUnit = repoUnit;
             _repolookup = repoLookup;
-        }        
+        }
         public async Task<int> getNCNActiveCount()
         {
             return await _repoUnit.FormN1Repository.GetActiveCount();
@@ -39,9 +39,9 @@ namespace RAMMS.Business.ServiceProvider.Services
         public async Task<int> GetNodActiveCount(LandingHomeRequestDTO requestDTO)
         {
             int ActiveCount = 0;
-           try
+            try
             {
-                if(requestDTO.RMU != null || requestDTO.Section != null)
+                if (requestDTO.RMU != null || requestDTO.Section != null)
                 {
                     if (requestDTO.Section != null)
                     {
@@ -56,7 +56,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     }
                     else
                     {
-                        
+
                         foreach (var rmu in requestDTO.RMU)
                         {
                             int formACount = await _repoUnit.FormARepository.GetNodActiveRMUCount(rmu);
@@ -81,7 +81,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     int formHCount = await _repoUnit.FormHRepository.GetActiveFormHRecord();
                     ActiveCount = ActiveCount + formACount;
                 }
-                
+
                 return ActiveCount;
             }
             catch (Exception ex)
@@ -112,13 +112,13 @@ namespace RAMMS.Business.ServiceProvider.Services
                         int formHCount = await _repoUnit.FormHRepository.GetNodActiveSectionCount(requestDTO.Section);
                         NodActiveCount += formHCount;
 
-                       List<string> SectionBasedRoadCode = await _repoUnit.RoadmasterRepository.GetRdCodeBySection(requestDTO.Section);
-                        if(SectionBasedRoadCode.Count != 0)
+                        List<string> SectionBasedRoadCode = await _repoUnit.RoadmasterRepository.GetRdCodeBySection(requestDTO.Section);
+                        if (SectionBasedRoadCode.Count != 0)
                         {
-                             int NcN = await _repoUnit.FormN1Repository.GetActiveRdCodeCount(SectionBasedRoadCode);
-                             NcnCount += NcN;
-                             int Ncr = await _repoUnit.FormN2Repository.GetActiveRdCodeCount(SectionBasedRoadCode);
-                             NcrCount += Ncr;
+                            int NcN = await _repoUnit.FormN1Repository.GetActiveRdCodeCount(SectionBasedRoadCode);
+                            NcnCount += NcN;
+                            int Ncr = await _repoUnit.FormN2Repository.GetActiveRdCodeCount(SectionBasedRoadCode);
+                            NcrCount += Ncr;
                         }
 
 
@@ -237,11 +237,20 @@ namespace RAMMS.Business.ServiceProvider.Services
                 var ddList = await _repolookup.GetDLPSPYears();
                 foreach (var list in ddList)
                 {
-                    ddLookUpItem.Add(new SelectListItem
-                    {
-                        Value = list.ToString(),
-                        Text = list.ToString(),
-                    });
+                    if (list == DateTime.Now.Year)
+                        ddLookUpItem.Add(new SelectListItem
+                        {
+                            Value = list.ToString(),
+                            Text = list.ToString(),
+                            Selected = true
+                        });
+                    else
+                        ddLookUpItem.Add(new SelectListItem
+                        {
+                            Value = list.ToString(),
+                            Text = list.ToString(),
+                        });
+
                 }
                 return ddLookUpItem;
             }
@@ -254,14 +263,14 @@ namespace RAMMS.Business.ServiceProvider.Services
         #endregion
 
         #region RMI & IRI
-        public async Task<List<DlpIRIDTO>> getRMIIRIData()
+        public async Task<List<DlpIRIDTO>> getRMIIRIData(int year)
         {
-            return await _repolookup.getRMIIRIData();
+            return await _repolookup.getRMIIRIData(year);
         }
         #endregion
 
 
-      
+
         public async Task<List<FormAHeaderRequestDTO>> GetRoadFurnitureConditionPieChart(string RFCRMU, int RFCYear)
         {
             var result = new List<FormAHeaderRequestDTO>();
@@ -270,9 +279,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                 if (RFCRMU != null || RFCYear != 0)
                 {
                     result = await _repoUnit.FormARepository.GetRoadFurnitureConditionPieChart(RFCRMU, RFCYear);
-                   
+
                 }
-                
+
                 return result;
             }
             catch (Exception ex)

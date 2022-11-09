@@ -104,15 +104,30 @@ namespace RAMMS.Web.UI.Controllers
             model.RmiiriPercentage1 = (model.RmiiriRoadLength1 / ((model.RmiiriRoadLength1.HasValue ? model.RmiiriRoadLength1.Value : 0) + (model.RmiiriRoadLength2.HasValue ? model.RmiiriRoadLength2.Value : 0) + (model.RmiiriRoadLength3.HasValue ? model.RmiiriRoadLength3.Value : 0))) * 100;
             model.RmiiriPercentage2 = (model.RmiiriRoadLength2 / ((model.RmiiriRoadLength1.HasValue ? model.RmiiriRoadLength1.Value : 0) + (model.RmiiriRoadLength2.HasValue ? model.RmiiriRoadLength2.Value : 0) + (model.RmiiriRoadLength3.HasValue ? model.RmiiriRoadLength3.Value : 0))) * 100;
             model.RmiiriPercentage3 = (model.RmiiriRoadLength3 / ((model.RmiiriRoadLength1.HasValue ? model.RmiiriRoadLength1.Value : 0) + (model.RmiiriRoadLength2.HasValue ? model.RmiiriRoadLength2.Value : 0) + (model.RmiiriRoadLength3.HasValue ? model.RmiiriRoadLength3.Value : 0))) * 100;
-
+            DlpIRIDTO iRIDTO = new DlpIRIDTO();
             if (model.RmiiriRoadLength1 != 0)
-                spiData.Add(IRIMapping(model, 1, model.RmiiriPercentage1, model.RmiiriRoadLength1, "IRI"));
+            {
+                iRIDTO = IRIMapping(model, 1, model.RmiiriPercentage1, model.RmiiriRoadLength1, "IRI");
+                iRIDTO.RmiiriRoadLength1 = model.RmiiriRoadLength1;
+                iRIDTO.RmiiriPercentage1 = model.RmiiriPercentage1;
+                spiData.Add(iRIDTO);
+            }
 
             if (model.RmiiriRoadLength2 != 0)
-                spiData.Add(IRIMapping(model, 2, model.RmiiriPercentage2, model.RmiiriRoadLength2, "IRI"));
+            {
+                iRIDTO = IRIMapping(model, 2, model.RmiiriPercentage2, model.RmiiriRoadLength2, "IRI");
+                iRIDTO.RmiiriRoadLength2 = model.RmiiriRoadLength2;
+                iRIDTO.RmiiriPercentage2 = model.RmiiriPercentage2;
+                spiData.Add(iRIDTO);
+            }
 
             if (model.RmiiriRoadLength3 != 0)
-                spiData.Add(IRIMapping(model, 3, model.RmiiriPercentage3, model.RmiiriRoadLength3, "IRI"));
+            {
+                iRIDTO = IRIMapping(model, 3, model.RmiiriPercentage3, model.RmiiriRoadLength3, "IRI");
+                iRIDTO.RmiiriRoadLength3 = model.RmiiriRoadLength3;
+                iRIDTO.RmiiriPercentage3 = model.RmiiriPercentage3;
+                spiData.Add(iRIDTO);
+            }
 
             await _dlpSpiService.SaveIRI(spiData);
             return Json(1);

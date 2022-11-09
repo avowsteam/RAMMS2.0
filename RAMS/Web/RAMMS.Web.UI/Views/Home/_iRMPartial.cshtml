@@ -1,0 +1,155 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    RAMMS.DTO.ResponseBO.DlpIRIDTO rMIIRMData = new RAMMS.DTO.ResponseBO.DlpIRIDTO();
+    if (ViewBag.RMIIRIData != null)
+    {
+        rMIIRMData = (RAMMS.DTO.ResponseBO.DlpIRIDTO)ViewBag.RMIIRIData;
+
+    }
+    decimal roadLength = rMIIRMData.RmiiriRoadLength.HasValue ? rMIIRMData.RmiiriRoadLength.Value : 0;
+    decimal roadLength1 = rMIIRMData.RmiiriRoadLength1.HasValue ? rMIIRMData.RmiiriRoadLength1.Value : 0;
+    decimal roadLength2 = rMIIRMData.RmiiriRoadLength2.HasValue ? rMIIRMData.RmiiriRoadLength2.Value : 0;
+    decimal roadLength3 = rMIIRMData.RmiiriRoadLength3.HasValue ? rMIIRMData.RmiiriRoadLength3.Value : 0;
+    bool isIRUpdate = false;
+    if (ViewBag.IRUpdate != null)
+    {
+        isIRUpdate = true;
+    }
+}
+<div class="col-lg-10 offset-lg-1 mt-2 border-bottom" style="height:80%">
+    <canvas id="myChart2"></canvas>
+</div>
+<div class="col-lg-10 table-responsive">
+
+    @if (rMIIRMData != null)
+    {
+        <table style="font-size:x-small" class="table w-100 nowrap dataTable no-footer">
+            <tbody>
+                <tr>
+                    <td style="width:18%">Road Length(km)</td>
+                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength KM</td>
+                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength1 KM</td>
+                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength2 KM</td>
+                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength3 KM</td>
+                </tr>
+                <tr>
+                    <td>Percentage (%)</td>
+                    <td>@rMIIRMData.RmiiriPercentage %</td>
+                    <td>@rMIIRMData.RmiiriPercentage1 %</td>
+                    <td>@rMIIRMData.RmiiriPercentage2 %</td>
+                    <td>@rMIIRMData.RmiiriPercentage3 %</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    if ('@isIRUpdate' == 'False') {
+        const IRIlabels1 = [
+            'RMI',
+            'Condition 1',
+            'Condition 2',
+            'Condition 3'
+        ];
+        const IRIdata = {
+            labels: IRIlabels1,
+            datasets: [
+                {
+                    label: [],
+                    data: [@roadLength, @roadLength1, @roadLength2, @roadLength3],
+                    backgroundColor: [
+                        'rgba(0, 107, 180, 1)',
+                        'rgba(0, 212, 86, 1)',
+                        'rgba(238, 148, 18, 1)',
+                        'rgba(255, 5, 5, 1)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(200, 86, 1)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)'
+                    ],
+                    borderWidth: 1
+                }]
+        }
+
+        const config1 = {
+            type: 'bar',
+            data: IRIdata,
+            options: {
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return tooltipItem.yLabel;
+                        }
+                    }
+                }
+            }
+        };
+
+        const myChart1 = new Chart(
+            document.getElementById('myChart2'),
+            config1
+        );
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        if ('@isIRUpdate' == 'True') {
+        //     const IRIlabels2 = [
+        //    'RMI',
+        //    'Condition 1',
+        //    'Condition 2',
+        //    'Condition 3'
+        //];
+        const IRIdata2 = {
+            //labels: IRIlabels2,
+            datasets: [
+                {
+                    label: ['RMI', 'Condition 1', 'Condition 2', 'Condition 3'],
+                    data: [@roadLength, @roadLength1, @roadLength2, @roadLength3],
+                    backgroundColor: [
+                        'rgba(0, 107, 180, 1)',
+                        'rgba(0, 212, 86, 1)',
+                        'rgba(238, 148, 18, 1)',
+                        'rgba(255, 5, 5, 1)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(200, 86, 1)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)'
+                    ],
+                    borderWidth: 1
+                }]
+        }
+
+        const IRIconfig2 = {
+            type: 'bar',
+            data: IRIdata2,
+            options: {
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    enabled: false
+                }
+            }
+        };
+
+        const myIRIChart2 = new Chart(
+            document.getElementById('myChart2'),
+            IRIconfig2
+        );
+        }
+    });
+</script>

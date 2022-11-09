@@ -10,6 +10,10 @@
     ViewData["Title"] = "Service Provider Performance Indicator (SPI)";
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
 
+    var isModifyPerm = security.IsPCModify(ModuleNameList.Detailed_Landing_Page) ? "" : "hidden";
+    var isSyncPerm = security.IsPCAdd(ModuleNameList.Detailed_Landing_Page) ? "" : "hidden";
+
+
     var username = security.UserName;
 
     var Year = Model.Year;
@@ -45,14 +49,14 @@
                 <div class="w-100 d-flex justify-content-md-between py-2 align-items-center">
                     <span class="mb-0 font-weight-bold font-20 mt-3">Service Provider Performance Indicator (SPI)</span>
                 </div>
-            </div>         
+            </div>
             <div class="col-lg-2 offset-lg-10 form-group mt-3">
                 <label>Year</label>
                 @Html.DropDownList("DLPYear", (IEnumerable<SelectListItem>)year, "Select Year", new { @Id = "formDlpYear", @class = "form-control" })
             </div>
             <div class="col-md-12 mb-2">
                 <div class="float-left form-group">
-                    <button id="syncBtn" type="button" class="btn btn-sm btn-themebtn" onclick="Sync()">Sync</button>
+                    <button id="syncBtn" type="button" class="btn btn-sm btn-themebtn" onclick="Sync()" @isSyncPerm>Sync</button>
                 </div>
 
             </div>
@@ -194,7 +198,7 @@
                     <div class="card-body">
                         <div id="EquipmentListGrid" class="w-100 dt-tbl-section">
                             <div class="text-right float-right p-2">
-                                <button id="editMiri" type="button" class="btn btn-sm btn-themebtn" onclick="Edit('Miri')">Edit</button>
+                                <button id="editMiri" type="button" class="btn btn-sm btn-themebtn" onclick="Edit('Miri')" @isModifyPerm>Edit</button>
                                 <button id="saveMiri" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Save('Miri')">Save</button>
                                 <button id="cancelMiri" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Cancel('Miri')">Cancel</button>
                             </div>
@@ -313,7 +317,7 @@
                     <div class="card-body">
                         <div id="EquipmentListGrid" class="w-100 dt-tbl-section">
                             <div class="text-right float-right p-2">
-                                <button id="editBtn" type="button" class="btn btn-sm btn-themebtn" onclick="Edit('Btn')">Edit</button>
+                                <button id="editBtn" type="button" class="btn btn-sm btn-themebtn" onclick="Edit('Btn')" @isModifyPerm>Edit</button>
                                 <button id="saveBtn" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Save('Btn')">Save</button>
                                 <button id="cancelBtn" type="button" style="display:none" class="btn btn-sm btn-themebtn" onclick="Cancel('Btn')">Cancel</button>
                             </div>

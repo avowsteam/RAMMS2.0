@@ -4,12 +4,12 @@
 @model RAMMS.Web.UI.Models.FormAModel;
 @{
     Layout = null;
-    string monthPlanned = "";
-    string monthActual = "";
-    string cutPlan = "";
-    string cutActual = "";
-    string Planned = "";
-    string Actual = "";
+    string monthPlanned = ViewBag.SpplpMPlanned;
+    string monthActual = ViewBag.SpplpMActual;
+    string cutPlan = ViewBag.SpplpCPlan;
+    string cutActual = ViewBag.SpplpCActual;
+    string Planned = ViewBag.SpplpPlannedPer;
+    string Actual = ViewBag.Actual;
     string MIRIcurrentMonthSPI = "";
     string MIRIcurrentMonthPAI = "";
 
@@ -22,55 +22,25 @@
         if (rMSPPLPData.Any())
         {
             year = rMSPPLPData.FirstOrDefault().SpiYear;
-            foreach (var item in rMSPPLPData.Where(a => a.SpiDivCode.ToString().ToUpper() == "MIRI").OrderBy(a => a.SpiMonth))
-            {
-                if (i == item.SpiMonth)
-                {
-                    monthPlanned += !string.IsNullOrEmpty(monthPlanned) ? ("," + item.SpiMPlanned.ToString()) : item.SpiMPlanned.ToString();
-                    monthActual += !string.IsNullOrEmpty(monthActual) ? "," + item.SpiMActual.ToString() : item.SpiMActual.ToString();
-                    cutPlan += !string.IsNullOrEmpty(cutPlan) ? "," + item.SpiCPlan.ToString() : item.SpiCPlan.ToString();
-                    cutActual += !string.IsNullOrEmpty(cutActual) ? "," + item.SpiCActual.ToString() : item.SpiCActual.ToString();
-                    Planned += !string.IsNullOrEmpty(Planned) ? "," + item.SpiPlannedPer.ToString() : item.SpiPlannedPer.ToString();
-                    Actual += !string.IsNullOrEmpty(Actual) ? "," + item.SpiActualPer.ToString() : item.SpiActualPer.ToString();
-                    if (i == DateTime.Now.Month)
-                    {
-                        MIRIcurrentMonthSPI = item.SpiSpi.ToString();
-                        MIRIcurrentMonthPAI += item.SpiPai.ToString();
-
-                    }
-                }
-                else
-                {
-                    monthPlanned += !string.IsNullOrEmpty(monthPlanned) ? ("," + "0") : "0";
-                    monthActual += !string.IsNullOrEmpty(monthActual) ? ("," + "0") : "0";
-                    cutPlan += !string.IsNullOrEmpty(cutPlan) ? ("," + "0") : "0";
-                    cutActual += !string.IsNullOrEmpty(cutActual) ? ("," + "0") : "0";
-                    Planned += !string.IsNullOrEmpty(Planned) ? ("," + "0") : "0";
-                    Actual += !string.IsNullOrEmpty(Actual) ? ("," + "0") : "0";
-                }
-                i++;
-            }
         }
+    }
+    bool isSPIUpdate = false;
+    if (ViewBag.SPIUpdate != null)
+    {
+        isSPIUpdate = true;
     }
 }
 <div class="card-body" id="divSPI">
     <div class="row">
-        <div class="col-md-10 text-right">
-        </div>
-        <div class="col-2 form-group">
-            @Html.DropDownListFor(m => m.SaveFormAModel.section, (IEnumerable
-         <SelectListItem>)ViewData["DLPSPLYear"], new { @Id = "section-dd", @class = "form-control" })
-            @*<select id="ddlDLPSPYear" class="form-control">
-                    <option>Year</option>
-                    <option value="2020">2020</option>
-                    <option value="2021">2021</option>
-                    <option selected="selected" value="2022">2022</option>
-                </select>*@
-        </div>
+
         <div class="col-md-1 text-right">
         </div>
-        <div style="height:90%" class="col-md-11 border-bottom">
+        <div style="height:90%" id="divmyChart" class="col-md-11 border-bottom">
             <canvas id="myChart"></canvas>
+        </div>
+
+        <div style="height:90%;" id="divmySPIChart" class="col-md-11 border-bottom">
+            <canvas id="mySPIChart"></canvas>
         </div>
 
         <div style="height:90%" class="col-md-12 border-bottom mb-1">
@@ -82,12 +52,12 @@
                             <span> Monthly Planned</span>
                         </td>
                         @if (!string.IsNullOrEmpty(monthPlanned))
-                        {
-                            foreach (var item in monthPlanned.Split(','))
                             {
+                                foreach (var item in monthPlanned.Split(','))
+                                {
                                 <td style="width:8%">RM <br /> @item</td>
+                                }
                             }
-                        }
                     </tr>
                     <tr>
                         <td style="width:12%">
@@ -95,32 +65,32 @@
                             <span>Monthly  Actual</span>
                         </td>
                         @if (!string.IsNullOrEmpty(monthActual))
-                        {
-                            foreach (var item in monthActual.Split(','))
                             {
+                                foreach (var item in monthActual.Split(','))
+                                {
                                 <td style="width:8%">RM <br />@item</td>
+                                }
                             }
-                        }
                     </tr>
                     <tr>
                         <td style="width:12%"><div style="height: 3px; width: 40px; background-color: #164912; display: inline-block; "></div><br /> Cul Plan</td>
                         @if (!string.IsNullOrEmpty(cutPlan))
-                        {
-                            foreach (var item in cutPlan.Split(','))
-                            {
+                {
+                    foreach (var item in cutPlan.Split(','))
+                    {
                                 <td style="width:8%">RM <br />@item</td>
-                            }
-                        }
+                    }
+                }
                     </tr>
                     <tr>
                         <td style="width:12%"> <div style="height: 3px; width: 40px; background-color: #ee9412; display: inline-block;"></div><br /> Cul Actual</td>
                         @if (!string.IsNullOrEmpty(cutActual))
-                        {
-                            foreach (var item in cutActual.Split(','))
-                            {
+                  {
+                      foreach (var item in cutActual.Split(','))
+                      {
                                 <td style="width:8%">RM <br />@item</td>
-                            }
-                        }
+                      }
+                  }
                     </tr>
                     <tr>
                         <td style="width:12%"><div style="height: 3px; width: 40px; background-color: #006bb4; display: inline-block;"></div><br />Planed</td>
@@ -194,18 +164,18 @@
                                         <td>SPI</td>
                                     </tr>
                                     @if (rMSPPLPData.Any() && rMSPPLPData.Count(a => a.SpiDivCode.ToUpper() == "MIRI") != 0)
-                                    {
-                                        foreach (var item in rMSPPLPData.Where(a => a.SpiDivCode.ToUpper() == "MIRI"))
-                                        {
+ {
+     foreach (var item in rMSPPLPData.Where(a => a.SpiDivCode.ToUpper() == "MIRI"))
+     {
                                             <tr>
                                                 <td class="font-weight-bold">@RAMMS.Common.Utility.GetMonthShortNameByNumber(item.SpiMonth)</td>
                                                 <td>@item.SpiPai</td>
                                                 <td>@item.SpiSpi</td>
                                             </tr>
-                                        }
-                                    }
-                                    else
-                                    {
+     }
+ }
+ else
+ {
                                         <tr>
                                             <td class="font-weight-bold">Jan</td>
                                             <td></td>
@@ -266,7 +236,7 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
-                                    }
+ }
                                 </table>
                             </div>
                         </div>
@@ -386,14 +356,14 @@
                     </tr>
                     <tr>
                         <td class="font-weight-bold">PAI</td>
-                        @if (rMSPPLPData.Any() && rMSPPLPData.Count(a => a.SpiDivCode.ToUpper() == "MIRI") != 0)
+                        @if (rMSPPLPData.Any() && rMSPPLPData.Count(a => a.SpiDivCode.ToUpper() == "MIRI" || a.SpiDivCode.ToUpper() == "BTN") != 0)
                         {
-                            foreach (var item in rMSPPLPData.Where(a => a.SpiDivCode.ToUpper() == "MIRI").OrderBy(a => a.SpiMonth))
+                            foreach (var item in rMSPPLPData.Where(a => a.SpiDivCode.ToUpper() == "MIRI" || a.SpiDivCode.ToUpper() == "BTN").OrderBy(a => a.SpiMonth).GroupBy(a => a.SpiMonth).Select(a => a.Key))
                             {
-                                if (item.SpiCActual.HasValue && item.SpiCPlan.HasValue)
+                                if (item.Value != 0)
                                 {
                                     //decimal val = item.SpiCPlan.Value;
-                                    decimal pai = item.SpiPai.Value;// val > 0 ? item.SpiCActual.Value / val : 0;
+                                    decimal pai = rMSPPLPData.Where(a => a.SpiMonth.Value == item.Value).Sum(a => a.SpiPai.Value);// val > 0 ? item.SpiCActual.Value / val : 0;
                                     <td>@pai.ToString("0.00")</td>
                                 }
                                 else
@@ -405,21 +375,22 @@
                     </tr>
                     <tr>
                         <td class="font-weight-bold">SPI</td>
-                        @if (rMSPPLPData.Any() && rMSPPLPData.Count(a => a.SpiDivCode.ToUpper() == "MIRI") != 0)
+                        @if (rMSPPLPData.Any() && rMSPPLPData.Count() != 0)
+                {
+                    foreach (var item in rMSPPLPData.OrderBy(a => a.SpiMonth).GroupBy(a => a.SpiMonth).Select(a => a.Key))
+                    {
+                        if (item.Value != 0)
                         {
-                            foreach (var item in rMSPPLPData.Where(a => a.SpiDivCode.ToUpper() == "MIRI").OrderBy(a => a.SpiMonth))
-                            {
-                                if (item.SpiPiWorkActual.HasValue && item.SpiEff.HasValue && item.SpiRb.HasValue && item.SpiPiWorkActual.HasValue)
-                                {
-                                    decimal pai = item.SpiSpi.Value;// item.SpiPiWorkActual.Value + item.SpiEff.Value + item.SpiRb.Value - item.SpiPiWorkActual.Value;
+                            //decimal val = item.SpiCPlan.Value;
+                            decimal pai = rMSPPLPData.Where(a => a.SpiMonth.Value == item.Value).Sum(a => a.SpiSpi.Value);// val > 0 ? item.SpiCActual.Value / val : 0;
                                     <td>@pai.ToString("0.00")</td>
-                                }
-                                else
-                                {
-                                    <td></td>
-                                }
-                            }
                         }
+                        else
+                        {
+                                    <td></td>
+                        }
+                    }
+                }
                     </tr>
                 </table>
             </div>
@@ -427,98 +398,157 @@
         </div>
     </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="~/js/custom.js"></script>
-@*<script src="~/js/jquery.timeentry/jquery-2.2.4.min.js"></script>*@
-<script>
-    @*var SpplpMPlanned = "@ViewBag.SpplpMPlanned";
-    var SpplpMActual = "@ViewBag.SpplpMActual";
-    var cutPlan = "@ViewBag.SpplpCPlan";
-    var cutActual = "@ViewBag.SpplpCActual";
-    var Planned = "@ViewBag.SpplpPlannedPer";
-    var Actual =  "@ViewBag.Actual";*@
-    const labels = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-    ];
+<!--SPI JS-->
 
-    const data = {
-        labels: labels,
-        datasets: [{
-            type: 'bar',
-            label: 'Monthly Planned',
-            data: [@ViewBag.SpplpMPlanned],
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgba(68, 114, 196, 1)'
-        },
-        {
-            type: 'bar',
-            label: 'Monthly Actual',
-            data: [@ViewBag.SpplpMActual],
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgba(247, 113, 84, 1)'
-        }, {
-            type: 'line',
-            label: 'Cut Plan',
-            data: [@ViewBag.SpplpCPlan],
-            fill: false,
-            borderColor: 'rgba(22, 73, 18, 1)'
-        },
-        {
-            type: 'line',
-            label: 'Cut Actual',
-            data: [@ViewBag.SpplpCActual],
-            fill: false,
-            borderColor: 'rgba(238, 148, 18, 1)'
+<script>
+    if ('@isSPIUpdate' == 'False') {
+        const spllabels = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ];
+
+        const SPIdata = {
+            labels: spllabels,
+            datasets: [{
+                type: 'bar',
+                label: 'Monthly Planned',
+                data: [@ViewBag.SpplpMPlanned],
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(68, 114, 196, 1)'
             },
-        {
-            type: 'bar',
-            label: 'Planned %',
-            data: [@ViewBag.SpplpPlannedPer],
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgba(0, 107, 180, 1)'
-        },  {
-            type: 'bar',
-            label: 'Actual %',
-            data: [@ViewBag.Actual],
-            borderColor: 'rgb(200, 86, 1)',
-            backgroundColor: 'rgba(0, 212, 86, 1)'
-        }]
-        //datasets: [{
-        //    label: 'My First dataset',
-        //    backgroundColor: 'rgb(255, 99, 132)',
-        //    borderColor: 'rgb(255, 99, 132)',
-        //    data: [0, 10, 5, 2, 20, 30, 45],
-        //},
-        //{
-        //    label: 'My First dataset',
-        //    backgroundColor: 'rgb(255, 99, 132)',
-        //    borderColor: 'rgb(255, 99, 132)',
-        //    data: [0, 15, 10, 20, 5, 20, 35],
-        //},
-        //]
-    };
+            {
+                type: 'bar',
+                label: 'Monthly Actual',
+                data: [@ViewBag.SpplpMActual],
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(247, 113, 84, 1)'
+            }, {
+                type: 'line',
+                label: 'Cut Plan',
+                data: [@ViewBag.SpplpCPlan],
+                fill: false,
+                borderColor: 'rgba(22, 73, 18, 1)'
+            },
+            {
+                type: 'line',
+                label: 'Cut Actual',
+                data: [@ViewBag.SpplpCActual],
+                fill: false,
+                borderColor: 'rgba(238, 148, 18, 1)'
+            },
+            {
+                type: 'bar',
+                label: 'Planned %',
+                data: [@ViewBag.SpplpPlannedPer],
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(0, 107, 180, 1)'
+            }, {
+                type: 'bar',
+                label: 'Actual %',
+                data: [@ViewBag.Actual],
+                borderColor: 'rgb(200, 86, 1)',
+                backgroundColor: 'rgba(0, 212, 86, 1)'
+            }]
+        };
 
-    const config = {
-        type: 'line',
-        data: data,
-        options: {}
-    };
+        const config = {
+            type: 'line',
+            data: SPIdata,
+            options: {}
+        };
+
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+    }
 </script>
+
 <script>
-    const myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-    );
+    $(document).ready(function () {
+
+        if ('@isSPIUpdate' == 'True') {
+            const spllabels1 = [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December'
+            ];
+
+            const SPIdata1 = {
+                labels: spllabels1,
+                datasets: [{
+                    type: 'bar',
+                    label: 'Monthly Planned',
+                    data: [@ViewBag.SpplpMPlanned],
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(68, 114, 196, 1)'
+                },
+                {
+                    type: 'bar',
+                    label: 'Monthly Actual',
+                    data: [@ViewBag.SpplpMActual],
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(247, 113, 84, 1)'
+                }, {
+                    type: 'line',
+                    label: 'Cut Plan',
+                    data: [@ViewBag.SpplpCPlan],
+                    fill: false,
+                    borderColor: 'rgba(22, 73, 18, 1)'
+                },
+                {
+                    type: 'line',
+                    label: 'Cut Actual',
+                    data: [@ViewBag.SpplpCActual],
+                    fill: false,
+                    borderColor: 'rgba(238, 148, 18, 1)'
+                },
+                {
+                    type: 'bar',
+                    label: 'Planned %',
+                    data: [@ViewBag.SpplpPlannedPer],
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(0, 107, 180, 1)'
+                }, {
+                    type: 'bar',
+                    label: 'Actual %',
+                    data: [@ViewBag.Actual],
+                    borderColor: 'rgb(200, 86, 1)',
+                    backgroundColor: 'rgba(0, 212, 86, 1)'
+                }]
+            };
+
+            const SPIconfig1 = {
+                type: 'line',
+                data: SPIdata1,
+                options: {}
+            };
+
+            const myChart = new Chart(
+                document.getElementById('myChart'),
+                SPIconfig1
+            );
+        }
+    });
 </script>
+<!--END SPI Js-->
