@@ -16,9 +16,9 @@
 <script>
 
 
-    var isModifyPerm = @security.IsPCModify(ModuleNameList.Annual_Work_Planned_Budget).ToString().ToLowerInvariant()? "" : "hidden";
-    var isDeletePerm =@security.IsPCDelete(ModuleNameList.Annual_Work_Planned_Budget).ToString().ToLowerInvariant()? "" : "hidden";
-    var isViewPerm = @security.IsPCView(ModuleNameList.Annual_Work_Planned_Budget).ToString().ToLowerInvariant() ? "" : 'hidden';
+    var isModifyPerm = @security.IsPCModify(ModuleNameList.Payment_Certificate).ToString().ToLowerInvariant()? "" : "hidden";
+    var isDeletePerm =@security.IsPCDelete(ModuleNameList.Payment_Certificate).ToString().ToLowerInvariant()? "" : "hidden";
+    var isViewPerm = @security.IsPCView(ModuleNameList.Payment_Certificate).ToString().ToLowerInvariant() ? "" : 'hidden';
     var table_columns = [];
     var actionCol = {
         data: null, name: "Action", title: "Action", class: "", autoWidth: true, sortable: false, render: function (data) {
