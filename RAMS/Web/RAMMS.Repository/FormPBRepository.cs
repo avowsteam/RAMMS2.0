@@ -112,7 +112,7 @@ namespace RAMMS.Repository
                 if (filterOptions.ColumnIndex == 4)
                     query = query.OrderBy(s => s.hdr.PbiwSubmissionMonth);
                 if (filterOptions.ColumnIndex == 5)
-                    query = query.OrderBy(s => s.hdr.PbiwSubmissionDate);
+                    query = query.OrderBy(s => s.hdr.PbiwSignDateSo);
                 if (filterOptions.ColumnIndex == 6)
                     query = query.OrderBy(s => s.hdr.PbiwAmountBeforeLad);
                 if (filterOptions.ColumnIndex == 7)
@@ -133,7 +133,7 @@ namespace RAMMS.Repository
                 if (filterOptions.ColumnIndex == 4)
                     query = query.OrderByDescending(s => s.hdr.PbiwSubmissionMonth);
                 if (filterOptions.ColumnIndex == 5)
-                    query = query.OrderByDescending(s => s.hdr.PbiwSubmissionDate);
+                    query = query.OrderByDescending(s => s.hdr.PbiwSignDateSo);
                 if (filterOptions.ColumnIndex == 6)
                     query = query.OrderByDescending(s => s.hdr.PbiwAmountBeforeLad);
                 if (filterOptions.ColumnIndex == 7)
@@ -153,7 +153,7 @@ namespace RAMMS.Repository
                 RefId = s.hdr.PbiwRefId,
                 SubmissionYear = s.hdr.PbiwSubmissionYear,
                 SubmissionMonth = s.hdr.PbiwSubmissionMonth,
-                SubmissionDate = s.hdr.PbiwSubmissionDate,
+                SubmissionDate = s.hdr.PbiwSignDateSo,
                 AmountBeforeLad = s.hdr.PbiwAmountBeforeLad,
                 LaDamage = s.hdr.PbiwLaDamage,
                 FinalPayment = s.hdr.PbiwFinalPayment,

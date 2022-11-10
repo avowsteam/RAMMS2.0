@@ -207,11 +207,11 @@ namespace RAMMS.Business.ServiceProvider.Services
                             {
 
                                 worksheet.Cell(i, 1).Value = r.IwRef;
-                                worksheet.Cell(i, 6).Value = r.ProjectTitle;
+                                worksheet.Cell(i, 5).Value = r.ProjectTitle;
                                 worksheet.Cell(i, 12).Value = r.CompletionDate;
                                 worksheet.Cell(i, 15).Value = r.CompletionRefNo;
                                 worksheet.Cell(i, 19).Value = r.AmountBeforeLad;
-                                worksheet.Cell(i, 24).Value = r.AmountBeforeLad;
+                                worksheet.Cell(i, 24).Value = r.LaDamage;
                                 worksheet.Cell(i, 29).Value = r.FinalPayment;
                                 i++;
                             }
