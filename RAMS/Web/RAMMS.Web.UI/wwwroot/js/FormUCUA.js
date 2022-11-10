@@ -50,6 +50,18 @@ function Save(GroupName, SubmitType) {
     }
 
 }
+
+
+function GoBack() {
+
+    if (app.Confirm("Are you sure you want to close the form?", function (e) {
+        if (e) {
+            location.href = "/FrmUCUA";
+        }
+    }));
+}
+    
+
 function EnableDisableElements(state) {
 
     $('#headerDiv * > select').prop('disabled', state).trigger("chosen:updated");
