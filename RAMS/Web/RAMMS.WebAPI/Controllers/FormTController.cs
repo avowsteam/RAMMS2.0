@@ -3,9 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using RAMMS.Business.ServiceProvider.Interfaces;
+using RAMMS.Business.ServiceProvider.Services;
+using RAMMS.Domain.Models;
+using RAMMS.DTO;
 using RAMMS.DTO.JQueryModel;
 using RAMMS.DTO.RequestBO;
 using RAMMS.DTO.ResponseBO;
+using RAMMS.DTO.SearchBO;
+using RAMMS.DTO.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,21 +32,19 @@ namespace RAMMS.WebAPI.Controllers
         }
 
         [Authorize]
-        [Route("api/getTGridData")]
+        [Route("api/getFormTGridData")]
         [HttpPost]
         public async Task<IActionResult> GetFilteredFormTGrid([FromBody] object landingGrid)
         {
-            DataTableAjaxPostModel requestDtl = JsonConvert.DeserializeObject<DataTableAjaxPostModel>(landingGrid.ToString());
-            if (requestDtl.order != null && requestDtl.order.Count > 0)
-            {
-                requestDtl.order = requestDtl.order.Select(x => { if (x.column == 4 || x.column == 1 || x.column == 9) { x.column = 16; } return x; }).ToList();
-            }
-            var respons = await _FormTService.GetHeaderList(requestDtl);
-            return RAMMSApiSuccessResponse(respons);
+
+            FilteredPagingDefinition<FormTSearchGridDTO> requestDtl = JsonConvert.DeserializeObject<FilteredPagingDefinition<FormTSearchGridDTO>>(landingGrid.ToString());
+
+            PagingResult<FormTHeaderRequestDTO> response = await _FormTService.GetHeaderList(requestDtl);
+            return RAMMSApiSuccessResponse(response);
         }
 
         [Authorize]
-        [Route("api/deleteT")]
+        [Route("api/deleteFormT")]
         [HttpPost]
         public IActionResult DeActivateM(int id)
         {
@@ -49,34 +52,75 @@ namespace RAMMS.WebAPI.Controllers
         }
 
         [Authorize]
-        [Route("api/findDetailsT")]
+        [Route("api/deleteFormTDetail")]
         [HttpPost]
-        public async Task<IActionResult> FindDetailsM([FromBody] object frmM)
+        public IActionResult DeActivateFormTDtl(int id)
         {
-            FormTResponseDTO requestDtl = JsonConvert.DeserializeObject<FormTResponseDTO>(frmM.ToString());
-            return RAMMSApiSuccessResponse(await _FormTService.FindDetails(requestDtl, _security.UserID));
+            return RAMMSApiSuccessResponse(_FormTService.DeleteFormTDtl(id));
+        }
+
+
+        [Authorize]
+        [Route("api/findDetailsFormT")]
+        [HttpPost]
+        public async Task<IActionResult> FindDetailsT([FromBody] object frmT)
+        {
+            FormTResponseDTO requestDtl = JsonConvert.DeserializeObject<FormTResponseDTO>(frmT.ToString());
+            return RAMMSApiSuccessResponse(await _FormTService.SaveFormT(requestDtl));
         }
 
         [Authorize]
-        [Route("api/updateT")]
+        [Route("api/updateFormT")]
         [HttpPost]
-        public async Task<IActionResult> UpdateM([FromBody] object frmM)
+        public async Task<IActionResult> UpdateFormT([FromBody] object frmM)
         {
             FormTResponseDTO  requestDtl = JsonConvert.DeserializeObject<FormTResponseDTO>(frmM.ToString());
             requestDtl.ModBy = _security.UserID;
             requestDtl.ModDt = DateTime.UtcNow;
-            var result = await _FormTService.Save(requestDtl, requestDtl.SubmitSts);
-            return RAMMSApiSuccessResponse(result.PkRefNo);
+            var result = await _FormTService.Update(requestDtl);
+            return RAMMSApiSuccessResponse(requestDtl.PkRefNo);
         }
 
 
         [Authorize]
-        [Route("api/getMById")]
+        [Route("api/saveFormTdetails")]
         [HttpPost]
-        public async Task<IActionResult> GetMById(int id)
+        public async Task<IActionResult> SaveFormTDetail([FromBody] object frmTdtl)
         {
-            return RAMMSApiSuccessResponse(await _FormTService.FindByHeaderID(id));
+            FormTDtlResponseDTO requestDtl = JsonConvert.DeserializeObject<FormTDtlResponseDTO>(frmTdtl.ToString());
+ 
+            var result =  _FormTService.SaveFormTDtl(requestDtl);
+            return RAMMSApiSuccessResponse(requestDtl.PkRefNo);
         }
+
+        [Authorize]
+        [Route("api/updateFormTdetails")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateFormTDtl([FromBody] object frmTdtl)
+        {
+            FormTDtlResponseDTO requestDtl = JsonConvert.DeserializeObject<FormTDtlResponseDTO>(frmTdtl.ToString());
+
+            var result = _FormTService.UpdateFormTDtl(requestDtl);
+            return RAMMSApiSuccessResponse(requestDtl.PkRefNo);
+        }
+
+
+        [Authorize]
+        [Route("api/getFormTbyId")]
+        [HttpPost]
+        public async Task<IActionResult> GetFormTById(int id)
+        {
+            return RAMMSApiSuccessResponse(await _FormTService.GetHeaderById(id));
+        }
+
+        [Authorize]
+        [Route("api/getFormTdetailsById")]
+        [HttpPost]
+        public async Task<IActionResult> GetFormTDetailsById(int id)
+        {
+            return RAMMSApiSuccessResponse(await _FormTService.GetFormTDtlById(id));
+        }
+
 
         //[Authorize]
         //[Route("api/getMlist")]
@@ -106,6 +150,6 @@ namespace RAMMS.WebAPI.Controllers
         //    return RAMMSApiSuccessResponse(response);
         //}
 
-        
+
     }
 }

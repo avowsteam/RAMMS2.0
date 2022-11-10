@@ -14,18 +14,16 @@
 
 
     function bindRoadCode() {
-        debugger;
+        
         var ReportingName = $("#txtReportingName").val();
         var Location = $("#txtLocation").val();
         var WorkScope = $("#txtWorkScope").val();
-        var _ddlRoadCode = $("#ddlRoadCode");
-        _ddlRoadCode.chosen();
+
         var req = {};
         //req.code = $("#ddlDivision").val();
-        req.RMU =null;
-        req.SectionCode = 0;
-        req.RdCode = null;
-        req.GrpCode = "GR"
+        req.ReportingName = ReportingName;
+        req.Location = Location;
+        req.WorkScope = WorkScope;
         $.ajax({
             //url: '/FormF2/GetRoadListByDivisionCode',
             url: '/FormF2/RMUSecRoad',
@@ -33,15 +31,11 @@
             data: req,
             type: 'Post',
             success: function (data) {
-                _ddlRoadCode.empty();
-                _ddlRoadCode.append($("<option></option>").val("").html("Select Road Code"));
+
                 $.each(data.rdCode, function (index, v) {
-                    _ddlRoadCode.append($("<option></option>").val(v.value).html(v.text));
-                    //var text = v.roadCode + " - " + v.roadName;
-                    //_ddlRoadCode.append($("<option></option>").val(v.roadCode).html(text));
                 });
 
-                _ddlRoadCode.trigger("chosen:updated");
+
             },
             error: function (data) {
 
@@ -51,7 +45,7 @@
     }
 
     $(document).ready(function () {
-        debugger;
+        
         $("#btnAdvSearch").on("click", function () {
             $("#formUCUAAdvSearch").toggle();
         });
@@ -164,7 +158,7 @@
                 }
             </div>
 
-            @*Form UCUA Grid*@
+            Form UCUA Grid
             <div id="headerListGrid" class="w-100 dt-tbl-section">
                 @{
                     Html.RenderPartial("_HeaderListGrid.cshtml");

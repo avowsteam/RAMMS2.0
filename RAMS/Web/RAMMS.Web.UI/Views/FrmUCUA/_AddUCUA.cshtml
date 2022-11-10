@@ -46,9 +46,10 @@
     })).ToList().Select(s => new SelectListItem { Value = s.UserId.ToString(), Text = (s.UserId.ToString() + "-" + s.UserName) }).ToArray();
 
     bool isSubmit = (security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsExecutive || security.IsInstructedWorkEngg || security.isEnggAssistant || security.IsSupervisor || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
-    bool IsApproved = (security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg || security.isOperRAMSExecutive || security.IsExecutive || security.IsInstructedWorkEngg || security.IsHeadMaintenance || security.IsRegionManager);
+    bool IsApproved = (security.isOperRAMSExecutive || security.IsHeadMaintenance || security.IsRegionManager || security.IsExecutive || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.isPlanningEngineer || security.IsJKRSHQ || security.IsDivisonalEngg || security.IsJKRSSuperiorOfficer);
     var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
 }
+@*(security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg || security.isOperRAMSExecutive || security.IsExecutive || security.IsInstructedWorkEngg || security.IsHeadMaintenance || security.IsRegionManager);*@
 
 <link href="~/js/jquery.timeentry/jquery.timeentry.css" rel="stylesheet">
 <script src="~/js/jquery.timeentry/jquery.plugin.js"></script>
@@ -240,7 +241,7 @@
                                                                     @*@Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date Received}" } })*@
                                                                 </div>
                                                             </div>
-                                                            
+
                                                             @*<div class="form-group col-lg-3">
                                                                     @Html.Label("Date Received", "Date Received")
                                                                     <input name="DateReceived" class="form-control ssvalidate {req,Audited by date}" type="date" value="" />
@@ -274,7 +275,7 @@
                                                             </div>
 
                                                         </div>
-                                                        </div>
+                                                    </div>
                                                     <div class="col-12">
                                                         <div id="accordion">
 
@@ -437,7 +438,7 @@
                     <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
                     @{
 
-                        bool isVerify = (security.isOperRAMSExecutive || security.IsHeadMaintenance || security.IsRegionManager || security.IsExecutive);
+                        bool isVerify = (security.isOperRAMSExecutive || security.IsHeadMaintenance || security.IsRegionManager || security.IsExecutive || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.isPlanningEngineer || security.IsJKRSHQ || security.IsDivisonalEngg || security.IsJKRSSuperiorOfficer);
 
 
                     }
@@ -448,7 +449,7 @@
                             <button id="saveFormUCUABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('','Saved')">Save</button>
                             <button id="SubmitFormUCUABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('','Submitted')">Submit</button>
                         }
-                       
+
 
                         if (IsApproved && (Model.FormUCUA.Status == RAMMS.Common.StatusList.FormUcuaSubmitted))
                         {
