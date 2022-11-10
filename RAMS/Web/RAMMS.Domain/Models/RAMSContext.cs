@@ -17988,9 +17988,11 @@ namespace RAMMS.Domain.Models
 
             modelBuilder.Entity<RmUcua>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.RmmhPkRefNo);
 
                 entity.ToTable("RM_UCUA");
+
+                entity.Property(e => e.RmmhPkRefNo).HasColumnName("RMMH_PK_Ref_No");
 
                 entity.Property(e => e.RmmhActionDescription)
                     .HasColumnName("RMMH_Action_Description")
@@ -18001,6 +18003,10 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("RMMH_Action_Taken_By")
                     .HasMaxLength(100)
                     .IsUnicode(false);
+
+                entity.Property(e => e.RmmhActiveYn).HasColumnName("RMMH_Active_YN");
+
+                entity.Property(e => e.RmmhAuditLog).HasColumnName("RMMH_AuditLog");
 
                 entity.Property(e => e.RmmhCommentsOfficeUse)
                     .HasColumnName("RMMH_Comments_Office_Use")
@@ -18053,10 +18059,6 @@ namespace RAMMS.Domain.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.RmmhPkRefNo)
-                    .HasColumnName("RMMH_PK_Ref_No")
-                    .ValueGeneratedOnAdd();
-
                 entity.Property(e => e.RmmhRefId)
                     .HasColumnName("RMMH_Ref_ID")
                     .HasMaxLength(50)
@@ -18075,6 +18077,8 @@ namespace RAMMS.Domain.Models
                 entity.Property(e => e.RmmhStatus)
                     .HasColumnName("RMMH_Status")
                     .HasMaxLength(100);
+
+                entity.Property(e => e.RmmhSubmitYn).HasColumnName("RMMH_SUBMIT_YN");
 
                 entity.Property(e => e.RmmhUnsafeAct)
                     .HasColumnName("RMMH_Unsafe_Act")

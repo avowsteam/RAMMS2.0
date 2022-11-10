@@ -215,5 +215,9 @@ namespace RAMMS.Common
         public const string FormMapApproved = "Approved";
         public const string FormMapVerified = "Verified";
 
+        public const string FormUcuaSaved = "Saved";
+        public const string FormUcuaSubmitted = "Submitted";
+        public const string FormUcuaInitialize = "Initialize";
+
     }
 }

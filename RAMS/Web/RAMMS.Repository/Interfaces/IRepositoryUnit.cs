@@ -67,7 +67,7 @@ namespace RAMMS.Repository.Interfaces
         public FormV2EquipmentRepository FormV2EquipmentRepository { get; }
         public FormV2MaterialRepository FormV2MaterialRepository { get; }
 
-        public FormQa1Repository FormQa1Repository { get; } 
+        public FormQa1Repository FormQa1Repository { get; }
         //End Vforms
 
         public DlpSpi DlpSpi { get; }
@@ -121,7 +121,7 @@ namespace RAMMS.Repository.Interfaces
         public FormPARepository FormPARepository { get; }
 
         public FormPBRepository FormPBRepository { get; }
-
+        public FormUCUARepository FormucuaRepository { get; }
         int Commit();
         Task<int> CommitAsync();
         void Rollback();
@@ -133,5 +133,6 @@ namespace RAMMS.Repository.Interfaces
         IDivRmuSectionRepository DivRmuSectionRepository { get; }
         ISectionRepository SectionRepository { get; }
         IRoadRepository RoadRepository { get; }
+        // IFormUCUARepository formUCUARepository { get; }
     }
 }

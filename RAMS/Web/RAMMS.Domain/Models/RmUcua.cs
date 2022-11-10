@@ -28,5 +28,8 @@ namespace RAMMS.Domain.Models
         public string RmmhEffectivenessActionTakenBy { get; set; }
         public string RmmhEffectivenessActionDescription { get; set; }
         public string RmmhStatus { get; set; }
+        public bool? RmmhActiveYn { get; set; }
+        public bool? RmmhSubmitYn { get; set; }
+        public string RmmhAuditLog { get; set; }
     }
 }
