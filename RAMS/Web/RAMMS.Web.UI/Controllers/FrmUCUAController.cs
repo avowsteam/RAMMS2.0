@@ -161,5 +161,12 @@ namespace RAMMS.Web.UI.Controllers
             string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             return File(content1, contentType1, "FORMUCUA" + ".xlsx");
         }
+
+        public async Task<IActionResult> DeleteFormUCUA(int id)
+        {
+            int? rowsAffected = 0;
+            rowsAffected = _formUCUAService.DeleteFormUCUA(id);
+            return Json(rowsAffected);
+        }
     }
 }

@@ -260,5 +260,23 @@ namespace RAMMS.Repository
 
             }).ToList();
         }
+        public int? DeleteFormUCUA(int id)
+        {
+            try
+            {
+
+                var res = _context.Set<RmUcua>().FindAsync(id);
+                res.Result.RmmhActiveYn = false;
+                _context.Set<RmUcua>().Attach(res.Result);
+                _context.Entry<RmUcua>(res.Result).State = EntityState.Modified;
+                _context.SaveChanges();
+                return 1;
+
+            }
+            catch (Exception ex)
+            {
+                return 500;
+            }
+        }
     }
 }

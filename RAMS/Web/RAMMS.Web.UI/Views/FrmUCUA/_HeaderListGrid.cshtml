@@ -26,7 +26,7 @@
             if (data.pkRefNo != "" && data.pkRefNo != null) {
                 title = data.pkRefNo;
             }
-            if (data.submitSts && data.Status == "Approved") {
+            if (data.SubmitYn && data.Status == "Approved") {
                 var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns'  data-backdrop='static' " + isViewPerm + " onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:deleteHeader(" + data.pkRefNo + ");'><span class='del-icon'></span> Delete</button> </div></div>";
                 return actionSection;
             }
@@ -78,24 +78,25 @@
 
 
     function PrintForm(id) {
-        window.location.href = '/FrmT/FormTDownload?id=' + id;
+        window.location.href = '/FrmUCUA/FormTDownload?id=' + id;
     }
 
     function editDetail(id) {
-        window.location.href = '/FrmT/Add?id=' + id + '&isview=0';
+        window.location.href = '/FrmUCUA/Add?id=' + id + '&isview=0';
     }
 
     function viewDetail(id) {
-        window.location.href = '/FrmT/Add?id=' + id + '&isview=1';
+        window.location.href = '/FrmUCUA/Add?id=' + id + '&isview=1';
     }
 
     function deleteHeader(id) {
+        debugger;
         app.Confirm("Are you sure you want to delete the record?, If Yes click OK.", function (e) {
             if (e) {
                 var req = {};
                 req.id = id;
                 $.ajax({
-                    url: '/FrmT/DeleteFormT',
+                    url: '/FrmUCUA/DeleteFormUCUA',
                     dataType: 'JSON',
                     data: req,
                     type: 'Post',

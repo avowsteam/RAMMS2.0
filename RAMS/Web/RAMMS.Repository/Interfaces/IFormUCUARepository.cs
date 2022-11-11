@@ -16,6 +16,7 @@ namespace RAMMS.Repository.Interfaces
         int? SaveFormUCUA(RmUcua FormUCUA);
         Task<FORMTRpt> GetReportData(int headerid); 
         Task<List<FormUCUAHeaderRequestDTO>> GetFilteredRecordList(FilteredPagingDefinition<FormUCUASearchGridDTO> filterOptions);
+        int? DeleteFormUCUA(int id);
     }
     
 }

@@ -454,7 +454,21 @@ namespace RAMMS.Business.ServiceProvider.Services
 
             return rowsAffected;
         }
+        public int? DeleteFormUCUA(int id)
+        {
+            int? rowsAffected;
+            try
+            {
+                rowsAffected = _repo.DeleteFormUCUA(id);
+            }
+            catch (Exception ex)
+            {
+                _repoUnit.RollbackAsync();
+                throw ex;
+            }
 
+            return rowsAffected;
+        }
     }
 
 }

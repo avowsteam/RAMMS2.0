@@ -2,16 +2,16 @@
 function Save(GroupName, SubmitType) {
     
     if (SubmitType == "Submitted") {
-        $("#FormT_SubmitSts").val(true);
-        $("#ddlCrew").addClass("validate");
+        $("#SubmitYn").val(true);
+      //  $("#ddlCrew").addClass("validate");
     }
 
     if (ValidatePage('#headerFindDiv')) {
 
-        if ($("#FormT_Status").val() == "")
-            $("#FormT_Status").val("Initialize");
-        else if ($("#FormT_Status").val() == "Initialize")
-            $("#FormT_Status").val("Saved");
+        if ($("#Status").val() == "")
+            $("#Status").val("Initialize");
+        else if ($("#Status").val() == "Initialize")
+            $("#Status").val("Saved");
        
         InitAjaxLoading();
         EnableDisableElements(false);
@@ -30,6 +30,7 @@ function Save(GroupName, SubmitType) {
                         return;
                     }
                     else {
+                        debugger;
                         UpdateFormAfterSave(data);
                     }
 
@@ -106,4 +107,20 @@ function fnUnsafeCondOnchage() {
     
     var UnSafeCondval = $("#UnsafeCondition").prop("checked");
     $("#hdnUnsafeCondition").val(UnSafeCondval);
+}
+
+function UpdateFormAfterSave(data) {
+
+    $("#pkRefNo").val(data.pkRefNo);
+    $("#refId").val(data.refId);
+    $("#Status").val(data.status)
+
+    $("#hdnPkRefNo").val(data.pkRefNo);
+
+   // $("#btnDtlModal").show();
+    $("#saveFormUCUABtn").show();
+    $("#SubmitFormUCUABtn").show();
+
+
+   // InitializeGrid();
 }

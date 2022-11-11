@@ -64,7 +64,11 @@
                 <div class="d-flex justify-content-center py-1">
                     <div id="" class="form-group mb-0">
                         @Html.Label("UCUA Reference No.", "UCUA Reference No.", new { style = "float:left; padding: .5rem .5rem 0 !important;" })
-                        @Html.TextBoxFor(model => model.FormUCUA.PkRefNo, new { @readonly = "true", @class = "form-control", @style = "width:300px;" })
+                        @Html.HiddenFor(model => model.FormUCUA.Status, new { @class = "form-control", @id = "Status" })
+                        @Html.HiddenFor(model => model.FormUCUA.SubmitYn, new { @class = "form-control", @id = "SubmitYn" })
+                        @Html.HiddenFor(model => model.FormUCUA.PkRefNo, new { @class = "form-control", @id = "PkRefNo" })
+                        @Html.TextBoxFor(model => model.FormUCUA.RefId, new { @readonly = "true", @class = "form-control", @style = "width:300px;", @id = "RefId" })
+
                     </div>
                 </div>
             </div>
@@ -428,7 +432,7 @@
 
                     if (IsApproved && (Model.FormUCUA.Status == RAMMS.Common.StatusList.Submitted || Model.FormUCUA.Status == RAMMS.Common.StatusList.Rejected))
                     {
-                        <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Approved By');"> Approved / Verify </button>
+                        <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Approved By');"> Verify </button>
                     }
 
                 }

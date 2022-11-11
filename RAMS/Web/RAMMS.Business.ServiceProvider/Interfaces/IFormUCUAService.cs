@@ -17,5 +17,6 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<int> Update(FormUCUAResponseDTO formUCUA);
         Task<byte[]> FormDownload(string formname, int id, string filepath);
         Task<PagingResult<FormUCUAHeaderRequestDTO>> GetHeaderList(FilteredPagingDefinition<FormUCUASearchGridDTO> filterOptions);
+        int? DeleteFormUCUA(int id);
     }
 }
