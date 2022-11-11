@@ -68,6 +68,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                 lstData.Add("YYYYMMDD", Utility.ToString(Convert.ToDateTime(FormUCUA.DateReceived).ToString("yyyyMMdd")));
                 domainModelFormUCUA.RmmhRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormUCUA, lstData);
                 domainModelFormUCUA.RmmhStatus = "Initialize";
+                domainModelFormUCUA.RmmhUnsafeAct = FormUCUA.hdnUnsafeAct;
+                domainModelFormUCUA.RmmhUnsafeCondition = FormUCUA.hdnUnsafeCondition;
 
                 var entity = _repoUnit.FormucuaRepository.CreateReturnEntity(domainModelFormUCUA);
                 FormUCUA.PkRefNo = _mapper.Map<FormUCUAResponseDTO>(entity).PkRefNo;

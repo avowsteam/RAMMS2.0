@@ -13,8 +13,10 @@ namespace RAMMS.DTO.ResponseBO
         public string  Location { get; set; }
         public string  WorkScope { get; set; }
         public bool  UnsafeAct { get; set; }
+        public bool hdnUnsafeAct { get; set; }
         public string  UnsafeActDescription { get; set; }
         public bool  UnsafeCondition { get; set; }
+        public bool hdnUnsafeCondition { get; set; }
         public string  UnsafeConditionDescription { get; set; }
         public string  ImprovementRecommendation { get; set; }
         public DateTime?  DateReceived { get; set; }
