@@ -101,7 +101,7 @@
                                                                 <div class="w-100 form-group mb-0">
                                                                     <div class="form-group col-md-3">
                                                                         @Html.Label("Reporting Name", "Reporting Name")
-                                                                        @Html.TextBoxFor(model => model.FormUCUA.ReportingName, new {@class = "form-control" })
+                                                                        @Html.TextBoxFor(model => model.FormUCUA.ReportingName, new { @class = "form-control" })
                                                                     </div>
                                                                     <div class="form-group col-md-3">
                                                                         @Html.Label("Location", "Location")
@@ -112,14 +112,14 @@
                                                                         @Html.TextBoxFor(model => model.FormUCUA.WorkScope, new { @class = "form-control" })
                                                                     </div>
                                                                     @*<div class="form-group col-lg-3 float-left">
-            @Html.Label("Date(DD-MM-YYYY)", "Date(DD-MM-YYYY)")
-            @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control validate {required, Recorded By Date}" } })
-        </div>
-        <div class="form-group col-lg-3 float-left">
-            @Html.Label("Date(DD-MM-YYYY)", "Date(DD-MM-YYYY)")
-            @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control validate {required, Recorded By Date}" } })
-        </div>*@
-                                                                   
+                                                        @Html.Label("Date(DD-MM-YYYY)", "Date(DD-MM-YYYY)")
+                                                        @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control validate {required, Recorded By Date}" } })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 float-left">
+                                                        @Html.Label("Date(DD-MM-YYYY)", "Date(DD-MM-YYYY)")
+                                                        @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control validate {required, Recorded By Date}" } })
+                                                    </div>*@
+
 
                                                                 </div>
                                                             </div>
@@ -148,16 +148,10 @@
                                                                                         <div class="form-group col-2 text-center">
                                                                                             <label>
                                                                                                 Unsafe Act
-                                                                                                @{
-                                                                                                    var _insSign = false;
-                                                                                                    if (Model != null)
-                                                                                                    {
-                                                                                                        _insSign = Model.FormUCUA.UnsafeAct == null || Model.FormUCUA.UnsafeAct == "false" ? false : true;
-                                                                                                    }
-                                                                                                }
+                                                                                                @{var _insSign = Model.FormUCUA.UnsafeAct == false ? false : true;}
                                                                                             </label>
                                                                                             <div class="clear-b mt-2">
-                                                                                                <input class="{required, Requested By Signature}" checked="_insSign" id="AuditedSign" name="SignAudit" type="checkbox">
+                                                                                                <input class="{required, Requested By Signature}" checked="@_insSign" id="UnsafeAct" name="UnsafeAct" type="checkbox">
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="form-group col-md-10">
@@ -166,24 +160,18 @@
                                                                                         </div>
                                                                                         <div class="form-group col-2 text-center">
                                                                                             <label>
-                                                                                                Unsafe Condition
-                                                                                                @{
-                                                                                                    var _inssafeCon = false;
-                                                                                                    if (Model != null)
-                                                                                                    {
-                                                                                                        _insSign = Model.FormUCUA.UnsafeCondition == null || Model.FormUCUA.UnsafeCondition == "false" ? false : true;
-                                                                                                    }
-                                                                                                }
+                                                                                                 Unsafe Condition
+                                                                                                @{ var _inssafeCon = Model.FormUCUA.UnsafeCondition == false ? false : true; }
                                                                                             </label>
                                                                                             <div class="clear-b mt-2">
-                                                                                                <input class="{required, Requested By Signature}" checked="_inssafeCon" id="AuditedSign" name="SignAudit" type="checkbox">
+                                                                                                <input class="{required, Requested By Signature}" checked="@_inssafeCon" id=" UnsafeCondition" name="UnsafeCondition" type="checkbox">
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="form-group col-md-10">
                                                                                             @Html.Label("Description", "Description")
                                                                                             @Html.TextAreaFor(model => model.FormUCUA.UnsafeConditionDescription, new { @class = "form-control" })
                                                                                         </div>
-                                                                                        
+
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -212,7 +200,7 @@
                                                                                     <div class="row">
                                                                                         <div class="form-group col-md-12">
                                                                                             @Html.TextAreaFor(model => model.FormUCUA.ImprovementRecommendation, new { @class = "form-control" })
-                                                                                          
+
                                                                                         </div>
                                                                                     </div>
 
@@ -232,14 +220,23 @@
 
                                                             <div class="col-lg-12 p-0">
                                                                 <div class="w-100 form-group mb-0">
-                                                                    <div class="form-group col-lg-3">
+
+                                                                    <div class="form-group col-md-3">
                                                                         @Html.Label("Date Received", "Date Received")
-                                                                        <input name="DateReceived" class="form-control ssvalidate {req,Audited by date}" type="date" value="" />
+                                                                        @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date}" } })
                                                                     </div>
-                                                                    <div class="form-group col-lg-3">
+                                                                    @*<div class="form-group col-lg-3">
+            @Html.Label("Date Received", "Date Received")
+            <input name="DateReceived" class="form-control ssvalidate {req,Audited by date}" type="date" value="" />
+        </div>*@
+                                                                    <div class="form-group col-md-3">
+                                                                        @Html.Label("Committee Review on", "Committee Review on")
+                                                                        @Html.EditorFor(m => m.FormUCUA.DateCommitteeReview, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date}" } })
+                                                                    </div>
+                                                                    @*<div class="form-group col-lg-3">
                                                                         @Html.Label("Committee Review on", "Committee Review on")
                                                                         <input name="DateReceived" class="form-control ssvalidate {req,Audited by date}" type="date" value="" />
-                                                                    </div>
+                                                                    </div>*@
 
 
                                                                     <div class="" style="clear:both"></div>
@@ -259,7 +256,7 @@
                                                                         @Html.Label("IMS Management Representative", "IMS Management Representative")
                                                                         @Html.TextBoxFor(model => model.FormUCUA.ImsRep, new { @class = "form-control" })
                                                                     </div>
-                                                                    
+
                                                                 </div>
                                                             </div>
                                                             <div class="col-12">
@@ -283,10 +280,14 @@
                                                                             <div id="AccordPage01" class="collapse show avowmodal-form formgrp-section" aria-labelledby="headingZer11" data-parent="#custom-accordion-zer11">
                                                                                 <div class="card-body">
                                                                                     <div class="row">
-                                                                                        <div class="form-group col-lg-3">
+                                                                                        <div class="form-group col-md-3">
+                                                                                            @Html.Label("Date Action Taken", "Date Action Taken")
+                                                                                            @Html.EditorFor(m => m.FormUCUA.DateActionTaken, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date}" } })
+                                                                                        </div>
+                                                                                        @*<div class="form-group col-lg-3">
                                                                                             @Html.Label("Date Action Taken", "Date Action Taken")
                                                                                             <input name="DateReceived" class="form-control ssvalidate {req,Audited by date}" type="date" value="" />
-                                                                                        </div>
+                                                                                        </div>*@
 
                                                                                         <div class="form-group col-md-4">
                                                                                             @Html.Label("Action By", "Action By")
@@ -323,10 +324,14 @@
                                                                             <div id="AccordPage21" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingTwo1" data-parent="#custom-accordion-two1">
                                                                                 <div class="card-body">
                                                                                     <div class="row">
-                                                                                        <div class="form-group col-lg-3">
+                                                                                        <div class="form-group col-md-3">
+                                                                                            @Html.Label("Date", "Date")
+                                                                                            @Html.EditorFor(m => m.FormUCUA.DateEffectivenessActionTaken, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date}" } })
+                                                                                        </div>
+                                                                                        @*<div class="form-group col-lg-3">
                                                                                             @Html.Label("Date", "Date")
                                                                                             <input name="DateReceived" class="form-control ssvalidate {req,Audited by date}" type="date" value="" />
-                                                                                        </div>
+                                                                                        </div>*@
 
                                                                                         <div class="form-group col-md-4">
                                                                                             @Html.Label("Review By", "Review By")
@@ -358,7 +363,49 @@
                             </div>
                         </div>
 
+                        <div class="col-12" userIdGroup>
+                            <div class="bg-white rounded landing-division w-100 float-left  my-2">
+                                <div class="col-lg-12 border-bottom py-2 my-2">
+                                    <span class="font-14 font-weight-bold">
+                                        Audited by
+                                    </span>
+                                </div>
 
+                                <div class="form-group col-lg-3">
+                                    @Html.Label("User ID", "User ID")
+                                    @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "AuditedBy", "Select Users", new { @Id = "formR1R2AuditedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
+
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    @Html.Label("Name", "Name")
+                                    <input name="AuditedName" class="form-control ssvalidate {req,Audited By User Name}" type="text" value="" userName disabled />
+                                </div>
+                                <div class="form-group col-lg-2">
+                                    @Html.Label("Designation", "Designation")
+                                    <input name="AuditedDesig" class="form-control ssvalidate {req,Audited By User Designation}" type="text" value="" userDest disabled />
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    @Html.Label("Date (DD-MM-YYYY)", "Date (DD-MM-YYYY)")
+                                    <input name="AuditedDt" class="form-control ssvalidate {req,Audited by date}" type="date" value="" disabled="disabled" />
+                                </div>
+                                <div class="form-group col-lg-1 float-left">
+                                    <label>
+                                        Sign
+                                        @{
+                                            var _audSign = false;
+                                            if (Model != null)
+                                            {
+                                                _audSign = Model.FormUCUA.AuditedSign == null || Model.FormUCUA.AuditedSign == false ? false : true;
+                                            }
+                                        }
+                                    </label>
+                                    <div class="clear-b mt-2">
+                                        <input class="{required, Requested By Signature}" checked="_audSign" id="AuditedSign" name="AuditedSign" type="checkbox">
+                                    </div>
+                                </div>
+                                <input type="hidden" id="txtPhotoValidate" value="" />
+                            </div>
+                        </div>
                     </div>
 
                 <div class="modal-footer float-left w-100">

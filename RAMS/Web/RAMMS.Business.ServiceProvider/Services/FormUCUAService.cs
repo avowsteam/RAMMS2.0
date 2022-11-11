@@ -55,7 +55,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 domainModelFormUCUA.RmmhPkRefNo = 0;
 
 
-                var obj = _repoUnit.FormucuaRepository.FindAsync(x => x.RmmhRefId == domainModelFormUCUA.RmmhRefId).Result;
+                var obj = _repoUnit.FormucuaRepository.FindAsync(x => x.RmmhRefId == domainModelFormUCUA.RmmhRefId && x.RmmhActiveYn == true).Result;
                 if (obj != null)
                 {
                     var res = _mapper.Map<FormUCUAResponseDTO>(obj);
@@ -65,14 +65,14 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                 IDictionary<string, string> lstData = new Dictionary<string, string>();
                 lstData.Add("RoadCode", domainModelFormUCUA.RmmhRefId);
-                lstData.Add("YYYYMMDD", Utility.ToString(Convert.ToDateTime(DateTime.Now).ToString("yyyyMMdd")));
+                lstData.Add("YYYYMMDD", Utility.ToString(Convert.ToDateTime(FormUCUA.DateReceived).ToString("yyyyMMdd")));
                 domainModelFormUCUA.RmmhRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormUCUA, lstData);
+                domainModelFormUCUA.RmmhStatus = "Initialize";
 
                 var entity = _repoUnit.FormucuaRepository.CreateReturnEntity(domainModelFormUCUA);
                 FormUCUA.PkRefNo = _mapper.Map<FormUCUAResponseDTO>(entity).PkRefNo;
                 FormUCUA.RefId = domainModelFormUCUA.RmmhRefId;
                 FormUCUA.Status = domainModelFormUCUA.RmmhStatus;
-
 
                 return FormUCUA;
             }
@@ -93,9 +93,8 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                 var domainModelformUcua = _mapper.Map<RmUcua>(FormUCUA);
                 domainModelformUcua.RmmhPkRefNo = PkRefNo;
-                // domainModelformT.FTFw1PkRefNo = Fw1PkRefNo;
 
-                //domainModelformUcua.RmmhUnsafeAct = true;
+                domainModelformUcua.RmmhActiveYn = true;
                 domainModelformUcua = UpdateStatus(domainModelformUcua);
                 _repoUnit.FormucuaRepository.Update(domainModelformUcua);
                 rowsAffected = await _repoUnit.CommitAsync();
@@ -112,19 +111,19 @@ namespace RAMMS.Business.ServiceProvider.Services
         {
             if (form.RmmhPkRefNo > 0)
             {
-                var existsObj = _repoUnit.FormucuaRepository._context.RmUcua.Where(x => x.RmmhPkRefNo == form.RmmhPkRefNo).Select(x => new { Status = x.RmmhStatus }).FirstOrDefault();
+                var existsObj = _repoUnit.FormucuaRepository._context.RmUcua.Where(x => x.RmmhPkRefNo == form.RmmhPkRefNo).Select(x => new { Status = x.RmmhStatus, Log = x.RmmhAuditLog }).FirstOrDefault();
                 if (existsObj != null)
                 {
-                   // form.FmtAuditLog = existsObj.Log;
+                    form.RmmhAuditLog = existsObj.Log;
                     form.RmmhStatus = existsObj.Status;
 
                 }
 
             }
-            if (form.RmmhStatus == "Saved" || form.RmmhStatus == "Initialize")
+            if (form.RmmhSubmitYn && (form.RmmhStatus == "Saved" || form.RmmhStatus == "Initialize"))
             {
                 form.RmmhStatus = Common.StatusList.FormUcuaSubmitted;
-               // form.FmtAuditLog = Utility.ProcessLog(form.FmtAuditLog, "Submitted By", "Submitted", form.FmtUsernameRcd, string.Empty, form.FmtDateRcd, _security.UserName);
+                form.RmmhAuditLog = Utility.ProcessLog(form.RmmhAuditLog, "Submitted By", "Submitted", form.RmmhReportingName, string.Empty, form.RmmhDateReceived, _security.UserName);
                 processService.SaveNotification(new RmUserNotification()
                 {
                     RmNotCrBy = _security.UserName,
@@ -435,6 +434,25 @@ namespace RAMMS.Business.ServiceProvider.Services
             result.FilteredRecords = result.PageResult != null ? result.PageResult.Count : 0;
             return result;
         }
+        public async Task<int> DeActivateFormT(int formNo)
+        {
+            int rowsAffected;
+            try
+            {
+                var domainModelFormT = await _repoUnit.FormTRepository.GetByIdAsync(formNo);
+                domainModelFormT.FmtActiveYn = false;
+                _repoUnit.FormTRepository.Update(domainModelFormT);
+                rowsAffected = await _repoUnit.CommitAsync();
+            }
+            catch (Exception ex)
+            {
+                await _repoUnit.RollbackAsync();
+                throw ex;
+            }
+
+            return rowsAffected;
+        }
+
     }
 
 }

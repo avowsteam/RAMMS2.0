@@ -18080,20 +18080,14 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.RmmhSubmitYn).HasColumnName("RMMH_SUBMIT_YN");
 
-                entity.Property(e => e.RmmhUnsafeAct)
-                    .HasColumnName("RMMH_Unsafe_Act")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                entity.Property(e => e.RmmhUnsafeAct).HasColumnName("RMMH_Unsafe_Act");
 
                 entity.Property(e => e.RmmhUnsafeActDescription)
                     .HasColumnName("RMMH_Unsafe_Act_Description")
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
-                entity.Property(e => e.RmmhUnsafeCondition)
-                    .HasColumnName("RMMH_Unsafe_Condition")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                entity.Property(e => e.RmmhUnsafeCondition).HasColumnName("RMMH_Unsafe_Condition");
 
                 entity.Property(e => e.RmmhUnsafeConditionDescription)
                     .HasColumnName("RMMH_Unsafe_Condition_Description")

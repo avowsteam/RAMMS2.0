@@ -139,7 +139,7 @@ namespace RAMMS.Web.UI.Controllers
         public async Task<IActionResult> SaveFormUCUA(FormUCUAModel frm)
         {
             int refNo = 0;
-          //  frm.FormUCUA.ActiveYn = true;
+           frm.FormUCUA.ActiveYn = true;
             if (frm.FormUCUA.PkRefNo == 0)
             {
                 frm.FormUCUA = await _formUCUAService.SaveFormUCUA(frm.FormUCUA);

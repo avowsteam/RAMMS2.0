@@ -42,11 +42,11 @@
     var Location = { data: "location", name: "Location", title: "Location", autoWidth: true, sortable: true };
     var WorkScope = { data: "workScope", name: "WorkScope", title: "Work Scope", autoWidth: true, sortable: true };
 
-    var dateofInspection = {
-        data: Date, name: "Date", title: "Date Received", autoWidth: true, sortable: true,
+    var dateReceived = {
+        data: null, name: "date", title: "Date Received", autoWidth: true, sortable: true,
         render: function (data) {
             if (data.date) {
-                var d = new Date(data.Date);
+                var d = new Date(data.date);
                 var day = d.getDate();
                 var month = d.getMonth() + 1;
                 var year = d.getFullYear();
@@ -63,6 +63,7 @@
                 return "";
         }
     };
+  
 
     var statuscol = { data: "status", name: "Status", title: "Status", autoWidth: true, sortable: true };
     
@@ -72,7 +73,7 @@
     table_columns.push(refNoCol);
     table_columns.push(Location);
     table_columns.push(WorkScope);
-    table_columns.push(dateofInspection);
+    table_columns.push(dateReceived);
     table_columns.push(statuscol);
 
 

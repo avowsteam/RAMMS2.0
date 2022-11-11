@@ -12,9 +12,9 @@ namespace RAMMS.DTO.ResponseBO
         public string ReportingName { get; set; }
         public string  Location { get; set; }
         public string  WorkScope { get; set; }
-        public string  UnsafeAct { get; set; }
+        public bool  UnsafeAct { get; set; }
         public string  UnsafeActDescription { get; set; }
-        public string  UnsafeCondition { get; set; }
+        public bool  UnsafeCondition { get; set; }
         public string  UnsafeConditionDescription { get; set; }
         public string  ImprovementRecommendation { get; set; }
         public DateTime?  DateReceived { get; set; }
@@ -30,8 +30,17 @@ namespace RAMMS.DTO.ResponseBO
         public string  EffectivenessActionTakenBy { get; set; }
         public string  EffectivenessActionDescription { get; set; }
         public string  Status { get; set; }
+        public bool ActiveYn { get; set; }
+        public bool SubmitYn { get; set; }
         public bool FormExist { get; set; }
+        public int? AuditedBy { get; set; }
+        public string AuditedName { get; set; }
+        public string AuditedDesig { get; set; }
+        public DateTime? AuditedDt { get; set; }
+        public bool? AuditedSign { get; set; }
 
+        public string AuditedSignature { get; set; }
+        
 
     }
 }
