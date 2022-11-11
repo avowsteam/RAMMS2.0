@@ -1,0 +1,175 @@
+﻿@using RAMMS.DTO.RequestBO;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+@{
+    ViewData["Title"] = "Unsafe Condition & Action (UCUA)";
+    ViewBag.TabTitle = "Unsafe Condition & Action (UCUA)";
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+
+}
+<script type="text/javascript">
+    function fnEditForm(pid, view) {
+        window.location = '@Url.Action("Add", "FrmUCUA")' + "?id=" + pid + "&view=" + view;
+    }
+
+
+    function bindRoadCode() {
+        debugger;
+        var ReportingName = $("#txtReportingName").val();
+        var Location = $("#txtLocation").val();
+        var WorkScope = $("#txtWorkScope").val();
+        var _ddlRoadCode = $("#ddlRoadCode");
+        _ddlRoadCode.chosen();
+        var req = {};
+        //req.code = $("#ddlDivision").val();
+        req.RMU =null;
+        req.SectionCode = 0;
+        req.RdCode = null;
+        req.GrpCode = "GR"
+        $.ajax({
+            //url: '/FormF2/GetRoadListByDivisionCode',
+            url: '/FormF2/RMUSecRoad',
+            dataType: 'JSON',
+            data: req,
+            type: 'Post',
+            success: function (data) {
+                _ddlRoadCode.empty();
+                _ddlRoadCode.append($("<option></option>").val("").html("Select Road Code"));
+                $.each(data.rdCode, function (index, v) {
+                    _ddlRoadCode.append($("<option></option>").val(v.value).html(v.text));
+                    //var text = v.roadCode + " - " + v.roadName;
+                    //_ddlRoadCode.append($("<option></option>").val(v.roadCode).html(text));
+                });
+
+                _ddlRoadCode.trigger("chosen:updated");
+            },
+            error: function (data) {
+
+                console.error(data);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        debugger;
+        $("#btnAdvSearch").on("click", function () {
+            $("#formUCUAAdvSearch").toggle();
+        });
+
+        bindRoadCode();
+            //Listener for Smart and Detail Search
+        document.getElementById("txtSmartSearch").focus();
+          element = document.querySelector("#formUCUAAdvSearch");
+          element.addEventListener("keyup", () => {
+          if (event.keyCode === 13) {
+           $("#btnSearch").click();
+          }
+        });
+        $("#txtSmartSearch").keyup(function () {
+          if (event.keyCode === 13) {
+            $("#btnSearch").click();
+           }
+        })
+    });
+
+
+</script>
+<!--BreadCrumbs-->
+<div class="row">
+    <div class="body-header w-100">
+        <div class="col-lg-12">
+            <div class="w-100 d-flex justify-content-md-between py-2 align-items-center">
+                <span class="mb-0 font-weight-bold font-20">Unsafe Condition & Action (UCUA)</span>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb breadcrumb-alt mb-0 bg-transparent">
+                        <li class="breadcrumb-item">Home</li>
+                        <li class="breadcrumb-item">Condition Inspection</li>
+                        <li class="breadcrumb-item" aria-current="page">
+                            FrmUCUA
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Search Section -->
+<div class="search-section">
+    <div class="row justify-content-center mb-1">
+        <div class="col-sm-12 col-md-8 col-lg-6 col-xl-6 search-content">
+            <div class="input-group">
+                @*@Html.TextBoxFor(m => m.SearchObj.SmartInputValue, new { @Id = "FormB1B2SmartSearch", placeholder = "Search...", @class = "form-control" })*@
+                <input type="text" id="txtSmartSearch" placeholder="Search..." class="form-control" />
+                <div class="input-group-append">
+                    <div class="btn-group">
+                        <button id="btnSearch" type="button" class="bg-theme-color js-tooltip-enabled px-2 border-0" style="line-height: 18px;"><span class="search-icon"></span></button>
+                        <button id="btnAdvSearch" type="button" onclick="" class="bg-theme-color js-tooltip-enabled px-3 border-0"><span class="filter-icon"></span></button>
+                        <button id="btnClearSearch" type="button" onclick="" class="bg-theme-color js-tooltip-enabled px-3 border-0 rounded-right">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Detail Search Screen*@
+    <div id="detailSearch">
+        <div id="formUCUAAdvSearch" style="display:none">
+            <div class="row" id="formUCUADetailsearchForm" name="formUCUADetailsearchForm">
+                <div class="col-lg-10 offset-lg-1">
+                    <div class="bg-white rounded float-left pt-3 pb-1 advance-search-group col-md-12 px-4">
+                        <div class="row">
+
+                            <div class="form-group col-md-3">
+                                @Html.Label("Reporting Name", "Reporting Name")
+                                <input id="txtReportingName" type="text" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-3">
+                                @Html.Label("Location", "Location")
+                                <input id="txtLocation" type="text" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-3">
+                                @Html.Label("Work Scope", "Work Scope")
+                                <input id="txtWorkScope" type="text" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-3">
+                                @Html.Label("Date Received From", "Date Received From")
+                                <input class="form-control" type="date" id="txtReceivedDtFrom">
+                            </div>
+                            <div class="form-group col-md-3">
+                                @Html.Label("Date Received To", "Date Received To")
+                                <input class="form-control" type="date" id="txtReceivedDtTo">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Main Container -->
+<main id="main-container" class="row">
+    <div class="col-lg-12">
+        <div class="w-100 float-left position-relative">
+
+            <div class="grid-btns">
+
+                @if (security.IsPCModify(ModuleNameList.Condition_Inspection))
+                {
+                    <button type="button" class="btn btn-sm btn-themebtn" onclick="javascript:fnEditForm(0,0);"><span class="add-icon"></span> Add UCUA</button>
+
+                }
+            </div>
+
+            @*Form UCUA Grid*@
+            <div id="headerListGrid" class="w-100 dt-tbl-section">
+                @{
+                    Html.RenderPartial("_HeaderListGrid.cshtml");
+                }
+            </div>
+        </div>
+    </div>
+</main>
