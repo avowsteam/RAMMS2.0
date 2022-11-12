@@ -5,8 +5,8 @@ function Save(GroupName, SubmitType) {
         $("#SubmitYn").val(true);
       //  $("#ddlCrew").addClass("validate");
     }
-
-    if (ValidatePage('#headerFindDiv')) {
+    
+    if (ValidatePage('#headerFindDiv') && ValidatePage('#DateReceivedDiv')) {
 
         if ($("#Status").val() == "")
             $("#Status").val("Initialize");
@@ -84,6 +84,12 @@ $(document).ready(function () {
         $("#SubmitFormUCUABtn").hide();
     }
 
+    if ($("#hdnView").val() == 0 && $("#PkRefNo").val() != 0) {
+        $("#FormUCUA_ReportingName").attr("readonly", true);
+        $("#FormUCUA_Location").attr("readonly", true);
+        $("#FormUCUA_WorkScope").attr("readonly", true);
+        $("#FormUCUA_DateReceived").attr("readonly", true);
+    }
 
     $('.editable').on('click', function (e) {
         var $this = $(this);
@@ -94,7 +100,7 @@ $(document).ready(function () {
     fnUnsafeActOnchage();
     fnUnsafeCondOnchage();
 
-    if ($("#hdnView").val() == 1 || view == 1) {
+    if ($("#hdnView").val() == 1 ) {
         
         $("#FormUCUA_ReportingName").attr("readonly", true);
         $("#FormUCUA_Location").attr("readonly", true);

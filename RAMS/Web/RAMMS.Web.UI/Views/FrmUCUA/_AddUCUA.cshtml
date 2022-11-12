@@ -107,18 +107,18 @@
                                             <div class="tab-pane show active" id="list">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <div class="w-100 form-group mb-0">
+                                                        <div id="headerFindDiv" class="w-100 form-group mb-0">
                                                             <div class="form-group col-md-3">
                                                                 @Html.Label("Reporting Name", "Reporting Name")
-                                                                @Html.TextBoxFor(model => model.FormUCUA.ReportingName, new { @class = "form-control" })
+                                                                @Html.TextBoxFor(model => model.FormUCUA.ReportingName, new { @class = "form-control validate {required, Reporting Name}" })
                                                             </div>
                                                             <div class="form-group col-md-3">
                                                                 @Html.Label("Location", "Location")
-                                                                @Html.TextBoxFor(model => model.FormUCUA.Location, new { @class = "form-control" })
+                                                                @Html.TextBoxFor(model => model.FormUCUA.Location, new { @class = "form-control validate {required, Location}" })
                                                             </div>
                                                             <div class="form-group col-md-3">
                                                                 @Html.Label("Work Scope", "Work Scope")
-                                                                @Html.TextBoxFor(model => model.FormUCUA.WorkScope, new { @class = "form-control" })
+                                                                @Html.TextBoxFor(model => model.FormUCUA.WorkScope, new { @class = "form-control validate {required, Work Scope}" })
                                                             </div>
                                                             @*<div class="form-group col-lg-3 float-left">
                                                                     @Html.Label("Date(DD-MM-YYYY)", "Date(DD-MM-YYYY)")
@@ -233,11 +233,14 @@
 
                                                     <div class="col-lg-12 p-0">
                                                         <div class="w-100 form-group mb-0">
-
-                                                            <div class="form-group col-md-3">
-                                                                @Html.Label("Date Received", "Date Received")
-                                                                @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control" } })
+                                                            <div id="DateReceivedDiv">
+                                                                <div class="form-group col-md-3">
+                                                                    @Html.Label("Date Received", "Date Received")
+                                                                    @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date Received}" } })
+                                                                    @*@Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date Received}" } })*@
+                                                                </div>
                                                             </div>
+                                                            
                                                             @*<div class="form-group col-lg-3">
                                                                     @Html.Label("Date Received", "Date Received")
                                                                     <input name="DateReceived" class="form-control ssvalidate {req,Audited by date}" type="date" value="" />
@@ -271,7 +274,7 @@
                                                             </div>
 
                                                         </div>
-                                                    </div>
+                                                        </div>
                                                     <div class="col-12">
                                                         <div id="accordion">
 
