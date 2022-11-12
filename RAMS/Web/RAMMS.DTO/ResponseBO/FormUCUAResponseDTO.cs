@@ -19,15 +19,23 @@ namespace RAMMS.DTO.ResponseBO
         public bool hdnUnsafeCondition { get; set; }
         public string  UnsafeConditionDescription { get; set; }
         public string  ImprovementRecommendation { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime?  DateReceived { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime?  DateCommitteeReview { get; set; }
         public string  CommentsOfficeUse { get; set; }
         public string  HseSection { get; set; }
         public string  SafteyCommitteeChairman { get; set; }
         public string  ImsRep { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime?  DateActionTaken { get; set; }
         public string  ActionTakenBy { get; set; }
         public string  ActionDescription { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime?  DateEffectivenessActionTaken { get; set; }
         public string  EffectivenessActionTakenBy { get; set; }
         public string  EffectivenessActionDescription { get; set; }

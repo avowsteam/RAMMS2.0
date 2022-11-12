@@ -57,29 +57,29 @@
 
 @using (Html.BeginForm())
 {
-<div class="row bg-white pt-2">
-    <div class="col-lg-12">
-        <div class="w-100">
-            <div class="body-header">
-                <div class="d-flex justify-content-center py-1">
-                    <div id="" class="form-group mb-0">
-                        @Html.Label("UCUA Reference No.", "UCUA Reference No.", new { style = "float:left; padding: .5rem .5rem 0 !important;" })
-                        @Html.HiddenFor(model => model.FormUCUA.Status, new { @class = "form-control", @id = "Status" })
-                        @Html.HiddenFor(model => model.FormUCUA.SubmitYn, new { @class = "form-control", @id = "SubmitYn" })
-                        @Html.HiddenFor(model => model.FormUCUA.PkRefNo, new { @class = "form-control", @id = "PkRefNo" })
-                        @Html.TextBoxFor(model => model.FormUCUA.RefId, new { @readonly = "true", @class = "form-control", @style = "width:300px;", @id = "RefId" })
+    <div class="row bg-white pt-2">
+        <div class="col-lg-12">
+            <div class="w-100">
+                <div class="body-header">
+                    <div class="d-flex justify-content-center py-1">
+                        <div id="" class="form-group mb-0">
+                            @Html.Label("UCUA Reference No.", "UCUA Reference No.", new { style = "float:left; padding: .5rem .5rem 0 !important;" })
+                            @Html.HiddenFor(model => model.FormUCUA.Status, new { @class = "form-control", @id = "Status" })
+                            @Html.HiddenFor(model => model.FormUCUA.SubmitYn, new { @class = "form-control", @id = "SubmitYn" })
+                            @Html.HiddenFor(model => model.FormUCUA.PkRefNo, new { @class = "form-control", @id = "PkRefNo" })
+                            @Html.TextBoxFor(model => model.FormUCUA.RefId, new { @readonly = "true", @class = "form-control", @style = "width:300px;", @id = "RefId" })
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-12">
-        <div class="w-100 bg-body" id="headerDiv">
-            <div class="modal-body mh-182 pt-0 pb-0">
-                <div class="bg-white px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetailsFC1C2">
+    <div class="row">
+        <div class="col-12">
+            <div class="w-100 bg-body" id="headerDiv">
+                <div class="modal-body mh-182 pt-0 pb-0">
+                    <div class="bg-white px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetailsFC1C2">
                         <div class="row bg-white">
                             <div class="col-md-12">
                                 <div class="w-100 position-relative float-left d-flex justify-content-center">
@@ -178,7 +178,7 @@
                                                                                         @Html.HiddenFor(model => Model.FormUCUA.hdnUnsafeCondition, new { @class = "form-control", @id = "hdnUnsafeCondition" })
                                                                                         <input class="{required, Requested By Signature}" checked="@_insSign" id="UnsafeCondition" name="UnsafeCondition" type="checkbox" onchange="fnUnsafeCondOnchage();">
                                                                                     </div>
-                                                                                    
+
                                                                                 </div>
                                                                                 <div class="form-group col-md-10">
                                                                                     @Html.Label("Description", "Description")
@@ -236,7 +236,7 @@
 
                                                             <div class="form-group col-md-3">
                                                                 @Html.Label("Date Received", "Date Received")
-                                                                @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date}" } })
+                                                                @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control" } })
                                                             </div>
                                                             @*<div class="form-group col-lg-3">
                                                                     @Html.Label("Date Received", "Date Received")
@@ -244,7 +244,7 @@
                                                                 </div>*@
                                                             <div class="form-group col-md-3">
                                                                 @Html.Label("Committee Review on", "Committee Review on")
-                                                                @Html.EditorFor(m => m.FormUCUA.DateCommitteeReview, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date}" } })
+                                                                @Html.EditorFor(m => m.FormUCUA.DateCommitteeReview, new { type = "date", htmlAttributes = new { @class = "form-control" } })
                                                             </div>
                                                             @*<div class="form-group col-lg-3">
                                                                     @Html.Label("Committee Review on", "Committee Review on")
@@ -373,100 +373,100 @@
 
                             </div>
                         </div>
-                </div>
+                    </div>
 
-                <div class="col-12" userIdGroup>
-                    <div class="bg-white rounded landing-division w-100 float-left  my-2">
-                        @*<div class="col-lg-12 border-bottom py-2 my-2">
-                            <span class="font-14 font-weight-bold">
-                                Audited by
-                            </span>
-                        </div>
+                    <div class="col-12" userIdGroup>
+                        <div class="bg-white rounded landing-division w-100 float-left  my-2">
+                            @*<div class="col-lg-12 border-bottom py-2 my-2">
+                                    <span class="font-14 font-weight-bold">
+                                        Audited by
+                                    </span>
+                                </div>
 
-                        <div class="form-group col-lg-3">
-                            @Html.Label("User ID", "User ID")
-                            @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "AuditedBy", "Select Users", new { @Id = "formR1R2AuditedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
+                                <div class="form-group col-lg-3">
+                                    @Html.Label("User ID", "User ID")
+                                    @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "AuditedBy", "Select Users", new { @Id = "formR1R2AuditedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
 
-                        </div>
-                        <div class="form-group col-lg-3">
-                            @Html.Label("Name", "Name")
-                            <input name="AuditedName" class="form-control ssvalidate {req,Audited By User Name}" type="text" value="" userName disabled />
-                        </div>
-                        <div class="form-group col-lg-2">
-                            @Html.Label("Designation", "Designation")
-                            <input name="AuditedDesig" class="form-control ssvalidate {req,Audited By User Designation}" type="text" value="" userDest disabled />
-                        </div>
-                        <div class="form-group col-lg-3">
-                            @Html.Label("Date (DD-MM-YYYY)", "Date (DD-MM-YYYY)")
-                            <input name="AuditedDt" class="form-control ssvalidate {req,Audited by date}" type="date" value="" disabled="disabled" />
-                        </div>
-                        <div class="form-group col-lg-1 float-left">
-                            <label>
-                                Sign
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    @Html.Label("Name", "Name")
+                                    <input name="AuditedName" class="form-control ssvalidate {req,Audited By User Name}" type="text" value="" userName disabled />
+                                </div>
+                                <div class="form-group col-lg-2">
+                                    @Html.Label("Designation", "Designation")
+                                    <input name="AuditedDesig" class="form-control ssvalidate {req,Audited By User Designation}" type="text" value="" userDest disabled />
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    @Html.Label("Date (DD-MM-YYYY)", "Date (DD-MM-YYYY)")
+                                    <input name="AuditedDt" class="form-control ssvalidate {req,Audited by date}" type="date" value="" disabled="disabled" />
+                                </div>
+                                <div class="form-group col-lg-1 float-left">
+                                    <label>
+                                        Sign
+                                        @{
+                                            var _audSign = false;
+                                            if (Model != null)
+                                            {
+                                                _audSign = Model.FormUCUA.AuditedSign == null || Model.FormUCUA.AuditedSign == false ? false : true;
+                                            }
+                                        }
+                                    </label>
+                                    <div class="clear-b mt-2">
+                                        <input class="{required, Requested By Signature}" checked="_audSign" id="AuditedSign" name="AuditedSign" type="checkbox">
+                                    </div>
+                                </div>*@
+                            <div>
+                                <input type="hidden" id="txtPhotoValidate" value="" />
                                 @{
-                                    var _audSign = false;
-                                    if (Model != null)
+                                    Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
                                     {
-                                        _audSign = Model.FormUCUA.AuditedSign == null || Model.FormUCUA.AuditedSign == false ? false : true;
-                                    }
+                                        Form = "FormUCUA",
+                                        RefId = Model.FormUCUA.PkRefNo,
+                                        Stage = Model.FormUCUA.Status
+                                    });
                                 }
-                            </label>
-                            <div class="clear-b mt-2">
-                                <input class="{required, Requested By Signature}" checked="_audSign" id="AuditedSign" name="AuditedSign" type="checkbox">
                             </div>
-                        </div>*@
-                        <div>
-                        <input type="hidden" id="txtPhotoValidate" value="" />
-                        @{
-                            Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
-                            {
-                                Form = "FormUCUA",
-                                RefId = Model.FormUCUA.PkRefNo,
-                                Stage = Model.FormUCUA.Status
-                            });
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer float-left w-100">
+                    <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
+                    @{
+
+                        if (isSubmit && (Model.FormUCUA.Status == null || Model.FormUCUA.Status == "" || Model.FormUCUA.Status == "Initialize" || Model.FormUCUA.Status == "Saved"))
+                        {
+                            <button id="saveFormUCUABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('','Saved')">Save</button>
+                            <button id="SubmitFormUCUABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('','Submitted')">Submit</button>
                         }
-                    </div>
-                    </div>
+
+                        if (IsApproved && (Model.FormUCUA.Status == RAMMS.Common.StatusList.Submitted || Model.FormUCUA.Status == RAMMS.Common.StatusList.Rejected))
+                        {
+                            <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Approved By');"> Verify </button>
+                        }
+
+                    }
                 </div>
             </div>
 
-            <div class="modal-footer float-left w-100">
-                <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
-                @{
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog modal-dialog modal-dialog-centered modal-custom">
+                    <div class="modal-content">
+                        <div class="modal-header text-right">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
 
-                    if (isSubmit && (Model.FormUCUA.Status == null || Model.FormUCUA.Status == "" || Model.FormUCUA.Status == "Initialize" || Model.FormUCUA.Status == "Saved"))
-                    {
-                        <button id="saveFormUCUABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('','Saved')">Save</button>
-                        <button id="SubmitFormUCUABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('','Submitted')">Submit</button>
-                    }
-
-                    if (IsApproved && (Model.FormUCUA.Status == RAMMS.Common.StatusList.Submitted || Model.FormUCUA.Status == RAMMS.Common.StatusList.Rejected))
-                    {
-                        <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Approved By');"> Verify </button>
-                    }
-
-                }
-            </div>
-        </div>
-
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog modal-dialog modal-dialog-centered modal-custom">
-                <div class="modal-content">
-                    <div class="modal-header text-right">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-outline-theme" data-dismiss="modal">Close</button>
+                            <button id="btnSaveFormUCUADtl" type="button" class="btn btn-sm btn-themebtn" onclick="SaveFormTDtl()">Save</button>
+                        </div>
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-outline-theme" data-dismiss="modal">Close</button>
-                        <button id="btnSaveFormUCUADtl" type="button" class="btn btn-sm btn-themebtn" onclick="SaveFormTDtl()">Save</button>
-                    </div>
                 </div>
-
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
 
     @*Add T Details Modal*@
 
@@ -485,6 +485,8 @@
         <input type="hidden" id="hdnSecCode" value="@Model.FormUCUA.SecCode" />
         <input type="hidden" id="hdnRdCode" value="@Model.FormUCUA.RdCode" />
         <input type="hidden" id="hdnView" value="@Model.view" />*@
+
+    <input type="hidden" id="hdnView" value="@Model.view" />
 }
 
 <style>
@@ -551,5 +553,5 @@
     $('#ddlHeadedby').trigger('chosen:updated');
     $('#ddlHeadedby').trigger("change");*@
 
-   
+
 </script>
