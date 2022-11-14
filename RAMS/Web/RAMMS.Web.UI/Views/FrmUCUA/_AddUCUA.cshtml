@@ -437,13 +437,20 @@
                     <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
                     @{
 
+                        bool isVerify = (security.isOperRAMSExecutive || security.IsHeadMaintenance || security.IsRegionManager || security.IsExecutive);
+
+
+                    }
+                    @{
+
                         if (isSubmit && (Model.FormUCUA.Status == null || Model.FormUCUA.Status == "" || Model.FormUCUA.Status == "Initialize" || Model.FormUCUA.Status == "Saved"))
                         {
                             <button id="saveFormUCUABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('','Saved')">Save</button>
                             <button id="SubmitFormUCUABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('','Submitted')">Submit</button>
                         }
+                       
 
-                        if (IsApproved && (Model.FormUCUA.Status == RAMMS.Common.StatusList.Submitted || Model.FormUCUA.Status == RAMMS.Common.StatusList.Rejected))
+                        if (IsApproved && (Model.FormUCUA.Status == RAMMS.Common.StatusList.FormUcuaSubmitted))
                         {
                             <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Approved By');"> Verify </button>
                         }
