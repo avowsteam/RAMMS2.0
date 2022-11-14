@@ -522,10 +522,14 @@
                             '</div>' +
                             '</div >';
                         $('#divPie').append(html);
+                        
                         var datapie = [{
                             values: [data[i].rfConditionper1, data[i].rfConditionper2, data[i].rfConditionper3],
-                            labels: ['Condition1 ' + '(' + data[i].rfCondition1 + 'km' + ')', 'Condition2 ' + '(' + data[i].rfCondition2 + 'km' + ')', 'Condition3 ' + '(' + data[i].rfCondition3 + 'km' + ')'],
+                            labels: ['Condition1 ' + '(' + data[i].rfCondition1 + '  ' + data[i].fsdunit + ')', 'Condition2 ' + '(' + data[i].rfCondition2 + ' ' + data[i].fsdunit + ')', 'Condition3 ' + '(' + data[i].rfCondition3 + ' ' + data[i].fsdunit + ')'],
                             type: 'pie',
+                            textinfo: "percent",
+                            textposition: "outside",
+                            automargin: true,
                             marker: {
                                 colors: ultimateColors[0]
                             },
@@ -533,14 +537,17 @@
                                 row: i,
                                 column: i
                             },
-                            hoverinfo: 'label+percent+name',
-                            textinfo: 'percent+name'
 
                         }];
                         var layout = {
                             autosize: true,
                             height: 300,
                             width: 300,
+                            showlegend: true,
+                            legend: { "orientation": "h", },
+                            margin: { l: 100, r: 0, b: 0, t: 0, pad: 0 },
+                            xaxis: { visible: false },
+                            yaxis: { visible: false },
                         };
 
 

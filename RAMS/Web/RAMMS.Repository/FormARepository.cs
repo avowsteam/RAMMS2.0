@@ -663,20 +663,51 @@ namespace RAMS.Repository
                                     join h in _context.RmFormFsInsDtl on o.FshPkRefNo equals h.FsdFshPkRefNo
                                     //where o.FshYearOfInsp == RFCYear
                                     select h).ToList();
-            var roadConditionDetails = RoadCondiDetails.GroupBy(s => s.FsdFeature).Select(a => a.Key).ToList();
-               List<FormAHeaderRequestDTO> _HdDtoList = new List<FormAHeaderRequestDTO>();
+            //var roadConditionDetails = RoadCondiDetails.GroupBy(s => s.FsdFeature).Select(a => a.Key).ToList();
+
+            var roadConditionDetails = RoadCondiDetails.GroupBy(s => new { s.FsdFeature, s.FsdGrpCode,s.FsdUnit }).Select(
+            call => new
+            {
+                Feature = call.Key.FsdFeature,
+                Grpcode = call.Key.FsdGrpCode,
+                featCode= call.Key.FsdUnit
+            }).ToList();
+            List<FormAHeaderRequestDTO> _HdDtoList = new List<FormAHeaderRequestDTO>();
 
             foreach (var Details in roadConditionDetails)
             {
+
                 FormAHeaderRequestDTO HdDto = new FormAHeaderRequestDTO();
-                var TotalConditions = RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition1) + RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition2) + RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition3);
-                HdDto.RFCondition1 = RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition1);
-                HdDto.RFCondition2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition2));
-                HdDto.RFCondition3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition3));
-                HdDto.RFConditionper1 = (RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition1)) / TotalConditions;
-                HdDto.RFConditionper2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition2)) / TotalConditions;
-                HdDto.RFConditionper3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details).Sum(x => x.FsdCondition3)) / TotalConditions;
-                HdDto.RFCFeature = Details;
+                var TotalConditions = RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition1) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition2) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition3);
+                HdDto.RFCondition1 = RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition1);
+                HdDto.RFCondition2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition2));
+                HdDto.RFCondition3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition3));
+                HdDto.RFConditionper1 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition1)) / TotalConditions;
+                HdDto.RFConditionper2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition2)) / TotalConditions;
+                HdDto.RFConditionper3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition3)) / TotalConditions;
+                HdDto.Fsdunit = Details.featCode;
+                var grpcd = (Details.Grpcode).Split('_');
+                if (grpcd.Length > 1)
+                {
+                    if (grpcd[1].ToUpper() == "L")
+                    {
+                        HdDto.RFCFeature = Details.Feature + " " + "LEFT";
+                    }
+                    else if (grpcd[1].ToUpper() == "R")
+                    {
+                        HdDto.RFCFeature = Details.Feature + " " + "RIGHT";
+                    }
+                    else
+                    {
+                        HdDto.RFCFeature = Details.Feature;
+                    }
+                }
+                else
+                {
+                    HdDto.RFCFeature = Details.Feature;
+                }
+               
+
                 _HdDtoList.Add(HdDto);
             }
             return _HdDtoList;
