@@ -18,6 +18,9 @@ using System.Globalization;
 using Microsoft.AspNetCore.Http;
 using System.Text.RegularExpressions;
 using System.IO;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using static System.Net.WebRequestMethods;
+
 namespace RAMMS.Web.UI.Controllers
 {
     public class FormG1G2Controller : Models.BaseController
@@ -83,7 +86,7 @@ namespace RAMMS.Web.UI.Controllers
 
 
         }
-      
+
         public async Task<IActionResult> Index()
         {
             await LoadDropDown();
@@ -136,13 +139,13 @@ namespace RAMMS.Web.UI.Controllers
             ViewBag.IsEdit = true;
             return id > 0 ? ViewRequest(id) : RedirectToAction("404", "Error");
         }
-      
+
         public IActionResult View(int id)
         {
             ViewBag.IsEdit = false;
             return id > 0 ? ViewRequest(id) : RedirectToAction("404", "Error");
         }
-       
+
         private IActionResult ViewRequest(int id)
         {
             LoadLookupService("Year", "User", "Photo Type~SG");
@@ -151,7 +154,7 @@ namespace RAMMS.Web.UI.Controllers
             if (id > 0)
             {
                 ViewBag.IsAdd = false;
-                frmG1G2 = _formG1G2Service.FindByHeaderID(id).Result;                
+                frmG1G2 = _formG1G2Service.FindByHeaderID(id).Result;
 
 
                 if (frmG1G2.SubmitSts && frmG1G2.Status == Common.StatusList.FormG1G2Verified)
@@ -160,7 +163,7 @@ namespace RAMMS.Web.UI.Controllers
                     frmG1G2.AuditedDt = DateTime.Today;
                 }
 
-                
+
             }
             else
             {
@@ -223,11 +226,69 @@ namespace RAMMS.Web.UI.Controllers
             return Json(new { Message = "Sucess" });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ImageUploadedTab(IFormCollection filesCollection, int headerId, string Id, string photoType)
+        {
+            List<FormGImagesDTO> lstImages = new List<FormGImagesDTO>();
+            string id = Regex.Replace(Id, @"[^0-9a-zA-Z]+", "");
+            string photo_Type = Regex.Replace(photoType, @"[^a-zA-Z]", "");
+            string wwwPath = this._webHostEnvironment.WebRootPath;
+
+            var objExistsPhotoType = _formG1G2Service.GetExitingPhotoType(headerId).Result;
+            if (objExistsPhotoType == null) { objExistsPhotoType = new List<FormG1G2PhotoTypeDTO>(); }
+            
+            IFormCollection files = Request.ReadFormAsync().Result;
+
+            foreach (var file in files.Files)
+            {
+                var objSNo = objExistsPhotoType.Where(x => x.Type == photo_Type).FirstOrDefault();
+                if (objSNo == null) { objSNo = new FormG1G2PhotoTypeDTO() { SNO = 1, Type = photo_Type }; objExistsPhotoType.Add(objSNo); }
+                else { objSNo.SNO = objSNo.SNO + 1; }
+
+                string strFileUploadDir = Path.Combine("Form G1G2", id, photoType);
+                string fileName = Path.GetFileName(file.FileName);
+                string strSaveDir = Path.Combine(wwwPath, "Uploads", strFileUploadDir);
+                string strSysFileName = id + "_" + photoType + "_" + objSNo.SNO.ToString("000");
+                string strUploadFileName = objSNo.SNO.ToString() + "_" + photoType + "_" + fileName;
+                if (!Directory.Exists(strSaveDir)) { Directory.CreateDirectory(strSaveDir); }
+
+
+                using (FileStream stream = new FileStream(Path.Combine(strSaveDir, strUploadFileName), FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                lstImages.Add(new FormGImagesDTO()
+                {
+                    ActiveYn = true,
+                    CrBy = _security.UserID,
+                    ModBy = _security.UserID,
+                    CrDt = DateTime.UtcNow,
+                    ModDt = DateTime.UtcNow,
+                    Fg1hPkRefNo = headerId,
+                    ImageFilenameSys = strSysFileName,
+                    ImageFilenameUpload = strUploadFileName,
+                    ImageSrno = objSNo.SNO,
+                    ImageTypeCode = photo_Type,
+                    ImageUserFilePath = strFileUploadDir,
+                    SubmitSts = true
+                });
+
+            }
+            if (lstImages.Count > 0)
+            {
+                var a = await _formG1G2Service.AddMultiImage(lstImages);
+                return Json(a.Item2);
+            }
+
+            return Json(new { Message = "Sucess" });
+        }
+
+
         public IActionResult ImageList(int headerId)
         {
             return Json(_formG1G2Service.ImageList(headerId), JsonOption());
         }
-      
+
         public async Task<IActionResult> DeleteImage(int headerId, int imgId)
         {
             await _formG1G2Service.DeleteImage(headerId, imgId);
@@ -245,14 +306,14 @@ namespace RAMMS.Web.UI.Controllers
         {
             return await SaveAll(frmG1G2, false);
         }
-       
+
         [HttpPost]
         public async Task<JsonResult> Submit(DTO.ResponseBO.FormG1DTO frmG1G2)
         {
             frmG1G2.SubmitSts = true;
             return await SaveAll(frmG1G2, true);
         }
-       
+
         private async Task<JsonResult> SaveAll(DTO.ResponseBO.FormG1DTO frmG1G2, bool updateSubmit)
         {
             frmG1G2.CrBy = _security.UserID;
