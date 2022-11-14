@@ -99,8 +99,8 @@ $(document).ready(function () {
 
     fnUnsafeActOnchage();
     fnUnsafeCondOnchage();
-
-    if ($("#hdnView").val() == 1 ) {
+    
+    if ($("#hdnView").val() == 1 || ($("#SubmitYn").val() == "True")) {
         
         $("#FormUCUA_ReportingName").attr("readonly", true);
         $("#FormUCUA_Location").attr("readonly", true);
@@ -189,7 +189,7 @@ function fnUnsafeCondOnchage() {
 }
 
 function UpdateFormAfterSave(data) {
-
+    
     $("#pkRefNo").val(data.pkRefNo);
     $("#refId").val(data.refId);
     $("#Status").val(data.status)

@@ -16,28 +16,42 @@
 <script>
 
     debugger;
-    var isModifyPerm = @security.IsPCModify(ModuleNameList.Condition_Inspection).ToString().ToLowerInvariant()? "" : "hidden";
+  var isModifyPerm = @security.IsPCModify(ModuleNameList.Condition_Inspection).ToString().ToLowerInvariant()? "" : "hidden";
     var isDeletePerm =@security.IsPCDelete(ModuleNameList.Condition_Inspection).ToString().ToLowerInvariant()? "" : "hidden";
     var isViewPerm = @security.IsPCView(ModuleNameList.Condition_Inspection).ToString().ToLowerInvariant() ? "" : 'hidden';
     var table_columns = [];
     var actionCol = {
         data: null, name: "Action", title: "Action", class: "headcol", autoWidth: true, sortable: false, render: function (data) {
-
+            debugger;
             if (data.pkRefNo != "" && data.pkRefNo != null) {
                 title = data.pkRefNo;
             }
-            if (data.SubmitYn && data.Status == "Approved") {
-                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button type='button' class='dropdown-item editdel-btns'  data-backdrop='static' id='formAHeaderView'" + isViewPerm + " onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='edit-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'  data-backdrop='static' id='formAHeaderDelete'" + isDeletePerm + " onclick='javascript:deleteUCUAHeader(" + data.pkRefNo + ");'><span class='edit-icon'></span> Edit</button></div></div>";
+            if (data.submitSts && (data.status == "Approved" || data.status == "Verified" )) {
+                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' data-toggle='modal'   data-target='#myModal' onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:deleteUCUAHeader(" + data.pkRefNo + ");'><span class='del-icon'></span> Delete</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.pkRefNo + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
+                
                 return actionSection;
             }
             else {
-                //var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns'  data-backdrop='static' id='formAHeaderEdit'" + isModifyPerm + " onclick='javascript:deleteUCUAHeader(" + data.pkRefNo + ");'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns'  data-backdrop='static' id='formAHeaderView'" + isViewPerm + " onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='edit-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'  data-backdrop='static' id='formAHeaderDelete'" + isDeletePerm + " onclick='javascript:deleteUCUAHeader(" + data.pkRefNo + ");'><span class='edit-icon'></span> Delete</button></div></div>";
-                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' data-target='#FormAAddModal' id='formAHeaderEdit'" + isModifyPerm + " onclick='javascript:editDetail(" + data.pkRefNo + ");'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns' data-toggle='modal' data-target='#FormAAddModal' " + isViewPerm + " onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:deleteUCUAHeader(" + data.pkRefNo + ");'><span class='del-icon'></span> Delete</button></div></div>";
+                var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' id=data-backdrop='static' id='formAHeaderEdit'" + isModifyPerm + " onclick='javascript:editDetail(" + data.pkRefNo + ");'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' data-toggle='modal'   data-target='#myModal' onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:deleteUCUAHeader(" + data.pkRefNo + ");'><span class='del-icon'></span> Delete</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.pkRefNo + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
                 return actionSection;
             }
         }
+        // data: null, name: "Action", title: "Action", autoWidth: false, width: 25, sortable: false, render: function (data, type, full) {
+        //    var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' id=data-backdrop='static' id='formAHeaderEdit'" + isModifyPerm + " onclick='javascript:editDetail(" + data.pkRefNo + ");'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' data-toggle='modal'   data-target='#myModal' onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:deleteUCUAHeader(" + data.pkRefNo + ");'><span class='del-icon'></span> Delete</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.pkRefNo + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
+        //    // var actionSection = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns'  id='formAHeaderEdit'" + isModifyPerm + " data-toggle='modal'   data-target='#myModal' onclick='javascript:editDetail(" + data.pkRefNo + ");'><span class='edit-icon'></span> Edit</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:DeleteFormTDtl(" + data.pkRefNo + ");'><span class='del-icon'></span> Delete</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' data-toggle='modal'   data-target='#myModal' onclick='javascript:EditFormTDtl(this,1);'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.pkRefNo + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
+        //    var viewaction = "<div class='btn-group dropright' id='actiondropdown'> <button id='actionclick' type='button' class='btn btn-sm btn-themebtn dropdown-toggle' data-toggle='dropdown'> Click Me </button><div class='dropdown-menu'><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' data-toggle='modal'   data-target='#myModal' onclick='javascript:viewDetail(" + data.pkRefNo + ");'><span class='view-icon'></span> View</button><button type='button' class='dropdown-item editdel-btns'" + isDeletePerm + " onclick='javascript:deleteUCUAHeader(" + data.pkRefNo + ");'><span class='del-icon'></span> Delete</button><button type='button' class='dropdown-item editdel-btns' id='btnAssetView' onclick='javascript:PrintForm(" + data.pkRefNo + ");' href=''><span class='print-icon'></span> Print</button></div></div>";
+        //    debugger;
+        //     if ($("#hdnView").val() == "1") {
+        //        return viewaction;
+        //    }
+        //    else if ($("#SubmitYn").val() == "True" || ($("#Status").val() == "Approved")) {
+        //        return viewaction;
+        //    }
+        //    else {
+        //        return actionSection;
+        //    }
+        //}
     };
-    debugger;
     var noCol = { data: "pkRefNo", name: "No", title: "NO", autoWidth: true, sortable: false, visible: false };
     var refNoCol = { data: "refId", name: "Id", title: "UCUA Reference No", autoWidth: true, sortable: true };
     var Location = { data: "location", name: "Location", title: "Location", autoWidth: true, sortable: true };
@@ -64,10 +78,10 @@
                 return "";
         }
     };
-  
+
 
     var statuscol = { data: "status", name: "Status", title: "Status", autoWidth: true, sortable: true };
-    
+
 
     table_columns.push(noCol);
     table_columns.push(actionCol);
@@ -136,7 +150,7 @@
 
         debugger;
         $('#FormUCUAGridView').DataTable({
-            
+
             ajax: {
                 url: "/FrmUCUA/GetHeaderList",
                 type: "POST",
