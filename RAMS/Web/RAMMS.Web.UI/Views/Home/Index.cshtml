@@ -190,14 +190,14 @@
                                 }
                             </div>
                             <div class="col-2 form-group">
-                                @*@Html.DropDownListFor(m => m.SaveFormAModel.section, (IEnumerable
-                                    <SelectListItem>)ViewData["DLPSPLYear"], new { @Id = "section-dd", @class = "form-control" })*@
-                                <select id="ddlDLPSPYear" class="form-control">
-                                    <option>Year</option>
-                                    <option value="2020">2020</option>
-                                    <option value="2021">2021</option>
-                                    <option selected="selected" value="2022">2022</option>
-                                </select>
+                                @Html.DropDownListFor(m => m.SaveFormAModel.section, (IEnumerable
+        <SelectListItem>)ViewData["RMIIRIYear"], new { @Id = "ddlDLPSPYear", @class = "form-control" })
+                                @*<select id="ddlDLPSPYear" class="form-control">
+                                        <option>Year</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+                                        <option selected="selected" value="2022">2022</option>
+                                    </select>*@
                             </div>
 
                         </div>
@@ -522,7 +522,7 @@
                             '</div>' +
                             '</div >';
                         $('#divPie').append(html);
-                        
+
                         var datapie = [{
                             values: [data[i].rfConditionper1, data[i].rfConditionper2, data[i].rfConditionper3],
                             labels: ['Condition1 ' + '(' + data[i].rfCondition1 + '  ' + data[i].fsdunit + ')', 'Condition2 ' + '(' + data[i].rfCondition2 + ' ' + data[i].fsdunit + ')', 'Condition3 ' + '(' + data[i].rfCondition3 + ' ' + data[i].fsdunit + ')'],

@@ -198,17 +198,21 @@ namespace RAMMS.Web.UI.Controllers
         public async Task<IActionResult> LoadHeaderList(DataTableAjaxPostModel<FormASearchGridDTO> searchData)
         {
             FilteredPagingDefinition<FormASearchGridDTO> filteredPagingDefinition = new FilteredPagingDefinition<FormASearchGridDTO>();
-
+           
             filteredPagingDefinition.Filters = searchData.filterData;
             filteredPagingDefinition.RecordsPerPage = searchData.length; //Convert.ToInt32(Request.Form["length"]);
             filteredPagingDefinition.StartPageNo = searchData.start; //Convert.ToInt32(Request.Form["start"]); //TODO
+            if (searchData != null && searchData.columns.Any() && !string.IsNullOrEmpty(searchData.columns.LastOrDefault().search.value))
+            {
+                filteredPagingDefinition.Filters.Year = Convert.ToInt32(searchData.columns.LastOrDefault().search.value);
+            }
+
             if (searchData.order != null)
             {
                 filteredPagingDefinition.ColumnIndex = searchData.order[0].column;
                 filteredPagingDefinition.sortOrder = searchData.order[0].SortOrder == SortDirection.Asc ? SortOrder.Ascending : SortOrder.Descending;
             }
             var result = await _dlpSpiService.GetFilteredFormAGrid(filteredPagingDefinition).ConfigureAwait(false);
-
             if (result.PageResult.Count > 0)
             {
                 for (int i = 0; i < result.PageResult.Count; i++)

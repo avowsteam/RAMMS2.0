@@ -267,6 +267,38 @@ namespace RAMMS.Business.ServiceProvider.Services
         {
             return await _repolookup.getRMIIRIData(year);
         }
+
+        public async Task<IEnumerable<SelectListItem>> GetIRIYears()
+        {
+            var ddLookUpItem = new List<SelectListItem>();
+            try
+            {
+                var ddList = await _repolookup.GetIRIYears();
+                foreach (var list in ddList)
+                {
+                    if (list == DateTime.Now.Year)
+                        ddLookUpItem.Add(new SelectListItem
+                        {
+                            Value = list.ToString(),
+                            Text = list.ToString(),
+                            Selected = true
+                        });
+                    else
+                        ddLookUpItem.Add(new SelectListItem
+                        {
+                            Value = list.ToString(),
+                            Text = list.ToString(),
+                        });
+
+                }
+                return ddLookUpItem;
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+        }
+
         #endregion
 
 
