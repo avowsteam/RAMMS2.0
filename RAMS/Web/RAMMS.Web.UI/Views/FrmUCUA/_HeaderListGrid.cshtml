@@ -1,7 +1,7 @@
 ﻿
 <style>
     .headcol {
-        position: sticky;
+        position: static !important;
         left: 0;
     }
 </style>
@@ -15,14 +15,14 @@
 <script src="~/js/CDTGrid.js"></script>
 <script>
 
-    debugger;
+    
   var isModifyPerm = @security.IsPCModify(ModuleNameList.Condition_Inspection).ToString().ToLowerInvariant()? "" : "hidden";
     var isDeletePerm =@security.IsPCDelete(ModuleNameList.Condition_Inspection).ToString().ToLowerInvariant()? "" : "hidden";
     var isViewPerm = @security.IsPCView(ModuleNameList.Condition_Inspection).ToString().ToLowerInvariant() ? "" : 'hidden';
     var table_columns = [];
     var actionCol = {
         data: null, name: "Action", title: "Action", class: "headcol", autoWidth: true, sortable: false, render: function (data) {
-            debugger;
+            
             if (data.pkRefNo != "" && data.pkRefNo != null) {
                 title = data.pkRefNo;
             }
@@ -148,7 +148,7 @@
         filterData.ReceivedDtFrom = $("#txtReceivedDtFrom").val();
         filterData.ReceivedDtTo = $("#txtReceivedDtTo").val();
 
-        debugger;
+        
         $('#FormUCUAGridView').DataTable({
 
             ajax: {
@@ -171,7 +171,7 @@
         oTable = $('#FormUCUAGridView').DataTable();
 
         $("#btnClearSearch").click(function () {
-            //debugger;
+            
             $("#txtReportingName").val('');
             $("#txtLocation").val('');
             $("#txtWorkScope").val('');
@@ -182,7 +182,7 @@
 
         });
         $('#btnSearch').click(function () {
-            //debugger;
+            
             //filterData.ReportingName = $("#txtReportingName").val();
             //filterData.Location = $("#txtLocation").val();
             //filterData.WorkScope = $("#txtWorkScope").val();
