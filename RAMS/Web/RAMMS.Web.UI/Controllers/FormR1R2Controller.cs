@@ -236,63 +236,68 @@ namespace RAMMS.Web.UI.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> ImageUploadedTab(IFormCollection filesCollection, int headerId, string Id, string photoType)
+        public async Task<int> ImageUploadedTab(IFormCollection filesCollection, int headerId, string Id, string photoType)
         {
-
-            List<FormRImagesDTO> lstImages = new List<FormRImagesDTO>();
-
-            string photo_Type = Regex.Replace(photoType, @"[^a-zA-Z]", "");
-
-
-
-            var objExistsPhotoType = _formR1R2Service.GetExitingPhotoType(headerId).Result;
-            if (objExistsPhotoType == null) { objExistsPhotoType = new List<FormR1R2PhotoTypeDTO>(); }
-
-
-            string InspRefNum = Regex.Replace(Id, @"[^0-9a-zA-Z]+", "");
-            string wwwPath = this._webHostEnvironment.WebRootPath;
-            IFormCollection files = Request.ReadFormAsync().Result;
-
-            foreach (var file in files.Files)
+            try
             {
-                var objSNo = objExistsPhotoType.Where(x => x.Type == photo_Type).FirstOrDefault();
-                if (objSNo == null) { objSNo = new FormR1R2PhotoTypeDTO() { SNO = 1, Type = photo_Type }; objExistsPhotoType.Add(objSNo); }
-                else { objSNo.SNO = objSNo.SNO + 1; }
+                List<FormRImagesDTO> lstImages = new List<FormRImagesDTO>();
 
-                string fileName = Path.GetFileName(file.FileName);
-                string strFileUploadDir = Path.Combine("Form R1R2", InspRefNum, photoType);
-                string strSaveDir = Path.Combine(wwwPath, "Uploads", strFileUploadDir);
-                string strSysFileName = InspRefNum + "_" + photoType + "_" + objSNo.SNO.ToString("000");
-                string strUploadFileName = objSNo.SNO.ToString() + "_" + photoType + "_" + fileName;
-                if (!Directory.Exists(strSaveDir)) { Directory.CreateDirectory(strSaveDir); }
-                using (FileStream stream = new FileStream(Path.Combine(strSaveDir, strUploadFileName), FileMode.Create))
+                string photo_Type = Regex.Replace(photoType, @"[^a-zA-Z]", "");
+
+
+
+                var objExistsPhotoType = _formR1R2Service.GetExitingPhotoType(headerId).Result;
+                if (objExistsPhotoType == null) { objExistsPhotoType = new List<FormR1R2PhotoTypeDTO>(); }
+
+
+                string InspRefNum = Regex.Replace(Id, @"[^0-9a-zA-Z]+", "");
+                string wwwPath = this._webHostEnvironment.WebRootPath;
+                IFormCollection files = Request.ReadFormAsync().Result;
+
+                foreach (var file in files.Files)
                 {
-                    await file.CopyToAsync(stream);
+                    var objSNo = objExistsPhotoType.Where(x => x.Type == photo_Type).FirstOrDefault();
+                    if (objSNo == null) { objSNo = new FormR1R2PhotoTypeDTO() { SNO = 1, Type = photo_Type }; objExistsPhotoType.Add(objSNo); }
+                    else { objSNo.SNO = objSNo.SNO + 1; }
+
+                    string fileName = Path.GetFileName(file.FileName);
+                    string strFileUploadDir = Path.Combine("Form R1R2", InspRefNum, photoType);
+                    string strSaveDir = Path.Combine(wwwPath, "Uploads", strFileUploadDir);
+                    string strSysFileName = InspRefNum + "_" + photoType + "_" + objSNo.SNO.ToString("000");
+                    string strUploadFileName = objSNo.SNO.ToString() + "_" + photoType + "_" + fileName;
+                    if (!Directory.Exists(strSaveDir)) { Directory.CreateDirectory(strSaveDir); }
+                    using (FileStream stream = new FileStream(Path.Combine(strSaveDir, strUploadFileName), FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    lstImages.Add(new FormRImagesDTO()
+                    {
+                        ActiveYn = true,
+                        CrBy = _security.UserID,
+                        ModBy = _security.UserID,
+                        CrDt = DateTime.UtcNow,
+                        ModDt = DateTime.UtcNow,
+                        FR1hPkRefNo = headerId,
+                        ImageFilenameSys = strSysFileName,
+                        ImageFilenameUpload = strUploadFileName,
+                        ImageSrno = objSNo.SNO,
+                        ImageTypeCode = photo_Type,
+                        ImageUserFilePath = strFileUploadDir,
+                        SubmitSts = true
+                    });
+
                 }
-                lstImages.Add(new FormRImagesDTO()
+                if (lstImages.Count > 0)
                 {
-                    ActiveYn = true,
-                    CrBy = _security.UserID,
-                    ModBy = _security.UserID,
-                    CrDt = DateTime.UtcNow,
-                    ModDt = DateTime.UtcNow,
-                    FR1hPkRefNo = headerId,
-                    ImageFilenameSys = strSysFileName,
-                    ImageFilenameUpload = strUploadFileName,
-                    ImageSrno = objSNo.SNO,
-                    ImageTypeCode = photo_Type,
-                    ImageUserFilePath = strFileUploadDir,
-                    SubmitSts = true
-                });
-
+                    var a = await _formR1R2Service.AddMultiImage(lstImages);
+                    return 1;
+                }
+                return -1;
             }
-            if (lstImages.Count > 0)
+            catch (Exception ex)
             {
-                var a = await _formR1R2Service.AddMultiImage(lstImages);
-                return Json(a.Item2);
+                throw ex;
             }
-            return Json(new { Message = "Sucess" });
-
         }
         public IActionResult ImageList(int headerId)
         {
