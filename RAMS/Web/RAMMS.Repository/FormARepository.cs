@@ -769,21 +769,23 @@ namespace RAMS.Repository
                     }
 
 
-                   
+                    _HdDtoList.Add(HdDto);
                 }
                 else
                 {
-                    var TotalConditions = RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition1) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition2) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition3);
-                    HdDto.RFCondition1 = RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition1);
-                    HdDto.RFCondition2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition2));
-                    HdDto.RFCondition3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition3));
-                    HdDto.RFConditionper1 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition1)) / TotalConditions;
-                    HdDto.RFConditionper2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition2)) / TotalConditions;
-                    HdDto.RFConditionper3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition3)) / TotalConditions;
-                    HdDto.Fsdunit = Details.featCode;
+                    
                     var grpcd = (Details.Grpcode).Split('_');
                     if (grpcd.Length > 1)
                     {
+                        var TotalConditions = RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition1) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition2) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition3);
+                        HdDto.RFCondition1 = RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition1);
+                        HdDto.RFCondition2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition2));
+                        HdDto.RFCondition3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition3));
+                        HdDto.RFConditionper1 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition1)) / TotalConditions;
+                        HdDto.RFConditionper2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition2)) / TotalConditions;
+                        HdDto.RFConditionper3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition3)) / TotalConditions;
+                        HdDto.Fsdunit = Details.featCode;
+
                         if (grpcd[1].ToUpper() == "L")
                         {
                             HdDto.RFCFeature = Details.Feature + " " + "LEFT";
@@ -796,16 +798,32 @@ namespace RAMS.Repository
                         {
                             HdDto.RFCFeature = Details.Feature;
                         }
+                        _HdDtoList.Add(HdDto);
                     }
                     else
                     {
-                        HdDto.RFCFeature = Details.Feature;
+                        var featureList = _HdDtoList.Where(x => x.RFCFeature == Details.Feature).ToList();
+                        if (featureList.Count == 0)
+                        {
+                            var TotalConditions = RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition1) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition2) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition3);
+                            HdDto.RFCondition1 = RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition1);
+                            HdDto.RFCondition2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition2));
+                            HdDto.RFCondition3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition3));
+                            HdDto.RFConditionper1 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition1)) / TotalConditions;
+                            HdDto.RFConditionper2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition2)) / TotalConditions;
+                            HdDto.RFConditionper3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition3)) / TotalConditions;
+                            HdDto.Fsdunit = Details.featCode;
+
+                            HdDto.RFCFeature = Details.Feature;
+                            _HdDtoList.Add(HdDto);
+                        }
+                      
                     }
 
                 }
 
-
-                _HdDtoList.Add(HdDto);
+               
+                    
             }
             return _HdDtoList;
             //return RoadCondiDetails.Select(s => new FormAHeaderRequestDTO
