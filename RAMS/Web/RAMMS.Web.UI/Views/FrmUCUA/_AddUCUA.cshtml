@@ -23,6 +23,11 @@
 <script src="~/js/jquery.timeentry/jquery.plugin.js"></script>
 <script src="~/js/jquery.timeentry/jquery.timeentry.js"></script>
 <script type="text/javascript" src="~/js/FormUCUA.js" asp-append-version="true"></script>
+<style>
+    .disabled {
+        pointer-events: none;
+    }
+</style>
 
 @using (Html.BeginForm())
 {
@@ -60,8 +65,8 @@
                                                 </span>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a href="#page" data-toggle="tab" aria-expanded="false" class="nav-link" id="Officeuse">
+                                        <li class="nav-item" id="Officeuse">
+                                            <a href="#page" data-toggle="tab" aria-expanded="false" class="nav-link">
                                                 <span class="">
                                                     For Office USE
                                                 </span>
@@ -510,6 +515,14 @@
         fnUnsafeActOnchage();
         $("#ActionBy").val('@username');
         $("#ReviewBy").val('@username');
+        
+        if ($("#SubmitYn").val() == "True") {
+            $("#Officeuse").removeClass("disabled");
+        }
+        else {
+
+            $("#Officeuse").addClass("disabled");
+        }
 
     });
     function VerifyDetails(GroupName, SubmitType) {

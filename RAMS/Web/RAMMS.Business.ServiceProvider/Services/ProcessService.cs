@@ -2969,7 +2969,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     {
                         //form.RmmhRefId = OldReferenceNo[0] + "/" + OldReferenceNo[1] + "/" + form.RmmhDateReceived + "/" + OldReferenceNo[2];
 
-                        form.RmmhRefId = OldReferenceNo[0] + "/" + OldReferenceNo[1] + "/" + ((form.RmmhDateReceived.Value).ToString("yyyyMMdd")) + "/" + OldReferenceNo[2];
+                        form.RmmhRefId = OldReferenceNo[0] + "/" + OldReferenceNo[1] + "/" + ((form.RmmhDateReceived.Value).ToString("yyyyMMdd")) + "/" + process.RefId;
                     }
                     
                     strTitle = "Verified By";

@@ -81,14 +81,13 @@ $(document).ready(function () {
         $("#SubmitFormUCUABtn").hide();
 
     }
-    
-    if ($("#SubmitYn").val() == "True") {
-        $("#Officeuse").prop("disabled", false);
+    //if ($("#SubmitYn").val() == "True") {
+    //    $("#Officeuse").prop("disabled", false);
 
-    }
-    else {
-        $("#Officeuse").prop("disabled", true);
-    }
+    //}
+    //else {
+    //    $("#Officeuse").prop("disabled", true);
+    //}
   
 
     if ($("#hdnView").val() == 1) {
