@@ -54,6 +54,7 @@
     };
     var noCol = { data: "pkRefNo", name: "No", title: "NO", autoWidth: true, sortable: false, visible: false };
     var refNoCol = { data: "refId", name: "Id", title: "UCUA Reference No", autoWidth: true, sortable: true };
+    var ReportingName = { data: "reportingName", name: "Id", title: "UCUA Reference No", autoWidth: true, sortable: true,visible:false };
     var Location = { data: "location", name: "Location", title: "Location", autoWidth: true, sortable: true };
     var WorkScope = { data: "workScope", name: "WorkScope", title: "Work Scope", autoWidth: true, sortable: true };
 
@@ -86,6 +87,7 @@
     table_columns.push(noCol);
     table_columns.push(actionCol);
     table_columns.push(refNoCol);
+    table_columns.push(ReportingName);
     table_columns.push(Location);
     table_columns.push(WorkScope);
     table_columns.push(dateReceived);
@@ -182,21 +184,15 @@
 
         });
         $('#btnSearch').click(function () {
-            
-            //filterData.ReportingName = $("#txtReportingName").val();
-            //filterData.Location = $("#txtLocation").val();
-            //filterData.WorkScope = $("#txtWorkScope").val();
-            //filterData.ReceivedDtFrom = $("#txtReceivedDtFrom").val();
-            //filterData.ReceivedDtTo = $("#txtReceivedDtTo").val();
 
             oTable.columns(0).search($("#txtSmartSearch").val());
-            oTable.columns(1).search($("#txtReportingName").val());
-            oTable.columns(2).search($("#txtLocation").val());
-            oTable.columns(3).search($("#txtWorkScope").val());
-            oTable.columns(4).search($("#txtReceivedDtFrom").val());
-            oTable.columns(5).search($("#txtReceivedDtTo").val());
+            oTable.columns(3).search($("#txtReportingName").val());
+            oTable.columns(4).search($("#txtLocation").val());
+            oTable.columns(5).search($("#txtWorkScope").val());
+            oTable.columns(6).search($("#txtReceivedDtFrom").val());
+            oTable.columns(7).search($("#txtReceivedDtTo").val());
             oTable.data = filterData;
-            oTable.draw();
+            oTable.draw();        
         });
     });
 </script>

@@ -172,47 +172,50 @@ namespace RAMMS.Business.ServiceProvider.Services
                     int noofsheets = 1;
 
 
-                    for (int sheet = 1; sheet <= noofsheets; sheet++)
+                    //for (int sheet = 1; sheet <= noofsheets; sheet++)
+                    //{
+
+
+                    IXLWorksheet worksheet = workbook.Worksheet(1);
+                    // workbook.Worksheets.TryGetWorksheet($"sheet{sheet}", out worksheet);
+                    using (var book = new XLWorkbook(cachefile))
                     {
-
-
-                        IXLWorksheet worksheet;
-                        workbook.Worksheets.TryGetWorksheet($"sheet{sheet}", out worksheet);
 
                         if (worksheet != null)
                         {
                             // worksheet.Cell(1, 13).Value = rpt.RefId;
-                            worksheet.Cell(4, 8).Value = rpt.ReportingName;
-                            worksheet.Cell(4, 19).Value = rpt.Location;
-                            worksheet.Cell(4, 22).Value = rpt.WorkScope;
-                            worksheet.Cell(4, 26).Value = rpt.UnsafeAct;
-                            worksheet.Cell(4, 35).Value = rpt.UnsafeActDescription;
-                            worksheet.Cell(5, 6).Value = rpt.UnsafeCondition;
-                            worksheet.Cell(5, 17).Value = rpt.UnsafeConditionDescription;
-                            worksheet.Cell(5, 29).Value = rpt.ImprovementRecommendation;
-                            worksheet.Cell(6, 6).Value = rpt.DateReceived.HasValue ? rpt.DateReceived.Value.ToString("dd-MM-yyyy") : ""; 
+                            worksheet.Cell(2, 4).Value = rpt.ReportingName;
+                            //worksheet.Cell(4, 19).Value = rpt.Location;
+                            //worksheet.Cell(4, 22).Value = rpt.WorkScope;
+                            //worksheet.Cell(4, 26).Value = rpt.UnsafeAct;
+                            //worksheet.Cell(4, 35).Value = rpt.UnsafeActDescription;
+                            //worksheet.Cell(5, 6).Value = rpt.UnsafeCondition;
+                            //worksheet.Cell(5, 17).Value = rpt.UnsafeConditionDescription;
+                            //worksheet.Cell(5, 29).Value = rpt.ImprovementRecommendation;
+                            //worksheet.Cell(6, 6).Value = rpt.DateReceived.HasValue ? rpt.DateReceived.Value.ToString("dd-MM-yyyy") : ""; 
 
-                            worksheet.Cell(7, 4).Value = rpt.DateCommitteeReview.HasValue ? rpt.DateCommitteeReview.Value.ToString("dd-MM-yyyy") : "";
-                            worksheet.Cell(25, 4).Value = rpt.CommentsOfficeUse;
-                            worksheet.Cell(49, 4).Value = rpt.HseSection;
-                            worksheet.Cell(7, 38).Value = rpt.SafteyCommitteeChairman;
-                            worksheet.Cell(25, 38).Value = rpt.ImsRep;
-                            worksheet.Cell(49, 38).Value = rpt.DateActionTaken.HasValue ? rpt.DateActionTaken.Value.ToString("dd-MM-yyyy") : ""; 
+                            //worksheet.Cell(7, 4).Value = rpt.DateCommitteeReview.HasValue ? rpt.DateCommitteeReview.Value.ToString("dd-MM-yyyy") : "";
+                            //worksheet.Cell(25, 4).Value = rpt.CommentsOfficeUse;
+                            //worksheet.Cell(49, 4).Value = rpt.HseSection;
+                            //worksheet.Cell(7, 38).Value = rpt.SafteyCommitteeChairman;
+                            //worksheet.Cell(25, 38).Value = rpt.ImsRep;
+                            //worksheet.Cell(49, 38).Value = rpt.DateActionTaken.HasValue ? rpt.DateActionTaken.Value.ToString("dd-MM-yyyy") : ""; 
 
-                            worksheet.Cell(51, 32).Value = rpt.ActionTakenBy;
+                            //worksheet.Cell(51, 32).Value = rpt.ActionTakenBy;
 
-                            worksheet.Cell(63, 1).Value = rpt.ActionDescription;
+                            //worksheet.Cell(63, 1).Value = rpt.ActionDescription;
 
-                            worksheet.Cell(63, 33).Value = rpt.EffectivenessActionTakenBy;
-                            worksheet.Cell(64, 33).Value = rpt.EffectivenessActionDescription;
-                            worksheet.Cell(65, 33).Value = rpt.DateEffectivenessActionTaken.HasValue ? rpt.DateEffectivenessActionTaken.Value.ToString("dd-MM-yyyy") : "";
+                            //worksheet.Cell(63, 33).Value = rpt.EffectivenessActionTakenBy;
+                            //worksheet.Cell(64, 33).Value = rpt.EffectivenessActionDescription;
+                            //worksheet.Cell(65, 33).Value = rpt.DateEffectivenessActionTaken.HasValue ? rpt.DateEffectivenessActionTaken.Value.ToString("dd-MM-yyyy") : "";
 
-                            worksheet.Cell(67, 33).Value = rpt.Status;
-                            worksheet.Cell(68, 33).Value = rpt.ActiveYn;
-                            worksheet.Cell(69, 33).Value = rpt.SubmitYn;
+                            //worksheet.Cell(67, 33).Value = rpt.Status;
+                            //worksheet.Cell(68, 33).Value = rpt.ActiveYn;
+                            //worksheet.Cell(69, 33).Value = rpt.SubmitYn;
 
                         }
                     }
+                        // }
 
 
                     using (var stream = new MemoryStream())
@@ -244,6 +247,16 @@ namespace RAMMS.Business.ServiceProvider.Services
         {
             return await _repo.GetReportData(headerid);
         }
+        //public async Task<PagingResult<FormUCUAHeaderRequestDTO>> GetHeaderList(FilteredPagingDefinition<FormUCUASearchGridDTO> filterOptions)
+        //{
+        //    PagingResult<FormUCUAHeaderRequestDTO> result = new PagingResult<FormUCUAHeaderRequestDTO>();
+        //    List<FormUCUAHeaderRequestDTO> formAlist = new List<FormUCUAHeaderRequestDTO>();
+        //    result.PageResult = await _repo.GetFilteredRecordList(filterOptions);
+        //    result.TotalRecords = result.PageResult.Count();
+        //    result.PageNo = filterOptions.StartPageNo;
+        //    result.FilteredRecords = result.PageResult != null ? result.PageResult.Count : 0;
+        //    return result;
+        //}
         public async Task<PagingResult<FormUCUAHeaderRequestDTO>> GetHeaderList(FilteredPagingDefinition<FormUCUASearchGridDTO> filterOptions)
         {
             PagingResult<FormUCUAHeaderRequestDTO> result = new PagingResult<FormUCUAHeaderRequestDTO>();

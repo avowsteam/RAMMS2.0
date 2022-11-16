@@ -14,27 +14,25 @@
 
 
     function bindRoadCode() {
-        
-        var ReportingName = $("#txtReportingName").val();
-        var Location = $("#txtLocation").val();
-        var WorkScope = $("#txtWorkScope").val();
+        var filterData = new Object();
 
-        var req = {};
-        //req.code = $("#ddlDivision").val();
-        req.ReportingName = ReportingName;
-        req.Location = Location;
-        req.WorkScope = WorkScope;
+       
+        filterData.SmartSearch = $("#txtSmartSearch").val();
+        filterData.ReportingName = $("#txtReportingName").val();
+        filterData.Location = $("#txtLocation").val();
+        filterData.WorkScope = $("#txtWorkScope").val();
+        filterData.ReceivedDtFrom = $("#txtReceivedDtFrom").val();
+        filterData.ReceivedDtTo = $("#txtReceivedDtTo").val();
+
         $.ajax({
             //url: '/FormF2/GetRoadListByDivisionCode',
-            url: '/FormF2/RMUSecRoad',
+            url: '/FrmUCUA/GetHeaderList',
             dataType: 'JSON',
-            data: req,
+            data: filterData,
             type: 'Post',
             success: function (data) {
 
-                $.each(data.rdCode, function (index, v) {
-                });
-
+                
 
             },
             error: function (data) {
@@ -50,8 +48,9 @@
             $("#formUCUAAdvSearch").toggle();
         });
 
-        bindRoadCode();
+      //  bindRoadCode();
             //Listener for Smart and Detail Search
+        debugger;
         document.getElementById("txtSmartSearch").focus();
           element = document.querySelector("#formUCUAAdvSearch");
           element.addEventListener("keyup", () => {
