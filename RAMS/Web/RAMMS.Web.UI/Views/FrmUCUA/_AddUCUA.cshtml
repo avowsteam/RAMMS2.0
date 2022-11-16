@@ -8,46 +8,14 @@
 @{
     //ViewBag.TabTitle = "ASSET MAINTANENCE - Form N1 - Road Asset Management and Maintenance System";
     //ViewData["Title"] = "ASSET MAINTANENCE - Form N1 - Road Asset Management and Maintenance System";
+
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
-    IEnumerable<SelectListItem> division = (await ddlService
-       .GetLookups(new DDLookUpDTO { Type = "Division" }))
-       .Select(s => new SelectListItem
-       {
-           Text = s.DdlTypeDesc,
-           Value = s.DdlTypeValue
-       }).ToArray();
-
-    IEnumerable<SelectListItem> section = (await ddlService
-       .GetLookups(new DDLookUpDTO { Type = "Section Code" }))
-       .Select(s => new SelectListItem
-       {
-           Text = s.DdlTypeCode + "-" + s.DdlTypeDesc,
-           Value = s.DdlTypeCode
-       }).ToArray();
-
-    IEnumerable<SelectListItem> roadcode = new[] {new SelectListItem
-       {
-           Text = "Select Road Code",
-           Value = ""
-       } };
-
-    IEnumerable<SelectListItem> rmu = (await ddlService
-       .GetLookups(new DDLookUpDTO { Type = "RMU" }))
-       .Select(s => new SelectListItem
-       {
-           Text = s.DdlTypeCode + "-" + s.DdlTypeDesc,
-           Value = s.DdlTypeCode
-       }).ToArray();
-
-    IEnumerable<SelectListItem>
-    user = (await usr.GetUserNameRespectToPosition(new UserRequestDTO
-    {
-
-    })).ToList().Select(s => new SelectListItem { Value = s.UserId.ToString(), Text = (s.UserId.ToString() + "-" + s.UserName) }).ToArray();
-
+    
     bool isSubmit = (security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsExecutive || security.IsInstructedWorkEngg || security.isEnggAssistant || security.IsSupervisor || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
     bool IsApproved = (security.isOperRAMSExecutive || security.IsHeadMaintenance || security.IsRegionManager || security.IsExecutive || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.isPlanningEngineer || security.IsJKRSHQ || security.IsDivisonalEngg || security.IsJKRSSuperiorOfficer);
     var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
+    var username = security.UserName;
+    
 }
 @*(security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg || security.isOperRAMSExecutive || security.IsExecutive || security.IsInstructedWorkEngg || security.IsHeadMaintenance || security.IsRegionManager);*@
 
@@ -58,7 +26,7 @@
 
 @using (Html.BeginForm())
 {
-    <div class="row bg-white pt-2">
+         <div class="row bg-white pt-2">
         <div class="col-lg-12">
             <div class="w-100">
                 <div class="body-header">
@@ -93,7 +61,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#page" data-toggle="tab" aria-expanded="false" class="nav-link ">
+                                            <a href="#page" data-toggle="tab" aria-expanded="false" class="nav-link" id="Officeuse">
                                                 <span class="">
                                                     For Office USE
                                                 </span>
@@ -235,11 +203,11 @@
                                                     <div class="col-lg-12 p-0">
                                                         <div class="w-100 form-group mb-0">
                                                             <div id="DateReceivedDiv">
-                                                                <div class="form-group col-md-3">
-                                                                    @Html.Label("Date Received", "Date Received")
-                                                                    @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date Received}" } })
-                                                                    @*@Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date Received}" } })*@
-                                                                </div>
+                                                            <div class="form-group col-md-3">
+                                                                @Html.Label("Date Received", "Date Received")
+                                                                @*@Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control" } })*@
+                                                                @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date Received}" } })
+                                                            </div>
                                                             </div>
 
                                                             @*<div class="form-group col-lg-3">
@@ -306,10 +274,11 @@
                                                                                         <input name="DateReceived" class="form-control ssvalidate {req,Audited by date}" type="date" value="" />
                                                                                     </div>*@
 
-                                                                                <div class="form-group col-md-4">
-                                                                                    @Html.Label("Action By", "Action By")
-                                                                                    @Html.TextBoxFor(model => model.FormUCUA.ActionTakenBy, new { @class = "form-control" })
-                                                                                </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                @Html.Label("Action By", "Action By")
+                                                                                @*<input id="txtUsername" class="form-control validate {required, Name}" value="@Model.Username" />*@
+                                                                                @Html.TextBoxFor(model => model.FormUCUA.ActionTakenBy, new { @class = "form-control", @id="ActionBy" ,@disabled="true" })
+                                                                            </div>
                                                                                 <div style="clear:both"></div>
                                                                                 <div class="form-group col-md-12">
                                                                                     @Html.Label("Description", "Description")
@@ -352,7 +321,7 @@
 
                                                                                 <div class="form-group col-md-4">
                                                                                     @Html.Label("Review By", "Review By")
-                                                                                    @Html.TextBoxFor(model => model.FormUCUA.EffectivenessActionTakenBy, new { @class = "form-control" })
+                                                                                    @Html.TextBoxFor(model => model.FormUCUA.EffectivenessActionTakenBy, new { @class = "form-control", @id = "ReviewBy", @disabled = "true" })
                                                                                 </div>
                                                                                 <div style="clear:both"></div>
                                                                                 <div class="form-group col-md-12">
@@ -450,10 +419,10 @@
                             <button id="SubmitFormUCUABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('','Submitted')">Submit</button>
                         }
 
-
+                
                         if (IsApproved && (Model.FormUCUA.Status == RAMMS.Common.StatusList.FormUcuaSubmitted))
                         {
-                            <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Approved By');"> Verify </button>
+                            <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="VerifyDetails('@groupname','Approved By');"> Verify </button>
                         }
 
                     }
@@ -534,35 +503,32 @@
 <script>
 
     $(document).ready(function () {
+        
         process.Init("FrmUCUA", "@Model.FormUCUA.Status", @Model.FormUCUA.PkRefNo);
+       // alert('@groupname')
+
         fnUnsafeActOnchage();
+        $("#ActionBy").val('@username');
+        $("#ReviewBy").val('@username');
+
     });
-  //  bindRoadCode();
+    function VerifyDetails(GroupName, SubmitType) {
 
-    @*$('#ddlDivision').val("@Model.FormT.DivCode");
-    $('#ddlDivision').trigger('chosen:updated');
-    $('#ddlDivision').trigger("change");
+        if (ValidatePage('#DateReceivedDiv')) {
+            $.get('/FrmUCUA/SaveFormUCUA', $("form").serialize(), function (data) {
+                EnableDisableElements(true)
+                HideAjaxLoading();
+                if (data == -1) {
+                    app.ShowErrorMessage(data.errorMessage);
+                }
+                else {
+                      process.ShowApprove('@groupname','Approved By')
+                   
+                }
+            });
+        }
+    }
 
-    $('#ddlRMU').val("@Model.FormT.RmuCode");
-    $('#ddlRMU').trigger('chosen:updated');
-    $('#ddlRMU').trigger("change");
-
-    $('#ddlSection').val("@Model.FormT.SecCode");
-    $('#ddlSection').trigger('chosen:updated');
-    $('#ddlSection').trigger("change");
-
-    $('#ddlRoadCode').val("@Model.FormT.RdCode");
-    $('#ddlRoadCode').trigger('chosen:updated');
-    $('#ddlRoadCode').trigger("change");
-
-
-    $('#ddlRecordedby').val("@Model.FormT.UseridRcd");
-    $('#ddlRecordedby').trigger('chosen:updated');
-    $('#ddlRecordedby').trigger("change");
-
-    $('#ddlHeadedby').val("@Model.FormT.UseridHdd");
-    $('#ddlHeadedby').trigger('chosen:updated');
-    $('#ddlHeadedby').trigger("change");*@
-
+  
 
 </script>

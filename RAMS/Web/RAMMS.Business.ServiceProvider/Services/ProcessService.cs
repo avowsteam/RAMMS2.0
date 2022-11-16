@@ -2958,11 +2958,18 @@ namespace RAMMS.Business.ServiceProvider.Services
                 string strNotUserID = "";
                 string strStatus = "";
                 string strNotStatus = "";
+                var OldReferenceNo = (form.RmmhRefId).Split("/");
+
 
                 if (process.Stage == Common.StatusList.FormUcuaSubmitted)
                 {
                     //strNotGroupName = process.IsApprove ? GroupNames.OpeHeadMaintenance : GroupNames.Supervisor;
                     form.RmmhStatus = process.IsApprove ? Common.StatusList.FormUcuaVerified : Common.StatusList.FormUcuaSaved;
+                    if (OldReferenceNo.Length > 2)
+                    {
+                        form.RmmhRefId = OldReferenceNo[0] + "/" + OldReferenceNo[1] + "/" + form.RmmhDateReceived + "/" + OldReferenceNo[2];
+                    }
+                    
                     strTitle = "Verified By";
                     strStatus = "Verified";
                     strNotStatus = Common.StatusList.FormUcuaSaved;

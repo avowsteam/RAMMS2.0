@@ -31,6 +31,9 @@ namespace RAMMS.Business.ServiceProvider.Services
 
         #region RMI & IRI
         Task<List<DlpIRIDTO>> getRMIIRIData(int year);
+
+        Task<IEnumerable<SelectListItem>> GetIRIYears();
+
         #endregion
     }
 }

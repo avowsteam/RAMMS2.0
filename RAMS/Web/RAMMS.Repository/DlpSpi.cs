@@ -254,13 +254,14 @@ namespace RAMMS.Repository
             List<RmRmiIri> result = new List<RmRmiIri>();
             var query = (from x in _context.RmRmiIri
                          select new { x });
-
             result = await query.Select(s => s.x).ToListAsync();
 
-            //result = await query.Select(s => s.x).Skip(filterOptions.StartPageNo)
-            //                    .Take(filterOptions.RecordsPerPage)
-            //                    .ToListAsync();
-            return result;
+            if (filterOptions.Filters != null && filterOptions.Filters.Year != null)
+                result = result.Where(a => a.RmiiriYear == filterOptions.Filters.Year).ToList();
+                //result = await query.Select(s => s.x).Skip(filterOptions.StartPageNo)
+                //                    .Take(filterOptions.RecordsPerPage)
+                //                    .ToListAsync();
+                return result;
         }
 
         public async Task<int> GetFilteredRecordCount(FilteredPagingDefinition<FormASearchGridDTO> filterOptions)
