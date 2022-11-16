@@ -51,10 +51,10 @@ namespace RAMMS.Repository
                       x => new RmDlpSpi
                       {
                           SpiMonth = x.Select(x => x.SpiMonth).First(),
-                          SpiMPlanned = Math.Round((decimal)(x.Sum(c => c.SpiMPlanned)), 2),
-                          SpiMActual = Math.Round((decimal)(x.Sum(c => c.SpiMActual)), 2),
-                          SpiCPlan = Math.Round((decimal)(x.Sum(y => y.SpiCPlan)),2),
-                          SpiCActual = Math.Round((decimal)(x.Sum(y => y.SpiCActual)),2),
+                          SpiMPlanned = (x.Sum(c => c.SpiMPlanned)),
+                          SpiMActual = (x.Sum(c => c.SpiMActual)),
+                          SpiCPlan = (x.Sum(y => y.SpiCPlan)),
+                          SpiCActual = (x.Sum(y => y.SpiCActual)),
                           SpiPiWorkActual = Math.Round((decimal)(((x.Sum(y => y.SpiCActual) / x.Sum(y => y.SpiCPlan)) * 80)), 2),// x.Sum(y => y.SpiPiWorkActual),
                           SpiPai = Math.Round((decimal)(x.Sum(y => y.SpiCActual) / x.Sum(y => y.SpiCPlan)), 2),
                           SpiEff = Math.Round((decimal)(x.Sum(y => y.SpiEff) / 2), 2),

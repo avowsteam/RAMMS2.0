@@ -144,10 +144,10 @@
                                                                 {
                                                                     <tr>
                                                                         <td><b>@RAMMS.Common.Helpers.GetMonthName((int)Model.DivisionMiri[i].Month)</b></td>
-                                                                        <td style="text-align:right">RM @string.Format("{0:#,0.####}",Model.DivisionMiri[i].MPlanned)</td>
-                                                                        <td style="text-align:right">RM @string.Format("{0:#,0.####}",Model.DivisionMiri[i].MActual)</td>
-                                                                        <td style="text-align:right">RM @string.Format("{0:#,0.####}",Model.DivisionMiri[i].CPlan)</td>
-                                                                        <td style="text-align:right">RM @string.Format("{0:#,0.####}",Model.DivisionMiri[i].CActual)</td>
+                                                                        <td style="text-align:right">RM @string.Format("{0:F}",Model.DivisionMiri[i].MPlanned)</td>
+                                                                        <td style="text-align:right">RM @string.Format("{0:F}",Model.DivisionMiri[i].MActual)</td>
+                                                                        <td style="text-align:right">RM @string.Format("{0:F}",Model.DivisionMiri[i].CPlan)</td>
+                                                                        <td style="text-align:right">RM @string.Format("{0:F}",Model.DivisionMiri[i].CActual)</td>
                                                                         <td style="text-align:center">@Model.DivisionMiri[i].PiWorkActual  </td>
                                                                         <td style="text-align:center">@Model.DivisionMiri[i].Pai</td>
                                                                         <td style="text-align:center">@Model.DivisionMiri[i].Eff</td>
@@ -265,10 +265,10 @@
                                                             {
                                                                 <tr id="miri_@i" pkid="@Model.RmuMiri[i].PkRefNo">
                                                                     <td><b>@RAMMS.Common.Helpers.GetMonthName((int)Model.DivisionMiri[i].Month)</b></td>
-                                                                    <td style="text-align:right">RM @string.Format("{0:#,0.####}",Model.RmuMiri[i].MPlanned)</td>
-                                                                    <td style="text-align:right">RM @string.Format("{0:#,0.####}",Model.RmuMiri[i].MActual)</td>
-                                                                    <td style="text-align:right">RM @string.Format("{0:#,0.####}",Model.RmuMiri[i].CPlan)</td>
-                                                                    <td style="text-align:right">RM @string.Format("{0:#,0.####}",Model.RmuMiri[i].CActual)</td>
+                                                                    <td style="text-align:right">RM @string.Format("{0:F}",Model.RmuMiri[i].MPlanned)</td>
+                                                                    <td style="text-align:right">RM @string.Format("{0:F}",Model.RmuMiri[i].MActual)</td>
+                                                                    <td style="text-align:right">RM @string.Format("{0:F}",Model.RmuMiri[i].CPlan)</td>
+                                                                    <td style="text-align:right">RM @string.Format("{0:F}",Model.RmuMiri[i].CActual)</td>
                                                                     <td style="text-align:center">@Model.RmuMiri[i].PiWorkActual  </td>
                                                                     <td style="text-align:center" class="editpi">@Model.RmuMiri[i].Pai</td>
                                                                     <td style="text-align:center" class="editeff">@Model.RmuMiri[i].Eff</td>
@@ -386,10 +386,10 @@
                                                             {
                                                                 <tr id="btn_@i" pkid="@Model.RmuBTN[i].PkRefNo">
                                                                     <td><b>@RAMMS.Common.Helpers.GetMonthName((int)Model.DivisionMiri[i].Month)</b></td>
-                                                                    <td style="text-align:right">RM @string.Format("{0:#,0.####}",Model.RmuBTN[i].MPlanned)</td>
-                                                                    <td style="text-align:right">RM @string.Format("{0:#,0.####}",Model.RmuBTN[i].MActual)</td>
-                                                                    <td style="text-align:right">RM @string.Format("{0:#,0.####}",Model.RmuBTN[i].CPlan)</td>
-                                                                    <td style="text-align:right">RM @string.Format("{0:#,0.####}",Model.RmuBTN[i].CActual)</td>
+                                                                    <td style="text-align:right">RM @string.Format("{0:F}",Model.RmuBTN[i].MPlanned)</td>
+                                                                    <td style="text-align:right">RM @string.Format("{0:F}",Model.RmuBTN[i].MActual)</td>
+                                                                    <td style="text-align:right">RM @string.Format("{0:F}",Model.RmuBTN[i].CPlan)</td>
+                                                                    <td style="text-align:right">RM @string.Format("{0:F}",Model.RmuBTN[i].CActual)</td>
                                                                     <td style="text-align:center"> @Model.RmuBTN[i].PiWorkActual  </td>
                                                                     <td style="text-align:center" class="editpi">@Model.RmuBTN[i].Pai</td>
                                                                     <td style="text-align:center" class="editeff">@Model.RmuBTN[i].Eff</td>

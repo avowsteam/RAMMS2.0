@@ -51,11 +51,11 @@ function getData(year) {
 
                 $('#tblDivision tbody').append("<tr>"
                     + "<td><b>" + GetMonthName(data.divisionMiri[i].month) + "</b></td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.divisionMiri[i].mPlanned) + "</td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.divisionMiri[i].mActual) + "</td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.divisionMiri[i].cPlan) + "</td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.divisionMiri[i].cActual) + "</td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.divisionMiri[i].piWorkActual) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.divisionMiri[i].mPlanned) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.divisionMiri[i].mActual) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.divisionMiri[i].cPlan) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.divisionMiri[i].cActual) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.divisionMiri[i].piWorkActual) + "</td>"
                     + "<td style='text-align: center'>" + assignZero(data.divisionMiri[i].pai) + "</td>"
                     + "<td style='text-align: center'>" + assignZero(data.divisionMiri[i].eff) + "</td>"
                     + "<td style='text-align: center'>" + assignZero(data.divisionMiri[i].rb) + "</td>"
@@ -78,11 +78,11 @@ function getData(year) {
             for (var i = 0; i < data.rmuMiri.length; i++) {
                 $('#tblMiri tbody').append("<tr id='miri_" + i + "' pkid='" + data.rmuMiri[i].pkRefNo + "'>"
                     + "<td><b>" + GetMonthName(data.rmuMiri[i].month) + "</b></td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.rmuMiri[i].mPlanned) + "</td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.rmuMiri[i].mActual) + "</td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.rmuMiri[i].cPlan) + "</td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.rmuMiri[i].cActual) + "</td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.rmuMiri[i].piWorkActual) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.rmuMiri[i].mPlanned) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.rmuMiri[i].mActual) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.rmuMiri[i].cPlan) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.rmuMiri[i].cActual) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.rmuMiri[i].piWorkActual) + "</td>"
                     + "<td style='text-align: center' class='editpi'>" + assignZero(data.rmuMiri[i].pai) + "</td>"
                     + "<td style='text-align: center' class='editeff allow_numeric'>" + assignZero(data.rmuMiri[i].eff) + "</td>"
                     + "<td style='text-align: center' class='editrb allow_numeric'>" + assignZero(data.rmuMiri[i].rb) + "</td>"
@@ -104,11 +104,11 @@ function getData(year) {
             for (var i = 0; i < data.rmuBTN.length; i++) {
                 $('#tblBtn tbody').append("<tr id='btn_" + i + "' pkid='" + data.rmuBTN[i].pkRefNo + "'>"
                     + "<td><b>" + GetMonthName(data.rmuBTN[i].month) + "</b></td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.rmuBTN[i].mPlanned) + "</td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.rmuBTN[i].mActual) + "</td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.rmuBTN[i].cPlan) + "</td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.rmuBTN[i].cActual) + "</td>"
-                    + "<td style='text-align: right'>RM " + assignZero(data.rmuBTN[i].piWorkActual) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.rmuBTN[i].mPlanned) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.rmuBTN[i].mActual) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.rmuBTN[i].cPlan) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.rmuBTN[i].cActual) + "</td>"
+                    + "<td style='text-align: right'>RM " + assignZeroRM(data.rmuBTN[i].piWorkActual) + "</td>"
                     + "<td style='text-align: center' class='editpi'>" + assignZero(data.rmuBTN[i].pai) + "</td>"
                     + "<td style='text-align: center' class='editeff allow_numeric'>" + assignZero(data.rmuBTN[i].eff) + "</td>"
                     + "<td style='text-align: center' class='editrb allow_numeric'>" + assignZero(data.rmuBTN[i].rb) + "</td>"
@@ -127,6 +127,10 @@ function getData(year) {
 
 function assignZero(val) {
     return typeof val == 'number' ? val.toFixed(2) : '0.00';
+}
+
+function assignZeroRM(val) {
+    return typeof val == 'number' ? Number(val.toFixed(2)).toLocaleString('en-IN',{ minimumFractionDigits: 2 }) : '0.00';
 }
 
 function GetMonthName(mnth) {
