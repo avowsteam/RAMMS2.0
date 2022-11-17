@@ -206,11 +206,11 @@ namespace RAMMS.Business.ServiceProvider.Services
                     }
                     else
                     {
-                        image.AddPicture(strFalse).MoveTo(image.Cell(11, 9)).WithSize(45, 45);
+                        image.AddPicture(strFalse).MoveTo(image.Cell(11, 2)).WithSize(45, 45);
                     }
                     if (rpt.UnsafeCondition == true)
                     {
-                        image.AddPicture(strTrue).MoveTo(image.Cell(11, 2)).WithSize(45, 45);
+                        image.AddPicture(strTrue).MoveTo(image.Cell(11, 9)).WithSize(45, 45);
                     }
                     else
                     {
