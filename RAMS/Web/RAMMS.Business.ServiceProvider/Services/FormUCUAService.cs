@@ -233,18 +233,18 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                         worksheet.Cell(19, 14).Value = rpt.DateCommitteeReview.HasValue ? rpt.DateCommitteeReview.Value.ToString("dd-MM-yyyy") : "";
                         worksheet.Cell(22, 2).Value = rpt.CommentsOfficeUse;
-                        worksheet.Cell(24, 2).Value = rpt.HseSection;
-                        worksheet.Cell(24, 8).Value = rpt.SafteyCommitteeChairman;
-                        worksheet.Cell(24, 12).Value = rpt.ImsRep;
-                        worksheet.Cell(26, 6).Value = rpt.DateActionTaken.HasValue ? rpt.DateActionTaken.Value.ToString("dd-MM-yyyy") : "";
+                        worksheet.Cell(23, 2).Value = rpt.HseSection;
+                        worksheet.Cell(23, 8).Value = rpt.SafteyCommitteeChairman;
+                        worksheet.Cell(23, 12).Value = rpt.ImsRep;
+                        worksheet.Cell(27, 6).Value = rpt.DateActionTaken.HasValue ? rpt.DateActionTaken.Value.ToString("dd-MM-yyyy") : "";
 
-                        worksheet.Cell(26, 12).Value = rpt.ActionTakenBy;
+                        worksheet.Cell(27, 12).Value = rpt.ActionTakenBy;
 
-                        worksheet.Cell(27, 2).Value = rpt.ActionDescription;
+                        worksheet.Cell(28, 2).Value = rpt.ActionDescription;
 
-                        worksheet.Cell(30, 3).Value = rpt.DateEffectivenessActionTaken.HasValue ? rpt.DateEffectivenessActionTaken.Value.ToString("dd-MM-yyyy") : "";
-                        worksheet.Cell(30, 12).Value = rpt.EffectivenessActionTakenBy;
-                        worksheet.Cell(31, 2).Value = rpt.EffectivenessActionDescription;
+                        worksheet.Cell(31, 4).Value = rpt.DateEffectivenessActionTaken.HasValue ? rpt.DateEffectivenessActionTaken.Value.ToString("dd-MM-yyyy") : "";
+                        worksheet.Cell(31, 12).Value = rpt.EffectivenessActionTakenBy;
+                        worksheet.Cell(32, 2).Value = rpt.EffectivenessActionDescription;
 
 
                         //worksheet.Cell(67, 33).Value = rpt.Status;
