@@ -102,15 +102,15 @@ namespace RAMMS.Repository
 
             if (!string.IsNullOrEmpty(search.ReportingName))
             {
-                query = query.Where(s => s.ReportingName == search.ReportingName);
+                query = query.Where(s => s.ReportingName.Contains(search.ReportingName));
             }
             if (!string.IsNullOrEmpty(search.Location))
             {
-                query = query.Where(s => s.Location == search.Location);
+                query = query.Where(s => s.Location.Contains(search.Location));
             }
             if (!string.IsNullOrEmpty(search.WorkScope))
             {
-                query = query.Where(s => s.WorkScope == search.WorkScope);
+                query = query.Where(s => s.WorkScope.Contains(search.WorkScope));
             }
 
             if (!string.IsNullOrEmpty(filterOptions.Filters.ReceivedDtFrom) && !string.IsNullOrEmpty(filterOptions.Filters.ReceivedDtTo))

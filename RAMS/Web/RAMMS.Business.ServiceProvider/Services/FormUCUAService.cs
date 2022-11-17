@@ -185,6 +185,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                         {
                             // worksheet.Cell(1, 13).Value = rpt.RefId;
                             worksheet.Cell(2, 4).Value = rpt.ReportingName;
+                            worksheet.Cell(3, 5).Value = rpt.Location;
                             //worksheet.Cell(4, 19).Value = rpt.Location;
                             //worksheet.Cell(4, 22).Value = rpt.WorkScope;
                             //worksheet.Cell(4, 26).Value = rpt.UnsafeAct;
