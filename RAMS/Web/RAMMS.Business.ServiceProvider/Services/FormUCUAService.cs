@@ -56,8 +56,10 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                 var obj = _repoUnit.FormucuaRepository.FindAsync(x => x.RmmhPkRefNo == domainModelFormUCUA.RmmhPkRefNo && x.RmmhRefId == domainModelFormUCUA.RmmhRefId && x.RmmhDateReceived == domainModelFormUCUA.RmmhDateReceived && x.RmmhActiveYn == true).Result;
                 //var obj = _repoUnit.FormucuaRepository.FindAsync(x => x.RmmhRefId == domainModelFormUCUA.RmmhRefId && x.RmmhActiveYn == true).Result;
-                var MaxPkrefNo = _repoUnit.FormucuaRepository._context.RmUcua.Select(x => x.RmmhPkRefNo).Max();
-                MaxPkrefNo = MaxPkrefNo + 1;
+                var MaxPkrefNo = _repoUnit.FormucuaRepository._context.RmUcua.Select(x => x.RmmhPkRefNo).ToList();
+                int LatestPKNo = 0;
+
+
                 if (obj != null)
                 {
                     var res = _mapper.Map<FormUCUAResponseDTO>(obj);
@@ -66,7 +68,16 @@ namespace RAMMS.Business.ServiceProvider.Services
                 }
 
                 IDictionary<string, string> lstData = new Dictionary<string, string>();
-                lstData.Add("RefNo", MaxPkrefNo.ToString());
+                if (MaxPkrefNo.Count != 0)
+                {
+                     LatestPKNo = MaxPkrefNo.Max();
+                    LatestPKNo = LatestPKNo + 1;
+                }
+                else
+                {
+                    LatestPKNo = LatestPKNo + 1;
+                }
+                lstData.Add("RefNo", LatestPKNo.ToString());
                 lstData.Add("YYYYMMDD", Utility.ToString(Convert.ToDateTime(FormUCUA.DateReceived).ToString("yyyyMMdd")));
                 domainModelFormUCUA.RmmhRefId = FormRefNumber.GetRefNumber(RAMMS.Common.RefNumber.FormType.FormUCUA, lstData);
                 domainModelFormUCUA.RmmhStatus = "Initialize";
