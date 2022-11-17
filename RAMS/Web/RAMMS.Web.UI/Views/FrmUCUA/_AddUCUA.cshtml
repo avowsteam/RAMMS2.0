@@ -516,13 +516,14 @@
 
         fnUnsafeActOnchage();
         fnUnsafeCondOnchage();
-        $("#ActionBy").val('@username');
-        $("#ReviewBy").val('@username');
-           $("#hdnActionTakenBy").val('@username');
-        $("#hdnEffectivenessActionTakenBy").val('@username');
+
 
         if ($("#SubmitYn").val() == "True") {
             $("#Officeuse").removeClass("disabled");
+             $("#ActionBy").val('@username');
+            $("#ReviewBy").val('@username');
+             $("#hdnActionTakenBy").val('@username');
+            $("#hdnEffectivenessActionTakenBy").val('@username');
         }
         else {
 
