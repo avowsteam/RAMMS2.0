@@ -41,6 +41,8 @@
                             @Html.HiddenFor(model => model.FormUCUA.Status, new { @class = "form-control", @id = "Status" })
                             @Html.HiddenFor(model => model.FormUCUA.SubmitYn, new { @class = "form-control", @id = "SubmitYn" })
                             @Html.HiddenFor(model => model.FormUCUA.PkRefNo, new { @class = "form-control", @id = "PkRefNo" })
+                            @Html.HiddenFor(model => model.FormUCUA.hdnActionTakenBy, new { @class = "form-control", @id = "hdnActionTakenBy" })
+                            @Html.HiddenFor(model => model.FormUCUA.hdnEffectivenessActionTakenBy, new { @class = "form-control", @id = "hdnEffectivenessActionTakenBy" })
                             @Html.TextBoxFor(model => model.FormUCUA.RefId, new { @readonly = "true", @class = "form-control", @style = "width:300px;", @id = "RefId" })
 
                         </div>
@@ -150,7 +152,7 @@
                                                                                     </label>
                                                                                     <div class="clear-b mt-2">
                                                                                         @Html.HiddenFor(model => Model.FormUCUA.hdnUnsafeCondition, new { @class = "form-control", @id = "hdnUnsafeCondition" })
-                                                                                        <input class="{required, Requested By Signature}" checked="@_insSign" id="UnsafeCondition" name="UnsafeCondition" type="checkbox" onchange="fnUnsafeCondOnchage();">
+                                                                                        <input class="{required, Requested By Signature}" checked="@_inssafeCon" id="UnsafeCondition" name="UnsafeCondition" type="checkbox" onchange="fnUnsafeCondOnchage();">
                                                                                     </div>
 
                                                                                 </div>
@@ -508,14 +510,17 @@
 <script>
 
     $(document).ready(function () {
-        
+
         process.Init("FrmUCUA", "@Model.FormUCUA.Status", @Model.FormUCUA.PkRefNo);
        // alert('@groupname')
 
         fnUnsafeActOnchage();
+        fnUnsafeCondOnchage();
         $("#ActionBy").val('@username');
         $("#ReviewBy").val('@username');
-        
+           $("#hdnActionTakenBy").val('@username');
+        $("#hdnEffectivenessActionTakenBy").val('@username');
+
         if ($("#SubmitYn").val() == "True") {
             $("#Officeuse").removeClass("disabled");
         }
@@ -536,12 +541,12 @@
                 }
                 else {
                       process.ShowApprove('@groupname','Approved By')
-                   
+
                 }
             });
         }
     }
 
-  
+
 
 </script>

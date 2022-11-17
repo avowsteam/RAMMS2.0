@@ -18,6 +18,7 @@ using RAMMS.DTO.RequestBO;
 using RAMMS.DTO.ResponseBO;
 using RAMMS.DTO.Wrappers;
 using RAMMS.Repository.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
@@ -28,13 +29,16 @@ namespace RAMMS.Business.ServiceProvider.Services
         private readonly IMapper _mapper;
         private readonly ISecurity _security;
         private readonly IProcessService processService;
-        public FormUCUAService(IRepositoryUnit repoUnit, IFormUCUARepository repo, IMapper mapper, ISecurity security, IProcessService process)
+        private IWebHostEnvironment Environment;
+        public FormUCUAService(IRepositoryUnit repoUnit, IFormUCUARepository repo, IMapper mapper, ISecurity security, IProcessService process,
+            IWebHostEnvironment _environment)
         {
             _repoUnit = repoUnit ?? throw new ArgumentNullException(nameof(repoUnit));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _security = security;
             processService = process;
             _repo = repo;
+            this.Environment = _environment;
         }
 
         public async Task<FormUCUAResponseDTO> GetHeaderById(int id)
@@ -101,6 +105,7 @@ namespace RAMMS.Business.ServiceProvider.Services
         public async Task<int> Update(FormUCUAResponseDTO FormUCUA)
         {
             int rowsAffected;
+            
             try
             {
                 int PkRefNo = FormUCUA.PkRefNo;
@@ -112,9 +117,12 @@ namespace RAMMS.Business.ServiceProvider.Services
                 domainModelformUcua.RmmhActiveYn = true;
                 domainModelformUcua.RmmhUnsafeAct = FormUCUA.hdnUnsafeAct;
                 domainModelformUcua.RmmhUnsafeCondition = FormUCUA.hdnUnsafeCondition;
+                domainModelformUcua.RmmhActionTakenBy = FormUCUA.hdnActionTakenBy;
+                domainModelformUcua.RmmhEffectivenessActionTakenBy = FormUCUA.hdnEffectivenessActionTakenBy;
                 domainModelformUcua = UpdateStatus(domainModelformUcua);
                 _repoUnit.FormucuaRepository.Update(domainModelformUcua);
                 rowsAffected = await _repoUnit.CommitAsync();
+
             }
             catch (Exception ex)
             {
@@ -178,9 +186,36 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 FormUCUARpt rpt = await this.GetReportData(id);
                 System.IO.File.Copy(Oldfilename, cachefile, true);
+                string wwwPath = this.Environment.WebRootPath;
+                string trueImage = wwwPath + "/Images/True.png";
+                string FalseImage = wwwPath + "/Images/False.png";
+
                 using (var workbook = new XLWorkbook(cachefile))
                 {
                     IXLWorksheet worksheet = workbook.Worksheet(1);
+                    IXLWorksheet image = workbook.Worksheet(1);
+                    byte[] buffTrue = File.ReadAllBytes($"{trueImage}"); 
+                    System.IO.MemoryStream strTrue = new System.IO.MemoryStream(buffTrue);
+
+                    byte[] buffFalse = File.ReadAllBytes($"{FalseImage}");
+                    System.IO.MemoryStream strFalse = new System.IO.MemoryStream(buffFalse);
+                    //image.AddPicture(strTrue).MoveTo(image.Cell(11, 2)).WithSize(360, 170);
+                    if ( rpt.UnsafeAct == true)
+                    {
+                        image.AddPicture(strTrue).MoveTo(image.Cell(11, 2)).WithSize(45, 45);
+                    }
+                    else
+                    {
+                        image.AddPicture(strFalse).MoveTo(image.Cell(11, 9)).WithSize(45, 45);
+                    }
+                    if (rpt.UnsafeCondition == true)
+                    {
+                        image.AddPicture(strTrue).MoveTo(image.Cell(11, 2)).WithSize(45, 45);
+                    }
+                    else
+                    {
+                        image.AddPicture(strFalse).MoveTo(image.Cell(11, 9)).WithSize(45, 45);
+                    }
 
 
                     if (worksheet != null)
@@ -188,9 +223,10 @@ namespace RAMMS.Business.ServiceProvider.Services
                         worksheet.Cell(2, 6).Value = rpt.ReportingName;
                         worksheet.Cell(5, 6).Value = rpt.Location;
                         worksheet.Cell(7, 6).Value = rpt.WorkScope;
-                        worksheet.Cell(11, 2).Value = rpt.UnsafeAct;
+
+                       // worksheet.Cell(11, 2).Value = rpt.UnsafeAct ;
                         worksheet.Cell(12, 2).Value = rpt.UnsafeActDescription;
-                        worksheet.Cell(11, 9).Value = rpt.UnsafeCondition;
+                       // worksheet.Cell(11, 9).Value = rpt.UnsafeCondition;
                         worksheet.Cell(12, 9).Value = rpt.UnsafeConditionDescription;
                         worksheet.Cell(15, 2).Value = rpt.ImprovementRecommendation;
                         worksheet.Cell(19, 5).Value = rpt.DateReceived.HasValue ? rpt.DateReceived.Value.ToString("dd-MM-yyyy") : "";

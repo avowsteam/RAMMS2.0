@@ -60,7 +60,7 @@ namespace RAMMS.Repository
                                    CommentsOfficeUse = s.RmmhCommentsOfficeUse,
                                    HseSection = s.RmmhHseSection,
                                    SafteyCommitteeChairman = s.RmmhSafteyCommitteeChairman,
-                                   ImsRep = s.RmmhImprovementRecommendation,
+                                   ImsRep = s.RmmhImsRep,
                                    DateActionTaken = s.RmmhDateActionTaken,
                                    ActionTakenBy = s.RmmhActionTakenBy,
                                    ActionDescription = s.RmmhActionDescription,
