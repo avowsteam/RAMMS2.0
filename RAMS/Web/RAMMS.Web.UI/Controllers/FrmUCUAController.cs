@@ -161,9 +161,9 @@ namespace RAMMS.Web.UI.Controllers
         {
             try
             {
-                var content1 = await _formUCUAService.FormDownload("FORMUCUA", id, _environment.WebRootPath + "/Templates/FORMUCUA.xlsx");
+                var content1 = await _formUCUAService.FormDownload("FormUCUA", id, _environment.WebRootPath + "/Templates/FormUCUA.xlsx");
                 string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                return File(content1, contentType1, "FORMUCUA" + ".xlsx");
+                return File(content1, contentType1, "FormUCUA" + ".xlsx");
             }
             catch(Exception ex)
             {
