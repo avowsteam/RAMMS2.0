@@ -50,7 +50,9 @@ namespace RAMMS.DTO.ResponseBO
         public bool? AuditedSign { get; set; }
 
         public string AuditedSignature { get; set; }
-        
+        public string hdnActionTakenBy { get; set; }
+        public string hdnEffectivenessActionTakenBy { get; set; }
+
 
     }
 }

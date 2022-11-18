@@ -23,44 +23,49 @@ namespace RAMMS.Repository
         public async Task<List<RmDlpSpi>> GetDivisionMiri(int year)
         {
             List<RmDlpSpi> res = await (from r in _context.RmDlpSpi where r.SpiYear == year select r).ToListAsync();
-            var list = res
-                        .Select(x => new
-                        {
-                            x.SpiMonth,
-                            x.SpiMPlanned,
-                            x.SpiMActual,
-                            x.SpiCPlan,
-                            x.SpiCActual,
-                            x.SpiPiWorkActual,
-                            x.SpiPai,
-                            x.SpiEff,
-                            x.SpiRb,
-                            x.SpiIw,
-                            x.SpiSpi,
-                            x.SpiPlannedPer,
-                            x.SpiActualPer
 
-                        })
-                        .GroupBy(x => x.SpiMonth)
-                        .Select(
-                          x => new RmDlpSpi
-                          {
-                              SpiMonth = x.Select(x => x.SpiMonth).First(),
-                              SpiMPlanned = x.Sum(c => c.SpiMPlanned),
-                              SpiMActual = x.Sum(c => c.SpiMActual),
-                              SpiCPlan = x.Sum(y => y.SpiCPlan),
-                              SpiCActual = x.Sum(y => y.SpiCPlan),
-                              SpiPiWorkActual = x.Sum(y => y.SpiPiWorkActual),
-                              SpiPai = x.Sum(y => y.SpiPai),
-                              SpiEff = (x.Sum(y => y.SpiEff) / 2),
-                              SpiRb = (x.Sum(y => y.SpiRb) / 2),
-                              SpiIw = (x.Sum(y => y.SpiIw) / 2),
-                              SpiSpi = x.Sum(y => y.SpiSpi),
-                              SpiPlannedPer = x.Sum(y => y.SpiPlannedPer),
-                              SpiActualPer = x.Sum(y => y.SpiActualPer),
-                          }
-                        )
-                        .ToList();
+            var TotalSumMonthlyPlanned = res.Select(x => x.SpiMPlanned).Sum();
+            var SpiCPlan = res.Select(x => x.SpiCPlan).Sum();
+
+
+            var list = res
+                    .Select(x => new
+                    {
+                        x.SpiMonth,
+                        x.SpiMPlanned,
+                        x.SpiMActual,
+                        x.SpiCPlan,
+                        x.SpiCActual,
+                        x.SpiPiWorkActual,
+                        x.SpiPai,
+                        x.SpiEff,
+                        x.SpiRb,
+                        x.SpiIw,
+                        x.SpiSpi,
+                        x.SpiPlannedPer,
+                        x.SpiActualPer
+
+                    })
+                    .GroupBy(x => x.SpiMonth)
+                    .Select(
+                      x => new RmDlpSpi
+                      {
+                          SpiMonth = x.Select(x => x.SpiMonth).First(),
+                          SpiMPlanned = (x.Sum(c => c.SpiMPlanned)),
+                          SpiMActual = (x.Sum(c => c.SpiMActual)),
+                          SpiCPlan = (x.Sum(y => y.SpiCPlan)),
+                          SpiCActual = (x.Sum(y => y.SpiCActual)),
+                          SpiPiWorkActual = Math.Round((decimal)(((x.Sum(y => y.SpiCActual) / x.Sum(y => y.SpiCPlan)) * 80)), 2),// x.Sum(y => y.SpiPiWorkActual),
+                          SpiPai = Math.Round((decimal)(x.Sum(y => y.SpiCActual) / x.Sum(y => y.SpiCPlan)), 2),
+                          SpiEff = Math.Round((decimal)(x.Sum(y => y.SpiEff) / 2), 2),
+                          SpiRb = Math.Round((decimal)(x.Sum(y => y.SpiRb) / 2), 2),
+                          SpiIw = Math.Round((decimal)(x.Sum(y => y.SpiIw) / 2), 2),
+                          SpiSpi = Math.Round((decimal)(((x.Sum(y => y.SpiCActual) / x.Sum(y => y.SpiCPlan)) * 80) + (x.Sum(y => y.SpiEff) / 2)), 2) + (x.Sum(y => y.SpiRb) / 2) - (x.Sum(y => y.SpiIw) / 2),
+                          SpiPlannedPer = Math.Round((decimal)((x.Sum(y => y.SpiCPlan) / TotalSumMonthlyPlanned) * 100), 2) ,
+                          SpiActualPer = Math.Round((decimal)((x.Sum(y => y.SpiCActual) / TotalSumMonthlyPlanned)) * 100, 2) ,
+                      }
+                    )
+                    .ToList();
             return list;
         }
 
@@ -258,10 +263,10 @@ namespace RAMMS.Repository
 
             if (filterOptions.Filters != null && filterOptions.Filters.Year != null)
                 result = result.Where(a => a.RmiiriYear == filterOptions.Filters.Year).ToList();
-                //result = await query.Select(s => s.x).Skip(filterOptions.StartPageNo)
-                //                    .Take(filterOptions.RecordsPerPage)
-                //                    .ToListAsync();
-                return result;
+            //result = await query.Select(s => s.x).Skip(filterOptions.StartPageNo)
+            //                    .Take(filterOptions.RecordsPerPage)
+            //                    .ToListAsync();
+            return result;
         }
 
         public async Task<int> GetFilteredRecordCount(FilteredPagingDefinition<FormASearchGridDTO> filterOptions)

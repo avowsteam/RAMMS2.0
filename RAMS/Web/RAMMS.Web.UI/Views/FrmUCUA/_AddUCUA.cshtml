@@ -23,6 +23,11 @@
 <script src="~/js/jquery.timeentry/jquery.plugin.js"></script>
 <script src="~/js/jquery.timeentry/jquery.timeentry.js"></script>
 <script type="text/javascript" src="~/js/FormUCUA.js" asp-append-version="true"></script>
+<style>
+    .disabled {
+        pointer-events: none;
+    }
+</style>
 
 @using (Html.BeginForm())
 {
@@ -36,6 +41,8 @@
                             @Html.HiddenFor(model => model.FormUCUA.Status, new { @class = "form-control", @id = "Status" })
                             @Html.HiddenFor(model => model.FormUCUA.SubmitYn, new { @class = "form-control", @id = "SubmitYn" })
                             @Html.HiddenFor(model => model.FormUCUA.PkRefNo, new { @class = "form-control", @id = "PkRefNo" })
+                            @Html.HiddenFor(model => model.FormUCUA.hdnActionTakenBy, new { @class = "form-control", @id = "hdnActionTakenBy" })
+                            @Html.HiddenFor(model => model.FormUCUA.hdnEffectivenessActionTakenBy, new { @class = "form-control", @id = "hdnEffectivenessActionTakenBy" })
                             @Html.TextBoxFor(model => model.FormUCUA.RefId, new { @readonly = "true", @class = "form-control", @style = "width:300px;", @id = "RefId" })
 
                         </div>
@@ -60,8 +67,8 @@
                                                 </span>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a href="#page" data-toggle="tab" aria-expanded="false" class="nav-link" id="Officeuse">
+                                        <li class="nav-item" id="Officeuse">
+                                            <a href="#page" data-toggle="tab" aria-expanded="false" class="nav-link">
                                                 <span class="">
                                                     For Office USE
                                                 </span>
@@ -145,7 +152,7 @@
                                                                                     </label>
                                                                                     <div class="clear-b mt-2">
                                                                                         @Html.HiddenFor(model => Model.FormUCUA.hdnUnsafeCondition, new { @class = "form-control", @id = "hdnUnsafeCondition" })
-                                                                                        <input class="{required, Requested By Signature}" checked="@_insSign" id="UnsafeCondition" name="UnsafeCondition" type="checkbox" onchange="fnUnsafeCondOnchage();">
+                                                                                        <input class="{required, Requested By Signature}" checked="@_inssafeCon" id="UnsafeCondition" name="UnsafeCondition" type="checkbox" onchange="fnUnsafeCondOnchage();">
                                                                                     </div>
 
                                                                                 </div>
@@ -503,13 +510,25 @@
 <script>
 
     $(document).ready(function () {
-        
+
         process.Init("FrmUCUA", "@Model.FormUCUA.Status", @Model.FormUCUA.PkRefNo);
        // alert('@groupname')
 
         fnUnsafeActOnchage();
-        $("#ActionBy").val('@username');
-        $("#ReviewBy").val('@username');
+        fnUnsafeCondOnchage();
+
+
+        if ($("#SubmitYn").val() == "True") {
+            $("#Officeuse").removeClass("disabled");
+             $("#ActionBy").val('@username');
+            $("#ReviewBy").val('@username');
+             $("#hdnActionTakenBy").val('@username');
+            $("#hdnEffectivenessActionTakenBy").val('@username');
+        }
+        else {
+
+            $("#Officeuse").addClass("disabled");
+        }
 
     });
     function VerifyDetails(GroupName, SubmitType) {
@@ -523,12 +542,12 @@
                 }
                 else {
                       process.ShowApprove('@groupname','Approved By')
-                   
+
                 }
             });
         }
     }
 
-  
+
 
 </script>

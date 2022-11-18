@@ -60,7 +60,7 @@ namespace RAMMS.Repository
                                    CommentsOfficeUse = s.RmmhCommentsOfficeUse,
                                    HseSection = s.RmmhHseSection,
                                    SafteyCommitteeChairman = s.RmmhSafteyCommitteeChairman,
-                                   ImsRep = s.RmmhImprovementRecommendation,
+                                   ImsRep = s.RmmhImsRep,
                                    DateActionTaken = s.RmmhDateActionTaken,
                                    ActionTakenBy = s.RmmhActionTakenBy,
                                    ActionDescription = s.RmmhActionDescription,
@@ -81,8 +81,8 @@ namespace RAMMS.Repository
             //             join r in _context.RmRoadMaster on hdr.FmtRdCode equals r.RdmRdCode
             //             let DailyIns = (from d in _context.RmFormTDailyInspection where d.FmtdiFmtPkRefNo == hdr.FmtPkRefNo select d.FmtdiPkRefNo).DefaultIfEmpty()
             //             let vehicle = _context.RmFormTVechicle.Where(r => DailyIns.Contains(r.FmtvFmtdiPkRefNo)).DefaultIfEmpty()
- var query = (from hdr in _context.RmUcua.Where(s => s.RmmhActiveYn == true)
-              select new
+            var query = (from hdr in _context.RmUcua.Where(s => s.RmmhActiveYn == true)
+                         select new
                          {
                              RefNo = hdr.RmmhPkRefNo,
                              RefId = hdr.RmmhRefId,
@@ -100,13 +100,17 @@ namespace RAMMS.Repository
             query = query.OrderByDescending(x => x.RefNo);
             var search = filterOptions.Filters;
 
+            if (!string.IsNullOrEmpty(search.ReportingName))
+            {
+                query = query.Where(s => s.ReportingName.Contains(search.ReportingName));
+            }
             if (!string.IsNullOrEmpty(search.Location))
             {
-                query = query.Where(s => s.Location == search.Location);
+                query = query.Where(s => s.Location.Contains(search.Location));
             }
             if (!string.IsNullOrEmpty(search.WorkScope))
             {
-                query = query.Where(s => s.WorkScope == search.WorkScope);
+                query = query.Where(s => s.WorkScope.Contains(search.WorkScope));
             }
 
             if (!string.IsNullOrEmpty(filterOptions.Filters.ReceivedDtFrom) && !string.IsNullOrEmpty(filterOptions.Filters.ReceivedDtTo))
@@ -139,34 +143,34 @@ namespace RAMMS.Repository
                 }
             }
 
-            if (!string.IsNullOrEmpty(search.SmartSearch))
-            {
+            //if (!string.IsNullOrEmpty(search.SmartSearch))
+            //{
 
-                DateTime dt;
-                if (DateTime.TryParseExact(search.SmartSearch, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dt))
-                {
-                    query = query.Where(s =>
-                    (s.RefId.Contains(search.SmartSearch) ||
-                    s.ReportingName.Contains(search.SmartSearch) ||
-                    s.Location.Contains(search.SmartSearch) ||
-                    s.WorkScope.Contains(search.SmartSearch)) ||
-                    s.Status.Contains(search.SmartSearch) ||
+            //    DateTime dt;
+            //    if (DateTime.TryParseExact(search.SmartSearch, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dt))
+            //    {
+            //        query = query.Where(s =>
+            //        (s.RefId.Contains(search.SmartSearch) ||
+            //        s.ReportingName.Contains(search.SmartSearch) ||
+            //        s.Location.Contains(search.SmartSearch) ||
+            //        s.WorkScope.Contains(search.SmartSearch)) ||
+            //        s.Status.Contains(search.SmartSearch) ||
 
-                    (s.Date.HasValue ? (s.Date.Value.Year == dt.Year && s.Date.Value.Month == dt.Month && s.Date.Value.Day == dt.Day) : true) && s.Date != null);
-                }
-                else
-                {
-                    query = query.Where(s =>
-                     (s.RefId.Contains(search.SmartSearch) ||
-                      s.ReportingName.Contains(search.SmartSearch) ||
-                    s.Location.Contains(search.SmartSearch) ||
-                    s.WorkScope.Contains(search.SmartSearch)) ||
-                    s.Status.Contains(search.SmartSearch)
+            //        (s.Date.HasValue ? (s.Date.Value.Year == dt.Year && s.Date.Value.Month == dt.Month && s.Date.Value.Day == dt.Day) : true) && s.Date != null);
+            //    }
+            //    else
+            //    {
+            //        query = query.Where(s =>
+            //         (s.RefId.Contains(search.SmartSearch) ||
+            //          s.ReportingName.Contains(search.SmartSearch) ||
+            //        s.Location.Contains(search.SmartSearch) ||
+            //        s.WorkScope.Contains(search.SmartSearch)) ||
+            //        s.Status.Contains(search.SmartSearch)
 
-                     );
-                }
+            //         );
+            //    }
 
-            }
+            //}
 
             if (filterOptions.sortOrder == SortOrder.Ascending)
             {
@@ -210,13 +214,13 @@ namespace RAMMS.Repository
 
             return list.Select(s => new FormUCUAHeaderRequestDTO
             {
-                PkRefNo=s.RefNo,
-                RefId=s.RefId,
-                Location=s.Location,
-                WorkScope=s.WorkScope,
+                PkRefNo = s.RefNo,
+                RefId = s.RefId,
+                Location = s.Location,
+                WorkScope = s.WorkScope,
                 Date = s.Date,
                 Status = s.Status,
-              SubmitSts = s.SubmitSts
+                SubmitSts = s.SubmitSts
 
 
             }).ToList();
