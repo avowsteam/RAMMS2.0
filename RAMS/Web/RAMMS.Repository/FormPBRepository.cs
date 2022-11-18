@@ -161,7 +161,8 @@ namespace RAMMS.Repository
                 AmountBeforeLad = s.hdr.PbiwAmountBeforeLad,
                 LaDamage = s.hdr.PbiwLaDamage,
                 FinalPayment = s.hdr.PbiwFinalPayment,
-                Status = s.hdr.PbiwStatus
+                Status = s.hdr.PbiwStatus,
+                SubmitSts = s.hdr.PbiwSubmitSts
             }).ToList();
 
 

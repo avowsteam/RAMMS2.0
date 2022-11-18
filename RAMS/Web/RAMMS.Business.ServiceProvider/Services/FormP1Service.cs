@@ -56,12 +56,12 @@ namespace RAMMS.Business.ServiceProvider.Services
             RmPaymentCertificateHeader res = _repo.GetHeaderById(id);
             FormP1HeaderResponseDTO P1 = new FormP1HeaderResponseDTO();
             P1 = _mapper.Map<FormP1HeaderResponseDTO>(res);
-            P1.FormP1Details= _mapper.Map<List<FormP1ResponseDTO>>(res.RmPaymentCertificate);
-           
+            P1.FormP1Details = _mapper.Map<List<FormP1ResponseDTO>>(res.RmPaymentCertificate);
+
             return P1;
         }
 
-       
+
 
 
         public async Task<int> SaveFormP1(FormP1HeaderResponseDTO FormP1)
@@ -207,16 +207,18 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 worksheet.Cell(i, 13).Value = r.Addition;
                                 worksheet.Cell(i, 16).Value = r.Deduction;
                                 worksheet.Cell(i, 19).Value = r.PreviousPayment;
-                                worksheet.Cell(i, 22).Value = r.TotalToDate;
-                                worksheet.Cell(i, 25).Value = r.AmountIncludedInPc;
+                                //worksheet.Cell(i, 22).Value = r.TotalToDate;
+                                //worksheet.Cell(i, 25).Value = r.AmountIncludedInPc;
                                 i++;
                             }
 
- 
+
+                            worksheet.Cell(4, 24).Value = rptcol.PaymentCertificateNo;
                             worksheet.Cell(9, 20).Value = rptcol.Bank;
                             worksheet.Cell(10, 7).Value = rptcol.Address;
-                            worksheet.Cell(10, 20).Value = rptcol.Assignee;
-                            worksheet.Cell(14, 20).Value = rptcol.ContractsEndsOn;
+                            worksheet.Cell(10, 20).Value = rptcol.BankAccNo;
+                            worksheet.Cell(11, 20).Value = rptcol.Assignee;
+                            worksheet.Cell(14, 20).Value = rptcol.SubmissionDate; //ContractsEndsOn date
 
 
 
@@ -230,7 +232,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                             worksheet.Cell(23, 13).Value = rptcol.SubmissionMonth;
                             worksheet.Cell(23, 19).Value = rptcol.SubmissionYear;
 
-                            worksheet.Cell(40, 3).Value = "I certify that under the terms of Contract No.PWD / HO / B130 / 2019  , the sum of Ringgit Malaysia("+ rptcol.TotalPayment + ") is due to the Service Provider.";
+                            worksheet.Cell(40, 3).Value = "I certify that under the terms of Contract No.PWD / HO / B130 / 2019  , the sum of Ringgit Malaysia(" + rptcol.DueAmount + ") is due to the Service Provider.";
 
                             worksheet.Cell(47, 18).Value = rptcol.UsernameSo;
                             worksheet.Cell(48, 18).Value = rptcol.DesignationSo;

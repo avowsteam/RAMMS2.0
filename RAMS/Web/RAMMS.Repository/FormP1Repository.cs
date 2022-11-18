@@ -137,7 +137,8 @@ namespace RAMMS.Repository
                 SubmissionDate = s.x.PchSignDateSo,
                 PaymentCertificateNo = s.x.PchPaymentCertificateNo,
                 TotalPayment = s.x.PchTotalPayment,
-                Status = s.x.PchStatus
+                Status = s.x.PchStatus,
+                SubmitSts =s.x.PchSubmitSts
             }).ToList();
 
 

@@ -475,7 +475,7 @@
     <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
     @{
 
-        if (isSubmit && (Model.FormP1Header.Status != null && Model.FormP1Header.Status != ""))
+        if (isSubmit && (Model.FormP1Header.Status == null || Model.FormP1Header.Status == "" || Model.FormP1Header.Status == "Initialize" || Model.FormP1Header.Status == "Saved") || Model.FormP1Header.Status == RAMMS.Common.StatusList.Rejected)
         {
             <button id="saveFormP1Btn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Saved')">Save</button>
             <button id="SubmitFormP1Btn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Submitted')">Submit</button>
