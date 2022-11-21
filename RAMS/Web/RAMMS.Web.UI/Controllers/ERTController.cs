@@ -1133,8 +1133,8 @@ namespace RAMMS.Web.UI.Controllers
             var week = await _ddLookupService.GetDdDescValue(ddLookup);
             DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
             Calendar cal = dfi.Calendar;
-            var weekno = cal.GetWeekOfYear(DateTime.Today, dfi.CalendarWeekRule,
-                                         dfi.FirstDayOfWeek);
+            var weekno = System.Globalization.ISOWeek.GetWeekOfYear(DateTime.Today); //cal.GetWeekOfYear(DateTime.Today, dfi.CalendarWeekRule, DayOfWeek.Monday);
+
 
             var weekNoLst = _dDLookupBO.GetWeekNo();
             ViewData["WeekNo"] = weekNoLst.Select(l => new SelectListItem { Selected = (l.Value == weekno.ToString()), Text = l.Text, Value = l.Value });
