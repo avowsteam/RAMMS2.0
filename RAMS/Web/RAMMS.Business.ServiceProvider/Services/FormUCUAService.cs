@@ -202,19 +202,19 @@ namespace RAMMS.Business.ServiceProvider.Services
                     //image.AddPicture(strTrue).MoveTo(image.Cell(11, 2)).WithSize(360, 170);
                     if ( rpt.UnsafeAct == true)
                     {
-                        image.AddPicture(strTrue).MoveTo(image.Cell(11, 2)).WithSize(45, 45);
+                        image.AddPicture(strTrue).MoveTo(image.Cell(11, 2)).WithSize(40, 40);
                     }
                     else
                     {
-                        image.AddPicture(strFalse).MoveTo(image.Cell(11, 2)).WithSize(45, 45);
+                        image.AddPicture(strFalse).MoveTo(image.Cell(11, 2)).WithSize(40, 40);
                     }
                     if (rpt.UnsafeCondition == true)
                     {
-                        image.AddPicture(strTrue).MoveTo(image.Cell(11, 9)).WithSize(45, 45);
+                        image.AddPicture(strTrue).MoveTo(image.Cell(11, 9)).WithSize(40, 40);
                     }
                     else
                     {
-                        image.AddPicture(strFalse).MoveTo(image.Cell(11, 9)).WithSize(45, 45);
+                        image.AddPicture(strFalse).MoveTo(image.Cell(11, 9)).WithSize(40, 40);
                     }
 
 
