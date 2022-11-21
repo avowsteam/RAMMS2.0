@@ -817,7 +817,7 @@
             {
                 <button id="SubmitFormDBtn" type="button" class="btn btn-sm btn-themebtn"> Submit </button>
             }
-            else if (security.IsExecutive && Model.SaveFormDModel.Status == RAMMS.Common.StatusList.Executive)
+            else if ((security.IsExecutive || security.isEnggAssistant) && Model.SaveFormDModel.Status == RAMMS.Common.StatusList.Executive)
             {
                 <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@RAMMS.Common.GroupNames.OperationsExecutive','Verified By');"> Approved / Verified </button>
             }
