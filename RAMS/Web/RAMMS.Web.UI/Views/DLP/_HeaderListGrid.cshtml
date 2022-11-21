@@ -38,10 +38,10 @@
     };
     var rmiirirkrefnoCol = { data: "rmiiriPkRefNo", name: "RmiiriPkRefNo", title: "NO", autoWidth: true, sortable: false, visible: false };
     var rmiiriyearCol = { data: "rmiiriYear", name: "RmiiriYear", title: "Year", autoWidth: true, sortable: true };
-    var rmiiriroadlength1Col = { data: "rmiiriRoadLength1", name: "RmiiriRoadLength1", title: "IRI Condition 1 (KM)", autoWidth: true, sortable: true };
-    var rmiiriroadlength2Col = { data: "rmiiriRoadLength2", name: "RmiiriRoadLength2", title: "IRI Condition 2 (KM)", autoWidth: true, sortable: true };
-    var rmiiriroadlength3Col = { data: "rmiiriRoadLength3", name: "Section Code", title: "IRI Condition 3 (KM)", autoWidth: true, sortable: true };
-    var rmiiriroadlengthCol = { data: "rmiiriRoadLength", name: "RmiiriRoadLength", title: "RMI (KM)", autoWidth: true, sortable: true };
+    var rmiiriroadlength1Col = { data: "rmiiriRoadLength1", name: "RmiiriRoadLength1", title: "IRI Condition 1 (KM)", autoWidth: true, sortable: true, format: "C2" };
+    var rmiiriroadlength2Col = { data: "rmiiriRoadLength2", name: "RmiiriRoadLength2", title: "IRI Condition 2 (KM)", autoWidth: true, sortable: true, format: "C2" };
+    var rmiiriroadlength3Col = { data: "rmiiriRoadLength3", name: "Section Code", title: "IRI Condition 3 (KM)", autoWidth: true, sortable: true, format: "C2" };
+    var rmiiriroadlengthCol = { data: "rmiiriRoadLength", name: "RmiiriRoadLength", title: "RMI (KM)", autoWidth: true, sortable: true, format: "C2" };
 
     table_columns.push(rmiirirkrefnoCol);
     table_columns.push(actionCol);
@@ -61,21 +61,21 @@
         var _currentGridSettings = new CustomGridSettings();
         $.extend($.fn.dataTable.defaults, _currentGridSettings);
 
-        //filterData.SmartInputValue = $("#FormASmartSearch").val();
-        //filterData.Rmu = $("#formADetSrchRMU").val();
-        //filterData.Section = $("#formADetSrchSec").val();
-        //filterData.RoadCode = $("#formADetSrchRoadCode option:selected").val();
-        //filterData.AssetGroupCode = $("#formADetSrchAsstGrp").val();
-        //filterData.Month = $("#formADetSrchMonth").val();
-        //filterData.ChinageFromKm = $("#formAFromKm").val();
-        //filterData.ChinageFromM = $("#formAFromM").val();
-        //filterData.ChinageToKm = $("#formAToKm").val();
-        var Year = $("#SearchRmiiriYear").val();
-        filterData.Year = $("#SearchRmiiriYear").val();
+        filterData.SmartInputValue = $("#FormASmartSearch").val();
+        filterData.Rmu = $("#formADetSrchRMU").val();
+        filterData.Section = $("#formADetSrchSec").val();
+        filterData.RoadCode = $("#formADetSrchRoadCode option:selected").val();
+        filterData.AssetGroupCode = $("#formADetSrchAsstGrp").val();
+        filterData.Month = $("#formADetSrchMonth").val();
+        filterData.Year = $("#formADetSrchYear").val();
+        filterData.ChinageFromKm = $("#formAFromKm").val();
+        filterData.ChinageFromM = $("#formAFromM").val();
+        filterData.ChinageToKm = $("#formAToKm").val();
+        filterData.ChinageToM = $("#formAToM").val();
 
         $('#FormAGridView').DataTable({
             ajax: {
-                url: "/DLP/LoadHeaderList?Year=" + Year,
+                url: "/DLP/LoadHeaderList",
                 type: "POST",
                 datatype: "json",
                 data: {
@@ -104,24 +104,22 @@
         })
         $('#SearchRmiiriYear').change(function () {
             //debugger;
-            //oHdrTable.columns(0).search($("#FormASmartSearch").val().trim());
-            //oHdrTable.columns(1).search($("#formADetSrchRMU").val().trim());
-            //oHdrTable.columns(2).search($("#formADetSrchSec").val().trim());
-            //if ($("#formADetSrchRoadCode option:selected").val() != "") {
-            //    oHdrTable.columns(3).search($("#formADetSrchRoadCode option:selected").val().trim());
-            //}
-            //else {
-            //    oHdrTable.columns(3).search("");
-            //}
-            //oHdrTable.columns(4).search($("#formADetSrchAsstGrp").val().trim());
-            //oHdrTable.columns(5).search($("#formADetSrchMonth").val().trim());
+            oHdrTable.columns(0).search($("#FormASmartSearch").val().trim());
+            oHdrTable.columns(1).search($("#formADetSrchRMU").val().trim());
+            oHdrTable.columns(2).search($("#formADetSrchSec").val().trim());
+            if ($("#formADetSrchRoadCode option:selected").val() != "") {
+                oHdrTable.columns(3).search($("#formADetSrchRoadCode option:selected").val().trim());
+            }
+            else {
+                oHdrTable.columns(3).search("");
+            }
+            oHdrTable.columns(4).search($("#formADetSrchAsstGrp").val().trim());
+            oHdrTable.columns(5).search($("#formADetSrchMonth").val().trim());
             oHdrTable.columns(6).search($("#SearchRmiiriYear").val().trim());
-            //oHdrTable.columns(7).search($("#formAFromKm").val().trim());
-            //oHdrTable.columns(8).search($("#formAFromM").val().trim());
-            //oHdrTable.columns(9).search($("#formAToKm").val().trim());
-            //oHdrTable.columns(10).search($("#formAToM").val().trim());
-            //filterData.Year = $("#SearchRmiiriYear").val();
-            filterData.Year = $("#SearchRmiiriYear").val();
+            oHdrTable.columns(7).search($("#formAFromKm").val().trim());
+            oHdrTable.columns(8).search($("#formAFromM").val().trim());
+            oHdrTable.columns(9).search($("#formAToKm").val().trim());
+            oHdrTable.columns(10).search($("#formAToM").val().trim());
             oHdrTable.data = filterData;
             oHdrTable.draw();
         });
