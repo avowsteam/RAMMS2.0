@@ -42,7 +42,7 @@
                 <div class=" w-100 d-flex justify-content-center py-1">
                     <div class="form-group mb-0">
                         <label style="float:left; padding: .5rem .5rem 0 !important;">Reference No.</label>
-                        <input class="form-control" style="width:330px;" type="text" value="@Model.FormPBHeader.RefId" disabled="">
+                        <input class="form-control" id="FormPBHeader_RefId" style="width:330px;" type="text" value="@Model.FormPBHeader.RefId" disabled="">
                     </div>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                                                                             <div class="input-group-prepend">
                                                                                 <span class="input-group-text">RM</span>
                                                                             </div>
-                                                                            <input onchange="CalculateValues()" class="form-control numeric allow_numeric text-right" type="text">
+                                                                            <input onchange="CalculateValues()" class="form-control  text-right" type="number">
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -116,7 +116,7 @@
                                                                             <div class="input-group-prepend">
                                                                                 <span class="input-group-text">RM</span>
                                                                             </div>
-                                                                            <input onchange="CalculateValues()" class="form-control numeric allow_numeric text-right" type="text">
+                                                                            <input onchange="CalculateValues()" class="form-control  text-right" type="number">
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -124,7 +124,7 @@
                                                                             <div class="input-group-prepend">
                                                                                 <span class="input-group-text">RM</span>
                                                                             </div>
-                                                                            <input class="form-control numeric allow_numeric text-right" disabled type="text">
+                                                                            <input class="form-control  text-right" disabled type="number">
                                                                         </div>
                                                                     </td>
                                                                 </tr>

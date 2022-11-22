@@ -165,107 +165,97 @@ namespace RAMMS.Business.ServiceProvider.Services
         ////    return await _repo.GetReportData(headerid);
         ////}
 
-        //public async Task<byte[]> FormDownload(string formname, int id, string filepath)
-        //{
-        //    string Oldfilename = "";
-        //    string filename = "";
-        //    string cachefile = "";
-        //    if (!filepath.Contains(".xlsx"))
-        //    {
-        //        Oldfilename = filepath + formname + ".xlsx";
-        //        filename = formname + DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString();
-        //        cachefile = filepath + filename + ".xlsx";
-        //    }
-        //    else
-        //    {
-        //        Oldfilename = filepath;
-        //        filename = filepath.Replace(".xlsx", DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString() + ".xlsx");
-        //        cachefile = filename;
-        //    }
+        public async Task<byte[]> FormDownload(string formname, int id, string filepath)
+        {
+            string Oldfilename = "";
+            string filename = "";
+            string cachefile = "";
+            if (!filepath.Contains(".xlsx"))
+            {
+                Oldfilename = filepath + formname + ".xlsx";
+                filename = formname + DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString();
+                cachefile = filepath + filename + ".xlsx";
+            }
+            else
+            {
+                Oldfilename = filepath;
+                filename = filepath.Replace(".xlsx", DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString() + ".xlsx");
+                cachefile = filename;
+            }
 
-        //    try
-        //    {
-        //        FormPBDetailResponseDTO rptcol = await this.GetHeaderById(id);
-        //        var rpt = rptcol.FormPBHistory;
-        //        System.IO.File.Copy(Oldfilename, cachefile, true);
-        //        using (var workbook = new XLWorkbook(cachefile))
-        //        {
-        //            for (int sheet = 1; sheet <= 1; sheet++)
-        //            {
-        //                IXLWorksheet worksheet;
-        //                workbook.Worksheets.TryGetWorksheet($"sheet{sheet}", out worksheet);
+            try
+            {
+                FormPBHeaderResponseDTO rptcol = await this.GetHeaderById(id);
+                var rpt = rptcol.FormPBDetails;
+                System.IO.File.Copy(Oldfilename, cachefile, true);
+                using (var workbook = new XLWorkbook(cachefile))
+                {
+                    for (int sheet = 1; sheet <= 1; sheet++)
+                    {
+                        IXLWorksheet worksheet;
+                        workbook.Worksheets.TryGetWorksheet($"sheet{sheet}", out worksheet);
 
-        //                if (worksheet != null)
-        //                {
-        //                    int i = 10;
+                        if (worksheet != null)
+                        {
 
-        //                    foreach (var r in rpt)
-        //                    {
+                            worksheet.Cell(3, 7).Value = rptcol.SubmissionMonth;
+                            worksheet.Cell(3, 19).Value = rptcol.SubmissionYear;
 
-        //                        worksheet.Cell(i, 5).Value = r.InvCond1;
-        //                        worksheet.Cell(i, 6).Value = r.InvCond2;
-        //                        worksheet.Cell(i, 7).Value = r.InvCond3;
-        //                        worksheet.Cell(i, 9).Value = r.SlCond1;
-        //                        worksheet.Cell(i, 10).Value = r.SlCond2;
-        //                        worksheet.Cell(i, 11).Value = r.SlCond3;
-        //                        worksheet.Cell(i, 17).Value = r.CdcLabour;
-        //                        worksheet.Cell(i, 18).Value = r.CdcEquipment;
-        //                        worksheet.Cell(i, 19).Value = r.CdcMaterial;
-        //                        worksheet.Cell(i, 21).Value = r.AverageDailyProduction;
-        //                        worksheet.Cell(i, 22).Value = r.UnitOfService;
-        //                        worksheet.Cell(i, 25).Value = r.SlAvgDesired;
+                            int i = 8;
 
-        //                        i++;
+                            foreach (var r in rpt)
+                            {
 
-        //                    }
+                                worksheet.Cell(i, 1).Value = r.IwRef;
+                                worksheet.Cell(i, 5).Value = r.ProjectTitle;
+                                worksheet.Cell(i, 12).Value = r.CompletionDate;
+                                worksheet.Cell(i, 15).Value = r.CompletionRefNo;
+                                worksheet.Cell(i, 19).Value = r.AmountBeforeLad;
+                                worksheet.Cell(i, 24).Value = r.LaDamage;
+                                worksheet.Cell(i, 29).Value = r.FinalPayment;
+                                i++;
+                            }
 
-        //                    int j = 54;
-        //                    var rev = rptcol.FormPBRevisionHistory;
-        //                    foreach (var r in rev)
-        //                    {
-        //                        worksheet.Cell(j, 1).Value = r.Date;
-        //                        worksheet.Cell(j, 2).Value = r.Description;
-        //                        worksheet.Cell(j, 6).Value = r.RevNo;
-        //                        j++;
-        //                    }
+                            worksheet.Cell(21, 4).Value = rptcol.UsernameSp;
+                            worksheet.Cell(22, 4).Value = rptcol.DesignationSp;
+                            worksheet.Cell(23, 4).Value = rptcol.SignDateSp;
 
-        //                    worksheet.Cell(3, 1).Value = "APPENDIX PB - " + rptcol.Rmu;
-        //                    worksheet.Cell(5, 27).Value = rptcol.RevisionNo;
-        //                    worksheet.Cell(5, 29).Value = rptcol.RevisionDate;
+                            worksheet.Cell(21, 14).Value = rptcol.UsernameEc;
+                            worksheet.Cell(22, 14).Value = rptcol.DesignationEc;
+                            worksheet.Cell(23, 14).Value = rptcol.SignDateEc;
 
-        //                    worksheet.Cell(55, 15).Value = rptcol.UserNameProsd;
-        //                    worksheet.Cell(55, 19).Value = rptcol.UserNameFclitd;
-        //                    worksheet.Cell(55, 24).Value = rptcol.UserNameAgrd;
-        //                    worksheet.Cell(55, 28).Value = rptcol.UserNameEdosd;
-        //                }
-        //            }
+                            worksheet.Cell(21, 24).Value = rptcol.UsernameSo;
+                            worksheet.Cell(22, 24).Value = rptcol.DesignationSo;
+                            worksheet.Cell(23, 24).Value = rptcol.SignDateSo;
+                        }
+                    }
 
 
-        //            using (var stream = new MemoryStream())
-        //            {
-        //                workbook.SaveAs(stream);
-        //                var content = stream.ToArray();
-        //                System.IO.File.Delete(cachefile);
-        //                return content;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        System.IO.File.Copy(Oldfilename, cachefile, true);
-        //        using (var workbook = new XLWorkbook(cachefile))
-        //        {
-        //            using (var stream = new MemoryStream())
-        //            {
-        //                workbook.SaveAs(stream);
-        //                var content = stream.ToArray();
-        //                System.IO.File.Delete(cachefile);
-        //                return content;
-        //            }
-        //        }
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        System.IO.File.Delete(cachefile);
+                        return content;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.Copy(Oldfilename, cachefile, true);
+                using (var workbook = new XLWorkbook(cachefile))
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        System.IO.File.Delete(cachefile);
+                        return content;
+                    }
+                }
 
-        //    }
-        //}
+            }
+        }
 
     }
 }

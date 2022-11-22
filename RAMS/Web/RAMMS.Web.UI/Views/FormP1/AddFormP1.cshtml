@@ -381,7 +381,7 @@
                                                                     <div class="input-group-prepend">
                                                                         <span class="input-group-text">RM</span>
                                                                     </div>
-                                                                    <input  id="txtGrandTotal" class="form-control numeric allow_numeric text-right" disabled type="text" value="">
+                                                                    <input  id="txtGrandTotal" class="form-control  text-right" disabled type="number" value="">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -409,7 +409,7 @@
         <div class="row">
         <div class="col-lg-12 my-3 h6 border py-3" style="line-height: 30px;">
             <span class="float-left"> I certify that under the terms of Contract No.  PWD/HO/P1Header0/2019  , the sum of </span>
-            <span class="float-left"><input id="txtTotalPayment"   value="@Model.FormP1Header.TotalPayment" type="number" class="form-control border-top border-right border-left" style="width: 300px;margin-left: 8px;" /></span>
+            <span class="float-left"><input id="txtDueAmount"   value="@Model.FormP1Header.DueAmount" type="text" class="form-control border-top border-right border-left" style="width: 300px;margin-left: 8px;" /></span>
             <span class="float-left px-2">
             is due to the Service Provider.</span>
         </div>
@@ -475,7 +475,7 @@
     <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
     @{
 
-        if (isSubmit && (Model.FormP1Header.Status != null && Model.FormP1Header.Status != ""))
+        if (isSubmit && (Model.FormP1Header.Status == null || Model.FormP1Header.Status == "" || Model.FormP1Header.Status == "Initialize" || Model.FormP1Header.Status == "Saved") || Model.FormP1Header.Status == RAMMS.Common.StatusList.Rejected)
         {
             <button id="saveFormP1Btn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Saved')">Save</button>
             <button id="SubmitFormP1Btn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('Submitted')">Submit</button>

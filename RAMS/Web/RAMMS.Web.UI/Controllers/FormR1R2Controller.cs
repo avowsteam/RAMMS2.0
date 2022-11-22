@@ -91,7 +91,7 @@ namespace RAMMS.Web.UI.Controllers
             grid.Columns.Add(new CDataColumns() { data = "AssetRefId", title = "Asset ID" });
             grid.Columns.Add(new CDataColumns() { data = "RefID", title = "Reference No" });
             grid.Columns.Add(new CDataColumns() { data = "Year", title = "Year of Inspection" });
-            grid.Columns.Add(new CDataColumns() { data = "InsDate", title = "Date of Inspection", render = "frmR1R2.HeaderGrid.DateOfIns" });            
+            grid.Columns.Add(new CDataColumns() { data = "InsDate", title = "Date of Inspection", render = "frmR1R2.HeaderGrid.DateOfIns" });
             grid.Columns.Add(new CDataColumns() { data = "RMUCode", title = "RMU" });
             grid.Columns.Add(new CDataColumns() { data = "RMUDesc", title = "RMU Name" });
             grid.Columns.Add(new CDataColumns() { data = "SecCode", title = "Section Code" });
@@ -183,7 +183,6 @@ namespace RAMMS.Web.UI.Controllers
             return Json(new { Id = result.PkRefNo }, JsonOption());
         }
         [HttpPost]
-        //[DisableRequestSizeLimit]
         public async Task<IActionResult> ImageUploaded(IList<IFormFile> FormFile, int headerId, string InspRefNum, List<string> PhotoType)
         {
             if (FormFile != null && FormFile.Count > 0)
@@ -235,6 +234,71 @@ namespace RAMMS.Web.UI.Controllers
             return Json(new { Message = "Sucess" });
         }
 
+
+        [HttpPost]
+        public async Task<int> ImageUploadedTab(IFormCollection filesCollection, int headerId, string Id, string photoType)
+        {
+            try
+            {
+                List<FormRImagesDTO> lstImages = new List<FormRImagesDTO>();
+
+                string photo_Type = Regex.Replace(photoType, @"[^a-zA-Z]", "");
+
+
+
+                var objExistsPhotoType = _formR1R2Service.GetExitingPhotoType(headerId).Result;
+                if (objExistsPhotoType == null) { objExistsPhotoType = new List<FormR1R2PhotoTypeDTO>(); }
+
+
+                string InspRefNum = Regex.Replace(Id, @"[^0-9a-zA-Z]+", "");
+                string wwwPath = this._webHostEnvironment.WebRootPath;
+                IFormCollection files = Request.ReadFormAsync().Result;
+
+                foreach (var file in files.Files)
+                {
+                    var objSNo = objExistsPhotoType.Where(x => x.Type == photo_Type).FirstOrDefault();
+                    if (objSNo == null) { objSNo = new FormR1R2PhotoTypeDTO() { SNO = 1, Type = photo_Type }; objExistsPhotoType.Add(objSNo); }
+                    else { objSNo.SNO = objSNo.SNO + 1; }
+
+                    string fileName = Path.GetFileName(file.FileName);
+                    string strFileUploadDir = Path.Combine("Form R1R2", InspRefNum, photoType);
+                    string strSaveDir = Path.Combine(wwwPath, "Uploads", strFileUploadDir);
+                    string strSysFileName = InspRefNum + "_" + photoType + "_" + objSNo.SNO.ToString("000");
+                    string strUploadFileName = objSNo.SNO.ToString() + "_" + photoType + "_" + fileName;
+                    if (!Directory.Exists(strSaveDir)) { Directory.CreateDirectory(strSaveDir); }
+                    using (FileStream stream = new FileStream(Path.Combine(strSaveDir, strUploadFileName), FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    lstImages.Add(new FormRImagesDTO()
+                    {
+                        ActiveYn = true,
+                        CrBy = _security.UserID,
+                        ModBy = _security.UserID,
+                        CrDt = DateTime.UtcNow,
+                        ModDt = DateTime.UtcNow,
+                        FR1hPkRefNo = headerId,
+                        ImageFilenameSys = strSysFileName,
+                        ImageFilenameUpload = strUploadFileName,
+                        ImageSrno = objSNo.SNO,
+                        ImageTypeCode = photo_Type,
+                        ImageUserFilePath = strFileUploadDir,
+                        SubmitSts = true
+                    });
+
+                }
+                if (lstImages.Count > 0)
+                {
+                    var a = await _formR1R2Service.AddMultiImage(lstImages);
+                    return 1;
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public IActionResult ImageList(int headerId)
         {
             return Json(_formR1R2Service.ImageList(headerId), JsonOption());

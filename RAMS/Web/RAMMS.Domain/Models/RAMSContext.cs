@@ -17079,6 +17079,11 @@ namespace RAMMS.Domain.Models
                     .HasMaxLength(250)
                     .IsUnicode(false);
 
+                entity.Property(e => e.PchDueAmount)
+                    .HasColumnName("PCH_Due_Amount")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.PchNetValueAddition)
                     .HasColumnName("PCH_Net_Value_Addition")
                     .HasColumnType("decimal(18, 2)");
@@ -17129,8 +17134,7 @@ namespace RAMMS.Domain.Models
 
                 entity.Property(e => e.PchTotalPayment)
                     .HasColumnName("PCH_Total_Payment")
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
+                    .HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.PchUseridSo).HasColumnName("PCH_Userid_SO");
 
@@ -17984,14 +17988,11 @@ namespace RAMMS.Domain.Models
 
             modelBuilder.Entity<RmUcua>(entity =>
             {
-                entity.HasKey(e => e.RmmhPkRefNo)
-                    .HasName("PK__RM_UCUA__8BF27D9A5D15EF08");
+                entity.HasKey(e => e.RmmhPkRefNo);
 
                 entity.ToTable("RM_UCUA");
 
-                entity.Property(e => e.RmmhPkRefNo)
-                    .HasColumnName("RMMH_PK_Ref_No")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.RmmhPkRefNo).HasColumnName("RMMH_PK_Ref_No");
 
                 entity.Property(e => e.RmmhActionDescription)
                     .HasColumnName("RMMH_Action_Description")
@@ -18002,6 +18003,10 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("RMMH_Action_Taken_By")
                     .HasMaxLength(100)
                     .IsUnicode(false);
+
+                entity.Property(e => e.RmmhActiveYn).HasColumnName("RMMH_Active_YN");
+
+                entity.Property(e => e.RmmhAuditLog).HasColumnName("RMMH_AuditLog");
 
                 entity.Property(e => e.RmmhCommentsOfficeUse)
                     .HasColumnName("RMMH_Comments_Office_Use")
@@ -18073,20 +18078,16 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("RMMH_Status")
                     .HasMaxLength(100);
 
-                entity.Property(e => e.RmmhUnsafeAct)
-                    .HasColumnName("RMMH_Unsafe_Act")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                entity.Property(e => e.RmmhSubmitYn).HasColumnName("RMMH_SUBMIT_YN");
+
+                entity.Property(e => e.RmmhUnsafeAct).HasColumnName("RMMH_Unsafe_Act");
 
                 entity.Property(e => e.RmmhUnsafeActDescription)
                     .HasColumnName("RMMH_Unsafe_Act_Description")
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
-                entity.Property(e => e.RmmhUnsafeCondition)
-                    .HasColumnName("RMMH_Unsafe_Condition")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                entity.Property(e => e.RmmhUnsafeCondition).HasColumnName("RMMH_Unsafe_Condition");
 
                 entity.Property(e => e.RmmhUnsafeConditionDescription)
                     .HasColumnName("RMMH_Unsafe_Condition_Description")

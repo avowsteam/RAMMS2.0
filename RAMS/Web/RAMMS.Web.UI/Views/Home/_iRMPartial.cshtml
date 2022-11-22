@@ -105,17 +105,17 @@
     $(document).ready(function () {
 
         if ('@isIRUpdate' == 'True') {
-        //     const IRIlabels2 = [
-        //    'RMI',
-        //    'Condition 1',
-        //    'Condition 2',
-        //    'Condition 3'
-        //];
+             const IRIlabels2 = [
+            'RMI',
+            'Condition 1',
+            'Condition 2',
+            'Condition 3'
+        ];
         const IRIdata2 = {
-            //labels: IRIlabels2,
+            labels: IRIlabels2,
             datasets: [
                 {
-                    label: ['RMI', 'Condition 1', 'Condition 2', 'Condition 3'],
+                    label: [],
                     data: [@roadLength, @roadLength1, @roadLength2, @roadLength3],
                     backgroundColor: [
                         'rgba(0, 107, 180, 1)',
@@ -141,7 +141,11 @@
                     display: false
                 },
                 tooltips: {
-                    enabled: false
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return tooltipItem.yLabel;
+                        }
+                    }
                 }
             }
         };

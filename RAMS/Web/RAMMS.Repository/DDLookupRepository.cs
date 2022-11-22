@@ -299,8 +299,15 @@ namespace RAMS.Repository
                 RmiiriYear = a.RmiiriYear
             }).ToListAsync();
         }
+
+        public async Task<List<int>> GetIRIYears()
+        {
+            return await _context.RmRmiIri.GroupBy(a => a.RmiiriYear).Select(a => a.Key.Value).ToListAsync();
+
+        }
+
         #endregion
-        
+
         public async Task<IEnumerable<FormAHeaderRequestDTO>> GetDdYearDetails()
         {
             return await (from a  in _context.RmFormFsInsHdr

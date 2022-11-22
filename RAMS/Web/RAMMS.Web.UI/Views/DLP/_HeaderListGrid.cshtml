@@ -13,9 +13,9 @@
 </div>
 <script src="~/js/CDTGrid.js"></script>
 <script>
-    var isModifyPerm = @security.IsPCModify(ModuleNameList.NOD).ToString().ToLowerInvariant()? "" : "hidden";
-    var isDeletePerm =@security.IsPCDelete(ModuleNameList.NOD).ToString().ToLowerInvariant()? "" : "hidden";
-    var isViewPerm = @security.IsPCView(ModuleNameList.NOD).ToString().ToLowerInvariant() ? "" : 'hidden';
+    var isModifyPerm = @security.IsPCModify(ModuleNameList.Detailed_Landing_Page).ToString().ToLowerInvariant()? "" : "hidden";
+    var isDeletePerm =@security.IsPCDelete(ModuleNameList.Detailed_Landing_Page).ToString().ToLowerInvariant()? "" : "hidden";
+    var isViewPerm = @security.IsPCView(ModuleNameList.Detailed_Landing_Page).ToString().ToLowerInvariant() ? "" : 'hidden';
 
     var table_columns = [];
     var actionCol = {
@@ -38,10 +38,10 @@
     };
     var rmiirirkrefnoCol = { data: "rmiiriPkRefNo", name: "RmiiriPkRefNo", title: "NO", autoWidth: true, sortable: false, visible: false };
     var rmiiriyearCol = { data: "rmiiriYear", name: "RmiiriYear", title: "Year", autoWidth: true, sortable: true };
-    var rmiiriroadlength1Col = { data: "rmiiriRoadLength1", name: "RmiiriRoadLength1", title: "IRI Condition 1 (KM)", autoWidth: true, sortable: true };
-    var rmiiriroadlength2Col = { data: "rmiiriRoadLength2", name: "RmiiriRoadLength2", title: "IRI Condition 2 (KM)", autoWidth: true, sortable: true };
-    var rmiiriroadlength3Col = { data: "rmiiriRoadLength3", name: "Section Code", title: "IRI Condition 3 (KM)", autoWidth: true, sortable: true };
-    var rmiiriroadlengthCol = { data: "rmiiriRoadLength", name: "RmiiriRoadLength", title: "RMI (KM)", autoWidth: true, sortable: true };
+    var rmiiriroadlength1Col = { data: "rmiiriRoadLength1", name: "RmiiriRoadLength1", title: "IRI Condition 1 (KM)", autoWidth: true, sortable: true, format: "C2" };
+    var rmiiriroadlength2Col = { data: "rmiiriRoadLength2", name: "RmiiriRoadLength2", title: "IRI Condition 2 (KM)", autoWidth: true, sortable: true, format: "C2" };
+    var rmiiriroadlength3Col = { data: "rmiiriRoadLength3", name: "Section Code", title: "IRI Condition 3 (KM)", autoWidth: true, sortable: true, format: "C2" };
+    var rmiiriroadlengthCol = { data: "rmiiriRoadLength", name: "RmiiriRoadLength", title: "RMI (KM)", autoWidth: true, sortable: true, format: "C2" };
 
     table_columns.push(rmiirirkrefnoCol);
     table_columns.push(actionCol);
@@ -88,6 +88,10 @@
 
     $(document).ready(function () {
         InitializeGrid();
+        //$('#SearchRmiiriYear').change(function () {
+        //    var itemID = $('#SearchRmiiriYear').val();
+        //    //InitializeGrid();
+        //});
         //Apply Custom search on jQuery DataTables here
         oHdrTable = $('#FormAGridView').DataTable();
         $("#FormASmartSearch").on("keyup", function (event) {
@@ -98,7 +102,7 @@
                 $("#formASearchBtn").click();
             }
         })
-        $('#formASearchBtn').click(function () {
+        $('#SearchRmiiriYear').change(function () {
             //debugger;
             oHdrTable.columns(0).search($("#FormASmartSearch").val().trim());
             oHdrTable.columns(1).search($("#formADetSrchRMU").val().trim());
@@ -111,7 +115,7 @@
             }
             oHdrTable.columns(4).search($("#formADetSrchAsstGrp").val().trim());
             oHdrTable.columns(5).search($("#formADetSrchMonth").val().trim());
-            oHdrTable.columns(6).search($("#formADetSrchYear").val().trim());
+            oHdrTable.columns(6).search($("#SearchRmiiriYear").val().trim());
             oHdrTable.columns(7).search($("#formAFromKm").val().trim());
             oHdrTable.columns(8).search($("#formAFromM").val().trim());
             oHdrTable.columns(9).search($("#formAToKm").val().trim());

@@ -24,7 +24,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<int> UpdateFormP1(FormP1HeaderResponseDTO FormP1Header, List<FormP1ResponseDTO> FormP1Detail);
         int? DeleteFormP1(int id);
 
-      //  Task<byte[]> FormDownload(string formname, int id, string filepath);
+        Task<byte[]> FormDownload(string formname, int id, string filepath);
 
     }
 }

@@ -142,7 +142,8 @@ namespace RAMMS.Repository
                 WorkValueDeduction = s.x.PcmamwWorkValueDeduction,
                 WorkValueAddition = s.x.PcmamwWorkValueAddition,
                 SignDateSp = s.x.PcmamwSignDateSp,
-                Status = s.x.PcmamwStatus
+                Status = s.x.PcmamwStatus,
+                SubmitSts = s.x.PcmamwSubmitSts
             }).ToList();
 
 

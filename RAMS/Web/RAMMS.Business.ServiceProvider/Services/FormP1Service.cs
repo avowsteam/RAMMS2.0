@@ -56,12 +56,12 @@ namespace RAMMS.Business.ServiceProvider.Services
             RmPaymentCertificateHeader res = _repo.GetHeaderById(id);
             FormP1HeaderResponseDTO P1 = new FormP1HeaderResponseDTO();
             P1 = _mapper.Map<FormP1HeaderResponseDTO>(res);
-            P1.FormP1Details= _mapper.Map<List<FormP1ResponseDTO>>(res.RmPaymentCertificate);
-           
+            P1.FormP1Details = _mapper.Map<List<FormP1ResponseDTO>>(res.RmPaymentCertificate);
+
             return P1;
         }
 
-       
+
 
 
         public async Task<int> SaveFormP1(FormP1HeaderResponseDTO FormP1)
@@ -166,107 +166,107 @@ namespace RAMMS.Business.ServiceProvider.Services
         ////    return await _repo.GetReportData(headerid);
         ////}
 
-        //public async Task<byte[]> FormDownload(string formname, int id, string filepath)
-        //{
-        //    string Oldfilename = "";
-        //    string filename = "";
-        //    string cachefile = "";
-        //    if (!filepath.Contains(".xlsx"))
-        //    {
-        //        Oldfilename = filepath + formname + ".xlsx";
-        //        filename = formname + DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString();
-        //        cachefile = filepath + filename + ".xlsx";
-        //    }
-        //    else
-        //    {
-        //        Oldfilename = filepath;
-        //        filename = filepath.Replace(".xlsx", DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString() + ".xlsx");
-        //        cachefile = filename;
-        //    }
+        public async Task<byte[]> FormDownload(string formname, int id, string filepath)
+        {
+            string Oldfilename = "";
+            string filename = "";
+            string cachefile = "";
+            if (!filepath.Contains(".xlsx"))
+            {
+                Oldfilename = filepath + formname + ".xlsx";
+                filename = formname + DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString();
+                cachefile = filepath + filename + ".xlsx";
+            }
+            else
+            {
+                Oldfilename = filepath;
+                filename = filepath.Replace(".xlsx", DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString() + ".xlsx");
+                cachefile = filename;
+            }
 
-        //    try
-        //    {
-        //        FormP1ResponseDTO rptcol = await this.GetHeaderById(id);
-        //        var rpt = rptcol.FormP1History;
-        //        System.IO.File.Copy(Oldfilename, cachefile, true);
-        //        using (var workbook = new XLWorkbook(cachefile))
-        //        {
-        //            for (int sheet = 1; sheet <= 1; sheet++)
-        //            {
-        //                IXLWorksheet worksheet;
-        //                workbook.Worksheets.TryGetWorksheet($"sheet{sheet}", out worksheet);
+            try
+            {
+                FormP1HeaderResponseDTO rptcol = await this.GetHeaderById(id);
+                var rpt = rptcol.FormP1Details;
+                System.IO.File.Copy(Oldfilename, cachefile, true);
+                using (var workbook = new XLWorkbook(cachefile))
+                {
+                    for (int sheet = 1; sheet <= 1; sheet++)
+                    {
+                        IXLWorksheet worksheet;
+                        workbook.Worksheets.TryGetWorksheet($"sheet{sheet}", out worksheet);
 
-        //                if (worksheet != null)
-        //                {
-        //                    int i = 10;
+                        if (worksheet != null)
+                        {
+                            int i = 27;
 
-        //                    foreach (var r in rpt)
-        //                    {
+                            foreach (var r in rpt)
+                            {
 
-        //                        worksheet.Cell(i, 5).Value = r.InvCond1;
-        //                        worksheet.Cell(i, 6).Value = r.InvCond2;
-        //                        worksheet.Cell(i, 7).Value = r.InvCond3;
-        //                        worksheet.Cell(i, 9).Value = r.SlCond1;
-        //                        worksheet.Cell(i, 10).Value = r.SlCond2;
-        //                        worksheet.Cell(i, 11).Value = r.SlCond3;
-        //                        worksheet.Cell(i, 17).Value = r.CdcLabour;
-        //                        worksheet.Cell(i, 18).Value = r.CdcEquipment;
-        //                        worksheet.Cell(i, 19).Value = r.CdcMaterial;
-        //                        worksheet.Cell(i, 21).Value = r.AverageDailyProduction;
-        //                        worksheet.Cell(i, 22).Value = r.UnitOfService;
-        //                        worksheet.Cell(i, 25).Value = r.SlAvgDesired;
-
-        //                        i++;
-
-        //                    }
-
-        //                    int j = 54;
-        //                    var rev = rptcol.FormP1RevisionHistory;
-        //                    foreach (var r in rev)
-        //                    {
-        //                        worksheet.Cell(j, 1).Value = r.Date;
-        //                        worksheet.Cell(j, 2).Value = r.Description;
-        //                        worksheet.Cell(j, 6).Value = r.RevNo;
-        //                        j++;
-        //                    }
-
-        //                    worksheet.Cell(3, 1).Value = "APPENDIX P1 - " + rptcol.Rmu;
-        //                    worksheet.Cell(5, 27).Value = rptcol.RevisionNo;
-        //                    worksheet.Cell(5, 29).Value = rptcol.RevisionDate;
-
-        //                    worksheet.Cell(55, 15).Value = rptcol.UserNameProsd;
-        //                    worksheet.Cell(55, 19).Value = rptcol.UserNameFclitd;
-        //                    worksheet.Cell(55, 24).Value = rptcol.UserNameAgrd;
-        //                    worksheet.Cell(55, 28).Value = rptcol.UserNameEdosd;
-        //                }
-        //            }
+                                worksheet.Cell(i, 10).Value = r.Amount;
+                                worksheet.Cell(i, 13).Value = r.Addition;
+                                worksheet.Cell(i, 16).Value = r.Deduction;
+                                worksheet.Cell(i, 19).Value = r.PreviousPayment;
+                                //worksheet.Cell(i, 22).Value = r.TotalToDate;
+                                //worksheet.Cell(i, 25).Value = r.AmountIncludedInPc;
+                                i++;
+                            }
 
 
-        //            using (var stream = new MemoryStream())
-        //            {
-        //                workbook.SaveAs(stream);
-        //                var content = stream.ToArray();
-        //                System.IO.File.Delete(cachefile);
-        //                return content;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        System.IO.File.Copy(Oldfilename, cachefile, true);
-        //        using (var workbook = new XLWorkbook(cachefile))
-        //        {
-        //            using (var stream = new MemoryStream())
-        //            {
-        //                workbook.SaveAs(stream);
-        //                var content = stream.ToArray();
-        //                System.IO.File.Delete(cachefile);
-        //                return content;
-        //            }
-        //        }
+                            worksheet.Cell(4, 24).Value = rptcol.PaymentCertificateNo;
+                            worksheet.Cell(9, 20).Value = rptcol.Bank;
+                            worksheet.Cell(10, 7).Value = rptcol.Address;
+                            worksheet.Cell(10, 20).Value = rptcol.BankAccNo;
+                            worksheet.Cell(11, 20).Value = rptcol.Assignee;
+                            worksheet.Cell(14, 20).Value = rptcol.SubmissionDate; //ContractsEndsOn date
 
-        //    }
-        //}
+
+
+
+                            worksheet.Cell(17, 20).Value = rptcol.ContractRoadLength;
+                            worksheet.Cell(18, 20).Value = rptcol.NetValueDeduction;
+                            worksheet.Cell(19, 20).Value = rptcol.NetValueAddition;
+                            worksheet.Cell(20, 20).Value = rptcol.NetValueInstructedWork;
+                            worksheet.Cell(21, 20).Value = rptcol.NetValueLadInstructedWork;
+
+                            worksheet.Cell(23, 13).Value = rptcol.SubmissionMonth;
+                            worksheet.Cell(23, 19).Value = rptcol.SubmissionYear;
+
+                            worksheet.Cell(40, 3).Value = "I certify that under the terms of Contract No.PWD / HO / B130 / 2019  , the sum of Ringgit Malaysia(" + rptcol.DueAmount + ") is due to the Service Provider.";
+
+                            worksheet.Cell(47, 18).Value = rptcol.UsernameSo;
+                            worksheet.Cell(48, 18).Value = rptcol.DesignationSo;
+                            worksheet.Cell(49, 18).Value = rptcol.SignDateSo;
+
+                        }
+                    }
+
+
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        System.IO.File.Delete(cachefile);
+                        return content;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.Copy(Oldfilename, cachefile, true);
+                using (var workbook = new XLWorkbook(cachefile))
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        System.IO.File.Delete(cachefile);
+                        return content;
+                    }
+                }
+
+            }
+        }
 
     }
 }

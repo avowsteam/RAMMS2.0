@@ -258,6 +258,7 @@ namespace RAMMS.Web.UI.Controllers
             ddlookup.Type = "Section Code";
             ViewData["Section"] = await _ddLookupService.GetDdLookup(ddlookup);
             ViewData["DLPSPLYear"] = await _landingHomeService.GetDLPSPYears();
+            ViewData["RMIIRIYear"] = await _landingHomeService.GetIRIYears();
             ViewData["RFCYear"] = _ddLookupService.GetDdYearDetails().Result;
            // DllHeaderRequestDTO.RFCYear = _ddLookupService.GetDdYearDetails().Result;
             ViewData["RFCRMU"] = _ddLookupService.GetDdRMUDetails().Result;

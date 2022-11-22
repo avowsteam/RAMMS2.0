@@ -10,9 +10,9 @@ namespace RAMMS.Domain.Models
         public string RmmhReportingName { get; set; }
         public string RmmhLocation { get; set; }
         public string RmmhWorkScope { get; set; }
-        public string RmmhUnsafeAct { get; set; }
+        public bool RmmhUnsafeAct { get; set; }
         public string RmmhUnsafeActDescription { get; set; }
-        public string RmmhUnsafeCondition { get; set; }
+        public bool RmmhUnsafeCondition { get; set; }
         public string RmmhUnsafeConditionDescription { get; set; }
         public string RmmhImprovementRecommendation { get; set; }
         public DateTime? RmmhDateReceived { get; set; }
@@ -28,5 +28,8 @@ namespace RAMMS.Domain.Models
         public string RmmhEffectivenessActionTakenBy { get; set; }
         public string RmmhEffectivenessActionDescription { get; set; }
         public string RmmhStatus { get; set; }
+        public bool RmmhActiveYn { get; set; }
+        public bool RmmhSubmitYn { get; set; }
+        public string RmmhAuditLog { get; set; }
     }
 }

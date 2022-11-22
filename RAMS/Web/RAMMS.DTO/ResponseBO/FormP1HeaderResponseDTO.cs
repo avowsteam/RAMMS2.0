@@ -33,7 +33,9 @@ namespace RAMMS.DTO.ResponseBO
         public decimal? NetValueAddition { get; set; }
         public decimal? NetValueInstructedWork { get; set; }
         public decimal? NetValueLadInstructedWork { get; set; }
-        public string TotalPayment { get; set; }
+        public decimal? TotalPayment { get; set; }
+        public string DueAmount { get; set; }
+
         public bool SignSo { get; set; }
         public int? UseridSo { get; set; }
         public string UsernameSo { get; set; }

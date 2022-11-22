@@ -33,11 +33,11 @@ function DisableHeader() {
         $("#btnFindDetails").hide();
     }
 
-    if ($("#hdnView").val() == 1) {
-        $("#saveFormPBBtn").hide();
-        $("#SubmitFormPBBtn").hide();
+    //if ($("#hdnView").val() == 1) {
+    //    $("#saveFormPBBtn").hide();
+    //    $("#SubmitFormPBBtn").hide();
 
-    }
+    //}
 
 
 }

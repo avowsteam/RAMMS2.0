@@ -116,7 +116,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                     iResult = await SaveFormF1(process);
                     break;
                 case "frmM":
-                    iResult = await SaveFormM(process);
+                    iResult = await 
+                        SaveFormM(process);
                     break;
                 case "FormT":
                     iResult = await SaveFormT(process);
@@ -142,6 +143,9 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                 case "frmMap":
                     iResult = await SaveFormMap(process);
+                    break;
+                case "FrmUCUA":
+                    iResult = await SaveFormUCUA(process);
                     break;
 
             }
@@ -288,6 +292,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                     break;
                 case "FormMap":
                     logs = this.context.RmMapHeader.Where(x => x.RmmhPkRefNo == RefId).Select(x => x.RmmhAuditlog).FirstOrDefault();
+                    break;
+                case "FormUCUA":
+                    logs = this.context.RmUcua.Where(x => x.RmmhPkRefNo == RefId).Select(x => x.RmmhAuditLog).FirstOrDefault();
                     break;
             }
             return Utility.ProcessLog(logs);
@@ -2926,6 +2933,72 @@ namespace RAMMS.Business.ServiceProvider.Services
                 form.RmmhAuditlog = Utility.ProcessLog(form.RmmhAuditlog, strTitle, process.IsApprove ? strStatus : "Rejected", process.UserName, process.Remarks, process.ApproveDate, security.UserName);
                 strNotMsg = (process.IsApprove ? "" : "Rejected - ") + strTitle + ":" + process.UserName + " - Form Map (" + form.RmmhPkRefNo + ")";
                 strNotURL = "/FormMap/Edit/" + form.RmmhPkRefNo.ToString() + "?View=0";
+                SaveNotification(new RmUserNotification()
+                {
+                    RmNotCrBy = security.UserName,
+                    RmNotGroup = strNotGroupName,
+                    RmNotMessage = strNotMsg,
+                    RmNotOn = DateTime.Now,
+                    RmNotUrl = strNotURL,
+                    RmNotUserId = strNotUserID,
+                    RmNotViewed = ""
+                }, false);
+            }
+            return await context.SaveChangesAsync();
+        }
+        private async Task<int> SaveFormUCUA(DTO.RequestBO.ProcessDTO process)
+        {
+            var form = context.RmUcua.Where(x => x.RmmhPkRefNo == process.RefId).FirstOrDefault();
+            if (form != null)
+            {
+                string strTitle = "";
+                string strNotURL = "";
+                string strNotMsg = "";
+                string strNotGroupName = "";
+                string strNotUserID = "";
+                string strStatus = "";
+                string strNotStatus = "";
+                var OldReferenceNo = (form.RmmhRefId).Split("/");
+
+
+                if (process.Stage == Common.StatusList.FormUcuaSubmitted)
+                {
+                    //strNotGroupName = process.IsApprove ? GroupNames.OpeHeadMaintenance : GroupNames.Supervisor;
+                    form.RmmhStatus = process.IsApprove ? Common.StatusList.FormUcuaVerified : Common.StatusList.FormUcuaSaved;
+                    if (OldReferenceNo.Length > 2)
+                    {
+                        //form.RmmhRefId = OldReferenceNo[0] + "/" + OldReferenceNo[1] + "/" + form.RmmhDateReceived + "/" + OldReferenceNo[2];
+
+                        form.RmmhRefId = OldReferenceNo[0] + "/" + OldReferenceNo[1] + "/" + ((form.RmmhDateReceived.Value).ToString("yyyyMMdd")) + "/" + process.RefId;
+                    }
+                    
+                    strTitle = "Verified By";
+                    strStatus = "Verified";
+                    strNotStatus = Common.StatusList.FormUcuaSaved;
+                    //form.FmhUseridWit = Convert.ToInt32(process.UserID);
+                    //form.FmhUsernameWit = process.UserName;
+                    //form.FmhDesignationWit = process.UserDesignation;
+                    //form.FmhDateWit = process.ApproveDate;
+                    //form.FmhSignWit = true;
+                }
+
+                if (process.IsApprove)
+                {
+                    List<int> lstNotUserId = new List<int>();
+
+                    strNotUserID = string.Join(",", lstNotUserId.Distinct());
+                }
+                else
+                {
+                    if (process.Stage == Common.StatusList.FormUcuaSubmitted)
+                    {
+                        form.RmmhSubmitYn = false;
+                    }
+                }
+
+                form.RmmhAuditLog = Utility.ProcessLog(form.RmmhAuditLog, strTitle, process.IsApprove ? strStatus : "Rejected", process.UserName, process.Remarks, process.ApproveDate, security.UserName);
+                strNotMsg = (process.IsApprove ? "" : "Rejected - ") + strTitle + ":" + process.UserName + " - Form UCUA (" + form.RmmhPkRefNo + ")";
+              //  strNotURL = "/FormM/Edit/" + form.RmmhPkRefNo.ToString() + "?View=0";
                 SaveNotification(new RmUserNotification()
                 {
                     RmNotCrBy = security.UserName,

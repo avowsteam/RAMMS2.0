@@ -36,21 +36,25 @@ namespace RAMMS.Repository
 
             query = query.OrderByDescending(x => x.hdr.PbiwPkRefNo);
 
-          
+
 
             if (filterOptions.Filters.ProjectTitle != null && filterOptions.Filters.ProjectTitle != string.Empty)
             {
                 query = (from hdr in _context.RmPbIw
-                         from dtl in _context.RmPbIwDetails.Where(a => a.PbiwdPbiwPkRefNo == hdr.PbiwPkRefNo).DefaultIfEmpty()
-                         where dtl.PbiwdProjectTitle.Contains(filterOptions.Filters.ProjectTitle)
+                         let dtl = _context.RmPbIwDetails.FirstOrDefault(s => s.PbiwdPbiwPkRefNo == hdr.PbiwPkRefNo && s.PbiwdProjectTitle.Contains(filterOptions.Filters.ProjectTitle))
                          select new { hdr, dtl });
+                query = query.Where(s => s.dtl != null);
             }
 
             if (filterOptions.Filters.IWRefNo != null && filterOptions.Filters.IWRefNo != string.Empty)
             {
-                query = query.Where(s => s.hdr.PbiwRefId == filterOptions.Filters.IWRefNo);
+                query = (from hdr in _context.RmPbIw
+                         let dtl = _context.RmPbIwDetails.FirstOrDefault(s => s.PbiwdPbiwPkRefNo == hdr.PbiwPkRefNo && s.PbiwdIwRef.Contains(filterOptions.Filters.IWRefNo))
+                         select new { hdr, dtl });
+                query = query.Where(s => s.dtl != null);
             }
 
+            
 
             if ((filterOptions.Filters.YearTo == null || filterOptions.Filters.YearTo == string.Empty) && (filterOptions.Filters.YearFrom != null && filterOptions.Filters.YearFrom != string.Empty))
                 query = query.Where(s => s.hdr.PbiwSubmissionYear >= Convert.ToInt32(filterOptions.Filters.YearFrom));
@@ -71,7 +75,7 @@ namespace RAMMS.Repository
             if (!string.IsNullOrEmpty(filterOptions.Filters.SmartSearch))
             {
                 query = query.Where(s =>
-               (s.hdr.PbiwRefId.Contains(filterOptions.Filters.SmartSearch)) ||
+               (s.dtl.PbiwdIwRef.Contains(filterOptions.Filters.SmartSearch)) ||
                (s.hdr.PbiwStatus.Contains(filterOptions.Filters.SmartSearch)) ||
                (s.dtl.PbiwdProjectTitle.Contains(filterOptions.Filters.SmartSearch)) ||
                (s.hdr.PbiwSubmissionYear.HasValue ? s.hdr.PbiwSubmissionYear.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
@@ -84,7 +88,7 @@ namespace RAMMS.Repository
                 if (DateTime.TryParseExact(filterOptions.Filters.SmartSearch, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dt))
                 {
                     query = query.Where(s =>
-               (s.hdr.PbiwRefId.Contains(filterOptions.Filters.SmartSearch)) ||
+               (s.dtl.PbiwdIwRef.Contains(filterOptions.Filters.SmartSearch)) ||
                (s.hdr.PbiwStatus.Contains(filterOptions.Filters.SmartSearch)) ||
                (s.dtl.PbiwdProjectTitle.Contains(filterOptions.Filters.SmartSearch)) ||
                (s.hdr.PbiwSubmissionYear.HasValue ? s.hdr.PbiwSubmissionYear.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
@@ -94,7 +98,7 @@ namespace RAMMS.Repository
                 else
                 {
                     query = query.Where(s =>
-               (s.hdr.PbiwRefId.Contains(filterOptions.Filters.SmartSearch)) ||
+               (s.dtl.PbiwdIwRef.Contains(filterOptions.Filters.SmartSearch)) ||
                (s.hdr.PbiwStatus.Contains(filterOptions.Filters.SmartSearch)) ||
                (s.dtl.PbiwdProjectTitle.Contains(filterOptions.Filters.SmartSearch)) ||
                (s.hdr.PbiwSubmissionYear.HasValue ? s.hdr.PbiwSubmissionYear.Value.ToString() : "").Contains(filterOptions.Filters.SmartSearch) ||
@@ -112,7 +116,7 @@ namespace RAMMS.Repository
                 if (filterOptions.ColumnIndex == 4)
                     query = query.OrderBy(s => s.hdr.PbiwSubmissionMonth);
                 if (filterOptions.ColumnIndex == 5)
-                    query = query.OrderBy(s => s.hdr.PbiwSubmissionDate);
+                    query = query.OrderBy(s => s.hdr.PbiwSignDateSo);
                 if (filterOptions.ColumnIndex == 6)
                     query = query.OrderBy(s => s.hdr.PbiwAmountBeforeLad);
                 if (filterOptions.ColumnIndex == 7)
@@ -133,7 +137,7 @@ namespace RAMMS.Repository
                 if (filterOptions.ColumnIndex == 4)
                     query = query.OrderByDescending(s => s.hdr.PbiwSubmissionMonth);
                 if (filterOptions.ColumnIndex == 5)
-                    query = query.OrderByDescending(s => s.hdr.PbiwSubmissionDate);
+                    query = query.OrderByDescending(s => s.hdr.PbiwSignDateSo);
                 if (filterOptions.ColumnIndex == 6)
                     query = query.OrderByDescending(s => s.hdr.PbiwAmountBeforeLad);
                 if (filterOptions.ColumnIndex == 7)
@@ -153,11 +157,12 @@ namespace RAMMS.Repository
                 RefId = s.hdr.PbiwRefId,
                 SubmissionYear = s.hdr.PbiwSubmissionYear,
                 SubmissionMonth = s.hdr.PbiwSubmissionMonth,
-                SubmissionDate = s.hdr.PbiwSubmissionDate,
+                SubmissionDate = s.hdr.PbiwSignDateSo,
                 AmountBeforeLad = s.hdr.PbiwAmountBeforeLad,
                 LaDamage = s.hdr.PbiwLaDamage,
                 FinalPayment = s.hdr.PbiwFinalPayment,
-                Status = s.hdr.PbiwStatus
+                Status = s.hdr.PbiwStatus,
+                SubmitSts = s.hdr.PbiwSubmitSts
             }).ToList();
 
 

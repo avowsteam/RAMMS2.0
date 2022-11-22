@@ -67,10 +67,17 @@
     <script src="~/js/AutoComplete/AutoComplete.js"></script>
     <script src="~/js/UserNofication.js" asp-append-version="true"></script>
     <script src="~/js/Process.js" asp-append-version="true"></script>
+
     <script type="text/javascript">
         _APPLocation = "@Url.Content("~/home").Replace("/home", "/")";
     </script>
     @RenderSection("header", false)
+
+    <style>
+        #mnuci {
+            top: -175.33px !important
+        }
+    </style>
 </head>
 <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl navbar-vertical-aside-mini-mode">
     <div id="page-preloader">
@@ -274,7 +281,7 @@
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Condition Inspection</span>
                                 </a>
 
-                                <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;">
+                                <ul id="mnuci" class="js-navbar-vertical-aside-submenu nav nav-sub" style="transition: unset; display: none;  top: -175.33px !important">
                                     <li class="nav-link custom-menu">
                                         <ul>
                                             <li class="nav-item">
@@ -327,6 +334,9 @@
                                             </li>
                                             <li class="nav-item">
                                                 <a href="@Url.Action("Index", "FrmT")" class="nav-link"><span class="text-truncate">Traffic Volume Count Form (Form T)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="@Url.Action("Index", "FrmUCUA")" class="nav-link"><span class="text-truncate">Unsafe Condition & Action (UCUA) </span></a>
                                             </li>
                                         </ul>
 

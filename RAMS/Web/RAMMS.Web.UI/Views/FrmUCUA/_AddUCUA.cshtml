@@ -1,0 +1,553 @@
+﻿@using RAMMS.DTO.RequestBO;
+@using RAMMS.Business.ServiceProvider;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IUserService usr
+
+@inject RAMMS.Business.ServiceProvider.Interfaces.IDDLookUpService ddlService
+@model RAMMS.Web.UI.Models.FormUCUAModel;
+@inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+@{
+    //ViewBag.TabTitle = "ASSET MAINTANENCE - Form N1 - Road Asset Management and Maintenance System";
+    //ViewData["Title"] = "ASSET MAINTANENCE - Form N1 - Road Asset Management and Maintenance System";
+
+    Layout = "~/Views/Shared/_PortalLayout.cshtml";
+    
+    bool isSubmit = (security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsExecutive || security.IsInstructedWorkEngg || security.isEnggAssistant || security.IsSupervisor || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
+    bool IsApproved = (security.isOperRAMSExecutive || security.IsHeadMaintenance || security.IsRegionManager || security.IsExecutive || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.isPlanningEngineer || security.IsJKRSHQ || security.IsDivisonalEngg || security.IsJKRSSuperiorOfficer);
+    var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
+    var username = security.UserName;
+    
+}
+@*(security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg || security.isOperRAMSExecutive || security.IsExecutive || security.IsInstructedWorkEngg || security.IsHeadMaintenance || security.IsRegionManager);*@
+
+<link href="~/js/jquery.timeentry/jquery.timeentry.css" rel="stylesheet">
+<script src="~/js/jquery.timeentry/jquery.plugin.js"></script>
+<script src="~/js/jquery.timeentry/jquery.timeentry.js"></script>
+<script type="text/javascript" src="~/js/FormUCUA.js" asp-append-version="true"></script>
+<style>
+    .disabled {
+        pointer-events: none;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+         <div class="row bg-white pt-2">
+        <div class="col-lg-12">
+            <div class="w-100">
+                <div class="body-header">
+                    <div class="d-flex justify-content-center py-1">
+                        <div id="" class="form-group mb-0">
+                            @Html.Label("UCUA Reference No.", "UCUA Reference No.", new { style = "float:left; padding: .5rem .5rem 0 !important;" })
+                            @Html.HiddenFor(model => model.FormUCUA.Status, new { @class = "form-control", @id = "Status" })
+                            @Html.HiddenFor(model => model.FormUCUA.SubmitYn, new { @class = "form-control", @id = "SubmitYn" })
+                            @Html.HiddenFor(model => model.FormUCUA.PkRefNo, new { @class = "form-control", @id = "PkRefNo" })
+                            @Html.HiddenFor(model => model.FormUCUA.hdnActionTakenBy, new { @class = "form-control", @id = "hdnActionTakenBy" })
+                            @Html.HiddenFor(model => model.FormUCUA.hdnEffectivenessActionTakenBy, new { @class = "form-control", @id = "hdnEffectivenessActionTakenBy" })
+                            @Html.TextBoxFor(model => model.FormUCUA.RefId, new { @readonly = "true", @class = "form-control", @style = "width:300px;", @id = "RefId" })
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="w-100 bg-body" id="headerDiv">
+                <div class="modal-body mh-182 pt-0 pb-0">
+                    <div class="bg-white px-lg-3 px-md-2 landing-division w-100 mb-3" id="divFindDetailsFC1C2">
+                        <div class="row bg-white">
+                            <div class="col-md-12">
+                                <div class="w-100 position-relative float-left d-flex justify-content-center">
+                                    <ul class="nav nav-tabs tabbed round">
+                                        <li class="nav-item">
+                                            <a href="#list" data-toggle="tab" aria-expanded="false" class="nav-link active">
+                                                <span class="">
+                                                    UCUA Form
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" id="Officeuse">
+                                            <a href="#page" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                                <span class="">
+                                                    For Office USE
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="row bg-white py-1">
+                                    <div class="col-lg-12">
+                                        <div class="tab-content">
+                                            <div class="tab-pane show active" id="list">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div id="headerFindDiv" class="w-100 form-group mb-0">
+                                                            <div class="form-group col-md-3">
+                                                                @Html.Label("Reporting Name", "Reporting Name")
+                                                                @Html.TextBoxFor(model => model.FormUCUA.ReportingName, new { @class = "form-control validate {required, Reporting Name}" })
+                                                            </div>
+                                                            <div class="form-group col-md-3">
+                                                                @Html.Label("Location", "Location")
+                                                                @Html.TextBoxFor(model => model.FormUCUA.Location, new { @class = "form-control validate {required, Location}" })
+                                                            </div>
+                                                            <div class="form-group col-md-3">
+                                                                @Html.Label("Work Scope", "Work Scope")
+                                                                @Html.TextBoxFor(model => model.FormUCUA.WorkScope, new { @class = "form-control validate {required, Work Scope}" })
+                                                            </div>
+                                                            @*<div class="form-group col-lg-3 float-left">
+                                                                    @Html.Label("Date(DD-MM-YYYY)", "Date(DD-MM-YYYY)")
+                                                                    @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control validate {required, Recorded By Date}" } })
+                                                                </div>
+                                                                <div class="form-group col-lg-3 float-left">
+                                                                    @Html.Label("Date(DD-MM-YYYY)", "Date(DD-MM-YYYY)")
+                                                                    @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @readonly = true, @class = "form-control validate {required, Recorded By Date}" } })
+                                                                </div>*@
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div id="accordion">
+
+
+                                                            <div class="accordion custom-accordion mb-3" id="custom-accordion-zer">
+                                                                <div class="card mb-0">
+                                                                    <div class="card-header" id="headingZer">
+                                                                        <h5 class="m-0">
+                                                                            <a class="custom-accordion-title py-1" data-toggle="collapse" href="#AccordPage0" aria-expanded="true" aria-controls="collapseZer">
+                                                                                <span class="float-left">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                                                </span>
+                                                                                <span class="float-left" style="padding: 4px 8px;">
+                                                                                    Information regarding
+                                                                                </span>
+                                                                            </a>
+                                                                        </h5>
+                                                                    </div>
+                                                                    <div id="AccordPage0" class="collapse show avowmodal-form formgrp-section" aria-labelledby="headingZer" data-parent="#custom-accordion-zer">
+                                                                        <div class="card-body">
+                                                                            <div class="row">
+                                                                                <div class="form-group col-2 text-center">
+                                                                                    <label>
+                                                                                        Unsafe Act
+                                                                                        @*<input type="hidden" id="hdnUnsafeAct" value="Model.FormUCUA.hdnUnsafeAct" />*@
+                                                                                        @{var _insSign = Model.FormUCUA.UnsafeAct == false ? false : true;}
+                                                                                    </label>
+                                                                                    <div class="clear-b mt-2">
+                                                                                        @Html.HiddenFor(model => Model.FormUCUA.hdnUnsafeAct, new { @class = "form-control", @id = "hdnUnsafeAct" })
+                                                                                        <input class="{required, Requested By Signature}" checked="@_insSign" id="UnsafeAct" name="UnsafeAct" type="checkbox" onchange="fnUnsafeActOnchage();">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group col-md-10">
+                                                                                    @Html.Label("Description", "Description")
+                                                                                    @Html.TextAreaFor(model => model.FormUCUA.UnsafeActDescription, new { @class = "form-control" })
+                                                                                </div>
+                                                                                <div class="form-group col-2 text-center">
+                                                                                    <label>
+                                                                                        Unsafe Condition
+                                                                                        @{ var _inssafeCon = Model.FormUCUA.UnsafeCondition == false ? false : true; }
+                                                                                    </label>
+                                                                                    <div class="clear-b mt-2">
+                                                                                        @Html.HiddenFor(model => Model.FormUCUA.hdnUnsafeCondition, new { @class = "form-control", @id = "hdnUnsafeCondition" })
+                                                                                        <input class="{required, Requested By Signature}" checked="@_inssafeCon" id="UnsafeCondition" name="UnsafeCondition" type="checkbox" onchange="fnUnsafeCondOnchage();">
+                                                                                    </div>
+
+                                                                                </div>
+                                                                                <div class="form-group col-md-10">
+                                                                                    @Html.Label("Description", "Description")
+                                                                                    @Html.TextAreaFor(model => model.FormUCUA.UnsafeConditionDescription, new { @class = "form-control" })
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="accordion custom-accordion mb-3" id="custom-accordion-two">
+                                                                <div class="card mb-0">
+                                                                    <div class="card-header" id="headingTwo">
+                                                                        <h5 class="m-0">
+                                                                            <a class="custom-accordion-title py-1 collapsed" data-toggle="collapse" href="#AccordPage2" aria-expanded="false" aria-controls="collapseTwo">
+                                                                                <span class="float-left">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                                                </span>
+                                                                                <span class="float-left" style="padding: 4px 8px;">
+                                                                                    Recommendation for
+                                                                                    Improvement
+                                                                                </span>
+                                                                            </a>
+                                                                        </h5>
+                                                                    </div>
+                                                                    <div id="AccordPage2" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingTwo" data-parent="#custom-accordion-two">
+                                                                        <div class="card-body">
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-12">
+                                                                                    @Html.TextAreaFor(model => model.FormUCUA.ImprovementRecommendation, new { @class = "form-control" })
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="tab-pane show " id="page">
+                                                <div class="row">
+
+
+                                                    <div class="col-lg-12 p-0">
+                                                        <div class="w-100 form-group mb-0">
+                                                            <div id="DateReceivedDiv">
+                                                            <div class="form-group col-md-3">
+                                                                @Html.Label("Date Received", "Date Received")
+                                                                @*@Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control" } })*@
+                                                                @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date Received}" } })
+                                                            </div>
+                                                            </div>
+
+                                                            @*<div class="form-group col-lg-3">
+                                                                    @Html.Label("Date Received", "Date Received")
+                                                                    <input name="DateReceived" class="form-control ssvalidate {req,Audited by date}" type="date" value="" />
+                                                                </div>*@
+                                                            <div class="form-group col-md-3">
+                                                                @Html.Label("Committee Review on", "Committee Review on")
+                                                                @Html.EditorFor(m => m.FormUCUA.DateCommitteeReview, new { type = "date", htmlAttributes = new { @class = "form-control" } })
+                                                            </div>
+                                                            @*<div class="form-group col-lg-3">
+                                                                    @Html.Label("Committee Review on", "Committee Review on")
+                                                                    <input name="DateReceived" class="form-control ssvalidate {req,Audited by date}" type="date" value="" />
+                                                                </div>*@
+
+
+                                                            <div class="" style="clear:both"></div>
+                                                            <div class="form-group col-md-12">
+                                                                @Html.Label("Comments", "Comments")
+                                                                @Html.TextAreaFor(model => model.FormUCUA.CommentsOfficeUse, new { @class = "form-control" })
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                @Html.Label("HSE Section", "HSE Section")
+                                                                @Html.TextBoxFor(model => model.FormUCUA.HseSection, new { @class = "form-control" })
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                @Html.Label("Safety Committee Chairman", "Safety Committee Chairman")
+                                                                @Html.TextBoxFor(model => model.FormUCUA.SafteyCommitteeChairman, new { @class = "form-control" })
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                @Html.Label("IMS Management Representative", "IMS Management Representative")
+                                                                @Html.TextBoxFor(model => model.FormUCUA.ImsRep, new { @class = "form-control" })
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div id="accordion">
+
+                                                            <div class="accordion custom-accordion mb-3" id="custom-accordion-zer11">
+                                                                <div class="card mb-0">
+                                                                    <div class="card-header" id="headingZer11">
+                                                                        <h5 class="m-0">
+                                                                            <a class="custom-accordion-title py-1" data-toggle="collapse" href="#AccordPage01" aria-expanded="true" aria-controls="collapseZer11">
+                                                                                <span class="float-left">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                                                </span>
+                                                                                <span class="float-left" style="padding: 4px 8px;">
+                                                                                    Action Taken
+                                                                                </span>
+                                                                            </a>
+                                                                        </h5>
+                                                                    </div>
+                                                                    <div id="AccordPage01" class="collapse show avowmodal-form formgrp-section" aria-labelledby="headingZer11" data-parent="#custom-accordion-zer11">
+                                                                        <div class="card-body">
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-3">
+                                                                                    @Html.Label("Date Action Taken", "Date Action Taken")
+                                                                                    @Html.EditorFor(m => m.FormUCUA.DateActionTaken, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date}" } })
+                                                                                </div>
+                                                                                @*<div class="form-group col-lg-3">
+                                                                                        @Html.Label("Date Action Taken", "Date Action Taken")
+                                                                                        <input name="DateReceived" class="form-control ssvalidate {req,Audited by date}" type="date" value="" />
+                                                                                    </div>*@
+
+                                                                            <div class="form-group col-md-4">
+                                                                                @Html.Label("Action By", "Action By")
+                                                                                @*<input id="txtUsername" class="form-control validate {required, Name}" value="@Model.Username" />*@
+                                                                                @Html.TextBoxFor(model => model.FormUCUA.ActionTakenBy, new { @class = "form-control", @id="ActionBy" ,@disabled="true" })
+                                                                            </div>
+                                                                                <div style="clear:both"></div>
+                                                                                <div class="form-group col-md-12">
+                                                                                    @Html.Label("Description", "Description")
+                                                                                    @Html.TextAreaFor(model => model.FormUCUA.ActionDescription, new { @class = "form-control" })
+
+
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="accordion custom-accordion mb-3" id="custom-accordion-two1">
+                                                                <div class="card mb-0">
+                                                                    <div class="card-header" id="headingTwo1">
+                                                                        <h5 class="m-0">
+                                                                            <a class="custom-accordion-title py-1 collapsed" data-toggle="collapse" href="#AccordPage21" aria-expanded="false" aria-controls="collapseTwo1">
+                                                                                <span class="float-left">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle after-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle before-collapsed d-none"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                                                                </span>
+                                                                                <span class="float-left" style="padding: 4px 8px;">
+                                                                                    Effectiveness of Action Taken
+                                                                                </span>
+                                                                            </a>
+                                                                        </h5>
+                                                                    </div>
+                                                                    <div id="AccordPage21" class="collapse avowmodal-form formgrp-section" aria-labelledby="headingTwo1" data-parent="#custom-accordion-two1">
+                                                                        <div class="card-body">
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-3">
+                                                                                    @Html.Label("Date", "Date")
+                                                                                    @Html.EditorFor(m => m.FormUCUA.DateEffectivenessActionTaken, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date}" } })
+                                                                                </div>
+                                                                                @*<div class="form-group col-lg-3">
+                                                                                        @Html.Label("Date", "Date")
+                                                                                        <input name="DateReceived" class="form-control ssvalidate {req,Audited by date}" type="date" value="" />
+                                                                                    </div>*@
+
+                                                                                <div class="form-group col-md-4">
+                                                                                    @Html.Label("Review By", "Review By")
+                                                                                    @Html.TextBoxFor(model => model.FormUCUA.EffectivenessActionTakenBy, new { @class = "form-control", @id = "ReviewBy", @disabled = "true" })
+                                                                                </div>
+                                                                                <div style="clear:both"></div>
+                                                                                <div class="form-group col-md-12">
+                                                                                    @Html.Label("Description", "Description")
+                                                                                    @Html.TextAreaFor(model => model.FormUCUA.EffectivenessActionDescription, new { @class = "form-control" })
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12" userIdGroup>
+                        <div class="bg-white rounded landing-division w-100 float-left  my-2">
+                            @*<div class="col-lg-12 border-bottom py-2 my-2">
+                                    <span class="font-14 font-weight-bold">
+                                        Audited by
+                                    </span>
+                                </div>
+
+                                <div class="form-group col-lg-3">
+                                    @Html.Label("User ID", "User ID")
+                                    @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "AuditedBy", "Select Users", new { @Id = "formR1R2AuditedBy", @class = "form-control", @useridChange = "", @disabled = "disabled" })
+
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    @Html.Label("Name", "Name")
+                                    <input name="AuditedName" class="form-control ssvalidate {req,Audited By User Name}" type="text" value="" userName disabled />
+                                </div>
+                                <div class="form-group col-lg-2">
+                                    @Html.Label("Designation", "Designation")
+                                    <input name="AuditedDesig" class="form-control ssvalidate {req,Audited By User Designation}" type="text" value="" userDest disabled />
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    @Html.Label("Date (DD-MM-YYYY)", "Date (DD-MM-YYYY)")
+                                    <input name="AuditedDt" class="form-control ssvalidate {req,Audited by date}" type="date" value="" disabled="disabled" />
+                                </div>
+                                <div class="form-group col-lg-1 float-left">
+                                    <label>
+                                        Sign
+                                        @{
+                                            var _audSign = false;
+                                            if (Model != null)
+                                            {
+                                                _audSign = Model.FormUCUA.AuditedSign == null || Model.FormUCUA.AuditedSign == false ? false : true;
+                                            }
+                                        }
+                                    </label>
+                                    <div class="clear-b mt-2">
+                                        <input class="{required, Requested By Signature}" checked="_audSign" id="AuditedSign" name="AuditedSign" type="checkbox">
+                                    </div>
+                                </div>*@
+                            <div>
+                                <input type="hidden" id="txtPhotoValidate" value="" />
+                                @{
+                                    Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
+                                    {
+                                        Form = "FormUCUA",
+                                        RefId = Model.FormUCUA.PkRefNo,
+                                        Stage = Model.FormUCUA.Status
+                                    });
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer float-left w-100">
+                    <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
+                    @{
+
+                        bool isVerify = (security.isOperRAMSExecutive || security.IsHeadMaintenance || security.IsRegionManager || security.IsExecutive || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.isPlanningEngineer || security.IsJKRSHQ || security.IsDivisonalEngg || security.IsJKRSSuperiorOfficer);
+
+
+                    }
+                    @{
+
+                        if (isSubmit && (Model.FormUCUA.Status == null || Model.FormUCUA.Status == "" || Model.FormUCUA.Status == "Initialize" || Model.FormUCUA.Status == "Saved"))
+                        {
+                            <button id="saveFormUCUABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('','Saved')">Save</button>
+                            <button id="SubmitFormUCUABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('','Submitted')">Submit</button>
+                        }
+
+                
+                        if (IsApproved && (Model.FormUCUA.Status == RAMMS.Common.StatusList.FormUcuaSubmitted))
+                        {
+                            <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="VerifyDetails('@groupname','Approved By');"> Verify </button>
+                        }
+
+                    }
+                </div>
+            </div>
+
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog modal-dialog modal-dialog-centered modal-custom">
+                    <div class="modal-content">
+                        <div class="modal-header text-right">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-outline-theme" data-dismiss="modal">Close</button>
+                            <button id="btnSaveFormUCUADtl" type="button" class="btn btn-sm btn-themebtn" onclick="SaveFormTDtl()">Save</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    @*Add T Details Modal*@
+
+    @*@Html.HiddenFor(m => m.FormUCUA.PkRefNo)
+        @Html.HiddenFor(m => m.FormUCUA.PkRefNo)
+        @Html.HiddenFor(m => m.FormUCUA.DivCode)
+        @Html.HiddenFor(m => m.FormUCUA.RmuCode)
+        @Html.HiddenFor(m => m.FormUCUA.RdCode)
+        @Html.HiddenFor(m => m.FormUCUA.SecCode)
+        @Html.HiddenFor(m => m.FormUCUA.UseridRcd)
+        @Html.HiddenFor(m => m.FormUCUA.UseridHdd)
+        @Html.HiddenFor(m => m.FormUCUA.Status)
+        @Html.HiddenFor(m => m.FormUCUA.SubmitSts)
+
+
+        <input type="hidden" id="hdnSecCode" value="@Model.FormUCUA.SecCode" />
+        <input type="hidden" id="hdnRdCode" value="@Model.FormUCUA.RdCode" />
+        <input type="hidden" id="hdnView" value="@Model.view" />*@
+
+    <input type="hidden" id="hdnView" value="@Model.view" />
+}
+
+<style>
+    .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4) {
+        width: auto !important;
+        min-width: auto !important;
+    }
+
+    .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(2), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(2), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(3), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(3), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(4), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(4), .custom-tbl div.dataTables_scrollHead table thead tr th:nth-child(5), .custom-tbl div.dataTables_scrollBody table tbody tr td:nth-child(5) {
+        width: auto !important;
+        min-width: auto !important;
+    }
+
+    .tabledit-input {
+        width: 150px;
+        padding: 0;
+        height: 42px;
+        float: left;
+    }
+
+    .tabledit-edit-mode {
+        padding: 0px !important;
+    }
+</style>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css" />
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/jquery.tabledit.js"></script>
+
+<script>
+
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        process.Init("FrmUCUA", "@Model.FormUCUA.Status", @Model.FormUCUA.PkRefNo);
+       // alert('@groupname')
+
+        fnUnsafeActOnchage();
+        fnUnsafeCondOnchage();
+
+
+        if ($("#SubmitYn").val() == "True") {
+            $("#Officeuse").removeClass("disabled");
+             $("#ActionBy").val('@username');
+            $("#ReviewBy").val('@username');
+             $("#hdnActionTakenBy").val('@username');
+            $("#hdnEffectivenessActionTakenBy").val('@username');
+        }
+        else {
+
+            $("#Officeuse").addClass("disabled");
+        }
+
+    });
+    function VerifyDetails(GroupName, SubmitType) {
+
+        if (ValidatePage('#DateReceivedDiv')) {
+            $.get('/FrmUCUA/SaveFormUCUA', $("form").serialize(), function (data) {
+                EnableDisableElements(true)
+                HideAjaxLoading();
+                if (data == -1) {
+                    app.ShowErrorMessage(data.errorMessage);
+                }
+                else {
+                      process.ShowApprove('@groupname','Approved By')
+
+                }
+            });
+        }
+    }
+
+
+
+</script>

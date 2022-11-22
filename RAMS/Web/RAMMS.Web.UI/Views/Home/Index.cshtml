@@ -190,14 +190,14 @@
                                 }
                             </div>
                             <div class="col-2 form-group">
-                                @*@Html.DropDownListFor(m => m.SaveFormAModel.section, (IEnumerable
-                                    <SelectListItem>)ViewData["DLPSPLYear"], new { @Id = "section-dd", @class = "form-control" })*@
-                                <select id="ddlDLPSPYear" class="form-control">
-                                    <option>Year</option>
-                                    <option value="2020">2020</option>
-                                    <option value="2021">2021</option>
-                                    <option selected="selected" value="2022">2022</option>
-                                </select>
+                                @Html.DropDownListFor(m => m.SaveFormAModel.section, (IEnumerable
+        <SelectListItem>)ViewData["RMIIRIYear"], new { @Id = "ddlDLPSPYear", @class = "form-control" })
+                                @*<select id="ddlDLPSPYear" class="form-control">
+                                        <option>Year</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+                                        <option selected="selected" value="2022">2022</option>
+                                    </select>*@
                             </div>
 
                         </div>
@@ -288,7 +288,7 @@
 
     </div>
 </div>-->
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
+@*<script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>*@
 @*<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>*@
 
 <script src='https://cdn.plot.ly/plotly-2.16.1.min.js'></script>
@@ -343,14 +343,14 @@
 
     $("#RFCRMU").on('change', function () {
         var obj = new Object();
-        GetRoadFurnConditionPieChart({obj})
+        GetRoadFurnConditionPieChart({ obj })
     });
     $("#RFCYear").on('change', function () {
         var obj = new Object();
-        GetRoadFurnConditionPieChart({obj})
+        GetRoadFurnConditionPieChart({ obj })
     });
 
-  
+
 
     //Calling New landing Service
     function GetClosedNODResult(reqObj) {
@@ -492,51 +492,75 @@
             ['rgb(0,173,78)', 'rgb(251,189,0)', 'rgb(251,0,0)']];
         reqObj.RFCRM = $("#RFCRMU").val();
         reqObj.RFCYr = $("#RFCYear").val();
-        reqObj.Section = $("#section-dd").val();
         InitAjaxLoading();
+        var html = '';
         console.log(reqObj)
+        var conditionKm1;
+        var conditionKm2;
+        var conditionKm3;
+        //container.replaceChildren(p1, p2);
+
+        $('#divRFCPie').empty();
+        $('#divPie').empty();
+        var x = 0;
         $.ajax(
             {
                 url: "/home/GetRoadFurnitureConditionPieChart",
-                data: { RFCRMU: $("#RFCRMU").val(), RFCYear: $("#RFCYear").val()},
+                data: { RFCRMU: $("#RFCRMU").val(), RFCYear: $("#RFCYear").val() },
                 type: 'post',
                 success: function (data) {
                     HideAjaxLoading();
-                    var html = '';
-                    var x = 1;
+                    x = 1;
                     for (var i in data) {
+                        if ((data[i].fsdunit).toUpperCase() == 'KM') {
+                            conditionKm1 = data[i].rfCondition1 / 10;
+                            conditionKm2 = data[i].rfCondition2 / 10;
+                            conditionKm3 = data[i].rfCondition3 / 10;
+                        }
+                        else {
+                            conditionKm1 = data[i].rfCondition1;
+                            conditionKm2 = data[i].rfCondition2;
+                            conditionKm3 = data[i].rfCondition3;
+                        }
                         html =
-                            '<div class="col-md-4 my-2">'+
-                        '<div class="card">' +
-                        ' <div class="card-header bg-light text-center font-14 font-weight-bold">' +
-                        '<span id="RFCFeature">' + data[i].rfcFeature + '</span>' +
-                          '</div>'+
-                        '<div class="card-body">' +
-                        '<div id="divRFCPie_' + x + '" style="width:100%;height:100%;">' +
-                            '</div>'+
-                        '</div>' +
-                        '</div>' +
+                            '<div class="col-md-4 my-2">' +
+                            '<div class="card">' +
+                            ' <div class="card-header bg-light text-center font-14 font-weight-bold">' +
+                            '<span id="RFCFeature">' + data[i].rfcFeature + '</span>' +
+                            '</div>' +
+                            '<div class="card-body">' +
+                            '<div id="divRFCPie_' + x + '" style="width:100%;height:100%;">' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
                             '</div >';
                         $('#divPie').append(html);
+
                         var datapie = [{
                             values: [data[i].rfConditionper1, data[i].rfConditionper2, data[i].rfConditionper3],
-                            labels: ['Condition1 ' + '(' + data[i].rfCondition1 + 'km' + ')', 'Condition2 ' + '(' + data[i].rfCondition2 + 'km' + ')', 'Condition3 ' + '(' + data[i].rfCondition3 + 'km' + ')'],
+                            labels: ['Condition1 ' + '(' + conditionKm1 + '  ' + data[i].fsdunit + ')', 'Condition2 ' + '(' + conditionKm2 + ' ' + data[i].fsdunit + ')', 'Condition3 ' + '(' + conditionKm3 + ' ' + data[i].fsdunit + ')'],
                             type: 'pie',
+                            textinfo: "percent",
+                            textposition: "outside",
+                            automargin: true,
                             marker: {
                                 colors: ultimateColors[0]
                             },
                             domain: {
                                 row: i,
-                                column: i-1
+                                column: i
                             },
-                            hoverinfo: 'label+percent+name',
-                            textinfo: 'percent+name'
 
                         }];
                         var layout = {
                             autosize: true,
                             height: 300,
                             width: 300,
+                            showlegend: true,
+                            legend: { "orientation": "h", },
+                            margin: { l: 100, r: 0, b: 0, t: 0, pad: 0 },
+                            xaxis: { visible: false },
+                            yaxis: { visible: false },
                         };
 
 

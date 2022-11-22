@@ -41,7 +41,7 @@ namespace RAMMS.Repository
         private FormF2DetailRepository _formF2DetailRepository;
         private FormB1B2HeaderRepository _formB1B2HeaderRepository;
         private FormB1B2DetailRepository _formB1B2DetailRepository;
-        
+
         private IFormB1B2ImgRepository _formB1B2ImgRepository;
         private IFormS1Repository _formS1Repository;
         private IFormFDRepository _formFDRepository;
@@ -53,7 +53,7 @@ namespace RAMMS.Repository
         private IDivRmuSectionRepository _divRmuSectionRepository;
         private FormW2Repository _formW2Repository;
         private FormW1Repository _formW1Repository;
-		private ISectionRepository sectionRepository;
+        private ISectionRepository sectionRepository;
         private IRoadRepository roadRepository;
         private FormW2FcemRepository _formW2FcemRepository;
         private FormWCRepository _formWCRepository;
@@ -90,7 +90,7 @@ namespace RAMMS.Repository
         private FormG1Repository _formG1Repository;
 
         private DlpSpi _dlpSpi;
-
+        private FormUCUARepository _formUCUARepository;
         public FormG1Repository FormG1Repository => _formG1Repository = _formG1Repository ?? new FormG1Repository(_context);
 
         private FormR1R2Repository _formR1Repository;
@@ -137,7 +137,7 @@ namespace RAMMS.Repository
         public ModuleFormRightsRepository ModuleFormRightsRepository => _moduleFormRightsRepository = _moduleFormRightsRepository ?? new ModuleFormRightsRepository(_context);
         public FormWNRepository FormWNRepository => _formWNRepository = _formWNRepository ?? new FormWNRepository(_context);
         public FormWDRepository FormWDRepository => _formWDRepository = _formWDRepository ?? new FormWDRepository(_context);
-        public FormW1Repository FormW1Repository => _formW1Repository= _formW1Repository ?? new FormW1Repository(_context);
+        public FormW1Repository FormW1Repository => _formW1Repository = _formW1Repository ?? new FormW1Repository(_context);
 
         public FormW2FcemRepository FormW2FcemRepository => _formW2FcemRepository ?? new FormW2FcemRepository(_context);
 
@@ -184,7 +184,7 @@ namespace RAMMS.Repository
 
         public FormADtlRepository FormADtlRepository => _formAdtlRepository = _formAdtlRepository ?? new FormADtlRepository(_context);
 
-        public DlpSpi  DlpSpi => _dlpSpi = _dlpSpi ?? new DlpSpi(_context);
+        public DlpSpi DlpSpi => _dlpSpi = _dlpSpi ?? new DlpSpi(_context);
 
         public FormJRepository FormJRepository => _formJRepositoryl = _formJRepositoryl ?? new FormJRepository(_context);
         public FormS2Repository FormS2Repository => _formS2Repository = _formS2Repository ?? new FormS2Repository(_context);
@@ -218,10 +218,14 @@ namespace RAMMS.Repository
 
         public IDivRmuSectionRepository DivRmuSectionRepository => _divRmuSectionRepository ?? new DivRmuSectionRepository(_context);
 
-        public ISectionRepository SectionRepository => this.sectionRepository  ?? new SectionRepository(_context);
+        public ISectionRepository SectionRepository => this.sectionRepository ?? new SectionRepository(_context);
 
-        public IRoadRepository RoadRepository => roadRepository  ?? new RoadRepository(_context);
+        public IRoadRepository RoadRepository => roadRepository ?? new RoadRepository(_context);
+        public FormUCUARepository FormucuaRepository => _formUCUARepository = _formUCUARepository ?? new FormUCUARepository(_context);
 
+        //public FormUCUARepository FormucuaRepository => throw new NotImplementedException();
+
+        //public IFormUCUARepository formUCUARepository => throw new NotImplementedException();
 
         public RepositoryUnit(RAMMSContext context)
         {

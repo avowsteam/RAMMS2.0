@@ -145,7 +145,7 @@ function DisableHeader() {
 
     if ($("#hdnView").val() == 1) {
         $("#saveFormP1Btn").hide();
-        $("#SubmitFormP1Btn").hide();
+       // $("#SubmitFormP1Btn").hide();
         $("#FormP1Header_Bank").attr("readonly", "true");
         $("#FormP1Header_BankAccNo").attr("readonly", "true");
         $("#FormP1Header_Assignee").attr("readonly", "true");
@@ -217,11 +217,12 @@ function Save(SubmitType) {
     FormP1.NetValueAddition = $('#FormP1Header_NetValueAddition').val();
     FormP1.NetValueInstructedWork = $('#FormP1Header_NetValueInstructedWork').val();
     FormP1.NetValueLadInstructedWork = $('#FormP1Header_NetValueLadInstructedWork').val();
-    FormP1.TotalPayment = $('#txtTotalPayment').val();
-    
+    FormP1.TotalPayment = $('#txtGrandTotal').val();
+    FormP1.DueAmount = $('#txtDueAmount').val();
     FormP1.UseridSo = $('#ddlSO').val();
     FormP1.UsernameSo = $('#FormP1Header_UsernameSo').val();
     FormP1.DesignationSo = $('#FormP1Header_DesignationSo').val();
+    FormP1.SignDateSo = $('#FormP1Header_SignDateSo').val();
     FormP1.SignSo = $('#FormP1Header_SignSo').val();
     FormP1.Status = $('#FormP1Header_Status').val();
     FormP1.SubmitSts = $('#FormP1Header_SubmitSts').val();
