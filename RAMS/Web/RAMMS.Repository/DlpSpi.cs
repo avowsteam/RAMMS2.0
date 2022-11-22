@@ -25,6 +25,7 @@ namespace RAMMS.Repository
             List<RmDlpSpi> res = await (from r in _context.RmDlpSpi where r.SpiYear == year select r).ToListAsync();
 
             var TotalSumMonthlyPlanned = res.Select(x => x.SpiMPlanned).Sum();
+            TotalSumMonthlyPlanned = TotalSumMonthlyPlanned >0 ? TotalSumMonthlyPlanned : null;
             var SpiCPlan = res.Select(x => x.SpiCPlan).Sum();
 
 
@@ -55,14 +56,14 @@ namespace RAMMS.Repository
                           SpiMActual = (x.Sum(c => c.SpiMActual)),
                           SpiCPlan = (x.Sum(y => y.SpiCPlan)),
                           SpiCActual = (x.Sum(y => y.SpiCActual)),
-                          SpiPiWorkActual = Math.Round((decimal)(((x.Sum(y => y.SpiCActual) / x.Sum(y => y.SpiCPlan)) * 80)), 2),// x.Sum(y => y.SpiPiWorkActual),
-                          SpiPai = Math.Round((decimal)(x.Sum(y => y.SpiCActual) / x.Sum(y => y.SpiCPlan)), 2),
-                          SpiEff = Math.Round((decimal)(x.Sum(y => y.SpiEff) / 2), 2),
+                          SpiPiWorkActual = x.Sum(y => y.SpiCPlan) > 0 ?  Math.Round((decimal)(((x.Sum(y => y.SpiCActual) / x.Sum(y => y.SpiCPlan * 80)))), 2): 0,// x.Sum(y => y.SpiPiWorkActual),
+                          SpiPai = x.Sum(y => y.SpiCPlan) > 0 ?  Math.Round((decimal)(x.Sum(y => y.SpiCActual) /  x.Sum(y => y.SpiCPlan)), 2) : 0,
+                          SpiEff = Math.Round((decimal)(x.Sum(y => y.SpiEff) / 2), 2) ,
                           SpiRb = Math.Round((decimal)(x.Sum(y => y.SpiRb) / 2), 2),
                           SpiIw = Math.Round((decimal)(x.Sum(y => y.SpiIw) / 2), 2),
-                          SpiSpi = Math.Round((decimal)(((x.Sum(y => y.SpiCActual) / x.Sum(y => y.SpiCPlan)) * 80) + (x.Sum(y => y.SpiEff) / 2)), 2) + (x.Sum(y => y.SpiRb) / 2) - (x.Sum(y => y.SpiIw) / 2),
-                          SpiPlannedPer = Math.Round((decimal)((x.Sum(y => y.SpiCPlan) / TotalSumMonthlyPlanned) * 100), 2) ,
-                          SpiActualPer = Math.Round((decimal)((x.Sum(y => y.SpiCActual) / TotalSumMonthlyPlanned)) * 100, 2) ,
+                          SpiSpi =  Math.Round((decimal)((x.Sum(y => y.SpiCPlan) > 0 ? (x.Sum(y => y.SpiCActual) /  x.Sum(y => y.SpiCPlan)) : 0 * 80) + (x.Sum(y => y.SpiEff) / 2)), 2) + (x.Sum(y => y.SpiRb) / 2) - (x.Sum(y => y.SpiIw) / 2),
+                          SpiPlannedPer = TotalSumMonthlyPlanned > 0 ? Math.Round((decimal)((x.Sum(y => y.SpiCPlan) / TotalSumMonthlyPlanned) * 100), 2) : 0 ,
+                          SpiActualPer = TotalSumMonthlyPlanned > 0 ?Math.Round((decimal)((x.Sum(y => y.SpiCActual) / TotalSumMonthlyPlanned)) * 100, 2) : 0,
                       }
                     )
                     .ToList();

@@ -159,40 +159,7 @@ namespace RAMMS.Repository
                                 query = query.Where(x => x.AuditDate <= dtTo);
                             }
                             break;
-                        //case "chFromKM":
-                        //    string strM = Utility.ToString(searchData.filter["chFromM"]);
-                        //    decimal flKm = Utility.ToDecimal(strVal + (strM != "" ? "." + strM : ""));
-                        //    query = query.Where(x => x.LocationCH >= flKm);
-                        //    break;
-                        //case "chFromM":
-                        //    string strKm = Utility.ToString(searchData.filter["chFromKM"]);
-                        //    if (strKm == "")
-                        //    {
-                        //        decimal flM = Utility.ToDecimal("0." + strVal);
-                        //        query = query.Where(x => x.LocationCH >= flM);
-                        //    }
-                        //    break;
-                        //case "chToKm":
-                        //    string strTM = Utility.ToString(searchData.filter["chToM"]);
-                        //    decimal flTKm = Utility.ToDecimal(strVal + (strTM != "" ? "." + strTM : ""));
-                        //    query = query.Where(x => x.LocationCH <= flTKm);
-                        //    break;
-                        //case "chToM":
-                        //    string strTKm = Utility.ToString(searchData.filter["chToKm"]);
-                        //    if (strTKm == "")
-                        //    {
-                        //        decimal flTM = Utility.ToDecimal("0." + strVal);
-                        //        query = query.Where(x => x.LocationCH <= flTM);
-                        //    }
-                        //    break;
-                        //case "FromYear":
-                        //    int iFYr = Utility.ToInt(strVal);
-                        //    query = query.Where(x => x.Year.HasValue && x.Year >= iFYr);
-                        //    break;
-                        //case "ToYear":
-                        //    int iTYr = Utility.ToInt(strVal);
-                        //    query = query.Where(x => x.Year.HasValue && x.Year <= iTYr);
-                        //    break;
+                        
                         default:
                             query = query.WhereEquals(item.Key, strVal);
                             break;
