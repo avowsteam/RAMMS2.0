@@ -145,7 +145,7 @@ function DisableHeader() {
 
     if ($("#hdnView").val() == 1) {
         $("#saveFormP1Btn").hide();
-        $("#SubmitFormP1Btn").hide();
+       // $("#SubmitFormP1Btn").hide();
         $("#FormP1Header_Bank").attr("readonly", "true");
         $("#FormP1Header_BankAccNo").attr("readonly", "true");
         $("#FormP1Header_Assignee").attr("readonly", "true");

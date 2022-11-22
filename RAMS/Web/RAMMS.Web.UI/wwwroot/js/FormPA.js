@@ -14,11 +14,11 @@ function DisableHeader() {
         $("#btnFindDetails").hide();
     }
 
-    if ($("#hdnView").val() == 1) {
-        $("#saveFormPABtn").hide();
-        $("#SubmitFormPABtn").hide();
+    //if ($("#hdnView").val() == 1) {
+    //    $("#saveFormPABtn").hide();
+    //    $("#SubmitFormPABtn").hide();
         
-    }
+    //}
 
 
 }
