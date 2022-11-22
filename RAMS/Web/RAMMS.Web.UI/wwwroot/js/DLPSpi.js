@@ -130,7 +130,7 @@ function assignZero(val) {
 }
 
 function assignZeroRM(val) {
-    return typeof val == 'number' ? Number(val.toFixed(2)).toLocaleString('en-IN',{ minimumFractionDigits: 2 }) : '0.00';
+    return typeof val == 'number' ? Number(val.toFixed(2)).toLocaleString('en-US',{ minimumFractionDigits: 2 }) : '0.00';
 }
 
 function GetMonthName(mnth) {
