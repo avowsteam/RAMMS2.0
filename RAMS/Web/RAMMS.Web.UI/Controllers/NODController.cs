@@ -676,7 +676,7 @@ namespace RAMMS.Web.UI.Controllers
                         var AutoRefNo = $"NOD/Form H/{roadCode}/{assetGroup}/{f}/{inspectiondate.ToString("yyyyMMdd")}/{locationfrom}/{locationto}/{isExist.id}";
                         return Json(new
                         {
-                            isAlreadyexists = isExist.alreadyexists,
+                            isAlreadyexists = false, //isExist.alreadyexists,
                             id = isExist.id,
                             RefNo = AutoRefNo
                         });
@@ -689,7 +689,7 @@ namespace RAMMS.Web.UI.Controllers
                             var AutoRefNo = $"NOD/Form H/{roadCode}/{assetGroup}/{f}/{inspectiondate.ToString("yyyyMMdd")}/{locationfrom}/{locationto}/{isExist.id}/{refno[5]}/{refno[6]}";
                             return Json(new
                             {
-                                isAlreadyexists = isExist.alreadyexists,
+                                isAlreadyexists = false, //isExist.alreadyexists,
                                 id = isExist.id,
                                 RefNo = AutoRefNo
                             });
@@ -699,7 +699,7 @@ namespace RAMMS.Web.UI.Controllers
                             var autoRefNo = $"NOD/Form H/{roadCode}/{assetGroup}/{f}/{inspectiondate.ToString("yyyyMMdd")}/{locationfrom}/{locationto}/{isExist.id}";
                             return Json(new
                             {
-                                isAlreadyexists = isExist.alreadyexists,
+                                isAlreadyexists = false, //isExist.alreadyexists,
                                 id = isExist.id,
                                 RefNo = autoRefNo
                             });
