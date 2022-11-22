@@ -623,7 +623,14 @@
 
 
     }
-    <button type="button" class="btn btn-sm btn-themebtn" onclick="frmMap.Save(false,0)" finddetailsdep>Save</button>
+    @if (Model == null || Model.FormMapHeader.SubmitSts == null)
+    {
+        <button type="button" class="btn btn-sm btn-themebtn" onclick="frmMap.Save(false,0)" finddetailsdep>Save</button>
+    }
+    else
+    {
+        <button type="button" class="btn btn-sm btn-themebtn" onclick="frmMap.Save(false,1)" finddetailsdep>Save</button>
+    }
     @if (isSubmit && (Model == null || Model.FormMapHeader.Status == "" || Model.FormMapHeader.Status == "Initialize" || Model.FormMapHeader.Status == RAMMS.Common.StatusList.FormB14Saved))
     {
         <button type="button" class="btn btn-sm btn-themebtn" finddetailsdep onclick="frmMap.Save(true,0)">Submit</button>

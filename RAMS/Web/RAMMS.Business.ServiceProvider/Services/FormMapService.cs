@@ -155,6 +155,31 @@ namespace RAMMS.Business.ServiceProvider.Services
                 {
                     form.RmmhAuditlog = existsObj.Log;
                     form.RmmhStatus = existsObj.Status;
+                    if (existsObj.Status == "Approved")
+                    {
+                        var _userChkdata = _repoUnit.FormR1Repository._context.RmMapHeader.Where(x => x.RmmhPkRefNo == form.RmmhPkRefNo).Select(x => new { chkBy = x.RmmhCheckedBy, chkDate = x.RmmhCheckedDate, chkSign = x.RmmhCheckedSign, chkName = x.RmmhCheckedName, chkdesg = x.RmmhCheckedDesig }).FirstOrDefault();
+                        var _userAppdata = _repoUnit.FormR1Repository._context.RmMapHeader.Where(x => x.RmmhPkRefNo == form.RmmhPkRefNo).Select(x => new { chkBy = x.RmmhVerifiedBy, chkDate = x.RmmhVerifiedDate, chkSign = x.RmmhVerifiedSign, chkName = x.RmmhVerifiedName, chkdesg = x.RmmhVerifiedDesig }).FirstOrDefault();
+                        form.RmmhCheckedBy = _userChkdata.chkBy;
+                        form.RmmhCheckedDate = _userChkdata.chkDate;
+                        form.RmmhCheckedSign = _userChkdata.chkSign;
+                        form.RmmhCheckedName = _userChkdata.chkName;
+                        form.RmmhCheckedDesig = _userChkdata.chkdesg;
+
+                        form.RmmhVerifiedBy = _userAppdata.chkBy;
+                        form.RmmhVerifiedDate = _userAppdata.chkDate;
+                        form.RmmhVerifiedSign = _userAppdata.chkSign;
+                        form.RmmhVerifiedName = _userAppdata.chkName;
+                        form.RmmhVerifiedDesig = _userAppdata.chkdesg;
+                    }
+                    else if (existsObj.Status == "Verified")
+                    {
+                        var _userChkdata = _repoUnit.FormR1Repository._context.RmMapHeader.Where(x => x.RmmhPkRefNo == form.RmmhPkRefNo).Select(x => new { chkBy = x.RmmhCheckedBy, chkDate = x.RmmhCheckedDate, chkSign = x.RmmhCheckedSign, chkName = x.RmmhCheckedName, chkdesg = x.RmmhCheckedDesig }).FirstOrDefault();
+                        form.RmmhCheckedBy = _userChkdata.chkBy;
+                        form.RmmhCheckedDate = _userChkdata.chkDate;
+                        form.RmmhCheckedSign = _userChkdata.chkSign;
+                        form.RmmhCheckedName = _userChkdata.chkName;
+                        form.RmmhCheckedDesig = _userChkdata.chkdesg;
+                    }
                 }
 
             }
