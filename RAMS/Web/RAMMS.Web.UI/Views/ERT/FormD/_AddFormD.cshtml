@@ -809,6 +809,11 @@
         @Html.Hidden("hdnDetailNo", "")
         @Html.HiddenFor(m => m.SaveFormDModel.SubmitSts, new { @id = "hdnstatus", @class = "form-control" })
         @Html.Hidden("hdnNo", new { @id = "hdnNo", @class = "form-control" })
+
+        @{
+            var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
+        }
+
         <div class="col-md-12 float-right text-right custom-footer">
             <div id="val-summary-displayer"></div>
             <button type="button" id="btnFrmDBack" class="btn btn-sm btn-outline-theme" onclick="GoBack()"> Close </button>
@@ -819,23 +824,23 @@
             }
             else if ((security.IsExecutive || security.isEnggAssistant) && Model.SaveFormDModel.Status == RAMMS.Common.StatusList.Executive)
             {
-                <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@RAMMS.Common.GroupNames.OperationsExecutive','Verified By');"> Approved / Verified </button>
+                <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Verified By');"> Approved / Verified </button>
             }
             else if (security.IsHeadMaintenance && Model.SaveFormDModel.Status == RAMMS.Common.StatusList.HeadMaintenance)
             {
-                <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@RAMMS.Common.GroupNames.OpeHeadMaintenance', 'Vetted By');"> Approved / Vetted </button>
+                <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname', 'Vetted By');"> Approved / Vetted </button>
             }
             else if (security.IsJKRSSuperiorOfficer && Model.SaveFormDModel.Status == RAMMS.Common.StatusList.VerifiedJKRSSuperior)
             {
-                <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@RAMMS.Common.GroupNames.JKRSSuperiorOfficerSO', 'S.O Verified By');"> Approved / Verified </button>
+                <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname', 'S.O Verified By');"> Approved / Verified </button>
             }
             else if (security.IsJKRSSuperiorOfficer && Model.SaveFormDModel.Status == RAMMS.Common.StatusList.ProcessedJKRSSuperior)
             {
-                <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@RAMMS.Common.GroupNames.JKRSSuperiorOfficerSO', 'S.O Processed By');"> Approved / Processed </button>
+                <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname', 'S.O Processed By');"> Approved / Processed </button>
             }
             else if (security.IsJKRSSuperiorOfficer && Model.SaveFormDModel.Status == RAMMS.Common.StatusList.AgreedJKRSSuperior)
             {
-                <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@RAMMS.Common.GroupNames.JKRSSuperiorOfficerSO', 'S.O Agreed By');"> Approved / Agreed </button>
+                <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname', 'S.O Agreed By');"> Approved / Agreed </button>
             }
         </div>
 
