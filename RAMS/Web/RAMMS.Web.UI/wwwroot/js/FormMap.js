@@ -55,6 +55,7 @@
         FormMapHDR.CrBy = $("#UserId").val();
         FormMapHDR.CrDt = $("#date").val();
 
+
         var MapDetails = []
         var j = 0;
         $('#tblLabour > tbody  > tr:even').each(function (index, tr) {
@@ -96,10 +97,8 @@
                     app.ShowErrorMessage(data.errorMessage);
                 }
                 else {
-                    if (IsReload == 0) {
-                        app.ShowSuccessMessage('Saved Successfully', false);
-                        location.href = "/FormMap";
-                    }
+                    app.ShowSuccessMessage('Saved Successfully', false);
+                    location.href = "/FormMap";
                 }
             }
         });
@@ -514,7 +513,7 @@ function ViewData(id) {
             var actCode = $(this).find(".sp02").text();
             $(this).find("td:last").after('<td id="tdqan' + actCode + i + '" style="width:80px;border-left:1px solid #dee2e6;"></td>');
         });
-    }    
+    }
     //Append Data
     var req = {};
     var detailID = id;

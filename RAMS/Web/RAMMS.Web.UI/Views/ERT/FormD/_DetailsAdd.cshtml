@@ -326,7 +326,7 @@
 
                     <div class="form-group col-lg-4">
                         @Html.Label("Production Quantity", "Production Quantity")
-                        @Html.TextBoxFor(Adtl => Adtl.SaveFormDDetailsModel.ProdQty, new { @Id = "formDProductionQuality", @maxlength = 5, @autocomplete = "off", @type = "text", @class = "form-control allow_numeric validate {required, Production Quality}", @rows = 1 })
+                        @Html.TextBoxFor(Adtl => Adtl.SaveFormDDetailsModel.ProdQty, new { @Id = "formDProductionQuality", @maxlength = 9, @autocomplete = "off", @type = "text", @class = "form-control allow_numeric validate {required, Production Quality}", @rows = 1 })
                     </div>
                     <div class="form-group col-lg-4 mb-0">
                         @Html.Label("Dimension (m)", "Dimension (m)")

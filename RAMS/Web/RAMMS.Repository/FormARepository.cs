@@ -719,23 +719,28 @@ namespace RAMS.Repository
                             if (FsdStrucCode != carriageDetails.FsdStrucCode.ToUpper())
                             {
                                 TotalConditionscariPaved = TotalConditionscariPaved + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition1) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition2) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition3);
-                                RFCondition1Paved = RFCondition1Paved + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition1);
-                                RFCondition2Paved = RFCondition2Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition2));
-                                RFCondition3Paved = RFCondition3Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition3));
-                                RFConditionper1Paved = RFConditionper1Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition1)) / TotalConditionscariPaved;
-                                RFConditionper2Paved = RFConditionper2Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition2)) / TotalConditionscariPaved;
-                                RFConditionper3Paved = RFConditionper3Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition3)) / TotalConditionscariPaved;
-                                HdDto.Fsdunit = Details.featCode;
-                                RFCFeaturePaved = Details.Feature + " (PAVED)";
-                                FsdStrucCode = carriageDetails.FsdStrucCode.ToUpper();
-                                HdDto.RFCondition1 = RFCondition1Paved;
-                                HdDto.RFCondition2 = RFCondition2Paved;
-                                HdDto.RFCondition3 = RFCondition3Paved;
-                                HdDto.RFConditionper1 = RFConditionper1Paved;
-                                HdDto.RFConditionper2 = RFConditionper2Paved;
-                                HdDto.RFConditionper3 = RFConditionper3Paved;
-                                HdDto.Fsdunit = Details.featCode;
-                                HdDto.RFCFeature = RFCFeaturePaved;
+                                if (TotalConditionscariPaved > 0)
+                                {
+                                    RFCondition1Paved = RFCondition1Paved + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition1);
+                                    RFCondition2Paved = RFCondition2Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition2));
+                                    RFCondition3Paved = RFCondition3Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition3));
+                                    RFConditionper1Paved = RFConditionper1Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition1)) / TotalConditionscariPaved;
+                                    RFConditionper2Paved = RFConditionper2Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition2)) / TotalConditionscariPaved;
+                                    RFConditionper3Paved = RFConditionper3Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition3)) / TotalConditionscariPaved;
+                                    HdDto.Fsdunit = Details.featCode;
+                                    RFCFeaturePaved = Details.Feature + " (PAVED)";
+                                    FsdStrucCode = carriageDetails.FsdStrucCode.ToUpper();
+                                    HdDto.RFCondition1 = RFCondition1Paved;
+                                    HdDto.RFCondition2 = RFCondition2Paved;
+                                    HdDto.RFCondition3 = RFCondition3Paved;
+                                    HdDto.RFConditionper1 = RFConditionper1Paved;
+                                    HdDto.RFConditionper2 = RFConditionper2Paved;
+                                    HdDto.RFConditionper3 = RFConditionper3Paved;
+                                    HdDto.Fsdunit = Details.featCode;
+                                    HdDto.RFCFeature = RFCFeaturePaved;
+                                    _HdDtoList.Add(HdDto);
+                                }
+                                
                             }
                             
                         }
@@ -745,22 +750,27 @@ namespace RAMS.Repository
                             if (FsdStrucCode != carriageDetails.FsdStrucCode.ToUpper())
                             {
                                 TotalConditionscariUnPaved = TotalConditionscariPaved + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition1) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition2) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition3);
-                                RFCondition1UnPaved = RFCondition1Paved + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition1);
-                                RFCondition2UnPaved = RFCondition2Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition2));
-                                RFCondition3UnPaved = RFCondition3Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition3));
-                                RFConditionper1UnPaved = RFConditionper1Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition1)) / TotalConditionscariUnPaved;
-                                RFConditionper2UnPaved = RFConditionper2Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition2)) / TotalConditionscariUnPaved;
-                                RFConditionper3UnPaved = RFConditionper3Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition3)) / TotalConditionscariUnPaved;
-                                RFCFeatureUnPaved = Details.Feature + " (UNPAVED)";
-                                 FsdStrucCode = carriageDetails.FsdStrucCode.ToUpper();
-                                HdDto.RFCondition1 = RFCondition1UnPaved;
-                                HdDto.RFCondition2 = RFCondition2UnPaved;
-                                HdDto.RFCondition3 = RFCondition3UnPaved;
-                                HdDto.RFConditionper1 = RFConditionper1UnPaved;
-                                HdDto.RFConditionper2 = RFConditionper2UnPaved;
-                                HdDto.RFConditionper3 = RFConditionper3UnPaved;
-                                HdDto.Fsdunit = Details.featCode;
-                                HdDto.RFCFeature = RFCFeatureUnPaved;
+                                if (TotalConditionscariUnPaved > 0)
+                                {
+                                    RFCondition1UnPaved = RFCondition1Paved + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition1);
+                                    RFCondition2UnPaved = RFCondition2Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition2));
+                                    RFCondition3UnPaved = RFCondition3Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition3));
+                                    RFConditionper1UnPaved = RFConditionper1Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition1)) / TotalConditionscariUnPaved;
+                                    RFConditionper2UnPaved = RFConditionper2Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition2)) / TotalConditionscariUnPaved;
+                                    RFConditionper3UnPaved = RFConditionper3Paved + (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpType == carriageDetails.FsdGrpType).Sum(x => x.FsdCondition3)) / TotalConditionscariUnPaved;
+                                    RFCFeatureUnPaved = Details.Feature + " (UNPAVED)";
+                                    FsdStrucCode = carriageDetails.FsdStrucCode.ToUpper();
+                                    HdDto.RFCondition1 = RFCondition1UnPaved;
+                                    HdDto.RFCondition2 = RFCondition2UnPaved;
+                                    HdDto.RFCondition3 = RFCondition3UnPaved;
+                                    HdDto.RFConditionper1 = RFConditionper1UnPaved;
+                                    HdDto.RFConditionper2 = RFConditionper2UnPaved;
+                                    HdDto.RFConditionper3 = RFConditionper3UnPaved;
+                                    HdDto.Fsdunit = Details.featCode;
+                                    HdDto.RFCFeature = RFCFeatureUnPaved;
+                                    _HdDtoList.Add(HdDto);
+                                }
+                               
                             }
                               
 
@@ -769,7 +779,7 @@ namespace RAMS.Repository
                     }
 
 
-                    _HdDtoList.Add(HdDto);
+                  
                 }
                 else
                 {
@@ -778,27 +788,31 @@ namespace RAMS.Repository
                     if (grpcd.Length > 1)
                     {
                         var TotalConditions = RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition1) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition2) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition3);
-                        HdDto.RFCondition1 = RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition1);
-                        HdDto.RFCondition2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition2));
-                        HdDto.RFCondition3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition3));
-                        HdDto.RFConditionper1 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition1)) / TotalConditions;
-                        HdDto.RFConditionper2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition2)) / TotalConditions;
-                        HdDto.RFConditionper3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition3)) / TotalConditions;
-                        HdDto.Fsdunit = Details.featCode;
+                        if(TotalConditions > 0)
+                        {
+                            HdDto.RFCondition1 = RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition1);
+                            HdDto.RFCondition2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition2));
+                            HdDto.RFCondition3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition3));
+                            HdDto.RFConditionper1 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition1)) / TotalConditions;
+                            HdDto.RFConditionper2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition2)) / TotalConditions;
+                            HdDto.RFConditionper3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature && x.FsdGrpCode == Details.Grpcode).Sum(x => x.FsdCondition3)) / TotalConditions;
+                            HdDto.Fsdunit = Details.featCode;
 
-                        if (grpcd[1].ToUpper() == "L")
-                        {
-                            HdDto.RFCFeature = Details.Feature + " " + "LEFT";
+                            if (grpcd[1].ToUpper() == "L")
+                            {
+                                HdDto.RFCFeature = Details.Feature + " " + "LEFT";
+                            }
+                            else if (grpcd[1].ToUpper() == "R")
+                            {
+                                HdDto.RFCFeature = Details.Feature + " " + "RIGHT";
+                            }
+                            else
+                            {
+                                HdDto.RFCFeature = Details.Feature;
+                            }
+                            _HdDtoList.Add(HdDto);
                         }
-                        else if (grpcd[1].ToUpper() == "R")
-                        {
-                            HdDto.RFCFeature = Details.Feature + " " + "RIGHT";
-                        }
-                        else
-                        {
-                            HdDto.RFCFeature = Details.Feature;
-                        }
-                        _HdDtoList.Add(HdDto);
+                       
                     }
                     else
                     {
@@ -806,23 +820,26 @@ namespace RAMS.Repository
                         if (featureList.Count == 0)
                         {
                             var TotalConditions = RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition1) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition2) + RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition3);
-                            HdDto.RFCondition1 = RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition1);
-                            HdDto.RFCondition2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition2));
-                            HdDto.RFCondition3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition3));
-                            HdDto.RFConditionper1 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition1)) / TotalConditions;
-                            HdDto.RFConditionper2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition2)) / TotalConditions;
-                            HdDto.RFConditionper3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition3)) / TotalConditions;
-                            HdDto.Fsdunit = Details.featCode;
+                            if (TotalConditions > 0)
+                            {
+                                HdDto.RFCondition1 = RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition1);
+                                HdDto.RFCondition2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition2));
+                                HdDto.RFCondition3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition3));
+                                HdDto.RFConditionper1 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition1)) / TotalConditions;
+                                HdDto.RFConditionper2 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition2)) / TotalConditions;
+                                HdDto.RFConditionper3 = (RoadCondiDetails.Where(x => x.FsdFeature == Details.Feature).Sum(x => x.FsdCondition3)) / TotalConditions;
+                                HdDto.Fsdunit = Details.featCode;
 
-                            HdDto.RFCFeature = Details.Feature;
-                            _HdDtoList.Add(HdDto);
+                                HdDto.RFCFeature = Details.Feature;
+                                _HdDtoList.Add(HdDto);
+                            }
+                            
                         }
                       
                     }
 
                 }
-
-               
+              
                     
             }
             return _HdDtoList;
