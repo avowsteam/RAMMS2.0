@@ -187,10 +187,10 @@
           @*  @if (Model.Item1 != null && !Model.Item1.SubmitSts && ViewBag.IsEdit)
             {*@
                 <button id="" type="button" class="btn btn-sm btn-themebtn" onclick="formF4.Save(false);" saveSubmitBtn>Save</button>
-                @*@if (IsSupervisor)
-                {*@
+                @if (IsSupervisor)
+                {
                     <button id="" type="button" class="btn btn-sm btn-themebtn" onclick="formF4.Save(true);" saveSubmitBtn>Submit</button>
-                @*}*@
+                }
             @*}*@
             @if (security.IsExecutive && formStatus == RAMMS.Common.StatusList.FormF4Inspected)
             {

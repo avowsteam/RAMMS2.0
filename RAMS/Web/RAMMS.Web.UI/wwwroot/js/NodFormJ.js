@@ -227,9 +227,15 @@ function saveHeader(isSubmit) {
             data: saveObj,
             type: 'POST',
             success: function (data) {
+                debugger;
                 $("body").removeClass("loading");
-                $("#saveFormABtn").prop("disabled", false);
-                $("#SubmitFormABtn").prop("disabled", false);
+                if (isSubmit) {
+                    $("#saveFormABtn").hide();
+                    $("#SubmitFormABtn").hide();
+                } else {
+                    $("#saveFormABtn").prop("disabled", false);
+                    $("#SubmitFormABtn").prop("disabled", false);
+                }
                 app.ShowSuccessMessage("Successfully Save", false);
                 $("#UserDetails .svalidate").removeClass("validate");
             },

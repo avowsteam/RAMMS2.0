@@ -271,7 +271,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 }
 
             }
-            if (form.Ff3hSubmitSts && (form.Ff3hStatus == "Saved" || form.Ff3hStatus == "Initialize"))
+            if (form.Ff3hSubmitSts && (form.Ff3hStatus == RAMMS.Common.StatusList.Saved  || form.Ff3hStatus == RAMMS.Common.StatusList.FormF3Init ))
             {
                 form.Ff3hStatus = Common.StatusList.FormW2Submitted;
                 form.Ff3hAuditLog = Utility.ProcessLog(form.Ff3hAuditLog, "Submitted By", "Submitted", form.Ff3hInspectedName, string.Empty, form.Ff3hInspectedDate, _security.UserName);

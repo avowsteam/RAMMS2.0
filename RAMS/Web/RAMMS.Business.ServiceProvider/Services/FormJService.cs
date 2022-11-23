@@ -3,6 +3,7 @@ using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RAMMS.Business.ServiceProvider.Interfaces;
+using RAMMS.Common;
 using RAMMS.Domain.Models;
 using RAMMS.DTO;
 using RAMMS.DTO.RequestBO;
@@ -77,7 +78,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             try
             {               
                 var domainModelFormA = _mapper.Map<RmFormJHdr>(formAHeaderBO);
-                domainModelFormA.FjhStatus = "Open";
+                domainModelFormA.FjhStatus = StatusList.FormJInit;
                 foreach (var formADetail in formAHeaderBO.FormJDetails)
                 {
                     domainModelFormA.RmFormJDtl.Add(_mapper.Map<RmFormJDtl>(formADetail));
