@@ -109,14 +109,21 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 case 1:
                                     model.RmiiriPercentage1 = listData.RmiiriPercentage;
                                     model.RmiiriRoadLength1 = listData.RmiiriRoadLength;
+                                    model._RmiiriPercentage1 = listData.RmiiriPercentage.Value.ToString();
+                                    model._RmiiriRoadLength1 = listData.RmiiriRoadLength.Value.ToString();
+                                    model._RmiiriRoadLength = listData.RmiiriRoadLength.Value.ToString();
                                     break;
                                 case 2:
                                     model.RmiiriPercentage2 = listData.RmiiriPercentage;
                                     model.RmiiriRoadLength2 = listData.RmiiriRoadLength;
+                                    model._RmiiriRoadLength2 = listData.RmiiriRoadLength.Value.ToString();
+                                    model._RmiiriRoadLength = listData.RmiiriRoadLength.Value.ToString();
                                     break;
                                 case 3:
                                     model.RmiiriPercentage3 = listData.RmiiriPercentage;
                                     model.RmiiriRoadLength3 = listData.RmiiriRoadLength;
+                                    model._RmiiriRoadLength3 = listData.RmiiriRoadLength.Value.ToString();
+                                    model._RmiiriRoadLength = listData.RmiiriRoadLength.Value.ToString();
                                     break;
                             }
                             model.RmiiriPkRefNo = listData.RmiiriPkRefNo;
