@@ -219,7 +219,7 @@ namespace RAMMS.Repository
                 foreach (var item in child)
                 {
                     _context.Remove(item);
-                    _context.SaveChanges();
+                   // _context.SaveChanges();
                 }
 
                 foreach (var item in FormP1Details)

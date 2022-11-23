@@ -169,6 +169,7 @@ namespace RAMMS.Web.UI.Controllers
             FormPACRRD.Add(new FormPACRRDResponseDTO { Description = "Adjustable Quantity(Clause 12.4 of the Agreement)*" });
             FormPACRRD.Add(new FormPACRRDResponseDTO { Description = "Ancillary Cost(Clause 12.5 of the Agreement)*" });
             FormPACRRD.Add(new FormPACRRDResponseDTO { Description = "Deduction(Clause 9.1.1(a) of the Agreement)#" });
+            FormPACRRD.Add(new FormPACRRDResponseDTO { Description = "Deduction(Clause 9.1.1(b) of the Agreement)" });
             FormPACRRD.Add(new FormPACRRDResponseDTO { Description = "Deduction(Clause 9.1.3 of the Agreement)" });
             FormPACRRD.Add(new FormPACRRDResponseDTO { Description = "Administrative charges(Clause 9.1.1(c) of the Agreement)" });
             FormPACRRD.Add(new FormPACRRDResponseDTO { Description = "Administrative charges(Clause 9.3.5 of the Agreement)" });

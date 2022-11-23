@@ -61,9 +61,23 @@
                 return "";
         }
     };
+    //Number(parseFloat(tot.toFixed(2))).toLocaleString('en')
+
+    var TotalPayment = {
+        data: null, name: "totalPayment", title: "Total Payment Amout", autoWidth: true, sortable: true,
+        render: function (data) {
+            if (data.totalPayment) {
+                 
+                return Number(parseFloat(data.totalPayment.toFixed(2))).toLocaleString('en', { minimumFractionDigits: 2 });
+            }
+            else
+                return "0.00";
+        }
+    };
+
 
     var PaymentCertificateNo = { data: "paymentCertificateNo", name: "PaymentCertificateNo", title: "Payment Certificate No", autoWidth: true, sortable: true };
-    var TotalPayment = { data: "totalPayment", name: "TotalPayment", title: "Total Payment Amout", autoWidth: true, sortable: true };
+   // var TotalPayment = { data: "totalPayment", name: "TotalPayment", title: "Total Payment Amout", autoWidth: true, sortable: true };
     var Status = { data: "status", name: "Status", title: "Status", autoWidth: true, sortable: true };
 
 

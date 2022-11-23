@@ -61,7 +61,7 @@ function CalculateValues() {
     //Amount Instructed Works
     $(".PayAmt.STIC").val(TotalCal("PayAmt", "IC"));
 
-    $(".totamt").text(parseFloat(($(".PayAmt.STCR").val()) + parseFloat($(".PayAmt.STIC").val())).toFixed(2));
+    $(".totamt").text(Number(($(".PayAmt.STCR").val()) + parseFloat($(".PayAmt.STIC").val())).toLocaleString('en', { minimumFractionDigits: 2 }));
 
    
     //Addition Contract roads
@@ -70,7 +70,7 @@ function CalculateValues() {
     //Addition Instructed Works
     $(".PayAdd.STIR").val(TotalCal("PayAdd", "IC"));
 
-    $(".totadd").text(parseFloat($(".PayAdd.STCR").val()).toFixed(2));
+    $(".totadd").text(Number($(".PayAdd.STCR").val()).toLocaleString('en', { minimumFractionDigits: 2 }));
     
     //Deduction Contract roads
     $(".PayDed.STCR").val(TotalCal("PayDed", "CR"));
@@ -78,7 +78,7 @@ function CalculateValues() {
     //Deduction Instructed Works
     $(".PayDed.STIC").val(TotalCal("PayDed", "IC"));
 
-    $(".totDed").text((parseFloat($(".PayDed.STCR").val()) + parseFloat($(".PayDed.STIC").val())).toFixed(2));
+    $(".totDed").text((Number($(".PayDed.STCR").val()) + parseFloat($(".PayDed.STIC").val())).toLocaleString('en', { minimumFractionDigits: 2 }));
 
     //tot Prev Payment Contract roads
     $(".TotPrevPay.STCR").val(TotalCal("TotPrevPay", "CR"));
@@ -86,7 +86,7 @@ function CalculateValues() {
     //tot Prev Payment Instructed Works
     $(".TotPrevPay.STIC").val(TotalCal("TotPrevPay", "IC"));
 
-    $(".TotPrevPay").text((parseFloat($(".TotPrevPay.STCR").val()) + parseFloat($(".TotPrevPay.STIC").val())).toFixed(2));
+    $(".totTotPrevPay").text(Number(parseFloat($(".TotPrevPay.STCR").val()) + parseFloat($(".TotPrevPay.STIC").val())).toLocaleString('en', { minimumFractionDigits: 2 }));
 
     //tot to date Contract roads
     $(".TottoDate.STCR").val(TotalCal("TottoDate", "CR"));
@@ -94,7 +94,7 @@ function CalculateValues() {
     //tot to date Instructed Works
     $(".TottoDate.STIC").val(TotalCal("TottoDate", "IC"));
 
-    $(".TotToDate").text((parseFloat($(".TottoDate.STCR").val()) + parseFloat($(".TottoDate.STIC").val())).toFixed(2));
+    $(".totTotToDate").text(Number(parseFloat($(".TottoDate.STCR").val()) + parseFloat($(".TottoDate.STIC").val())).toLocaleString('en', { minimumFractionDigits: 2 }));
 
     //Amt Payment certificate Contract roads
     $(".AmtincPC.STCR").val(TotalCal("AmtincPC", "CR"));
@@ -102,9 +102,9 @@ function CalculateValues() {
     //Amt Payment certificate Instructed Works
     $(".AmtincPC.STIC").val(TotalCal("AmtincPC", "IC"));
 
-    $(".TotAmtIncPC").text((parseFloat($(".AmtincPC.STCR").val()) + parseFloat($(".AmtincPC.STIC").val())).toFixed(2));
+    $(".TotAmtIncPC").text(Number(parseFloat($(".AmtincPC.STCR").val()) + parseFloat($(".AmtincPC.STIC").val())).toLocaleString('en', { minimumFractionDigits: 2 }));
 
-    $("#txtGrandTotal").val((parseFloat($(".AmtincPC.STCR").val()) + parseFloat($(".AmtincPC.STIC").val())).toFixed(2));
+    $("#txtGrandTotal").val(Number(parseFloat($(".AmtincPC.STCR").val()) + parseFloat($(".AmtincPC.STIC").val())).toLocaleString('en', { minimumFractionDigits: 2 }));
 }
 
 function TotalCal(col, type) {

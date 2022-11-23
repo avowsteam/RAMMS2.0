@@ -65,10 +65,11 @@
         data: null, name: "amountBeforeLad", title: "Final Amount Before LAD", autoWidth: true, sortable: true,
         render: function (data) {
             if (data.amountBeforeLad !=null) {
-                return data.amountBeforeLad.toFixed(2);
+                 
+                return Number(parseFloat(data.amountBeforeLad.toFixed(2))).toLocaleString('en', { minimumFractionDigits: 2 });
             }
             else
-                return "";
+                return "0.00";
         }
     };
 
@@ -76,10 +77,11 @@
         data: null, name: "laDamage", title: "Liquidated and Acertained Damages", autoWidth: true, sortable: true,
         render: function (data) {
             if (data.laDamage != null) {
-                return data.laDamage.toFixed(2);
+               
+                return Number(parseFloat(data.laDamage.toFixed(2))).toLocaleString('en', { minimumFractionDigits: 2 });
             }
             else
-                return "";
+                return "0.00";
         }
     };
 
@@ -87,10 +89,10 @@
         data: null, name: "finalPayment", title: "Final Payment", autoWidth: true, sortable: true,
         render: function (data) {
             if (data.finalPayment != null) {
-                return data.finalPayment.toFixed(2);
+                return Number(parseFloat(data.finalPayment.toFixed(2))).toLocaleString('en', { minimumFractionDigits: 2 });  
             }
             else
-                return "";
+                return "0.00";
         }
     };
 

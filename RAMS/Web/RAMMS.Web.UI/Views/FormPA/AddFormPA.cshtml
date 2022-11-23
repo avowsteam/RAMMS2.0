@@ -520,11 +520,11 @@
 
         if (Isverified && (Model.FormPAHeader.Status == RAMMS.Common.StatusList.Submitted))
         {
-            <button id="SubmitFormPABtn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Certified By EC');"> Verify </button>
+            <button id="VerifyFormPBBtn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Certified By EC');"> Verify </button>
         }
         else if (IsApproved && (Model.FormPAHeader.Status == RAMMS.Common.StatusList.CertifiedbyEC))
         {
-            <button id="SubmitFormPABtn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Certified By SO');"> Verify </button>
+            <button id="VerifyFormPABtn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Certified By SO');"> Verify </button>
         }
 
     }

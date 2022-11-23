@@ -359,8 +359,8 @@
                                                                     <td class="totamt"></td>
                                                                     <td class="totadd"></td>
                                                                     <td class="totDed" ></td>
-                                                                    <td class="TotPrevPay" ></td>
-                                                                    <td class="TotToDate"></td>
+                                                                    <td class="totTotPrevPay" ></td>
+                                                                    <td class="totTotToDate"></td>
                                                                     <td class="TotAmtIncPC" style="text-align:right">
                                                                     </td>
                                                                 </tr>
@@ -381,7 +381,7 @@
                                                                     <div class="input-group-prepend">
                                                                         <span class="input-group-text">RM</span>
                                                                     </div>
-                                                                    <input  id="txtGrandTotal" class="form-control  text-right" disabled type="number" value="">
+                                                                    <input  id="txtGrandTotal" class="form-control  text-right" disabled   value="">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -482,7 +482,7 @@
         }
         if (IsApproved && (Model.FormP1Header.Status == RAMMS.Common.StatusList.Submitted))
         {
-            <button id="SubmitFormP1Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Verified By');"> Verify </button>
+            <button id="VerifyFormP1Btn" type="button" class="btn btn-sm btn-themebtn enblmode" onclick="process.ShowApprove('@groupname','Verified By');"> Verify </button>
         }
     }
 </div>

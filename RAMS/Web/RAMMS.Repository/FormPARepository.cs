@@ -211,7 +211,7 @@ namespace RAMMS.Repository
                 foreach (var item in child)
                 {
                     _context.Remove(item);
-                    _context.SaveChanges();
+                   // _context.SaveChanges();
                 }
 
                 foreach (var item in FormPACrr)
@@ -226,7 +226,7 @@ namespace RAMMS.Repository
                 foreach (var item in child2)
                 {
                     _context.Remove(item);
-                    _context.SaveChanges();
+                   // _context.SaveChanges();
                 }
 
                 foreach (var item in FormPACrrd)
@@ -242,7 +242,7 @@ namespace RAMMS.Repository
                 foreach (var item in child3)
                 {
                     _context.Remove(item);
-                    _context.SaveChanges();
+                   // _context.SaveChanges();
                 }
 
                 foreach (var item in FormPACrra)

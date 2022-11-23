@@ -33,11 +33,11 @@ function DisableHeader() {
         $("#btnFindDetails").hide();
     }
 
-    //if ($("#hdnView").val() == 1) {
-    //    $("#saveFormPBBtn").hide();
-    //    $("#SubmitFormPBBtn").hide();
+    if ($("#hdnView").val() == 1) {
+        $("#saveFormPBBtn").hide();
+        $("#SubmitFormPBBtn").hide();
 
-    //}
+    }
 
 
 }
@@ -142,9 +142,9 @@ function Save(SubmitType) {
     FormPB.RefId = $("#FormPBHeader_RefId").val()
     FormPB.SubmissionMonth = $("#ddlMonth").val()
     FormPB.SubmissionYear = $("#ddlYear").val()
-    FormPB.AmountBeforeLad = $('.totAmountBeforeLad').text().trim();
-    FormPB.LaDamage = $('.totLaDamage').text().trim();
-    FormPB.FinalPayment = $('.totFinalPayment').text().trim();
+    FormPB.AmountBeforeLad = $('.totAmountBeforeLad').text().trim().replace(/,/g, '');
+    FormPB.LaDamage = $('.totLaDamage').text().trim().replace(/,/g, '');
+    FormPB.FinalPayment = $('.totFinalPayment').text().trim().replace(/,/g, '');
     FormPB.UseridSp = $('#ddlSP').val();
     FormPB.UsernameSp = $('#FormPBHeader_UsernameSp').val();
     FormPB.DesignationSp = $('#FormPBHeader_DesignationSp').val();
@@ -310,9 +310,9 @@ function CalculateValues() {
     });
 
 
-    $(".totAmountBeforeLad").text(totBeforeLad);
-    $(".totLaDamage").text(totLAD);
-    $(".totFinalPayment").text(totFinalPay);
+    $(".totAmountBeforeLad").text(Number(totBeforeLad).toLocaleString('en', { minimumFractionDigits: 2 }));
+    $(".totLaDamage").text(Number(totLAD).toLocaleString('en', { minimumFractionDigits: 2 }));
+    $(".totFinalPayment").text(Number(totFinalPay).toLocaleString('en', { minimumFractionDigits: 2 }));
 
 }
 

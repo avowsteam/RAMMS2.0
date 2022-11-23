@@ -64,10 +64,10 @@
         data: null, name: "workValueDeduction", title: "RMMS Work Value Deductions(RM)", autoWidth: true, sortable: true,
         render: function (data) {
             if (data.workValueDeduction != null) {
-                return data.workValueDeduction.toFixed(2);
+                return Number(parseFloat(data.workValueDeduction.toFixed(2))).toLocaleString('en', { minimumFractionDigits: 2 });
             }
             else
-                return "";
+                return "0.00";
         }
     };
 
@@ -75,10 +75,11 @@
         data: null, name: "workValueAddition", title: "RMMS Work Value Additions(RM)", autoWidth: true, sortable: true,
         render: function (data) {
             if (data.workValueAddition != null) {
-                return data.workValueAddition.toFixed(2);
+             
+                return Number(parseFloat(data.workValueAddition.toFixed(2))).toLocaleString('en', { minimumFractionDigits: 2 });
             }
             else
-                return "";
+                return "0.00";
         }
     };
 

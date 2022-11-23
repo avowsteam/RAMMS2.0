@@ -14,11 +14,11 @@ function DisableHeader() {
         $("#btnFindDetails").hide();
     }
 
-    //if ($("#hdnView").val() == 1) {
-    //    $("#saveFormPABtn").hide();
-    //    $("#SubmitFormPABtn").hide();
+    if ($("#hdnView").val() == 1) {
+        $("#saveFormPABtn").hide();
+        $("#SubmitFormPABtn").hide();
         
-    //}
+    }
 
 
 }
@@ -125,7 +125,7 @@ function Save(SubmitType) {
     FormPA.SubmissionYear = $("#ddlYear").val()
     FormPA.WorkValueDeduction = $('.totThisPayded').text().trim();
     FormPA.WorkValueAddition = $('.totThisPayAdd').text().trim();
-    FormPA.TotalPayment = $('.totAmtGrand').text().trim();
+    FormPA.TotalPayment = $('.totAmtGrand').text().trim().replace(/,/g, '');
     FormPA.UseridSp = $('#ddlSP').val();
     FormPA.UsernameSp = $('#FormPAHeader_UsernameSp').val();
     FormPA.DesignationSp = $('#FormPAHeader_DesignationSp').val();
@@ -234,9 +234,9 @@ function FindDetails() {
         FormPA.PkRefNo = $("#FormPAHeader_PkRefNo").val()
         FormPA.SubmissionMonth = $("#ddlMonth").val()
         FormPA.SubmissionYear = $("#ddlYear").val()
-        FormPA.WorkValueDeduction = $('.tottodateded').text().trim();
-        FormPA.WorkValueAddition = $('.tottodateAdd').text().trim();
-        FormPA.TotalPayment = $('.totAmtGrand').text().trim();
+        FormPA.WorkValueDeduction = $('.tottodateded').text().trim().replace(/,/g, '');
+        FormPA.WorkValueAddition = $('.tottodateAdd').text().trim().replace(/,/g, '');
+        FormPA.TotalPayment = $('.totAmtGrand').text().trim().replace(/,/g, '');
         FormPA.UseridSp = $('#ddlSp').val();
         FormPA.UsernameSp = $('#FormPAHeader_UsernameSp').val();
         FormPA.DesignationSp = $('#FormPAHeader_DesignationSp').val();
@@ -336,10 +336,10 @@ function ContractRoadCal() {
 
     });
 
-    $(".totPaved").text(totPaved);
-    $(".totunPaved").text(totUnPaved);
-    $(".totsubtotal").text(totSubTotal);
-    $(".totAmtGrand").text(totTotalAmount);
+    $(".totPaved").text(Number(totPaved).toLocaleString('en', { minimumFractionDigits: 2 }));
+    $(".totunPaved").text(Number(totUnPaved).toLocaleString('en', { minimumFractionDigits: 2 }));
+    $(".totsubtotal").text(Number(totSubTotal).toLocaleString('en', { minimumFractionDigits: 2 }));
+    $(".totAmtGrand").text(Number(totTotalAmount).toLocaleString('en', { minimumFractionDigits: 2 }));
 }
 
 function DeductionCal() {
@@ -370,9 +370,9 @@ function DeductionCal() {
 
     });
 
-    $(".totThisPayded").text(totThisPay);
-    $(".totTillPayded").text(totTillPay);
-    $(".tottodateded").text(totTottoDate);
+    $(".totThisPayded").text(Number(totThisPay).toLocaleString('en', { minimumFractionDigits: 2 }));
+    $(".totTillPayded").text(Number(totTillPay).toLocaleString('en', { minimumFractionDigits: 2 }));
+    $(".tottodateded").text(Number(totTottoDate).toLocaleString('en', { minimumFractionDigits: 2 }));
 
 }
 
@@ -405,8 +405,8 @@ function AdditionCal() {
 
     });
 
-    $(".totThisPayAdd").text(totThisPay);
-    $(".totTillPayAdd").text(totTillPay);
-    $(".tottodateAdd").text(totTottoDate);
+    $(".totThisPayAdd").text(Number(totThisPay).toLocaleString('en', { minimumFractionDigits: 2 }));
+    $(".totTillPayAdd").text(Number(totTillPay).toLocaleString('en', { minimumFractionDigits: 2 }));
+    $(".tottodateAdd").text(Number(totTottoDate).toLocaleString('en', { minimumFractionDigits: 2 }));
 
 }
