@@ -181,24 +181,20 @@
                     <div class="card-body">
 
                         <div class="row">
-                            <div class="col-2 form-group">
-                            </div>
-                            <div class="col-md-8 text-right" id="divIRM">
-                                @{
-
-                                    Html.RenderPartial("_iRMPartial.cshtml");
-                                }
-                            </div>
-                            <div class="col-2 form-group">
+                            <div class="col-lg-2  offset-lg-10  form-group">
                                 @Html.DropDownListFor(m => m.SaveFormAModel.section, (IEnumerable
-        <SelectListItem>)ViewData["RMIIRIYear"], new { @Id = "ddlDLPSPYear", @class = "form-control" })
+<SelectListItem>)ViewData["RMIIRIYear"], new { @Id = "ddlDLPSPYear", @class = "form-control" })
                                 @*<select id="ddlDLPSPYear" class="form-control">
-                                        <option>Year</option>
-                                        <option value="2020">2020</option>
-                                        <option value="2021">2021</option>
-                                        <option selected="selected" value="2022">2022</option>
-                                    </select>*@
+                        <option>Year</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option selected="selected" value="2022">2022</option>
+                    </select>*@
                             </div>
+                            <div class="col-12 text-right" id="divIRM">
+                                @{ Html.RenderPartial("_iRMPartial.cshtml"); }
+                            </div>
+
 
                         </div>
 

@@ -12,39 +12,82 @@
     decimal roadLength1 = rMIIRMData.RmiiriRoadLength1.HasValue ? rMIIRMData.RmiiriRoadLength1.Value : 0;
     decimal roadLength2 = rMIIRMData.RmiiriRoadLength2.HasValue ? rMIIRMData.RmiiriRoadLength2.Value : 0;
     decimal roadLength3 = rMIIRMData.RmiiriRoadLength3.HasValue ? rMIIRMData.RmiiriRoadLength3.Value : 0;
+
+    decimal Percentage = rMIIRMData.RmiiriPercentage.HasValue ? rMIIRMData.RmiiriPercentage.Value : 0;
+    decimal Percentage1 = rMIIRMData.RmiiriPercentage1.HasValue ? rMIIRMData.RmiiriPercentage1.Value : 0;
+    decimal Percentage2 = rMIIRMData.RmiiriPercentage2.HasValue ? rMIIRMData.RmiiriPercentage2.Value : 0;
+    decimal Percentage3 = rMIIRMData.RmiiriPercentage3.HasValue ? rMIIRMData.RmiiriPercentage3.Value : 0;
+
     bool isIRUpdate = false;
     if (ViewBag.IRUpdate != null)
     {
         isIRUpdate = true;
     }
 }
-<div class="col-lg-10 offset-lg-1 mt-2 border-bottom" style="height:80%">
-    <canvas id="myChart2"></canvas>
-</div>
-<div class="col-lg-10 table-responsive">
+<div class="row">
 
-    @if (rMIIRMData != null)
-    {
-        <table style="font-size:x-small" class="table w-100 nowrap dataTable no-footer">
-            <tbody>
-                <tr>
-                    <td style="width:18%">Road Length(km)</td>
-                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength KM</td>
-                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength1 KM</td>
-                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength2 KM</td>
-                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength3 KM</td>
-                </tr>
-                <tr>
-                    <td>Percentage (%)</td>
-                    <td>@rMIIRMData.RmiiriPercentage %</td>
-                    <td>@rMIIRMData.RmiiriPercentage1 %</td>
-                    <td>@rMIIRMData.RmiiriPercentage2 %</td>
-                    <td>@rMIIRMData.RmiiriPercentage3 %</td>
-                </tr>
-            </tbody>
-        </table>
-    }
 
+    <div class="col-8 mt-2" style="height:80%">
+        <canvas id="myChart2"></canvas>
+    </div>
+    <div class="col-4 p-0">
+
+        @if (rMIIRMData != null)
+        {
+            <div class="rmi-row">
+                <div class="rmi-value">Road Maintenance Indicator (RMI)</div><div class="rmi-value">
+                    Road Length(km) <span> @rMIIRMData.RmiiriRoadLength KM </span>
+                </div>
+
+
+                <div class="rmi-value">
+                    Percentage(%)<span> @rMIIRMData.RmiiriPercentage %</span>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table style="font-size:x-small" class="table w-100 nowrap dataTable no-footer">
+                    <thead style="background-color: #c8e1ff">
+                        <tr>
+                            <th></th>
+                            <th>  Road Length(km)</th>
+                            <th> Percentage (%)</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="width:18%">Condition 1</td>
+
+                            <td style="width:20%">@rMIIRMData.RmiiriRoadLength1 KM</td>
+                            <td>@rMIIRMData.RmiiriPercentage1 %</td>
+                        </tr>
+                        <tr>
+                            <td style="width:18%">Condition 2</td>
+
+                            <td style="width:20%">@rMIIRMData.RmiiriRoadLength2 KM</td>
+                            <td>@rMIIRMData.RmiiriPercentage2 %</td>
+                        </tr>
+                        <tr>
+                            <td style="width:18%">Condition 3</td>
+
+                            <td style="width:20%">@rMIIRMData.RmiiriRoadLength3 KM</td>
+                            <td>@rMIIRMData.RmiiriPercentage3 %</td>
+                        </tr>
+                        <tr>
+                            <td style="width:18%">Total</td>
+
+                            <td style="width:20%"> @{ decimal totalLength = rMIIRMData.RmiiriRoadLength.Value + rMIIRMData.RmiiriRoadLength2.Value + rMIIRMData.RmiiriRoadLength3.Value;
+                                decimal totalPercentage = rMIIRMData.RmiiriPercentage1.Value + rMIIRMData.RmiiriPercentage2.Value + rMIIRMData.RmiiriPercentage3.Value;
+                                }
+                            <p>@totalLength KM</p>
+                            </td>
+                            <td> <p>@totalPercentage %</p> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>}
+
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -59,22 +102,24 @@
             labels: IRIlabels1,
             datasets: [
                 {
-                    label: [],
+                    label: 'Road Length(km)',
                     data: [@roadLength, @roadLength1, @roadLength2, @roadLength3],
                     backgroundColor: [
-                        'rgba(0, 107, 180, 1)',
-                        'rgba(0, 212, 86, 1)',
-                        'rgba(238, 148, 18, 1)',
-                        'rgba(255, 5, 5, 1)'
-                    ],
-                    borderColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(200, 86, 1)',
-                        'rgb(255, 205, 86)',
-                        'rgb(75, 192, 192)'
+                        'rgba(17, 141, 255, 1)',
+                        'rgba(17, 191, 14, 1)',
+                        'rgba(225, 194, 51, 1)',
+                        'rgba(214, 69, 80, 1)'
                     ],
                     borderWidth: 1
-                }]
+                },
+            {
+                type: 'line',
+                label: 'Percentage (%)',
+                data: [@Percentage,@Percentage1, @Percentage2,@Percentage3],
+                pointRadius: 10,
+                fill: false,
+                borderColor: 'rgba(238, 148, 18, 1)'
+            },]
         }
 
         const config1 = {
@@ -115,7 +160,7 @@
             labels: IRIlabels2,
             datasets: [
                 {
-                    label: [],
+                    label: 'Road Length(km)',
                     data: [@roadLength, @roadLength1, @roadLength2, @roadLength3],
                     backgroundColor: [
                         'rgba(0, 107, 180, 1)',
@@ -123,14 +168,17 @@
                         'rgba(238, 148, 18, 1)',
                         'rgba(255, 5, 5, 1)'
                     ],
-                    borderColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(200, 86, 1)',
-                        'rgb(255, 205, 86)',
-                        'rgb(75, 192, 192)'
-                    ],
                     borderWidth: 1
-                }]
+                },
+                 {
+                type: 'line',
+                label: 'Percentage (%)',
+                data: [@Percentage,@Percentage1, @Percentage2,@Percentage3],
+                pointRadius: 10,
+                fill: false,
+                borderColor: 'rgba(238, 148, 18, 1)'
+            },
+            ]
         }
 
         const IRIconfig2 = {

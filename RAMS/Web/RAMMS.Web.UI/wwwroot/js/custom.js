@@ -4,11 +4,11 @@ $(document).ready(function () {
     $('#info-box').html($('#MIR').data('info'));
 });
 
-$(".path, .grp-path").hover(function (e) {
-    $('#MIR').removeClass('activeMap');
-  $('#info-box').css('display','block');
-  $('#info-box').html($(this).data('info'));
-});
+//$(".path, .grp-path").hover(function (e) {
+//    $('#MIR').removeClass('activeMap');
+//  $('#info-box').css('display','block');
+//  $('#info-box').html($(this).data('info'));
+//});
 
 $(".path, .grp-path").mouseleave(function (e) {
     $('#MIR').addClass('activeMap');

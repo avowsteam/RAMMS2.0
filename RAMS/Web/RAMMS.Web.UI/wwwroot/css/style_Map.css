@@ -2,33 +2,46 @@
     width: 100%;
     height: 500px;
     margin: 0 auto;
-    padding: 40px 0;
+    /*padding: 40px 0;*/
 }
-.path, .grp-path{
-	fill:#E0E0E0;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;
+
+.path, .grp-path {
+    fill: #E0E0E0;
+    stroke: #FFFFFF;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
 }
-.path:hover, .grp-path:hover{
-  fill: #ff0000 !important;
-  cursor: pointer;
-  transition: fill .5s ease;
-    -moz-transition: fill .5s ease;
-    -webkit-transition: fill .5s ease;
-}
+
+    .path:hover, .grp-path:hover {
+        fill: #ff0000 !important;
+        cursor: pointer;
+        transition: fill .5s ease;
+        -moz-transition: fill .5s ease;
+        -webkit-transition: fill .5s ease;
+    }
+
 .map-body {
     float: left;
     width: 100%;
-    margin-bottom: 10px;
     font-size: 15px;
-    margin: 5px; 
+    background: #152e4d;
+    color: #d8d8d8;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 6px;
 }
+
 .map-subbody {
-    width: 48%;
+    width: 100%;
     float: left;
     font-size: 14px;
     border: solid 1px #e6e4e4;
-    margin: 2px 2px;
+    margin: 2px 0px 5px 0px;
     padding: 6px;
-    background: #f0f0f0;
+    background: #2196f3;
+    color: #ebebeb;
+    border-radius: 5px;
+    line-height: 20px;
 }
 
 .activeMap {
@@ -45,17 +58,57 @@
     top: 0px;
     left: 0px;
     z-index: 1;
-    background-color: #ffffff;
-    border:1px solid #000000;
+    /* background-color: #ffffff;
+    border:1px solid #000000;*/
     border-radius: 5px;
-    padding:6px;
+    padding: 6px;
     font-size: 16px;
-    width:300px;
-
-    float:left
+    width: 355px;
+    float: left
 }
+
+.map-subbody > .text-bld, .valuecont {
+    width: 68%;
+    float: left;
+    font-size: 10px;
+}
+
+    .valuecont > p {
+        margin: 0px;
+        padding: 0px;
+    }
+
+        .valuecont > p:first-child {
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+.map-count, .valueone {
+    float: left;
+    width: 25%;
+}
+
+.map-count {
+    line-height: 16px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px
+}
+
+    .map-count:last-child {
+        margin-bottom: 0px;
+    }
+
+    .map-count > span {
+        float: left;
+        margin: 0px 5px;
+    }
+
 .valueone {
-    float:left;width:50%;
+    line-height: 36px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
 }
 
 #info-box .bld {
@@ -74,3 +127,62 @@
 .text-bld {
     font-weight: bold;
 }
+
+.map-subbody > .text-bld > p {
+    margin: 0;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.map-subbody > .text-bld {
+}
+
+.cont-map {
+    width: 100%;
+    float: left;
+    border-bottom: dotted 1px #eae0e085;
+    padding: 6px 0px;
+}
+
+    .cont-map:last-child {
+        margin-bottom: 0px;
+        border: none
+    }
+
+.rmi-row {
+    width: 100%;
+    float: left;
+    background: #137fe3;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 10px;
+    margin-top: 40px;
+    text-align: center
+}
+
+.rmi-value:first-child {
+    width: 100%;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 8px 0px;
+    padding-bottom: 8px;
+    border-bottom: solid 1px #adadad;
+}
+
+.rmi-value:not(:first-child) {
+    flex: 1;
+}
+
+.rmi-value {
+    display: inline-block;
+    color: #e9e9e9;
+    font-size: 12px;
+}
+
+    .rmi-value > span {
+        width: 100%;
+        float: left;
+        font-weight: bold;
+        font-size: 17px;
+    }
