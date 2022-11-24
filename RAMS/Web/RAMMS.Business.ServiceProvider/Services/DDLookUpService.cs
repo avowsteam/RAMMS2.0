@@ -487,8 +487,8 @@ namespace RAMMS.Business.ServiceProvider.Services
                 {
                     ddLookUpItem.Add(new SelectListItem
                     {
-                        Value = list.RFCRMU.ToString(),
-                        Text = list.RFCRMU.ToString()
+                        Value = list.RFCRMU.ToString() == "MRI" ? "MIRI": "BATU NIAH",
+                        Text = list.RFCRMU.ToString() == "MRI" ? "MIRI" : "BATU NIAH",
                     });
                 }
                 return ddLookUpItem.ToList();

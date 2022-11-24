@@ -651,9 +651,10 @@ namespace RAMS.Repository
             //                       join h in _context.RmFormFsInsDtl on o.FshPkRefNo equals h.FsdFshPkRefNo
             //                       where o.FshRmuName == RFCRMU && o.FshYearOfInsp == RFCYear
             //                       select h);
+            var RmuFullName = RFCRMU == "MIRI" ? "MRI" : "BTN";
             var RMURoadCondiDetails = (from o in _context.RmFormFsInsHdr
                                    
-                                    where o.FshRmuName == RFCRMU && o.FshYearOfInsp == RFCYear && o.FshActiveYn == true
+                                    where o.FshRmuName == RmuFullName && o.FshYearOfInsp == RFCYear && o.FshActiveYn == true
                                     select o);
             var RoadCondiDetailsYear = (from o in _context.RmFormFsInsHdr
                                    join h in RMURoadCondiDetails on o.FshPkRefNo equals h.FshPkRefNo
