@@ -22,6 +22,8 @@ using RAMMS.DTO.Wrappers;
 using X.PagedList;
 using RAMMS.DTO.JQueryModel;
 using Newtonsoft.Json;
+using System.Runtime.CompilerServices;
+using RAMMS.Business.ServiceProvider.Services;
 
 namespace RAMMS.Web.UI.Controllers
 {
@@ -314,6 +316,12 @@ namespace RAMMS.Web.UI.Controllers
             return Json(rowsAffected);
         }
 
+        public IActionResult ExportIW()
+        {
+            var content1 = _formW2Service.ExportIW("IWLandingPage", _webHostEnvironment.WebRootPath, _webHostEnvironment.WebRootPath + "/Templates/IWLandingPage.xlsx");
+            string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            return File(content1, contentType1, "IWLandingPage" + ".xlsx");
+        }
 
         #endregion
 

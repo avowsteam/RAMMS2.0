@@ -53,7 +53,7 @@ namespace RAMMS.DTO.ResponseBO
         public string Unit { get; set; }
 
         [MapTo("FddProdQty")]
-        public int? ProdQty { get; set; }
+        public decimal? ProdQty { get; set; }
 
         [MapTo("FddProdUnit")]
         public string ProdUnit { get; set; }

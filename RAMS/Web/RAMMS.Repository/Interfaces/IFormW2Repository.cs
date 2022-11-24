@@ -26,5 +26,7 @@ namespace RAMMS.Repository.Interfaces
 
         Task<IEnumerable<RmRoadMaster>> GetRoadCodesByRMU(string rmu);
 
+        List<FormIWResponseDTO> GetReportData();
+
     }
 }
