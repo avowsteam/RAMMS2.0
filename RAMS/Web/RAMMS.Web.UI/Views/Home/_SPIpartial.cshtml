@@ -57,9 +57,9 @@ isSPIUpdate = true;
             <canvas id="myChart"></canvas>
         </div>
 
-        <div style="height:90%;" id="divmySPIChart" class="col-md-11 border-bottom">
-            <canvas id="mySPIChart"></canvas>
-        </div>
+        @*<div style="height:90%;" id="divmySPIChart" class="col-md-11 border-bottom">
+                <canvas id="mySPIChart"></canvas>
+            </div>*@
 
         <div style="height:90%" class="col-md-12 border-bottom mb-1">
             <table style="font-size: x-small;" class="table-responsive table-striped table text-cente w-100 nowrap dataTable no-footer">
@@ -106,8 +106,10 @@ isSPIUpdate = true;
                         }
                     </tr>
                     <tr>
-                        <td style="width:12%"><div style="height: 3px; width: 40px; background-color: #164912; display: inline-block; "></div>
-                        <br /> Cul. Plan (RM)</td>
+                        <td style="width:12%">
+                            <div style="height: 3px; width: 40px; background-color: #164912; display: inline-block; "></div>
+                            <br /> Cul. Plan (RM)
+                        </td>
                         @if (!string.IsNullOrEmpty(cutPlan))
                         {
                             foreach (var item in cutPlan.Split(','))
@@ -116,8 +118,10 @@ isSPIUpdate = true;
                         }
                     </tr>
                     <tr>
-                        <td style="width:12%"> <div style="height: 3px; width: 40px; background-color: #ee9412; display: inline-block;"></div><br /> 
-                        Cul. Actual (RM)</td>
+                        <td style="width:12%">
+                            <div style="height: 3px; width: 40px; background-color: #ee9412; display: inline-block;"></div><br />
+                            Cul. Actual (RM)
+                        </td>
                         @if (!string.IsNullOrEmpty(cutActual))
                         {
                             foreach (var item in cutActual.Split(','))
@@ -126,8 +130,10 @@ isSPIUpdate = true;
                         }
                     </tr>
                     <tr>
-                        <td style="width:12%"><div style="height: 3px; width: 40px; background-color: #006bb4; display: inline-block;"></div>
-                        <br />Planned %</td>
+                        <td style="width:12%">
+                            <div style="height: 3px; width: 40px; background-color: #006bb4; display: inline-block;"></div>
+                            <br />Planned %
+                        </td>
                         @if (!string.IsNullOrEmpty(Planned))
                         {
                             foreach (var item in Planned.Split(','))
@@ -136,8 +142,10 @@ isSPIUpdate = true;
                         }
                     </tr>
                     <tr>
-                        <td style="width:12%"><div style="height: 3px; width: 40px; background-color: #00c856; display: inline-block;"></div>
-                        <br /> Actual %</td>
+                        <td style="width:12%">
+                            <div style="height: 3px; width: 40px; background-color: #00c856; display: inline-block;"></div>
+                            <br /> Actual %
+                        </td>
                         @if (!string.IsNullOrEmpty(Actual))
                         {
                             foreach (var item in Actual.Split(','))
@@ -626,3 +634,7 @@ isSPIUpdate = true;
     });
 </script>
 <!--END SPI Js-->
+<script src="~/js/custom.js"></script>
+@*<link rel="stylesheet" type="text/css" href="~/assets/css/custom.css" asp-append-version="true" />*@
+<link href="~/css/style_Map.css" rel="stylesheet" />
+

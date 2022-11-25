@@ -191,7 +191,7 @@
     border: 2px solid #007bff !important;
     color: #007bff;
     border-radius: 5px !important;
-    background: #007bff !important;
+    background: #4472c4 !important;
     color: #fff !important;
 }
 .month-li > li {
@@ -201,5 +201,5 @@
     .month-li > li > a {
         border: solid 2px #c2c2c2 !important;
         border-radius: 5px !important;
-        padding: 8px 10px; text-align: center
+        padding:6px 8px!important; text-align: center
     }
