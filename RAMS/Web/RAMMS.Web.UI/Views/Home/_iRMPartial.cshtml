@@ -36,12 +36,12 @@
         {
             <div class="rmi-row">
                 <div class="rmi-value">Road Maintenance Indicator (RMI)</div><div class="rmi-value">
-                    Road Length(km) <span> @rMIIRMData.RmiiriRoadLength KM </span>
+                    Road Length (km) <span> @rMIIRMData.RmiiriRoadLength </span>
                 </div>
 
 
                 <div class="rmi-value">
-                    Percentage(%)<span> @rMIIRMData.RmiiriPercentage %</span>
+                    Percentage (%)<span> @rMIIRMData.RmiiriPercentage</span>
                 </div>
             </div>
             <div class="table-responsive">
@@ -49,7 +49,7 @@
                     <thead style="background-color: #c8e1ff">
                         <tr>
                             <th></th>
-                            <th>  Road Length(km)</th>
+                            <th>  Road Length (km)</th>
                             <th> Percentage (%)</th>
 
                         </tr>
@@ -58,20 +58,20 @@
                         <tr>
                             <td style="width:18%">Condition 1</td>
 
-                            <td style="width:20%">@rMIIRMData.RmiiriRoadLength1 KM</td>
-                            <td>@rMIIRMData.RmiiriPercentage1 %</td>
+                            <td style="width:20%">@rMIIRMData.RmiiriRoadLength1</td>
+                            <td>@rMIIRMData.RmiiriPercentage1 </td>
                         </tr>
                         <tr>
                             <td style="width:18%">Condition 2</td>
 
-                            <td style="width:20%">@rMIIRMData.RmiiriRoadLength2 KM</td>
-                            <td>@rMIIRMData.RmiiriPercentage2 %</td>
+                            <td style="width:20%">@rMIIRMData.RmiiriRoadLength2 </td>
+                            <td>@rMIIRMData.RmiiriPercentage2 </td>
                         </tr>
                         <tr>
                             <td style="width:18%">Condition 3</td>
 
-                            <td style="width:20%">@rMIIRMData.RmiiriRoadLength3 KM</td>
-                            <td>@rMIIRMData.RmiiriPercentage3 %</td>
+                            <td style="width:20%">@rMIIRMData.RmiiriRoadLength3 </td>
+                            <td>@rMIIRMData.RmiiriPercentage3 </td>
                         </tr>
                         <tr>
                             <td style="width:18%">Total</td>
@@ -80,9 +80,9 @@
                                 @{ decimal? totalLength = rMIIRMData.RmiiriRoadLength + rMIIRMData.RmiiriRoadLength2 + rMIIRMData.RmiiriRoadLength3;
                                     decimal? totalPercentage = rMIIRMData.RmiiriPercentage1 + rMIIRMData.RmiiriPercentage2 + rMIIRMData.RmiiriPercentage3;
                                 }
-                                <p>@totalLength KM</p>
+                                <p>@totalLength </p>
                             </td>
-                            <td> <p>@totalPercentage %</p> </td>
+                            <td> <p>@totalPercentage </p> </td>
                         </tr>
                     </tbody>
                 </table>
@@ -103,7 +103,7 @@
             labels: IRIlabels1,
             datasets: [
                 {
-                    label: 'Road Length(km)',
+                    label: 'Road Length (km)',
                     data: [@roadLength, @roadLength1, @roadLength2, @roadLength3],
                     backgroundColor: [
                         'rgba(17, 141, 255, 1)',
