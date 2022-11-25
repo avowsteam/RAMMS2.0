@@ -765,7 +765,7 @@ function clearForm() {
     $("#formDDtlRoadCode").val("").trigger("chosen:updated");
     $("#formDDtlroadDesc").val("");
     $("#FormDSourceType").val("").trigger("chosen:updated");
-    $("#FormDSourceRefID").val("");
+    $("#FormDSourceRefID").val("").trigger("chosen:updated");
     $("#FormDTextReferenceID").val("");
     $("#formDArrivalTime").val("");
     $("#formDDepartureTime").val("");
