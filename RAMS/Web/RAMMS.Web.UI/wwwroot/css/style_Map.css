@@ -13,7 +13,6 @@
 }
 
     .path:hover, .grp-path:hover {
-        fill: #ff0000 !important;
         cursor: pointer;
         transition: fill .5s ease;
         -moz-transition: fill .5s ease;
@@ -38,7 +37,8 @@
     border: solid 1px #e6e4e4;
     margin: 2px 0px 5px 0px;
     padding: 6px;
-    background: #2196f3;
+    /*    background: #2196f3;*/
+    background: #366299;
     color: #ebebeb;
     border-radius: 5px;
     line-height: 20px;
@@ -85,7 +85,7 @@
 
 .map-count, .valueone {
     float: left;
-    width: 25%;
+    width: 32%;
 }
 
 .map-count {
@@ -152,7 +152,7 @@
 .rmi-row {
     width: 100%;
     float: left;
-    background: #137fe3;
+    background: #4caf50;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -185,4 +185,21 @@
         float: left;
         font-weight: bold;
         font-size: 17px;
+    }
+
+.month-li > li > a.active {
+    border: 2px solid #007bff !important;
+    color: #007bff;
+    border-radius: 5px !important;
+    background: #4472c4 !important;
+    color: #fff !important;
+}
+.month-li > li {
+     margin: 4px 5px !important;
+    width: 46%;
+}
+    .month-li > li > a {
+        border: solid 2px #c2c2c2 !important;
+        border-radius: 5px !important;
+        padding:6px 8px!important; text-align: center
     }
