@@ -314,7 +314,24 @@ namespace RAMMS.WebAPI
             }
         }
 
-       
+        //_ddLookupService.GetLookUpCodeTextConcat(ddLookup).Result
+        [Route("api/ddlcodetextconcat")]
+        [HttpPost]
+        public async Task<IActionResult> GetLookUpCodeTextConcat([FromBody] object ddListObj)
+        {
+            try
+            {
+                DDLookUpDTO request = JsonConvert.DeserializeObject<DDLookUpDTO>(ddListObj.ToString());
+                IEnumerable<SelectListItem> listItems = await _DDLookUpService.GetLookUpCodeTextConcat(request);
+                return RAMMSApiSuccessResponse(listItems);
+            }
+            catch (Exception ex)
+            {
+                return this.RAMMSApiErrorResponse(ex.Message);
+            }
+        }
+
+
         [Route("api/GetInsUser")]
         [HttpGet]
         public async Task<IActionResult> GetFCUser()
