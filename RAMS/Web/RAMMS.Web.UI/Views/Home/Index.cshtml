@@ -556,11 +556,13 @@
                             '</div>' +
                             '</div >';
                         $('#divPie').append(html);
-
+                        var txt = ['Condition 1 ' + '(' + conditionKm1 + ' ' + data[i].fsdunit + ') <br />' + (data[i].rfConditionper1 * 100).toFixed(1) + '%', 'Condition 2 ' + '(' + conditionKm2 + ' ' + data[i].fsdunit + ') <br /> ' + (data[i].rfConditionper2 * 100).toFixed(1) + ' %', 'Condition 3 ' + '(' + conditionKm3 + ' ' + data[i].fsdunit + ') <br /> ' + (data[i].rfConditionper3 * 100).toFixed(1) +' %'];
                         var datapie = [{
                             values: [data[i].rfConditionper1, data[i].rfConditionper2, data[i].rfConditionper3],
                             labels: ['Condition 1 ' + '(' + conditionKm1 + ' ' + data[i].fsdunit + ')', 'Condition 2 ' + '(' + conditionKm2 + ' ' + data[i].fsdunit + ')', 'Condition 3 ' + '(' + conditionKm3 + ' ' + data[i].fsdunit + ')'],
                             type: 'pie',
+                            text: txt,
+                            hoverinfo: "text",
                             textinfo: "percent",
                             textposition: "outside",
                             automargin: true,
