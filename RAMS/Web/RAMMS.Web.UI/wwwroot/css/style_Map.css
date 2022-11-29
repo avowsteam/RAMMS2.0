@@ -203,3 +203,59 @@
         border-radius: 5px !important;
         padding:6px 8px!important; text-align: center
     }
+
+
+.graph-scale {
+    float: left;
+    width: 100%;
+    height: 190px;
+}
+
+    .graph-scale > p {
+        text-align: center;
+        margin: 20px 0px;
+        font-weight: bold;
+        color: #137fe3;
+        font-size: 15px;
+        text-decoration: underline;
+    }
+
+.line {
+    width: 100%;
+    height: 10px;
+    background: #3c3c3c;
+    position: relative;
+    margin-top: 70px;
+}
+
+.octagon-one {
+}
+
+.octagon-two {
+    margin-left: 35%;
+}
+
+.octagon-three {
+    margin-left: 0;
+    right: 0;
+}
+
+.octagon_div > p {
+    margin: 0px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.octagon_div {
+    float: left;
+    width: 120px;
+    text-align: center;
+    position: absolute;
+    top: -45px;
+}
+
+.octagon > svg {
+    width: 55%;
+}
+
+			
