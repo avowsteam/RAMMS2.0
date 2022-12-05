@@ -44,6 +44,18 @@ namespace RAMMS.WebAPI.Controllers
         }
 
         [Authorize]
+        [Route("api/getFormTDetailsGridData")]
+        [HttpPost]
+        public async Task<IActionResult> GetFilteredFormTDetailGrid([FromBody] object landingGrid)
+        {
+
+            FilteredPagingDefinition<FormTDtlResponseDTO> requestDtl = JsonConvert.DeserializeObject<FilteredPagingDefinition<FormTDtlResponseDTO>>(landingGrid.ToString());
+
+            PagingResult<FormTDtlGridDTO> response = await _FormTService.GetDetailList(requestDtl);
+            return RAMMSApiSuccessResponse(response);
+        }
+
+        [Authorize]
         [Route("api/deleteFormT")]
         [HttpPost]
         public IActionResult DeActivateM(int id)
