@@ -13,12 +13,7 @@ namespace RAMMS.Web.UI.Models
     public class FormUCUAModel
     {
         public FormUCUAResponseDTO FormUCUA { get; set; }
-        public FormTDtlResponseDTO FormUCUADtl { get; set; }
-        public FormTResponseDTO FormT { get; set; }
 
-        public FormTDtlResponseDTO FormTDtl { get; set; }
-
-        public FormTVehicleResponseDTO FormTVechicle { get; set; }
         public int view { get; set; }
     }
 }

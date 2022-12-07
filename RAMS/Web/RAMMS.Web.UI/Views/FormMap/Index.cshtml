@@ -4,8 +4,8 @@
 @using RAMMS.Business.ServiceProvider;
 @inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
 @{
-    ViewBag.TabTitle = "APPENDIX Map";
-    ViewData["Title"] = "APPENDIX Map";
+    ViewBag.TabTitle = " Monthly Activities Progress (MAP)";
+    ViewData["Title"] = " Monthly Activities Progress (MAP)";
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
     var isModifyPerm = security.IsPCModify(ModuleNameList.Annual_Work_Planned_Budget) ? "" : "hidden";
     var isDeletePerm = security.IsPCDelete(ModuleNameList.Annual_Work_Planned_Budget) ? "" : "hidden";
