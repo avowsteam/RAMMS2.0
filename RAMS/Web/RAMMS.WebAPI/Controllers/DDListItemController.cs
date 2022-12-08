@@ -23,7 +23,9 @@ namespace RAMMS.WebAPI
         private readonly IRoadMasterService _roadMasterService;
         private readonly IFormDService _formDservice;
         private readonly IFormJServices _formJservice;
-        public DDListItemController(IDDLookupBO _ddLookup, IDDLookUpService DDLookUpService, IFormAService formAService, IUserService userService, IRoadMasterService roadMasterService, IFormDService formDService, IFormJServices formJservice)
+        private readonly IAssetsService _assetsService;
+        public DDListItemController(IDDLookupBO _ddLookup, IDDLookUpService DDLookUpService, IFormAService formAService, IUserService userService, 
+            IRoadMasterService roadMasterService, IFormDService formDService, IFormJServices formJservice, IAssetsService assetsService)
         {
             _DDLookUpService = DDLookUpService;
             _ddLookupBO = _ddLookup;
@@ -32,7 +34,7 @@ namespace RAMMS.WebAPI
             _roadMasterService = roadMasterService;
             _formDservice = formDService;
             _formJservice = formJservice;
-
+            _assetsService = assetsService;
         }
 
         //Get User List
@@ -53,6 +55,21 @@ namespace RAMMS.WebAPI
         }
 
 
+        [Route("api/RWAssetIDs")]
+        [HttpGet]
+        public async Task<IActionResult> RWAssetIDs()
+        {
+            try
+            {
+                //IEnumerable<SelectListItem> listItems = await _userService.GetUserList();
+                IEnumerable<AssetId> listItems = _assetsService.ListOfReatiningWallAssestIds().Result;
+                return RAMMSApiSuccessResponse(listItems);
+            }
+            catch (Exception ex)
+            {
+                return this.RAMMSApiErrorResponse(ex.Message);
+            }
+        }
 
         // Get Desc with Type
         [Route("api/ddlist")]

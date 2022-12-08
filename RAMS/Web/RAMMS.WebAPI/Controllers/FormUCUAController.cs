@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using RAMMS.Business.ServiceProvider.Interfaces;
+using RAMMS.Business.ServiceProvider.Services;
 using RAMMS.DTO;
 using RAMMS.DTO.JQueryModel;
 using RAMMS.DTO.RequestBO;
@@ -59,6 +60,21 @@ namespace RAMMS.WebAPI.Controllers
             return RAMMSApiSuccessResponse(result.PkRefNo);
         }
 
+
+        [Authorize]
+        [Route("api/update_UCUA")]
+        [HttpPost]
+        public async Task<IActionResult> Update_UCUA([FromBody] object frmUCUA)
+        {
+            FormUCUAResponseDTO requestDtl = JsonConvert.DeserializeObject<FormUCUAResponseDTO>(frmUCUA.ToString());
+            if (requestDtl.Status == "Initialize")
+                requestDtl.Status = "Saved";
+            var result = await _formUCUAService.Update(requestDtl);
+            return RAMMSApiSuccessResponse(result);
+        }
+
+      
+            
         [Authorize]
         [Route("api/getUCUAById")]
         [HttpPost]
