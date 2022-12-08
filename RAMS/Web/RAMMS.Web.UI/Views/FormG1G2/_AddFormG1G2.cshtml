@@ -49,10 +49,10 @@
 }
 @{
     Html.RenderPartial("_breadcrumb", new BreadCrumb()
-            {
-                Title = "Condition Inspection - Form G1/G2",
-                SimpleNavigation = "Home,Condition Inspection,Form G1/2"
-            });
+    {
+        Title = "Condition Inspection - Form G1/G2",
+        SimpleNavigation = "Home,Condition Inspection,Form G1/2"
+    });
 }
 
 <div class="row">
@@ -370,7 +370,7 @@
                                                                             </div>
                                                                             <div class="form-group col-lg-3">
                                                                                 <label>Gantry Beams</label>
-                                                                                <select class="form-control svalidate {req,Gantry Beams}" name="InspGBeam">
+                                                                                <select id="InspGBeam" class="form-control svalidate {req,Gantry Beams}" name="InspGBeam">
                                                                                     <option value="">Select</option>
                                                                                     <option value="Yes">Yes</option>
                                                                                     <option value="No">No</option>
@@ -383,7 +383,7 @@
                                                                             </div>
                                                                             <div class="form-group col-lg-3">
                                                                                 <label>Gantry Columns</label>
-                                                                                <select class="form-control svalidate {req,Gantry Columns}" name="InspGColumn">
+                                                                                <select class="form-control svalidate {req,Gantry Columns}" id="InspGColumn" name="InspGColumn">
                                                                                     <option value="">Select</option>
                                                                                     <option value="Yes">Yes</option>
                                                                                     <option value="No">No</option>
@@ -396,7 +396,7 @@
                                                                             </div>
                                                                             <div class="form-group col-lg-3">
                                                                                 <label>Footings</label>
-                                                                                <select class="form-control  svalidate {req,Footings}" name="InspFootings">
+                                                                                <select class="form-control  svalidate {req,Footings}" id="InspFootings" name="InspFootings">
                                                                                     <option value="">Select</option>
                                                                                     <option value="Yes">Yes</option>
                                                                                     <option value="No">No</option>
@@ -410,7 +410,7 @@
                                                                             </div>
                                                                             <div class="form-group col-lg-3">
                                                                                 <label>Anchor Bolts and Mortar Grout Pads</label>
-                                                                                <select class="form-control svalidate {req,Anchor Bolts and Mortar Grout Pads}" name="InspGPads">
+                                                                                <select class="form-control svalidate {req,Anchor Bolts and Mortar Grout Pads}" id="InspGPads" name="InspGPads">
                                                                                     <option value="">Select</option>
                                                                                     <option value="Yes">Yes</option>
                                                                                     <option value="No">No</option>
@@ -427,7 +427,7 @@
                                                                             </div>
                                                                             <div class="form-group col-lg-3">
                                                                                 <label>Maintenance Access</label>
-                                                                                <select class="form-control svalidate {req,Maintenance Access}" name="InspMaintenance">
+                                                                                <select class="form-control svalidate {req,Maintenance Access}" id="InspMaintenance" name="InspMaintenance">
                                                                                     <option value="">Select</option>
                                                                                     <option value="Yes">Yes</option>
                                                                                     <option value="No">No</option>
@@ -441,7 +441,7 @@
                                                                             </div>
                                                                             <div class="form-group col-lg-3">
                                                                                 <label>Static Signs</label>
-                                                                                <select class="form-control svalidate {req,Static Signs}" name="InspStaticSigns">
+                                                                                <select class="form-control svalidate {req,Static Signs}" id="InspStaticSigns" name="InspStaticSigns">
                                                                                     <option value="">Select</option>
                                                                                     <option value="Yes">Yes</option>
                                                                                     <option value="No">No</option>
@@ -455,7 +455,7 @@
                                                                             </div>
                                                                             <div class="form-group col-lg-3">
                                                                                 <label>Variable Message Signs (VMSs)</label>
-                                                                                <select class="form-control  svalidate {req,Variable Message Signs (VMSs)}" name="InspVms">
+                                                                                <select class="form-control  svalidate {req,Variable Message Signs (VMSs)}" id="InspVms" name="InspVms">
                                                                                     <option value="">Select</option>
                                                                                     <option value="Yes">Yes</option>
                                                                                     <option value="No">No</option>
@@ -797,7 +797,7 @@
                                         <div userIdGroup>
                                             <div class="form-group col-lg-3">
                                                 @Html.Label("User ID", "User ID")
-                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "InspectedBy", "Select Users", new { @Id = "formG1G2InspectedBy", @class = "form-control ssvalidate {req,Inspected By User Id}", @useridChange = "", @disabled="disabled" })
+                                                @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "InspectedBy", "Select Users", new { @Id = "formG1G2InspectedBy", @class = "form-control ssvalidate {req,Inspected By User Id}", @useridChange = "", @disabled = "disabled" })
                                             </div>
                                             <div class="form-group col-lg-3">
                                                 @Html.Label("Name", "Name")
@@ -815,8 +815,8 @@
                                                 <label>
                                                     Sign
                                                     @{
-                                                            var _inspSign = Model.InspectedSign == null || Model.InspectedSign == false ? false : true;
-                                                      }
+                                                        var _inspSign = Model.InspectedSign == null || Model.InspectedSign == false ? false : true;
+                                                    }
                                                 </label>
                                                 <div class="clear-b mt-2">
                                                     <input class="{required, Requested By Signature}" checked="@_inspSign" id="InspectedSign" name="InspectedSign" type="checkbox">
@@ -855,7 +855,7 @@
 
                                         <div class="form-group col-lg-3">
                                             @Html.Label("User ID", "User ID")
-                                            @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "AuditedBy", "Select Users", new { @Id = "formG1G2AuditedBy", @class = "form-control ssvalidate {req,Audited By User Id}", @useridChange = "" , @disabled="disabled" })
+                                            @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "AuditedBy", "Select Users", new { @Id = "formG1G2AuditedBy", @class = "form-control ssvalidate {req,Audited By User Id}", @useridChange = "", @disabled = "disabled" })
 
                                         </div>
                                         <div class="form-group col-lg-3">
@@ -874,8 +874,8 @@
                                             <label>
                                                 Sign
                                                 @{
-                                                     var _audSign = Model.AuditedSign == null || Model.AuditedSign == false ? false : true;
-                                                 }
+                                                    var _audSign = Model.AuditedSign == null || Model.AuditedSign == false ? false : true;
+                                                }
                                             </label>
                                             <div class="clear-b mt-2">
                                                 <input class="{required, Requested By Signature}" checked="@_audSign" id="AuditedSign" name="AuditedSign" type="checkbox">
@@ -889,11 +889,11 @@
                                 if (Model != null)
                                 {
                                     Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
-                {
-                    Form = "FormG1G2",
-                    RefId = Model.PkRefNo,
-                    Stage = Model.Status
-                });
+                                    {
+                                        Form = "FormG1G2",
+                                        RefId = Model.PkRefNo,
+                                        Stage = Model.Status
+                                    });
 
                                 }
                             }
@@ -1162,9 +1162,116 @@
 </script>
 <script>
         $(document).ready(function () {
-        if ('@ViewBag.IsEdit' == 'True') {
+        @*if ('@ViewBag.IsEdit' == 'True') {
             $('#InspBarrier').val('Yes');
-        }
+            }*@
+            if ('@Model.InspBarrier' == '0') {
+                $('#InspBarrier').val('Yes').trigger("chosen:updated");
+            }
+             if ('@Model.InspBarrier' == '1') {
+                 $('#InspBarrier').val('No').trigger("chosen:updated");
+            }
+             if ('@Model.InspBarrier' == '2') {
+                 $('#InspBarrier').val('Critical').trigger("chosen:updated");
+            }
+             if ('@Model.InspBarrier' == '3') {
+                 $('#InspBarrier').val('Closed').trigger("chosen:updated");
+            }
+
+
+            if ('@Model.InspGBeam' == '0') {
+                  $('#InspGBeam').val('Yes').trigger("chosen:updated");
+            }
+              if ('@Model.InspGBeam' == '1') {
+                  $('#InspGBeam').val('No').trigger("chosen:updated");
+            }
+             if ('@Model.InspGBeam' == '2') {
+                 $('#InspGBeam').val('Critical').trigger("chosen:updated");
+            }
+             if ('@Model.InspGBeam' == '3') {
+                 $('#InspGBeam').val('Closed').trigger("chosen:updated");
+            }
+
+
+              if ('@Model.InspGColumn' == '0') {
+                  $('#InspGColumn').val('Yes').trigger("chosen:updated");
+            }
+                if ('@Model.InspGColumn' == '1') {
+                    $('#InspGColumn').val('No').trigger("chosen:updated");
+            }
+             if ('@Model.InspGColumn' == '2') {
+                 $('#InspGColumn').val('Critical').trigger("chosen:updated");
+            }
+             if ('@Model.InspGColumn' == '3') {
+                 $('#InspGColumn').val('Closed').trigger("chosen:updated");
+            }
+
+             if ('@Model.InspFootings' == '0') {
+                 $('#InspFootings').val('Yes').trigger("chosen:updated");
+            }
+                    if ('@Model.InspFootings' == '1') {
+                        $('#InspFootings').val('No').trigger("chosen:updated");
+            }
+             if ('@Model.InspFootings' == '2') {
+                 $('#InspFootings').val('Critical').trigger("chosen:updated");
+            }
+             if ('@Model.InspFootings' == '3') {
+                 $('#InspFootings').val('Closed').trigger("chosen:updated");
+            }
+
+             if ('@Model.InspGPads' == '0') {
+                 $('#InspGPads').val('Yes').trigger("chosen:updated");
+            }
+                     if ('@Model.InspGPads' == '1') {
+                         $('#InspGPads').val('No').trigger("chosen:updated");
+            }
+             if ('@Model.InspGPads' == '2') {
+                 $('#InspGPads').val('Critical').trigger("chosen:updated");
+            }
+             if ('@Model.InspGPads' == '3') {
+                 $('#InspGPads').val('Closed').trigger("chosen:updated");
+            }
+
+
+             if ('@Model.InspMaintenance' == '0') {
+                 $('#InspMaintenance').val('Yes').trigger("chosen:updated");
+            }
+                       if ('@Model.InspMaintenance' == '1') {
+                           $('#InspMaintenance').val('No').trigger("chosen:updated");
+            }
+             if ('@Model.InspMaintenance' == '2') {
+                 $('#InspMaintenance').val('Critical').trigger("chosen:updated");
+            }
+             if ('@Model.InspMaintenance' == '3') {
+                 $('#InspMaintenance').val('Closed').trigger("chosen:updated");
+            }
+
+              if ('@Model.InspStaticSigns' == '0') {
+                  $('#InspStaticSigns').val('Yes').trigger("chosen:updated");
+            }
+                  if ('@Model.InspStaticSigns' == '1') {
+                      $('#InspStaticSigns').val('No').trigger("chosen:updated");
+            }
+             if ('@Model.InspStaticSigns' == '2') {
+                 $('#InspStaticSigns').val('Critical').trigger("chosen:updated");
+            }
+             if ('@Model.InspStaticSigns' == '3') {
+                 $('#InspStaticSigns').val('Closed').trigger("chosen:updated");
+            }
+
+
+      if ('@Model.InspVms' == '0') {
+          $('#InspVms').val('Yes').trigger("chosen:updated");
+            }
+                    if ('@Model.InspVms' == '1') {
+                        $('#InspVms').val('No').trigger("chosen:updated");
+            }
+             if ('@Model.InspVms' == '2') {
+                 $('#InspVms').val('Critical').trigger("chosen:updated");
+            }
+             if ('@Model.InspVms' == '3') {
+                 $('#InspVms').val('Closed').trigger("chosen:updated");
+            }
     });
 </script>
 <style>
