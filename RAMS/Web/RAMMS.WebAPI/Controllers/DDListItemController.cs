@@ -62,8 +62,16 @@ namespace RAMMS.WebAPI
             try
             {
                 //IEnumerable<SelectListItem> listItems = await _userService.GetUserList();
-                IEnumerable<AssetId> listItems = _assetsService.ListOfReatiningWallAssestIds().Result;
-                return RAMMSApiSuccessResponse(listItems);
+                IEnumerable<AssetId> lstIds = _assetsService.ListOfReatiningWallAssestIds().Result;
+                List<SelectListItem> listItems = new List<SelectListItem>();
+                foreach(RAMMS.DTO.ResponseBO.AssetId aid in lstIds)
+                {
+                    listItems.Add(new SelectListItem(aid.AssestyID, Convert.ToString(aid.RefId)));
+                    //< option rmu = "@aid.Rmu" rdcode = "@aid.RoadCode" scode = "@aid.SectionCode" value = "@aid.RefId" > @aid.AssestyID </ option >
+
+                }
+
+                return RAMMSApiSuccessResponse(listItems.AsEnumerable());
             }
             catch (Exception ex)
             {

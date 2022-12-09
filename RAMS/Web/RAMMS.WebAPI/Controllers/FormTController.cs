@@ -102,7 +102,7 @@ namespace RAMMS.WebAPI.Controllers
             FormTDtlResponseDTO requestDtl = JsonConvert.DeserializeObject<FormTDtlResponseDTO>(frmTdtl.ToString());
  
             var result =  _FormTService.SaveFormTDtl(requestDtl);
-            return RAMMSApiSuccessResponse(requestDtl.PkRefNo);
+            return RAMMSApiSuccessResponse(result);
         }
 
         [Authorize]
