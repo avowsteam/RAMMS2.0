@@ -1160,11 +1160,8 @@
             $("#photoType").val("").trigger("change").trigger("chosen:updated");
         }
 </script>
-<script>
+@*<script>
         $(document).ready(function () {
-        @*if ('@ViewBag.IsEdit' == 'True') {
-            $('#InspBarrier').val('Yes');
-            }*@
             if ('@Model.InspBarrier' == '0') {
                 $('#InspBarrier').val('Yes').trigger("chosen:updated");
             }
@@ -1273,7 +1270,7 @@
                  $('#InspVms').val('Closed').trigger("chosen:updated");
             }
     });
-</script>
+</script>*@
 <style>
     div.item {
         vertical-align: top;
