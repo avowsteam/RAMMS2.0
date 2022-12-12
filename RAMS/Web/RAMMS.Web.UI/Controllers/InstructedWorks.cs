@@ -24,6 +24,7 @@ using RAMMS.DTO.JQueryModel;
 using Newtonsoft.Json;
 using System.Runtime.CompilerServices;
 using RAMMS.Business.ServiceProvider.Services;
+using RAMMS.Common;
 
 namespace RAMMS.Web.UI.Controllers
 {
@@ -469,6 +470,7 @@ namespace RAMMS.Web.UI.Controllers
             _formW2Model = new FormW2Model();
             await LoadN2DropDown();
             _formW2Model.FormW1 = await _formW2Service.GetFormW1ById(id);
+            
             _formW2Model.FECM = new FormFECMModel();
             _formW2Model.FECM.FECM = new FormW2FECMResponseDTO();
             _formW2Model.FECM.FormW1 = _formW2Model.FormW1;
@@ -485,8 +487,10 @@ namespace RAMMS.Web.UI.Controllers
             defaultData.RmuName = "";
             var ser = (List<SelectListItem>)LookupService.LoadServiceProviderName().Result.ToList();
             var serRd = ser.Find(c => c.Value == _formW2Model.FormW1.ServPropName);
-            defaultData.ServProvName = serRd.Text;
-
+            int result = 0;
+            defaultData.ServProvName = (_formW2Model.FormW1.ServPropName
+                    != null && int.TryParse(_formW2Model.FormW1.ServPropName, out result)) ? serRd.Text : "ENDAYA CONSTRUCTION SDN. BHD.";
+            _formW2Model.FormW1.ServPropName = defaultData.ServProvName;
             defaultData.DivCode = _formW2Model.FormW1.DivnCode;
             defaultData.DivisonName = "";
 
@@ -553,6 +557,12 @@ namespace RAMMS.Web.UI.Controllers
 
 
                 _formW2Model.FormW1 = _formW2Model.SaveFormW2Model.Fw1PkRefNoNavigation;
+                var ser = (List<SelectListItem>)LookupService.LoadServiceProviderName().Result.ToList();
+                var serRd = ser.Find(c => c.Value == _formW2Model.FormW1.ServPropName);
+                int result = 0;
+                _formW2Model.FormW1.ServPropName = (_formW2Model.FormW1.ServPropName 
+                    != null && int.TryParse(_formW2Model.FormW1.ServPropName,out result) ) ? serRd.Text : "ENDAYA CONSTRUCTION SDN. BHD.";
+
                 _formW2Model.FECM.FormW1 = _formW2Model.FormW1;
                 _formW2Model.FECM.FECM.Fw2PkRefNo = resultFormW2.PkRefNo;
                 _formW2Model.FECM.W1Date = _formW2Model.FormW1.Dt;

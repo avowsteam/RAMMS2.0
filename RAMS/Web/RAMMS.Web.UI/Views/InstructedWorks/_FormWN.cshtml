@@ -178,7 +178,7 @@
             <button type="button" class="btn btn-sm btn-outline-theme" id="clearWDBtn" onclick="return ClearWN()">Clear</button>
         }
 
-        if ((string.IsNullOrEmpty(Model.FormWN.Status) || Model.FormWN.Status == "Saved") && (security.IsInstructedWorkEngg || isJKRS))
+        if ((string.IsNullOrEmpty(Model.FormWN.Status) || Model.FormWN.Status == "Saved") && (security.isEnggAssistant || security.IsInstructedWorkEngg || isJKRS))
         {
             <button type="button" class="btn btn-sm btn-themebtn" id="btnSaveWN" onclick="return  SaveWN('','')">Save</button>
         }

@@ -356,13 +356,13 @@
                                                                     <div class="row">
 
                                                                         <div class="col-lg-4">
-                                                                            <label>Recommendation</label>
+                                                                            <label>Recommendation (IW Proposal)</label>
                                                                             <br />
                                                                             <label class="radio-inline"> @Html.RadioButtonFor(x => x.FormW1.RecomdYn, true)&nbsp;Yes&nbsp;</label>
                                                                             <label class="radio-inline"> @Html.RadioButtonFor(x => x.FormW1.RecomdYn, false)&nbsp;No&nbsp;</label>
                                                                         </div>
                                                                         <div class="col-lg-4">
-                                                                            @Html.Label("Recommendation by DE", "Recommendation by DE")
+                                                                            @Html.Label("Recommendation by DE (initial proposal)", "Recommendation by DE (initial proposal)")
                                                                             <br />
                                                                             <label class="radio-inline"> @Html.RadioButtonFor(x => x.FormW1.RecomdBydeYn, true)&nbsp;Yes&nbsp;</label>
                                                                             <label class="radio-inline"> @Html.RadioButtonFor(x => x.FormW1.RecomdBydeYn, false)&nbsp;No&nbsp;</label>
@@ -531,10 +531,10 @@
                             @if (security.IsPCModify(ModuleNameList.Instructed_Works))
                             {
                                     var isJKRS = (security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
-                                    var hasRight = (security.IsSupervisor || security.IsExecutive || security.IsInstructedWorkEngg || security.IsRegionManager ||  security.isEnggAssistant);
+                                    var hasRight = (security.isEnggAssistant || security.IsSupervisor || security.IsExecutive || security.IsInstructedWorkEngg || security.IsRegionManager ||  security.isEnggAssistant);
                                     var isSubmit = (security.IsHeadMaintenance || security.IsInstructedWorkEngg || security.IsRegionManager);
                                
-                                if (string.IsNullOrEmpty(Model.FormW1.Status) && hasRight)
+                                if ((string.IsNullOrEmpty(Model.FormW1.Status) || Model.FormW1.Status == "Saved") && hasRight)
                                 {
                                     <button type="button" id="btnSave" class="btn btn-sm btn-themebtn" onclick="Save('','')">Save</button>
                                 }
