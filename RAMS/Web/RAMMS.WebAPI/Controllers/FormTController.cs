@@ -58,15 +58,15 @@ namespace RAMMS.WebAPI.Controllers
         [Authorize]
         [Route("api/deleteFormT")]
         [HttpPost]
-        public IActionResult DeActivateM(int id)
+        public async Task<IActionResult> DeActivateM(int id)
         {
-            return RAMMSApiSuccessResponse(_FormTService.DeActivateFormT(id));            
+            return RAMMSApiSuccessResponse(await _FormTService.DeActivateFormT(id));            
         }
 
         [Authorize]
         [Route("api/deleteFormTDetail")]
         [HttpPost]
-        public IActionResult DeActivateFormTDtl(int id)
+        public async Task<IActionResult> DeActivateFormTDtl(int id)
         {
             return RAMMSApiSuccessResponse(_FormTService.DeleteFormTDtl(id));
         }
