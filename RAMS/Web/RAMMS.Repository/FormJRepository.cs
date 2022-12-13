@@ -632,7 +632,7 @@ namespace RAMMS.Repository
                               hd.FjdRemarks
                               
                           }).ToList();
-            var code = _context.RmDdLookup.Where(g => g.DdlType == "Priority").ToArray();
+            //var code = _context.RmDdLookup.Where(g => g.DdlType == "Priority").ToArray();
             result.Details = _.Select(s => new FORMJDetailRpt
             {
                 Date = s.FjdDt.HasValue ? s.FjdDt.Value.ToString("dd-MM-yyyy") : "",
@@ -642,9 +642,9 @@ namespace RAMMS.Repository
                 LocationTo = $"{s.FjdToCh.GetValueOrDefault()}+{s.FjdToChDeci ?? "0"}" ?? "",
                 Dificiencies = s.FjdPrblmDesc ?? "",
                 SACode = s.FjdDefCode ?? "",
-                Dimention = $"{s.FjdLength}x{s.FjdWidth}x{s.FjdHeight}" ?? "",
+                Dimention = (s.FjdLength.HasValue ? $"{s.FjdLength}" : "")  + (s.FjdWidth.HasValue ?  $"x{s.FjdWidth}" : "") + (s.FjdHeight.HasValue ? $"x{s.FjdHeight}" : ""),
                 WorkInstallation = s.FjdWrkNeed ?? "",
-                Pr = code.Where(t => t.DdlTypeDesc == s.FjdPriority).Select(s => s.DdlTypeValue).FirstOrDefault(),
+                Pr = s.FjdPriority,// code.Where(t => t.DdlTypeValue == s.FjdPriority).Select(s => s.DdlTypeDesc).FirstOrDefault(),
                 WI = s.FjdWi.HasValue ? s.FjdWi.Value.ToString() : "",
                 WTC = s.FjdWtc.HasValue ? s.FjdWtc.Value.ToString() : "",
                 WS = s.FjdWs.HasValue ? s.FjdWs.Value.ToString() : "",

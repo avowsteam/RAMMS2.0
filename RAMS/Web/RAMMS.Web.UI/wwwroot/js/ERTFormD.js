@@ -16,7 +16,7 @@
 
         var output = d.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '') + day;
         
-        $("#formDReportedByUserId").chosen();
+       
         $("#formDUseridVet").chosen();
         $("#formDUseridVer").chosen();
 
