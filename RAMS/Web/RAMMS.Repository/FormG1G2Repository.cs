@@ -205,31 +205,37 @@ namespace RAMMS.Repository
                             }
                             break;
                         case "chFromKM":
-                            string strM = Utility.ToString(searchData.filter["chFromKM"]);
-                            decimal flKm = Utility.ToDecimal(strVal + (strM != "" ? "." + strM : ""));
+                        case "chFromM":
+                            string strFromKM = Utility.ToString(searchData.filter["chFromKM"]);
+                            string strFromM = Utility.ToString(searchData.filter["chFromM"]);
+
+                            decimal flKm = Utility.ToDecimal(strFromKM + (strFromM != "" ? "." + strFromM : ""));
                             query = query.Where(x => x.LocationCH >= flKm);
                             break;
-                        case "chFromM":
-                            string strKm = Utility.ToString(searchData.filter["chFromM"]);
-                            if (strKm == "")
-                            {
-                                decimal flM = Utility.ToDecimal("0." + strVal);
-                                query = query.Where(x => x.LocationCH >= flM);
-                            }
-                            break;
+                        
+                            //string strKm = Utility.ToString(searchData.filter["chFromM"]);
+                            //if (strKm == "")
+                            //{
+                            //    decimal flM = Utility.ToDecimal("0." + strVal);
+                            //    query = query.Where(x => x.LocationCH >= flM);
+                            //}
+                            //break;
                         case "chToKM":
-                            string strTM = Utility.ToString(searchData.filter["chToKM"]);
-                            decimal flTKm = Utility.ToDecimal(strVal + (strTM != "" ? "." + strTM : ""));
+                        case "chToM":
+                            string strToKM = Utility.ToString(searchData.filter["chToKM"]);
+                            string strToM = Utility.ToString(searchData.filter["chToM"]);
+
+                            decimal flTKm = Utility.ToDecimal(strToKM + (strToM != "" ? "." + strToM : ""));
                             query = query.Where(x => x.LocationCH <= flTKm);
                             break;
-                        case "chToM":
-                            string strTKm = Utility.ToString(searchData.filter["chToM"]);
-                            if (strTKm == "")
-                            {
-                                decimal flTM = Utility.ToDecimal("0." + strVal);
-                                query = query.Where(x => x.LocationCH <= flTM);
-                            }
-                            break;
+                        
+                            //string strTKm = Utility.ToString(searchData.filter["chToM"]);
+                            //if (strTKm == "")
+                            //{
+                            //    decimal flTM = Utility.ToDecimal("0." + strVal);
+                            //    query = query.Where(x => x.LocationCH <= flTM);
+                            //}
+                           // break;
                         case "FromYear":
                             int iFYr = Utility.ToInt(strVal);
                             query = query.Where(x => x.Year.HasValue && x.Year >= iFYr);
