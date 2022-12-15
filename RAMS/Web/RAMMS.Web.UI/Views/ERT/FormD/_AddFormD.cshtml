@@ -67,7 +67,7 @@
                     error: function (data) {
 
                         console.error(data);
-                    }      
+                    }
                 });
             }
             else {
@@ -189,7 +189,10 @@
             return false;
         });
 
-        $("#formDCrewUnit").trigger("change");
+        if ($("#formDCrewUnit").val() != "99999999")
+            $("#formDCrewUnit").trigger("change");
+        else
+            SetReferenceId();
 
         $("#formDWeekNo").on("change", function () {
             var text = GetDate($("#formDYear").val(), $(this).val(), $("#formDDay").val());
@@ -527,9 +530,9 @@
 @*@using (Html.BeginForm("_AddFormX", "ERTFormX", FormMethod.Post)*@
 
 <script type="text/javascript">
-        $(document).ready(function () {
-             process.Init("FormD", "@Model.SaveFormDModel.Status", @Model.SaveFormDModel.No);
-        });
+    $(document).ready(function () {
+        process.Init("FormD", "@Model.SaveFormDModel.Status", @Model.SaveFormDModel.No);
+    });
 </script>
 
 @{
@@ -574,7 +577,7 @@
                                         <div class="form-group col-lg-2 pr-lg-0">
                                             @Html.Label("RMU", "RMU")
                                             @Html.DropDownListFor(Adtl => Adtl.SaveFormDModel.Rmu, (IEnumerable
-                                                                <SelectListItem>)ViewData["RMU"], "Select RMU", new { @Id = "formDrmu", @class = "form-control validate {required, RMU}" })
+                                            <SelectListItem>)ViewData["RMU"], "Select RMU", new { @Id = "formDrmu", @class = "form-control validate {required, RMU}" })
                                         </div>
                                         <div class="form-group col-lg-2 mb-0">
                                             @Html.Label("RMU Name", "RMU Name")
@@ -594,23 +597,23 @@
                                             @Html.Label("Division Code", "Division Code")
                                             @Html.TextBoxFor(m => m.DivisionName, new { @Id = "formDDivisionDesc", @readonly = "readonly", @class = "form-control " })
                                             @*@Html.DropDownListFor(Ahdr => Ahdr.SaveFormDModel.DivisionName, (IEnumerable
-                                    <SelectListItem>)ViewData["Division"], "Select Division", new { @Id = "formDdivisionName", @class = "form-control  validate {required, Division}" })*@
+                                            <SelectListItem>)ViewData["Division"], "Select Division", new { @Id = "formDdivisionName", @class = "form-control  validate {required, Division}" })*@
                                         </div>
 
                                         <div class="form-group col-lg-2">
                                             @Html.Label("Name of Crew Supervisor", "Crew Supervisor")
                                             @Html.DropDownListFor(Ahdr => Ahdr.SaveFormDModel.CrewUnit, (IEnumerable
-                                                                   <SelectListItem>)ViewData["Supervisor"], "Select Users", new { @Id = "formDCrewUnit", @class = "form-control  validate {required, Name of Crew Supervisor}" })
+                                            <SelectListItem>)ViewData["Supervisor"], "Select Users", new { @Id = "formDCrewUnit", @class = "form-control  validate {required, Name of Crew Supervisor}" })
 
                                             @*@Html.HiddenFor(Dhdr => Dhdr.SaveFormDModel.CrewUnit, new { @id = "hdnCrewUnit" })*@
                                         </div>
                                         @*<div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">
-                                    <button id="formDFindDetailsBtn" type="button" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right disablebtn">Find Details</button>
-                                </div>*@
+                                        <button id="formDFindDetailsBtn" type="button" class="btn btn-sm btn-themebtn col-md-12 col-xl-12 col-lg-2 mr-lg-1 float-right disablebtn">Find Details</button>
+                                        </div>*@
                                         @*<div class="form-group col-lg-2 mb-0">
-                                    @Html.Label("Section Name", "Section Name")
-                                    @Html.TextBoxFor(m => m.DivisionDescription, new { @Id = "formDDivisionDesc", @readonly = "readonly", @class = "form-control " })
-                                </div>*@
+                                        @Html.Label("Section Name", "Section Name")
+                                        @Html.TextBoxFor(m => m.DivisionDescription, new { @Id = "formDDivisionDesc", @readonly = "readonly", @class = "form-control " })
+                                        </div>*@
 
 
                                         <div class="form-group col-lg-4 pl-lg-0">
@@ -625,17 +628,17 @@
                                         <div class="form-group col-lg-1 pr-lg-0">
                                             @Html.Label("Week No", "Week No")
                                             @Html.DropDownListFor(Ahdr => Ahdr.SaveFormDModel.WeekNo, (IEnumerable
-                                                                            <SelectListItem>)ViewData["WeekNo"], "Select Week", new { @Id = "formDWeekNo", @class = "form-control  validate {required, Week No}" })
+                                            <SelectListItem>)ViewData["WeekNo"], "Select Week", new { @Id = "formDWeekNo", @class = "form-control  validate {required, Week No}" })
                                         </div>
                                         <div class="form-group col-lg-2">
                                             @Html.Label("Day of the Week", "Day of the Week")
                                             @Html.DropDownListFor(Ahdr => Ahdr.SaveFormDModel.Day, (IEnumerable
-                                                                  <SelectListItem>)ViewData["Day"], "Select Day", new { @Id = "formDDay", @class = "form-control  validate {required, Day}" })
+                                            <SelectListItem>)ViewData["Day"], "Select Day", new { @Id = "formDDay", @class = "form-control  validate {required, Day}" })
                                         </div>
                                         <div class="form-group col-lg-1 pl-lg-0">
                                             @Html.Label("Year (YYYY)", "Year (YYYY)")
                                             @Html.DropDownListFor(Ahdr => Ahdr.SaveFormDModel.Year, (IEnumerable
-                                                                             <SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formDYear", @class = "form-control validate {required, Year}" })
+                                            <SelectListItem>)ViewData["Year"], "Select Year", new { @Id = "formDYear", @class = "form-control validate {required, Year}" })
                                         </div>
                                         @Html.HiddenFor(m => m.SaveFormDModel.Month, new { @id = "hdnFormDMonthNo", @class = "form-control" })
                                         <div class="form-group col-lg-2 col-md-12 pt-xl-4 px-md-4 px-sm-4">
@@ -792,11 +795,11 @@
                 </div>
                 @{
                     Html.RenderPartial("~/Views/Shared/_ProcessHistory.cshtml", new RAMMS.DTO.RequestBO.ProcessDTO
-                    {
-                        Form = "FormD",
-                        RefId = Model.SaveFormDModel.No ,
-                        Stage = Model.SaveFormDModel.Status
-                    });
+            {
+                Form = "FormD",
+                RefId = Model.SaveFormDModel.No,
+                Stage = Model.SaveFormDModel.Status
+            });
                 }
             </div>
 
