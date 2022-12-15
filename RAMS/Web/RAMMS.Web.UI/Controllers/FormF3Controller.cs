@@ -220,8 +220,8 @@ namespace RAMMS.Web.UI.Controllers
             }
             else
             {
-                if (frm.FormF3.Status == "Initialize")
-                    frm.FormF3.Status = "Saved";
+                if (frm.FormF3.Status == RAMMS.Common.StatusList.FormF3Init)
+                    frm.FormF3.Status = RAMMS.Common.StatusList.Saved;
                 refNo = await _formF3Service.Update(frm.FormF3);
             }
             return Json(refNo);

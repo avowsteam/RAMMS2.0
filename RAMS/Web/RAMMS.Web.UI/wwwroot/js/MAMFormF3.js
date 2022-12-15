@@ -411,8 +411,8 @@ function Save(GroupName, SubmitType) {
     if (ValidatePage('#headerDiv')) {
 
         if ($("#FormF3_Status").val() == "")
-            $("#FormF3_Status").val("Initialize");
-        else if ($("#FormF3_Status").val() == "Initialize")
+            $("#FormF3_Status").val("Open");
+        else if ($("#FormF3_Status").val() == "Open")
             $("#FormF3_Status").val("Saved");
 
         InitAjaxLoading();

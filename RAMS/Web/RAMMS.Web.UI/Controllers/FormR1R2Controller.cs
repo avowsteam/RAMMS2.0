@@ -238,66 +238,66 @@ namespace RAMMS.Web.UI.Controllers
         [HttpPost]
         public async Task<int> ImageUploadedTab(IFormCollection filesCollection, int headerId, string Id, string photoType)
         {
-            try
-            {
-                List<FormRImagesDTO> lstImages = new List<FormRImagesDTO>();
-
-                string photo_Type = Regex.Replace(photoType, @"[^a-zA-Z]", "");
-
-
-
-                var objExistsPhotoType = _formR1R2Service.GetExitingPhotoType(headerId).Result;
-                if (objExistsPhotoType == null) { objExistsPhotoType = new List<FormR1R2PhotoTypeDTO>(); }
-
-
-                string InspRefNum = Regex.Replace(Id, @"[^0-9a-zA-Z]+", "");
-                string wwwPath = this._webHostEnvironment.WebRootPath;
-                IFormCollection files = Request.ReadFormAsync().Result;
-
-                foreach (var file in files.Files)
+            
+               
+                IFormCollection files = Request.ReadFormAsync().Result;           
+                if (files != null && files.Count > 0)
                 {
-                    var objSNo = objExistsPhotoType.Where(x => x.Type == photo_Type).FirstOrDefault();
-                    if (objSNo == null) { objSNo = new FormR1R2PhotoTypeDTO() { SNO = 1, Type = photo_Type }; objExistsPhotoType.Add(objSNo); }
-                    else { objSNo.SNO = objSNo.SNO + 1; }
+                    List<FormRImagesDTO> lstImages = new List<FormRImagesDTO>();
+                    string photo_Type = Regex.Replace(photoType, @"[^a-zA-Z]", "");
 
-                    string fileName = Path.GetFileName(file.FileName);
-                    string strFileUploadDir = Path.Combine("Form R1R2", InspRefNum, photoType);
-                    string strSaveDir = Path.Combine(wwwPath, "Uploads", strFileUploadDir);
-                    string strSysFileName = InspRefNum + "_" + photoType + "_" + objSNo.SNO.ToString("000");
-                    string strUploadFileName = objSNo.SNO.ToString() + "_" + photoType + "_" + fileName;
-                    if (!Directory.Exists(strSaveDir)) { Directory.CreateDirectory(strSaveDir); }
-                    using (FileStream stream = new FileStream(Path.Combine(strSaveDir, strUploadFileName), FileMode.Create))
+                    var objExistsPhotoType = _formR1R2Service.GetExitingPhotoType(headerId).Result;
+                    if (objExistsPhotoType == null) { objExistsPhotoType = new List<FormR1R2PhotoTypeDTO>(); }
+
+
+                    string InspRefNum = Regex.Replace(Id, @"[^0-9a-zA-Z]+", "");
+                    string wwwPath = this._webHostEnvironment.WebRootPath;
+                   
+                    foreach (var file in files.Files)
                     {
-                        await file.CopyToAsync(stream);
+                        var objSNo = objExistsPhotoType.Where(x => x.Type == photo_Type).FirstOrDefault();
+                        if (objSNo == null) { objSNo = new FormR1R2PhotoTypeDTO() { SNO = 1, Type = photo_Type }; objExistsPhotoType.Add(objSNo); }
+                        else { objSNo.SNO = objSNo.SNO + 1; }
+
+                        string fileName = Path.GetFileName(file.FileName);
+                        string strFileUploadDir = Path.Combine("Form R1R2", InspRefNum, photoType);
+                        string strSaveDir = Path.Combine(wwwPath, "Uploads", strFileUploadDir);
+                        string strSysFileName = InspRefNum + "_" + photoType + "_" + objSNo.SNO.ToString("000");
+                        string strUploadFileName = objSNo.SNO.ToString() + "_" + photoType + "_" + fileName;
+                        if (!Directory.Exists(strSaveDir)) { Directory.CreateDirectory(strSaveDir); }
+                        using (FileStream stream = new FileStream(Path.Combine(strSaveDir, strUploadFileName), FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+                        lstImages.Add(new FormRImagesDTO()
+                        {
+                            ActiveYn = true,
+                            CrBy = _security.UserID,
+                            ModBy = _security.UserID,
+                            CrDt = DateTime.UtcNow,
+                            ModDt = DateTime.UtcNow,
+                            FR1hPkRefNo = headerId,
+                            ImageFilenameSys = strSysFileName,
+                            ImageFilenameUpload = strUploadFileName,
+                            ImageSrno = objSNo.SNO,
+                            ImageTypeCode = photo_Type,
+                            ImageUserFilePath = strFileUploadDir,
+                            SubmitSts = true
+                        });
+
                     }
-                    lstImages.Add(new FormRImagesDTO()
+                    if (lstImages.Count > 0)
                     {
-                        ActiveYn = true,
-                        CrBy = _security.UserID,
-                        ModBy = _security.UserID,
-                        CrDt = DateTime.UtcNow,
-                        ModDt = DateTime.UtcNow,
-                        FR1hPkRefNo = headerId,
-                        ImageFilenameSys = strSysFileName,
-                        ImageFilenameUpload = strUploadFileName,
-                        ImageSrno = objSNo.SNO,
-                        ImageTypeCode = photo_Type,
-                        ImageUserFilePath = strFileUploadDir,
-                        SubmitSts = true
-                    });
-
+                        var a = await _formR1R2Service.AddMultiImage(lstImages);
+                       
+                    }
                 }
-                if (lstImages.Count > 0)
+                else
                 {
-                    var a = await _formR1R2Service.AddMultiImage(lstImages);
-                    return 1;
+                    return -1;
                 }
-                return -1;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+                return 1;
+            
         }
         public IActionResult ImageList(int headerId)
         {

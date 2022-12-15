@@ -44,17 +44,29 @@ namespace RAMMS.WebAPI.Controllers
         }
 
         [Authorize]
+        [Route("api/getFormTDetailsGridData")]
+        [HttpPost]
+        public async Task<IActionResult> GetFilteredFormTDetailGrid([FromBody] object landingGrid)
+        {
+
+            FilteredPagingDefinition<FormTDtlResponseDTO> requestDtl = JsonConvert.DeserializeObject<FilteredPagingDefinition<FormTDtlResponseDTO>>(landingGrid.ToString());
+
+            PagingResult<FormTDtlGridDTO> response = await _FormTService.GetDetailList(requestDtl);
+            return RAMMSApiSuccessResponse(response);
+        }
+
+        [Authorize]
         [Route("api/deleteFormT")]
         [HttpPost]
-        public IActionResult DeActivateM(int id)
+        public async Task<IActionResult> DeActivateM(int id)
         {
-            return RAMMSApiSuccessResponse(_FormTService.DeActivateFormT(id));            
+            return RAMMSApiSuccessResponse(await _FormTService.DeActivateFormT(id));            
         }
 
         [Authorize]
         [Route("api/deleteFormTDetail")]
         [HttpPost]
-        public IActionResult DeActivateFormTDtl(int id)
+        public async Task<IActionResult> DeActivateFormTDtl(int id)
         {
             return RAMMSApiSuccessResponse(_FormTService.DeleteFormTDtl(id));
         }
@@ -90,7 +102,7 @@ namespace RAMMS.WebAPI.Controllers
             FormTDtlResponseDTO requestDtl = JsonConvert.DeserializeObject<FormTDtlResponseDTO>(frmTdtl.ToString());
  
             var result =  _FormTService.SaveFormTDtl(requestDtl);
-            return RAMMSApiSuccessResponse(requestDtl.PkRefNo);
+            return RAMMSApiSuccessResponse(result);
         }
 
         [Authorize]

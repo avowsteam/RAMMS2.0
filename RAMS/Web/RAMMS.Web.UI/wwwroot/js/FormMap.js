@@ -462,7 +462,7 @@ function AppendPlannedData() {
                         if (j == 0) {
                             actCode = data.result[i].formDDetails[j].actCode;
                             prodUnit = data.result[i].formDDetails[j].prodUnit;
-                            prodQty = data.result[i].formDDetails[j].prodQty;
+                            prodQty = parseFloat(data.result[i].formDDetails[j].prodQty).toFixed(2);
                             roadCode = data.result[i].formDDetails[j].roadCode;
                             $('#tdloc' + actCode + dateId).text(roadCode);
                             $('#tdqan' + actCode + dateId).text(prodQty);
@@ -470,7 +470,7 @@ function AppendPlannedData() {
                             $('#sp' + actCode).text(data.result[i].weekDate);
                         }
                         else if (actCode == data.result[i].formDDetails[j].actCode) {
-                            prodQty = parseInt(prodQty) + parseInt(data.result[i].formDDetails[j].prodQty);
+                            prodQty = (parseFloat(prodQty) + parseFloat(data.result[i].formDDetails[j].prodQty)).toFixed(2);
                             roadCode = roadCode + "," + data.result[i].formDDetails[j].roadCode;
                             $('#tdloc' + actCode + dateId).text(roadCode);
                             $('#tdqan' + actCode + dateId).text(prodQty);

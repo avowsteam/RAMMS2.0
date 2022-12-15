@@ -816,15 +816,15 @@ function saveHeader(isSave = true, isSubmit = false) {
         req.Dist = _hd.txtDist.val();
         req.RoadId = _hd.hdnRoadCode.val();
         if (req.RoadId != "") {
-            var v = _hd.ddlRoadCode.find(":selected").text().split('-');
+            var v = _hd.ddlRoadCode.find(":selected").val();//.split('-');
             //req.RoadCode = _hd.ddlRoadCode.find(":selected").text().split('-')[0].trim();
-            if (v.length > 2) {
-                req.RoadCode = v[0] + '-' + v[1];
-            }
-            else {
-                req.RoadCode = v[0];
-            }
-            
+            //if (v.length > 2) {
+            //    req.RoadCode = v[0] + '-' + v[1];
+            //}
+            //else {
+            //    req.RoadCode = v[0];
+            //}
+            req.RoadCode = v;
             req.RoadName = _hd.txtRoadName.val();
         }
         req.RoadLength = _hd.txtRoadlength.val();

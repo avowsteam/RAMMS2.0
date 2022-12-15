@@ -877,3 +877,10 @@ function checkAction(form, action, alert = true) {
     app.ShowErrorMessage("User is not allowed to " + action + " " + form)
     return false;
 }
+
+//Export IW
+
+function Export() {
+    window.location.href = 'InstructedWorks/ExportIW';
+}
+

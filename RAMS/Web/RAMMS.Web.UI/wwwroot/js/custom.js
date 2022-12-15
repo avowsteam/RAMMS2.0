@@ -1,13 +1,22 @@
-$(".path, .grp-path").hover(function(e) {
-  $('#info-box').css('display','block');
-  $('#info-box').html($(this).data('info'));
+$(document).ready(function () {
+    $('#MIR').addClass('activeMap');
+    $('#info-box').css('display', 'block');
+    $('#info-box').html($('#MIR').data('info'));
 });
 
-$(".path, .grp-path").mouseleave(function(e) {
-  $('#info-box').css('display','none');
+//$(".path, .grp-path").hover(function (e) {
+//    $('#MIR').removeClass('activeMap');
+//  $('#info-box').css('display','block');
+//  $('#info-box').html($(this).data('info'));
+//});
+
+$(".path, .grp-path").mouseleave(function (e) {
+    $('#MIR').addClass('activeMap');
+    $('#info-box').html($('#MIR').data('info'));
+  //$('#info-box').css('display','none');
 });
 
-$(document).mousemove(function(e) {
+$(document).mousemove(function (e) {
   $('#info-box').css('top',e.pageY-$('#info-box').height()-30);
   $('#info-box').css('left',e.pageX-($('#info-box').width())/2);
 }).mouseover();

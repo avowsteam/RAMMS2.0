@@ -117,7 +117,7 @@ namespace RAMMS.Web.UI.Controllers
                 _model.FormUCUA = new FormUCUAResponseDTO();
             }
 
-            _model.FormUCUADtl = new FormTDtlResponseDTO();
+            //_model.FormUCUADtl = new FormTDtlResponseDTO();
             _model.FormUCUA = _model.FormUCUA ?? new FormUCUAResponseDTO();
             _model.view = isview;
 

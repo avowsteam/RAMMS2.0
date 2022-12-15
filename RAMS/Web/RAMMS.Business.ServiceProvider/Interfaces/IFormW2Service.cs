@@ -54,5 +54,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<FormW2FECMResponseDTO> FindFCEM2ByID(int Id);
 
         Task<IEnumerable> GetRoadCodesByRMU(string rmu);
+
+        byte[] ExportIW(string formname, string basepath, string filepath);
     }
 }

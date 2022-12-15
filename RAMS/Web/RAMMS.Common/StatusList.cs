@@ -157,7 +157,7 @@ namespace RAMMS.Common
         public const string FormFCHeadMaintenanceApproved = "Head Maintenance"; //To Region Manager        
         public const string FormFCRegionManagerApproved = "Region Manager"; // To JKRS
 
-        public const string FormFDInit = "Initialize";//To Supervisor
+        public const string FormFDInit = "Open";//To Supervisor
         public const string FormFDInspected = "Inspected"; //To Opp Executive
         public const string FormFDExecutiveApproved = "Executive"; // To Opp Head
         public const string FormFDHeadMaintenanceApproved = "Head Maintenance"; //To Region Manager        

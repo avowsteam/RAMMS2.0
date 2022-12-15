@@ -209,7 +209,7 @@
     @if (isModifyPerm == "")
     {
 
-        @if ((string.IsNullOrEmpty(Model.FormWC.Status) || Model.FormWC.Status == "Saved") && (security.IsInstructedWorkEngg || isJKRS))
+        @if ((string.IsNullOrEmpty(Model.FormWC.Status) || Model.FormWC.Status == "Saved") && (security.isEnggAssistant ||  security.IsInstructedWorkEngg || isJKRS))
         {
             <button type="button" class="btn btn-sm btn-outline-theme" id="clearWCBtn" onclick="return ClearWC()">Clear</button>
             <button type="button" class="btn btn-sm btn-themebtn" id="saveWCBtn" onclick="return checkW2Exist()">Save</button>

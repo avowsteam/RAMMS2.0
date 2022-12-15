@@ -115,7 +115,7 @@ namespace RAMMS.Business.ServiceProvider.Services
         public async Task<FormFCDTO> Save(FormFCDTO frmFC, bool updateSubmit)
         {
             RmFormFcInsHdr header = _mapper.Map<RmFormFcInsHdr>(frmFC);
-            header.FcihStatus = "Initialize";
+            header.FcihStatus = StatusList.FormFCInit;
             RmFormFcInsHdr source = await _repo.Save(header, updateSubmit);
             if (source != null && source.FcihSubmitSts)
             {

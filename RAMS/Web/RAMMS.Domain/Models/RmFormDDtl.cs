@@ -27,7 +27,7 @@ namespace RAMMS.Domain.Models
         public double? FddWidth { get; set; }
         public double? FddHeight { get; set; }
         public string FddUnit { get; set; }
-        public int? FddProdQty { get; set; }
+        public decimal? FddProdQty { get; set; }
         public string FddProdUnit { get; set; }
         public string FddWorkSts { get; set; }
         public string FddGenRemarks { get; set; }

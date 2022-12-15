@@ -16,7 +16,7 @@
 
         var output = d.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '') + day;
         
-        $("#formDReportedByUserId").chosen();
+       
         $("#formDUseridVet").chosen();
         $("#formDUseridVer").chosen();
 
@@ -759,13 +759,18 @@ function clearForm() {
     $("#formDChinageFromDeci").val("");
     $("#formDChinageTo").val("");
     $("#formDChinageToDeci").val("");
-    $("#FormDSiteRef").val("").trigger("chosen:updated");
+    $("#FormDSiteRef").val([]).trigger("chosen:updated");
+    //$('#FormDSiteRef').chosen('destroy');  
+    //$('#FormDSiteRef').chosen();
+
     $("#formDtlActivityCode").val("").trigger("chosen:updated");
     $("#formDActivityDesc").val("");
     $("#formDDtlRoadCode").val("").trigger("chosen:updated");
     $("#formDDtlroadDesc").val("");
     $("#FormDSourceType").val("").trigger("chosen:updated");
     $("#FormDSourceRefID").val("");
+   
+
     $("#FormDTextReferenceID").val("");
     $("#formDArrivalTime").val("");
     $("#formDDepartureTime").val("");

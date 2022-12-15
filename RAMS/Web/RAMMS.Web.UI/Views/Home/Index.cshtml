@@ -181,24 +181,20 @@
                     <div class="card-body">
 
                         <div class="row">
-                            <div class="col-2 form-group">
-                            </div>
-                            <div class="col-md-8 text-right" id="divIRM">
-                                @{
-
-                                    Html.RenderPartial("_iRMPartial.cshtml");
-                                }
-                            </div>
-                            <div class="col-2 form-group">
+                            <div class="col-lg-2  offset-lg-10  form-group">
                                 @Html.DropDownListFor(m => m.SaveFormAModel.section, (IEnumerable
-        <SelectListItem>)ViewData["RMIIRIYear"], new { @Id = "ddlDLPSPYear", @class = "form-control" })
+<SelectListItem>)ViewData["RMIIRIYear"], new { @Id = "ddlDLPSPYear", @class = "form-control" })
                                 @*<select id="ddlDLPSPYear" class="form-control">
-                                        <option>Year</option>
-                                        <option value="2020">2020</option>
-                                        <option value="2021">2021</option>
-                                        <option selected="selected" value="2022">2022</option>
-                                    </select>*@
+                        <option>Year</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option selected="selected" value="2022">2022</option>
+                    </select>*@
                             </div>
+                            <div class="col-12 text-right" id="divIRM">
+                                @{ Html.RenderPartial("_iRMPartial.cshtml"); }
+                            </div>
+
 
                         </div>
 
@@ -230,7 +226,7 @@
                                     <label>RMU</label>
 
                                     @Html.DropDownListFor(m => m.SaveFormAModel.RFCRMU, (IEnumerable
-                                    <SelectListItem>)ViewData["RFCRMU"], new { @Id = "RFCRMU", @class = "form-control", @default = "MRI" })
+                                    <SelectListItem>)ViewData["RFCRMU"], new { @Id = "RFCRMU", @class = "form-control", @default = "MIRI" })
 
                                 </div>
                                 <div class="float-right form-group">
@@ -302,7 +298,7 @@
         $("#section-dd").val("");
         var dt = new Date();
         var CurrentYear = dt.getFullYear();
-        $("#RFCRMU").val('MRI').trigger('chosen:updated');
+        $("#RFCRMU").val('MIRI').trigger('chosen:updated');
         $("#RFCYear").val(CurrentYear).trigger('chosen:updated');
         var values = [];
         GetHomePageCount({});
@@ -498,6 +494,7 @@
         var conditionKm1;
         var conditionKm2;
         var conditionKm3;
+        var FeaturestrHardCode = "";
         //container.replaceChildren(p1, p2);
 
         $('#divRFCPie').empty();
@@ -522,11 +519,35 @@
                             conditionKm2 = data[i].rfCondition2;
                             conditionKm3 = data[i].rfCondition3;
                         }
-                        html =
+                        var Featurestr = data[i].rfcFeature;
+                        //console.log(str.replace(/\s/g, '#'));
+                        
+                        var FeaturestrTrim = $.trim(Featurestr.replace(/\s/g, ''));
+                        //alert(FeaturestrTrim);
+                        
+                        if (FeaturestrTrim == "CARRIAGEWAY(PAVED)") { FeaturestrHardCode = "CARRIAGEWAY (PAVED)" }
+                        if (FeaturestrTrim == "CARRIAGEWAY(UNPAVED)") { FeaturestrHardCode = "CARRIAGEWAY (UNPAVED)" }
+                        if (FeaturestrTrim == "CENTERLINEMARKING") { FeaturestrHardCode = "CENTRELINE MARKING" }
+                        if (FeaturestrTrim == "EDGELINEMARKINGLEFT") { FeaturestrHardCode = "EDGELINE MARKING LEFT" }
+                        if (FeaturestrTrim == "DITCHLEFT") { FeaturestrHardCode = "DITCH LEFT" }
+                        if (FeaturestrTrim == "DRAINLEFT") { FeaturestrHardCode = "DRAIN LEFT" }
+                        if (FeaturestrTrim == "SHOULDERLEFT") { FeaturestrHardCode = "SHOULDER LEFT" }
+                        if (FeaturestrTrim == "EDGELINEMARKINGRIGHT") { FeaturestrHardCode = "EDGELINE MARKING RIGHT" }
+                        if (FeaturestrTrim == "DITCHRIGHT") { FeaturestrHardCode = "DITCH RIGHT" }
+                        if (FeaturestrTrim == "DRAINRIGHT") { FeaturestrHardCode = "DRAIN RIGHT" }
+                        if (FeaturestrTrim == "SHOULDERRIGHT") { FeaturestrHardCode = "SHOULDER RIGHT" }
+                        if (FeaturestrTrim == "ROADSTUDS" || FeaturestrTrim == "ROADSTUDSLEFT" || FeaturestrTrim == "ROADSTUDSRIGHT") { FeaturestrHardCode = "ROAD STUDS" }
+                        if (FeaturestrTrim == "SIGNS") { FeaturestrHardCode = "SIGNS" }
+                        if (FeaturestrTrim == "CULVERTS") { FeaturestrHardCode = "CULVERTS" }
+                        if (FeaturestrTrim == "BRIDGES") { FeaturestrHardCode = "BRIDGES" }
+                        if (FeaturestrTrim == "GUARDRAIL") { FeaturestrHardCode = "GUARDRAILS" }
+                        if (FeaturestrTrim == "RETAININGWALL") { FeaturestrHardCode = "RETAINING WALLS" }
+
+                          html =
                             '<div class="col-md-4 my-2">' +
                             '<div class="card">' +
                             ' <div class="card-header bg-light text-center font-14 font-weight-bold">' +
-                            '<span id="RFCFeature">' + data[i].rfcFeature + '</span>' +
+                        '<span id="RFCFeature">' + FeaturestrHardCode + '</span>' +
                             '</div>' +
                             '<div class="card-body">' +
                             '<div id="divRFCPie_' + x + '" style="width:100%;height:100%;">' +
@@ -535,11 +556,13 @@
                             '</div>' +
                             '</div >';
                         $('#divPie').append(html);
-
+                        var txt = ['Condition 1 ' + '(' + conditionKm1 + ' ' + data[i].fsdunit + ') <br />' + (data[i].rfConditionper1 * 100).toFixed(1) + '%', 'Condition 2 ' + '(' + conditionKm2 + ' ' + data[i].fsdunit + ') <br /> ' + (data[i].rfConditionper2 * 100).toFixed(1) + ' %', 'Condition 3 ' + '(' + conditionKm3 + ' ' + data[i].fsdunit + ') <br /> ' + (data[i].rfConditionper3 * 100).toFixed(1) +' %'];
                         var datapie = [{
                             values: [data[i].rfConditionper1, data[i].rfConditionper2, data[i].rfConditionper3],
-                            labels: ['Condition1 ' + '(' + conditionKm1 + '  ' + data[i].fsdunit + ')', 'Condition2 ' + '(' + conditionKm2 + ' ' + data[i].fsdunit + ')', 'Condition3 ' + '(' + conditionKm3 + ' ' + data[i].fsdunit + ')'],
+                            labels: ['Condition 1 ' + '(' + conditionKm1 + ' ' + data[i].fsdunit + ')', 'Condition 2 ' + '(' + conditionKm2 + ' ' + data[i].fsdunit + ')', 'Condition 3 ' + '(' + conditionKm3 + ' ' + data[i].fsdunit + ')'],
                             type: 'pie',
+                            text: txt,
+                            hoverinfo: "text",
                             textinfo: "percent",
                             textposition: "outside",
                             automargin: true,

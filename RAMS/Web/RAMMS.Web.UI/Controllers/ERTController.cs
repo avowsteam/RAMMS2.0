@@ -1185,6 +1185,7 @@ namespace RAMMS.Web.UI.Controllers
             else
             {
                 _formDModel.viewm = view != null ? view : "0";
+                _formDModel.SaveFormDModel.ReportedByUserId = _security.UserID;
                 ViewData["RD_Code"] = await _formDService.GetRoadCodesByRMU("");
             }
             ViewBag.view = view;

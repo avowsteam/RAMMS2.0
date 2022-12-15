@@ -96,6 +96,7 @@ namespace RAMMS.Web.UI
             services.AddMvc(config =>
             {
                 config.Filters.Add(typeof(CustomExceptionFilter));
+                config.MaxModelBindingCollectionSize = int.MaxValue;
             });
             //.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

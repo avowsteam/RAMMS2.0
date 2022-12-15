@@ -213,7 +213,7 @@
                     <button type="button" class="btn btn-sm btn-outline-theme" onclick="GoBack()">Cancel</button>
                     @{
 
-                        if (isSubmit && (Model.FormF3.Status == null || Model.FormF3.Status == "" || Model.FormF3.Status == "Initialize" || Model.FormF3.Status == "Saved"))
+                        if (isSubmit && (Model.FormF3.Status == null || Model.FormF3.Status == "" || Model.FormF3.Status == RAMMS.Common.StatusList.FormF3Init || Model.FormF3.Status == RAMMS.Common.StatusList.Saved))
                         {
                             <button id="saveFormF3Btn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('','Saved')">Save</button>
                             <button id="SubmitFormF3Btn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('','Submitted')">Submit</button>

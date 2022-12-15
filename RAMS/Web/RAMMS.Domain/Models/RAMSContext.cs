@@ -6447,7 +6447,9 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("FDD_Mod_DT")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.FddProdQty).HasColumnName("FDD_PROD_QTY");
+                entity.Property(e => e.FddProdQty)
+                    .HasColumnName("FDD_PROD_QTY")
+                    .HasColumnType("decimal(8, 2)");
 
                 entity.Property(e => e.FddProdUnit)
                     .HasColumnName("FDD_PROD_Unit")

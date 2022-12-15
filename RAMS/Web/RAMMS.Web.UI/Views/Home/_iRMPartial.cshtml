@@ -12,39 +12,273 @@
     decimal roadLength1 = rMIIRMData.RmiiriRoadLength1.HasValue ? rMIIRMData.RmiiriRoadLength1.Value : 0;
     decimal roadLength2 = rMIIRMData.RmiiriRoadLength2.HasValue ? rMIIRMData.RmiiriRoadLength2.Value : 0;
     decimal roadLength3 = rMIIRMData.RmiiriRoadLength3.HasValue ? rMIIRMData.RmiiriRoadLength3.Value : 0;
+
+    decimal Percentage = rMIIRMData.RmiiriPercentage.HasValue ? rMIIRMData.RmiiriPercentage.Value : 0;
+    decimal Percentage1 = rMIIRMData.RmiiriPercentage1.HasValue ? rMIIRMData.RmiiriPercentage1.Value : 0;
+    decimal Percentage2 = rMIIRMData.RmiiriPercentage2.HasValue ? rMIIRMData.RmiiriPercentage2.Value : 0;
+    decimal Percentage3 = rMIIRMData.RmiiriPercentage3.HasValue ? rMIIRMData.RmiiriPercentage3.Value : 0;
+
     bool isIRUpdate = false;
     if (ViewBag.IRUpdate != null)
     {
         isIRUpdate = true;
     }
 }
-<div class="col-lg-10 offset-lg-1 mt-2 border-bottom" style="height:80%">
-    <canvas id="myChart2"></canvas>
-</div>
-<div class="col-lg-10 table-responsive">
+<div class="row">
 
-    @if (rMIIRMData != null)
-    {
-        <table style="font-size:x-small" class="table w-100 nowrap dataTable no-footer">
-            <tbody>
-                <tr>
-                    <td style="width:18%">Road Length(km)</td>
-                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength KM</td>
-                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength1 KM</td>
-                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength2 KM</td>
-                    <td style="width:20%">@rMIIRMData.RmiiriRoadLength3 KM</td>
-                </tr>
-                <tr>
-                    <td>Percentage (%)</td>
-                    <td>@rMIIRMData.RmiiriPercentage %</td>
-                    <td>@rMIIRMData.RmiiriPercentage1 %</td>
-                    <td>@rMIIRMData.RmiiriPercentage2 %</td>
-                    <td>@rMIIRMData.RmiiriPercentage3 %</td>
-                </tr>
-            </tbody>
-        </table>
-    }
 
+    <div class="col-8 mt-2" style="height:150%">
+        <canvas id="myChart2" height="222vh"></canvas>
+    </div>
+    <div class="col-4 p-0">
+
+        @if (rMIIRMData != null)
+        {
+            <div class="rmi-row">
+                <div class="rmi-value">Road Maintenance Indicator (RMI)</div><div class="rmi-value">
+                    Road Length (km) <span> @rMIIRMData.RmiiriRoadLength </span>
+                </div>
+
+
+                <div class="rmi-value">
+                    Percentage (%)<span> @rMIIRMData.RmiiriPercentage</span>
+                </div>
+            </div>
+
+            <!--Bar-->
+            <div class="graph-scale">
+                <p>International Roughness Index (IRI)</p>
+                <div class="line">
+                    <div class="octagon_div octagon-one">
+                        <p>Condition 1</p><div class="octagon ">
+                            <svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                 xmlns:cc="http://creativecommons.org/ns#"
+                                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                 xmlns:svg="http://www.w3.org/2000/svg"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                                 inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+                                 sodipodi:docname="cross-octagon.svg"
+                                 version="1.1"
+                                 viewBox="0 0 16 16"
+                                 id="svg2">
+                                <defs id="defs10" />
+                                <sodipodi:namedview inkscape:current-layer="svg2"
+                                                    inkscape:window-maximized="1"
+                                                    inkscape:window-y="-9"
+                                                    inkscape:window-x="-9"
+                                                    inkscape:cy="8"
+                                                    inkscape:cx="8"
+                                                    inkscape:zoom="45.9375"
+                                                    showgrid="false"
+                                                    id="namedview8"
+                                                    inkscape:window-height="1361"
+                                                    inkscape:window-width="2160"
+                                                    inkscape:pageshadow="2"
+                                                    inkscape:pageopacity="0"
+                                                    guidetolerance="10"
+                                                    gridtolerance="10"
+                                                    objecttolerance="10"
+                                                    borderopacity="1"
+                                                    bordercolor="#666666"
+                                                    pagecolor="#ffffff" />
+                                <path sodipodi:nodetypes="ccccccccc"
+                                      id="rect3801"
+                                      style="fill: #2ca02c; stroke: none; stroke-width: 0.25; stroke-linejoin: round; fill-opacity: 1 "
+                                      d="M 5.5,2 2,5.5 v 5 L 5.5,14 h 5 L 14,10.5 v -5 L 10.5,2 Z" />
+                                <metadata id="metadata5">
+                                    <rdf:RDF>
+                                        <cc:Work>
+                                            <dc:format>image/svg+xml</dc:format>
+                                            <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                                            <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+                                            <dc:publisher>
+                                                <cc:Agent rdf:about="http://openclipart.org/">
+                                                    <dc:title>Openclipart</dc:title>
+                                                </cc:Agent>
+                                            </dc:publisher>
+                                        </cc:Work>
+                                        <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+                                            <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+                                            <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+                                            <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+                                        </cc:License>
+                                    </rdf:RDF>
+                                </metadata>
+                            </svg>
+                        </div> <p> <span>> 0.00 - 4.99</span></p>
+                    </div>
+                    <div class="octagon_div octagon-two">
+                        <p>Condition2</p><div class="octagon ">
+                            <svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                 xmlns:cc="http://creativecommons.org/ns#"
+                                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                 xmlns:svg="http://www.w3.org/2000/svg"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                                 inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+                                 sodipodi:docname="cross-octagon.svg"
+                                 version="1.1"
+                                 viewBox="0 0 16 16"
+                                 id="svg2">
+                                <defs id="defs10" />
+                                <sodipodi:namedview inkscape:current-layer="svg2"
+                                                    inkscape:window-maximized="1"
+                                                    inkscape:window-y="-9"
+                                                    inkscape:window-x="-9"
+                                                    inkscape:cy="8"
+                                                    inkscape:cx="8"
+                                                    inkscape:zoom="45.9375"
+                                                    showgrid="false"
+                                                    id="namedview8"
+                                                    inkscape:window-height="1361"
+                                                    inkscape:window-width="2160"
+                                                    inkscape:pageshadow="2"
+                                                    inkscape:pageopacity="0"
+                                                    guidetolerance="10"
+                                                    gridtolerance="10"
+                                                    objecttolerance="10"
+                                                    borderopacity="1"
+                                                    bordercolor="#666666"
+                                                    pagecolor="#ffffff" />
+                                <path sodipodi:nodetypes="ccccccccc"
+                                      id="rect3801"
+                                      style="fill: #ff7f0e; stroke: none; stroke-width: 0.25; stroke-linejoin: round; fill-opacity: 1 "
+                                      d="M 5.5,2 2,5.5 v 5 L 5.5,14 h 5 L 14,10.5 v -5 L 10.5,2 Z" />
+                                <metadata id="metadata5">
+                                    <rdf:RDF>
+                                        <cc:Work>
+                                            <dc:format>image/svg+xml</dc:format>
+                                            <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                                            <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+                                            <dc:publisher>
+                                                <cc:Agent rdf:about="http://openclipart.org/">
+                                                    <dc:title>Openclipart</dc:title>
+                                                </cc:Agent>
+                                            </dc:publisher>
+                                        </cc:Work>
+                                        <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+                                            <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+                                            <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+                                            <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+                                        </cc:License>
+                                    </rdf:RDF>
+                                </metadata>
+                            </svg>
+                        </div> <p> <span> 5.00 - 7.99</span></p>
+                    </div>
+
+                    <div class="octagon_div octagon-three">
+                        <p>Condition 3</p><div class="octagon">
+                            <svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                 xmlns:cc="http://creativecommons.org/ns#"
+                                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                 xmlns:svg="http://www.w3.org/2000/svg"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                                 inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+                                 sodipodi:docname="cross-octagon.svg"
+                                 version="1.1"
+                                 viewBox="0 0 16 16"
+                                 id="svg2">
+                                <defs id="defs10" />
+                                <sodipodi:namedview inkscape:current-layer="svg2"
+                                                    inkscape:window-maximized="1"
+                                                    inkscape:window-y="-9"
+                                                    inkscape:window-x="-9"
+                                                    inkscape:cy="8"
+                                                    inkscape:cx="8"
+                                                    inkscape:zoom="45.9375"
+                                                    showgrid="false"
+                                                    id="namedview8"
+                                                    inkscape:window-height="1361"
+                                                    inkscape:window-width="2160"
+                                                    inkscape:pageshadow="2"
+                                                    inkscape:pageopacity="0"
+                                                    guidetolerance="10"
+                                                    gridtolerance="10"
+                                                    objecttolerance="10"
+                                                    borderopacity="1"
+                                                    bordercolor="#666666"
+                                                    pagecolor="#ffffff" />
+                                <path sodipodi:nodetypes="ccccccccc"
+                                      id="rect3801"
+                                      style="fill: #d62728; stroke: none; stroke-width: 0.25; stroke-linejoin: round; fill-opacity: 1 "
+                                      d="M 5.5,2 2,5.5 v 5 L 5.5,14 h 5 L 14,10.5 v -5 L 10.5,2 Z" />
+                                <metadata id="metadata5">
+                                    <rdf:RDF>
+                                        <cc:Work>
+                                            <dc:format>image/svg+xml</dc:format>
+                                            <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                                            <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+                                            <dc:publisher>
+                                                <cc:Agent rdf:about="http://openclipart.org/">
+                                                    <dc:title>Openclipart</dc:title>
+                                                </cc:Agent>
+                                            </dc:publisher>
+                                        </cc:Work>
+                                        <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+                                            <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+                                            <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+                                            <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+                                        </cc:License>
+                                    </rdf:RDF>
+                                </metadata>
+                            </svg>
+                        </div> <p> <span> > =  8.00</span></p>
+                    </div>
+                </div>
+            </div>
+            <!--End-->
+
+            <div class="table-responsive">
+                <table class="table w-100 nowrap dataTable no-footer">
+                    <thead style="background-color: #c8e1ff">
+                        <tr>
+                            <th></th>
+                            <th>  Road Length (km)</th>
+                            <th> Percentage (%)</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="width:18%">Condition 1</td>
+
+                            <td style="width:20%">@rMIIRMData.RmiiriRoadLength1</td>
+                            <td>@rMIIRMData.RmiiriPercentage1 </td>
+                        </tr>
+                        <tr>
+                            <td style="width:18%">Condition 2</td>
+
+                            <td style="width:20%">@rMIIRMData.RmiiriRoadLength2 </td>
+                            <td>@rMIIRMData.RmiiriPercentage2 </td>
+                        </tr>
+                        <tr>
+                            <td style="width:18%">Condition 3</td>
+
+                            <td style="width:20%">@rMIIRMData.RmiiriRoadLength3 </td>
+                            <td>@rMIIRMData.RmiiriPercentage3 </td>
+                        </tr>
+                        <tr>
+                            <td style="width:18%">Total</td>
+
+                            <td style="width:20%">
+                                @{ decimal? totalLength = rMIIRMData.RmiiriRoadLength + rMIIRMData.RmiiriRoadLength2 + rMIIRMData.RmiiriRoadLength3;
+                                    decimal? totalPercentage = rMIIRMData.RmiiriPercentage1 + rMIIRMData.RmiiriPercentage2 + rMIIRMData.RmiiriPercentage3;
+                                }
+                                <p>@totalLength </p>
+                            </td>
+                            <td> <p>@totalPercentage </p> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>}
+
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -59,22 +293,24 @@
             labels: IRIlabels1,
             datasets: [
                 {
-                    label: [],
+                    label: 'Road Length (km)',
                     data: [@roadLength, @roadLength1, @roadLength2, @roadLength3],
                     backgroundColor: [
-                        'rgba(0, 107, 180, 1)',
-                        'rgba(0, 212, 86, 1)',
-                        'rgba(238, 148, 18, 1)',
-                        'rgba(255, 5, 5, 1)'
-                    ],
-                    borderColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(200, 86, 1)',
-                        'rgb(255, 205, 86)',
-                        'rgb(75, 192, 192)'
+                        'rgba(21, 46, 77, 1)',
+                        'rgba(44, 160, 44, 1)',
+                        'rgba(255, 127, 14, 1)',
+                        'rgba(214, 39, 40, 1)'
                     ],
                     borderWidth: 1
-                }]
+                },
+            {
+                type: 'line',
+                label: 'Percentage (%)',
+                data: [@Percentage,@Percentage1, @Percentage2,@Percentage3],
+                pointRadius: 10,
+                fill: false,
+                borderColor: 'rgba(238, 148, 18, 1)'
+            },]
         }
 
         const config1 = {
@@ -115,22 +351,25 @@
             labels: IRIlabels2,
             datasets: [
                 {
-                    label: [],
+                    label: 'Road Length(km)',
                     data: [@roadLength, @roadLength1, @roadLength2, @roadLength3],
                     backgroundColor: [
-                        'rgba(0, 107, 180, 1)',
-                        'rgba(0, 212, 86, 1)',
-                        'rgba(238, 148, 18, 1)',
-                        'rgba(255, 5, 5, 1)'
-                    ],
-                    borderColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(200, 86, 1)',
-                        'rgb(255, 205, 86)',
-                        'rgb(75, 192, 192)'
+                        'rgba(21, 46, 77, 1)',
+                        'rgba(44, 160, 44, 1)',
+                        'rgba(255, 127, 14, 1)',
+                        'rgba(214, 39, 40, 1)'
                     ],
                     borderWidth: 1
-                }]
+                },
+                 {
+                type: 'line',
+                label: 'Percentage (%)',
+                data: [@Percentage,@Percentage1, @Percentage2,@Percentage3],
+                pointRadius: 10,
+                fill: false,
+                borderColor: 'rgba(238, 148, 18, 1)'
+            },
+            ]
         }
 
         const IRIconfig2 = {

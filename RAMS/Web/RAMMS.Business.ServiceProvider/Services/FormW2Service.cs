@@ -17,6 +17,7 @@ using RAMMS.DTO.RequestBO;
 using RAMMS.DTO.ResponseBO;
 using RAMMS.DTO.Wrappers;
 using RAMMS.Repository.Interfaces;
+using static OpenXmlPowerTools.RevisionProcessor;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
@@ -80,10 +81,10 @@ namespace RAMMS.Business.ServiceProvider.Services
             return rowsAffected;
         }
 
-        public  int FindWNWGStatus(int id)
+        public int FindWNWGStatus(int id)
         {
             int res = 0;
-            res =   _repo.FindWNWGStatus(id);
+            res = _repo.FindWNWGStatus(id);
             return res;
         }
 
@@ -249,12 +250,12 @@ namespace RAMMS.Business.ServiceProvider.Services
 
             return rowsAffected;
         }
-        
+
         public async Task<IEnumerable<CSelectListItem>> GetFormW1DDL()
         {
-            return await _repoUnit.FormW1Repository.FindAsync(m => m.Fw1ActiveYn == true , x => new CSelectListItem() { Text = x.Fw1IwRefNo, Value = x.Fw1PkRefNo.ToString() });
+            return await _repoUnit.FormW1Repository.FindAsync(m => m.Fw1ActiveYn == true, x => new CSelectListItem() { Text = x.Fw1IwRefNo, Value = x.Fw1PkRefNo.ToString() });
         }
-        
+
         public async Task<List<FormW1ResponseDTO>> GetFormW1List()
         {
             List<FormW1ResponseDTO> images = new List<FormW1ResponseDTO>();
@@ -291,7 +292,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 var codes = await _repoUnit.FormW2Repository.GetRoadCodesByRMU(rmu);
 
-                return codes.OrderBy(s => s.RdmPkRefNo).Select(x => new 
+                return codes.OrderBy(s => s.RdmPkRefNo).Select(x => new
                 {
                     Value = x.RdmRdCode.ToString(),
                     Text = x.RdmRdCode + "-" + x.RdmRdName.ToString(),
@@ -374,6 +375,100 @@ namespace RAMMS.Business.ServiceProvider.Services
 
             return result;
         }
+
+        public byte[] ExportIW(string formname, string basepath, string filepath)
+        {
+            string Oldfilename = "";
+            string filename = "";
+            string cachefile = "";
+            basepath = $"{basepath}/Uploads";
+            if (!filepath.Contains(".xlsx"))
+            {
+                Oldfilename = filepath + formname + ".xlsx";// formdetails.FgdFilePath+"\\" + formdetails.FgdFileName+ ".xlsx";
+                filename = formname + DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString();
+                cachefile = filepath + filename + ".xlsx";
+            }
+            else
+            {
+                Oldfilename = filepath;
+                filename = filepath.Replace(".xlsx", DateTime.Now.ToString("yyyyMMddHHmmssfffffff").ToString() + ".xlsx");
+                cachefile = filename;
+            }
+
+            try
+            {
+                List<FormIWResponseDTO> _rpt = _repo.GetReportData();
+                System.IO.File.Copy(Oldfilename, cachefile, true);
+                using (var workbook = new XLWorkbook(cachefile))
+                {
+                    IXLWorksheet worksheet = workbook.Worksheet(1);
+
+                    using (var book = new XLWorkbook(cachefile))
+                    {
+                        if (worksheet != null)
+                        {
+                            var rptCount = _rpt.Count;
+
+                            for (int i = 0; i < _rpt.Count; i++)
+                            {
+                                var rpt = _rpt[i];
+                                worksheet.Cell(6 + i, 2).Value = rpt.projectTitle;
+                                worksheet.Cell(6 + i, 3).Value = rpt.overAllStatus ;
+                                worksheet.Cell(6 + i, 4).Value = rpt.initialPropDt;
+                                worksheet.Cell(6 + i, 5).Value = rpt.recommdDEYN;
+                                worksheet.Cell(6 + i, 6).Value = rpt.w1dt;
+                                worksheet.Cell(6 + i, 7).Value = rpt.recommdYN;
+                                worksheet.Cell(6 + i, 8).Value = rpt.estimatedCost;
+                                worksheet.Cell(6 + i, 9).Value = rpt.w2dt;
+                                worksheet.Cell(6 + i, 10).Value = rpt.tecmDt;
+                                worksheet.Cell(6 + i, 11).Value = rpt.fecmDt;
+                                worksheet.Cell(6 + i, 12).Value = rpt.agreedNegoYN;
+                                worksheet.Cell(6 + i, 13).Value = rpt.agreedNegoPriceDt;
+                                worksheet.Cell(6 + i, 14).Value = rpt.issueW2Ref;
+                                worksheet.Cell(6 + i, 15).Value = rpt.commenceDt;
+                                worksheet.Cell(6 + i, 16).Value = rpt.compDt;
+                                worksheet.Cell(6 + i, 17).Value = rpt.wdDt;
+                                worksheet.Cell(6 + i, 18).Value = rpt.newCompDt;
+                                worksheet.Cell(6 + i, 19).Value = rpt.wnDt;
+                                worksheet.Cell(6 + i, 20).Value = rpt.ContractPeriod;
+                                worksheet.Cell(6 + i, 21).Value = rpt.wcDt;
+                                worksheet.Cell(6 + i, 22).Value = rpt.dlpPeriod;
+                                worksheet.Cell(6 + i, 23).Value = rpt.finalAmt;
+                                worksheet.Cell(6 + i, 24).Value = rpt.sitePhy;
+                                worksheet.Cell(6 + i, 25).Value = rpt.wgDate;
+                            }
+
+
+
+                        }
+                        using (var stream = new MemoryStream())
+                        {
+                            workbook.SaveAs(stream);
+                            var content = stream.ToArray();
+                            System.IO.File.Delete(cachefile);
+                            return content;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.Copy(Oldfilename, cachefile, true);
+                using (var workbook = new XLWorkbook(cachefile))
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        System.IO.File.Delete(cachefile);
+                        return content;
+                    }
+                }
+
+            }
+        }
+
+
         #endregion
 
         #region FCEM

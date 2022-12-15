@@ -735,5 +735,78 @@ namespace RAMMS.Repository
                                 .ToListAsync().ConfigureAwait(false);
             return result;
         }
+
+        public  List<FormIWResponseDTO> GetReportData()
+        {
+            List<FormIWResponseDTO> result = new List<FormIWResponseDTO>();
+            var query = (from x in _context.RmIwFormW1.Where(x => x.Fw1ActiveYn == true)
+                         let rmu = _context.RmDdLookup.FirstOrDefault(s => s.DdlType == "RMU" && (s.DdlTypeCode == x.Fw1RmuCode || s.DdlTypeDesc == x.Fw1RmuCode))
+                         let w2Form = _context.RmIwFormW2.FirstOrDefault(s => s.Fw2Fw1PkRefNo == x.Fw1PkRefNo && s.Fw2ActiveYn == true)
+                         let fecm = _context.RmIwFormW2Fecm.FirstOrDefault(s => s.FecmFw2PkRefNo == w2Form.Fw2PkRefNo && s.FecmActiveYn == true)
+                         let wcForm = _context.RmIwFormWc.FirstOrDefault(s => s.FwcFw1PkRefNo == x.Fw1PkRefNo && s.FwcActiveYn == true)
+                         let wgForm = _context.RmIwFormWg.FirstOrDefault(s => s.FwgFw1PkRefNo == x.Fw1PkRefNo && s.FwgActiveYn == true)
+                         let wdForm = _context.RmIwFormWd.FirstOrDefault(s => s.FwdFw1PkRefNo == x.Fw1PkRefNo && s.FwdActiveYn == true)
+                         let wnForm = _context.RmIwFormWn.FirstOrDefault(s => s.FwnFw1PkRefNo == x.Fw1PkRefNo && s.FwnActiveYn == true)
+                         select new { rmu, w2Form, fecm, x, wcForm, wgForm, wdForm, wnForm });
+
+            query = query.OrderByDescending(x => x.x.Fw1ModDt);
+
+            result = (from form in query.OrderByDescending(o => o.x.Fw1PkRefNo)
+                      let w1Form = form.x
+                      let w2Form = form.w2Form
+                      let fecm = form.fecm
+                      let wnForm = form.wnForm
+                      let wdForm = form.wdForm
+                      let wcForm = form.wcForm
+                      let wgForm = form.wgForm
+                      select new FormIWResponseDTO
+                      {
+                          W1RefNo = w1Form.Fw1PkRefNo.ToString(),
+                          W2RefNo = w2Form.Fw2PkRefNo.ToString(),
+                          WCRefNo = wcForm.FwcPkRefNo.ToString(),
+                          WGRefNo = wgForm.FwgPkRefNo.ToString(),
+                          WDRefNo = wdForm.FwdPkRefNo.ToString(),
+                          WNRefNo = wnForm.FwnPkRefNo.ToString(),
+                          W1Status = w1Form.Fw1Status,
+                          W1SubStatus = w1Form.Fw1SubmitSts,
+                          W2Status = w2Form.Fw2Status,
+                          W2SubStatus = w2Form.Fw2SubmitSts,
+                          WCStatus = wcForm.FwcStatus,
+                          WCSubStatus = wcForm.FwcSubmitSts,
+                          WGStatus = wgForm.FwgStatus,
+                          WGSubStatus = wgForm.FwgSubmitSts,
+                          WDStatus = wdForm.FwdStatus,
+                          WDSubStatus = wdForm.FwdSubmitSts,
+                          WNStatus = wnForm.FwnStatus,
+                          WNSubStatus = wnForm.FwnSubmitSts,
+                          iWReferenceNo = w1Form.Fw1IwRefNo,
+                          projectTitle = w1Form.Fw1ProjectTitle,
+                          overAllStatus = wgForm != null && wgForm.FwgStatus != "" ? "WG - " + wgForm.FwgStatus : wcForm != null && wcForm.FwcStatus != "" ? "WC - " + wcForm.FwcStatus : wnForm != null && wnForm.FwnStatus != "" ? "WN - " + wnForm.FwnStatus : wdForm != null && wdForm.FwdStatus != "" ? "WD - " + wdForm.FwdStatus : w2Form != null && w2Form.Fw2Status != "" ? "W2 - " + w2Form.Fw2Status : "W1 - " + w1Form.Fw1Status,
+                          initialPropDt = w1Form.Fw1InitialProposedDate != null ? DateTime.Parse(Convert.ToString(w1Form.Fw1InitialProposedDate)).ToString("yyyy-MM-dd") : "-",
+                          recommdDEYN = w1Form.Fw1RecomdBydeYn != null && w1Form.Fw1RecomdBydeYn == true ? "Yes" : "No",
+                          w1dt = w1Form.Fw1Dt != null ? DateTime.Parse(Convert.ToString(w1Form.Fw1Dt)).ToString("yyyy-MM-dd") : "-",
+                          recommdYN = w1Form.Fw1RecomdYn != null && w1Form.Fw1RecomdYn == true ? "Yes" : "No",
+                          estimatedCost = w1Form.Fw1EstimTotalCostAmt.HasValue ? Convert.ToString(w1Form.Fw1EstimTotalCostAmt) : "0.00",
+                          w2dt = w2Form.Fw2DateOfInitation != null ? DateTime.Parse(Convert.ToString(w2Form.Fw2DateOfInitation)).ToString("yyyy-MM-dd") : "-",
+                          tecmDt = w1Form.Fw1TecmDt != null ? DateTime.Parse(Convert.ToString(w1Form.Fw1TecmDt)).ToString("yyyy-MM-dd") : "-",
+                          fecmDt = fecm.FecmDt != null ? DateTime.Parse(Convert.ToString(fecm.FecmDt)).ToString("yyyy-MM-dd") : "-",
+                          agreedNegoYN = fecm.FecmAgreedNegoLetrYn != null && fecm.FecmAgreedNegoLetrYn == true ? "Yes" : "No",
+                          agreedNegoPriceDt = fecm.FecmDtAgreedNego != null ? DateTime.Parse(Convert.ToString(fecm.FecmDtAgreedNego)).ToString("yyyy-MM-dd") : "-",
+                          issueW2Ref = w2Form.Fw2JkrRefNo,
+                          commenceDt = w2Form.Fw2DtCommence != null ? DateTime.Parse(Convert.ToString(w2Form.Fw2DtCommence)).ToString("yyyy-MM-dd") : "-",
+                          compDt = w2Form.Fw2DtCompl != null ? DateTime.Parse(Convert.ToString(w2Form.Fw2DtCompl)).ToString("yyyy-MM-dd") : "-",
+                          wdDt = wdForm.FwdDtWd != null ? DateTime.Parse(Convert.ToString(wdForm.FwdDtWd)).ToString("yyyy-MM-dd") : "-",
+                          newCompDt = wdForm.FwdDtExtn != null ? DateTime.Parse(Convert.ToString(wdForm.FwdDtExtn)).ToString("yyyy-MM-dd") : "-",
+                          wnDt = wnForm.FwnDtWn != null ? DateTime.Parse(Convert.ToString(wnForm.FwnDtWn)).ToString("yyyy-MM-dd") : "-",
+                          ContractPeriod = w2Form.Fw2IwDuration.HasValue ? Convert.ToString(w2Form.Fw2IwDuration) : "0",
+                          wcDt = wcForm.FwcDtWc != null ? DateTime.Parse(Convert.ToString(wcForm.FwcDtWc)).ToString("yyyy-MM-dd") : "-",
+                          dlpPeriod = wcForm.FwcDtDlpExtn != null ? DateTime.Parse(Convert.ToString(wcForm.FwcDtDlpExtn)).ToString("yyyy-MM-dd") : "-",
+                          finalAmt = w2Form.Fw2EstCostAmt.HasValue ? Convert.ToString(w1Form.Fw1EstimTotalCostAmt) : "0.00",
+                          sitePhy = fecm.FecmProgressPerc.HasValue ? Convert.ToString(fecm.FecmProgressPerc) + "%" : "0",
+                          wgDate = wgForm.FwgDtWg != null ? DateTime.Parse(Convert.ToString(wgForm.FwgDtWg)).ToString("yyyy-MM-dd") : "-",
+
+                      }).ToList();
+            return result;
+        }
     }
 }

@@ -318,29 +318,29 @@ namespace RAMMS.Common
             switch (monno)
             {
                 case 1:
-                    return "Jan";
+                    return "JAN";
                 case 2:
-                    return "Feb";
+                    return "FEB";
                 case 3:
-                    return "Mar";
+                    return "MAC";
                 case 4:
-                    return "Apr";
+                    return "APR";
                 case 5:
-                    return "May";
+                    return "MAY";
                 case 6:
-                    return "Jun";
+                    return "JUN";
                 case 7:
-                    return "July";
+                    return "JUL";
                 case 8:
-                    return "Aug";
+                    return "AUG";
                 case 9:
-                    return "Sep";
+                    return "SEP";
                 case 10:
-                    return "Oct";
+                    return "OCT";
                 case 11:
-                    return "Nov";
+                    return "NOV";
                 case 12:
-                    return "Dec";
+                    return "DEC";
                 default:
                     return "invalid Month number.";
             }
