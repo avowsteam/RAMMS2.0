@@ -465,7 +465,7 @@ function ServiceLevel(obj) {
     //Planned Cal
     
     if ($(obj).find(".SLDesired").text().trim() != "" && $(obj).find(".Desired").val().trim() != "") {
-        $(obj).find(".SLPlan").html((parseFloat($(obj).find(".SLDesired").text().trim()) * parseFloat($(obj).find(".Desired").val().trim())).toFixed(2));
+        $(obj).find(".SLPlan").html((parseFloat($(obj).find(".SLDesired").text().trim()) /100 * parseFloat($(obj).find(".Desired").val().trim())).toFixed(2));
     }
     else {
         $(obj).find(".SLPlan").html("");
@@ -544,10 +544,10 @@ function SubTotalbyFeature() {
 
     $('#tblPPB > tbody  > tr').each(function (index, tr) {
 
-
+      
         if ($(this).find("td:nth-child(1)").attr("rowspan") != undefined) {
             if (Lasttd != undefined)
-                $(Lasttd).html(tot.toFixed(2) + "<br>" + totPer.toFixed(2));
+                $(Lasttd).html(Number(parseFloat(tot.toFixed(2))).toLocaleString('en') + "<br>" + totPer.toFixed(2));
             Lasttd = $(this).find("td:last");
             tot = 0;
             totPer = 0;
@@ -560,7 +560,7 @@ function SubTotalbyFeature() {
         }
     });
 
-    $(Lasttd).html(tot.toFixed(2) + "<br>" + totPer.toFixed(2));
+    $(Lasttd).html(Number(parseFloat(tot.toFixed(2))).toLocaleString('en') + "<br>" + totPer.toFixed(2));
 }
 
 function CalAdjustableQty() {
