@@ -477,7 +477,7 @@ function ServiceLevel(obj) {
 function AnnualWorkQtyPlanned(obj) {
 
     if ($(obj).find(".Desired").val().trim() != "" && $(obj).find(".AWQTot").text().trim() != "") {
-        $(obj).find(".AWQ").html((parseFloat($(obj).find(".Desired").val().trim()) * parseFloat($(obj).find(".AWQTot").text().trim())).toFixed(2));
+        $(obj).find(".AWQ").html((parseFloat($(obj).find(".Desired").val().trim())/100 * parseFloat($(obj).find(".AWQTot").text().trim())).toFixed(2));
     }
     else {
         $(obj).find(".AWQ").html("");
