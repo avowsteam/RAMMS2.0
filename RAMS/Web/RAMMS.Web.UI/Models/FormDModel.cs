@@ -43,6 +43,9 @@ namespace RAMMS.Web.UI.Models
 
         public FormDHeaderRequestDTO SaveUserModel { get; set; }
 
+        public string WeekDate { get; set; }
+
+        public string hdnMonthNo { get; set; }
         public string HeaderNo { get; set; }
 
         public string viewm { get; set; }

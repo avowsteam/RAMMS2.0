@@ -84,6 +84,7 @@ function ERTFormDHdrSave() {
         saveObj.DivisionName = $("#formDDivisionDesc").val();
         saveObj.Day = $("#formDDay").find(":selected").val();
         saveObj.Year = $("#formDYear").find(":selected").val();
+        //saveObj.WeekDate = $("#WeekDate").val();
         console.log(saveObj);
 
         $.ajax({

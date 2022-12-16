@@ -1488,6 +1488,8 @@ namespace RAMMS.Web.UI.Controllers
             FormDHeaderRequestDTO formDRes = new FormDHeaderRequestDTO();
 
             formD = header.SaveFormDModel;
+            formD.WeekDate = Convert.ToDateTime(header.WeekDate);
+            formD.Month = formD.WeekDate.HasValue ? formD.WeekDate.Value.Month : 0;
             formD.DivisionName = header.DivisionName;
             formD.RoadCode = header.RoadCode;
             //formDRes = await _formDService.FindDetails(formD);
