@@ -16,5 +16,7 @@ namespace RAMMS.Repository.Interfaces
         Task<GridWrapper<object>> GetFormFDGridHeader(DataTableAjaxPostModel searchData);
         int DeleteHeader(RmFormFdInsHdr frmFD);
         FormFDRpt GetReportData(int headerid);
+
+        Task<RmFormFdInsHdr> FindByIDByFilter(int headerId, string groupcode, string bound, string grouptype);
     }
 }

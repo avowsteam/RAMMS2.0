@@ -30,6 +30,15 @@ namespace RAMMS.Repository
         {
             return await _context.RmFormFdInsHdr.Include(x => x.RmFormFdInsDtl).Where(x => x.FdihPkRefNo == headerId && x.FdihActiveYn == true).FirstOrDefaultAsync();
         }
+
+        public async Task<RmFormFdInsHdr> FindByIDByFilter(int headerId,string groupcode, string bound, string grouptype)
+        {
+
+            RmFormFdInsHdr rmFormFdInsHdr = await _context.RmFormFdInsHdr.Where(x => x.FdihPkRefNo == headerId && x.FdihActiveYn == true).FirstOrDefaultAsync();
+            rmFormFdInsHdr.RmFormFdInsDtl = await _context.RmFormFdInsDtl.Where(y => y.FdidFdihPkRefNo == headerId &&  y.FdidAiBound == bound && y.FdidAiAssetGrpCode == groupcode && y.FdidAiGrpType == grouptype).ToListAsync();
+           return rmFormFdInsHdr; ;
+        }
+
         public async Task<RmFormFdInsHdr> Save(RmFormFdInsHdr frmFd, bool updateSubmit)
         {
             //bool isAdd = false;
