@@ -101,7 +101,7 @@ namespace RAMMS.Repository
 
         public RmT3Hdr GetHeaderById(int id, bool view)
         {
-            RmT3Hdr res = (from r in _context.RmT3Hdr where r.T3hPkRefNo == id select r).FirstOrDefault();            
+            RmT3Hdr res = (from r in _context.RmT3Hdr where r.T3hPkRefNo == id select r).FirstOrDefault();
             res.RmT3History = (from r in _context.RmT3History where r.T3hhT3hPkRefNo == id select r).OrderBy(S => S.T3hhOrder).ToList();
 
             return res;
@@ -229,11 +229,11 @@ namespace RAMMS.Repository
             return res;
         }
         public List<RmB14History> GetPlannedBudgetData(string Rmucode, int year)
-        {           
+        {
             var list = _context.RmB14Hdr.Where(x => x.B14hRmuCode == Rmucode && x.B14hRevisionYear == year && x.B14hSubmitSts == true).OrderByDescending(x => x.B14hPkRefNo).ToList();
             List<RmB14History> res = new List<RmB14History>();
             if (list.Count > 0)
-                res = (from r in _context.RmB14History where r.B14hhB14hPkRefNo == list[0].B14hPkRefNo select r).OrderBy(x=>x.B14hhOrder).ToList();
+                res = (from r in _context.RmB14History where r.B14hhB14hPkRefNo == list[0].B14hPkRefNo select r).OrderBy(x => x.B14hhOrder).ToList();
             return res;
         }
 
@@ -300,7 +300,8 @@ namespace RAMMS.Repository
                                       {
                                           RevisionNo = o.T3hRevisionNo,
                                           RevisionDate = o.T3hRevisionDate,
-                                          RevisionYear = o.T3hRevisionYear,                                          
+                                          RevisionYear = o.T3hRevisionYear,
+                                          RmuCode = o.T3hRmuCode,
 
                                           Jan = formT3.T3hhJan,
                                           Feb = formT3.T3hhFeb,
@@ -324,7 +325,7 @@ namespace RAMMS.Repository
 
         public int? GetB14RevisionNo(string Rmucode, int? year)
         {
-            var res = _context.RmB14Hdr.Where(x => x.B14hRmuCode == Rmucode && x.B14hRevisionYear == year && x.B14hSubmitSts == true).OrderByDescending(x => x.B14hPkRefNo).Select(x=>x.B14hRevisionNo).FirstOrDefault();                        
+            var res = _context.RmB14Hdr.Where(x => x.B14hRmuCode == Rmucode && x.B14hRevisionYear == year && x.B14hSubmitSts == true).OrderByDescending(x => x.B14hPkRefNo).Select(x => x.B14hRevisionNo).FirstOrDefault();
             return res;
         }
     }
