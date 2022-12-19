@@ -538,9 +538,8 @@
                                 {
                                     <button type="button" id="btnSave" class="btn btn-sm btn-themebtn" onclick="Save('','')">Save</button>
                                 }
-                                else if (Model.FormW1.Status == "Saved" && isSubmit)
+                                if (Model.FormW1.Status == "Saved" && isSubmit)
                                 {
-                                    <button type="button" id="btnSave" class="btn btn-sm btn-themebtn" onclick="Save('','')">Save</button>
                                     <button type="button" id="btnSubmit" class="btn btn-sm btn-themebtn" onclick="Save('@RAMMS.Common.GroupNames.Supervisor','Submitted');">Submit</button>
                                 }
                                 else if ((isJKRS) && Model.FormW1.Status == RAMMS.Common.StatusList.FormW1Submitted)
