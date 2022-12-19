@@ -220,6 +220,10 @@ namespace RAMMS.Business.ServiceProvider.Services
                             var rptCount = _rpt.Count;
                             var rpt = _rpt[rptCount - 1];
                             worksheet.Cell(2, 1).Value = "ANNUAL WORK PROGRAMME AND BUDGET " + rpt.RevisionYear + " (PLANNED BUDGET)";
+                            if (rpt.RmuCode == "MRI")
+                                worksheet.Cell(3, 1).Value = "PLANNED MONTHLY CUMULATIVE WORK QUANTITY FOR (RMU MIRI)";
+                            else if (rpt.RmuCode == "BTN")
+                                worksheet.Cell(3, 1).Value = "PLANNED MONTHLY CUMULATIVE WORK QUANTITY FOR (RMU BATU NIAH)";
                             worksheet.Cell(4, 14).Value = rpt.RevisionNo;
                             worksheet.Cell(4, 17).Value = rpt.RevisionDate;
 
@@ -293,7 +297,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 clsB13 = new FormB14HistoryDTO();
                 clsB13.B14hPkRefNo = res[i].B14hhB14hPkRefNo;
-                clsB13.PkRefNoHistory= res[i].B14hhPkRefNoHistory;
+                clsB13.PkRefNoHistory = res[i].B14hhPkRefNoHistory;
                 clsB13.Feature = res[i].B14hhFeature;
                 clsB13.Jan = (res[i].B14hhJan == null ? 0 : res[i].B14hhJan);
                 clsB13.Feb = clsB13.Jan + (res[i].B14hhFeb == null ? 0 : res[i].B14hhFeb);

@@ -62,7 +62,7 @@ namespace RAMMS.Web.UI.Controllers
             var content1 = formB1B2Service.FormDownload("FormB1B2", id, Environment.WebRootPath, Environment.WebRootPath + "/Templates/FormB1B2.xlsx");
             string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             return File(content1, contentType1, "FormB1B2" + ".xlsx");
-        }
+        } 
 
         public async Task<IActionResult> CheckExistence(FormB1B2HeaderRequestDTO model)
         {

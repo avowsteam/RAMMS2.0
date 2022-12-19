@@ -416,7 +416,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     {
                         using (var tempWorkBook = new XLWorkbook(cacheFile))
                         {
-                            string sheetName = "sheet" + Convert.ToString(sheet);
+                            string sheetName = "Form S2 (Quarterly) " + Convert.ToString(sheet);
                             IXLWorksheet copySheet = tempWorkBook.Worksheet(1);
                             copySheet.Worksheet.Name = sheetName;
                             copySheet.Cell(1, 2).Value = rpt.Header.RMU;
@@ -457,10 +457,12 @@ namespace RAMMS.Business.ServiceProvider.Services
                     }
                     int index = 1;
                     weekIndex = 14;
-                    Dictionary<int, int> weekNo = new Dictionary<int, int>();
-                    for (int sheet = 1; sheet <= noOfSheets; sheet++)
+                    Dictionary<int, int> weekNo; 
+                    for ( int sheet = 1; sheet <= noOfSheets; sheet++)
                     {
-
+                        weekNo = new Dictionary<int, int>();
+                        index = 1;
+                        weekIndex = 14;
 
                         IXLWorksheet workSheet = workBook.Worksheet(sheet);
 
@@ -515,7 +517,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                             {
 
                                 i++;
-                                if (i > 27) { }
+                                if (i > 27) {
+                                   
+                                }
                                 else
                                 {
                                     workSheet.Cell(i, 1).Value = r.RoadCode;

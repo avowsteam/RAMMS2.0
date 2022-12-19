@@ -137,6 +137,14 @@ namespace RAMMS.WebAPI.Controllers
             return RAMMSApiSuccessResponse(await _formFDService.FindByHeaderID(id));
         }
 
+        [Route("api/getFDByIdByGroups")]
+        [HttpPost]
+        public async Task<IActionResult> GetFDByIdByFilter(int id, string groupcode, string bound, string grouptype)
+        {
+            return RAMMSApiSuccessResponse(await _formFDService.FindByIDByFilter(id,groupcode,bound,grouptype));
+        }
+
+
 
         [Authorize]
         [Route("api/deleteFD")]

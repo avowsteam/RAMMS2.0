@@ -8,7 +8,8 @@ namespace RAMMS.DTO.Report
     {
         public int? RevisionNo { get; set; }
         public DateTime? RevisionDate { get; set; }
-        public int? RevisionYear { get; set; }       
+        public int? RevisionYear { get; set; }
+        public string RmuCode { get; set; }
         public decimal? Jan { get; set; }
         public decimal? Feb { get; set; }
         public decimal? Mar { get; set; }

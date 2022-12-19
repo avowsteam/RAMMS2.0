@@ -18,5 +18,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         FormFDRpt GetReportData(int headerid);
         byte[] FormDownload(string formname, int id, string filepath);
         Task<bool> AssetsCheck(string roadCode);
+
+        Task<FormFDDTO> FindByIDByFilter(int headerId, string groupcode, string bound, string grouptype);
     }
 }

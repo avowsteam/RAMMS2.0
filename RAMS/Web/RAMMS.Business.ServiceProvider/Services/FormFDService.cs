@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using RAMMS.DTO.Report;
 using ClosedXML.Excel;
 using System.IO;
+using DocumentFormat.OpenXml.InkML;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
@@ -119,6 +120,14 @@ namespace RAMMS.Business.ServiceProvider.Services
             RmFormFdInsHdr header = await _repo.FindByHeaderID(headerId);
             return _mapper.Map<FormFDDTO>(header);
         }
+
+        public async Task<FormFDDTO> FindByIDByFilter(int headerId, string groupcode, string bound, string grouptype)
+        {
+            RmFormFdInsHdr header = await _repo.FindByIDByFilter(headerId,groupcode,bound,grouptype );
+            return _mapper.Map<FormFDDTO>(header);
+        }
+
+
         public int Delete(int id)
         {
             if (id > 0)
