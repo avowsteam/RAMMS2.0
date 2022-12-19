@@ -197,33 +197,40 @@ namespace RAMMS.Web.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> LoadHeaderList(DataTableAjaxPostModel<FormASearchGridDTO> searchData)
         {
-            FilteredPagingDefinition<FormASearchGridDTO> filteredPagingDefinition = new FilteredPagingDefinition<FormASearchGridDTO>();
-           
-            filteredPagingDefinition.Filters = searchData.filterData;
-            filteredPagingDefinition.RecordsPerPage = searchData.length; //Convert.ToInt32(Request.Form["length"]);
-            filteredPagingDefinition.StartPageNo = searchData.start; //Convert.ToInt32(Request.Form["start"]); //TODO
-            if (searchData != null && searchData.columns.Any() && !string.IsNullOrEmpty(searchData.columns.LastOrDefault().search.value))
+            try
             {
-                filteredPagingDefinition.Filters.Year = Convert.ToInt32(searchData.columns.LastOrDefault().search.value);
-            }
+                FilteredPagingDefinition<FormASearchGridDTO> filteredPagingDefinition = new FilteredPagingDefinition<FormASearchGridDTO>();
 
-            if (searchData.order != null)
-            {
-                filteredPagingDefinition.ColumnIndex = searchData.order[0].column;
-                filteredPagingDefinition.sortOrder = searchData.order[0].SortOrder == SortDirection.Asc ? SortOrder.Ascending : SortOrder.Descending;
-            }
-            var result = await _dlpSpiService.GetFilteredFormAGrid(filteredPagingDefinition).ConfigureAwait(false);
-            if (result.PageResult.Count > 0)
-            {
-                for (int i = 0; i < result.PageResult.Count; i++)
+                filteredPagingDefinition.Filters = searchData.filterData;
+                filteredPagingDefinition.RecordsPerPage = searchData.length; //Convert.ToInt32(Request.Form["length"]);
+                filteredPagingDefinition.StartPageNo = searchData.start; //Convert.ToInt32(Request.Form["start"]); //TODO
+                if (searchData != null && searchData.columns.Any() && !string.IsNullOrEmpty(searchData.columns.LastOrDefault().search.value))
                 {
-                    //result.PageResult[i].MonthYear = ((result.PageResult[i].Month ?? 0) < 10 ? "0" : "") + (result.PageResult[i].Month ?? 0) + "/" + (result.PageResult[i].Year.HasValue ? result.PageResult[i].Year.Value.ToString() : "2020");//TODO - hardcoded for demo - by John -  To be reworked
-                    //result.PageResult[i].Status = result.PageResult[i].SubmitSts ? "Submitted" : "Saved";
+                    filteredPagingDefinition.Filters.Year = Convert.ToInt32(searchData.columns.LastOrDefault().search.value);
                 }
-            }
-            result.TotalRecords = result.PageResult.Count;
 
-            return Json(new { draw = searchData.draw, recordsFiltered = result.TotalRecords, recordsTotal = result.TotalRecords, data = result.PageResult });
+                if (searchData.order != null)
+                {
+                    filteredPagingDefinition.ColumnIndex = searchData.order[0].column;
+                    filteredPagingDefinition.sortOrder = searchData.order[0].SortOrder == SortDirection.Asc ? SortOrder.Ascending : SortOrder.Descending;
+                }
+                var result = await _dlpSpiService.GetFilteredFormAGrid(filteredPagingDefinition).ConfigureAwait(false);
+                if (result.PageResult.Count > 0)
+                {
+                    for (int i = 0; i < result.PageResult.Count; i++)
+                    {
+                        //result.PageResult[i].MonthYear = ((result.PageResult[i].Month ?? 0) < 10 ? "0" : "") + (result.PageResult[i].Month ?? 0) + "/" + (result.PageResult[i].Year.HasValue ? result.PageResult[i].Year.Value.ToString() : "2020");//TODO - hardcoded for demo - by John -  To be reworked
+                        //result.PageResult[i].Status = result.PageResult[i].SubmitSts ? "Submitted" : "Saved";
+                    }
+                }
+                result.TotalRecords = result.PageResult.Count;
+
+                return Json(new { draw = searchData.draw, recordsFiltered = result.TotalRecords, recordsTotal = result.TotalRecords, data = result.PageResult });
+            }
+            catch(Exception ex)
+            {
+                return Json(new { draw = searchData.draw, recordsFiltered = 0, recordsTotal = 0 });
+            }
         }
 
         public async Task<JsonResult> GetIRIData(int year)

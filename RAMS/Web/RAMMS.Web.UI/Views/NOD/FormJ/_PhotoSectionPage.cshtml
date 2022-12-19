@@ -127,6 +127,8 @@
                             {
                                 if (list == item.ImageTypeCode)
                                 {
+                                    item.ImageFilename = item.ImageFilename.Replace("/Uploads/", "");
+                                    item.ImageFilename = "/Uploads/" + item.ImageFilename;
                                     <div class="item">
                                         <div data-fancybox="gallery" style="text-align:center">
                                             @{

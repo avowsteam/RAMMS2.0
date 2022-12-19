@@ -124,11 +124,16 @@
                                             }
                                             @if (imgTypes.Contains(fileType.ToLower()))
                                             {
+                                                item.ImageFilename = item.ImageFilename.Replace("/Uploads/", "");
+                                                item.ImageFilename = "/Uploads/" + item.ImageFilename;
                                                 <img class="item-img" src="@item.ImageFilename" alt="Image_Unavailable" />
                                                 <span class="caption">@item.ImageFilenameSys</span>
                                             }
                                             else
                                             {
+                                                item.ImageFilename = item.ImageFilename.Replace("/Uploads/", "");
+                                                item.ImageFilename = "/Uploads/" + item.ImageFilename;
+
                                                 <img class="item-doc" src="~/Uploads/FormX/WAR/file-icon.png" alt="Image_Unavailable" />
                                                 <a href="@item.ImageFilename" class='captionDocs' target="_blank" title="Click here to View the Document">
                                                     @item.ImageFilenameSys @*<span style='list-style:none;display:inline'>
