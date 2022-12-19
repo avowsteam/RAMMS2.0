@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenXmlPowerTools;
 
 namespace RAMMS.Repository
 {
@@ -179,6 +180,7 @@ namespace RAMMS.Repository
             {
                 if (Formmap[0].RmmdPkRefNoDetails == 0)
                 {
+                    _context.RmMapDetails.RemoveRange(_context.RmMapDetails.Where(x => x.RmmdRmmhPkRefNo == Formmap[0].RmmdRmmhPkRefNo));
                     _context.RmMapDetails.AddRange(Formmap);
                 }
                 else

@@ -67,7 +67,8 @@
             for (var i = 1; i <= dayCount; i++) {
                 var Map = new Object();
                 var d = new Date(Year + '-' + Month + '-' + i);
-                Map.PkRefNoDetails = frmMap.HeaderData.RmMapDetails.length == 0 ? 0 : frmMap.HeaderData.RmMapDetails[i].PkRefNoDetails;
+                //Map.PkRefNoDetails = frmMap.HeaderData.RmMapDetails.length == 0 ? 0 : frmMap.HeaderData.RmMapDetails[i-1].PkRefNoDetails;
+                Map.PkRefNoDetails = 0;
                 Map.PkRefNo = $("#pkRefNo").val();
                 Map.ActivityId = $(this).find("td.x01").text().trim();
                 Map.ActivityDate = Year + '-' + Month + '-' + i;
