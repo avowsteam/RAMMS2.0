@@ -117,7 +117,7 @@ namespace RAMMS.Web.UI.Controllers
             if (id > 0)
             {
                 _model.FormMapHeader = await _formMapService.GetHeaderById(id, !ViewBag.IsEdit);
-                _model.RmMapDetails = _model.FormMapHeader.RmMapDetails;
+                _model.RmMapDetails = _model.FormMapHeader.RmMapDetails.OrderBy(x=>x.Order).ToList();
             }
             else
             {
