@@ -439,11 +439,11 @@ namespace RAMMS.Repository
             if (FormF3.Source == "New")
             {
                 string[] StructCode = { "W", "GS", "DEL" };
-                return (from r in _context.RmAllassetInventory.Where(s => StructCode.Contains(s.AiStrucCode) && s.AiRmuCode == FormF3.RmuCode && s.AiDivCode == FormF3.DivCode && s.AiSecCode == FormF3.SecCode && s.AiRdCode == FormF3.RdCode) select r).ToList();
+                return (from r in _context.RmAllassetInventory.Where(s => StructCode.Contains(s.AiStrucCode) && s.AiRmuCode == FormF3.RmuCode && s.AiDivCode == FormF3.DivCode && s.AiSecCode == FormF3.SecCode && s.AiRdCode == FormF3.RdCode && s.AiActiveYn == true) select r).ToList();
             }
             else
             {
-                return (from r in _context.RmAllassetInventory.Where(s => s.AiStrucCode == "Y" && s.AiRmuCode == FormF3.RmuCode && s.AiDivCode == FormF3.DivCode && s.AiSecCode == FormF3.SecCode && s.AiRdCode == FormF3.RdCode) select r).ToList();
+                return (from r in _context.RmAllassetInventory.Where(s => s.AiStrucCode == "Y" && s.AiRmuCode == FormF3.RmuCode && s.AiDivCode == FormF3.DivCode && s.AiSecCode == FormF3.SecCode && s.AiRdCode == FormF3.RdCode && s.AiActiveYn == true) select r).ToList();
             }
 
         }
