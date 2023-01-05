@@ -229,7 +229,7 @@ namespace RAMMS.Web.UI.Controllers
             }
             catch(Exception ex)
             {
-                return Json(new { draw = searchData.draw, recordsFiltered = 0, recordsTotal = 0 });
+                return Json(new { draw = searchData.draw, recordsFiltered = 0, recordsTotal = 0,message=ex.Message });
             }
         }
 

@@ -1626,11 +1626,13 @@ namespace RAMMS.Web.UI.Controllers
         {
             try
             {
+                if (!string.IsNullOrEmpty(photoType))
+                    photoType = photoType.Replace(" ", "");
                 int i = await _formjImgService.LastInsertedSRNO(assetId, photoType);
                 i++;
                 IFormCollection files = Request.ReadFormAsync().Result;
                 string photoTypes = Regex.Replace(photoType, @"[^a-zA-Z]", "");
-                string path = Path.Combine(this.Environment.WebRootPath, "Uploads", "FormJDetail", assetId.ToString(), photoTypes);
+                string path = Path.Combine(this.Environment.WebRootPath, "Uploads", "FormJDetail", assetId.ToString(), photoTypes.Replace(" ", ""));
 
                 if (!Directory.Exists(path))
                 {
