@@ -138,6 +138,14 @@ namespace RAMMS.Web.UI.Controllers
             filteredPagingDefinition.RecordsPerPage = searchData.length; //Convert.ToInt32(Request.Form["length"]);
             filteredPagingDefinition.StartPageNo = searchData.start; //Convert.ToInt32(Request.Form["start"]); //TODO
             var result = await _formF3Service.GetHeaderList(filteredPagingDefinition);
+            if(result.PageResult != null && result.PageResult.Count != 0)
+            {
+                foreach(var item in result.PageResult.Where(a => string.IsNullOrEmpty(a.UserNameInspBy)))
+                {
+                    item.UserIdInspBy = _security.UserID;
+                    item.UserNameInspBy = _security.UserName;
+                }
+            }
             return Json(new { draw = searchData.draw, recordsFiltered = result.TotalRecords, recordsTotal = result.TotalRecords, data = result.PageResult });
 
             return null;
