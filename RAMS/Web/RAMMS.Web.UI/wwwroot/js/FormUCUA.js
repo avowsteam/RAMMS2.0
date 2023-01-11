@@ -214,3 +214,21 @@ function UpdateFormAfterSave(data) {
 
    // InitializeGrid();
 }
+
+function GetImageList(id, formName) {
+
+    var group = $("#FormADetAssetGrpCode option:selected").val();
+
+    $.ajax({
+        url: '/InstructedWorks/GetIWImageList',
+        data: { Id: id, assetgroup: group, Form: formName },
+        type: 'POST',
+        success: function (data) {
+            $("#ViewPhoto").html(data);
+        },
+        error: function (data) {
+            alert(data.responseText);
+        }
+
+    });
+}

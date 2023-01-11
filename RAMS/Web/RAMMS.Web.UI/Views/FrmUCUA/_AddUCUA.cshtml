@@ -10,12 +10,12 @@
     //ViewData["Title"] = "ASSET MAINTANENCE - Form N1 - Road Asset Management and Maintenance System";
 
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
-    
+
     bool isSubmit = (security.IsHeadMaintenance || security.isOperRAMSExecutive || security.IsExecutive || security.IsInstructedWorkEngg || security.isEnggAssistant || security.IsSupervisor || security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg);
     bool IsApproved = (security.isOperRAMSExecutive || security.IsHeadMaintenance || security.IsRegionManager || security.IsExecutive || security.isOperRAMSExecutive || security.IsInstructedWorkEngg || security.isPlanningEngineer || security.IsJKRSHQ || security.IsDivisonalEngg || security.IsJKRSSuperiorOfficer);
     var groupname = security.Group.IndexOf(",") >= 0 ? security.Group.Split(',')[0] : security.Group;
     var username = security.UserName;
-    
+
 }
 @*(security.IsJKRSHQ || security.IsJKRSSuperiorOfficer || security.IsDivisonalEngg || security.isOperRAMSExecutive || security.IsExecutive || security.IsInstructedWorkEngg || security.IsHeadMaintenance || security.IsRegionManager);*@
 
@@ -31,7 +31,7 @@
 
 @using (Html.BeginForm())
 {
-         <div class="row bg-white pt-2">
+    <div class="row bg-white pt-2">
         <div class="col-lg-12">
             <div class="w-100">
                 <div class="body-header">
@@ -71,6 +71,13 @@
                                             <a href="#page" data-toggle="tab" aria-expanded="false" class="nav-link">
                                                 <span class="">
                                                     For Office USE
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" id="">
+                                            <a href="#attachments" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                                <span class="">
+                                                    Attachments
                                                 </span>
                                             </a>
                                         </li>
@@ -203,18 +210,18 @@
 
 
                                             </div>
-                                            <div class="tab-pane show " id="page">
+                                            <div class="tab-pane show" id="page">
                                                 <div class="row">
 
 
                                                     <div class="col-lg-12 p-0">
                                                         <div class="w-100 form-group mb-0">
                                                             <div id="DateReceivedDiv">
-                                                            <div class="form-group col-md-3">
-                                                                @Html.Label("Date Received", "Date Received")
-                                                                @*@Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control" } })*@
-                                                                @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date Received}" } })
-                                                            </div>
+                                                                <div class="form-group col-md-3">
+                                                                    @Html.Label("Date Received", "Date Received")
+                                                                    @*@Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control" } })*@
+                                                                    @Html.EditorFor(m => m.FormUCUA.DateReceived, new { type = "date", htmlAttributes = new { @class = "form-control validate {required, Date Received}" } })
+                                                                </div>
                                                             </div>
 
                                                             @*<div class="form-group col-lg-3">
@@ -281,11 +288,11 @@
                                                                                         <input name="DateReceived" class="form-control ssvalidate {req,Audited by date}" type="date" value="" />
                                                                                     </div>*@
 
-                                                                            <div class="form-group col-md-4">
-                                                                                @Html.Label("Action By", "Action By")
-                                                                                @*<input id="txtUsername" class="form-control validate {required, Name}" value="@Model.Username" />*@
-                                                                                @Html.TextBoxFor(model => model.FormUCUA.ActionTakenBy, new { @class = "form-control", @id="ActionBy" ,@disabled="true" })
-                                                                            </div>
+                                                                                <div class="form-group col-md-4">
+                                                                                    @Html.Label("Action By", "Action By")
+                                                                                    @*<input id="txtUsername" class="form-control validate {required, Name}" value="@Model.Username" />*@
+                                                                                    @Html.TextBoxFor(model => model.FormUCUA.ActionTakenBy, new { @class = "form-control", @id = "ActionBy", @disabled = "true" })
+                                                                                </div>
                                                                                 <div style="clear:both"></div>
                                                                                 <div class="form-group col-md-12">
                                                                                     @Html.Label("Description", "Description")
@@ -346,6 +353,12 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="tab-pane show" id="attachments">
+                                                <div id="ViewPhoto">
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                     </div>
@@ -426,7 +439,7 @@
                             <button id="SubmitFormUCUABtn" type="button" class="btn btn-sm btn-themebtn" onclick="Save('','Submitted')">Submit</button>
                         }
 
-                
+
                         if (IsApproved && (Model.FormUCUA.Status == RAMMS.Common.StatusList.FormUcuaSubmitted))
                         {
                             <button type="button" class="btn btn-sm btn-themebtn enblmode" onclick="VerifyDetails('@groupname','Approved By');"> Verify </button>
@@ -516,9 +529,9 @@
 
         fnUnsafeActOnchage();
         fnUnsafeCondOnchage();
+        GetImageList('70', 'FormW1');
 
-
-        if ($("#SubmitYn").val() == "True") {
+        @*if ($("#SubmitYn").val() == "True") {
             $("#Officeuse").removeClass("disabled");
              $("#ActionBy").val('@username');
             $("#ReviewBy").val('@username');
@@ -528,7 +541,7 @@
         else {
 
             $("#Officeuse").addClass("disabled");
-        }
+        }*@
 
     });
     function VerifyDetails(GroupName, SubmitType) {
