@@ -10,6 +10,7 @@
     var isModifyPerm = security.IsPCModify(ModuleNameList.Instructed_Works) ? "" : "hidden";
     var isDeletePerm = security.IsPCDelete(ModuleNameList.Instructed_Works) ? "" : "hidden";
     var isAddPerm = security.IsPCAdd(ModuleNameList.Instructed_Works) ? "" : "hidden";
+    var isViewPrintPerm = security.IsPCViewPrint(ModuleNameList.Instructed_Works) ? "" : "hidden";
 }
 <script src="~/js/IWIndex.js" type="text/javascript"></script>
 <style>
@@ -314,6 +315,7 @@
 <input type="hidden" id="hdnAdd" value='@isAddPerm' />
 <input type="hidden" id="hdnModify" value='@isModifyPerm' />
 <input type="hidden" id="hdnDelete" value='@isDeletePerm' />
+<input type="hidden" id="hdnViewPrint" value='@isViewPrintPerm' />
 <input type="hidden" id="hdnAllView" value='0' />
 
 <div class="modal fade" id="formW1" role="dialog">

@@ -13,6 +13,7 @@ using RAMMS.Domain.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
+using RAMMS.Common;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
@@ -285,6 +286,10 @@ namespace RAMMS.Business.ServiceProvider.Services
         public bool IsPCDelete(string moduleName)
         {
             return PCOperationRights(moduleName, null, false, false, true, false).Item3;
+        }
+        public bool IsPCViewPrint(string moduleName, params string[] groupName)
+        {
+            return PCOperationRights(moduleName, groupName, true, false, false, false).Item1;
         }
         public bool IsPCAdd(string moduleName)
         {

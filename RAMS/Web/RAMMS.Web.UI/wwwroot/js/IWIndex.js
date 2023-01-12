@@ -210,8 +210,8 @@ function OpenFormW1(mode) {
         var w1status = GetFormIDByName("w1Status");
 
         var isEdit = false, isApprove = false, isView = false;
-
-        if (checkAction("FormW1", 'Edit',false)) {
+        if (!checkAction("FormW1", 'ViewPrint')) return;
+        if (checkAction("FormW1", 'Edit', false)) {
             isEdit = true;
         }
         if (w1status == 'Submitted' && checkAction("FormW1", 'Approve', false)) {
@@ -247,6 +247,7 @@ function OpenFormW1(mode) {
 }
 
 function DeleteW1() {
+    debugger;
     if (!checkAction("FormW1", 'Delete')) return;
     var id = GetFormIDByName("w1", "Form W1", "delete");
     if (id == -1) return;
@@ -284,6 +285,7 @@ function DeleteW1() {
 }
 
 function PrintFormW1() {
+    if (!checkAction("FormW1", 'ViewPrint')) return;
     var id = GetFormIDByName("w1", "Form W1", "print");
     if (id == -1) return;
     window.location.href = '/download/PrintForm?id=' + id + "&formname=FormW1";
@@ -328,7 +330,7 @@ function OpenFormW2(mode) {
         }
 
         var isEdit = false, isApprove = false, isView = false;
-
+        if (!checkAction("FormW1", 'ViewPrint')) return;
         if (checkAction("FormW2", 'Edit', false)) {
             isEdit = true;
         }
@@ -411,7 +413,7 @@ function DeleteW2() {
 }
 
 function PrintFormW2() {
-    if (!checkAction("FormW2", 'Print')) return;
+    if (!checkAction("FormW1", 'ViewPrint')) return;
     var id = GetFormIDByName("w2", "Form W2", "print");
     if (id == -1) return;
     if (id == -2) {
@@ -441,12 +443,12 @@ function OpenFormWCWG(mode, form) {
             return;
         }
 
-       
+
 
         var wnstatus = GetFormIDByName("wnStatus");
         var wdstatus = GetFormIDByName("wdStatus");
 
-        if (wnstatus != "-2" || wdstatus == "Saved" ) {
+        if (wnstatus != "-2" || wdstatus == "Saved") {
             app.ShowErrorMessage(form + " cannot be created");
             return;
         }
@@ -851,6 +853,7 @@ function checkAction(form, action, alert = true) {
     var isAdd = $("#hdnAdd").val();
     var isDelete = $("#hdnDelete").val();
     var isModify = $("#hdnModify").val();
+    var isViewPrint = $("#hdnViewPrint").val();
 
     switch (action) {
         case "Add":
@@ -870,11 +873,17 @@ function checkAction(form, action, alert = true) {
         case "Print":
             return true;
             break;
+        case "ViewPrint":
+            if (isViewPrint == "") return true;
+            break;
         default:
             return false;
             break;
     }
-    app.ShowErrorMessage("User is not allowed to " + action + " " + form)
+    if (action == "ViewPrint")
+        app.ShowErrorMessage("User restricted from View and Print the Form W1 & W2 in 'Saved’ Status.")
+    else
+        app.ShowErrorMessage("User is not allowed to " + action + " " + form)       
     return false;
 }
 
