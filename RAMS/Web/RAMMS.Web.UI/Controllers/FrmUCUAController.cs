@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RAMMS.Business.ServiceProvider.Interfaces;
@@ -14,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace RAMMS.Web.UI.Controllers
@@ -178,5 +180,85 @@ namespace RAMMS.Web.UI.Controllers
             rowsAffected = _formUCUAService.DeleteFormUCUA(id);
             return Json(rowsAffected);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ImageUploadFormIw(IList<IFormFile> formFile, string PkRefNo, List<string> photoType, string Source = "ALL")
+        {
+            try
+            {
+                bool successFullyUploaded = false;
+                string wwwPath = this._webHostEnvironment.WebRootPath;
+                string contentPath = this._webHostEnvironment.ContentRootPath;
+                string _id = Regex.Replace(PkRefNo, @"[^0-9a-zA-Z]+", "");
+
+                int j = 0;
+                foreach (IFormFile postedFile in formFile)
+                {
+                    List<FormUCUAImageResponseDTO> uploadedFiles = new List<FormUCUAImageResponseDTO>();
+                    FormUCUAImageResponseDTO _rmAssetImageDtl = new FormUCUAImageResponseDTO();
+
+
+                    string photo_Type = Regex.Replace(photoType[j], @"[^a-zA-Z]", "");
+                    string subPath = Path.Combine(@"Uploads/FormW1/", _id, photo_Type);
+                    string path = Path.Combine(wwwPath, Path.Combine(@"Uploads\FormW1\", _id, photo_Type));
+                    int i = await _formUCUAService.LastInsertedIMAGENO(PkRefNo, photo_Type);
+                    i++;
+                    string fileName = Path.GetFileName(postedFile.FileName);
+                    string fileRename = i + "_" + photo_Type + "_" + fileName;
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    using (FileStream stream = new FileStream(Path.Combine(path, fileRename), FileMode.Create))
+                    {
+                        _rmAssetImageDtl.UCUARefNo = PkRefNo;
+                        _rmAssetImageDtl.ImageTypeCode = photoType[j];
+                        _rmAssetImageDtl.ImageUserFilePath = postedFile.FileName;
+                        _rmAssetImageDtl.ImageSrno = i;
+                        _rmAssetImageDtl.Source = Source;
+
+                        _rmAssetImageDtl.ActiveYn = true;
+                        if (i < 10)
+                        {
+                            _rmAssetImageDtl.ImageFilenameSys = _id + "_" + photo_Type + "_" + "00" + i;
+                        }
+                        else if (i >= 10 && i < 100)
+                        {
+                            _rmAssetImageDtl.ImageFilenameSys = _id + "_" + photo_Type + "_" + "0" + i;
+                        }
+                        else
+                        {
+                            _rmAssetImageDtl.ImageFilenameSys = _id + "_" + photo_Type + "_" + i;
+                        }
+                        _rmAssetImageDtl.ImageFilenameUpload = $"{subPath}/{fileRename}";
+
+
+                        postedFile.CopyTo(stream);
+
+
+                    }
+                    uploadedFiles.Add(_rmAssetImageDtl);
+                    if (uploadedFiles.Count() > 0)
+                    {
+                        await _formUCUAService.SaveImage(uploadedFiles);
+                        successFullyUploaded = true;
+                    }
+                    else
+                    {
+                        successFullyUploaded = false;
+                    }
+
+                    j = j + 1;
+                }
+
+                return Json(successFullyUploaded);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
     }
 }
