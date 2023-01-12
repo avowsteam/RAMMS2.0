@@ -243,5 +243,11 @@ namespace RAMMS.Repository
                 return 500;
             }
         }
+
+        public async Task<int> GetImageId(string iwRefNo, string type)
+        {
+            int? result = await _context.RmIwformImage.Where(x => x.FiwiFw1IwRefNo == iwRefNo && x.FiwiImageTypeCode == type).Select(x => x.FiwiImageSrno).MaxAsync();
+            return result.HasValue ? result.Value : 0;
+        }
     }
 }

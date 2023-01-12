@@ -334,6 +334,36 @@ namespace RAMMS.Business.ServiceProvider.Services
 
             return rowsAffected;
         }
+
+        public async Task<int> LastInsertedIMAGENO(string hederId, string type)
+        {
+            int imageCt = await _repoUnit.FormW1Repository.GetImageId(hederId, type);
+            return imageCt;
+        }
+
+        public async Task<int> SaveImage(List<FormUCUAImageResponseDTO> image)
+        {
+            int rowsAffected;
+            try
+            {
+                var domainModelFormW1 = new List<RmIwformImage>();
+
+                foreach (var list in image)
+                {
+                    domainModelFormW1.Add(_mapper.Map<RmIwformImage>(list));
+                }
+                _repoUnit.FormW1Repository.SaveImage(domainModelFormW1);
+                rowsAffected = await _repoUnit.CommitAsync();
+
+            }
+            catch (Exception ex)
+            {
+                await _repoUnit.RollbackAsync();
+                throw ex;
+            }
+
+            return rowsAffected;
+        }
     }
 
 }
