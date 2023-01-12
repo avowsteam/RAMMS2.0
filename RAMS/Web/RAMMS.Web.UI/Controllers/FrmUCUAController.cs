@@ -29,6 +29,11 @@ namespace RAMMS.Web.UI.Controllers
         private IWebHostEnvironment _environment;
         private IUserService _userService;
         private IRoadMasterService _roadMasterService;
+        private readonly IFormW1Service _formW1Service;
+        private readonly IFormWCService _formWCService;
+        private readonly IFormWGService _formWGService;
+        private readonly IFormWDService _formWDService;
+        private readonly IFormWNService _formWNService;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public FrmUCUAController(
@@ -38,7 +43,8 @@ namespace RAMMS.Web.UI.Controllers
             IUserService userService,
             IWebHostEnvironment webhostenvironment,
             IRoadMasterService roadMasterService,
-             IFormJServices formJServices)
+             IFormJServices formJServices, IFormW1Service formW1Service, IFormWCService formWCService, IFormWGService formWGService
+            , IFormWDService formWDService, IFormWNService formWNService)
         {
             _formUCUAService = ucuaservice;
             _userService = userService;
@@ -46,6 +52,11 @@ namespace RAMMS.Web.UI.Controllers
             _security = security;
             _roadMasterService = roadMasterService;
             _formJService = formJServices ?? throw new ArgumentNullException(nameof(formJServices));
+            _formW1Service = formW1Service ?? throw new ArgumentNullException(nameof(formW1Service));
+            _formWCService = formWCService ?? throw new ArgumentNullException(nameof(formWCService));
+            _formWGService = formWGService ?? throw new ArgumentNullException(nameof(formWGService));
+            _formWDService = formWDService ?? throw new ArgumentNullException(nameof(formWDService));
+            _formWNService = formWNService ?? throw new ArgumentNullException(nameof(formWNService));
             _webHostEnvironment = webhostenvironment;
         }
         public IActionResult Index()
@@ -180,6 +191,88 @@ namespace RAMMS.Web.UI.Controllers
             rowsAffected = _formUCUAService.DeleteFormUCUA(id);
             return Json(rowsAffected);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> GetUCUAImageList(string Id, string assetgroup, string form)
+        {
+            DDLookUpDTO ddLookup = new DDLookUpDTO();
+            FormIWImageModel assetsModel = new FormIWImageModel();
+            assetsModel.ImageList = new List<FormIWImageResponseDTO>();
+            assetsModel.ImageTypeList = new List<string>();
+            ddLookup.Type = "Photo Type";
+            ddLookup.TypeCode = "IW";
+            //assetsModel.PhotoType = await _ddLookupService.GetDdLookup(ddLookup);
+            //if (assetsModel.PhotoType.Count() == 0)
+            //{
+            //    assetsModel.PhotoType = new[]{ new SelectListItem
+            //    {
+            //        Text = "Others",
+            //        Value = "Others"
+            //    }};
+            //}
+            //ViewBag.PhotoTypeList = await _ddLookupService.GetDdLookup(ddLookup);
+            assetsModel.ImageList = await _formW1Service.GetImageList(Id);
+            assetsModel.IwRefNo = Id;
+
+
+            List<SelectListItem> newDdl = new List<SelectListItem>();
+            if (form == "FormWCWG")
+            {
+                assetsModel.FormName = "Form";
+                //var items = await _ddLookupService.GetDdLookup(ddLookup);
+                var _formWC = await _formWCService.FindWCByW1ID(int.Parse(Id));
+                var _formWG = await _formWGService.FindWGByW1ID(int.Parse(Id));
+                _formWC = _formWC == null ? new FormWCResponseDTO() : _formWC;
+                _formWG = _formWG == null ? new FormWGResponseDTO() : _formWG;
+
+                if (!_formWC.SubmitSts)
+                {
+                    newDdl.Add(new SelectListItem("Form WC", "Form WC"));
+                    assetsModel.FormName = assetsModel.FormName + "WC";
+                }
+                if (!_formWG.SubmitSts)
+                {
+                    newDdl.Add(new SelectListItem("Form WG", "Form WG"));
+                    assetsModel.FormName = assetsModel.FormName + "WG";
+                }
+                ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
+                assetsModel.IsSubmittedWC = _formWC.SubmitSts;
+                assetsModel.IsSubmittedWG = _formWG.SubmitSts;
+            }
+            else if (form == "FormWDWN")
+            {
+                assetsModel.FormName = "Form";
+                //var items = await _ddLookupService.GetDdLookup(ddLookup);
+                var _formWD = await _formWDService.FindWDByW1ID(int.Parse(Id));
+                var _formWN = await _formWNService.FindWNByW1ID(int.Parse(Id));
+
+                _formWD = _formWD == null ? new FormWDResponseDTO() : _formWD;
+                _formWN = _formWN == null ? new FormWNResponseDTO() : _formWN;
+
+                if (!_formWD.SubmitSts)
+                {
+                    newDdl.Add(new SelectListItem("Form WD", "Form WD"));
+                    assetsModel.FormName = assetsModel.FormName + "WD";
+                }
+                if (!_formWN.SubmitSts)
+                {
+                    newDdl.Add(new SelectListItem("Form WN", "Form WN"));
+                    assetsModel.FormName = assetsModel.FormName + "WN";
+                }
+                ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
+                assetsModel.IsSubmittedWD = _formWD.SubmitSts;
+                assetsModel.IsSubmittedWN = _formWN.SubmitSts;
+            }
+            else
+            {
+                assetsModel.FormName = form;
+
+                ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
+            }
+            assetsModel.ImageTypeList = assetsModel.ImageList.Select(c => c.ImageTypeCode).Distinct().ToList();
+            return PartialView("~/Views/FrmUCUA/_PhotoSectionPage.cshtml", assetsModel);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> ImageUploadFormIw(IList<IFormFile> formFile, string PkRefNo, List<string> photoType, string Source = "ALL")

@@ -27,6 +27,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Globalization;
 using System.Net.Http;
 using System.Collections;
+using System.Text;
+using RAMMS.Common;
 
 namespace RAMMS.Web.UI.Controllers
 {
@@ -1524,7 +1526,21 @@ namespace RAMMS.Web.UI.Controllers
                 rowsAffected = await _formDService.UpdateFormDAsync(saveRequestObj);
                 refNo = int.Parse(saveObj.No.ToString());
             }
+            // Send Email
+            string subject = "eRAMS: Form "+saveObj.ReferenceID +" has been submitted for your review/approval";
 
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendFormat(@"Dear, {0} {1}", "<br>", "<br>");
+            stringBuilder.AppendFormat("Form {0} : Form System", saveObj.ReferenceID);
+            stringBuilder.AppendFormat("Reference No.", saveObj.ReferenceID);
+            stringBuilder.AppendFormat("Submitted on {0}", DateTime.Now.ToString("dd/MM/YYYY"));            
+            stringBuilder.AppendFormat("Access this task in the <a href={0}>eRAMS Link</a>", "http://10.249.5.138/"); 
+
+            stringBuilder.AppendFormat("{0}{1}Thank you.", "<br>", "<br>");
+            stringBuilder.AppendFormat("{0}{1}Regards,", "<br>", "<br>");
+            MailNotification Notification = new MailNotification();
+            Notification.SendMail(subject, stringBuilder.ToString(), "nagulmeera.s@avowstech.com");
+            //End email
             return Json(refNo);
         }
 

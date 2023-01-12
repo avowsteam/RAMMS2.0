@@ -220,7 +220,7 @@ function GetImageList(id, formName) {
     var group = $("#FormADetAssetGrpCode option:selected").val();
 
     $.ajax({
-        url: '/InstructedWorks/GetIWImageList',
+        url: '/FrmUCUA/GetUCUAImageList',
         data: { Id: id, assetgroup: group, Form: formName },
         type: 'POST',
         success: function (data) {
