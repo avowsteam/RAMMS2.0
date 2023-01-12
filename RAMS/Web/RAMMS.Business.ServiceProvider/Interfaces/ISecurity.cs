@@ -87,6 +87,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         /// <param name="moduleName"></param>
         /// <returns></returns>
         bool IsPCAdd(string moduleName);
+        bool IsPCViewPrint(string moduleName, params string[] groupName);
         bool IsPCView(string moduleName, params string[] groupName);
         bool IsPCModify(string moduleName, params string[] groupName);
         bool IsPCDelete(string moduleName, params string[] groupName);
