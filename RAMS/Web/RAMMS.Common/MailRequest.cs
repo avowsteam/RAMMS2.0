@@ -1,8 +1,13 @@
-﻿using MailKit.Net.Smtp;
-using MailKit.Security;
-using MimeKit;
+﻿//using MailKit.Net.Smtp;
+//using MailKit.Security;
+//using MimeKit;
+//using MailKit.Net.Smtp;
+//using MailKit.Security;
+//using MimeKit;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 
 namespace RAMMS.Common
@@ -61,31 +66,54 @@ namespace RAMMS.Common
             };
             mailNotification.SendEmail(mailRequest, mailSettings);
         }
-        public void SendEmail(MailRequest mailRequest, MailSettings _mailSettings)
-        {
-            var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(_mailSettings.Mail));
-            email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
-            if (mailRequest.CC != null)
-                foreach (string ccmail in mailRequest.CC)
-                    email.Cc.Add(MailboxAddress.Parse(ccmail));
-            email.Subject = mailRequest.Subject;
-            var builder = new BodyBuilder();
 
+        public void SendEmail(MailRequest mailRequest,MailSettings mailSettings)
+        {
             try
             {
-                builder.HtmlBody = mailRequest.Body;
-                email.Body = builder.ToMessageBody();
-                using var smtp = new SmtpClient();
-                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
-                smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-                smtp.Send(email);
-                smtp.Disconnect(true);
+                MailMessage message = new MailMessage();
+                SmtpClient smtp = new SmtpClient();
+                message.From = new MailAddress(mailSettings.Mail);
+                message.To.Add(new MailAddress(mailRequest.ToEmail));
+                message.Subject = mailRequest.Subject;
+                message.IsBodyHtml = true; //to make message body as html
+                message.Body = mailRequest.Body;
+                smtp.Port = mailSettings.Port;
+                smtp.Host = mailSettings.Host; //for gmail host
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential(mailSettings.Mail, mailSettings.Password);
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Send(message);
             }
-            catch (Exception ex)
-            {
-
-            }
+            catch (Exception) { }
         }
+
+        //public void SendEmail(MailRequest mailRequest, MailSettings _mailSettings)
+        //{
+        //    var email = new MimeMessage();
+        //    email.From.Add(MailboxAddress.Parse(_mailSettings.Mail));
+        //    email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
+        //    if (mailRequest.CC != null)
+        //        foreach (string ccmail in mailRequest.CC)
+        //            email.Cc.Add(MailboxAddress.Parse(ccmail));
+        //    email.Subject = mailRequest.Subject;
+        //    var builder = new BodyBuilder();
+
+        //    try
+        //    {
+        //        builder.HtmlBody = mailRequest.Body;
+        //        email.Body = builder.ToMessageBody();
+        //        using var smtp = new SmtpClient();
+        //        smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+        //        smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+        //        smtp.Send(email);
+        //        smtp.Disconnect(true);
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+        //}
     }
 }
