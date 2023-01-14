@@ -194,6 +194,7 @@ namespace RAMMS.Domain.Models
         public virtual DbSet<RmT4DesiredBdgt> RmT4DesiredBdgt { get; set; }
         public virtual DbSet<RmT4DesiredBdgtHeader> RmT4DesiredBdgtHeader { get; set; }
         public virtual DbSet<RmUcua> RmUcua { get; set; }
+        public virtual DbSet<RmUcuaImage> RmUcuaImage { get; set; }
         public virtual DbSet<RmUserGroup> RmUserGroup { get; set; }
         public virtual DbSet<RmUserGroupRights> RmUserGroupRights { get; set; }
         public virtual DbSet<RmUserNotification> RmUserNotification { get; set; }
@@ -18100,6 +18101,63 @@ namespace RAMMS.Domain.Models
                     .HasColumnName("RMMH_Work_Scope")
                     .HasMaxLength(100)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<RmUcuaImage>(entity =>
+            {
+                entity.HasKey(e => e.UcuaPkRefNo);
+
+                entity.ToTable("RM_UCUA_Image");
+
+                entity.Property(e => e.UcuaPkRefNo).HasColumnName("UCUA_PK_Ref_No");
+
+                entity.Property(e => e.UcuaActiveYn).HasColumnName("UCUA_Active_YN");
+
+                entity.Property(e => e.UcuaCrBy).HasColumnName("UCUA_CR_By");
+
+                entity.Property(e => e.UcuaCrDt)
+                    .HasColumnName("UCUA_CR_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.UcuaImageFilenameSys)
+                    .HasColumnName("UCUA_Image_Filename_Sys")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.UcuaImageFilenameUpload)
+                    .HasColumnName("UCUA_Image_Filename_Upload")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.UcuaImageSrno).HasColumnName("UCUA_Image_SRNO");
+
+                entity.Property(e => e.UcuaImageTypeCode)
+                    .HasColumnName("UCUA_Image_Type_Code")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.UcuaImageUserFilePath)
+                    .HasColumnName("UCUA_image_user_filePath")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.UcuaImgRefId)
+                    .HasColumnName("UCUA_Img_Ref_ID")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.UcuaModBy).HasColumnName("UCUA_Mod_By");
+
+                entity.Property(e => e.UcuaModDt)
+                    .HasColumnName("UCUA_Mod_DT")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.UcuaRmmhPkRefNo).HasColumnName("UCUA_RMMH_PK_Ref_No");
+
+                entity.Property(e => e.UcuaRmmhRefNo)
+                    .HasColumnName("UCUA_RMMH_Ref_No")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.UcuaSource)
+                    .HasColumnName("UCUA_Source")
+                    .HasMaxLength(16);
+
+                entity.Property(e => e.UcuaSubmitSts).HasColumnName("UCUA_SUBMIT_STS");
             });
 
             modelBuilder.Entity<RmUserGroup>(entity =>

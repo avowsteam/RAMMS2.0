@@ -1531,9 +1531,9 @@ namespace RAMMS.Web.UI.Controllers
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendFormat(@"Dear, {0} {1}", "<br>", "<br>");
-            stringBuilder.AppendFormat("Form {0} : Form System", saveObj.ReferenceID);
-            stringBuilder.AppendFormat("Reference No.", saveObj.ReferenceID);
-            stringBuilder.AppendFormat("Submitted on {0}", DateTime.Now.ToString("dd/MM/YYYY"));            
+            stringBuilder.AppendFormat("Form {0} : Form System {1}", saveObj.ReferenceID, "<br><br>");
+            stringBuilder.AppendFormat("Reference No. {0} {1}", saveObj.ReferenceID, "<br><br>");
+            stringBuilder.AppendFormat("Submitted on {0} {1}", DateTime.Now.ToString("dd/MM/yyyy"), "<br><br>");            
             stringBuilder.AppendFormat("Access this task in the <a href={0}>eRAMS Link</a>", "http://10.249.5.138/"); 
 
             stringBuilder.AppendFormat("{0}{1}Thank you.", "<br>", "<br>");
