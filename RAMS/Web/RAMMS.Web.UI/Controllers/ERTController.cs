@@ -1539,7 +1539,7 @@ namespace RAMMS.Web.UI.Controllers
             stringBuilder.AppendFormat("{0}{1}Thank you.", "<br>", "<br>");
             stringBuilder.AppendFormat("{0}{1}Regards,", "<br>", "<br>");
             MailNotification Notification = new MailNotification();
-            Notification.SendMail(subject, stringBuilder.ToString(), "nagulmeera.s@avowstech.com");
+            Notification.SendMail(subject, stringBuilder.ToString(), "nagulmeera.s@avowstech.com; mercedes.v@avowstech.com");
             //End email
             return Json(refNo);
         }
