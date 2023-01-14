@@ -168,7 +168,11 @@ var Validation = new function () {
         if (!_isValid && Validation._msgTitle != "control") {
             //IAlert((Validation._msgliTitle + "<ul class='msgul'>" + _olcontent + "</ul>"), Validation._msgTitle, "");
             //alert(_olcontent);
-            Validation.ShowMessage('<ul> ' + _olcontent + '</ul>');
+            
+            if (vid == "#frmFCHeader" && Validation._errMessage == "Condition is required.")
+                _isValid = true;            
+            else
+                Validation.ShowMessage('<ul> ' + _olcontent + '</ul>');
 
             //Call only if Dynamic Validation Summary Displayer button to be injected in forms
             this.$injectDynamicValSummaryDisplayer(vid);
