@@ -599,7 +599,7 @@ function AppendWeek() {
 }
 
 function QuantityTotal() {
-    debugger;
+    
     var Year = $("#formMapYear").val();
     var Month = $("#formMapMonth").val();
     var dayCount = daysInMonth(Month, Year);
