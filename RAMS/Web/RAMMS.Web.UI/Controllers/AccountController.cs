@@ -80,7 +80,6 @@ namespace RAMMS.Web.UI.Controllers
         {
             int response = await userService.ChangeGroup(model);
             return response;
-
         }
 
         public IActionResult GetGroupUsers(int userid)
@@ -112,7 +111,6 @@ namespace RAMMS.Web.UI.Controllers
             var lst = userService.GetUserGroups();
             return Json(lst);
         }
-
 
 
         public long LastInsertedDetailNo() => userService.LastDetailInsertedNo();
