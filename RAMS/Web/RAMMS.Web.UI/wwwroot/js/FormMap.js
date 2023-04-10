@@ -463,7 +463,7 @@ function AppendPlannedData() {
                         if (j == 0) {
                             actCode = data.result[i].formDDetails[j].actCode;
                             prodUnit = data.result[i].formDDetails[j].prodUnit;
-                            prodQty = parseFloat(data.result[i].formDDetails[j].prodQty).toFixed(2);
+                            prodQty = decimalValue(data.result[i].formDDetails[j].prodQty);
                             roadCode = data.result[i].formDDetails[j].roadCode;
                             $('#tdloc' + actCode + dateId).text(roadCode);
                             $('#tdqan' + actCode + dateId).text(prodQty);
@@ -471,7 +471,7 @@ function AppendPlannedData() {
                             $('#sp' + actCode).text(data.result[i].weekDate);
                         }
                         else if (actCode == data.result[i].formDDetails[j].actCode) {
-                            prodQty = (parseFloat(prodQty) + parseFloat(data.result[i].formDDetails[j].prodQty)).toFixed(2);
+                            prodQty = decimalValue((prodQty) + (data.result[i].formDDetails[j].prodQty));
                             roadCode = roadCode + "," + data.result[i].formDDetails[j].roadCode;
                             $('#tdloc' + actCode + dateId).text(roadCode);
                             $('#tdqan' + actCode + dateId).text(prodQty);
@@ -480,7 +480,7 @@ function AppendPlannedData() {
                         else {
                             actCode = data.result[i].formDDetails[j].actCode;
                             prodUnit = data.result[i].formDDetails[j].prodUnit;
-                            prodQty = parseFloat(data.result[i].formDDetails[j].prodQty).toFixed(2); 
+                            prodQty = decimalValue(data.result[i].formDDetails[j].prodQty); 
                             roadCode = data.result[i].formDDetails[j].roadCode;
                             $('#tdloc' + actCode + dateId).text(roadCode);
                             $('#tdqan' + actCode + dateId).text(prodQty);
@@ -532,7 +532,7 @@ function ViewData(id) {
                     var actCode = data.result[i].activityId;
                     var weekdayNo = data.result[i].activityWeekDayNo;
                     var prodUnit = data.result[i].productUnit;
-                    var prodQty = parseFloat(data.result[i].quantityKm).toFixed(2) ;
+                    var prodQty = decimalValue(data.result[i].quantityKm) ;
                     var roadCode = data.result[i].activityLocationCode;
                     $('#tdloc' + actCode + weekdayNo).text(roadCode);
                     $('#tdqan' + actCode + weekdayNo).text(prodQty);
@@ -614,9 +614,27 @@ function QuantityTotal() {
             total = parseFloat(total) + ($('#tdqan' + actCode + i).text() != '' ? parseFloat($('#tdqan' + actCode + i).text()) : 0);
         }
         $(this).find("td:last").after('<td id="tdtot' + actCode + i + '" style="width:80px;border-left:1px solid #dee2e6;"></td>');
-        $('#tdtot' + actCode + i).text(parseFloat(total).toFixed(2));
+        $('#tdtot' + actCode + i).text(decimalTotalValue(total));
     });
     $("#tblLabour thead tr:eq(0) th:last").after('<th style="width:80px;border-left:1px solid #dee2e6;"></td>');
     $("#tblLabour thead tr:eq(1) th:last").after('<th style="width:80px;border-left:1px solid #dee2e6;"></td>');
     $("#tblLabour thead tr:eq(2) th:last").after('<th style="width:80px;border-left:1px solid #dee2e6;">Total</td>');
 }
+function decimalValue(value) {
+    if (!(value == undefined || value == null || value == '')) {
+        value = parseFloat(value).toFixed(2);
+    }
+    return value;
+}
+function decimalTotalValue(value) {
+    if (!(value == undefined || value == null || value == '')) {
+        value = parseFloat(value).toFixed(2);
+    }
+    else {
+        value = 0.00;
+        value=parseFloat(value).toFixed(2);
+    }
+    return value;
+}
+
+
