@@ -112,7 +112,6 @@ namespace RAMMS.Web.UI.Controllers
             return Json(lst);
         }
 
-
         public long LastInsertedDetailNo() => userService.LastDetailInsertedNo();
         public async Task<IActionResult> GetDetailList(DataTableAjaxPostModel<UserDetailRequestDTO> searchData)
         {
