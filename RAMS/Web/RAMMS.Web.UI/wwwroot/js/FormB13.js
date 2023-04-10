@@ -14,7 +14,7 @@ $(document).ready(function () {
 
     CalculateValuesonLoad();
 
-   
+
 
 });
 
@@ -109,7 +109,7 @@ function OnAgreedbyChange(tis) {
 }
 
 function OnEndorsedbyChange(tis) {
-     
+
     var ctrl = $(tis);
     if (ctrl.val() != null)
         $('#ddlEndorsedby').val(ctrl.val());
@@ -163,7 +163,7 @@ function Save(SubmitType) {
 
     if (SubmitType == "Submitted") {
         $("#FormB13_SubmitSts").val(true);
-        
+
     }
 
     InitAjaxLoading();
@@ -182,7 +182,7 @@ function Save(SubmitType) {
     FormB13.RevisionNo = $("#RevisionNo").val()
     FormB13.RevisionDate = $("#FormB13_RevisionDate").val()
     FormB13.Description = $("#Desc").val()
-     
+
 
     FormB13.UseridProsd = $('#ddlProposedby').val();
     FormB13.UserNameProsd = $('#FormB13_UserNameProsd').val();
@@ -297,7 +297,7 @@ function FindDetails() {
             app.ShowErrorMessage("More than 4 revisions are not allowed");
             return;
         }
-        
+
         if ($("#FormB13_Status").val() == "")
             $("#FormB13_Status").val("Initialize");
         else if ($("#FormB13_Status").val() == "Initialize")
@@ -312,7 +312,7 @@ function FindDetails() {
         FormB13.RevisionDate = $("#FormB13_RevisionDate").val()
         FormB13.UseridProsd = $('#ddlProposedby').val();
         FormB13.UserNameProsd = $('#FormB13_UserNameProsd').val();
-        FormB13.DtProsd  = $('#FormB13_DTProsd').val();
+        FormB13.DtProsd = $('#FormB13_DTProsd').val();
         FormB13.UserDesignationProsd = $('#FormB13_UserDesignationProsd').val();
         FormB13.SignProsd = $('#FormB13_SignProsd').val();
 
@@ -351,7 +351,7 @@ function GoBack() {
         location.href = "/FormB13";
 }
 
- 
+
 
 function formatDate(date) {
     var d = new Date(date),
@@ -463,9 +463,9 @@ function ServiceLevel(obj) {
     }
 
     //Planned Cal
-    
+
     if ($(obj).find(".SLDesired").text().trim() != "" && $(obj).find(".Desired").val().trim() != "") {
-        $(obj).find(".SLPlan").html((parseFloat($(obj).find(".SLDesired").text().trim()) /100 * parseFloat($(obj).find(".Desired").val().trim())).toFixed(2));
+        $(obj).find(".SLPlan").html((parseFloat($(obj).find(".SLDesired").text().trim()) / 100 * parseFloat($(obj).find(".Desired").val().trim())).toFixed(2));
     }
     else {
         $(obj).find(".SLPlan").html("");
@@ -477,7 +477,7 @@ function ServiceLevel(obj) {
 function AnnualWorkQtyPlanned(obj) {
 
     if ($(obj).find(".Desired").val().trim() != "" && $(obj).find(".AWQTot").text().trim() != "") {
-        $(obj).find(".AWQ").html((parseFloat($(obj).find(".Desired").val().trim())/100 * parseFloat($(obj).find(".AWQTot").text().trim())).toFixed(2));
+        $(obj).find(".AWQ").html((parseFloat($(obj).find(".Desired").val().trim()) / 100 * parseFloat($(obj).find(".AWQTot").text().trim())).toFixed(2));
     }
     else {
         $(obj).find(".AWQ").html("");
@@ -508,7 +508,7 @@ function SubTotalbyActivity(obj) {
 function SumofSubTotalbyActivity(obj) {
     var tot = 0;
     $('#tblPPB > tbody  > tr').each(function (index, tr) {
-        if ($(this).find(".ActTotal").text().trim() !="") {
+        if ($(this).find(".ActTotal").text().trim() != "") {
             tot = tot + parseFloat($(this).find(".ActTotal").text().trim());
         }
     });
@@ -519,7 +519,10 @@ function SumofSubTotalbyActivity(obj) {
 
 function PlannedPercentage(obj) {
     if ($(obj).find(".ActTotal").text().trim() != "" && $(obj).find(".CDP").text().trim() != "") {
-        $(obj).find(".ActPer").html((parseFloat($(obj).find(".ActTotal").text().trim()) / parseFloat($("#SumofSubTotal").text().trim().replace(/,/g, "")) * 100).toFixed(2));
+        if (parseFloat($(obj).find(".ActTotal").text().trim()) > 0 && parseFloat($("#SumofSubTotal").text().trim().replace(/,/g, "")) > 0)
+            $(obj).find(".ActPer").html((parseFloat($(obj).find(".ActTotal").text().trim()) / parseFloat($("#SumofSubTotal").text().trim().replace(/,/g, "")) * 100).toFixed(2));
+        else
+            $(obj).find(".ActPer").html("");
     }
     else {
         $(obj).find(".ActPer").html("");
@@ -530,7 +533,7 @@ function SumofSubTotalPercentage(obj) {
     var tot = 0;
     $('#tblPPB > tbody  > tr').each(function (index, tr) {
         if ($(this).find(".ActPer").text().trim()) {
-            tot = tot + parseFloat($(this).find(".ActPer").text().trim());
+            tot = tot + $(this).find(".ActPer").text().trim() != "" ? parseFloat($(this).find(".ActPer").text().trim()) : "";
         }
     });
 
@@ -544,7 +547,7 @@ function SubTotalbyFeature() {
 
     $('#tblPPB > tbody  > tr').each(function (index, tr) {
 
-      
+
         if ($(this).find("td:nth-child(1)").attr("rowspan") != undefined) {
             if (Lasttd != undefined)
                 $(Lasttd).html(Number(parseFloat(tot.toFixed(2))).toLocaleString('en') + "<br>" + totPer.toFixed(2));
@@ -575,7 +578,7 @@ function CalAdjustableQty() {
 
     $("#FormB13_AdjustableQuantity").val(Number(parseFloat(tot.toFixed(2))).toLocaleString('en'));
 
-    
+
 
 }
 
