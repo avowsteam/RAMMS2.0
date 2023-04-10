@@ -74,7 +74,6 @@ namespace RAMMS.Web.UI.Controllers
         {
             int response = await userService.ChangePassword(model);
             return response;
-
         }
 
         public async Task<int> ChangeGroup(UserDetailRequestDTO model)
