@@ -22,7 +22,6 @@ namespace RAMMS.Repository
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
-
         public IEnumerable<SelectListItem> GetBridgeIds(AssetDDLRequestDTO request)
         {
             var lst = _context.RmAllassetInventory.Where(s => s.AiAssetGrpCode == "BR" && (request.IncludeInActive ? true : s.AiActiveYn == true));
