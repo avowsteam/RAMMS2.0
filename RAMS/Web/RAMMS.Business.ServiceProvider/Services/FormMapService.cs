@@ -294,6 +294,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                                         worksheet.Cell(7, (j + 6)).Style.Border.RightBorder = XLBorderStyleValues.Thin;
                                         worksheet.Cell(7, (j + 6)).Style.Border.RightBorderColor = XLColor.Black;
 
+                                        worksheet.Cell((7 + 1), (j + 6)).Style.NumberFormat.Format = "0.00";
                                         worksheet.Cell((7 + 1), (j + 6)).Value = lstDetail[j - 1].RmmdQuantityKm;
                                         worksheet.Cell((7 + 1), 2).Value = lstDetail[j - 1].RmmdProductUnit;
                                         worksheet.Cell((7 + 1), (j + 6)).Style.Border.BottomBorder = XLBorderStyleValues.Thin;
@@ -301,6 +302,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                                         worksheet.Cell((7 + 1), (j + 6)).Style.Border.RightBorder = XLBorderStyleValues.Thin;
                                         worksheet.Cell((7 + 1), (j + 6)).Style.Border.RightBorderColor = XLColor.Black;
 
+                                        worksheet.Cell((7 + 1), (6 + dayCount + 1)).Style.NumberFormat.Format = "0.00";
                                         worksheet.Cell((7 + 1), (6 + dayCount + 1)).Value = lstDetail.Select(x => x.RmmdQuantityKm).Sum().ToString();
                                         worksheet.Cell((7 + 1), (6 + dayCount + 1)).Style.Border.RightBorder = XLBorderStyleValues.Thin;
                                         worksheet.Cell((7 + 1), (6 + dayCount + 1)).Style.Border.RightBorderColor = XLColor.Black;
@@ -322,6 +324,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                                         worksheet.Cell((i + 7 + i), (j + 6)).Style.Border.RightBorder = XLBorderStyleValues.Thin;
                                         worksheet.Cell((i + 7 + i), (j + 6)).Style.Border.RightBorderColor = XLColor.Black;
 
+                                        worksheet.Cell((i + 8 + i), (j + 6)).Style.NumberFormat.Format = "0.00";
                                         worksheet.Cell((i + 8 + i), (j + 6)).Value = lstDetail[j - 1].RmmdQuantityKm;
                                         worksheet.Cell((i + 8 + i), 2).Value = lstDetail[j - 1].RmmdProductUnit;
                                         worksheet.Cell((i + 8 + i), (j + 6)).Style.Border.BottomBorder = XLBorderStyleValues.Thin;
@@ -329,6 +332,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                                         worksheet.Cell((i + 8 + i), (j + 6)).Style.Border.RightBorder = XLBorderStyleValues.Thin;
                                         worksheet.Cell((i + 8 + i), (j + 6)).Style.Border.RightBorderColor = XLColor.Black;
 
+                                        worksheet.Cell((i + 8 + i), (6 + dayCount + 1)).Style.NumberFormat.Format = "0.00";
                                         worksheet.Cell((i + 8 + i), (6 + dayCount + 1)).Value = lstDetail.Select(x => x.RmmdQuantityKm).Sum().ToString();
 
                                         worksheet.Cell((i + 8 + i), (6 + dayCount + 1)).Style.Border.RightBorder = XLBorderStyleValues.Thin;

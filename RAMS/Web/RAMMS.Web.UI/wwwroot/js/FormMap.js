@@ -257,7 +257,8 @@
             $("#formMapMonth").prop("disabled", true).trigger("chosen:updated");
             $("[finddetailsdep]").hide();
             $("#btnFindDetails").hide();
-            ViewData($("#pkRefNo").val());
+            //ViewData($("#pkRefNo").val());
+            AppendData($("#pkRefNo").val(), this.HeaderData.Status);
         }
     }
 }
@@ -487,8 +488,6 @@ function AppendPlannedData() {
                             $('#sp0' + actCode).text("Quantity (" + prodUnit + ")");
                             $('#sp' + actCode).text(data.result[i].weekDate);
                         }
-
-
                     }
                 }
             }
@@ -526,7 +525,6 @@ function ViewData(id) {
         async: false,
         type: 'Post',
         success: function (data) {
-
             if (data.result.length > 0) {
                 for (var i = 0; i < data.result.length; i++) {
                     var actCode = data.result[i].activityId;
