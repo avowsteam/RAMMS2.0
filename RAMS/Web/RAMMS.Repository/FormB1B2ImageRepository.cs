@@ -17,7 +17,6 @@ namespace RAMMS.Repository
         }
         public List<RmFormB1b2BrInsImage> SaveImageDtl(List<RmFormB1b2BrInsImage> _RmFormB1b2BrInsImages)
         {
-
             foreach (var imgItem in _RmFormB1b2BrInsImages)
             {
                 try
@@ -61,7 +60,6 @@ namespace RAMMS.Repository
                 .MaxAsync(s => s.FbriImageSrno);
             return id.GetValueOrDefault();
         }
-
         public bool CheckImageExistforAllType(string[] lookup, int headerid)
         {
             var s = lookup.Where(s => !_context.RmFormB1b2BrInsImage.Any(i => i.FbriActiveYn == true && i.FbriFbrihPkRefNo == headerid && i.FbriImageTypeCode == s));
