@@ -83,7 +83,6 @@ namespace RAMMS.Web.UI.Controllers
 
         }
 
-
         public async Task<IActionResult> Add(int id, int isview)
         {
 
