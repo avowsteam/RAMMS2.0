@@ -30,7 +30,6 @@ namespace RAMMS.Web.UI.Controllers
         {
             return View();
         }
-
         public async Task<IActionResult> Add(int id, bool view)
         {
             UserDetailRequestDTO obj = new UserDetailRequestDTO();
