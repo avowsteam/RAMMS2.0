@@ -28,6 +28,7 @@ using System.Text.RegularExpressions;
 using RAMMS.DTO.SearchBO;
 using RAMMS.Web.UI.Filters;
 using Ionic.Zip;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 
 namespace RAMMS.Web.UI.Controllers
 {
@@ -88,8 +89,29 @@ namespace RAMMS.Web.UI.Controllers
             roadMasterReq.DivisionCode = "MIRI";
             ViewData["AssetFeatureId"] = new SelectList(await _roadMasterService.GetRMLookupData(roadMasterReq), "FeatureId", "FeatureId");
             ViewBag.AssetTypeList = await _ddLookupService.GetDdLookup(ddLookup);
-           
 
+            if (ddLookup.TypeCode != null && ddLookup.TypeCode != "")
+            {
+                if (ddLookup.Type == "B1B2_Severity" || ddLookup.Type == "B1B2_Distress")
+                {
+
+                }
+
+                else
+                {
+                    var ddLookUpItem = new List<SelectListItem>();
+                    foreach (var list in ViewBag.AssetTypeList)
+                    {
+                        ddLookUpItem.Add(new SelectListItem
+                        {
+                            Value = Regex.Replace(list.Value.ToString(), "\\s+", ""),
+                            Text = list.Text.ToString(),
+                        });
+                    }
+                    ViewBag.AssetTypeList = ddLookUpItem;
+                }
+
+            }
             ddLookup.Type = "Structure Code";
             ViewBag.StructureCodeList = await _ddLookupService.GetDdLookup(ddLookup);
             ddLookup.Type = "Parapet Type";
@@ -443,6 +465,7 @@ namespace RAMMS.Web.UI.Controllers
             if (editId != 0)
             {
                 var assetData = await _assetsService.GetAssetById(editId);
+                assetData.GroupType = Regex.Replace(assetData.GroupType.ToString(), "\\s+", "");
                 assetModel.AddAssetViewModel = assetData;
                 assetModel.AddAssetViewModel = GetStringToMultiSelectList(assetData);
                 assetModel.AddAssetViewModel.GroupCode = _assetsService.GetAssetNameByCode(assetModel.AddAssetViewModel.GroupCode);
