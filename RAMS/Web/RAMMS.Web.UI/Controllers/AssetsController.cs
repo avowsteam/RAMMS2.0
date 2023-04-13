@@ -465,7 +465,7 @@ namespace RAMMS.Web.UI.Controllers
             if (editId != 0)
             {
                 var assetData = await _assetsService.GetAssetById(editId);
-                assetData.GroupType = Regex.Replace(assetData.GroupType.ToString(), "\\s+", "");
+                assetData.GroupType = assetData.GroupType != null ? Regex.Replace(assetData.GroupType.ToString(), "\\s+", ""): null;
                 assetModel.AddAssetViewModel = assetData;
                 assetModel.AddAssetViewModel = GetStringToMultiSelectList(assetData);
                 assetModel.AddAssetViewModel.GroupCode = _assetsService.GetAssetNameByCode(assetModel.AddAssetViewModel.GroupCode);
