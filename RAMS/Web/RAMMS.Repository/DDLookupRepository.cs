@@ -104,7 +104,7 @@ namespace RAMS.Repository
         {
             if (rmDdLookup.TypeDesc != null && rmDdLookup.TypeCode != null)
             {
-                return await _context.RmDdLookup.Where(x => x.DdlTypeCode == rmDdLookup.TypeCode && x.DdlTypeDesc == rmDdLookup.TypeDesc).Select(x => x.DdlTypeValue).FirstOrDefaultAsync();
+                return await _context.RmDdLookup.Where(x => x.DdlTypeCode == rmDdLookup.TypeCode && x.DdlTypeDesc.Replace(" ","") == rmDdLookup.TypeDesc).Select(x => x.DdlTypeValue).FirstOrDefaultAsync();
             }
             else if (rmDdLookup.TypeCode != null)
             {
