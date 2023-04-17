@@ -356,6 +356,7 @@ namespace RAMMS.Web.UI.Controllers
             await LoadDropDownsSectionCode();
             GetRMUWithDivision("RMU_Division");
             ViewData["ServiceProviderName"] = LookupService.LoadServiceProviderName().Result;
+            ViewData["FormHReferenceNo"] = LookupService.LoadFormHReferenceNo().Result;
 
             return View("~/Views/InstructedWorks/AddFormW1.cshtml", model);
         }
@@ -397,6 +398,7 @@ namespace RAMMS.Web.UI.Controllers
             await LoadDropDownsSectionCode();
             GetRMUWithDivision("RMU_Division");
             ViewData["ServiceProviderName"] = LookupService.LoadServiceProviderName().Result;
+            ViewData["FormHReferenceNo"] = LookupService.LoadFormHReferenceNo().Result;
 
             FormW1Model assetsModel = new FormW1Model();
             model.ImageList = await _formW1Service.GetImageList(_formW1Model.PkRefNo.ToString());

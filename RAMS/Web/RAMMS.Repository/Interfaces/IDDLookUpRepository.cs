@@ -40,5 +40,6 @@ namespace RAMMS.Repository.Interfaces
         #endregion
         Task<IEnumerable<FormAHeaderRequestDTO>> GetDdYearDetails();
         Task<IEnumerable<FormAHeaderRequestDTO>> GetDdRMUDetails();
+        Task<IEnumerable<FormHRequestDTO>> LoadFormHReferenceNo();
     }
 }

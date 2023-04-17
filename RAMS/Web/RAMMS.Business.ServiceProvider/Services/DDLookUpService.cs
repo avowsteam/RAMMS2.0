@@ -498,5 +498,13 @@ namespace RAMMS.Business.ServiceProvider.Services
                 throw Ex;
             }
         }
+        public async Task<IEnumerable<SelectListItem>> LoadFormHReferenceNo()
+        {
+            return _lookupRepo.LoadFormHReferenceNo().Result.Select(x => new SelectListItem()
+            {
+                Text = x.ReferenceNo,
+                Value = x.ReferenceNo,
+            }).Distinct();
+        }
     }
 }

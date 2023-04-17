@@ -324,6 +324,14 @@ namespace RAMS.Repository
                               RFCRMU = a.FshRmuName
                           }).Distinct().ToListAsync();
         }
+        public async Task<IEnumerable<FormHRequestDTO>> LoadFormHReferenceNo()
+        {
+            return await (from x in _context.RmFormHHdr.Where(x=>x.FhhStatus== "Reported")
+                          select new FormHRequestDTO
+                          {
+                              ReferenceNo = x.FhhRefId,
+                          }).Distinct().ToListAsync();
+        }
     }
 }
 

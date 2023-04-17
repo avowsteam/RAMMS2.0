@@ -33,5 +33,6 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<IEnumerable<SelectListItem>> GetDdDistressDetails();
         Task<IEnumerable<SelectListItem>> GetDdYearDetails();
         Task<IEnumerable<SelectListItem>> GetDdRMUDetails();
+        Task<IEnumerable<SelectListItem>> LoadFormHReferenceNo();
     }
 }
