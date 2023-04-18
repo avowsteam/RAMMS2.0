@@ -125,7 +125,7 @@ namespace RAMMS.Repository
                 GrpType = s.FsdGrpType,
                 StrucCode = s.FsdStrucCode,
                 //Width = s.FsdWidth != null ? s.FsdWidth : queryHeaderAll.Where(d=>d.AiAssetGrpCode==s.FsdGrpCode && d.AiGrpType == s.FsdGrpType).Select(d=>d.AiWidth).FirstOrDefault(),
-                Width = s.FsdWidth != null ? s.FsdWidth :Convert.ToDouble(avgClmWidth),
+                Width = s.FsdFeature == "CENTER LINE MARKING" ? s.FsdWidth != null ? s.FsdWidth :  Convert.ToDouble(avgClmWidth) : s.FsdWidth,
                 Length = s.FsdLength,
                 Condition1 = s.FsdCondition1,
                 Condition2 = s.FsdCondition2,
