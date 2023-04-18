@@ -9,9 +9,9 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using RAMMS.DTO.ResponseBO;
-using DocumentFormat.OpenXml.Office2010.CustomUI;
+//using DocumentFormat.OpenXml.Office2010.CustomUI;
 using System.Reflection.Emit;
-using DocumentFormat.OpenXml.Office2010.Word;
+//using DocumentFormat.OpenXml.Office2010.Word;
 using RAMMS.DTO.Report;
 
 namespace RAMMS.Repository
