@@ -84,6 +84,11 @@
             par.find("#F5HdrCrewId").val(data.CrewLeaderId).trigger("change").trigger("chosen:updated");
             par.find("#F5CrewLeaderName").val(data.CrewLeaderName);
             par.find("#F5HdrUserId").val(data.UserIdInspBy).trigger("change").trigger("chosen:updated");
+            getUserDetail(data.UserIdInspBy, function (data) {
+                par.find("#F5UserameInspBy").val(data.userName);
+                par.find("#F5UserDesignationInspBy").val(data.position);
+                par.find("#F5UserDesignationInspBy").attr("readonly", "true");
+            });
             par.find("#F5UserameInspBy").val(data.UserNameInspBy);
             par.find("#F5UserDesignationInspBy").val(data.UserDesignationInspBy);
             if (data.DtInspBy && data.DtInspBy != null) {
@@ -339,3 +344,19 @@ $(document).ready(function () {
     })
 
 })
+function getUserDetail(id, callback) {
+    var req = {};
+    req.id = id;
+    $.ajax({
+        url: '/NOD/GetUserById',
+        dataType: 'JSON',
+        data: req,
+        type: 'Post',
+        success: function (data) {
+            callback(data);
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+}

@@ -1,4 +1,12 @@
-﻿var formFC = new function () {
+﻿var _hd = {
+
+
+    ddlInspectedby: $("#ddlInspectedby"),
+    txtServiceProvidername: $("#txtServiceProvidername"),
+    txtServiceProviderDesignation: $("#txtServiceProviderDesignation"),
+    txtServiceProviderDate: $("#txtServiceProviderDate")
+};
+var formFC = new function () {
     this.HeaderData = {};
     this.Patter = "";
     this.IsEdit = true;
@@ -508,6 +516,11 @@
     this.UserIDChange = function (tis) {
         var sel = $(tis);
         var opt = sel.find(":selected");
+        getUserDetail(opt, function (data) {
+            par.find("#txtUserNameInspBy").val(data.userName);
+            par.find("#txtUserDesignationInspBy").val(data.position);
+            par.find("#txtUserDesignationInspBy").attr("readonly", "true");
+        });
         var item1 = opt.attr("item1") ? opt.attr("item1") : "";
         if (item1 == "others") {
             $("#txtUserNameInspBy").val("").addClass("validate").prop("disabled", false);
@@ -615,5 +628,46 @@ $(document).ready(function () {
     else {
         setTimeout(function () { $("#selCrewLeaderName").trigger('chosen:activate'); }, 200);
     }
+    $("#selUserIdInspBy").on("change", function () {
+        var value = this.value;
+        if (value == "") {
+            $("#txtUserNameInspBy").val('');
+            $("#txtUserDesignationInspBy").val('');
+            $("#txtUserNameInspBy").prop("disabled", true);
+            $("#txtUserDesignationInspBy").prop("disabled", true);
+        }
+        else if (value == "99999999") {
+            $("#txtUserNameInspBy").val('');
+            $("#txtUserDesignationInspBy").val('');
+            $("#txtUserNameInspBy").prop("disabled", false);
+            $("#txtUserDesignationInspBy").prop("disabled", false);
+        }
+        else {
+            getUserDetail(value, function (data) {
+
+                $("#txtUserNameInspBy").val(data.userName);
+                $("#txtUserDesignationInspBy").val(data.position);
+                $("#txtUserNameInspBy").prop("disabled", true);
+                $("#txtUserDesignationInspBy").prop("disabled", true);
+            });
+        }
+    });
+    $("#selUserIdInspBy").trigger('change');
 });
 
+function getUserDetail(id, callback) {
+    var req = {};
+    req.id = id;
+    $.ajax({
+        url: '/NOD/GetUserById',
+        dataType: 'JSON',
+        data: req,
+        type: 'Post',
+        success: function (data) {
+            callback(data);
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+}

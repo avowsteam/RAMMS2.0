@@ -91,7 +91,7 @@ $(document).ready(function () {
             });
         }
     });
-
+    _hd.ddlInspectedby.trigger('change');
     _hd.ddlCrewleader.on("change", function () {
         var value = this.value;
 
@@ -891,5 +891,5 @@ function saveHeader(isSave = true, isSubmit = false) {
                 console.error(data);
             }
         });
-    }
+    }   
 }

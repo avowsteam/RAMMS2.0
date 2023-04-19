@@ -115,6 +115,15 @@ namespace RAMMS.Web.UI.Controllers
                 ViewBag.IsAdd = false;
                 frmFD = _formFDService.FindByHeaderID(id).Result;
             }
+            else
+            {
+               frmFD = frmFD ?? new DTO.ResponseBO.FormFDDTO();
+                if ((frmFD.UserIdInspBy == null || frmFD.UserIdInspBy == 0))
+                {
+                    frmFD.UserIdInspBy = _security.UserID;
+                    frmFD.UserNameInspBy = _security.UserName;
+                }
+            }
             LoadLookupService("RMU", "Section Code", "Division", "RD_Code", "Year", "User", "Supervisor");
             return View("~/Views/FormFD/_AddFormFD.cshtml", frmFD);
         }

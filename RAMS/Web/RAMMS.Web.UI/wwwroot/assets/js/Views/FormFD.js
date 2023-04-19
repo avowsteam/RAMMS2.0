@@ -1,4 +1,13 @@
-﻿var formFD = new function () {
+﻿var _hd = {
+
+
+    ddlInspectedby: $("#selUserIdInspBy"),
+    txtServiceProvidername: $("#txtUserNameInspBy"),
+    txtServiceProviderDesignation: $("#txtUserDesignationInspBy"),
+    txtServiceProviderDate: $("#dtInspection")
+};
+
+var formFD = new function () {
     this.HeaderData = {};
     this.Pattern = "";
     this.IsEdit = true;
@@ -481,5 +490,45 @@ $(document).ready(function () {
     else {
         setTimeout(function () { $("#selCrewLeaderName").trigger('chosen:activate'); }, 200);
     }
+    $("#selUserIdInspBy").on("change", function () {
+        var value = this.value;
+        if (value == "") {
+            $("#txtUserNameInspBy").val('');
+            $("#txtUserDesignationInspBy").val('');
+            $("#txtUserNameInspBy").prop("disabled", true);
+            $("#txtUserDesignationInspBy").prop("disabled", true);
+        }
+        else if (value == "99999999") {
+            $("#txtUserNameInspBy").val('');
+            $("#txtUserDesignationInspBy").val('');
+            $("#txtUserNameInspBy").prop("disabled", false);
+            $("#txtUserDesignationInspBy").prop("disabled", false);
+        }
+        else {
+            getUserDetail(value, function (data) {
 
+                $("#txtUserNameInspBy").val(data.userName);
+                $("#txtUserDesignationInspBy").val(data.position);
+                $("#txtUserNameInspBy").prop("disabled", true);
+                $("#txtUserDesignationInspBy").prop("disabled", true);
+            });
+        }
+    });
+    $("#selUserIdInspBy").trigger('change');
 })
+function getUserDetail(id, callback) {
+    var req = {};
+    req.id = id;
+    $.ajax({
+        url: '/NOD/GetUserById',
+        dataType: 'JSON',
+        data: req,
+        type: 'Post',
+        success: function (data) {
+            callback(data);
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+}

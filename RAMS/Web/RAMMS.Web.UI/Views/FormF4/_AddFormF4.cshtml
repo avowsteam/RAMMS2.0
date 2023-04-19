@@ -17,6 +17,7 @@
     string formStatus = !IsAdd ? Model.Item1.Status : "";
     int RefNo = !IsAdd ? Model.Item1.PkRefNo : 0;
     bool IsSupervisor = security.IsSupervisor && (string.IsNullOrEmpty(formStatus) || formStatus == RAMMS.Common.StatusList.FormF4Init);
+    bool isEnggAssistant = security.isEnggAssistant ;
 }
 @section Scripts{
     <script type="text/javascript" src="~/assets/js/Views/FormF4.js" asp-append-version="true"></script>
@@ -187,7 +188,7 @@
           @*  @if (Model.Item1 != null && !Model.Item1.SubmitSts && ViewBag.IsEdit)
             {*@
                 <button id="" type="button" class="btn btn-sm btn-themebtn" onclick="formF4.Save(false);" saveSubmitBtn>Save</button>
-                @if (IsSupervisor)
+                @if (IsSupervisor || isEnggAssistant)
                 {
                     <button id="" type="button" class="btn btn-sm btn-themebtn" onclick="formF4.Save(true);" saveSubmitBtn>Submit</button>
                 }

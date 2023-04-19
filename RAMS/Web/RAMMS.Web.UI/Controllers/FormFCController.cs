@@ -8,6 +8,7 @@ using RAMMS.Business.ServiceProvider.Interfaces;
 using RAMMS.DTO.JQueryModel;
 using RAMMS.Web.UI.Models;
 using RAMMS.Repository.Audit;
+using RAMMS.DTO.RequestBO;
 
 namespace RAMMS.Web.UI.Controllers
 {
@@ -78,6 +79,15 @@ namespace RAMMS.Web.UI.Controllers
                 ViewBag.IsAdd = false;
 
                 frmFC = _fcService.FindByHeaderID(id).Result;
+            }
+            else
+            {
+               frmFC = frmFC ?? new DTO.ResponseBO.FormFCDTO();
+                if ((frmFC.UserIdInspBy == null || frmFC.UserIdInspBy == 0))
+                {
+                    frmFC.UserIdInspBy = _security.UserID;
+                    frmFC.UserNameInspBy = _security.UserName;
+                }
             }
             LoadLookupService("RMU", "Section Code", "Division", "RD_Code", "Year", "User", "Supervisor");
             return View("~/Views/FormFC/_AddFormFC.cshtml", frmFC);

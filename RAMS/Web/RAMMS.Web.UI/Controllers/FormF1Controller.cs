@@ -159,7 +159,8 @@ namespace RAMMS.Web.UI.Controllers
             _model.FormF1 = _model.FormF1 ?? new FormF1ResponseDTO();
             _model.view = view;
 
-            if ((_model.FormF1.InspectedBy == null || _model.FormF1.InspectedBy == 0) && _model.FormF1.Status == RAMMS.Common.StatusList.Submitted)
+            //if ((_model.FormF1.InspectedBy == null || _model.FormF1.InspectedBy == 0) && _model.FormF1.Status == RAMMS.Common.StatusList.Submitted)
+            if ((_model.FormF1.InspectedBy == null || _model.FormF1.InspectedBy == 0))
             {
                 _model.FormF1.InspectedBy = _security.UserID;
                 _model.FormF1.InspectedDate = DateTime.Today;

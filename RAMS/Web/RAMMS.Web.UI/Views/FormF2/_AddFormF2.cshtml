@@ -55,6 +55,7 @@
     int IsAlreadyExist = Model.PkRefNo > 0 ? 1 : 0;
     int viewmode = Model.IsViewMode ? 1 : 0;
     bool IsSupervisor = security.IsSupervisor && (string.IsNullOrEmpty(Model.Status) || Model.Status == RAMMS.Common.StatusList.FormF2Init);
+    bool isEnggAssistant = security.isEnggAssistant ;
 }
 
 <input type="hidden" id="hdnHeaderId" value="@Model.PkRefNo" />
@@ -204,7 +205,7 @@
             <div class="col-md-12 float-right text-right custom-footer">
                 <button id="btnHCancel" type="button" class="btn btn-sm btn-outline-theme">Cancel</button>
                 <button id="btnHSave" type="button" class="btn btn-sm btn-themebtn">Save</button>
-                @if (IsSupervisor)
+                @if (IsSupervisor || isEnggAssistant)
                 {
                     <button id="btnHSubmit" type="button" class="btn btn-sm btn-themebtn">Submit</button>
                 }

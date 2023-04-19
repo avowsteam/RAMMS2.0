@@ -2,10 +2,12 @@
 @using RAMMS.Web.UI.Models;
 @using RAMMS.Business.ServiceProvider;
 @inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IUserService usr
 @{
     ViewData["Title"] = "Form FC - Road Asset Management and Maintenance System";
     ViewBag.TabTitle = "Form FC - Road Asset Management and Maintenance System";
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
+    IEnumerable<SelectListItem> user = await usr.GetUserList();
     string strRoadname = string.Empty;
     string strRoadCode = string.Empty;
     string strYear = string.Empty;
@@ -13,18 +15,21 @@
     string formStatus = string.Empty;
     int RefNo = 0;
     bool IsSupervisor = false;
+    bool isEnggAssistant=false;
 
     if (Model != null)
     {
         strRoadname = Model.RoadName;
         strRoadCode = Model.RoadCode;
-        strYear = Model.YearOfInsp.Value.ToString();
+        //strYear = Model.YearOfInsp.Value.ToString();
+        strYear = Model.YearOfInsp != null ?Model.YearOfInsp.Value.ToString():string.Empty;
         strRefId = Model.FormRefId;
         ViewBag.IsEdit = ViewBag.IsEdit ? (Model.SubmitSts ? false : true) : false;
 
         formStatus = Model.Status;
         RefNo = Model.PkRefNo;
         IsSupervisor = security.IsSupervisor && (string.IsNullOrEmpty(formStatus) || formStatus == RAMMS.Common.StatusList.FormFCInit);
+         isEnggAssistant = security.isEnggAssistant ;
     }
 }
 @section Scripts{
@@ -297,7 +302,8 @@
                             <div class="border-top px-2 pt-3 pb-1 float-left w-100">
                                 <div class="form-group col-lg-2 float-left">
                                     @Html.Label("User ID", "User ID")
-                                    @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "UserIdInspBy", "Select User", new { @Id = "selUserIdInspBy", @class = "form-control svalidate {req,Inspected By User ID}", @onchange = "formFC.UserIDChange(this);" })
+                                   <!--@Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "UserIdInspBy", "Select User", new { @Id = "selUserIdInspBy", @class = "form-control svalidate {req,Inspected By User ID}", @onchange = "formFC.UserIDChange(this);" })--> 
+                                         @Html.DropDownListFor(Ahdr => Ahdr.UserIdInspBy, user, "Select User", new { @Id = "selUserIdInspBy", @class = "form-control svalidate {req,Inspected By User Id}"})
                                 </div>
                                 <div class="form-group col-lg-3 float-left">
                                     @Html.Label("Name", "Name")
@@ -340,7 +346,7 @@
                 @*@if (Model != null && !Model.SubmitSts && ViewBag.IsEdit)
                 {*@
             <button type="button" class="btn btn-sm btn-themebtn" onclick="formFC.Save(false)" finddetailsdep>Save</button>
-                    @if (IsSupervisor)
+                    @if (IsSupervisor || isEnggAssistant)
                     {
             <button type="button" class="btn btn-sm btn-themebtn" onclick="formFC.Save(true)" finddetailsdep>Submit</button>
                     }

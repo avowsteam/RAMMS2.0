@@ -85,6 +85,15 @@ namespace RAMMS.Web.UI.Controllers
             {
                 formF4HeaderRequestDTO = await _formF4Service.FindHeaderById(id);
             }
+            else
+            {
+                formF4HeaderRequestDTO = formF4HeaderRequestDTO ?? new FormF4HeaderRequestDTO();
+                if ((formF4HeaderRequestDTO.UserIdInspBy == null || formF4HeaderRequestDTO.UserIdInspBy == 0))
+                {
+                    formF4HeaderRequestDTO.UserIdInspBy = _security.UserID;
+                    formF4HeaderRequestDTO.UserNameInspBy = _security.UserName;
+                }
+            }
             var grid = new Models.CDataTable() { Name = "tblF4DtlGrid", APIURL = "/FormF4/DetailList/" + id.ToString() };
             grid.Columns.Add(new CDataColumns() { data = "CenterLineChainage", title = "CentreLine Chainage", render = "jsMaster.LocationCh" });
             grid.Columns.Add(new CDataColumns() { data = "StructureCode", title = "Code" });
@@ -96,6 +105,7 @@ namespace RAMMS.Web.UI.Controllers
             grid.Columns.Add(new CDataColumns() { data = "NoOfCell", title = "No of Cell" });
             grid.Columns.Add(new CDataColumns() { data = "Remarks", title = "Remarks" });
             grid.Columns.Add(new CDataColumns() { data = "OverAllCondition", title = "Over All Condition" });
+            
             return View("~/Views/FormF4/_AddFormF4.cshtml", new Tuple<FormF4HeaderRequestDTO, CDataTable>(formF4HeaderRequestDTO, grid));
         }
         public async Task<JsonResult> DetailList(int id, DataTableAjaxPostModel searchData)

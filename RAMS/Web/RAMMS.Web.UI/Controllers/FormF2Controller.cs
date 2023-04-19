@@ -173,6 +173,11 @@ namespace RAMMS.Web.UI.Controllers
                 _model = await formF2Service.GetHeaderById(id);
                 _model = _model ?? new FormF2HeaderRequestDTO();
             }
+            if ((_model.UserIdInspBy == null || _model.UserIdInspBy == 0))
+            {
+                _model.UserIdInspBy = _security.UserID;
+                _model.UserNameInspBy = _security.UserName;
+            }
             _model.IsViewMode = _model.SubmitSts ? true : isview;
             return PartialView("~/Views/FormF2/_AddFormF2.cshtml", _model);
         }
