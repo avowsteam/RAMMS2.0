@@ -15,7 +15,7 @@
     if (Model != null)
     {
         strAssestID = Model.AiAssetId;
-       // strYear = Model.YearOfInsp != null ?Model.YearOfInsp.Value.ToString():string.Empty;
+        strYear = Model.YearOfInsp != null ?Model.YearOfInsp.Value.ToString():string.Empty;
         strRefId = Model.CInspRefNo;
         ViewBag.IsEdit = ViewBag.IsEdit ? (Model.SubmitSts ? false : true) : false;
     }
