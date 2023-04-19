@@ -478,6 +478,7 @@ $(document).ready(function () {
             });
         }
     });
+    _hd.ddlInspectedby.trigger('change');
 
     _hd.ddlAuditedby.on("change", function () {
         var value = this.value;

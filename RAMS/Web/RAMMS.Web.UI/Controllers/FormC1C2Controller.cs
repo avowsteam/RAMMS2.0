@@ -91,6 +91,13 @@ namespace RAMMS.Web.UI.Controllers
             }
             else
             {
+                frmC1C2 = frmC1C2 ?? new FormC1C2DTO();
+                if ((frmC1C2.SerProviderUserId == null || frmC1C2.SerProviderUserId == 0))
+                {
+                    frmC1C2.SerProviderUserId = _security.UserID;
+                    frmC1C2.SerProviderUserName = _security.UserName;
+                    
+                }
                 LoadLookupService("RMU", "Section Code", "Division", "RD_Code");
                 ViewData["AssetIds"] = _AssetService.ListOfCulvertAssestIds().Result;
             }

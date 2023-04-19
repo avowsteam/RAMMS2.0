@@ -1,4 +1,11 @@
-﻿var frmC1C2 = new function () {
+﻿var _hd = {
+    ddlInspectedby: $("#formC1C2InspectedBy"),
+    txtServiceProvidername: $("#txtServiceProvidername"),
+    txtServiceProviderDesignation: $("#txtServiceProviderDesignation"),
+    txtServiceProviderDate: $("#txtServiceProviderDate")
+
+};
+var frmC1C2 = new function () {
     this.HeaderData = {};
     this.ImageList = [];
     this.Dis_Severity = {};
@@ -674,5 +681,47 @@ $(document).ready(function () {
             $('[searchsectionbtn]').trigger('onclick');
         }
     })
-
+    
+    //$("#selAssetID,#formC1C2InsYear").prop("disabled", true).trigger("change").trigger("chosen:updated");
+    $("#formC1C2InspectedBy").on("change", function () {
+        var value = this.value;
+        if (value == "") {
+            $("#txtServiceProvidername").val('');
+            $("#txtServiceProviderDesignation").val('');
+            $("#txtServiceProvidername").prop("disabled", true);
+            $("#txtServiceProviderDesignation").prop("disabled", true);
+        }
+        else if (value == "99999999") {
+            $("#txtServiceProvidername").val('');
+            $("#txtServiceProviderDesignation").val('');
+            $("#txtServiceProvidername").prop("disabled", false);
+            $("#txtServiceProviderDesignation").prop("disabled", false);
+        }
+        else {
+            getUserDetail(value, function (data) {
+            
+                $("#txtServiceProvidername").val(data.userName);
+                $("#txtServiceProviderDesignation").val(data.position);
+                $("#txtServiceProvidername").prop("disabled", true);
+                $("#txtServiceProviderDesignation").prop("disabled", true);
+            });
+        }
+    });
+    $("#formC1C2InspectedBy").trigger('change');
 });
+function getUserDetail(id, callback) {
+    var req = {};
+    req.id = id;
+    $.ajax({
+        url: '/NOD/GetUserById',
+        dataType: 'JSON',
+        data: req,
+        type: 'Post',
+        success: function (data) {
+            callback(data);
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+}

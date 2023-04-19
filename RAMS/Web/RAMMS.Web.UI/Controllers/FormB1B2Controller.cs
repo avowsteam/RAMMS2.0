@@ -50,6 +50,15 @@ namespace RAMMS.Web.UI.Controllers
             {
                 model = await formB1B2Service.GetHeaderById(id);
             }
+            else
+            {
+                model = model ?? new FormB1B2HeaderRequestDTO();
+                if ((model.SerProviderUserId == null || model.SerProviderUserId == 0))
+                {
+                    model.SerProviderUserId = security.UserID;
+                    model.SerProviderUserName = security.UserName;
+                }
+            }
             model = model ?? new FormB1B2HeaderRequestDTO();
             model.Detail = model.Detail ?? new DTO.RequestBO.FormB1B2DetailRequestDTO();
             model.IsView = model.SubmitSts ? true : isview;

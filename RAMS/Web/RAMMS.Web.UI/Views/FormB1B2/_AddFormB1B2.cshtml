@@ -35,6 +35,7 @@
     IEnumerable<SelectListItem> ratings = rating.Select(s => new SelectListItem { Value = s.ToString(), Text = s.ToString() }).AsEnumerable();
     bool IsSupervisor = security.IsSupervisor && (string.IsNullOrEmpty(Model.Status) || Model.Status == RAMMS.Common.StatusList.FormB1B2Init);
     // Model.CInspRefNo = string.IsNullOrEmpty(Model.CInspRefNo) ? Model.PkRefNo > 0 && Model.DtOfInsp.HasValue ? $"CI/{Model.AiPkRefNo}/{Model.DtOfInsp.Value.ToString("yyyyMMdd")}/{Model.RecordNo}" : "" : Model.CInspRefNo;
+    bool isEnggAssistant = (security.isEnggAssistant);
 }
 <input type="hidden" id="hdnPkRefNo" value="@Model.PkRefNo" />
 <input type="hidden" id="hdnDPkRefNo" value="@Model.Detail.PkRefNo" />
@@ -936,7 +937,7 @@
         <div class="col-md-12 float-right text-right custom-footer">
             <button id="btnHCancel" type="button" class="btn btn-sm btn-outline-theme">Cancel</button>
             <button id="btnHSave" type="button" class="btn btn-sm btn-themebtn" B1B2SaveSubmitdep>Save</button>
-            @if (IsSupervisor)
+            @if (IsSupervisor || isEnggAssistant)
             {
                 <button id="btnHSubmit" type="button" class="btn btn-sm btn-themebtn" B1B2SaveSubmitdep>Submit</button>
             }

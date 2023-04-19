@@ -3,22 +3,25 @@
 @using RAMMS.Web.UI.Models;
 @using RAMMS.Business.ServiceProvider;
 @inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security;
+@inject RAMMS.Business.ServiceProvider.Interfaces.IUserService usr
 @{
     ViewData["Title"] = "Form C1/C2 - Road Asset Management and Maintenance System";
     ViewBag.TabTitle = "Form C1/C2 - Road Asset Management and Maintenance System";
     Layout = "~/Views/Shared/_PortalLayout.cshtml";
+    IEnumerable<SelectListItem> user = await usr.GetUserList();
     string strAssestID = string.Empty;
     string strYear = string.Empty;
     string strRefId = string.Empty;
     if (Model != null)
     {
         strAssestID = Model.AiAssetId;
-        strYear = Model.YearOfInsp.Value.ToString();
+       // strYear = Model.YearOfInsp != null ?Model.YearOfInsp.Value.ToString():string.Empty;
         strRefId = Model.CInspRefNo;
         ViewBag.IsEdit = ViewBag.IsEdit ? (Model.SubmitSts ? false : true) : false;
     }
 
     bool IsSupervisor = security.IsSupervisor && (Model == null || (string.IsNullOrEmpty(Model.Status) || Model.Status == RAMMS.Common.StatusList.FormC1C2Init));
+    bool isEnggAssistant = (security.isEnggAssistant);
     string strStatus = Model != null ? Model.Status : "";
     int iPkRefNo = Model != null ? Model.PkRefNo : 0;
 
@@ -712,19 +715,21 @@
                                     <div class="border-top px-2 pt-3 pb-1 float-left w-100" userIdGroup>
                                         <div class="form-group col-lg-2 float-left">
                                             @Html.Label("User ID", "User ID")
-                                            @Html.DropDownList((IEnumerable<CSelectListItem>)ViewData["User"], "SerProviderUserId", "Select Users", new { @Id = "formC1C2InspectedBy", @class = "form-control svalidate {req,Inspected By User Id}", @useridChange = "" })
-                                        </div>
-                                        <div class="form-group col-lg-3 float-left">
+                                            @*@Html.DropDownListFor(Ahdr => Ahdr.SerProviderUserId, user, "Select Users", new { @Id = "formC1C2InspectedBy", @class = "form-control svalidate {req,Inspected By User Id}", @onchange = "frmC1C2.UserIdChange(this);"})*@
+                                            @Html.DropDownListFor(Ahdr => Ahdr.SerProviderUserId, user, "Select Users", new { @Id = "formC1C2InspectedBy", @class = "form-control svalidate {req,Inspected By User Id}"})
+ 
+                                                 </div>
+ <div class="form-group col-lg-3 float-left">
                                             @Html.Label("Name", "Name")
-                                            <input name="SerProviderUserName" class="form-control {req,Inspected By User Name}" type="text" value="" userName disabled />
+                                            <input id="txtServiceProvidername" name="SerProviderUserName" class="form-control {req,Inspected By User Name}" type="text" value="@Model.SerProviderUserName" userName disabled />
                                         </div>
                                         <div class="form-group col-lg-3 float-left">
                                             @Html.Label("Designation", "Designation")
-                                            <input name="SerProviderUserDesignation" class="form-control {req,Inspected By User Designation}" type="text" value="" userDest disabled />
+                                            <input id="txtServiceProviderDesignation" name="SerProviderUserDesignation" class="form-control {req,Inspected By User Designation}" type="text" userDest disabled />
                                         </div>
                                         <div class="form-group col-lg-2 float-left">
                                             @Html.Label("Date (DD-MM-YYYY)", "Date (DD-MM-YYYY)")
-                                            <input name="SerProviderInsDt" class="form-control svalidate {req,Inspected by date}" type="date" value="" @(IsSupervisor ? "" : "disabled='disabled'") />
+                                            <input id="txtServiceProviderDate" name="SerProviderInsDt" class="form-control svalidate {req,Inspected by date}" type="date" value="" @(IsSupervisor ? "" : "disabled='disabled'") />
                                         </div>
                                         <div class="form-group col-lg-2 float-left">
                                             @Html.Label("Signature", "Signature")
@@ -795,7 +800,7 @@
                 @if (ViewBag.IsEdit)
                 {
                     <button type="button" class="btn btn-sm btn-themebtn" onclick="frmC1C2.Save(false)" finddetailsdep>Save</button>
-                    @if (IsSupervisor)
+                    @if (IsSupervisor || isEnggAssistant)
                     {
                         <button type="button" class="btn btn-sm btn-themebtn" onclick="frmC1C2.Save(true)" finddetailsdep>Submit</button>
                     }
