@@ -87,15 +87,15 @@ namespace RAMMS.Web.UI.Controllers
             {
                 formF5HeaderRequestDTO = await _formF5Service.FindHeaderById(id);
             }
-            else
-            {
-                formF5HeaderRequestDTO = formF5HeaderRequestDTO ?? new FormF5HeaderRequestDTO();
-                if ((formF5HeaderRequestDTO.UserIdInspBy == null || formF5HeaderRequestDTO.UserIdInspBy == 0))
-                {
-                    formF5HeaderRequestDTO.UserIdInspBy = _security.UserID;
-                    formF5HeaderRequestDTO.UserNameInspBy = _security.UserName;
-                }
-            }
+            //else
+            //{
+            //    formF5HeaderRequestDTO = formF5HeaderRequestDTO ?? new FormF5HeaderRequestDTO();
+            //    if ((formF5HeaderRequestDTO.UserIdInspBy == null || formF5HeaderRequestDTO.UserIdInspBy == 0))
+            //    {
+            //        formF5HeaderRequestDTO.UserIdInspBy = _security.UserID;
+            //        formF5HeaderRequestDTO.UserNameInspBy = _security.UserName;
+            //    }
+            //}
             var grid = new Models.CDataTable() { Name = "tblF5DtlGrid", APIURL = "/FormF5/DetailList/" + id.ToString() };
             grid.Columns.Add(new CDataColumns() { data = "CenterLineChainage", title = "Starting Chainage", render = "jsMaster.LocationCh" });
             grid.Columns.Add(new CDataColumns() { data = "StructureCode", title = "Code" });

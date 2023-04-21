@@ -1784,6 +1784,12 @@ namespace RAMMS.Web.UI.Controllers
 
             return Json(new { draw = searchData.draw, recordsFiltered = result.TotalRecords, recordsTotal = result.TotalRecords, data = result.PageResult });
         }
+        [HttpGet]
+        public async Task<IActionResult> GetUserId()
+        {
+            var userId = _security.UserID;
+            return Json(userId);
+        }
     }
 }
 

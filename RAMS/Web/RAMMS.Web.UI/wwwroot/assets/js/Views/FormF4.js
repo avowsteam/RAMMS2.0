@@ -81,6 +81,7 @@
             refNo[0].PkID = data.PkRefNo;
             refNo[0].RefId = data.FormRefId;
             refNo.val(data.FormRefId);
+            getLoginUserid();
             par.find("#F4HdrCrewId").val(data.CrewLeaderId).trigger("change").trigger("chosen:updated");
             par.find("#F4HdrUserId").val(data.UserIdInspBy).trigger("change").trigger("chosen:updated");
             par.find("#F4HdrUserId").trigger('change');
@@ -343,6 +344,7 @@ $(document).ready(function () {
             $('[searchsectionbtn]').trigger('onclick');
         }
     })
+    getLoginUserid();
 })
 function getUserDetail(id, callback) {
     var req = {};
@@ -354,6 +356,20 @@ function getUserDetail(id, callback) {
         type: 'Post',
         success: function (data) {
             callback(data);
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+}
+function getLoginUserid() {
+  $.ajax({
+        url: '/NOD/GetUserId',
+        dataType: 'JSON',
+        type: 'GET',
+        success: function (data) {
+            var par = $("#divF4HeaderInfo");
+            par.find("#F4HdrUserId").val(data).trigger("change").trigger("chosen:updated");
         },
         error: function (data) {
             console.error(data);
