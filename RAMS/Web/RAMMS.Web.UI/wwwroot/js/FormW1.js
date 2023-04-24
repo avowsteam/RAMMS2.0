@@ -19,6 +19,8 @@
         $("#btnSubmit").hide();
         $("#addAttachment").hide();
         $("#btnBack").removeAttr("disabled");
+        $("#selFormhRefNo").chosen('destroy');
+        $("#selFormhRefNo").prop("disabled", true);
     }
 
     $("#ddlUseridVer").chosen('destroy');
@@ -300,7 +302,7 @@ function OnRMUChange(tis) {
         var obj = new Object();
         obj.RMU = ctrl.val();
         searchList(obj);
-
+        GetFormHRefNoByRMUSecCode(obj);
         // to get value for RoadCode
 
         //$.ajax({
@@ -352,7 +354,7 @@ function OnSectionChange(tis) {
         obj.RMU = $("#ddlRMU").val();
         obj.SectionCode = ctrl.val();
         searchList(obj);
-
+     
         //to get section name
         var TypeCode;
         var arrsec = $("#ddlSectionCode").find(":selected").text().split('-');
@@ -363,6 +365,14 @@ function OnSectionChange(tis) {
             TypeCode = 0;
         }
         GetNames(TypeCode, "Section Code");
+
+        var objFormH = new Object();
+
+        objFormH.RMU = $("#ddlRMU").val();
+        var secName = $("#ddlSectionCode").find(":selected").text().split('-');
+        objFormH.SectionName = secName[1];
+        GetFormHRefNoByRMUSecCode(objFormH);
+
     }
     else {
         $("#FormW1_SectionCode").val('');
@@ -738,3 +748,24 @@ function PercentChange(ctrl, message) {
     }
 }
 
+function GetFormHRefNoByRMUSecCode(obj) {
+    $.ajax({
+        url: '/InstructedWorks/GetFormHRefNoByRMUSecCode',
+        data: obj,
+        type: 'Post',
+        success: function (data) {
+            if (data != null) {
+                $('#selFormhRefNo option').empty();
+
+                $.each(data.fhhRefId, function (index, value) {
+                    
+                    $('#selFormhRefNo').append($('<option>').val(value.value).text(value.text))
+                    $('#selFormhRefNo').trigger("chosen:updated");
+                })
+            }
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+}

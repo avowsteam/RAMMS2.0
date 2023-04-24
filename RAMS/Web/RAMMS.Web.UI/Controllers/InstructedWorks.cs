@@ -25,6 +25,7 @@ using Newtonsoft.Json;
 using System.Runtime.CompilerServices;
 using RAMMS.Business.ServiceProvider.Services;
 using RAMMS.Common;
+using OpenXmlPowerTools;
 
 namespace RAMMS.Web.UI.Controllers
 {
@@ -333,6 +334,7 @@ namespace RAMMS.Web.UI.Controllers
             AssetDDLRequestDTO assetDDLRequestDTO = new AssetDDLRequestDTO();
             var assetDDLResponseDTO = await _roadMasterService.GetAssetDDL(assetDDLRequestDTO);
             ViewBag.SectionCodeList = from d in assetDDLResponseDTO.Section select new SelectListItem { Text = d.Text, Value = d.Value };
+            ViewData["FormHReferenceNo"] = LookupService.LoadFormHReferenceNo().Result;
         }
 
         public async Task<IActionResult> AddFormW1()
@@ -356,8 +358,7 @@ namespace RAMMS.Web.UI.Controllers
             await LoadDropDownsSectionCode();
             GetRMUWithDivision("RMU_Division");
             ViewData["ServiceProviderName"] = LookupService.LoadServiceProviderName().Result;
-            ViewData["FormHReferenceNo"] = LookupService.LoadFormHReferenceNo().Result;
-
+           
             return View("~/Views/InstructedWorks/AddFormW1.cshtml", model);
         }
 
@@ -431,7 +432,14 @@ namespace RAMMS.Web.UI.Controllers
             rowsAffected = await _formW1Service.DeActivateFormW1(id);
             return Json(rowsAffected);
         }
+        [HttpPost]
+        public async Task<IActionResult> GetFormHRefNoByRMUSecCode(string RMU,String SectionName)
+        {
 
+            FormW1ResponseDTO formW1ResponseDTO = new FormW1ResponseDTO();
+            formW1ResponseDTO = await _formW1Service.GetFormHRefNoByRMUSecCode(RMU, SectionName);
+            return Json(formW1ResponseDTO);
+        }
         #endregion
 
         #region FormW2
@@ -1224,3 +1232,4 @@ namespace RAMMS.Web.UI.Controllers
 
     }
 }
+ 

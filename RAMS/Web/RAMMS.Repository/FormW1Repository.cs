@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RAMMS.Common;
 using RAMMS.Domain.Models;
+using RAMMS.DTO.RequestBO;
 using RAMMS.DTO.ResponseBO;
 using RAMMS.Repository.Interfaces;
 using RAMS.Repository;
@@ -91,6 +93,41 @@ namespace RAMMS.Repository
         {
             _context.Set<RmIwformImage>().Attach(image);
             _context.Entry(image).State = EntityState.Modified;
+        }
+        public async Task<FormW1ResponseDTO> GetFormHRefNoByRMUSecCode(string RMU, String SectionName)
+        {
+        try {
+                var result = new FormW1ResponseDTO();
+
+                if (RMU != null)
+                {
+                    var rmu = await (from x in _context.RmFormHHdr
+                                     where x.FhhActiveYn == true && x.FhhRmu == RMU && x.FhhStatus == "Reported"
+                                     select new FormW1ResponseDTO.DropDown
+                                     {
+                                         Value = x.FhhRefId,
+                                         Text = x.FhhRefId
+                                     }).Distinct().OrderByDescending(x => x.Value).ToListAsync();
+                    result.FhhRefId = rmu;
+
+                }
+                else if (RMU != null && SectionName != null)
+                {
+                    var rmu = await (from x in _context.RmFormHHdr
+                                     where x.FhhActiveYn == true && x.FhhRmu == RMU && x.FhhStatus == "Reported" && x.FhhSection == SectionName
+                                     select new FormW1ResponseDTO.DropDown
+                                     {
+                                         Value = x.FhhRefId,
+                                         Text = x.FhhRefId
+                                     }).Distinct().OrderByDescending(x => x.Value).ToListAsync();
+                    result.FhhRefId = rmu;
+                }
+                return result;
+            }
+            catch {
+                throw new Exception();
+            }
+        
         }
 
     }

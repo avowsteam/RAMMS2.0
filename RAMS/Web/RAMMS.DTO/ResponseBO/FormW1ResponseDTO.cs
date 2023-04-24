@@ -92,5 +92,19 @@ namespace RAMMS.DTO.ResponseBO
         public string Status { get; set; }
         public string AuditLog { get; set; }
 
+        public class DropDown
+        {
+            public string Text { get; set; }
+            public string Value { get; set; }
+            public string Code { get; set; }
+            public string CValue { get; set; }
+            public string Group { get; set; }
+            public string Item1 { get; set; }
+            public string Item2 { get; set; }
+            public string Item3 { get; set; }
+            public int PKId { get; set; }
+        }
+        public List<DropDown> FhhRefId { get; set; }
+
     }
 }

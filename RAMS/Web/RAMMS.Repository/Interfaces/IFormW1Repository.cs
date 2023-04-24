@@ -1,4 +1,5 @@
 ﻿using RAMMS.Domain.Models;
+using RAMMS.DTO.ResponseBO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,5 +22,6 @@ namespace RAMMS.Repository.Interfaces
         void SaveImage(IEnumerable<RmIwformImage> image);
 
         void UpdateImage(RmIwformImage image);
+        Task<FormW1ResponseDTO> GetFormHRefNoByRMUSecCode(string RMU, String SectionName);
     }
 }

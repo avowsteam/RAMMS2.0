@@ -26,6 +26,6 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<int> DeActivateFormW1(int formNo);
 
         //Task<int> GetImageIdByW1Id(int formW1Id, string type);
-
+       Task<FormW1ResponseDTO> GetFormHRefNoByRMUSecCode(string RMU, String SectionName);
     }
 }

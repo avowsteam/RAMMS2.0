@@ -224,7 +224,13 @@ namespace RAMMS.Business.ServiceProvider.Services
             return rowsAffected;
         }
 
-
-
+         
+        
+        public async Task<FormW1ResponseDTO> GetFormHRefNoByRMUSecCode(string RMU, String SectionName)
+        {
+            FormW1ResponseDTO result = new FormW1ResponseDTO();
+            result = await _repo.GetFormHRefNoByRMUSecCode(RMU, SectionName);
+            return result;
+        }
     }
 }
