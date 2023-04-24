@@ -366,12 +366,6 @@ function OnSectionChange(tis) {
         }
         GetNames(TypeCode, "Section Code");
 
-        var objFormH = new Object();
-
-        objFormH.RMU = $("#ddlRMU").val();
-        var secName = $("#ddlSectionCode").find(":selected").text().split('-');
-        objFormH.SectionName = secName[1];
-        GetFormHRefNoByRMUSecCode(objFormH);
 
     }
     else {
@@ -385,6 +379,12 @@ function GetNames(TypeCode, Type) {
     obj.TypeCode = TypeCode;
     obj.Type = Type;
     getNameByCode(obj);
+
+    var objFormH = new Object();
+    objFormH.RMU = $("#ddlRMU").val();
+    var secName = $("#ddlSectionCode").find(":selected").text().split('-');
+    objFormH.SectionName = secName[1];
+    GetFormHRefNoByRMUSecCode(objFormH);
 }
 
 function OnRoadChange(tis) {

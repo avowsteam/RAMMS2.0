@@ -99,7 +99,7 @@ namespace RAMMS.Repository
         try {
                 var result = new FormW1ResponseDTO();
 
-                if (RMU != null)
+                if (RMU != null && SectionName == null)
                 {
                     var rmu = await (from x in _context.RmFormHHdr
                                      where x.FhhActiveYn == true && x.FhhRmu == RMU && x.FhhStatus == "Reported"
