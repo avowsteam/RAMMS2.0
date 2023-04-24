@@ -200,6 +200,7 @@
                     bool VettedByDisabled = Model.FormHDetail.UseridVetAuth.GetValueOrDefault() != 0 && Model.FormHDetail.UseridVetAuth.GetValueOrDefault() != 99999999;
 
                     bool IsExecutive = security.IsExecutive && (string.IsNullOrEmpty(Model.FormHDetail.Status) || Model.FormHDetail.Status == RAMMS.Common.StatusList.FormHInit);
+                    bool isEnggAssistant = security.isEnggAssistant;
                 }
                 <div class="form-group col-lg-2 float-left">
                     @Html.Label("Reported By", "Reported By")
@@ -347,7 +348,7 @@
             @if (!Model.FormHDetail.SubmitSts)
             {
                 <button type="button" class="btn btn-sm btn-themebtn disablebtn" onclick="javascript:saveDetail(false);" id="btnSubmit">Save</button>
-                @if (IsExecutive)
+                @if (IsExecutive || isEnggAssistant)
                 {
                     <button id="btnSave" type="button" onclick="javascript:saveDetail(true);" class="btn btn-sm btn-themebtn">Submit</button>
                 }
@@ -741,7 +742,7 @@
                 $("#reportedSign").attr("src", "");
             }
         });
-
+        $("#ddlreported").trigger('change');
 
 
         $("#ddlReceivedby").on("change", function () {

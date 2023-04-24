@@ -308,6 +308,7 @@ namespace RAMMS.Web.UI.Controllers
                 _formAModel.SaveFormAModel.Id = headerId.ToString();
             }
 
+            _formAModel.SaveFormAModel.UseridPrp = _security.UserID;
             searchData.length = 10;
             searchData.start = 0;
 
@@ -1088,6 +1089,7 @@ namespace RAMMS.Web.UI.Controllers
                 _formJModel.SaveFormAModel = Result;
                 _formJModel.SaveFormAModel.Id = headerId.ToString();
             }
+            _formJModel.SaveFormAModel.UseridPrp = _security.UserID;
 
             searchData.length = 10;
             searchData.start = 0;
@@ -1504,10 +1506,12 @@ namespace RAMMS.Web.UI.Controllers
                 var Result = await _formHService.GetByID(id);
                 _formHmodel.FormHDetail = Result;
                 _formHmodel.FormHDetail.No = id;
+                _formHmodel.FormHDetail.UseridPrp = _security.UserID;
             }
             else
             {
                 _formHmodel.FormHDetail = new FormHRequestDTO();
+                _formHmodel.FormHDetail.UseridPrp = _security.UserID;
             }
             return PartialView("~/Views/NOD/FormH/_AddFormHView.cshtml", _formHmodel);
         }

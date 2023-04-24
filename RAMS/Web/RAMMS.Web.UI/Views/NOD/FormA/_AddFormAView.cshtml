@@ -115,6 +115,7 @@
         new { Page_No, Sorting_Order = ViewBag.CurrentSortOrder, Filter_Value = ViewBag.FilterValue }))*@
     @{
         bool IsSupervisor = security.IsSupervisor && (string.IsNullOrEmpty(Model.SaveFormAModel.Status) || Model.SaveFormAModel.Status == RAMMS.Common.StatusList.FormAInit);
+        bool isEnggAssistant = security.isEnggAssistant;
     }
     <div class="row">
         <div id="divDetails" style="display:none;" class="col-lg-12 px-lg-5">
@@ -240,7 +241,7 @@
     @if (!Model.SaveFormAModel.SubmitSts)
     {
         <button type="button" class="btn btn-sm btn-themebtn disablebtn" onclick="javascript:saveHeader(false);" id="saveFormABtn">Save</button>
-        @if (IsSupervisor)
+        @if (IsSupervisor || isEnggAssistant)
         {
             <button type="button" class="btn btn-sm btn-themebtn disablebtn" onclick="javascript:saveHeader(true);" id="SubmitFormABtn">Submit</button>
         }

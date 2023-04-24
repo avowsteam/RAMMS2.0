@@ -606,6 +606,7 @@
     <div class="clear-b"></div>
     @{
         bool IsSupervisor = security.IsSupervisor && (string.IsNullOrEmpty(Model.SaveFormAModel.Status) || Model.SaveFormAModel.Status == RAMMS.Common.StatusList.FormJInit);
+        bool isEnggAssistant = security.isEnggAssistant;
     }
     <div class="row">
         <div id="UserDetails" style="" class="col-lg-12 px-lg-5">
@@ -772,7 +773,7 @@
     @if (!Model.SaveFormAModel.SubmitSts)
     {
         <button type="button" class="btn btn-sm btn-themebtn disablebtn" onclick="javascript:saveHeader(false);" id="saveFormABtn" data-toggle="modal">Save</button>
-        @if (IsSupervisor)
+        @if (IsSupervisor || isEnggAssistant)
         {
             <button type="button" class="btn btn-sm btn-themebtn disablebtn" onclick="javascript:saveHeader(true);" id="SubmitFormABtn">Submit</button>
         }

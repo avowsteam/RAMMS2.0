@@ -1,5 +1,32 @@
 ﻿$(document).ready(function () {
     $("#SiteRefmultiSelect").chosen();
+
+    $("#ddlInspectedby").on("change", function () {
+        var value = this.value;
+        if (value == "") {
+            $("#InspectedName").val('');
+            $("#InspectedDesignName").val('');
+            $("#InspectedName").prop("disabled", true);
+            $("#InspectedDesignName").prop("disabled", true);
+        }
+        else if (value == "99999999") {
+            $("#InspectedName").val('');
+            $("#InspectedDesignName").val('');
+            $("#InspectedName").prop("disabled", false);
+            $("#InspectedDesignName").prop("disabled", false);
+        }
+        else {
+            getUserDetail(value, function (data) {
+
+                $("#InspectedName").val(data.userName);
+                $("#InspectedDesignName").val(data.position);
+                $("#InspectedName").prop("disabled", true);
+                $("#InspectedDesignName").prop("disabled", true);
+            });
+        }
+    });
+    $("#ddlInspectedby").trigger('change');
+
 });
 
 var saveFormADetList = new Array();
@@ -273,4 +300,21 @@ function saveHeader(isSubmit) {
 
         });
     }
+}
+
+function getUserDetail(id, callback) {
+    var req = {};
+    req.id = id;
+    $.ajax({
+        url: '/NOD/GetUserById',
+        dataType: 'JSON',
+        data: req,
+        type: 'Post',
+        success: function (data) {
+            callback(data);
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
 }
