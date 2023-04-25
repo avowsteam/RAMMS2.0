@@ -63,6 +63,7 @@
                     var dateofinspection = Model.FormHDetail.InspDt.HasValue ? Model.FormHDetail.InspDt.Value.ToString("yyyy-MM-dd") : "";
                     var formaId = Model.FormHDetail.FormAId.GetValueOrDefault();
                     var formJId = Model.FormHDetail.FormJId.GetValueOrDefault();
+                   
 
                 }
                 <div class="form-group col-lg-2">
@@ -190,8 +191,10 @@
                     var usrLst = usr.GetUserSelectList(Model.FormHDetail.UseridPrp); //await usr.GetUserList();
                     var vd = Model.FormHDetail.DtVer;
                     var _id = Model.FormHDetail.UseridVetAuth;
+                    var reportedDate = DateTime.Now;
+
                     string _verifieddate = vd.HasValue ? vd.Value.ToString("yyyy-MM-dd") : "";
-                    string _reported = Model.FormHDetail.DtPrp.HasValue ? Model.FormHDetail.DtPrp.Value.ToString("yyyy-MM-dd") : "";
+                    string _reported = Model.FormHDetail.DtPrp.HasValue ? Model.FormHDetail.DtPrp.Value.ToString("yyyy-MM-dd") : reportedDate.ToString("yyyy-MM-dd");
                     string _dtRecievedAuth = Model.FormHDetail.RecievedFromJKRSDate.HasValue ? Model.FormHDetail.RecievedFromJKRSDate.Value.ToString("yyyy-MM-dd") : "";
                     string _dtSentAuth = Model.FormHDetail.SentJKRSDate.HasValue ? Model.FormHDetail.SentJKRSDate.Value.ToString("yyyy-MM-dd") : "";
                     bool ReportedDisabled = Model.FormHDetail.UseridPrp.GetValueOrDefault() != 0 && Model.FormHDetail.UseridPrp.GetValueOrDefault() != 99999999;

@@ -685,6 +685,7 @@ $(document).ready(function () {
     //$("#selAssetID,#formC1C2InsYear").prop("disabled", true).trigger("change").trigger("chosen:updated");
     $("#formC1C2InspectedBy").on("change", function () {
         var value = this.value;
+        var inspectedDate = new Date();
         if (value == "") {
             $("#txtServiceProvidername").val('');
             $("#txtServiceProviderDesignation").val('');
@@ -704,6 +705,10 @@ $(document).ready(function () {
                 $("#txtServiceProviderDesignation").val(data.position);
                 $("#txtServiceProvidername").prop("disabled", true);
                 $("#txtServiceProviderDesignation").prop("disabled", true);
+                if ($("#txtServiceProviderDate").val() == null || $("#txtServiceProviderDate").val() == '') {
+                    $("#txtServiceProviderDate").val(inspectedDate.ToString(jsMaster.AssignFormat));
+                }
+               
             });
         }
     });

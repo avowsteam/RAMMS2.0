@@ -457,6 +457,7 @@ $(document).ready(function () {
     });
     _hd.ddlInspectedby.on("change", function () {
         var value = this.value;
+        var inspectedDate = new Date();
         if (value == "") {
             _hd.txtServiceProvidername.val('');
             _hd.txtServiceProviderDesignation.val('');
@@ -475,6 +476,11 @@ $(document).ready(function () {
                 _hd.txtServiceProviderDesignation.val(data.position);
                 _hd.txtServiceProvidername.prop("disabled", true);
                 _hd.txtServiceProviderDesignation.prop("disabled", true);
+                
+                if (_hd.txtServiceProviderDate.val() == null || _hd.txtServiceProviderDate.val()=='') {
+                    _hd.txtServiceProviderDate.val(inspectedDate.ToString(jsMaster.AssignFormat));
+                }
+                
             });
         }
     });
