@@ -62,7 +62,7 @@ function NODHdrSaveClick() {
                 else {
                     $("#VerifiedDate").val(data.verifiedDt);
                 }
-                
+                getLoginUserid();
                 $("#ddlInspectedby").val(data.useridPrp).trigger("chosen:updated");
                 $("#ddlVerifiedby").val(data.useridVer).trigger("chosen:updated");
                 $("#addFADBtn").show();
@@ -274,7 +274,7 @@ $(document).ready(function () {
         }
         return false;
     });
-
+    getLoginUserid();
     $("#ddlInspectedby").on("change", function () {
         var id = $("#ddlInspectedby option:selected").val();
         if (id != "99999999" && id != "") {
@@ -450,6 +450,19 @@ function DeleteDetailRecord(detailId) {
                     }
                 }
             });
+        }
+    });
+}
+function getLoginUserid() {
+    $.ajax({
+        url: '/NOD/GetUserId',
+        dataType: 'JSON',
+        type: 'GET',
+        success: function (data) {
+            $("#ddlInspectedby").val(data).trigger("change").trigger("chosen:updated");
+        },
+        error: function (data) {
+            console.error(data);
         }
     });
 }
