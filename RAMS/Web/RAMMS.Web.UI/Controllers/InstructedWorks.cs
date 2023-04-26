@@ -335,6 +335,7 @@ namespace RAMMS.Web.UI.Controllers
             var assetDDLResponseDTO = await _roadMasterService.GetAssetDDL(assetDDLRequestDTO);
             ViewBag.SectionCodeList = from d in assetDDLResponseDTO.Section select new SelectListItem { Text = d.Text, Value = d.Value };
             ViewData["FormHReferenceNo"] = LookupService.LoadFormHReferenceNo().Result;
+            //ViewData["FormHReferenceNo"] = GetFormHRefNoByRMUSecCode(null,null).Result;
         }
 
         public async Task<IActionResult> AddFormW1()
@@ -399,7 +400,7 @@ namespace RAMMS.Web.UI.Controllers
             await LoadDropDownsSectionCode();
             GetRMUWithDivision("RMU_Division");
             ViewData["ServiceProviderName"] = LookupService.LoadServiceProviderName().Result;
-            ViewData["FormHReferenceNo"] = LookupService.LoadFormHReferenceNo().Result;
+            //ViewData["FormHReferenceNo"] = LookupService.LoadFormHReferenceNo().Result;
 
             FormW1Model assetsModel = new FormW1Model();
             model.ImageList = await _formW1Service.GetImageList(_formW1Model.PkRefNo.ToString());

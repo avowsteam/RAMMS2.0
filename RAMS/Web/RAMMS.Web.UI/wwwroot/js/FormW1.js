@@ -292,7 +292,7 @@ function CalculateCost() {
 
 
 function OnRMUChange(tis) {
-
+ 
     var ctrl = $(tis);
     $('#FormW1_RmuCode').val(ctrl.val());
     if (ctrl.val() != null && ctrl.val() != "") {
@@ -344,7 +344,7 @@ function OnRMUChange(tis) {
 }
 
 function OnSectionChange(tis) {
-
+    
     var ctrl = $("#ddlSectionCode");
     $('#FormW1_SecCode').val(ctrl.val());
     if (ctrl.val() != null && ctrl.val() != "") {
@@ -354,7 +354,11 @@ function OnSectionChange(tis) {
         obj.RMU = $("#ddlRMU").val();
         obj.SectionCode = ctrl.val();
         searchList(obj);
-     
+        var objFormH = new Object();
+        objFormH.RMU = $("#ddlRMU").val();
+        var secName = $("#ddlSectionCode").find(":selected").text().split('-');
+        objFormH.SectionName = secName[1];
+        GetFormHRefNoByRMUSecCode(objFormH);
         //to get section name
         var TypeCode;
         var arrsec = $("#ddlSectionCode").find(":selected").text().split('-');
@@ -379,12 +383,7 @@ function GetNames(TypeCode, Type) {
     obj.TypeCode = TypeCode;
     obj.Type = Type;
     getNameByCode(obj);
-
-    var objFormH = new Object();
-    objFormH.RMU = $("#ddlRMU").val();
-    var secName = $("#ddlSectionCode").find(":selected").text().split('-');
-    objFormH.SectionName = secName[1];
-    GetFormHRefNoByRMUSecCode(objFormH);
+    
 }
 
 function OnRoadChange(tis) {
@@ -428,7 +427,7 @@ function searchList(obj) {
         success: function (data) {
 
 
-
+           
             if (obj.RdCode == "" || obj.RdCode == null || obj.RdCode == 0) {
 
                 $('#ddlRoadCode').empty();
@@ -749,19 +748,31 @@ function PercentChange(ctrl, message) {
 }
 
 function GetFormHRefNoByRMUSecCode(obj) {
+  //  $('#selFormhRefNo').html("");
+    $('#selFormhRefNo').append($('<option>').val(null).text('Select FormH Reference No'));
     $.ajax({
         url: '/InstructedWorks/GetFormHRefNoByRMUSecCode',
         data: obj,
         type: 'Post',
         success: function (data) {
-            if (data != null) {
+           // if (data != null) {
+            if (data.fhhRefId != 0) {
                 $('#selFormhRefNo option').empty();
-
+                $('#selFormhRefNo').html("");
+                $('#selFormhRefNo').append($('<option>').val(null).text('Select FormH Reference No'));
                 $.each(data.fhhRefId, function (index, value) {
-                    
+
                     $('#selFormhRefNo').append($('<option>').val(value.value).text(value.text))
                     $('#selFormhRefNo').trigger("chosen:updated");
+
                 })
+               
+            }
+            else {
+                $("#selFormhRefNo").chosen('destroy');
+                $('#selFormhRefNo option').empty();
+                $('#selFormhRefNo').html("");
+                $('#selFormhRefNo').append($('<option>').val(null).text('Select FormH Reference No'));
             }
         },
         error: function (data) {
