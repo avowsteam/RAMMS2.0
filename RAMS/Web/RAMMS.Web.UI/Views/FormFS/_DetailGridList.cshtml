@@ -17,7 +17,8 @@
                     <th colspan="2" rowspan="2">Feature</th>
                     <th rowspan="2">Type</th>
                     <th rowspan="2">Code</th>
-                    <th rowspan="2">Average Width(m)</th>
+                   @* <th rowspan="2">Class Category</th>*@
+                    <th rowspan="2">Average <br />Width(m)</th>
                     <th rowspan="2">TotalLength</th>
                     <th colspan="3">Condition Rating</th>
                     <th rowspan="2">Needed</th>
@@ -35,7 +36,17 @@
                     <td colspan="2" rowspan="6">CARRIAGEWAY</td>
                     <td><b>A</b>sphaltic</td>
                     <td>A</td>
-                    <td CWAwidth></td>
+                  
+                   
+                    <td class="p-0 m-0 h-50">
+                        <table class="p-0 m-0 table-bordered w-100 nowrap">
+                            <tr class="p-0 m-0 h-50">
+                                  <td CWAclassCategory class="w-50"> </td>
+                                <td CWAwidth class="w-50"></td>
+                               
+                            </tr>
+                        </table>
+                    </td>
                     <td CWATotallength></td>
                     <td CWAc1></td>
                     <td CWAc2></td>
@@ -47,7 +58,18 @@
                 <tr CWDId>
                     <td>Surface <b>D</b>ressed</td>
                     <td>D</td>
-                    <td CWDwidth></td>
+                    <td class="p-0 m-0">
+                        <table class="p-0 m-0 table-bordered w-100 nowrap">
+                            <tr>
+                                <td CWDclassCategory class="w-50"> </td>
+                                <td CWDwidth class="w-50"></td>
+
+                            </tr>
+                        </table>
+                    </td>
+                 @*   <td CWDclassCategory>
+                    </td>
+                       <td CWDwidth></td>*@
                     <td CWDTotallength></td>
                     <td CWDc1></td>
                     <td CWDc2></td>
@@ -59,7 +81,18 @@
                 <tr CWCId>
                     <td><b>C</b>oncrete</td>
                     <td>C</td>
-                    <td CWCwidth></td>
+                     <td class="p-0 m-0">
+                        <table class="p-0 m-0 table-bordered w-100 nowrap">
+                            <tr>
+                                <td CWCclassCategory class="w-50"> </td>
+                                <td CWCwidth class="w-50"></td>
+
+                            </tr>
+                        </table>
+                    </td>
+                    @*<td CWCclassCategory>
+                    </td>
+                    <td CWCwidth></td>*@
                     <td CWCTotallength></td>
                     <td CWCc1></td>
                     <td CWCc2></td>
@@ -71,7 +104,18 @@
                 <tr CWGId>
                     <td><b>G</b>ravel</td>
                     <td>G</td>
-                    <td CWGwidth></td>
+                    <td class="p-0 m-0">
+                        <table class="p-0 m-0 table-bordered w-100 nowrap">
+                            <tr>
+                                <td CWGclassCategory class="w-50"> </td>
+                                <td CWGwidth class="w-50"></td>
+
+                            </tr>
+                        </table>
+                    </td>
+                   @* <td CWGclassCategory>
+                    </td>
+                    <td CWGwidth></td>*@
                     <td CWGTotallength></td>
                     <td CWGc1></td>
                     <td CWGc2></td>
@@ -83,7 +127,18 @@
                 <tr CWEId>
                     <td><b>E</b>arth</td>
                     <td>E</td>
-                    <td CWEwidth></td>
+                    <td class="p-0 m-0">
+                        <table class="p-0 m-0 table-bordered w-100 nowrap">
+                            <tr>
+                                <td CWEclassCategory class="w-50"> </td>
+                                <td CWEwidth class="w-50"></td>
+
+                            </tr>
+                        </table>
+                    </td>
+                   @* <td CWEclassCategory>
+                    </td>
+                    <td CWEwidth></td>*@
                     <td CWETotallength></td>
                     <td CWEc1></td>
                     <td CWEc2></td>
@@ -95,7 +150,18 @@
                 <tr CWSAId>
                     <td><b>S</b>and</td>
                     <td>S</td>
-                    <td CWSAwidth></td>
+                    <td class="p-0 m-0">
+                        <table class="p-0 m-0 table-bordered w-100 nowrap">
+                            <tr>
+                                <td CWSAclassCategory class="w-50"></td>
+                                <td CWSAwidth class="w-50"></td>
+
+                            </tr>
+                        </table>
+                    </td>
+                    @*<td CWSAclassCategory>
+                    </td>
+                    <td CWSAwidth></td>*@
                     <td CWSATotallength></td>
                     <td CWSAc1></td>
                     <td CWSAc2></td>
@@ -108,6 +174,7 @@
                     <td colspan="2" rowspan="2">CENTERLINE MARKING</td>
                     <td><b>P</b>aint</td>
                     <td>P</td>
+                    
                     <td CLMPwidth></td>
                     <td CLMPTotallength></td>
                     <td CLMPc1></td>
@@ -869,6 +936,17 @@
     table_columns.push(code);
     var grpType = { data: "grpType", name: "grpType", title: "Type", autoWidth: true, sortable: false, visible: true }; table_columns.push(grpType);
     var strucCode = { data: "strucCode", name: "strucCode", title: "Structure Code", autoWidth: true, sortable: false, visible: true }; table_columns.push(strucCode);
+    var classcategory = {
+        data: null, name: "classcategory", title: "classcategory", autoWidth: true, sortable: false, visible: true, render: function (data) {
+            if (data.classcategory != null) {
+                return data.classcategory;
+            }
+            else {
+                return " ";
+            }
+        }
+    };
+    table_columns.push(classcategory);
     var width = {
         data: null, name: "width", title: "Average Width", autoWidth: true, sortable: false, visible: true, render: function (data) {
             if (data.width != null) {

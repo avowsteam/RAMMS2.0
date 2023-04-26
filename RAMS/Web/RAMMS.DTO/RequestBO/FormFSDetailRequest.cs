@@ -25,5 +25,6 @@ namespace RAMMS.DTO.RequestBO
         [MapTo("FsdSubmitSts")] public bool SubmitSts { get; set; }
         [MapTo("FsdActiveYn")] public bool ActiveYn { get; set; }
         public string GroupCode { get; set; }
+        public string classCategory { get; set; }
     }
 }

@@ -530,6 +530,7 @@ function assignValuetothegrid(data) {
     if (data && data.length > 0) {
         $.each(data, function (i, d) {
             if (d.groupCode != "" && d.strucCode != "") {
+                tbl.find(`[${d.groupCode}${d.strucCode}classCategory]`).text((d.classCategory != 0 ? d.classCategory : 0));
                 tbl.find(`[${d.groupCode}${d.strucCode}width]`).text((data.width != null ? data.width.toFixed(3) : "0.000"));
 
                 if (d.length != null && (d.unit == "km")) {
@@ -537,6 +538,7 @@ function assignValuetothegrid(data) {
                         + (d.condition2 != null ? (d.condition2 / 10) : 0.0)
                         + (d.condition3 != null ? (d.condition3 / 10) : 0.0);
                     tbl.find(`[${d.groupCode}${d.strucCode}Totallength]`).text(result.toFixed(1));
+                    tbl.find(`[${d.groupCode}${d.strucCode}classCategory]`).text((d.classCategory != null ?  d.classCategory : ""));
                     tbl.find(`[${d.groupCode}${d.strucCode}width]`).text((d.width != null ? (d.width % 1 != 0 ? d.width.toFixed(1) : d.width) : ""));
                     tbl.find(`[${d.groupCode}${d.strucCode}c1]`).text((d.condition1 != null ? (d.condition1 / 10).toFixed(1) : ""));
                     tbl.find(`[${d.groupCode}${d.strucCode}c2]`).text((d.condition2 != null ? (d.condition2 / 10).toFixed(1) : ""));
@@ -544,6 +546,7 @@ function assignValuetothegrid(data) {
                 }
                 else if (d.length != null && (d.unit == "m" || d.unit == "nr")) {
                     tbl.find(`[${d.groupCode}${d.strucCode}Totallength]`).text(d.length);
+                    tbl.find(`[${d.groupCode}${d.strucCode}classCategory]`).text((d.classCategory != null ? d.classCategory : ""));
                     tbl.find(`[${d.groupCode}${d.strucCode}width]`).text((d.width != null ? (d.width % 1 != 0 ? d.width.toFixed(2) : d.width) : ""));
                     tbl.find(`[${d.groupCode}${d.strucCode}c1]`).text((d.condition1 != null ? (d.condition1).toFixed(0) : ""));
                     tbl.find(`[${d.groupCode}${d.strucCode}c2]`).text((d.condition2 != null ? (d.condition2).toFixed(0) : ""));

@@ -326,7 +326,7 @@ namespace RAMS.Repository
         }
         public async Task<IEnumerable<FormHRequestDTO>> LoadFormHReferenceNo()
         {
-            return await (from x in _context.RmFormHHdr.Where(x=>x.FhhStatus== "Reported")
+            return await (from x in _context.RmFormHHdr.Where(x=>x.FhhStatus== "Reported" && x.FhhActiveYn == true)
                           select new FormHRequestDTO
                           {
                               ReferenceNo = x.FhhRefId,
