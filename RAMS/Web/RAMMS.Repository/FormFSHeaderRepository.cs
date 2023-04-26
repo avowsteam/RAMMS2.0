@@ -239,6 +239,7 @@ namespace RAMMS.Repository
                          && o.FsdGrpType == type && o.FsdGrpCode == code
                           select new FormFSDetailRpt
                           {
+                              classCategory = "",
                               AverageWidth = o.FsdWidth.HasValue && o.FsdWidth != 0 ? o.FsdWidth.Value : (double?)null,
                               TotalLength = o.FsdLength.HasValue && o.FsdLength != 0 ? o.FsdLength.Value : (double?)null,
                               Condition1 = o.FsdCondition1.HasValue && o.FsdCondition1 != 0 ? o.FsdCondition1.Value : (decimal?)null,

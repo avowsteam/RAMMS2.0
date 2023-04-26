@@ -86,5 +86,6 @@ namespace RAMMS.DTO.Report
         public decimal? Condition3 { get; set; }
         public string Needed { get; set; }
         public string Remarks { get; set; }
+        public string classCategory { get; set; }
     }
 }
