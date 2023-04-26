@@ -634,8 +634,9 @@
                             var usrLst = usr.GetUserSelectList(Model.SaveFormAModel.UseridPrp); //await usr.GetUserList();
                             var vd = Model.SaveFormAModel.VerifiedDt;
                             var _id = Model.SaveFormAModel.DtPrp;
+                            var inspectedDate = DateTime.Now;
                             string _v = vd.HasValue ? vd.Value.ToString("yyyy-MM-dd") : "";
-                            string _dtprp = _id.HasValue ? _id.Value.ToString("yyyy-MM-dd") : "";
+                            string _dtprp = _id.HasValue ? _id.Value.ToString("yyyy-MM-dd") : inspectedDate.ToString("yyyy-MM-dd");
                             string _dtVet = Model.SaveFormAModel.AuditedDt.HasValue ? Model.SaveFormAModel.AuditedDt.Value.ToString("yyyy-MM-dd") : "";
                             bool AuditedByDisabled = Model.SaveFormAModel.UseridVet.GetValueOrDefault() != 99999999;
                             bool InspectedBydisabled = Model.SaveFormAModel.UseridPrp.GetValueOrDefault() != 99999999;
