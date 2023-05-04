@@ -276,59 +276,69 @@ namespace RAMMS.Business.ServiceProvider.Services
                         }
                         int i = 12;
                         worksheet.Cell(i, 11).Value = getClassCategoryByWidth(rpt.CWAsphaltic.AverageWidth);
-                        worksheet.Cell(i, 14).Value = rpt.CWAsphaltic.AverageWidth;
-                        worksheet.Cell(i, 17).Value = rpt.CWAsphaltic.TotalLength / 10;
-                        worksheet.Cell(i, 18).Value = rpt.CWAsphaltic.Condition1 / 10;
-                        worksheet.Cell(i, 19).Value = rpt.CWAsphaltic.Condition2 / 10;
-                        worksheet.Cell(i, 20).Value = rpt.CWAsphaltic.Condition3 / 10;
-                        worksheet.Cell(i, 22).Value = rpt.CWAsphaltic.Needed;
-                        worksheet.Cell(i, 24).Value = rpt.CWAsphaltic.Remarks;
+                        worksheet.Cell(i, 12).Value = rpt.CWAsphaltic.AverageWidth;
+                        worksheet.Cell(i, 14).Value = rpt.CWAsphaltic.TotalLength / 10;
+                        worksheet.Cell(i, 17).Value = rpt.CWAsphaltic.Condition1 / 10;
+                        worksheet.Cell(i, 18).Value = rpt.CWAsphaltic.Condition2 / 10;
+                        worksheet.Cell(i, 19).Value = rpt.CWAsphaltic.Condition3 / 10;
+                        worksheet.Cell(i, 20).Value = rpt.CWAsphaltic.Needed;
+                        worksheet.Cell(i, 22).Value = rpt.CWAsphaltic.Remarks;
 
                         i = 13;
-                       worksheet.Cell(i, 11).Value = getClassCategoryByWidth(rpt.CWSurfaceDressed.AverageWidth);
-                       worksheet.Cell(i, 14).Value = rpt.CWSurfaceDressed.AverageWidth;
-                       worksheet.Cell(i, 17).Value = rpt.CWSurfaceDressed.TotalLength / 10;
-                       worksheet.Cell(i, 18).Value = rpt.CWSurfaceDressed.Condition1 / 10;
-                       worksheet.Cell(i, 19).Value = rpt.CWSurfaceDressed.Condition2 / 10;
-                       worksheet.Cell(i, 20).Value = rpt.CWSurfaceDressed.Condition3 / 10;
-                       worksheet.Cell(i, 22).Value = rpt.CWSurfaceDressed.Needed;
-                        worksheet.Cell(i, 24).Value = rpt.CWSurfaceDressed.Remarks;
+                        worksheet.Cell(i, 11).Value = getClassCategoryByWidth(rpt.CWSurfaceDressed.AverageWidth);
+                        worksheet.Cell(i, 12).Value = rpt.CWSurfaceDressed.AverageWidth;
+                        worksheet.Cell(i, 14).Value = rpt.CWSurfaceDressed.TotalLength / 10;
+                        worksheet.Cell(i, 17).Value = rpt.CWSurfaceDressed.Condition1 / 10;
+                        worksheet.Cell(i, 18).Value = rpt.CWSurfaceDressed.Condition2 / 10;
+                        worksheet.Cell(i, 19).Value = rpt.CWSurfaceDressed.Condition3 / 10;
+                        worksheet.Cell(i, 20).Value = rpt.CWSurfaceDressed.Needed;
+                        worksheet.Cell(i, 22).Value = rpt.CWSurfaceDressed.Remarks;
                         i = 14;
                         worksheet.Cell(i, 11).Value = getClassCategoryByWidth(rpt.CWConcrete.AverageWidth);
-                        worksheet.Cell(i, 14).Value = rpt.CWConcrete.AverageWidth;
-                        worksheet.Cell(i, 17).Value = rpt.CWConcrete.TotalLength / 10;
-                        worksheet.Cell(i, 18).Value = rpt.CWConcrete.Condition1 / 10;
-                        worksheet.Cell(i, 19).Value = rpt.CWConcrete.Condition2 / 10;
-                        worksheet.Cell(i, 20).Value = rpt.CWConcrete.Condition3 / 10;
-                        worksheet.Cell(i, 22).Value = rpt.CWConcrete.Needed;
-                        worksheet.Cell(i, 24).Value = rpt.CWConcrete.Remarks;
+                        worksheet.Cell(i, 12).Value = rpt.CWConcrete.AverageWidth;
+                        worksheet.Cell(i, 14).Value = rpt.CWConcrete.TotalLength / 10;
+                        worksheet.Cell(i, 17).Value = rpt.CWConcrete.Condition1 / 10;
+                        worksheet.Cell(i, 18).Value = rpt.CWConcrete.Condition2 / 10;
+                        worksheet.Cell(i, 19).Value = rpt.CWConcrete.Condition3 / 10;
+                        worksheet.Cell(i, 20).Value = rpt.CWConcrete.Needed;
+                        worksheet.Cell(i, 22).Value = rpt.CWConcrete.Remarks;
                         i = 15;
                         worksheet.Cell(i, 11).Value = getClassCategoryByWidth(rpt.CWGravel.AverageWidth);
-                        worksheet.Cell(i, 14).Value = rpt.CWGravel.AverageWidth;
-                        worksheet.Cell(i, 17).Value = rpt.CWGravel.TotalLength / 10;
-                        worksheet.Cell(i, 18).Value = rpt.CWGravel.Condition1 / 10;
-                        worksheet.Cell(i, 19).Value = rpt.CWGravel.Condition2 / 10;
-                        worksheet.Cell(i, 20).Value = rpt.CWGravel.Condition3 / 10;
-                        worksheet.Cell(i, 22).Value = rpt.CWGravel.Needed;
-                        worksheet.Cell(i, 24).Value = rpt.CWGravel.Remarks;
+                        worksheet.Cell(i, 12).Value = rpt.CWGravel.AverageWidth;
+                        worksheet.Cell(i, 14).Value = rpt.CWGravel.TotalLength / 10;
+                        worksheet.Cell(i, 17).Value = rpt.CWGravel.Condition1 / 10;
+                        worksheet.Cell(i, 18).Value = rpt.CWGravel.Condition2 / 10;
+                        worksheet.Cell(i, 19).Value = rpt.CWGravel.Condition3 / 10;
+                        worksheet.Cell(i, 20).Value = rpt.CWGravel.Needed;
+                        worksheet.Cell(i, 22).Value = rpt.CWGravel.Remarks;
+
+                        //worksheet.Cell(i, 11).Value = "A";
+                        //worksheet.Cell(i, 12).Value = "5.3";
+                        //worksheet.Cell(i, 14).Value = "0.50";
+                        //worksheet.Cell(i, 17).Value = "0.10";
+                        //worksheet.Cell(i, 18).Value = "0.20";
+                        //worksheet.Cell(i, 19).Value = "0.20";
+                        //worksheet.Cell(i, 20).Value = "N";
+                        //worksheet.Cell(i, 22).Value = "R";
+
                         i = 16;
                         worksheet.Cell(i, 11).Value = getClassCategoryByWidth(rpt.CWEarth.AverageWidth);
-                        worksheet.Cell(i, 14).Value = rpt.CWEarth.AverageWidth;
-                        worksheet.Cell(i, 17).Value = rpt.CWEarth.TotalLength / 10;
-                        worksheet.Cell(i, 18).Value = rpt.CWEarth.Condition1 / 10;
-                        worksheet.Cell(i, 19).Value = rpt.CWEarth.Condition2 / 10;
-                        worksheet.Cell(i, 20).Value = rpt.CWEarth.Condition3 / 10;
-                        worksheet.Cell(i, 22).Value = rpt.CWEarth.Needed;
-                        worksheet.Cell(i, 24).Value = rpt.CWEarth.Remarks;
+                        worksheet.Cell(i, 12).Value = rpt.CWEarth.AverageWidth;
+                        worksheet.Cell(i, 14).Value = rpt.CWEarth.TotalLength / 10;
+                        worksheet.Cell(i, 17).Value = rpt.CWEarth.Condition1 / 10;
+                        worksheet.Cell(i, 18).Value = rpt.CWEarth.Condition2 / 10;
+                        worksheet.Cell(i, 19).Value = rpt.CWEarth.Condition3 / 10;
+                        worksheet.Cell(i, 20).Value = rpt.CWEarth.Needed;
+                        worksheet.Cell(i, 22).Value = rpt.CWEarth.Remarks;
                         i = 17;
                         worksheet.Cell(i, 11).Value = getClassCategoryByWidth(rpt.CWSand.AverageWidth);
-                        worksheet.Cell(i, 14).Value = rpt.CWSand.AverageWidth;
-                        worksheet.Cell(i, 17).Value = rpt.CWSand.TotalLength / 10;
-                        worksheet.Cell(i, 18).Value = rpt.CWSand.Condition1 / 10;
-                        worksheet.Cell(i, 19).Value = rpt.CWSand.Condition2 / 10;
-                        worksheet.Cell(i, 20).Value = rpt.CWSand.Condition3 / 10;
-                        worksheet.Cell(i, 22).Value = rpt.CWSand.Needed;
-                        worksheet.Cell(i, 24).Value = rpt.CWSand.Remarks;
+                        worksheet.Cell(i, 12).Value = rpt.CWSand.AverageWidth;
+                        worksheet.Cell(i, 14).Value = rpt.CWSand.TotalLength / 10;
+                        worksheet.Cell(i, 17).Value = rpt.CWSand.Condition1 / 10;
+                        worksheet.Cell(i, 18).Value = rpt.CWSand.Condition2 / 10;
+                        worksheet.Cell(i, 19).Value = rpt.CWSand.Condition3 / 10;
+                        worksheet.Cell(i, 20).Value = rpt.CWSand.Needed;
+                        worksheet.Cell(i, 22).Value = rpt.CWSand.Remarks;
                         i = 18;
                         worksheet.Cell(i, 11).Value = rpt.CLMPaint.AverageWidth;
                         worksheet.Cell(i, 14).Value = rpt.CLMPaint.TotalLength / 10;
@@ -829,19 +839,19 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 classCategory = "A";
             }
-            if (avgwidth <= Convert.ToDouble(7.5) && avgwidth > Convert.ToDouble(6.5))
+            else if (avgwidth <= Convert.ToDouble(7.5) && avgwidth > Convert.ToDouble(6.5))
             {
                 classCategory = "B";
             }
-            if (avgwidth <= Convert.ToDouble(6.5) && avgwidth > Convert.ToDouble(5.5))
+            else if (avgwidth <= Convert.ToDouble(6.5) && avgwidth > Convert.ToDouble(5.5))
             {
                 classCategory = "C";
             }
-            if (avgwidth <= Convert.ToDouble(5) && avgwidth > Convert.ToDouble(4.5))
+            else if (avgwidth <= Convert.ToDouble(5.5) && avgwidth > Convert.ToDouble(4.5))
             {
                 classCategory = "E";
             }
-            if (avgwidth <= Convert.ToDouble(4.5) && avgwidth > Convert.ToDouble(0))
+            else if (avgwidth <= Convert.ToDouble(4.5) && avgwidth > Convert.ToDouble(0))
             {
                 classCategory = "F";
             }

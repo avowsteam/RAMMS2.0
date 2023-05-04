@@ -518,8 +518,8 @@ namespace RAMMS.Repository
                 if (obj != null)
                     lst.Add(obj);
             }
-            
-			var culverts = GetAsset().Where(s => s.DdlTypeCode == "CV").ToList();
+
+            var culverts = GetAsset().Where(s => s.DdlTypeCode == "CV").ToList();
             foreach (var cw in culverts)
             {
                 var obj = GetCulvertDetail(cw.DdlTypeDesc, cw.DdlTypeValue, userid, headerid, hdr);
@@ -542,8 +542,8 @@ namespace RAMMS.Repository
                 if (obj != null)
                     lst.Add(obj);
             }
-           
-		   var  sign = this.GetAsset().Where(s => s.DdlTypeCode == "SG");
+
+            var sign = this.GetAsset().Where(s => s.DdlTypeCode == "SG");
             foreach (var rmDdLookup in sign)
             {
                 var signs = this.GetSigns(rmDdLookup.DdlTypeDesc, rmDdLookup.DdlTypeValue, userid, headerid, hdr);
@@ -1053,12 +1053,12 @@ namespace RAMMS.Repository
             var Length = (from o in _context.RmFormFcInsDtl
                           join h in _context.RmFormFcInsHdr on o.FcidFcihPkRefNo equals h.FcihPkRefNo
                           where o.FcidAiGrpType == grptype && o.FcidAiAssetGrpCode == StructureCode && o.FcidActiveYn == true && h.FcihActiveYn == true && h.FcihSubmitSts == true
-                                   && h.FcihYearOfInsp == hdr.FshYearOfInsp  && h.FcihRoadCode == hdr.FshRoadCode
+                                   && h.FcihYearOfInsp == hdr.FshYearOfInsp && h.FcihRoadCode == hdr.FshRoadCode
                           select o.FcidLength)?.Sum();
             var AvgWidth = (from o in _context.RmFormFcInsDtl
                             join h in _context.RmFormFcInsHdr on o.FcidFcihPkRefNo equals h.FcihPkRefNo
                             where o.FcidAiGrpType == grptype && o.FcidAiAssetGrpCode == StructureCode && o.FcidActiveYn == true && h.FcihActiveYn == true && h.FcihSubmitSts == true
-                                   && h.FcihYearOfInsp == hdr.FshYearOfInsp  && h.FcihRoadCode == hdr.FshRoadCode
+                                   && h.FcihYearOfInsp == hdr.FshYearOfInsp && h.FcihRoadCode == hdr.FshRoadCode
                             select o.FcidWidth)?.Average();
             //double Length = (double)(condition1 + condition2 + condition3);
 
@@ -1316,10 +1316,10 @@ namespace RAMMS.Repository
             var count = (from o in _context.RmFormF1Dtl
                          join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
                          //join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo  equals r.Fr1hPkRefNo
-                         where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear  == hdr.FshYearOfInsp
+                         where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
                          && h.Ff1hActiveYn == true && o.Ff1dCode == StructureCode && h.Ff1hSubmitSts == true
                          select 1).Count();
-       
+
             //var Length = (from o in _context.RmFormF1Dtl
             //              join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
             //              join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
@@ -1338,11 +1338,11 @@ namespace RAMMS.Repository
                             select a.AiWidth)?.Sum();
 
             int? condition1 = (from o in _context.RmFormF1Dtl
-                              join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
-                              //join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
-                              join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
-                              where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
-                             && h.Ff1hActiveYn == true && o.Ff1dCode == StructureCode && o.Ff1dOverallCondition == 1 && h.Ff1hSubmitSts == true
+                               join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
+                               //join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
+                               join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
+                               where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
+                              && h.Ff1hActiveYn == true && o.Ff1dCode == StructureCode && o.Ff1dOverallCondition == 1 && h.Ff1hSubmitSts == true
                                select 1)?.Count();
 
             int? condition2 = (from o in _context.RmFormF1Dtl
@@ -1374,7 +1374,7 @@ namespace RAMMS.Repository
                     FsdGrpType = grptype,
                     FsdGrpCode = "rw",
                     FsdLength = count, //Length,
-                    FsdWidth = (double?)Math.Round(((decimal)AvgWidth /count),2),
+                    FsdWidth = (double?)Math.Round(((decimal)AvgWidth / count), 2),
                     FsdStrucCode = StructureCode,
                     FsdSubmitSts = false,
                     FsdUnit = "m",
@@ -1394,15 +1394,15 @@ namespace RAMMS.Repository
             var count = (from o in _context.RmFormF3Dtl
                          join h in _context.RmFormF3Hdr on o.Ff3dFf3hPkRefNo equals h.Ff3hPkRefNo
                          where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp
-                         && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode  && h.Ff3hSubmitSts == true
+                         && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode && h.Ff3hSubmitSts == true
                          select 1).Count();
 
-            var Length = count ;
+            var Length = count;
 
             var AvgWidth = (from o in _context.RmFormF3Dtl
                             join h in _context.RmFormF3Hdr on o.Ff3dFf3hPkRefNo equals h.Ff3hPkRefNo
                             join i in _context.RmAllassetInventory on o.Ff3dAssetId equals i.AiPkRefNo.ToString()
-                            where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp && i.AiActiveYn == true &&  o.Ff3dCode == StructureCode && h.Ff3hSubmitSts == true
+                            where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp && i.AiActiveYn == true && o.Ff3dCode == StructureCode && h.Ff3hSubmitSts == true
                             select i.AiWidth)?.Sum();
 
 
@@ -1419,9 +1419,9 @@ namespace RAMMS.Repository
                                select 1)?.Count();
 
             int? condition3 = (from o in _context.RmFormF3Dtl
-                                join h in _context.RmFormF3Hdr on o.Ff3dFf3hPkRefNo equals h.Ff3hPkRefNo
-                                where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp
-                               && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode && o.Ff3dConditionI == 3 && h.Ff3hSubmitSts == true
+                               join h in _context.RmFormF3Hdr on o.Ff3dFf3hPkRefNo equals h.Ff3hPkRefNo
+                               where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp
+                              && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode && o.Ff3dConditionI == 3 && h.Ff3hSubmitSts == true
                                select 1)?.Count();
 
 
@@ -1438,7 +1438,7 @@ namespace RAMMS.Repository
                     FsdGrpType = grptype,
                     FsdGrpCode = "sg",
                     FsdLength = Length,
-                    FsdWidth = (double?)Math.Round(((decimal)AvgWidth /count),2),
+                    FsdWidth = (double?)Math.Round(((decimal)AvgWidth / count), 2),
                     FsdStrucCode = StructureCode,
                     FsdSubmitSts = false,
                     FsdUnit = "nr",
@@ -1455,23 +1455,23 @@ namespace RAMMS.Repository
         private string getClassCategoryByWidth(double? avgwidth)
         {
             string classCategory = "";
-            if(avgwidth > Convert.ToDouble(7.5))
+            if (avgwidth > Convert.ToDouble(7.5))
             {
                 classCategory = "A";
             }
-            if (avgwidth <= Convert.ToDouble(7.5) && avgwidth > Convert.ToDouble(6.5))
+            else if (avgwidth <= Convert.ToDouble(7.5) && avgwidth > Convert.ToDouble(6.5))
             {
                 classCategory = "B";
             }
-            if (avgwidth <= Convert.ToDouble(6.5) && avgwidth > Convert.ToDouble(5.5))
+            else if (avgwidth <= Convert.ToDouble(6.5) && avgwidth > Convert.ToDouble(5.5))
             {
                 classCategory = "C";
             }
-            if (avgwidth <= Convert.ToDouble(5) && avgwidth > Convert.ToDouble(4.5))
+            else if (avgwidth <= Convert.ToDouble(5.5) && avgwidth > Convert.ToDouble(4.5))
             {
                 classCategory = "E";
             }
-            if (avgwidth <= Convert.ToDouble(4.5) && avgwidth > Convert.ToDouble(0))
+            else if (avgwidth <= Convert.ToDouble(4.5) && avgwidth > Convert.ToDouble(0))
             {
                 classCategory = "F";
             }
