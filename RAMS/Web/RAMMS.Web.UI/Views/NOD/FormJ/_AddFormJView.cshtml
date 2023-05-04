@@ -63,6 +63,7 @@
                 type: 'POST',
                 data: saveObj,
                 success: function (data) {
+                    debugger;
                     //console.log(data);
                     $("#FormADetPKId").val(data.no);
                     $("#FormADetAssetGrpCode").val(data.assetGroupCode);
@@ -75,7 +76,7 @@
                         $("#InspectedDate").val(date.ToString(Format));
                     }
                     else {
-                        $("#InspectedDate").val(data.dtPrp);
+                        $("#InspectedDate").val(date.ToString(Format));
                     }
                     $("#VerifiedName").val(data.usernameVer);
                     $("#VerifiedDesignation").val(data.designationVer);
