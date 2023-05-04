@@ -1467,7 +1467,11 @@ namespace RAMMS.Repository
             {
                 classCategory = "C";
             }
-            else if (avgwidth <= Convert.ToDouble(5.5) && avgwidth > Convert.ToDouble(4.5))
+            else if (avgwidth <= Convert.ToDouble(5.5) && avgwidth > Convert.ToDouble(5))
+            {
+                classCategory = "D";
+            }
+            else if (avgwidth <= Convert.ToDouble(5) && avgwidth > Convert.ToDouble(4.5))
             {
                 classCategory = "E";
             }

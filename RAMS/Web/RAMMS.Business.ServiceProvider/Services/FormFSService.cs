@@ -847,7 +847,11 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 classCategory = "C";
             }
-            else if (avgwidth <= Convert.ToDouble(5.5) && avgwidth > Convert.ToDouble(4.5))
+            else if (avgwidth <= Convert.ToDouble(5.5) && avgwidth > Convert.ToDouble(5))
+            {
+                classCategory = "D";
+            }
+            else if (avgwidth <= Convert.ToDouble(5) && avgwidth > Convert.ToDouble(4.5))
             {
                 classCategory = "E";
             }
