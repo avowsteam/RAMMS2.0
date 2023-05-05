@@ -396,29 +396,59 @@ var formFC = new function () {
                 //debugger;
                 var obj = $(this);
                 var csel = obj.find("div.fcconditionsel");
-                if (csel.length == 0) { csel = $("#fcconditionseltemplate .fcconditionsel").clone(); csel.hide(); obj.append(csel); }
-                if (csel.is(":visible")) { csel.slideUp(); }
-                else { csel.slideDown(); }
-                //DetailListGrid
-                var $panel = $(this).closest('#tblFormFC');
-                $('#DetailListGrid').animate({
-                    scrollTop: $panel.offset().top + 100
-                }, 500);
+                if (csel.length == 0) { csel = $("#fcconditionseltemplate .fcconditionsel").clone(); obj.append(csel); }
             });
-            $("#DetailListGrid").on("mouseleave", function () { $(this).find("div.fcconditionsel:visible").hide(); });
         }
+
+        //if (this.IsEdit) {
+        //    $("#tblFormFC td[fccondition]:not(.fcblock)").on("click", function () {
+        //        //debugger;
+        //        var obj = $(this);
+        //        var csel = obj.find("div.fcconditionsel");
+        //        if (csel.length == 0) { csel = $("#fcconditionseltemplate .fcconditionsel").clone(); csel.hide(); obj.append(csel); }
+        //        if (csel.is(":visible")) { csel.slideUp(); }
+        //        else { csel.slideDown(); }
+        //        //DetailListGrid
+        //        var $panel = $(this).closest('#tblFormFC');
+        //        $('#DetailListGrid').animate({
+        //            scrollTop: $panel.offset().top + 100
+        //        }, 500);
+        //    });
+        //    $("#DetailListGrid").on("mouseleave", function () { $(this).find("div.fcconditionsel:visible").hide(); });
+        //}
     }
     this.ConSelect = function (tis, evt) {
-        
+        debugger
         if (evt.stopImmediatePropagation) { event.stopImmediatePropagation(); }
         if (evt.stopPropagation) { event.stopPropagation(); }
         var obj = $(tis);
         var td = obj.closest("td");
         td[0].Asset.Condition = obj.attr("val");
         td.find("[condtion]").attr("con", obj.attr("val")).text(obj.attr("val"));
-        td.find("div.fcconditionsel").hide();
+        td.find("div.fcconditionsel").hide();        
         this.RefreshCondition(td.closest("tr"));
     }
+
+    this.InputKeyPress = function (tis, e) {
+        if (e.shiftKey || e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var key = e.keyCode;
+            if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105)) || ((parseInt(e.key) < 1) || (parseInt(e.key) > 3))) {          
+                e.preventDefault();
+            }
+        }
+        
+        if (e.stopImmediatePropagation) { event.stopImmediatePropagation(); }
+        if (e.stopPropagation) { event.stopPropagation(); }
+        var obj = $(tis);
+        var td = obj.closest("td");
+        td[0].Asset.Condition = e.key;
+        td.find("[condtion]").attr("con", e.key).text(e.key);
+        td.find("[condtion]").hide();
+        this.RefreshCondition(td.closest("tr"));
+    }
+
     this.RefreshCondition = function (trs) {
         var len = 0; tlen = 0;
         if (!trs) { trs = $("#tblFormFC tbody tr"); }

@@ -62,39 +62,11 @@ namespace RAMMS.Repository
             }).ToList();
         }
 
-        public async Task<List<FormFSDetailRequestDTO>> GetRecordList(int headerId)
+        private double? GetAverageWidth(string FsdFeature, double? FsdWidth, Dictionary<string, List<Dictionary<string, string>>> AvgWidth, string FsdGrpCode, string FsdGrpType)
         {
-            string[] grpCodes = new string[] { "ELM", "RS", "CLM", "CW" };
-            var query = (from s in _context.RmFormFsInsDtl
-                         where s.FsdFshPkRefNo == headerId
-                         && s.FsdActiveYn == true
-                         orderby s.FsdFeature
-                         select s);
-            var lst = await query.ToListAsync();
-            var avgClmWidth = "0";
-            var queryHeader = (from s in _context.RmFormFsInsHdr
-                               where s.FshPkRefNo == headerId
-                               && s.FshActiveYn == true
-                               orderby s.FshRoadCode
-                               select s.FshRoadCode).FirstOrDefault();
-            //var queryHeaderAll = _context.RmAllassetInventory.Where(x => x.AiRdCode == queryHeader && x.AiActiveYn == true
-            // && grpCodes.Contains(x.AiAssetGrpCode)).OrderBy(x => x.AiAssetGrpCode);
-
-
-
-            var queryHeaderAll = (from h in _context.RmFormFcInsHdr
-                                  join fsh in _context.RmFormFsInsHdr on h.FcihRoadCode equals fsh.FshRoadCode
-                                  where fsh.FshPkRefNo == headerId && h.FcihYearOfInsp == fsh.FshYearOfInsp
-                                  select new
-                                  {
-
-                                      AssetTypes = h.FcihAssetTypes
-                                  }).FirstOrDefault();
-
-            if (!string.IsNullOrEmpty(queryHeaderAll.AssetTypes))
+            string avgWidthNew = "";
+            if (AvgWidth != null)
             {
-                var AvgWidth = Common.Utility.JDeSerialize<FormAssetTypesDTO>(queryHeaderAll.AssetTypes ?? "");
-
                 if (AvgWidth.ContainsKey("CLM"))
                 {
                     var cw = AvgWidth["CLM"];
@@ -104,19 +76,111 @@ namespace RAMMS.Repository
                         {
                             if (c.ContainsKey("AvgWidth"))
                             {
-                                avgClmWidth = c["AvgWidth"];
+                                avgWidthNew = c["AvgWidth"];
+                                break;
                             }
                         }
                         else if (c.ContainsValue("Thermoplastic"))
                         {
                             if (c.ContainsKey("AvgWidth"))
                             {
-                                avgClmWidth = c["AvgWidth"];
+                                avgWidthNew = c["AvgWidth"];
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (AvgWidth.ContainsKey("CW") && FsdGrpCode == "CW")
+                {
+                    var cw = AvgWidth["CW"];
+                    foreach (var c in cw)
+                    {
+                        if (c.ContainsValue("Asphalt") && FsdGrpType == "Asphalt")
+                        {
+                            if (c.ContainsKey("AvgWidth"))
+                            {
+                                avgWidthNew = c["AvgWidth"];
+                                break;
+                            }
+                        }
+                        else if (c.ContainsValue("Surface Dressed") && FsdGrpType == "Surface Dressed")
+                        {
+                            if (c.ContainsKey("AvgWidth"))
+                            {
+                                avgWidthNew = c["AvgWidth"];
+                                break;
+                            }
+                        }
+                        else if (c.ContainsValue("Gravel") && FsdGrpType == "Gravel")
+                        {
+                            if (c.ContainsKey("AvgWidth"))
+                            {
+                                avgWidthNew = c["AvgWidth"];
+                                break;
+                            }
+                        }
+                        else if (c.ContainsValue("Earth") && FsdGrpType == "Earth")
+                        {
+                            if (c.ContainsKey("AvgWidth"))
+                            {
+                                avgWidthNew = c["AvgWidth"];
+                                break;
+                            }
+                        }
+                        else if (c.ContainsValue("Concrete") && FsdGrpType == "Concrete")
+                        {
+                            if (c.ContainsKey("AvgWidth"))
+                            {
+                                avgWidthNew = c["AvgWidth"];
+                                break;
+                            }
+                        }
+                        else if (c.ContainsValue("Sand") && FsdGrpType == "Sand")
+                        {
+                            if (c.ContainsKey("AvgWidth"))
+                            {
+                                avgWidthNew = c["AvgWidth"];
+                                break;
                             }
                         }
                     }
                 }
             }
+            if ((FsdFeature == "CENTER LINE MARKING" || FsdFeature == "CARRIAGE WAY") && !string.IsNullOrEmpty(avgWidthNew))
+            {
+                return Convert.ToDouble(avgWidthNew);
+            }
+            return FsdWidth;
+        }
+
+        public async Task<List<FormFSDetailRequestDTO>> GetRecordList(int headerId)
+        {
+            string[] grpCodes = new string[] { "ELM", "RS", "CLM", "CW" };
+            var query = (from s in _context.RmFormFsInsDtl
+                         where s.FsdFshPkRefNo == headerId
+                         && s.FsdActiveYn == true
+                         orderby s.FsdFeature
+                         select s);
+            var lst = await query.ToListAsync();
+
+            var queryHeader = (from s in _context.RmFormFsInsHdr
+                               where s.FshPkRefNo == headerId
+                               && s.FshActiveYn == true
+                               orderby s.FshRoadCode
+                               select s.FshRoadCode).FirstOrDefault();
+            //var queryHeaderAll = _context.RmAllassetInventory.Where(x => x.AiRdCode == queryHeader && x.AiActiveYn == true
+            // && grpCodes.Contains(x.AiAssetGrpCode)).OrderBy(x => x.AiAssetGrpCode);
+
+            var queryHeaderAll = (from h in _context.RmFormFcInsHdr
+                                  join fsh in _context.RmFormFsInsHdr on h.FcihRoadCode equals fsh.FshRoadCode
+                                  where fsh.FshPkRefNo == headerId && h.FcihYearOfInsp == fsh.FshYearOfInsp
+                                  select new
+                                  {
+                                      AssetTypes = h.FcihAssetTypes
+                                  }).FirstOrDefault();
+
+            var AvgWidth = string.IsNullOrEmpty(queryHeaderAll.AssetTypes) == true ? null : Common.Utility.JDeSerialize<FormAssetTypesDTO>(queryHeaderAll.AssetTypes ?? "");
+
             return lst.Select(s => new FormFSDetailRequestDTO
             {
                 PkRefNo = s.FsdPkRefNo,
@@ -125,8 +189,7 @@ namespace RAMMS.Repository
                 GrpType = s.FsdGrpType,
                 StrucCode = s.FsdStrucCode,
                 //Width = s.FsdWidth != null ? s.FsdWidth : queryHeaderAll.Where(d=>d.AiAssetGrpCode==s.FsdGrpCode && d.AiGrpType == s.FsdGrpType).Select(d=>d.AiWidth).FirstOrDefault(),
-                Width = s.FsdFeature == "CENTER LINE MARKING" ? s.FsdWidth != null ? s.FsdWidth : Convert.ToDouble(avgClmWidth) : s.FsdWidth,
-                //  Width = Convert.ToDouble(avgClmWidth),
+                Width = GetAverageWidth(s.FsdFeature, s.FsdWidth, AvgWidth, s.FsdGrpCode, s.FsdGrpType),
                 classCategory = getClassCategoryByWidth(s.FsdWidth),
                 Length = s.FsdLength,
                 Condition1 = s.FsdCondition1,
