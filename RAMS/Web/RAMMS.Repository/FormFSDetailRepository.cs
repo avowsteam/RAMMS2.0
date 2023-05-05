@@ -168,8 +168,6 @@ namespace RAMMS.Repository
                                && s.FshActiveYn == true
                                orderby s.FshRoadCode
                                select s.FshRoadCode).FirstOrDefault();
-            //var queryHeaderAll = _context.RmAllassetInventory.Where(x => x.AiRdCode == queryHeader && x.AiActiveYn == true
-            // && grpCodes.Contains(x.AiAssetGrpCode)).OrderBy(x => x.AiAssetGrpCode);
 
             var queryHeaderAll = (from h in _context.RmFormFcInsHdr
                                   join fsh in _context.RmFormFsInsHdr on h.FcihRoadCode equals fsh.FshRoadCode
@@ -181,308 +179,36 @@ namespace RAMMS.Repository
 
             var AvgWidth = string.IsNullOrEmpty(queryHeaderAll.AssetTypes) == true ? null : Common.Utility.JDeSerialize<FormAssetTypesDTO>(queryHeaderAll.AssetTypes ?? "");
 
-            return lst.Select(s => new FormFSDetailRequestDTO
+            List<FormFSDetailRequestDTO> recordList = new List<FormFSDetailRequestDTO>();
+            FormFSDetailRequestDTO obj;
+
+            foreach (var s in lst)
             {
-                PkRefNo = s.FsdPkRefNo,
-                FshPkRefNo = s.FsdFshPkRefNo,
-                Feature = s.FsdFeature,
-                GrpType = s.FsdGrpType,
-                StrucCode = s.FsdStrucCode,
-                //Width = s.FsdWidth != null ? s.FsdWidth : queryHeaderAll.Where(d=>d.AiAssetGrpCode==s.FsdGrpCode && d.AiGrpType == s.FsdGrpType).Select(d=>d.AiWidth).FirstOrDefault(),
-                Width = GetAverageWidth(s.FsdFeature, s.FsdWidth, AvgWidth, s.FsdGrpCode, s.FsdGrpType),
-                classCategory = getClassCategoryByWidth(s.FsdWidth),
-                Length = s.FsdLength,
-                Condition1 = s.FsdCondition1,
-                Condition2 = s.FsdCondition2,
-                Condition3 = s.FsdCondition3,
-                Needed = s.FsdNeeded,
-                Unit = s.FsdUnit,
-                Remarks = s.FsdRemarks,
-                ModBy = s.FsdModBy,
-                ModDt = s.FsdModDt,
-                CrBy = s.FsdCrBy,
-                CrDt = s.FsdCrDt,
-                SubmitSts = s.FsdSubmitSts,
-                ActiveYn = s.FsdActiveYn.Value,
-                GroupCode = s.FsdGrpCode
-            }).ToList();
-            //FormFSDetailRequestDTO obj = new FormFSDetailRequestDTO();
-            //List<FormFSDetailRequestDTO> objList = new List<FormFSDetailRequestDTO>();
-            //FormFCRpt rpt = (from h in _context.RmFormFcInsHdr
-            //                 join fsh in _context.RmFormFsInsHdr on h.FcihRoadCode equals fsh.FshRoadCode
-            //                 where fsh.FshPkRefNo == headerId && h.FcihYearOfInsp == fsh.FshYearOfInsp
-            //                 select new FormFCRpt
-            //                 {
-
-            //                     AssetTypes = h.FcihAssetTypes
-            //                 }).FirstOrDefault();
-
-            //foreach (var s in lst)
-            //{
-            //    if (!string.IsNullOrEmpty(rpt.AssetTypes))
-            //    {
-            //        var AvgWidth = Common.Utility.JDeSerialize<FormAssetTypesDTO>(rpt.AssetTypes ?? "");
-
-            //        if (AvgWidth.ContainsKey(s.FsdStrucCode))
-            //        {
-            //            var cw = AvgWidth["RS"];
-            //            foreach (var c in cw)
-            //            {
-            //                if (c.ContainsValue("Left"))
-            //                {
-            //                    if (c.ContainsKey("LAvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["LAvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                if (c.ContainsValue("Centre"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                if (c.ContainsValue("Right"))
-            //                {
-            //                    if (c.ContainsKey("RAvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["RAvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //            }
-            //            obj.PkRefNo = s.FsdPkRefNo;
-            //            obj.FshPkRefNo = s.FsdFshPkRefNo;
-            //            obj.Feature = s.FsdFeature;
-            //            obj.GrpType = s.FsdGrpType;
-            //            // obj.StrucCode = s.FsdStrucCode,
-
-            //            //obj.Width = Convert.ToDouble(avgClmWidth);
-
-            //            obj.Length = s.FsdLength;
-            //            obj.Condition1 = s.FsdCondition1;
-            //            obj.Condition2 = s.FsdCondition2;
-            //            obj.Condition3 = s.FsdCondition3;
-            //            obj.Needed = s.FsdNeeded;
-            //            obj.Unit = s.FsdUnit;
-            //            obj.Remarks = s.FsdRemarks;
-            //            obj.ModBy = s.FsdModBy;
-            //            obj.ModDt = s.FsdModDt;
-            //            obj.CrBy = s.FsdCrBy;
-            //            obj.CrDt = s.FsdCrDt;
-            //            obj.SubmitSts = s.FsdSubmitSts;
-            //            obj.ActiveYn = s.FsdActiveYn.Value;
-            //            obj.GroupCode = s.FsdGrpCode;
-            //            objList.Add(obj);
-            //        }
-            //        if (AvgWidth.ContainsKey(s.FsdStrucCode))
-            //        {
-            //            var cw = AvgWidth["ELM"];
-            //            foreach (var c in cw)
-            //            {
-            //                if (c.ContainsValue("Paint"))
-            //                {
-            //                    if (c.ContainsKey("LAvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["LAvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                    if (c.ContainsKey("RAvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["RAvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-
-            //                if (c.ContainsValue("Thermoplastic"))
-            //                {
-            //                    if (c.ContainsKey("LAvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["LAvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                    if (c.ContainsKey("RAvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["RAvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //            }
-            //            obj.PkRefNo = s.FsdPkRefNo;
-            //            obj.FshPkRefNo = s.FsdFshPkRefNo;
-            //            obj.Feature = s.FsdFeature;
-            //            obj.GrpType = s.FsdGrpType;
-            //          //  obj.StrucCode = s.FsdStrucCode;
-
-            //            //obj.Width = Convert.ToDouble(avgClmWidth);
-            //            //obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //            obj.Length = s.FsdLength;
-            //            obj.Condition1 = s.FsdCondition1;
-            //            obj.Condition2 = s.FsdCondition2;
-            //            obj.Condition3 = s.FsdCondition3;
-            //            obj.Needed = s.FsdNeeded;
-            //            obj.Unit = s.FsdUnit;
-            //            obj.Remarks = s.FsdRemarks;
-            //            obj.ModBy = s.FsdModBy;
-            //            obj.ModDt = s.FsdModDt;
-            //            obj.CrBy = s.FsdCrBy;
-            //            obj.CrDt = s.FsdCrDt;
-            //            obj.SubmitSts = s.FsdSubmitSts;
-            //            obj.ActiveYn = s.FsdActiveYn.Value;
-            //            obj.GroupCode = s.FsdGrpCode;
-            //            objList.Add(obj);
-            //        }
-
-            //        if (AvgWidth.ContainsKey(s.FsdStrucCode))
-            //        {
-            //            var cw = AvgWidth["CLM"];
-            //            foreach (var c in cw)
-            //            {
-            //                if (c.ContainsValue("Paint"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                else if (c.ContainsValue("Thermoplastic"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-
-            //            }
-            //            obj.PkRefNo = s.FsdPkRefNo;
-            //            obj.FshPkRefNo = s.FsdFshPkRefNo;
-            //            obj.Feature = s.FsdFeature;
-            //            obj.GrpType = s.FsdGrpType;
-            //            //obj.StrucCode = s.FsdStrucCode;
-
-            //            //obj.Width = Convert.ToDouble(avgClmWidth);
-            //          //  obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //            obj.Length = s.FsdLength;
-            //            obj.Condition1 = s.FsdCondition1;
-            //            obj.Condition2 = s.FsdCondition2;
-            //            obj.Condition3 = s.FsdCondition3;
-            //            obj.Needed = s.FsdNeeded;
-            //            obj.Unit = s.FsdUnit;
-            //            obj.Remarks = s.FsdRemarks;
-            //            obj.ModBy = s.FsdModBy;
-            //            obj.ModDt = s.FsdModDt;
-            //            obj.CrBy = s.FsdCrBy;
-            //            obj.CrDt = s.FsdCrDt;
-            //            obj.SubmitSts = s.FsdSubmitSts;
-            //            obj.ActiveYn = s.FsdActiveYn.Value;
-            //            obj.GroupCode = s.FsdGrpCode;
-            //            objList.Add(obj);
-            //        }
-
-            //        if (AvgWidth.ContainsKey(s.FsdStrucCode))
-            //        {
-            //            var cw = AvgWidth["CW"];
-            //            foreach (var c in cw)
-            //            {
-            //                if (c.ContainsValue("Asphalt"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                else if (c.ContainsValue("Surface Dressed"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                else if (c.ContainsValue("Gravel"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                else if (c.ContainsValue("Earth"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                else if (c.ContainsValue("Concrete"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                else if (c.ContainsValue("Sand"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-
-            //            }
-            //            obj.PkRefNo = s.FsdPkRefNo;
-            //            obj.FshPkRefNo = s.FsdFshPkRefNo;
-            //            obj.Feature = s.FsdFeature;
-            //            obj.GrpType = s.FsdGrpType;
-            //            //obj.StrucCode = s.FsdStrucCode;
-
-            //            //obj.Width = Convert.ToDouble(avgClmWidth);
-            //            obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //            obj.Length = s.FsdLength;
-            //            obj.Condition1 = s.FsdCondition1;
-            //            obj.Condition2 = s.FsdCondition2;
-            //            obj.Condition3 = s.FsdCondition3;
-            //            obj.Needed = s.FsdNeeded;
-            //            obj.Unit = s.FsdUnit;
-            //            obj.Remarks = s.FsdRemarks;
-            //            obj.ModBy = s.FsdModBy;
-            //            obj.ModDt = s.FsdModDt;
-            //            obj.CrBy = s.FsdCrBy;
-            //            obj.CrDt = s.FsdCrDt;
-            //            obj.SubmitSts = s.FsdSubmitSts;
-            //            obj.ActiveYn = s.FsdActiveYn.Value;
-            //            obj.GroupCode = s.FsdGrpCode;
-            //            objList.Add(obj);
-            //        }
-            //    }
-
-            //}
-
-
-            //return objList.ToList();
+                obj = new FormFSDetailRequestDTO();
+                obj.PkRefNo = s.FsdPkRefNo;
+                obj.FshPkRefNo = s.FsdFshPkRefNo;
+                obj.Feature = s.FsdFeature;
+                obj.GrpType = s.FsdGrpType;
+                obj.StrucCode = s.FsdStrucCode;
+                obj.Width = GetAverageWidth(s.FsdFeature, s.FsdWidth, AvgWidth, s.FsdGrpCode, s.FsdGrpType);
+                obj.classCategory = getClassCategoryByWidth(obj.Width);
+                obj.Length = s.FsdLength;
+                obj.Condition1 = s.FsdCondition1;
+                obj.Condition2 = s.FsdCondition2;
+                obj.Condition3 = s.FsdCondition3;
+                obj.Needed = s.FsdNeeded;
+                obj.Unit = s.FsdUnit;
+                obj.Remarks = s.FsdRemarks;
+                obj.ModBy = s.FsdModBy;
+                obj.ModDt = s.FsdModDt;
+                obj.CrBy = s.FsdCrBy;
+                obj.CrDt = s.FsdCrDt;
+                obj.SubmitSts = s.FsdSubmitSts;
+                obj.ActiveYn = s.FsdActiveYn.Value;
+                obj.GroupCode = s.FsdGrpCode;
+                recordList.Add(obj);
+            }
+            return recordList;
         }
 
         private IQueryable<RmDdLookup> GetAsset()
