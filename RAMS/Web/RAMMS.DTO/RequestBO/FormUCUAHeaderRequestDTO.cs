@@ -26,4 +26,23 @@ namespace RAMMS.DTO.RequestBO
         public string ReceivedDtFrom { get; set; }
         public string ReceivedDtTo { get; set; }
     }
+    public class FormUCUAImagesDTO
+    {
+        public int PkRefNo { get; set; }
+        public int? RmmhPkRefNo { get; set; }
+        public string RmmhRefNo { get; set; }
+        public string ImgRefId { get; set; }
+        public string ImageTypeCode { get; set; }
+        public int? ImageSrno { get; set; }
+        public string ImageFilenameSys { get; set; }
+        public string ImageFilenameUpload { get; set; }
+        public string ImageUserFilePath { get; set; }
+        public int? ModBy { get; set; }
+        public DateTime? ModDt { get; set; }
+        public int? CrBy { get; set; }
+        public DateTime? CrDt { get; set; }
+        public bool SubmitSts { get; set; }
+        public bool ActiveYn { get; set; }
+        public string Source { get; set; }
+    }
 }

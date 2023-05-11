@@ -83,6 +83,24 @@ namespace RAMMS.WebAPI.Controllers
             return RAMMSApiSuccessResponse(await _formUCUAService.GetHeaderById(id));
         }
 
-        
+
+        [Authorize]
+        [Route("api/getUCUAImageList")]
+        [HttpPost]
+        public IActionResult GetUCUAImageList(int id)
+        {
+            List<FormUCUAImagesDTO> listItems = _formUCUAService.ImageList(id);
+            return RAMMSApiSuccessResponse(listItems);
+        }
+
+        [Authorize]
+        [Route("api/deleteUCUAImage")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteUCUAImage(int headerid, int imgId)
+        {
+            int response = await _formUCUAService.DeleteImage(headerid, imgId);
+            return RAMMSApiSuccessResponse(response);
+        }
+
     }
 }

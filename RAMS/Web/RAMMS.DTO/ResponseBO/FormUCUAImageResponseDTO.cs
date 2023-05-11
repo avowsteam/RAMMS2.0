@@ -29,5 +29,11 @@ namespace RAMMS.DTO.ResponseBO
         public string Source { get; set; }
 
         public virtual RmUcua UcuaPkRefNoNavigation { get; set; }
+    }   
+
+    public class FormUCUAPhotoTypeDTO
+    {
+        public int SNO { get; set; }
+        public string Type { get; set; }
     }
 }

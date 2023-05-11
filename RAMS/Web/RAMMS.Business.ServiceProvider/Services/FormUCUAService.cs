@@ -364,6 +364,82 @@ namespace RAMMS.Business.ServiceProvider.Services
 
             return rowsAffected;
         }
+
+        
+
+        public async Task<List<FormUCUAPhotoTypeDTO>> GetExitingPhotoType(int headerId)
+        {
+            return await _repo.GetExitingPhotoType(headerId);
+        }
+        //public async Task<RmIwformImage> AddImage(FormUCUAImagesDTO imageDTO)
+        //{
+        //    RmIwformImage image = _mapper.Map<RmIwformImage>(imageDTO);
+        //    return await _repo.AddImage(image);
+        //}
+        //public async Task<(IList<RmIwformImage>, int)> AddMultiImage(IList<FormUCUAImagesDTO> imagesDTO)
+        //{
+        //    IList<RmIwformImage> images = new List<RmIwformImage>();
+        //    foreach (var img in imagesDTO)
+        //    {
+        //        var count = await _repo.ImageCount(img.ImageTypeCode, img.hPkRefNo.Value);
+        //        if (count > 2)
+        //        {
+        //            return (null, -1);
+        //        }
+
+        //        images.Add(_mapper.Map<RmIwformImage>(img));
+        //    }
+        //    return (await _repo.AddMultiImage(images), 1);
+        //}
+
+        //public async Task<List<RmUcuaImage>> AddMultiImageTab(List<FormUCUAImagesDTO> imagesDTO)
+        //{
+        //    List<RmUcuaImage> images = new List<RmUcuaImage>();
+        //    foreach (var img in imagesDTO)
+        //    {
+        //        images.Add(_mapper.Map<RmUcuaImage>(img));
+        //    }
+        //    return await _repo.AddMultiImage(images);
+        //}
+
+        public async Task<(IList<RmUcuaImage>, int)> AddMultiImage(IList<FormUCUAImagesDTO> imagesDTO)
+        {
+            IList<RmUcuaImage> images = new List<RmUcuaImage>();
+            foreach (var img in imagesDTO)
+            {
+                var count = await _repo.ImageCount(img.ImageTypeCode, img.RmmhPkRefNo.Value);
+                if (count > 2)
+                {
+                    return (null, -1);
+                }
+                var imgs = _mapper.Map<RmUcuaImage>(img);
+                imgs.UcuaPkRefNo = img.PkRefNo;
+                imgs.UcuaRmmhPkRefNo = img.RmmhPkRefNo;
+                images.Add(imgs);
+            }
+            return (await _repo.AddMultiImage(images), 1);
+        }
+        public List<FormUCUAImagesDTO> ImageList(int headerId)
+        {
+            List<RmUcuaImage> lstImages = _repo.ImageList(headerId).Result;
+            List<FormUCUAImagesDTO> lstResult = new List<FormUCUAImagesDTO>();
+            if (lstImages != null && lstImages.Count > 0)
+            {
+                lstImages.ForEach((RmUcuaImage img) =>
+                {
+                    lstResult.Add(_mapper.Map<FormUCUAImagesDTO>(img));
+                });
+            }
+            return lstResult;
+        }
+        public async Task<int> DeleteImage(int headerId, int imgId)
+        {
+            RmUcuaImage img = new RmUcuaImage();
+            img.UcuaPkRefNo = imgId;
+            img.UcuaRmmhPkRefNo = headerId;
+            img.UcuaActiveYn = false;
+            return await _repo.DeleteImage(img);
+        }
     }
 
 }
