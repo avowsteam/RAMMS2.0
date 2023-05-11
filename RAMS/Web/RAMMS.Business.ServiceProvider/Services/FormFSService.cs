@@ -234,7 +234,7 @@ namespace RAMMS.Business.ServiceProvider.Services
         {
             string avgWidthNew = "";
             if (AvgWidth != null)
-            {
+            {               
                 if (AvgWidth.ContainsKey("CLM"))
                 {
                     var cw = AvgWidth["CLM"];
