@@ -24,6 +24,7 @@ var formFC = new function () {
                     $("#selRoadCode,#formFCInsYear").prop("disabled", true).trigger("chosen:updated");
                     tis.HeaderData = data;
                     tis.PageInit();
+                    getLoginUserid();
                 }
                 else {
                     app.ShowErrorMessage(data._error);
@@ -695,6 +696,19 @@ function getUserDetail(id, callback) {
         type: 'Post',
         success: function (data) {
             callback(data);
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+}
+function getLoginUserid() {
+    $.ajax({
+        url: '/NOD/GetUserId',
+        dataType: 'JSON',
+        type: 'GET',
+        success: function (data) {
+            $("#selUserIdInspBy").val(data).trigger("change").trigger("chosen:updated");
         },
         error: function (data) {
             console.error(data);
