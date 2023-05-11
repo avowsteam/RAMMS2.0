@@ -30,6 +30,9 @@ var frmC1C2 = new function () {
                     tis.HeaderData = data;
                     tis.PageInit();
                     getLoginUserid();
+                    if ($("#txtServiceProviderDate").val() == null || $("#txtServiceProviderDate").val() == '') {
+                        $("#txtServiceProviderDate").val(inspectedDate.ToString(jsMaster.AssignFormat));
+                    }
                 }
             }, "Finding");
         }
@@ -706,6 +709,7 @@ $(document).ready(function () {
                 $("#txtServiceProviderDesignation").val(data.position);
                 $("#txtServiceProvidername").prop("disabled", true);
                 $("#txtServiceProviderDesignation").prop("disabled", true);
+                debugger;
                 if ($("#txtServiceProviderDate").val() == null || $("#txtServiceProviderDate").val() == '') {
                     $("#txtServiceProviderDate").val(inspectedDate.ToString(jsMaster.AssignFormat));
                 }
