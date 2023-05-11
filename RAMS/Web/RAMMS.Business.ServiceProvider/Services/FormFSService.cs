@@ -234,13 +234,13 @@ namespace RAMMS.Business.ServiceProvider.Services
         {
             string avgWidthNew = "";
             if (AvgWidth != null)
-            {               
-                if (AvgWidth.ContainsKey("CLM"))
+            {
+                if (AvgWidth.ContainsKey("CLM") && FsdGrpCode == "CLM")
                 {
                     var cw = AvgWidth["CLM"];
                     foreach (var c in cw)
                     {
-                        if (c.ContainsValue("Paint"))
+                        if (c.ContainsValue("Paint") && FsdGrpType == "Paint")
                         {
                             if (c.ContainsKey("AvgWidth"))
                             {
@@ -248,7 +248,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                                 break;
                             }
                         }
-                        else if (c.ContainsValue("Thermoplastic"))
+                        else if (c.ContainsValue("Thermoplastic") && FsdGrpType == "Thermoplastic")
                         {
                             if (c.ContainsKey("AvgWidth"))
                             {
