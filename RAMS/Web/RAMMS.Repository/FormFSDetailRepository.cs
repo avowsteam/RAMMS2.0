@@ -163,12 +163,6 @@ namespace RAMMS.Repository
                          select s);
             var lst = await query.ToListAsync();
 
-            var queryHeader = (from s in _context.RmFormFsInsHdr
-                               where s.FshPkRefNo == headerId
-                               && s.FshActiveYn == true
-                               orderby s.FshRoadCode
-                               select s.FshRoadCode).FirstOrDefault();
-
             var queryHeaderAll = (from h in _context.RmFormFcInsHdr
                                   join fsh in _context.RmFormFsInsHdr on h.FcihRoadCode equals fsh.FshRoadCode
                                   where fsh.FshPkRefNo == headerId && h.FcihYearOfInsp == fsh.FshYearOfInsp

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace RAMMS.DTO.Report
 {
     public class FormFSRpt
@@ -75,6 +77,7 @@ namespace RAMMS.DTO.Report
         public FormFSDetailRpt RWTimber { get; set; }
         public FormFSDetailRpt RWSoliNail { get; set; }
         public FormFSDetailRpt RWOthers { get; set; }
+        public Dictionary<string, List<Dictionary<string, string>>> AvgWidth { get; set; }
     }
 
     public class FormFSDetailRpt
@@ -87,5 +90,8 @@ namespace RAMMS.DTO.Report
         public string Needed { get; set; }
         public string Remarks { get; set; }
         public string classCategory { get; set; }
+        public string FsdFeature { get; set; }
+        public string FsdGrpCode { get; set; }
+        public string FsdGrpType { get; set; }
     }
 }
