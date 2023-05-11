@@ -29,6 +29,7 @@ var frmC1C2 = new function () {
                     }
                     tis.HeaderData = data;
                     tis.PageInit();
+                    getLoginUserid();
                 }
             }, "Finding");
         }
@@ -724,6 +725,19 @@ function getUserDetail(id, callback) {
         type: 'Post',
         success: function (data) {
             callback(data);
+        },
+        error: function (data) {
+            console.error(data);
+        }
+    });
+}
+function getLoginUserid() {
+    $.ajax({
+        url: '/NOD/GetUserId',
+        dataType: 'JSON',
+        type: 'GET',
+        success: function (data) {
+            $("#formC1C2InspectedBy").val(data).trigger("change").trigger("chosen:updated");
         },
         error: function (data) {
             console.error(data);
