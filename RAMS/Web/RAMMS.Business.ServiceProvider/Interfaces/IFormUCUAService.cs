@@ -30,7 +30,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         //Task<FormUCUAImagesDTO> AddImage(FormUCUAImagesDTO imageDTO);
         //Task<(IList<FormUCUAImagesDTO>, int)> AddMultiImage(IList<FormUCUAImagesDTO> imagesDTO);
         //Task<List<RmUcuaImage>> AddMultiImageTab(List<FormUCUAImagesDTO> imagesDTO);
-        Task<(IList<RmUcuaImage>, int)> AddMultiImage(IList<FormUCUAImagesDTO> imagesDTO);
+        Task<List<RmUcuaImage>> AddMultiImage(List<FormUCUAImagesDTO> imagesDTO);
         List<FormUCUAImagesDTO> ImageList(int headerId);
         Task<int> DeleteImage(int headerId, int imgId);
 

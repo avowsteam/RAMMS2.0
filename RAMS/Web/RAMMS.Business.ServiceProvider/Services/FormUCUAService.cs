@@ -402,22 +402,28 @@ namespace RAMMS.Business.ServiceProvider.Services
         //    return await _repo.AddMultiImage(images);
         //}
 
-        public async Task<(IList<RmUcuaImage>, int)> AddMultiImage(IList<FormUCUAImagesDTO> imagesDTO)
+        public async Task<List<RmUcuaImage>> AddMultiImage(List<FormUCUAImagesDTO> imagesDTO)
         {
-            IList<RmUcuaImage> images = new List<RmUcuaImage>();
-            foreach (var img in imagesDTO)
-            {
-                var count = await _repo.ImageCount(img.ImageTypeCode, img.RmmhPkRefNo.Value);
-                if (count > 2)
-                {
-                    return (null, -1);
-                }
-                var imgs = _mapper.Map<RmUcuaImage>(img);
-                imgs.UcuaPkRefNo = img.PkRefNo;
-                imgs.UcuaRmmhPkRefNo = img.RmmhPkRefNo;
-                images.Add(imgs);
+            List<RmUcuaImage> images = new List<RmUcuaImage>();
+            RmUcuaImage obj = new RmUcuaImage();
+            foreach (var item in imagesDTO)
+            {   
+                obj.UcuaActiveYn = item.ActiveYn;
+                obj.UcuaCrBy = item.CrBy;
+                obj.UcuaModBy = item.ModBy;
+                obj.UcuaModDt = item.ModDt;
+                obj.UcuaRmmhPkRefNo = item.RmmhPkRefNo;
+                obj.UcuaImageFilenameSys = item.ImageFilenameSys;
+                obj.UcuaImageFilenameUpload = item.ImageFilenameUpload;
+                obj.UcuaImageSrno = item.ImageSrno;
+                obj.UcuaImageTypeCode = item.ImageTypeCode;
+                obj.UcuaImageUserFilePath = item.ImageUserFilePath;
+                obj.UcuaSubmitSts = item.SubmitSts;
+                obj.UcuaPkRefNo = item.PkRefNo;
+                obj.UcuaRmmhPkRefNo = item.RmmhPkRefNo;
+                images.Add(obj);
             }
-            return (await _repo.AddMultiImage(images), 1);
+            return (await _repo.AddMultiImage(images));
         }
         public List<FormUCUAImagesDTO> ImageList(int headerId)
         {

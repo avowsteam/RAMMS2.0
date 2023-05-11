@@ -23,7 +23,7 @@ namespace RAMMS.Repository.Interfaces
         Task<List<FormUCUAPhotoTypeDTO>> GetExitingPhotoType(int headerId);
         //Task<RmIwformImage> AddImage(RmIwformImage image);
 
-        Task<IList<RmUcuaImage>> AddMultiImage(IList<RmUcuaImage> images);
+        Task<List<RmUcuaImage>> AddMultiImage(List<RmUcuaImage> images);
         Task<int> ImageCount(string type, long headerId);
         Task<List<RmUcuaImage>> ImageList(int headerId);
         Task<int> DeleteImage(RmUcuaImage img);

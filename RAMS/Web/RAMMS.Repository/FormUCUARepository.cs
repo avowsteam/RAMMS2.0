@@ -267,7 +267,7 @@ namespace RAMMS.Repository
         //    await _context.SaveChangesAsync();
         //    return image;
         //}
-        public async Task<IList<RmUcuaImage>> AddMultiImage(IList<RmUcuaImage> images)
+        public async Task<List<RmUcuaImage>> AddMultiImage(List<RmUcuaImage> images)
         {
             _context.RmUcuaImage.AddRange(images);
             await _context.SaveChangesAsync();
