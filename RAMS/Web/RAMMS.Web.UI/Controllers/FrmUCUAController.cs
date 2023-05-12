@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RAMMS.Business.ServiceProvider.Interfaces;
+using RAMMS.Business.ServiceProvider.Services;
 using RAMMS.Domain.Models;
 using RAMMS.DTO;
 using RAMMS.DTO.JQueryModel;
@@ -193,84 +194,89 @@ namespace RAMMS.Web.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetUCUAImageList(string Id, string assetgroup, string form)
+        public async Task<IActionResult> GetUCUAImageList(int Id, string assetgroup, string form)
         {
-            DDLookUpDTO ddLookup = new DDLookUpDTO();
-            FormIWImageModel assetsModel = new FormIWImageModel();
-            assetsModel.ImageList = new List<FormIWImageResponseDTO>();
-            assetsModel.ImageTypeList = new List<string>();
-            ddLookup.Type = "Photo Type";
-            ddLookup.TypeCode = "IW";
-            //assetsModel.PhotoType = await _ddLookupService.GetDdLookup(ddLookup);
-            //if (assetsModel.PhotoType.Count() == 0)
+
+            //DDLookUpDTO ddLookup = new DDLookUpDTO();
+            //FormIWImageModel assetsModel = new FormIWImageModel();
+            //assetsModel.ImageList = new List<FormIWImageResponseDTO>();
+            //assetsModel.ImageTypeList = new List<string>();
+            //ddLookup.Type = "Photo Type";
+            //ddLookup.TypeCode = "IW";
+            ////assetsModel.PhotoType = await _ddLookupService.GetDdLookup(ddLookup);
+            ////if (assetsModel.PhotoType.Count() == 0)
+            ////{
+            ////    assetsModel.PhotoType = new[]{ new SelectListItem
+            ////    {
+            ////        Text = "Others",
+            ////        Value = "Others"
+            ////    }};
+            ////}
+            ////ViewBag.PhotoTypeList = await _ddLookupService.GetDdLookup(ddLookup);
+            //assetsModel.ImageList = await _formW1Service.GetImageList(Id);
+            //assetsModel.IwRefNo = Id;
+
+
+            //List<SelectListItem> newDdl = new List<SelectListItem>();
+            //if (form == "FormWCWG")
             //{
-            //    assetsModel.PhotoType = new[]{ new SelectListItem
-            //    {
-            //        Text = "Others",
-            //        Value = "Others"
-            //    }};
+            //assetsModel.FormName = "Form";
+            ////var items = await _ddLookupService.GetDdLookup(ddLookup);
+            //var _formWC = await _formWCService.FindWCByW1ID(int.Parse(Id));
+            //var _formWG = await _formWGService.FindWGByW1ID(int.Parse(Id));
+            //_formWC = _formWC == null ? new FormWCResponseDTO() : _formWC;
+            //_formWG = _formWG == null ? new FormWGResponseDTO() : _formWG;
+
+            //if (!_formWC.SubmitSts)
+            //{
+            //newDdl.Add(new SelectListItem("Form WC", "Form WC"));
+            //assetsModel.FormName = assetsModel.FormName + "WC";
             //}
-            //ViewBag.PhotoTypeList = await _ddLookupService.GetDdLookup(ddLookup);
-            assetsModel.ImageList = await _formW1Service.GetImageList(Id);
-            assetsModel.IwRefNo = Id;
+            //if (!_formWG.SubmitSts)
+            //{
+            //newDdl.Add(new SelectListItem("Form WG", "Form WG"));
+            //assetsModel.FormName = assetsModel.FormName + "WG";
+            //}
+            //ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
+            //assetsModel.IsSubmittedWC = _formWC.SubmitSts;
+            //assetsModel.IsSubmittedWG = _formWG.SubmitSts;
+            //}
+            //else if (form == "FormWDWN")
+            //{
+            //assetsModel.FormName = "Form";
+            ////var items = await _ddLookupService.GetDdLookup(ddLookup);
+            //var _formWD = await _formWDService.FindWDByW1ID(int.Parse(Id));
+            //var _formWN = await _formWNService.FindWNByW1ID(int.Parse(Id));
 
+            //_formWD = _formWD == null ? new FormWDResponseDTO() : _formWD;
+            //_formWN = _formWN == null ? new FormWNResponseDTO() : _formWN;
 
-            List<SelectListItem> newDdl = new List<SelectListItem>();
-            if (form == "FormWCWG")
-            {
-                assetsModel.FormName = "Form";
-                //var items = await _ddLookupService.GetDdLookup(ddLookup);
-                var _formWC = await _formWCService.FindWCByW1ID(int.Parse(Id));
-                var _formWG = await _formWGService.FindWGByW1ID(int.Parse(Id));
-                _formWC = _formWC == null ? new FormWCResponseDTO() : _formWC;
-                _formWG = _formWG == null ? new FormWGResponseDTO() : _formWG;
+            //if (!_formWD.SubmitSts)
+            //{
+            //newDdl.Add(new SelectListItem("Form WD", "Form WD"));
+            //assetsModel.FormName = assetsModel.FormName + "WD";
+            //}
+            //if (!_formWN.SubmitSts)
+            //{
+            //newDdl.Add(new SelectListItem("Form WN", "Form WN"));
+            //assetsModel.FormName = assetsModel.FormName + "WN";
+            //}
+            //ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
+            //assetsModel.IsSubmittedWD = _formWD.SubmitSts;
+            //assetsModel.IsSubmittedWN = _formWN.SubmitSts;
+            //}
+            //else
+            //{
+            //assetsModel.FormName = form;
 
-                if (!_formWC.SubmitSts)
-                {
-                    newDdl.Add(new SelectListItem("Form WC", "Form WC"));
-                    assetsModel.FormName = assetsModel.FormName + "WC";
-                }
-                if (!_formWG.SubmitSts)
-                {
-                    newDdl.Add(new SelectListItem("Form WG", "Form WG"));
-                    assetsModel.FormName = assetsModel.FormName + "WG";
-                }
-                ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
-                assetsModel.IsSubmittedWC = _formWC.SubmitSts;
-                assetsModel.IsSubmittedWG = _formWG.SubmitSts;
-            }
-            else if (form == "FormWDWN")
-            {
-                assetsModel.FormName = "Form";
-                //var items = await _ddLookupService.GetDdLookup(ddLookup);
-                var _formWD = await _formWDService.FindWDByW1ID(int.Parse(Id));
-                var _formWN = await _formWNService.FindWNByW1ID(int.Parse(Id));
+            //ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
+            //}
+            //assetsModel.ImageTypeList = assetsModel.ImageList.Select(c => c.ImageTypeCode).Distinct().ToList();
+         
+            List<FormUCUAImagesDTO> imageList= new List<FormUCUAImagesDTO>();
+            imageList = _formUCUAService.ImageListWeb(Id);
 
-                _formWD = _formWD == null ? new FormWDResponseDTO() : _formWD;
-                _formWN = _formWN == null ? new FormWNResponseDTO() : _formWN;
-
-                if (!_formWD.SubmitSts)
-                {
-                    newDdl.Add(new SelectListItem("Form WD", "Form WD"));
-                    assetsModel.FormName = assetsModel.FormName + "WD";
-                }
-                if (!_formWN.SubmitSts)
-                {
-                    newDdl.Add(new SelectListItem("Form WN", "Form WN"));
-                    assetsModel.FormName = assetsModel.FormName + "WN";
-                }
-                ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
-                assetsModel.IsSubmittedWD = _formWD.SubmitSts;
-                assetsModel.IsSubmittedWN = _formWN.SubmitSts;
-            }
-            else
-            {
-                assetsModel.FormName = form;
-
-                ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
-            }
-            assetsModel.ImageTypeList = assetsModel.ImageList.Select(c => c.ImageTypeCode).Distinct().ToList();
-            return PartialView("~/Views/FrmUCUA/_PhotoSectionPage.cshtml", assetsModel);
+            return PartialView("~/Views/FrmUCUA/_PhotoSectionPage.cshtml", imageList);
         }
 
 

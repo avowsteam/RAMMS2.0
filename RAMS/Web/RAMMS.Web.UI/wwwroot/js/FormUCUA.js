@@ -216,7 +216,7 @@ function UpdateFormAfterSave(data) {
 }
 
 function GetImageList(id, formName) {
-
+    
     var group = $("#FormADetAssetGrpCode option:selected").val();
 
     $.ajax({
@@ -224,6 +224,7 @@ function GetImageList(id, formName) {
         data: { Id: id, assetgroup: group, Form: formName },
         type: 'POST',
         success: function (data) {
+            debugger;
             $("#ViewPhoto").html(data);
         },
         error: function (data) {

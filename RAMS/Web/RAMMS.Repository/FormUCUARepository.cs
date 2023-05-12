@@ -291,5 +291,9 @@ namespace RAMMS.Repository
             await _context.SaveChangesAsync();
             return img.UcuaPkRefNo;
         }
+        public async Task<List<RmUcuaImage>> ImageListWeb(int headerId)
+        {
+            return await _context.RmUcuaImage.Where(x => x.UcuaRmmhPkRefNo == headerId && x.UcuaActiveYn == true).ToListAsync();
+        }
     }
 }
