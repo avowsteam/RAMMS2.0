@@ -357,38 +357,8 @@
         }
     });
 
-    function FormAddImage() {
-        if ($("#hdnView").val() == "1") return;
-        $("#photoType").val("").trigger("chosen:updated");
-        if (ValidatePage("#tab1")) {
-            if ($("#hdnPkRefNo").val() != "0") {
-                $("#myModal").modal('show');
-
-                if (getIsTabForm())
-                    $("#divFormType").show();
-                
-                    $("#divFormType").hide();
-            }
-            else {
-                $("#tab1").click();
-                app.ShowErrorMessage("Required to save the Form W1 details and then try to upload photo");
-            }
-        }
-        else {
-            $("#saveFormW1Btn").click();
-            app.ShowErrorMessage("Required fields are incomplete in Form W1");
-        }
-    }
-
-    function UploadModalClose() {
-        $("#photoType").val("").trigger("chosen:updated");
-        document.getElementById("files").disabled = true;
-        $("#files1").addClass("disabled");
-        document.getElementById("FormDBrowseBtn").disabled = true;
-        document.getElementById("btnImageUpload").disabled = true;
-        $("#photolist").empty();
-        $('#myModal').modal('hide');
-    }
+    
+   
 
     $("#photoType").change(function () {
          document.getElementById("files").disabled = true;
@@ -554,22 +524,30 @@
         $("#btnImageUpload").click(function (e) {
 
             debugger;
-            var type = $("#photoType").val();
-            var id = $("#hdnPkRefNo").val();
+            var type = $("#photoType").val();   
+            var Refid = $("#RefId").val();
+            var id = $("#PkRefNo").val();
+
             var formData = new FormData();
-            formData.append("PkRefNo",id );
+            formData.append("Id", Refid);
+            formData.append("headerId", id);
             for (var i = 0, len = filesToUpload.length; i < len; i++) {
                 formData.append("FormFile", filesToUpload[i].file);
-                formData.append("PhotoType", filesToUpload[i].fileType);
+              //  formData.append("PhotoType", filesToUpload[i].fileType);
+                formData.append("PhotoType", "Image UCUA");
             }
-            if (getIsTabForm())
-                formData.append("Source", $("#formType").val());
-            else
-                formData.append("Source", $("#hdnForm").val());
+            //if (getIsTabForm()){
+            //    formData.append("Source", $("#formType").val());
+            //}
+              
+            //else{
+            //    formData.append("Source", $("#hdnForm").val());
+            //}
+                
             InitAjaxLoading();
             $.ajax(
                 {
-                    url: "/InstructedWorks/ImageUploadFormIw",
+                    url: "/FrmUCUA/ImageUploadedTabWeb",
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -582,11 +560,15 @@
                         app.ShowSuccessMessage('Uploaded Successcully', false);
                         $('#myModal').modal('hide');
                          if (getIsTabForm())
-                         debugger;
+                         {
+                                GetImageList(id, $("#hdnFormType").val());
+                         }
 
-                             GetImageList(id, $("#hdnFormType").val());
-                         else
-                            GetImageList(id, $("#hdnForm").val());
+                           
+                         else{
+                                GetImageList(id, $("#hdnForm").val());
+                         }
+                           
                     }
                     else {
                         app.ShowErrorMessage('Upload Failed. Kindly retry later.', false);
@@ -616,16 +598,7 @@
         });
     }
 
-    function getIsTabForm(){
-        if ($("#hdnFormType").val().indexOf("WC") >= 0 ||  $("#hdnFormType").val().indexOf("WG") >=0){
-            return true;
-        }  
-        else if ($("#hdnFormType").val().indexOf("WD") >=0  || $("#hdnFormType").val().indexOf("WN") >=0){
-             return true;
-        } 
-        
-        return false
-    }
+   
 
     function DeleteImage(pkId) {
         if ($("#hdnView").val() == "1") return; 
@@ -633,17 +606,23 @@
             if (e) {
                 InitAjaxLoading();
                 $.ajax({
-                    url: '/InstructedWorks/IwDeleteImage',
+                    url: '/FrmUCUA/DeleteUCUAWebImage',
                     data: { pkId },
                     type: 'POST',
                     success: function (data) {
+                        
                         if (data > 0) {
+                            debugger;
                             HideAjaxLoading();
                             app.ShowSuccessMessage("Successfully Deleted")
-                            if (getIsTabForm())
+                            if (getIsTabForm()){
                                 GetImageList($("#hdnPkRefNo").val(), $("#hdnFormType").val());
-                            else
+                            }
+                               
+                            else{
                                 GetImageList($("#hdnPkRefNo").val(), $("#hdnForm").val());
+                            }
+                                
                         }
                         else {
                             HideAjaxLoading();

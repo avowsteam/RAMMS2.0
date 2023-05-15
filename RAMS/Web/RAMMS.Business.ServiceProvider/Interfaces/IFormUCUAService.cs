@@ -34,5 +34,7 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         List<FormUCUAImagesDTO> ImageList(int headerId);
         Task<int> DeleteImage(int headerId, int imgId);
         List<FormUCUAImagesDTO> ImageListWeb(int headerId);
+        Task<int> DeleteUCUAWebImage(int pkId);
+        Task<List<RmUcuaImage>> AddMultiImageWeb(List<FormUCUAImagesDTO> imagesDTO);
     }
 }

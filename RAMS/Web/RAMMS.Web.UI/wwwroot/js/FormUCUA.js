@@ -233,3 +233,48 @@ function GetImageList(id, formName) {
 
     });
 }
+function FormAddImage() {
+    if ($("#hdnView").val() == "1") return;
+    $("#photoType").val("").trigger("chosen:updated");
+    if (ValidatePage("#tab1")) {
+        if ($("#hdnPkRefNo").val() != "0") {
+            $("#myModal").modal('show');
+
+            if (getIsTabForm()) {
+                $("#divFormType").show();
+            }
+
+            else {
+                $("#divFormType").hide();
+            }
+           
+        }
+        else {
+            $("#tab1").click();
+            app.ShowErrorMessage("Required to save the Form W1 details and then try to upload photo");
+        }
+    }
+    else {
+        $("#saveFormW1Btn").click();
+        app.ShowErrorMessage("Required fields are incomplete in Form W1");
+    }
+}
+function getIsTabForm() {
+    if ($("#hdnFormType").val().indexOf("WC") >= 0 || $("#hdnFormType").val().indexOf("WG") >= 0) {
+        return true;
+    }
+    else if ($("#hdnFormType").val().indexOf("WD") >= 0 || $("#hdnFormType").val().indexOf("WN") >= 0) {
+        return true;
+    }
+
+    return false
+}
+function UploadModalClose() {
+    $("#photoType").val("").trigger("chosen:updated");
+    document.getElementById("files").disabled = true;
+    $("#files1").addClass("disabled");
+    document.getElementById("FormDBrowseBtn").disabled = true;
+    document.getElementById("btnImageUpload").disabled = true;
+    $("#photolist").empty();
+    $('#myModal').modal('hide');
+}

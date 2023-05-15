@@ -27,6 +27,9 @@ namespace RAMMS.Repository.Interfaces
         Task<int> ImageCount(string type, long headerId);
         Task<List<RmUcuaImage>> ImageList(int headerId);
         Task<int> DeleteImage(RmUcuaImage img);
+        Task<int> DeleteUCUAWebImage(RmUcuaImage img);
+        Task<List<RmUcuaImage>> AddMultiImageWeb(List<RmUcuaImage> images);
+        Task<List<RmUcuaImage>> ImageListWeb(int headerId);
     }
     
 }

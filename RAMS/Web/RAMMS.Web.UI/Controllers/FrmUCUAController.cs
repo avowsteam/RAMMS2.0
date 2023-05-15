@@ -549,5 +549,72 @@ namespace RAMMS.Web.UI.Controllers
         //    }
 
         //}
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUCUAWebImage(int pkId)
+        {
+            int response = await _formUCUAService.DeleteUCUAWebImage(pkId);
+            return Json(response);
+        }
+        [HttpPost]
+        public async Task<int> ImageUploadedTabWeb(IFormCollection filesCollection, int headerId, string Id, string photoType)
+        {
+            IFormCollection files = Request.ReadFormAsync().Result;
+            if (files != null && files.Count > 0)
+            {
+                List<FormUCUAImagesDTO> lstImages = new List<FormUCUAImagesDTO>();
+                string photo_Type = Regex.Replace(photoType, @"[^a-zA-Z]", "");
+
+                var objExistsPhotoType = _formUCUAService.GetExitingPhotoType(headerId).Result;
+                if (objExistsPhotoType == null) { objExistsPhotoType = new List<FormUCUAPhotoTypeDTO>(); }
+
+                string InspRefNum = Regex.Replace(Id, @"[^0-9a-zA-Z]+", "");
+                string wwwPath = this._webHostEnvironment.WebRootPath;
+
+                foreach (var file in files.Files)
+                {
+                    var objSNo = objExistsPhotoType.Where(x => x.Type == photo_Type).FirstOrDefault();
+                    if (objSNo == null) { objSNo = new FormUCUAPhotoTypeDTO() { SNO = 1, Type = photo_Type }; objExistsPhotoType.Add(objSNo); }
+                    else { objSNo.SNO = objSNo.SNO + 1; }
+
+                    string fileName = Path.GetFileName(file.FileName);
+                    string strFileUploadDir = Path.Combine("Form UCUA", InspRefNum, photoType);
+                    string strSaveDir = Path.Combine(wwwPath, "Uploads", strFileUploadDir);
+                    string strSysFileName = InspRefNum + "_" + photoType + "_" + objSNo.SNO.ToString("000");
+                    string strUploadFileName = objSNo.SNO.ToString() + "_" + photoType + "_" + fileName;
+                    if (!Directory.Exists(strSaveDir)) { Directory.CreateDirectory(strSaveDir); }
+                    using (FileStream stream = new FileStream(Path.Combine(strSaveDir, strUploadFileName), FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    lstImages.Add(new FormUCUAImagesDTO()
+                    {
+                        ActiveYn = true,
+                        CrBy = _security.UserID,
+                        ModBy = _security.UserID,
+                        CrDt = DateTime.UtcNow,
+                        ModDt = DateTime.UtcNow,
+                        RmmhPkRefNo = headerId,
+                        ImageFilenameSys = strSysFileName,
+                        ImageFilenameUpload = strUploadFileName,
+                        ImageSrno = objSNo.SNO,
+                        ImageTypeCode = photo_Type,
+                        ImageUserFilePath = strFileUploadDir,
+                        SubmitSts = true
+                    });
+
+                }
+                if (lstImages.Count > 0)
+                {
+                    var a = await _formUCUAService.AddMultiImageWeb(lstImages);
+                }
+            }
+            else
+            {
+                return -1;
+            }
+            return 1;
+        }
+
     }
 }

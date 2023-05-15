@@ -295,5 +295,19 @@ namespace RAMMS.Repository
         {
             return await _context.RmUcuaImage.Where(x => x.UcuaRmmhPkRefNo == headerId && x.UcuaActiveYn == true).ToListAsync();
         }
+        public async Task<int> DeleteUCUAWebImage(RmUcuaImage img)
+        {
+            _context.RmUcuaImage.Attach(img);
+            var entry = _context.Entry(img);
+            entry.Property(x => x.UcuaActiveYn).IsModified = true;
+            await _context.SaveChangesAsync();
+            return img.UcuaPkRefNo;
+        }
+        public async Task<List<RmUcuaImage>> AddMultiImageWeb(List<RmUcuaImage> images)
+        {
+            _context.RmUcuaImage.AddRange(images);
+            await _context.SaveChangesAsync();
+            return images;
+        }
     }
 }

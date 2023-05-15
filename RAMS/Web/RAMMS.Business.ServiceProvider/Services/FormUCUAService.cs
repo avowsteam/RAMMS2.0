@@ -473,7 +473,7 @@ namespace RAMMS.Business.ServiceProvider.Services
         }
         public List<FormUCUAImagesDTO> ImageListWeb(int headerId)
         {
-            List<RmUcuaImage> lstImages = _repo.ImageList(headerId).Result;
+            List<RmUcuaImage> lstImages = _repo.ImageListWeb(headerId).Result;
             List<FormUCUAImagesDTO> lstResult = new List<FormUCUAImagesDTO>();
             FormUCUAImagesDTO lstResultDto = new FormUCUAImagesDTO();
             if (lstImages != null && lstImages.Count > 0)
@@ -484,13 +484,47 @@ namespace RAMMS.Business.ServiceProvider.Services
                     lstResultDto.ImageUserFilePath=img.UcuaImageUserFilePath;
                     lstResultDto.ImageFilenameUpload = img.UcuaImageFilenameUpload;
                     lstResultDto.ImageTypeCode = img.UcuaImageTypeCode;
-                    lstResultDto.PkRefNo=headerId;
+                    lstResultDto.PkRefNo=img.UcuaPkRefNo;
+                    lstResultDto.ImageSrno = img.UcuaImageSrno;
+                    lstResult.Add(lstResultDto);
 
                 });
-                lstResult.Add(lstResultDto);
+                
             }
             return lstResult;
         }
+        public async Task<List<RmUcuaImage>> AddMultiImageWeb(List<FormUCUAImagesDTO> imagesDTO)
+        {
+            List<RmUcuaImage> images = new List<RmUcuaImage>();
+            RmUcuaImage obj = new RmUcuaImage();
+            foreach (var item in imagesDTO)
+            {
+                obj = new RmUcuaImage();
+                obj.UcuaActiveYn = item.ActiveYn;
+                obj.UcuaCrBy = item.CrBy;
+                obj.UcuaModBy = item.ModBy;
+                obj.UcuaModDt = item.ModDt;
+                obj.UcuaImageFilenameSys = item.ImageFilenameSys;
+                obj.UcuaImageFilenameUpload = item.ImageFilenameUpload;
+                obj.UcuaImageSrno = item.ImageSrno;
+                obj.UcuaImageTypeCode = item.ImageTypeCode;
+                obj.UcuaImageUserFilePath = item.ImageUserFilePath;
+                obj.UcuaSubmitSts = item.SubmitSts;
+                obj.UcuaPkRefNo = item.PkRefNo;
+                obj.UcuaRmmhPkRefNo = item.RmmhPkRefNo;
+                images.Add(obj);
+            }
+            return (await _repo.AddMultiImageWeb(images));
+        }
+        public async Task<int> DeleteUCUAWebImage(int pkId)
+        {
+            RmUcuaImage img = new RmUcuaImage();
+            img.UcuaPkRefNo = pkId;
+           // img.UcuaRmmhPkRefNo = headerId;
+            img.UcuaActiveYn = false;
+            return await _repo.DeleteUCUAWebImage(img);
+        }
+       
     }
 
 }
