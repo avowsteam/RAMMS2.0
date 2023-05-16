@@ -480,16 +480,15 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 lstImages.ForEach((RmUcuaImage img) =>
                 {
-                    lstResultDto.ImageFilenameSys=img.UcuaImageFilenameSys; 
-                    lstResultDto.ImageUserFilePath=img.UcuaImageUserFilePath;
-                    lstResultDto.ImageFilenameUpload = img.UcuaImageFilenameUpload;
+                    lstResultDto.ImageFilenameSys = img.UcuaImageFilenameSys;
+                    lstResultDto.ImageUserFilePath = img.UcuaImageUserFilePath.Replace(" ", "");
+                    lstResultDto.ImageFilenameUpload = img.UcuaImageFilenameUpload.Replace(" ", "");
                     lstResultDto.ImageTypeCode = img.UcuaImageTypeCode;
-                    lstResultDto.PkRefNo=img.UcuaPkRefNo;
+                    lstResultDto.PkRefNo = img.UcuaPkRefNo;
                     lstResultDto.ImageSrno = img.UcuaImageSrno;
                     lstResult.Add(lstResultDto);
 
                 });
-                
             }
             return lstResult;
         }
@@ -520,11 +519,11 @@ namespace RAMMS.Business.ServiceProvider.Services
         {
             RmUcuaImage img = new RmUcuaImage();
             img.UcuaPkRefNo = pkId;
-           // img.UcuaRmmhPkRefNo = headerId;
+            // img.UcuaRmmhPkRefNo = headerId;
             img.UcuaActiveYn = false;
             return await _repo.DeleteUCUAWebImage(img);
         }
-       
+
     }
 
 }

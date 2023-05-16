@@ -516,22 +516,15 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/jquery.tabledit.js"></script>
 
 <script>
-
-</script>
-
-
-<script>
-
     $(document).ready(function () {
-
         process.Init("FrmUCUA", "@Model.FormUCUA.Status", @Model.FormUCUA.PkRefNo);
        // alert('@groupname')
 
         fnUnsafeActOnchage();
         fnUnsafeCondOnchage();
-        debugger;
+        
         GetImageList('@Model.FormUCUA.PkRefNo', 'FrmUCUA');
-        debugger;
+       
         @*if ($("#SubmitYn").val() == "True") {
             $("#Officeuse").removeClass("disabled");
              $("#ActionBy").val('@username');
@@ -561,7 +554,4 @@
             });
         }
     }
-
-
-
 </script>

@@ -272,8 +272,8 @@ namespace RAMMS.Web.UI.Controllers
             //ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
             //}
             //assetsModel.ImageTypeList = assetsModel.ImageList.Select(c => c.ImageTypeCode).Distinct().ToList();
-         
-            List<FormUCUAImagesDTO> imageList= new List<FormUCUAImagesDTO>();
+
+            List<FormUCUAImagesDTO> imageList = new List<FormUCUAImagesDTO>();
             imageList = _formUCUAService.ImageListWeb(Id);
 
             return PartialView("~/Views/FrmUCUA/_PhotoSectionPage.cshtml", imageList);
@@ -367,6 +367,7 @@ namespace RAMMS.Web.UI.Controllers
             {
                 List<FormUCUAImagesDTO> lstImages = new List<FormUCUAImagesDTO>();
                 string photo_Type = Regex.Replace(photoType, @"[^a-zA-Z]", "");
+                photoType = photoType.Replace(" ", "");
 
                 var objExistsPhotoType = _formUCUAService.GetExitingPhotoType(headerId).Result;
                 if (objExistsPhotoType == null) { objExistsPhotoType = new List<FormUCUAPhotoTypeDTO>(); }
@@ -380,8 +381,8 @@ namespace RAMMS.Web.UI.Controllers
                     if (objSNo == null) { objSNo = new FormUCUAPhotoTypeDTO() { SNO = 1, Type = photo_Type }; objExistsPhotoType.Add(objSNo); }
                     else { objSNo.SNO = objSNo.SNO + 1; }
 
-                    string fileName = Path.GetFileName(file.FileName);
-                    string strFileUploadDir = Path.Combine("Form UCUA", InspRefNum, photoType);
+                    string fileName = Path.GetFileName(file.FileName.Replace(" ", "_"));
+                    string strFileUploadDir = Path.Combine("FormUCUA", InspRefNum, photoType);
                     string strSaveDir = Path.Combine(wwwPath, "Uploads", strFileUploadDir);
                     string strSysFileName = InspRefNum + "_" + photoType + "_" + objSNo.SNO.ToString("000");
                     string strUploadFileName = objSNo.SNO.ToString() + "_" + photoType + "_" + fileName;
@@ -419,137 +420,6 @@ namespace RAMMS.Web.UI.Controllers
             return 1;
         }
 
-        //[HttpPost]
-        //public async Task<int> ImageUploadedTab2(IFormCollection filesCollection, int headerId, string Id, string photoType)
-        //{
-        //    IFormCollection files = Request.ReadFormAsync().Result;
-        //    if (files != null && files.Count > 0)
-        //    {
-        //        List<FormUCUAImagesDTO> lstImages = new List<FormUCUAImagesDTO>();
-        //        string photo_Type = Regex.Replace(photoType, @"[^a-zA-Z]", "");
-
-        //        var objExistsPhotoType = _formUCUAService.GetExitingPhotoType(headerId).Result;
-        //        if (objExistsPhotoType == null) { objExistsPhotoType = new List<FormUCUAPhotoTypeDTO>(); }
-
-
-        //        string InspRefNum = Regex.Replace(Id, @"[^0-9a-zA-Z]+", "");
-        //        string wwwPath = this._webHostEnvironment.WebRootPath;
-
-        //        foreach (var file in files.Files)
-        //        {
-        //            var objSNo = objExistsPhotoType.Where(x => x.Type == photo_Type).FirstOrDefault();
-        //            if (objSNo == null) { objSNo = new FormUCUAPhotoTypeDTO() { SNO = 1, Type = photo_Type }; objExistsPhotoType.Add(objSNo); }
-        //            else { objSNo.SNO = objSNo.SNO + 1; }
-
-        //            string fileName = Path.GetFileName(file.FileName);
-        //            string strFileUploadDir = Path.Combine("Form UCUA", InspRefNum, photoType);
-        //            string strSaveDir = Path.Combine(wwwPath, "Uploads", strFileUploadDir);
-        //            string strSysFileName = InspRefNum + "_" + photoType + "_" + objSNo.SNO.ToString("000");
-        //            string strUploadFileName = objSNo.SNO.ToString() + "_" + photoType + "_" + fileName;
-        //            if (!Directory.Exists(strSaveDir)) { Directory.CreateDirectory(strSaveDir); }
-        //            using (FileStream stream = new FileStream(Path.Combine(strSaveDir, strUploadFileName), FileMode.Create))
-        //            {
-        //                await file.CopyToAsync(stream);
-        //            }
-        //            lstImages.Add(new FormUCUAImagesDTO()
-        //            {
-        //                ActiveYn = true,
-        //                CrBy = _security.UserID,
-        //                ModBy = _security.UserID,
-        //                CrDt = DateTime.UtcNow,
-        //                ModDt = DateTime.UtcNow,
-        //                RmmhPkRefNo = headerId,
-        //                ImageFilenameSys = strSysFileName,
-        //                ImageFilenameUpload = strUploadFileName,
-        //                ImageSrno = objSNo.SNO,
-        //                ImageTypeCode = photo_Type,
-        //                ImageUserFilePath = strFileUploadDir,
-        //                SubmitSts = true
-        //            });
-
-        //        }
-        //        if (lstImages.Count > 0)
-        //        {
-        //            var a = await _formUCUAService.AddMultiImage(lstImages);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return -1;
-        //    }
-        //    return 1;
-        //}
-
-        //[HttpPost] //B1B2Tab
-        ////[DisableRequestSizeLimit]
-        //public async Task<int> ImageUploadedTab3(IFormCollection FormFile, int AssetId, string PhotoType)
-        //{
-        //    try
-        //    {
-        //        int rowsAffected = 0;
-        //        string wwwPath = _webHostEnvironment.WebRootPath;
-        //        IFormCollection files = Request.ReadFormAsync().Result;
-        //        if (files.Count > 0)
-        //        {
-        //            foreach (var file in files.Files)
-        //            {
-        //                List<FormB1B2ImgRequestDTO> uploadedFiles = new List<FormB1B2ImgRequestDTO>();
-        //                int i = await formB1B2Service.ImageLastInsertedSRNO(AssetId, PhotoType);
-        //                i++;
-        //                FormB1B2ImgRequestDTO _rmAssetImageDtl = new FormB1B2ImgRequestDTO();
-        //                string photoType = Regex.Replace(PhotoType, @"[^a-zA-Z]", "");
-        //                string path = Path.Combine(wwwPath, Path.Combine("Uploads", "FormB1B2", AssetId.ToString(), photoType));
-        //                string fileName = Path.GetFileName(file.FileName);
-        //                string filerename = i + "_" + photoType + "_" + fileName;
-        //                if (!Directory.Exists(path))
-        //                {
-        //                    Directory.CreateDirectory(path);
-        //                }
-
-        //                using (FileStream stream = new FileStream(Path.Combine(path, filerename), FileMode.Create))
-        //                {
-        //                    _rmAssetImageDtl.FbrihPkRefNo = AssetId;
-        //                    _rmAssetImageDtl.ImageTypeCode = PhotoType;
-        //                    _rmAssetImageDtl.ImageSrno = i;
-        //                    _rmAssetImageDtl.ImageFilenameSys = file.FileName;
-        //                    _rmAssetImageDtl.ActiveYn = true;
-        //                    if (i < 10)
-        //                    {
-        //                        _rmAssetImageDtl.ImageFilenameSys = AssetId.ToString() + "_" + photoType + "_" + "00" + i;
-        //                    }
-        //                    else if (i >= 10 && i < 100)
-        //                    {
-        //                        _rmAssetImageDtl.ImageFilenameSys = AssetId.ToString() + "_" + photoType + "_" + "0" + i;
-        //                    }
-        //                    else
-        //                    {
-        //                        _rmAssetImageDtl.ImageFilenameSys = AssetId.ToString() + "_" + photoType + "_" + i;
-        //                    }
-        //                    _rmAssetImageDtl.ImageUserFilepath = $"/Uploads/FormB1B2/{AssetId}/{photoType}/{filerename}";
-
-        //                    await file.CopyToAsync(stream);
-        //                }
-        //                _rmAssetImageDtl.CrDt = DateTime.UtcNow;
-        //                _rmAssetImageDtl.ModDt = DateTime.UtcNow;
-        //                _rmAssetImageDtl.CrBy = security.UserID;
-        //                _rmAssetImageDtl.ModBy = security.UserID;
-        //                uploadedFiles.Add(_rmAssetImageDtl);
-        //                rowsAffected = await formB1B2Service.SaveImageDtlTab(uploadedFiles);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            return -1;
-        //        }
-        //        return rowsAffected;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-
-        //}
-
         [HttpPost]
         public async Task<IActionResult> DeleteUCUAWebImage(int pkId)
         {
@@ -564,7 +434,7 @@ namespace RAMMS.Web.UI.Controllers
             {
                 List<FormUCUAImagesDTO> lstImages = new List<FormUCUAImagesDTO>();
                 string photo_Type = Regex.Replace(photoType, @"[^a-zA-Z]", "");
-
+                photoType = photoType.Replace(" ", "");
                 var objExistsPhotoType = _formUCUAService.GetExitingPhotoType(headerId).Result;
                 if (objExistsPhotoType == null) { objExistsPhotoType = new List<FormUCUAPhotoTypeDTO>(); }
 
@@ -577,8 +447,8 @@ namespace RAMMS.Web.UI.Controllers
                     if (objSNo == null) { objSNo = new FormUCUAPhotoTypeDTO() { SNO = 1, Type = photo_Type }; objExistsPhotoType.Add(objSNo); }
                     else { objSNo.SNO = objSNo.SNO + 1; }
 
-                    string fileName = Path.GetFileName(file.FileName);
-                    string strFileUploadDir = Path.Combine("Form UCUA", InspRefNum, photoType);
+                    string fileName = Path.GetFileName(file.FileName.Replace(" ", "_"));
+                    string strFileUploadDir = Path.Combine("FormUCUA", InspRefNum, photoType);
                     string strSaveDir = Path.Combine(wwwPath, "Uploads", strFileUploadDir);
                     string strSysFileName = InspRefNum + "_" + photoType + "_" + objSNo.SNO.ToString("000");
                     string strUploadFileName = objSNo.SNO.ToString() + "_" + photoType + "_" + fileName;

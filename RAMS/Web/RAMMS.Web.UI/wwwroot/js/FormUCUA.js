@@ -27,17 +27,14 @@ function Save(GroupName, SubmitType) {
                 app.ShowErrorMessage(data.errorMessage);
             }
             else {
-
                 if (SubmitType == "") {
                     if (data.formExist) {
                         location.href = "/FrmUCUA/Add?Id=" + data.pkRefNo + "&view=0";
                         return;
                     }
-                    else {
-                        debugger;
+                    else {                       
                         UpdateFormAfterSave(data);
                     }
-
                 }
                 else if (SubmitType == "Saved") {
                     app.ShowSuccessMessage('Saved Successfully', false);
@@ -53,7 +50,6 @@ function Save(GroupName, SubmitType) {
             }
         });
     }
-
 }
 
 
@@ -215,22 +211,18 @@ function UpdateFormAfterSave(data) {
    // InitializeGrid();
 }
 
-function GetImageList(id, formName) {
-    
+function GetImageList(id, formName) {    
     var group = $("#FormADetAssetGrpCode option:selected").val();
-
     $.ajax({
         url: '/FrmUCUA/GetUCUAImageList',
         data: { Id: id, assetgroup: group, Form: formName },
         type: 'POST',
-        success: function (data) {
-            debugger;
+        success: function (data) {            
             $("#ViewPhoto").html(data);
         },
         error: function (data) {
             alert(data.responseText);
         }
-
     });
 }
 function FormAddImage() {
