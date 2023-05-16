@@ -480,6 +480,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             {
                 lstImages.ForEach((RmUcuaImage img) =>
                 {
+                    lstResultDto = new FormUCUAImagesDTO();
                     lstResultDto.ImageFilenameSys = img.UcuaImageFilenameSys;
                     lstResultDto.ImageUserFilePath = img.UcuaImageUserFilePath.Replace(" ", "");
                     lstResultDto.ImageFilenameUpload = img.UcuaImageFilenameUpload.Replace(" ", "");
