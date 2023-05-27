@@ -119,6 +119,7 @@ namespace RAMMS.Root.CustomInjection
             services.AddTransient<IFormMapService, FormMapService>();
             services.AddTransient<IFormPBService, FormPBService>();
             services.AddTransient<IFormUCUAService, FormUCUAService>();
+            services.AddTransient<IMailService, MailService>();
         }
 
         private static void InjectProviderDependicies(IServiceCollection services)
