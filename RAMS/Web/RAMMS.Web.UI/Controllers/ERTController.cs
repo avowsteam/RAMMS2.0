@@ -1544,9 +1544,9 @@ namespace RAMMS.Web.UI.Controllers
             //MailNotification Notification = new MailNotification();
             //Notification.SendMail(subject, stringBuilder.ToString(), "ajay.s@avowstech.com; mercedes.v@avowstech.com");
 
-            var request = new MailRequestDto();
-            request.PrepareRequest("ajay.s@avowstech.com; mercedes.v@avowstech.com", subject, stringBuilder.ToString());
-            await _mailService.SendEmailAsync(request);
+            //var request = new MailRequestDto();
+            //request.PrepareRequest("ajay.s@avowstech.com; mercedes.v@avowstech.com", subject, stringBuilder.ToString());
+            //await _mailService.SendEmailAsync(request);
             //End email
             return Json(refNo);
         }
