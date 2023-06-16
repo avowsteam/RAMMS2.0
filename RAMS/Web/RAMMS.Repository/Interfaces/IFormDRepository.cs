@@ -79,5 +79,6 @@ namespace RAMMS.Repository.Interfaces
         public Task<string> CheckAlreadyExists(int? weekNo, int? year, string crewUnit, string day, string rmu, string secCode);
 
         Task<RmFormDHdr> FindSaveFormDHdr(RmFormDHdr formDHeader, bool updateSubmit);
+        Task<string> GetUserEmailIds(int id);
     }
 }

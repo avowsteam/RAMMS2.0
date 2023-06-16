@@ -1529,10 +1529,13 @@ namespace RAMMS.Web.UI.Controllers
                 refNo = int.Parse(saveObj.No.ToString());
             }
 
+            #region Email
+
+            string emails = await _formDService.GetUserEmailIds(_security.UserID);            
+
             var location = new Uri($"{Request.Scheme}://{Request.Host}");
             var eRAMSLink = location.AbsoluteUri;
-
-            // Send Email
+   
             string subject = "eRAMS: Form " + saveObj.ReferenceID + " has been submitted for your review/approval";
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -1550,9 +1553,11 @@ namespace RAMMS.Web.UI.Controllers
             //Notification.SendMail(subject, stringBuilder.ToString(), "ajay.s@avowstech.com; mercedes.v@avowstech.com");
 
             var request = new MailRequestDto();
-            request.PrepareRequest("ajay.s@avowstech.com, mercedes.v@avowstech.com", subject, stringBuilder.ToString());
+            request.PrepareRequest(emails, subject, stringBuilder.ToString());
             await _mailService.SendEmailAsync(request);
-            //End email
+
+            #endregion
+
             return Json(refNo);
         }
 

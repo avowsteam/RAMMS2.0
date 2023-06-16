@@ -36,6 +36,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 MailMessage message = new MailMessage();               
                 message.From = new MailAddress(_mailSettings.Mail, _mailSettings.DisplayName);
                 message.To.Add(mailRequest.ToEmail);
+                //message.CC.Add("spandana.k@avowstech.com");
                 message.Subject = mailRequest.Subject;
                 message.IsBodyHtml = true; 
                 message.Body = mailRequest.Body;           

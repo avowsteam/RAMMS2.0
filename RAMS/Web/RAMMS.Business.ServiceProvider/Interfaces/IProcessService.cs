@@ -1,4 +1,5 @@
 ﻿using RAMMS.Domain.Models;
+using RAMMS.DTO.RequestBO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,6 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         void SaveNotification(RmUserNotification notification, bool isContextSave);
 
         List<Dictionary<string, object>> AuditHistory(string formName, int RefId);
+        Task<EmailFromD> GetReferenceId(DTO.RequestBO.ProcessDTO process);
     }
 }
