@@ -60,17 +60,26 @@ namespace RAMMS.Web.UI.Controllers
                         if (response.Title.ToLower() == "vetted")
                         {
                             subject = "eRAMS: Form " + response.RefNo + " has been " + response.Title.ToLower();
-                            emails = await _formDService.GetUserEmailIds(Convert.ToInt32(response.VerifierId));
-                            //emails += "," + _security.Email;
+                            emails = await _formDService.GetUserEmailIds(Convert.ToInt32(response.VerifierId),true);
+
+                            var selectedUserEmail = await _formDService.GetUserEmailIds(Convert.ToInt32(process.UserID),false);
+                            if (!string.IsNullOrEmpty(emails))
+                            {
+                                emails += "," + selectedUserEmail;
+                            }
+                            else
+                            {
+                                emails = selectedUserEmail;
+                            }                           
                         }
                         else
                         {
-                            emails = await _formDService.GetUserEmailIds(Convert.ToInt32(process.UserID));
+                            emails = await _formDService.GetUserEmailIds(Convert.ToInt32(process.UserID),true);
                         }
 
                         if (response.SubmittedByUserId > 0)
                         {
-                            var userEmails = await _formDService.GetUserEmailIds(Convert.ToInt32(response.SubmittedByUserId));
+                            var userEmails = await _formDService.GetUserEmailIds(Convert.ToInt32(response.SubmittedByUserId),true);
                             if (!string.IsNullOrEmpty(userEmails))
                             {
                                 if (!string.IsNullOrEmpty(emails))

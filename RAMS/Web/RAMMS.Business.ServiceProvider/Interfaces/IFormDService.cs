@@ -118,6 +118,6 @@ namespace RAMMS.Business.ServiceProvider.Interfaces
         Task<int> UpdateFormDSignature(FormDHeaderRequestDTO formDDTO);
 
         public Task<string> CheckAlreadyExists(int? weekNo, int? year, string crewUnit, string day, string rmu, string secCode);
-        Task<string> GetUserEmailIds(int id);
+        Task<string> GetUserEmailIds(int id, bool isReporting);
     }
 }

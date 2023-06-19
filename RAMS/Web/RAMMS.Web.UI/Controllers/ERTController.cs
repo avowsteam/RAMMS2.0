@@ -1531,7 +1531,7 @@ namespace RAMMS.Web.UI.Controllers
 
             #region Email
 
-            string emails = await _formDService.GetUserEmailIds(_security.UserID);            
+            string emails = await _formDService.GetUserEmailIds(_security.UserID,true);            
 
             var location = new Uri($"{Request.Scheme}://{Request.Host}");
             var eRAMSLink = location.AbsoluteUri;

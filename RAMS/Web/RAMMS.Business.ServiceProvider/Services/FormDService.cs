@@ -1482,9 +1482,9 @@ namespace RAMMS.Business.ServiceProvider.Services
             return _mapper.Map<FormDHeaderRequestDTO>(response);
         }
 
-        public async Task<string> GetUserEmailIds(int id)
+        public async Task<string> GetUserEmailIds(int id, bool isReporting)
         {
-            return await _repoUnit.FormDRepository.GetUserEmailIds(id);
+            return await _repoUnit.FormDRepository.GetUserEmailIds(id, isReporting);
         }
     }
 }
