@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using RAMMS.Common;
 using RAMMS.Domain.Models;
+using RAMMS.DTO.RequestBO;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
@@ -19,6 +20,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             context = repoUnit._context;
             security = Security;
         }
+
         public async Task<int> Save(DTO.RequestBO.ProcessDTO process)
         {
             int iResult = 0;
@@ -116,7 +118,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     iResult = await SaveFormF1(process);
                     break;
                 case "frmM":
-                    iResult = await 
+                    iResult = await
                         SaveFormM(process);
                     break;
                 case "FormT":
@@ -925,7 +927,6 @@ namespace RAMMS.Business.ServiceProvider.Services
         }
         private async Task<int> SaveFormD(DTO.RequestBO.ProcessDTO process)
         {
-
             var form = context.RmFormDHdr.Where(x => x.FdhPkRefNo == process.RefId).FirstOrDefault();
             if (form != null)
             {
@@ -1011,6 +1012,57 @@ namespace RAMMS.Business.ServiceProvider.Services
                 }, false);
             }
             return await context.SaveChangesAsync();
+        }
+        public async Task<EmailFromD> GetReferenceId(DTO.RequestBO.ProcessDTO process)
+        {
+            EmailFromD emailFromD = new EmailFromD();
+            var form = context.RmFormDHdr.Where(x => x.FdhPkRefNo == process.RefId).FirstOrDefault();
+            if (form != null)
+            {
+                string strTitle = "";
+                emailFromD.RefNo = form.FdhRefId;
+                emailFromD.Title = "Verified";
+                if (process.Stage == Common.StatusList.Executive)
+                {
+                    strTitle = "Verified By";
+                    emailFromD.IsEmail = true;
+                }
+                else if (process.Stage == Common.StatusList.HeadMaintenance)
+                {
+                    strTitle = "Vetted By";
+                    emailFromD.IsEmail = true;
+                    emailFromD.Title = "Vetted";
+                    if (!string.IsNullOrEmpty(form.FdhUseridVer))
+                        emailFromD.VerifierId = Convert.ToInt32(form.FdhUseridVer);
+                }               
+
+                if (!string.IsNullOrEmpty(form.FdhAuditLog))
+                {
+                    List<Dictionary<string, object>> dictionaryList = Utility.JDeSerialize<List<Dictionary<string, object>>>(form.FdhAuditLog);
+
+                    if (dictionaryList != null && dictionaryList.Count > 0)
+                    {
+                        foreach (Dictionary<string, object> dictionary in dictionaryList)
+                        {
+                            var title = dictionary.ContainsKey("title") ? Utility.ToString(dictionary["title"]) : "";
+                            if (title == "Recorded By")
+                            {
+                                var username = dictionary.ContainsKey("LogBy") ? Utility.ToString(dictionary["LogBy"]) : "";
+                                if (!string.IsNullOrEmpty(username))
+                                {
+                                    var userModel = context.RmUsers.Where(x => x.UsrUserName == username).Select(s => new { s.UsrEmail, s.UsrPkId }).FirstOrDefault();
+                                    if (userModel != null)
+                                    {
+                                        emailFromD.SubmittedByUserId = userModel.UsrPkId;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return emailFromD;
         }
         private async Task<int> SaveFormA(DTO.RequestBO.ProcessDTO process)
         {
@@ -2437,7 +2489,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
         private async Task<int> SaveFormB15(DTO.RequestBO.ProcessDTO process)
         {
-            var form = context.RmB15Hdr.Where(x => x.B15hPkRefNo== process.RefId).FirstOrDefault();
+            var form = context.RmB15Hdr.Where(x => x.B15hPkRefNo == process.RefId).FirstOrDefault();
             if (form != null)
             {
                 string strTitle = "";
@@ -2715,13 +2767,13 @@ namespace RAMMS.Business.ServiceProvider.Services
                     form.PchStatus = process.IsApprove ? Common.StatusList.Certified : Common.StatusList.Saved;
                     strTitle = "Approved by";
                     strStatus = "Certified";
-                     
+
                 }
                 if (!process.IsApprove)
                 {
                     if (process.Stage == Common.StatusList.Submitted)
                     {
-                        
+
                         form.PchSubmitSts = false;
                     }
                 }
@@ -2779,7 +2831,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     form.PcmamwSignDateSo = process.ApproveDate;
                     form.PcmamwSignSo = true;
                 }
-                
+
 
                 if (!process.IsApprove)
                 {
@@ -2907,7 +2959,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     form.RmmhVerifiedDesig = process.UserDesignation;
                     form.RmmhVerifiedDate = process.ApproveDate;
                     form.RmmhVerifiedSign = true;
-                }                
+                }
 
                 if (process.IsApprove)
                 {
@@ -2918,7 +2970,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     if (form.RmmhCheckedBy.HasValue)
                         lstNotUserId.Add(form.RmmhCheckedBy.Value);
                     if (form.RmmhVerifiedBy.HasValue)
-                        lstNotUserId.Add(form.RmmhVerifiedBy.Value);                    
+                        lstNotUserId.Add(form.RmmhVerifiedBy.Value);
 
                     strNotUserID = string.Join(",", lstNotUserId.Distinct());
                 }
@@ -2971,7 +3023,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                         form.RmmhRefId = OldReferenceNo[0] + "/" + OldReferenceNo[1] + "/" + ((form.RmmhDateReceived.Value).ToString("yyyyMMdd")) + "/" + process.RefId;
                     }
-                    
+
                     strTitle = "Verified By";
                     strStatus = "Verified";
                     strNotStatus = Common.StatusList.FormUcuaSaved;
@@ -2998,7 +3050,7 @@ namespace RAMMS.Business.ServiceProvider.Services
 
                 form.RmmhAuditLog = Utility.ProcessLog(form.RmmhAuditLog, strTitle, process.IsApprove ? strStatus : "Rejected", process.UserName, process.Remarks, process.ApproveDate, security.UserName);
                 strNotMsg = (process.IsApprove ? "" : "Rejected - ") + strTitle + ":" + process.UserName + " - Form UCUA (" + form.RmmhPkRefNo + ")";
-              //  strNotURL = "/FormM/Edit/" + form.RmmhPkRefNo.ToString() + "?View=0";
+                //  strNotURL = "/FormM/Edit/" + form.RmmhPkRefNo.ToString() + "?View=0";
                 SaveNotification(new RmUserNotification()
                 {
                     RmNotCrBy = security.UserName,

@@ -9,6 +9,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using RAMMS.DTO.Report;
+using RAMMS.DTO.ResponseBO;
 
 namespace RAMMS.Repository
 {
@@ -230,8 +231,20 @@ namespace RAMMS.Repository
             }).ToList();
         }
 
+
+
         public FormFSRpt GetReportData(int headerid)
         {
+            var queryHeaderAll = (from h in _context.RmFormFcInsHdr
+                                  join fsh in _context.RmFormFsInsHdr on h.FcihRoadCode equals fsh.FshRoadCode
+                                  where fsh.FshPkRefNo == headerid && h.FcihYearOfInsp == fsh.FshYearOfInsp
+                                  select new
+                                  {
+                                      AssetTypes = h.FcihAssetTypes
+                                  }).FirstOrDefault();
+
+            var AvgWidth = string.IsNullOrEmpty(queryHeaderAll.AssetTypes) == true ? null : Common.Utility.JDeSerialize<FormAssetTypesDTO>(queryHeaderAll.AssetTypes ?? "");
+
             Func<string, string, FormFSDetailRpt> dRpt = (type, code) =>
               {
                   return (from o in _context.RmFormFsInsDtl
@@ -246,7 +259,10 @@ namespace RAMMS.Repository
                               Condition2 = o.FsdCondition2.HasValue && o.FsdCondition2 != 0 ? o.FsdCondition2.Value : (decimal?)null,
                               Condition3 = o.FsdCondition3.HasValue && o.FsdCondition3 != 0 ? o.FsdCondition3.Value : (decimal?)null,
                               Needed = o.FsdNeeded,
-                              Remarks = o.FsdRemarks
+                              Remarks = o.FsdRemarks,
+                              FsdFeature = o.FsdFeature,
+                              FsdGrpCode = o.FsdGrpCode,
+                              FsdGrpType = o.FsdGrpType
                           }).FirstOrDefault() ?? new FormFSDetailRpt();
               };
             FormFSRpt rpt = (from o in _context.RmFormFsInsHdr
@@ -264,6 +280,7 @@ namespace RAMMS.Repository
                                  CrewLeader = o.FshCrewLeaderName
                              }).FirstOrDefault();
 
+            rpt.AvgWidth = AvgWidth;
             rpt.CWAsphaltic = dRpt("Asphalt", "CW");
             rpt.CWConcrete = dRpt("Concrete", "CW");
             rpt.CWEarth = dRpt("Earth", "CW");

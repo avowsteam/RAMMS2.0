@@ -50,12 +50,12 @@
         Position = "Supervisor"
     })).ToList().Select(s => new SelectListItem { Value = s.UserId.ToString(), Text = (s.UserId.ToString() + "-" + s.UserName) }).ToArray();
 
-    string inspectedDateBy = Model.DtInspBy.HasValue ? Model.DtInspBy.Value.ToString("yyyy-MM-dd") : "";
+    string inspectedDateBy = Model.DtInspBy.HasValue ? Model.DtInspBy.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd");
     string inspectionDate = Model.DtOfInsp.HasValue ? Model.DtOfInsp.Value.ToString("yyyy-MM-dd") : "";
     int IsAlreadyExist = Model.PkRefNo > 0 ? 1 : 0;
     int viewmode = Model.IsViewMode ? 1 : 0;
     bool IsSupervisor = security.IsSupervisor && (string.IsNullOrEmpty(Model.Status) || Model.Status == RAMMS.Common.StatusList.FormF2Init);
-    bool isEnggAssistant = security.isEnggAssistant ;
+    bool isEnggAssistant = security.isEnggAssistant;
 }
 
 <input type="hidden" id="hdnHeaderId" value="@Model.PkRefNo" />
@@ -194,7 +194,14 @@
                             <div class="form-group col-lg-3 float-left">
                                 @Html.Label("Date of Inspection (DD-MM-YYYY)", "Date of Inspection (DD-MM-YYYY)")
                                 @*<input id="txtInspectedDate" type="date" value="@inspectedDateBy" class="form-control svalidate {req,Inspected By}" disabled />*@
-                                <input id="txtInspectedDate" type="date" value="@inspectedDateBy" class="form-control svalidate {req,Date of Inspection}" @(IsSupervisor ? "" : "disabled='disabled'")>
+                                @if (isEnggAssistant)
+                                {
+                                    <input id="txtInspectedDate" type="date" value="@inspectedDateBy" class="form-control svalidate {req,Date of Inspection}">
+                                }
+                                else
+                                {
+                                    <input id="txtInspectedDate" type="date" value="@inspectedDateBy" class="form-control svalidate {req,Date of Inspection}" @(IsSupervisor ? "" : "disabled='disabled'")>
+                                }
                             </div>
                         </div>
                     </div>

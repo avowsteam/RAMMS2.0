@@ -538,8 +538,13 @@ function assignValuetothegrid(data) {
                         + (d.condition2 != null ? (d.condition2 / 10) : 0.0)
                         + (d.condition3 != null ? (d.condition3 / 10) : 0.0);
                     tbl.find(`[${d.groupCode}${d.strucCode}Totallength]`).text(result.toFixed(1));
-                    tbl.find(`[${d.groupCode}${d.strucCode}classCategory]`).text((d.classCategory != null ?  d.classCategory : ""));
-                    tbl.find(`[${d.groupCode}${d.strucCode}width]`).text((d.width != null ? (d.width % 1 != 0 ? d.width.toFixed(1) : d.width) : ""));
+                    tbl.find(`[${d.groupCode}${d.strucCode}classCategory]`).text((d.classCategory != null ? d.classCategory : ""));
+                    //checking decimal places and set condition for decimal                    
+                    var avgWidth = d.width != null ? (d.width % 1 != 0 ? d.width.toFixed(2) : d.width) : 0;
+                    if (countDecimalLength(avgWidth) > 1)
+                        tbl.find(`[${d.groupCode}${d.strucCode}width]`).text((d.width != null ? (d.width % 1 != 0 ? d.width.toFixed(2) : d.width) : ""));
+                    else
+                        tbl.find(`[${d.groupCode}${d.strucCode}width]`).text((d.width != null ? (d.width % 1 != 0 ? d.width.toFixed(1) : d.width) : ""));
                     tbl.find(`[${d.groupCode}${d.strucCode}c1]`).text((d.condition1 != null ? (d.condition1 / 10).toFixed(1) : ""));
                     tbl.find(`[${d.groupCode}${d.strucCode}c2]`).text((d.condition2 != null ? (d.condition2 / 10).toFixed(1) : ""));
                     tbl.find(`[${d.groupCode}${d.strucCode}c3]`).text((d.condition3 != null ? (d.condition3 / 10).toFixed(1) : ""));
@@ -565,4 +570,20 @@ function assignValuetothegrid(data) {
             }
         });
     }
+}
+
+function countDecimalLength(avgWidth) {
+
+    if (Math.floor(avgWidth.valueOf()) === avgWidth.valueOf()) return 0;
+    if (!(avgWidth == "" || avgWidth == null || avgWidth == undefined)) {
+        var avgWidthFloat = parseFloat(avgWidth);
+        var str = avgWidthFloat.toString();
+        if (str.indexOf(".") !== -1 && str.indexOf("-") !== -1) {
+            return str.split("-")[1] || 0;
+        } else if (str.indexOf(".") !== -1) {
+            return str.split(".")[1].length || 0;
+        }
+        return str.split("-")[1] || 0;
+    }
+    return 0;
 }

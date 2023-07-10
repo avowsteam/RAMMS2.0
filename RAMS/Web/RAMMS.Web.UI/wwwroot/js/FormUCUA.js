@@ -27,17 +27,14 @@ function Save(GroupName, SubmitType) {
                 app.ShowErrorMessage(data.errorMessage);
             }
             else {
-
                 if (SubmitType == "") {
                     if (data.formExist) {
                         location.href = "/FrmUCUA/Add?Id=" + data.pkRefNo + "&view=0";
                         return;
                     }
-                    else {
-                        debugger;
+                    else {                       
                         UpdateFormAfterSave(data);
                     }
-
                 }
                 else if (SubmitType == "Saved") {
                     app.ShowSuccessMessage('Saved Successfully', false);
@@ -53,7 +50,6 @@ function Save(GroupName, SubmitType) {
             }
         });
     }
-
 }
 
 
@@ -215,20 +211,62 @@ function UpdateFormAfterSave(data) {
    // InitializeGrid();
 }
 
-function GetImageList(id, formName) {
-
+function GetImageList(id, formName) {    
     var group = $("#FormADetAssetGrpCode option:selected").val();
-
     $.ajax({
         url: '/FrmUCUA/GetUCUAImageList',
         data: { Id: id, assetgroup: group, Form: formName },
         type: 'POST',
-        success: function (data) {
+        success: function (data) {            
             $("#ViewPhoto").html(data);
         },
         error: function (data) {
             alert(data.responseText);
         }
-
     });
+}
+function FormAddImage() {
+    if ($("#hdnView").val() == "1") return;
+    $("#photoType").val("").trigger("chosen:updated");
+    if (ValidatePage("#tab1")) {
+        if ($("#hdnPkRefNo").val() != "0") {
+            $("#myModal").modal('show');
+
+            if (getIsTabForm()) {
+                $("#divFormType").show();
+            }
+
+            else {
+                $("#divFormType").hide();
+            }
+           
+        }
+        else {
+            $("#tab1").click();
+            app.ShowErrorMessage("Required to save the Form W1 details and then try to upload photo");
+        }
+    }
+    else {
+        $("#saveFormW1Btn").click();
+        app.ShowErrorMessage("Required fields are incomplete in Form W1");
+    }
+}
+function getIsTabForm() {
+    if ($("#hdnFormType").val().indexOf("WC") >= 0 || $("#hdnFormType").val().indexOf("WG") >= 0) {
+        return true;
+    }
+    else if ($("#hdnFormType").val().indexOf("WD") >= 0 || $("#hdnFormType").val().indexOf("WN") >= 0) {
+        return true;
+    }
+
+    return false
+}
+function UploadModalClose() {
+    $("#photoType").val("").trigger("chosen:updated");
+    document.getElementById("files").disabled = true;
+    $("#files1").addClass("disabled");
+    document.getElementById("FormDBrowseBtn").disabled = true;
+    document.getElementById("btnImageUpload").disabled = true;
+    $("#photolist").empty();
+    $('#myModal').modal('hide');
 }

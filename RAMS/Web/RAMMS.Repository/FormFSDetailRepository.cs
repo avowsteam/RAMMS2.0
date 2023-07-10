@@ -62,6 +62,97 @@ namespace RAMMS.Repository
             }).ToList();
         }
 
+        private double? GetAverageWidth(string FsdFeature, double? FsdWidth, Dictionary<string, List<Dictionary<string, string>>> AvgWidth, string FsdGrpCode, string FsdGrpType)
+        {
+            string avgWidthNew = "";
+            if (AvgWidth != null)
+            {               
+                if (AvgWidth.ContainsKey("CLM") && FsdGrpCode == "CLM")
+                {
+                    var cw = AvgWidth["CLM"];
+                    foreach (var c in cw)
+                    {
+                        if (c.ContainsValue("Paint") && FsdGrpType == "Paint")
+                        {
+                            if (c.ContainsKey("AvgWidth"))
+                            {
+                                avgWidthNew = c["AvgWidth"];
+                                break;
+                            }
+                        }
+                        else if (c.ContainsValue("Thermoplastic") && FsdGrpType == "Thermoplastic")
+                        {
+                            if (c.ContainsKey("AvgWidth"))
+                            {
+                                avgWidthNew = c["AvgWidth"];
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (AvgWidth.ContainsKey("CW") && FsdGrpCode == "CW")
+                {
+                    var cw = AvgWidth["CW"];
+                    foreach (var c in cw)
+                    {
+                        if (c.ContainsValue("Asphalt") && FsdGrpType == "Asphalt")
+                        {
+                            if (c.ContainsKey("AvgWidth"))
+                            {
+                                avgWidthNew = c["AvgWidth"];
+                                break;
+                            }
+                        }
+                        else if (c.ContainsValue("Surface Dressed") && FsdGrpType == "Surface Dressed")
+                        {
+                            if (c.ContainsKey("AvgWidth"))
+                            {
+                                avgWidthNew = c["AvgWidth"];
+                                break;
+                            }
+                        }
+                        else if (c.ContainsValue("Gravel") && FsdGrpType == "Gravel")
+                        {
+                            if (c.ContainsKey("AvgWidth"))
+                            {
+                                avgWidthNew = c["AvgWidth"];
+                                break;
+                            }
+                        }
+                        else if (c.ContainsValue("Earth") && FsdGrpType == "Earth")
+                        {
+                            if (c.ContainsKey("AvgWidth"))
+                            {
+                                avgWidthNew = c["AvgWidth"];
+                                break;
+                            }
+                        }
+                        else if (c.ContainsValue("Concrete") && FsdGrpType == "Concrete")
+                        {
+                            if (c.ContainsKey("AvgWidth"))
+                            {
+                                avgWidthNew = c["AvgWidth"];
+                                break;
+                            }
+                        }
+                        else if (c.ContainsValue("Sand") && FsdGrpType == "Sand")
+                        {
+                            if (c.ContainsKey("AvgWidth"))
+                            {
+                                avgWidthNew = c["AvgWidth"];
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            if ((FsdFeature == "CENTER LINE MARKING" || FsdFeature == "CARRIAGE WAY") && !string.IsNullOrEmpty(avgWidthNew))
+            {
+                return Convert.ToDouble(avgWidthNew);
+            }
+            return FsdWidth;
+        }
+
         public async Task<List<FormFSDetailRequestDTO>> GetRecordList(int headerId)
         {
             string[] grpCodes = new string[] { "ELM", "RS", "CLM", "CW" };
@@ -71,355 +162,47 @@ namespace RAMMS.Repository
                          orderby s.FsdFeature
                          select s);
             var lst = await query.ToListAsync();
-            var avgClmWidth = "0";
-            var queryHeader = (from s in _context.RmFormFsInsHdr
-                               where s.FshPkRefNo == headerId
-                               && s.FshActiveYn == true
-                               orderby s.FshRoadCode
-                               select s.FshRoadCode).FirstOrDefault();
-            //var queryHeaderAll = _context.RmAllassetInventory.Where(x => x.AiRdCode == queryHeader && x.AiActiveYn == true
-            // && grpCodes.Contains(x.AiAssetGrpCode)).OrderBy(x => x.AiAssetGrpCode);
-
-
 
             var queryHeaderAll = (from h in _context.RmFormFcInsHdr
                                   join fsh in _context.RmFormFsInsHdr on h.FcihRoadCode equals fsh.FshRoadCode
                                   where fsh.FshPkRefNo == headerId && h.FcihYearOfInsp == fsh.FshYearOfInsp
                                   select new
                                   {
-
                                       AssetTypes = h.FcihAssetTypes
                                   }).FirstOrDefault();
 
-            if (!string.IsNullOrEmpty(queryHeaderAll.AssetTypes))
-            {
-                var AvgWidth = Common.Utility.JDeSerialize<FormAssetTypesDTO>(queryHeaderAll.AssetTypes ?? "");
+            var AvgWidth = string.IsNullOrEmpty(queryHeaderAll.AssetTypes) == true ? null : Common.Utility.JDeSerialize<FormAssetTypesDTO>(queryHeaderAll.AssetTypes ?? "");
 
-                if (AvgWidth.ContainsKey("CLM"))
-                {
-                    var cw = AvgWidth["CLM"];
-                    foreach (var c in cw)
-                    {
-                        if (c.ContainsValue("Paint"))
-                        {
-                            if (c.ContainsKey("AvgWidth"))
-                            {
-                                avgClmWidth = c["AvgWidth"];
-                            }
-                        }
-                        else if (c.ContainsValue("Thermoplastic"))
-                        {
-                            if (c.ContainsKey("AvgWidth"))
-                            {
-                                avgClmWidth = c["AvgWidth"];
-                            }
-                        }
-                    }
-                }
+            List<FormFSDetailRequestDTO> recordList = new List<FormFSDetailRequestDTO>();
+            FormFSDetailRequestDTO obj;
+
+            foreach (var s in lst)
+            {
+                obj = new FormFSDetailRequestDTO();
+                obj.PkRefNo = s.FsdPkRefNo;
+                obj.FshPkRefNo = s.FsdFshPkRefNo;
+                obj.Feature = s.FsdFeature;
+                obj.GrpType = s.FsdGrpType;
+                obj.StrucCode = s.FsdStrucCode;
+                obj.Width = GetAverageWidth(s.FsdFeature, s.FsdWidth, AvgWidth, s.FsdGrpCode, s.FsdGrpType);
+                obj.classCategory = getClassCategoryByWidth(obj.Width);
+                obj.Length = s.FsdLength;
+                obj.Condition1 = s.FsdCondition1;
+                obj.Condition2 = s.FsdCondition2;
+                obj.Condition3 = s.FsdCondition3;
+                obj.Needed = s.FsdNeeded;
+                obj.Unit = s.FsdUnit;
+                obj.Remarks = s.FsdRemarks;
+                obj.ModBy = s.FsdModBy;
+                obj.ModDt = s.FsdModDt;
+                obj.CrBy = s.FsdCrBy;
+                obj.CrDt = s.FsdCrDt;
+                obj.SubmitSts = s.FsdSubmitSts;
+                obj.ActiveYn = s.FsdActiveYn.Value;
+                obj.GroupCode = s.FsdGrpCode;
+                recordList.Add(obj);
             }
-            return lst.Select(s => new FormFSDetailRequestDTO
-            {
-                PkRefNo = s.FsdPkRefNo,
-                FshPkRefNo = s.FsdFshPkRefNo,
-                Feature = s.FsdFeature,
-                GrpType = s.FsdGrpType,
-                StrucCode = s.FsdStrucCode,
-                //Width = s.FsdWidth != null ? s.FsdWidth : queryHeaderAll.Where(d=>d.AiAssetGrpCode==s.FsdGrpCode && d.AiGrpType == s.FsdGrpType).Select(d=>d.AiWidth).FirstOrDefault(),
-                Width = s.FsdFeature == "CENTER LINE MARKING" ? s.FsdWidth != null ? s.FsdWidth : Convert.ToDouble(avgClmWidth) : s.FsdWidth,
-                //  Width = Convert.ToDouble(avgClmWidth),
-                classCategory = getClassCategoryByWidth(s.FsdWidth),
-                Length = s.FsdLength,
-                Condition1 = s.FsdCondition1,
-                Condition2 = s.FsdCondition2,
-                Condition3 = s.FsdCondition3,
-                Needed = s.FsdNeeded,
-                Unit = s.FsdUnit,
-                Remarks = s.FsdRemarks,
-                ModBy = s.FsdModBy,
-                ModDt = s.FsdModDt,
-                CrBy = s.FsdCrBy,
-                CrDt = s.FsdCrDt,
-                SubmitSts = s.FsdSubmitSts,
-                ActiveYn = s.FsdActiveYn.Value,
-                GroupCode = s.FsdGrpCode
-            }).ToList();
-            //FormFSDetailRequestDTO obj = new FormFSDetailRequestDTO();
-            //List<FormFSDetailRequestDTO> objList = new List<FormFSDetailRequestDTO>();
-            //FormFCRpt rpt = (from h in _context.RmFormFcInsHdr
-            //                 join fsh in _context.RmFormFsInsHdr on h.FcihRoadCode equals fsh.FshRoadCode
-            //                 where fsh.FshPkRefNo == headerId && h.FcihYearOfInsp == fsh.FshYearOfInsp
-            //                 select new FormFCRpt
-            //                 {
-
-            //                     AssetTypes = h.FcihAssetTypes
-            //                 }).FirstOrDefault();
-
-            //foreach (var s in lst)
-            //{
-            //    if (!string.IsNullOrEmpty(rpt.AssetTypes))
-            //    {
-            //        var AvgWidth = Common.Utility.JDeSerialize<FormAssetTypesDTO>(rpt.AssetTypes ?? "");
-
-            //        if (AvgWidth.ContainsKey(s.FsdStrucCode))
-            //        {
-            //            var cw = AvgWidth["RS"];
-            //            foreach (var c in cw)
-            //            {
-            //                if (c.ContainsValue("Left"))
-            //                {
-            //                    if (c.ContainsKey("LAvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["LAvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                if (c.ContainsValue("Centre"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                if (c.ContainsValue("Right"))
-            //                {
-            //                    if (c.ContainsKey("RAvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["RAvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //            }
-            //            obj.PkRefNo = s.FsdPkRefNo;
-            //            obj.FshPkRefNo = s.FsdFshPkRefNo;
-            //            obj.Feature = s.FsdFeature;
-            //            obj.GrpType = s.FsdGrpType;
-            //            // obj.StrucCode = s.FsdStrucCode,
-
-            //            //obj.Width = Convert.ToDouble(avgClmWidth);
-
-            //            obj.Length = s.FsdLength;
-            //            obj.Condition1 = s.FsdCondition1;
-            //            obj.Condition2 = s.FsdCondition2;
-            //            obj.Condition3 = s.FsdCondition3;
-            //            obj.Needed = s.FsdNeeded;
-            //            obj.Unit = s.FsdUnit;
-            //            obj.Remarks = s.FsdRemarks;
-            //            obj.ModBy = s.FsdModBy;
-            //            obj.ModDt = s.FsdModDt;
-            //            obj.CrBy = s.FsdCrBy;
-            //            obj.CrDt = s.FsdCrDt;
-            //            obj.SubmitSts = s.FsdSubmitSts;
-            //            obj.ActiveYn = s.FsdActiveYn.Value;
-            //            obj.GroupCode = s.FsdGrpCode;
-            //            objList.Add(obj);
-            //        }
-            //        if (AvgWidth.ContainsKey(s.FsdStrucCode))
-            //        {
-            //            var cw = AvgWidth["ELM"];
-            //            foreach (var c in cw)
-            //            {
-            //                if (c.ContainsValue("Paint"))
-            //                {
-            //                    if (c.ContainsKey("LAvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["LAvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                    if (c.ContainsKey("RAvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["RAvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-
-            //                if (c.ContainsValue("Thermoplastic"))
-            //                {
-            //                    if (c.ContainsKey("LAvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["LAvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                    if (c.ContainsKey("RAvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["RAvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //            }
-            //            obj.PkRefNo = s.FsdPkRefNo;
-            //            obj.FshPkRefNo = s.FsdFshPkRefNo;
-            //            obj.Feature = s.FsdFeature;
-            //            obj.GrpType = s.FsdGrpType;
-            //          //  obj.StrucCode = s.FsdStrucCode;
-
-            //            //obj.Width = Convert.ToDouble(avgClmWidth);
-            //            //obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //            obj.Length = s.FsdLength;
-            //            obj.Condition1 = s.FsdCondition1;
-            //            obj.Condition2 = s.FsdCondition2;
-            //            obj.Condition3 = s.FsdCondition3;
-            //            obj.Needed = s.FsdNeeded;
-            //            obj.Unit = s.FsdUnit;
-            //            obj.Remarks = s.FsdRemarks;
-            //            obj.ModBy = s.FsdModBy;
-            //            obj.ModDt = s.FsdModDt;
-            //            obj.CrBy = s.FsdCrBy;
-            //            obj.CrDt = s.FsdCrDt;
-            //            obj.SubmitSts = s.FsdSubmitSts;
-            //            obj.ActiveYn = s.FsdActiveYn.Value;
-            //            obj.GroupCode = s.FsdGrpCode;
-            //            objList.Add(obj);
-            //        }
-
-            //        if (AvgWidth.ContainsKey(s.FsdStrucCode))
-            //        {
-            //            var cw = AvgWidth["CLM"];
-            //            foreach (var c in cw)
-            //            {
-            //                if (c.ContainsValue("Paint"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                else if (c.ContainsValue("Thermoplastic"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-
-            //            }
-            //            obj.PkRefNo = s.FsdPkRefNo;
-            //            obj.FshPkRefNo = s.FsdFshPkRefNo;
-            //            obj.Feature = s.FsdFeature;
-            //            obj.GrpType = s.FsdGrpType;
-            //            //obj.StrucCode = s.FsdStrucCode;
-
-            //            //obj.Width = Convert.ToDouble(avgClmWidth);
-            //          //  obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //            obj.Length = s.FsdLength;
-            //            obj.Condition1 = s.FsdCondition1;
-            //            obj.Condition2 = s.FsdCondition2;
-            //            obj.Condition3 = s.FsdCondition3;
-            //            obj.Needed = s.FsdNeeded;
-            //            obj.Unit = s.FsdUnit;
-            //            obj.Remarks = s.FsdRemarks;
-            //            obj.ModBy = s.FsdModBy;
-            //            obj.ModDt = s.FsdModDt;
-            //            obj.CrBy = s.FsdCrBy;
-            //            obj.CrDt = s.FsdCrDt;
-            //            obj.SubmitSts = s.FsdSubmitSts;
-            //            obj.ActiveYn = s.FsdActiveYn.Value;
-            //            obj.GroupCode = s.FsdGrpCode;
-            //            objList.Add(obj);
-            //        }
-
-            //        if (AvgWidth.ContainsKey(s.FsdStrucCode))
-            //        {
-            //            var cw = AvgWidth["CW"];
-            //            foreach (var c in cw)
-            //            {
-            //                if (c.ContainsValue("Asphalt"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                else if (c.ContainsValue("Surface Dressed"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                else if (c.ContainsValue("Gravel"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                else if (c.ContainsValue("Earth"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                else if (c.ContainsValue("Concrete"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-            //                else if (c.ContainsValue("Sand"))
-            //                {
-            //                    if (c.ContainsKey("AvgWidth"))
-            //                    {
-            //                        obj.Width = Convert.ToDouble(c["AvgWidth"]);
-            //                        obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //                        obj.StrucCode = (c["Value"]);
-            //                    }
-            //                }
-
-            //            }
-            //            obj.PkRefNo = s.FsdPkRefNo;
-            //            obj.FshPkRefNo = s.FsdFshPkRefNo;
-            //            obj.Feature = s.FsdFeature;
-            //            obj.GrpType = s.FsdGrpType;
-            //            //obj.StrucCode = s.FsdStrucCode;
-
-            //            //obj.Width = Convert.ToDouble(avgClmWidth);
-            //            obj.classCategory = getClassCategoryByWidth(obj.Width);
-            //            obj.Length = s.FsdLength;
-            //            obj.Condition1 = s.FsdCondition1;
-            //            obj.Condition2 = s.FsdCondition2;
-            //            obj.Condition3 = s.FsdCondition3;
-            //            obj.Needed = s.FsdNeeded;
-            //            obj.Unit = s.FsdUnit;
-            //            obj.Remarks = s.FsdRemarks;
-            //            obj.ModBy = s.FsdModBy;
-            //            obj.ModDt = s.FsdModDt;
-            //            obj.CrBy = s.FsdCrBy;
-            //            obj.CrDt = s.FsdCrDt;
-            //            obj.SubmitSts = s.FsdSubmitSts;
-            //            obj.ActiveYn = s.FsdActiveYn.Value;
-            //            obj.GroupCode = s.FsdGrpCode;
-            //            objList.Add(obj);
-            //        }
-            //    }
-
-            //}
-
-
-            //return objList.ToList();
+            return recordList;
         }
 
         private IQueryable<RmDdLookup> GetAsset()
@@ -518,8 +301,8 @@ namespace RAMMS.Repository
                 if (obj != null)
                     lst.Add(obj);
             }
-            
-			var culverts = GetAsset().Where(s => s.DdlTypeCode == "CV").ToList();
+
+            var culverts = GetAsset().Where(s => s.DdlTypeCode == "CV").ToList();
             foreach (var cw in culverts)
             {
                 var obj = GetCulvertDetail(cw.DdlTypeDesc, cw.DdlTypeValue, userid, headerid, hdr);
@@ -542,8 +325,8 @@ namespace RAMMS.Repository
                 if (obj != null)
                     lst.Add(obj);
             }
-           
-		   var  sign = this.GetAsset().Where(s => s.DdlTypeCode == "SG");
+
+            var sign = this.GetAsset().Where(s => s.DdlTypeCode == "SG");
             foreach (var rmDdLookup in sign)
             {
                 var signs = this.GetSigns(rmDdLookup.DdlTypeDesc, rmDdLookup.DdlTypeValue, userid, headerid, hdr);
@@ -1053,12 +836,12 @@ namespace RAMMS.Repository
             var Length = (from o in _context.RmFormFcInsDtl
                           join h in _context.RmFormFcInsHdr on o.FcidFcihPkRefNo equals h.FcihPkRefNo
                           where o.FcidAiGrpType == grptype && o.FcidAiAssetGrpCode == StructureCode && o.FcidActiveYn == true && h.FcihActiveYn == true && h.FcihSubmitSts == true
-                                   && h.FcihYearOfInsp == hdr.FshYearOfInsp  && h.FcihRoadCode == hdr.FshRoadCode
+                                   && h.FcihYearOfInsp == hdr.FshYearOfInsp && h.FcihRoadCode == hdr.FshRoadCode
                           select o.FcidLength)?.Sum();
             var AvgWidth = (from o in _context.RmFormFcInsDtl
                             join h in _context.RmFormFcInsHdr on o.FcidFcihPkRefNo equals h.FcihPkRefNo
                             where o.FcidAiGrpType == grptype && o.FcidAiAssetGrpCode == StructureCode && o.FcidActiveYn == true && h.FcihActiveYn == true && h.FcihSubmitSts == true
-                                   && h.FcihYearOfInsp == hdr.FshYearOfInsp  && h.FcihRoadCode == hdr.FshRoadCode
+                                   && h.FcihYearOfInsp == hdr.FshYearOfInsp && h.FcihRoadCode == hdr.FshRoadCode
                             select o.FcidWidth)?.Average();
             //double Length = (double)(condition1 + condition2 + condition3);
 
@@ -1316,10 +1099,10 @@ namespace RAMMS.Repository
             var count = (from o in _context.RmFormF1Dtl
                          join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
                          //join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo  equals r.Fr1hPkRefNo
-                         where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear  == hdr.FshYearOfInsp
+                         where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
                          && h.Ff1hActiveYn == true && o.Ff1dCode == StructureCode && h.Ff1hSubmitSts == true
                          select 1).Count();
-       
+
             //var Length = (from o in _context.RmFormF1Dtl
             //              join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
             //              join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
@@ -1338,11 +1121,11 @@ namespace RAMMS.Repository
                             select a.AiWidth)?.Sum();
 
             int? condition1 = (from o in _context.RmFormF1Dtl
-                              join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
-                              //join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
-                              join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
-                              where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
-                             && h.Ff1hActiveYn == true && o.Ff1dCode == StructureCode && o.Ff1dOverallCondition == 1 && h.Ff1hSubmitSts == true
+                               join h in _context.RmFormF1Hdr on o.Ff1dFf1hPkRefNo equals h.Ff1hPkRefNo
+                               //join r in _context.RmFormR1Hdr on o.Ff1dR1hPkRefNo equals r.Fr1hPkRefNo
+                               join a in _context.RmAllassetInventory on o.Ff1dAssetId equals a.AiAssetId
+                               where h.Ff1hRdCode == hdr.FshRoadCode && h.Ff1hInspectedYear == hdr.FshYearOfInsp
+                              && h.Ff1hActiveYn == true && o.Ff1dCode == StructureCode && o.Ff1dOverallCondition == 1 && h.Ff1hSubmitSts == true
                                select 1)?.Count();
 
             int? condition2 = (from o in _context.RmFormF1Dtl
@@ -1374,7 +1157,7 @@ namespace RAMMS.Repository
                     FsdGrpType = grptype,
                     FsdGrpCode = "rw",
                     FsdLength = count, //Length,
-                    FsdWidth = (double?)Math.Round(((decimal)AvgWidth /count),2),
+                    FsdWidth = (double?)Math.Round(((decimal)AvgWidth / count), 2),
                     FsdStrucCode = StructureCode,
                     FsdSubmitSts = false,
                     FsdUnit = "m",
@@ -1394,15 +1177,15 @@ namespace RAMMS.Repository
             var count = (from o in _context.RmFormF3Dtl
                          join h in _context.RmFormF3Hdr on o.Ff3dFf3hPkRefNo equals h.Ff3hPkRefNo
                          where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp
-                         && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode  && h.Ff3hSubmitSts == true
+                         && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode && h.Ff3hSubmitSts == true
                          select 1).Count();
 
-            var Length = count ;
+            var Length = count;
 
             var AvgWidth = (from o in _context.RmFormF3Dtl
                             join h in _context.RmFormF3Hdr on o.Ff3dFf3hPkRefNo equals h.Ff3hPkRefNo
                             join i in _context.RmAllassetInventory on o.Ff3dAssetId equals i.AiPkRefNo.ToString()
-                            where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp && i.AiActiveYn == true &&  o.Ff3dCode == StructureCode && h.Ff3hSubmitSts == true
+                            where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp && i.AiActiveYn == true && o.Ff3dCode == StructureCode && h.Ff3hSubmitSts == true
                             select i.AiWidth)?.Sum();
 
 
@@ -1419,9 +1202,9 @@ namespace RAMMS.Repository
                                select 1)?.Count();
 
             int? condition3 = (from o in _context.RmFormF3Dtl
-                                join h in _context.RmFormF3Hdr on o.Ff3dFf3hPkRefNo equals h.Ff3hPkRefNo
-                                where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp
-                               && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode && o.Ff3dConditionI == 3 && h.Ff3hSubmitSts == true
+                               join h in _context.RmFormF3Hdr on o.Ff3dFf3hPkRefNo equals h.Ff3hPkRefNo
+                               where h.Ff3hRdCode == hdr.FshRoadCode && h.Ff3hInspectedYear == hdr.FshYearOfInsp
+                              && h.Ff3hActiveYn == true && o.Ff3dCode == StructureCode && o.Ff3dConditionI == 3 && h.Ff3hSubmitSts == true
                                select 1)?.Count();
 
 
@@ -1438,7 +1221,7 @@ namespace RAMMS.Repository
                     FsdGrpType = grptype,
                     FsdGrpCode = "sg",
                     FsdLength = Length,
-                    FsdWidth = (double?)Math.Round(((decimal)AvgWidth /count),2),
+                    FsdWidth = (double?)Math.Round(((decimal)AvgWidth / count), 2),
                     FsdStrucCode = StructureCode,
                     FsdSubmitSts = false,
                     FsdUnit = "nr",
@@ -1455,23 +1238,27 @@ namespace RAMMS.Repository
         private string getClassCategoryByWidth(double? avgwidth)
         {
             string classCategory = "";
-            if(avgwidth > Convert.ToDouble(7.5))
+            if (avgwidth > Convert.ToDouble(7.5))
             {
                 classCategory = "A";
             }
-            if (avgwidth <= Convert.ToDouble(7.5) && avgwidth > Convert.ToDouble(6.5))
+            else if (avgwidth <= Convert.ToDouble(7.5) && avgwidth > Convert.ToDouble(6.5))
             {
                 classCategory = "B";
             }
-            if (avgwidth <= Convert.ToDouble(6.5) && avgwidth > Convert.ToDouble(5.5))
+            else if (avgwidth <= Convert.ToDouble(6.5) && avgwidth > Convert.ToDouble(5.5))
             {
                 classCategory = "C";
             }
-            if (avgwidth <= Convert.ToDouble(5) && avgwidth > Convert.ToDouble(4.5))
+            else if (avgwidth <= Convert.ToDouble(5.5) && avgwidth > Convert.ToDouble(5))
+            {
+                classCategory = "D";
+            }
+            else if (avgwidth <= Convert.ToDouble(5) && avgwidth > Convert.ToDouble(4.5))
             {
                 classCategory = "E";
             }
-            if (avgwidth <= Convert.ToDouble(4.5) && avgwidth > Convert.ToDouble(0))
+            else if (avgwidth <= Convert.ToDouble(4.5) && avgwidth > Convert.ToDouble(0))
             {
                 classCategory = "F";
             }

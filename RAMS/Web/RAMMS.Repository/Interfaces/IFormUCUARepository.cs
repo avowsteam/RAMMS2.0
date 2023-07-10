@@ -18,6 +18,18 @@ namespace RAMMS.Repository.Interfaces
         Task<List<FormUCUAHeaderRequestDTO>> GetFilteredRecordList(FilteredPagingDefinition<FormUCUASearchGridDTO> filterOptions);
         int? DeleteFormUCUA(int id);
         Task<int> GetImageId(string iwRefNo, string type);
+
+
+        Task<List<FormUCUAPhotoTypeDTO>> GetExitingPhotoType(int headerId);
+        //Task<RmIwformImage> AddImage(RmIwformImage image);
+
+        Task<List<RmUcuaImage>> AddMultiImage(List<RmUcuaImage> images);
+        Task<int> ImageCount(string type, long headerId);
+        Task<List<RmUcuaImage>> ImageList(int headerId);
+        Task<int> DeleteImage(RmUcuaImage img);
+        Task<int> DeleteUCUAWebImage(RmUcuaImage img);
+        Task<List<RmUcuaImage>> AddMultiImageWeb(List<RmUcuaImage> images);
+        Task<List<RmUcuaImage>> ImageListWeb(int headerId);
     }
     
 }

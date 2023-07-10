@@ -31,6 +31,7 @@ using Microsoft.AspNetCore.Mvc;
 using RAMMS.Web.UI.Filters;
 using System.Globalization;
 using Microsoft.AspNetCore.Http.Features;
+using RAMMS.Common;
 
 namespace RAMMS.Web.UI
 {
@@ -82,8 +83,9 @@ namespace RAMMS.Web.UI
             services.AddSingleton(typeof(Serilog.ILogger), logger);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.InjectAppDependencies();
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 
+            services.InjectAppDependencies();    
             services.AddAutoMapper(typeof(AutoMapperProfiles));
             services.InitAutoMapper();
             services.AddDirectoryBrowser();

@@ -229,7 +229,6 @@ namespace RAMMS.Repository
         {
             try
             {
-
                 var res = _context.Set<RmUcua>().FindAsync(id);
                 res.Result.RmmhActiveYn = false;
                 _context.Set<RmUcua>().Attach(res.Result);
@@ -248,6 +247,67 @@ namespace RAMMS.Repository
         {
             int? result = await _context.RmIwformImage.Where(x => x.FiwiFw1IwRefNo == iwRefNo && x.FiwiImageTypeCode == type).Select(x => x.FiwiImageSrno).MaxAsync();
             return result.HasValue ? result.Value : 0;
+        }
+
+
+
+
+
+        public async Task<List<FormUCUAPhotoTypeDTO>> GetExitingPhotoType(int headerId)
+        {
+            return await _context.RmUcuaImage.Where(x => x.UcuaRmmhPkRefNo == headerId).GroupBy(x => x.UcuaImageTypeCode).Select(x => new FormUCUAPhotoTypeDTO()
+            {
+                SNO = x.Max(y => y.UcuaImageSrno.Value),
+                Type = x.Key
+            }).ToListAsync();
+        }
+        //public async Task<RmIwformImage> AddImage(RmIwformImage image)
+        //{
+        //    _context.RmIwformImage.Add(image);
+        //    await _context.SaveChangesAsync();
+        //    return image;
+        //}
+        public async Task<List<RmUcuaImage>> AddMultiImage(List<RmUcuaImage> images)
+        {
+            _context.RmUcuaImage.AddRange(images);
+            await _context.SaveChangesAsync();
+            return images;
+        }
+
+        public async Task<int> ImageCount(string type, long headerId)
+        {
+            return await _context.RmUcuaImage.Where(s => s.UcuaImageTypeCode == type && s.UcuaRmmhPkRefNo == headerId).CountAsync();
+
+        }
+        public async Task<List<RmUcuaImage>> ImageList(int headerId)
+        {
+            return await _context.RmUcuaImage.Where(x => x.UcuaRmmhPkRefNo == headerId && x.UcuaActiveYn == true).ToListAsync();
+        }
+        public async Task<int> DeleteImage(RmUcuaImage img)
+        {
+            _context.RmUcuaImage.Attach(img);
+            var entry = _context.Entry(img);
+            entry.Property(x => x.UcuaActiveYn).IsModified = true;
+            await _context.SaveChangesAsync();
+            return img.UcuaPkRefNo;
+        }
+        public async Task<List<RmUcuaImage>> ImageListWeb(int headerId)
+        {
+            return await _context.RmUcuaImage.Where(x => x.UcuaRmmhPkRefNo == headerId && x.UcuaActiveYn == true).ToListAsync();
+        }
+        public async Task<int> DeleteUCUAWebImage(RmUcuaImage img)
+        {
+            _context.RmUcuaImage.Attach(img);
+            var entry = _context.Entry(img);
+            entry.Property(x => x.UcuaActiveYn).IsModified = true;
+            await _context.SaveChangesAsync();
+            return img.UcuaPkRefNo;
+        }
+        public async Task<List<RmUcuaImage>> AddMultiImageWeb(List<RmUcuaImage> images)
+        {
+            _context.RmUcuaImage.AddRange(images);
+            await _context.SaveChangesAsync();
+            return images;
         }
     }
 }

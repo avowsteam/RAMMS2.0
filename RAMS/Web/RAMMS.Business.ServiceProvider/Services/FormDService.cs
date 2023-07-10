@@ -1481,5 +1481,10 @@ namespace RAMMS.Business.ServiceProvider.Services
             var response = await _repoUnit.FormDRepository.FindSaveFormDHdr(formD, updateSubmit);
             return _mapper.Map<FormDHeaderRequestDTO>(response);
         }
+
+        public async Task<string> GetUserEmailIds(int id, bool isReporting)
+        {
+            return await _repoUnit.FormDRepository.GetUserEmailIds(id, isReporting);
+        }
     }
 }

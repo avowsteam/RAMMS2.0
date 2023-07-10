@@ -599,6 +599,24 @@ namespace RAMS.Repository
             return formDHeader;
         }
 
-
+        public async Task<string> GetUserEmailIds(int id, bool isReporting)
+        {
+            string emails = "";
+            var userModel = await _context.RmUsers.Where(x => x.UsrPkId == id).Select(s => new { s.UsrEmail, s.UsrReportingUsrPkId }).FirstOrDefaultAsync();
+            if (!string.IsNullOrEmpty(userModel.UsrEmail))
+                emails = userModel.UsrEmail;
+            if (userModel != null && userModel.UsrReportingUsrPkId != null && isReporting)
+            {
+                var reportingUser = await _context.RmUsers.Where(x => x.UsrPkId == userModel.UsrReportingUsrPkId).Select(s => new { s.UsrEmail }).FirstOrDefaultAsync();
+                if (reportingUser != null && !string.IsNullOrEmpty(reportingUser.UsrEmail))
+                {
+                    if (!string.IsNullOrEmpty(emails))
+                        emails += "," + reportingUser.UsrEmail;
+                    else
+                        emails = reportingUser.UsrEmail;
+                }
+            }
+            return emails;
+        }
     }
 }

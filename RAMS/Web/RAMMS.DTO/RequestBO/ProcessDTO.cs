@@ -16,4 +16,13 @@ namespace RAMMS.DTO.RequestBO
         public DateTime? ApproveDate { get; set; }
         public string Remarks { get; set; }
     }
+
+    public class EmailFromD
+    {
+        public string RefNo { get; set; }
+        public string Title { get; set; }
+        public bool IsEmail { get; set; }
+        public int VerifierId { get; set; }
+        public int SubmittedByUserId { get; set; }
+    }
 }

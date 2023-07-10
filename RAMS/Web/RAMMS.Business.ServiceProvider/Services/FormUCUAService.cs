@@ -22,7 +22,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace RAMMS.Business.ServiceProvider.Services
 {
-    public class FormUCUAService: IFormUCUAService
+    public class FormUCUAService : IFormUCUAService
     {
         private readonly IFormUCUARepository _repo;
         private readonly IRepositoryUnit _repoUnit;
@@ -50,7 +50,7 @@ namespace RAMMS.Business.ServiceProvider.Services
             }
             return _mapper.Map<FormUCUAResponseDTO>(header);
         }
-        
+
         public async Task<FormUCUAResponseDTO> SaveFormUCUA(FormUCUAResponseDTO FormUCUA)
         {
             try
@@ -74,7 +74,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                 IDictionary<string, string> lstData = new Dictionary<string, string>();
                 if (MaxPkrefNo.Count != 0)
                 {
-                     LatestPKNo = MaxPkrefNo.Max();
+                    LatestPKNo = MaxPkrefNo.Max();
                     LatestPKNo = LatestPKNo + 1;
                 }
                 else
@@ -105,7 +105,7 @@ namespace RAMMS.Business.ServiceProvider.Services
         public async Task<int> Update(FormUCUAResponseDTO FormUCUA)
         {
             int rowsAffected;
-            
+
             try
             {
                 int PkRefNo = FormUCUA.PkRefNo;
@@ -154,7 +154,7 @@ namespace RAMMS.Business.ServiceProvider.Services
                     RmNotCrBy = _security.UserName,
                     RmNotGroup = GroupNames.OperationsExecutive,
                     RmNotMessage = "Recorded By:" + form.RmmhReportingName + " - Form Ucua (" + form.RmmhPkRefNo + ")",
-                 //   RmNotMessage = "Recorded By:" + " - Form Ucua (" + form.RmmhPkRefNo + ")",
+                    //   RmNotMessage = "Recorded By:" + " - Form Ucua (" + form.RmmhPkRefNo + ")",
                     RmNotOn = DateTime.Now,
                     RmNotUrl = "/InstructedWorks/EditFormT?id=" + form.RmmhPkRefNo.ToString(),
                     RmNotUserId = "",
@@ -194,13 +194,13 @@ namespace RAMMS.Business.ServiceProvider.Services
                 {
                     IXLWorksheet worksheet = workbook.Worksheet(1);
                     IXLWorksheet image = workbook.Worksheet(1);
-                    byte[] buffTrue = File.ReadAllBytes($"{trueImage}"); 
+                    byte[] buffTrue = File.ReadAllBytes($"{trueImage}");
                     System.IO.MemoryStream strTrue = new System.IO.MemoryStream(buffTrue);
 
                     byte[] buffFalse = File.ReadAllBytes($"{FalseImage}");
                     System.IO.MemoryStream strFalse = new System.IO.MemoryStream(buffFalse);
                     //image.AddPicture(strTrue).MoveTo(image.Cell(11, 2)).WithSize(360, 170);
-                    if ( rpt.UnsafeAct == true)
+                    if (rpt.UnsafeAct == true)
                     {
                         image.AddPicture(strTrue).MoveTo(image.Cell(11, 2)).WithSize(40, 40);
                     }
@@ -224,9 +224,9 @@ namespace RAMMS.Business.ServiceProvider.Services
                         worksheet.Cell(5, 6).Value = rpt.Location;
                         worksheet.Cell(7, 6).Value = rpt.WorkScope;
 
-                       // worksheet.Cell(11, 2).Value = rpt.UnsafeAct ;
+                        // worksheet.Cell(11, 2).Value = rpt.UnsafeAct ;
                         worksheet.Cell(12, 2).Value = rpt.UnsafeActDescription;
-                       // worksheet.Cell(11, 9).Value = rpt.UnsafeCondition;
+                        // worksheet.Cell(11, 9).Value = rpt.UnsafeCondition;
                         worksheet.Cell(12, 9).Value = rpt.UnsafeConditionDescription;
                         worksheet.Cell(15, 2).Value = rpt.ImprovementRecommendation;
                         worksheet.Cell(19, 5).Value = rpt.DateReceived.HasValue ? rpt.DateReceived.Value.ToString("dd-MM-yyyy") : "";
@@ -364,6 +364,167 @@ namespace RAMMS.Business.ServiceProvider.Services
 
             return rowsAffected;
         }
+
+
+
+        public async Task<List<FormUCUAPhotoTypeDTO>> GetExitingPhotoType(int headerId)
+        {
+            return await _repo.GetExitingPhotoType(headerId);
+        }
+        //public async Task<RmIwformImage> AddImage(FormUCUAImagesDTO imageDTO)
+        //{
+        //    RmIwformImage image = _mapper.Map<RmIwformImage>(imageDTO);
+        //    return await _repo.AddImage(image);
+        //}
+        //public async Task<(IList<RmIwformImage>, int)> AddMultiImage(IList<FormUCUAImagesDTO> imagesDTO)
+        //{
+        //    IList<RmIwformImage> images = new List<RmIwformImage>();
+        //    foreach (var img in imagesDTO)
+        //    {
+        //        var count = await _repo.ImageCount(img.ImageTypeCode, img.hPkRefNo.Value);
+        //        if (count > 2)
+        //        {
+        //            return (null, -1);
+        //        }
+
+        //        images.Add(_mapper.Map<RmIwformImage>(img));
+        //    }
+        //    return (await _repo.AddMultiImage(images), 1);
+        //}
+
+        //public async Task<List<RmUcuaImage>> AddMultiImageTab(List<FormUCUAImagesDTO> imagesDTO)
+        //{
+        //    List<RmUcuaImage> images = new List<RmUcuaImage>();
+        //    foreach (var img in imagesDTO)
+        //    {
+        //        images.Add(_mapper.Map<RmUcuaImage>(img));
+        //    }
+        //    return await _repo.AddMultiImage(images);
+        //}
+
+        public async Task<List<RmUcuaImage>> AddMultiImage(List<FormUCUAImagesDTO> imagesDTO)
+        {
+            List<RmUcuaImage> images = new List<RmUcuaImage>();
+            RmUcuaImage obj = new RmUcuaImage();
+            foreach (var item in imagesDTO)
+            {
+                obj = new RmUcuaImage();
+                obj.UcuaActiveYn = item.ActiveYn;
+                obj.UcuaCrBy = item.CrBy;
+                obj.UcuaModBy = item.ModBy;
+                obj.UcuaModDt = item.ModDt;
+                obj.UcuaImageFilenameSys = item.ImageFilenameSys;
+                obj.UcuaImageFilenameUpload = item.ImageFilenameUpload;
+                obj.UcuaImageSrno = item.ImageSrno;
+                obj.UcuaImageTypeCode = item.ImageTypeCode;
+                obj.UcuaImageUserFilePath = item.ImageUserFilePath;
+                obj.UcuaSubmitSts = item.SubmitSts;
+                obj.UcuaPkRefNo = item.PkRefNo;
+                obj.UcuaRmmhPkRefNo = item.RmmhPkRefNo;
+                images.Add(obj);
+            }
+            return (await _repo.AddMultiImage(images));
+        }
+        public List<FormUCUAImagesDTO> ImageList(int headerId)
+        {
+            List<RmUcuaImage> lstImages = _repo.ImageList(headerId).Result;
+            //List<FormUCUAImagesDTO> lstResult = new List<FormUCUAImagesDTO>();
+            //if (lstImages != null && lstImages.Count > 0)
+            //{
+            //    lstImages.ForEach((RmUcuaImage img) =>
+            //    {
+            //        lstResult.Add(_mapper.Map<FormUCUAImagesDTO>(img));
+            //    });
+            //}
+
+            List<FormUCUAImagesDTO> images = new List<FormUCUAImagesDTO>();
+            FormUCUAImagesDTO obj = new FormUCUAImagesDTO();
+            foreach (var item in lstImages)
+            {
+                obj = new FormUCUAImagesDTO();
+                obj.ActiveYn = item.UcuaActiveYn;
+                obj.CrBy = item.UcuaCrBy;
+                obj.ModBy = item.UcuaModBy;
+                obj.ModDt = item.UcuaModDt;
+                obj.ImageFilenameSys = item.UcuaImageFilenameSys;
+                obj.ImageFilenameUpload = item.UcuaImageFilenameUpload;
+                obj.ImageSrno = item.UcuaImageSrno;
+                obj.ImageTypeCode = item.UcuaImageTypeCode;
+                obj.ImageUserFilePath = item.UcuaImageUserFilePath;
+                obj.SubmitSts = item.UcuaSubmitSts;
+                obj.PkRefNo = item.UcuaPkRefNo;
+                obj.RmmhPkRefNo = item.UcuaRmmhPkRefNo;
+                obj.ImgRefId = item.UcuaImgRefId;
+                obj.RmmhRefNo = item.UcuaRmmhRefNo;
+                obj.Source = item.UcuaSource;
+
+                images.Add(obj);
+            }
+
+            return images;
+        }
+        public async Task<int> DeleteImage(int headerId, int imgId)
+        {
+            RmUcuaImage img = new RmUcuaImage();
+            img.UcuaPkRefNo = imgId;
+            img.UcuaRmmhPkRefNo = headerId;
+            img.UcuaActiveYn = false;
+            return await _repo.DeleteImage(img);
+        }
+        public List<FormUCUAImagesDTO> ImageListWeb(int headerId)
+        {
+            List<RmUcuaImage> lstImages = _repo.ImageListWeb(headerId).Result;
+            List<FormUCUAImagesDTO> lstResult = new List<FormUCUAImagesDTO>();
+            FormUCUAImagesDTO lstResultDto = new FormUCUAImagesDTO();
+            if (lstImages != null && lstImages.Count > 0)
+            {
+                lstImages.ForEach((RmUcuaImage img) =>
+                {
+                    lstResultDto = new FormUCUAImagesDTO();
+                    lstResultDto.ImageFilenameSys = img.UcuaImageFilenameSys;
+                    lstResultDto.ImageUserFilePath = img.UcuaImageUserFilePath.Replace(" ", "");
+                    lstResultDto.ImageFilenameUpload = img.UcuaImageFilenameUpload.Replace(" ", "");
+                    lstResultDto.ImageTypeCode = img.UcuaImageTypeCode;
+                    lstResultDto.PkRefNo = img.UcuaPkRefNo;
+                    lstResultDto.ImageSrno = img.UcuaImageSrno;
+                    lstResult.Add(lstResultDto);
+
+                });
+            }
+            return lstResult;
+        }
+        public async Task<List<RmUcuaImage>> AddMultiImageWeb(List<FormUCUAImagesDTO> imagesDTO)
+        {
+            List<RmUcuaImage> images = new List<RmUcuaImage>();
+            RmUcuaImage obj = new RmUcuaImage();
+            foreach (var item in imagesDTO)
+            {
+                obj = new RmUcuaImage();
+                obj.UcuaActiveYn = item.ActiveYn;
+                obj.UcuaCrBy = item.CrBy;
+                obj.UcuaModBy = item.ModBy;
+                obj.UcuaModDt = item.ModDt;
+                obj.UcuaImageFilenameSys = item.ImageFilenameSys;
+                obj.UcuaImageFilenameUpload = item.ImageFilenameUpload;
+                obj.UcuaImageSrno = item.ImageSrno;
+                obj.UcuaImageTypeCode = item.ImageTypeCode;
+                obj.UcuaImageUserFilePath = item.ImageUserFilePath;
+                obj.UcuaSubmitSts = item.SubmitSts;
+                obj.UcuaPkRefNo = item.PkRefNo;
+                obj.UcuaRmmhPkRefNo = item.RmmhPkRefNo;
+                images.Add(obj);
+            }
+            return (await _repo.AddMultiImageWeb(images));
+        }
+        public async Task<int> DeleteUCUAWebImage(int pkId)
+        {
+            RmUcuaImage img = new RmUcuaImage();
+            img.UcuaPkRefNo = pkId;
+            // img.UcuaRmmhPkRefNo = headerId;
+            img.UcuaActiveYn = false;
+            return await _repo.DeleteUCUAWebImage(img);
+        }
+
     }
 
 }

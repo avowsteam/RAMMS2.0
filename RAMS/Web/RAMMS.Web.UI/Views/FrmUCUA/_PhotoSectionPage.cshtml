@@ -1,23 +1,24 @@
-﻿@model RAMMS.Web.UI.Models.FormIWImageModel
+﻿@model IEnumerable<RAMMS.DTO.RequestBO.FormUCUAImagesDTO>
+
 @inject RAMMS.Business.ServiceProvider.Interfaces.ISecurity security
 
 @{
     bool ImageTypeBQ = false;
     bool ImageTypeDrawing = false;
-    if (Model.ImageList != null && Model.ImageList.Count() > 0)
-    {
-        foreach (var item in Model.ImageList)
-        {
-            if (item.ImageTypeCode == "BQ")
-            {
-                ImageTypeBQ = true;
-            }
-            if (item.ImageTypeCode == "Drawing")
-            {
-                ImageTypeDrawing = true;
-            }
-        }
-    }
+    //if (Model. != null && Model.ImageList.Count() > 0)
+    //{
+    //    foreach (var item in Model.ImageList)
+    //    {
+    //        if (item.ImageTypeCode == "BQ")
+    //        {
+    //            ImageTypeBQ = true;
+    //        }
+    //        if (item.ImageTypeCode == "Drawing")
+    //        {
+    //            ImageTypeDrawing = true;
+    //        }
+    //    }
+    //}
 }
 
 <style>
@@ -39,7 +40,7 @@
 <div class="modal-body  mh-260">
     <div class="accordion custom-accordion" id="WarModalaccordion">
         <div class="col-3">
-            @Html.Hidden("IwRefNo", Model.IwRefNo, new { @class = "form-control", @id = "IwRefNo" }) @*//PrimaryKey*@
+            @Html.Hidden("IwRefNo", Model.Count(), new { @class = "form-control", @id = "IwRefNo" }) @*//PrimaryKey*@
 
         </div>
         <div class="card mb-0">
@@ -72,8 +73,6 @@
                                         <th>S.NO</th>
                                         <th>Attachment Type</th>
                                         <th>FileName</th>
-                                        <th>Source</th>
-                                        
                                         @if (security.IsPCDelete(ModuleNameList.Instructed_Works))
                                         {
                                             <th style="text-align:center">Delete</th>
@@ -82,28 +81,28 @@
                                         {
                                             <th>&nbsp;</th>
                                         }
-                                        <th>Download</th>
+                                        @*<th>Download</th>*@
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @{
                                         int i = 1;
-                                        var formtype = Model.FormName;
+                                        var formtype = "";
                                         var _disabled = false;
 
-                                        if (Model.ImageList != null && Model.ImageList.Count() > 0)
+                                        if (Model != null && Model.Count() > 0)
                                         {
 
-                                            foreach (var item in Model.ImageList)
+                                            foreach (var item in Model)
                                             {
-                                                var form =  item.Source != null ? item.Source.Substring(4).Trim() : "W1";
+                                                var form = "";
                                                 <tr>
                                                     <td>@i</td>
                                                     <td>@Html.DisplayFor(modelItem => item.ImageTypeCode)</td>
                                                     <td>@Html.DisplayFor(modelItem => item.ImageUserFilePath)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.Source)</td>
-                                                    @if (security.IsPCDelete(ModuleNameList.Instructed_Works) && (item.Source == Model.FormName || formtype.IndexOf(form) >= 0))
+
+                                                    @if (security.IsPCDelete(ModuleNameList.Instructed_Works) && (formtype.IndexOf(form) >= 0))
                                                     {
                                                         <td style="text-align:center"><button type="button" style="border:none;align-content:center;background:transparent" onclick="DeleteImage(@item.PkRefNo)"><span class="remove-icon"></span></button></td>
                                                     }
@@ -111,7 +110,7 @@
                                                     {
                                                         <td>&nbsp;</td>
                                                     }
-                                                    <td><a class="warCaption" href="~/@item.ImageFilenameUpload" target="_blank" title="Click here to View the Document">Download</a></td>
+                                                    @*<td><a class="warCaption" href="~/@item.ImageFilenameUpload" target="_blank" title="Click here to View the Document">Download</a></td>*@
                                                 </tr>
                                                 i++;
                                             }
@@ -149,59 +148,35 @@
             </div>
             <div id="WarImageView" class="collapse  avowmodal-form" aria-labelledby="headingEight" data-parent="#WarImageList">
                 <div class="card-body">
-                    @if (Model.ImageList.Count() > 0)
+                    @if (Model.Count() > 0)
                     {
-
-                        @foreach (var list in Model.ImageTypeList)
-                        {
-                            <div class="container">
-                                <h6>@list</h6>
-                                <hr />
-                                @foreach (var item in Model.ImageList)
-                                {
-                                    if (list == item.ImageTypeCode)
-                                    {
-                                        <div class="waritem">
-                                            <div data-fancybox="gallery" style="text-align:center">
-                                                @{
-                                                    var type = item.ImageUserFilePath.Split('.');
-                                                    var fileType = "";
-                                                    if (type.Length > 0)
-                                                    {
-                                                        fileType = type[1];
-                                                    }
-                                                }
-                                                @if (item.ImageTypeCode != "Others")
-                                                {
-                                                    if (fileType.ToLower() == "png" || fileType.ToLower() == "jpg" || fileType.ToLower() == "jpeg")
-                                                    {
-                                                        <img src="~/@item.ImageFilenameUpload" alt="Image_Unavailable" />
-                                                        <a class="warCaption" href="~/@item.ImageFilenameUpload" target="_blank" title="Click here to View the Document">@item.ImageFilenameSys</a>
-                                                        @*<span class="warCaption">@item.ImageUserFilePath</span>*@
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    if (fileType.ToLower() != "png" && fileType.ToLower() != "jpg" && fileType.ToLower() != "jpeg")
-                                                    {
-
-                                                        <img class="item-doc" src="~/Uploads/FormX/WAR/file-icon.png" alt="Image_Unavailable" />
-                                                        <a class="warCaption" href="~/@item.ImageFilenameUpload" target="_blank" title="Click here to View the Document">@item.ImageUserFilePath</a>
-
-                                                    }
-                                                    else
-                                                    {
-                                                        <img src="~/@item.ImageFilenameUpload" alt="Image_Unavailable" />
-                                                        <span class="warCaption">@item.ImageUserFilePath</span>
-                                                    }
-                                                }
-
-                                            </div>
-                                        </div>
-                                    }
-                                }
-                            </div>
-                        }
+                        <div class="container">
+                            <h6>Image</h6>
+                            <hr />
+                            @foreach (var item in Model)
+                            {
+                                <div class="waritem">
+                                    <div data-fancybox="gallery" style="text-align:center">
+                                        @{
+                                            var fileType = System.IO.Path.GetExtension(item.ImageFilenameSys);
+                                            string imgTypes = ".png.jpg.jpeg";
+                                        }
+                                        @if (imgTypes.Contains(fileType.ToLower()))
+                                        {
+                                            @*<img src="~/@item.ImageUserFilePath/@item.ImageFilenameUpload" alt="Image_Unavailable" />*@
+                                            var url = "Uploads/" + item.ImageUserFilePath.Replace("\\", "/") + "/" + item.ImageFilenameUpload.Replace("\\", "/");
+                                            <img src="~/@url" alt="Image_Unavailable" />
+                                            <span class="warCaption">@item.ImageFilenameUpload</span>
+                                        }
+                                        else
+                                        {
+                                            <a class="warCaption" href="~/@item.ImageFilenameUpload" target="_blank"
+                                               title="Click here to View the Document">@item.ImageUserFilePath</a>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     }
                 </div>
             </div>
@@ -211,7 +186,7 @@
 @*<div class="modal-footer">
     <button type="button" id="btnclosephto" class="btn btn-sm btn-outline-theme" onclick="CloseWarModal()">Close</button>
     </div>*@
-<input type="hidden" id="hdnFormType" value="@Model.FormName" />
+<input type="hidden" id="hdnFormType" value="@Model" />
 <div class="modal hide border-10x addphoto-mdl" id="myModal">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -226,8 +201,9 @@
                         <div class="form-group col-lg-12">
                             @Html.Label("Please Select Photo Type ", "Please Select Photo Type: ", new { @class = "float-left" })
                             @*@Html.DropDownList("Select Type", (IEnumerable
-                            <SelectListItem>)ViewData["PhotoTypeList"], "Select Type", new { @Id = "photoType", @class = "form-control" })*@
+                                <SelectListItem>)ViewData["PhotoTypeList"], "Select Type", new { @Id = "photoType", @class = "form-control" })*@
                             <select id="photoType" class="form-check">
+                                @* <option value="0" selected="selected"></option>*@
                                 <option value="1" selected="selected">Image (JPG/JPEG/PNG)</option>
                             </select>
                         </div>
@@ -235,7 +211,7 @@
                         <div class="form-group col-lg-12" id="divFormType">
                             @Html.Label("Please Select Form Type ", "Please Select Form Type: ", new { @class = "float-left" })
                             @*@Html.DropDownList("Select Type", (IEnumerable
-        <SelectListItem>)ViewData["FormType"], "Select Type", new { @Id = "formType", @class = "form-control" })*@
+                                <SelectListItem>)ViewData["FormType"], "Select Type", new { @Id = "formType", @class = "form-control" })*@
                             <select id="formType" class="form-check">
                                 <option value="1" selected="selected">Image (JPG/JPEG/PNG)</option>
                             </select>
@@ -336,12 +312,10 @@
 
 
 <script>
-
         ImageTypeBQ = "@ImageTypeBQ";
         ImageTypeDrawing = "@ImageTypeDrawing";
 
     $(document).ready(function () {
-       // debugger
         $("#photoType").chosen();
         document.getElementById("files").disabled = true;
         $("#files1").addClass("disabled");
@@ -366,38 +340,6 @@
         }
     });
 
-    function FormAddImage() {
-        if ($("#hdnView").val() == "1") return;
-        if (ValidatePage("#tab1")) {
-            if ($("#hdnPkRefNo").val() != "0") {
-                $("#myModal").modal('show');
-
-                if (getIsTabForm())
-                    $("#divFormType").show();
-                else
-                    $("#divFormType").hide();
-            }
-            else {
-                $("#tab1").click();
-                app.ShowErrorMessage("Required to save the Form W1 details and then try to upload photo");
-            }
-        }
-        else {
-            $("#saveFormW1Btn").click();
-            app.ShowErrorMessage("Required fields are incomplete in Form W1");
-        }
-    }
-
-    function UploadModalClose() {
-        $("#photoType").val("").trigger("chosen:updated");
-        document.getElementById("files").disabled = true;
-        $("#files1").addClass("disabled");
-        document.getElementById("FormDBrowseBtn").disabled = true;
-        document.getElementById("btnImageUpload").disabled = true;
-        $("#photolist").empty();
-        $('#myModal').modal('hide');
-    }
-
     $("#photoType").change(function () {
          document.getElementById("files").disabled = true;
         $("#files1").addClass("disabled");
@@ -409,7 +351,7 @@
     })
 
     function printImage() {
-            window.location = "@Url.Action("PrintWarForm", "InstructedWorks")" + "?id=" + document.getElementById('formDWarNo').value + "&form="+"FormD"+"&filename="+"WARFormD";
+        window.location = "@Url.Action("PrintWarForm", "InstructedWorks")" + "?id=" + document.getElementById('formDWarNo').value + "&form=" + "FormD" + "&filename=" + "WARFormD";
     }
 
      $.fn.fileUploader = function (filesToUpload, sectionIdentifier) {
@@ -449,7 +391,6 @@
                     }
                 }
                 else {
-
                     //if (file.type != "image/png" && file.type != "image/jpeg" && file.type != "application/vnd.ms-excel" && file.type != "text/csv" && file.type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && file.type != "application/msword" && file.type != "application/vnd.openxmlformats-officedocument.wordprocessingml.document" && file.type != "application/pdf") {
                     if ($.inArray(ext, ['png', 'jpeg', 'jpg', 'csv', 'docx', 'doc', 'xlsx', 'xls', 'pdf', 'ppt', 'pptx']) == -1) {
                         app.ShowErrorMessage("Invalid extension! On this Type, You can only upload pdf/excel/doc/csv/jpg/jpeg/png files.");
@@ -462,7 +403,6 @@
                         }
                     }
                     else {
-
                         if (file.size > 11000000) {// 5242880) {// should not be exceed 5 mb for images
                             app.ShowErrorMessage("The file(" + file.name + ") does not match the upload conditions, The maximum file size for uploads should not exceed 11 MB");
                             return
@@ -534,7 +474,6 @@
                 if (filesToUpload[i].id.indexOf(sectionIdentifier) >= 0)
                     filesToUpload.splice(i, 1);
             }
-
             $(this).children(".fileList").empty();
         }
 
@@ -560,24 +499,30 @@
         });
 
         $("#btnImageUpload").click(function (e) {
-
-            debugger
             var type = $("#photoType").val();
-            var id = $("#hdnPkRefNo").val();
+            var Refid = $("#RefId").val();
+            var id = $("#PkRefNo").val();
+
             var formData = new FormData();
-            formData.append("PkRefNo",id );
+            formData.append("Id", Refid);
+            formData.append("headerId", id);
             for (var i = 0, len = filesToUpload.length; i < len; i++) {
                 formData.append("FormFile", filesToUpload[i].file);
-                formData.append("PhotoType", filesToUpload[i].fileType);
+                //  formData.append("PhotoType", filesToUpload[i].fileType);
+                formData.append("PhotoType", "Image UCUA");
             }
-            if (getIsTabForm())
-                formData.append("Source", $("#formType").val());
-            else
-                formData.append("Source", $("#hdnForm").val());
+            //if (getIsTabForm()){
+            //    formData.append("Source", $("#formType").val());
+            //}
+
+            //else{
+            //    formData.append("Source", $("#hdnForm").val());
+            //}
+
             InitAjaxLoading();
             $.ajax(
                 {
-                    url: "/InstructedWorks/ImageUploadFormIw",
+                    url: "/FrmUCUA/ImageUploadedTabWeb",
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -587,27 +532,22 @@
                         HideAjaxLoading();
                         debugger
                         if (data) {
-                        app.ShowSuccessMessage('Uploaded Successcully', false);
-                        $('#myModal').modal('hide');
-                         if (getIsTabForm())
-                             GetImageList(id, $("#hdnFormType").val());
-                         else
-                            GetImageList(id, $("#hdnForm").val());
-                    }
-                    else {
-                        app.ShowErrorMessage('Upload Failed. Kindly retry later.', false);
-                        HideAjaxLoading();
-                    }
+                            app.ShowSuccessMessage('Uploaded Successcully', false);
+                            $('#myModal').modal('hide');
+                            GetImageList(id, "");
+                        }
+                        else {
+                            app.ShowErrorMessage('Upload Failed. Kindly retry later.', false);
+                            HideAjaxLoading();
+                        }
 
                     },
                     error: function (data) {
                         HideAjaxLoading();
                         app.ShowErrorMessage("Upload Failed. Kindly retry later.")
-
                     }
                 }
             );
-
         });
     })()
 
@@ -622,45 +562,29 @@
         });
     }
 
-    function getIsTabForm(){
-        if ($("#hdnFormType").val().indexOf("WC") >= 0 ||  $("#hdnFormType").val().indexOf("WG") >=0){
-            return true;
-        }  
-        else if ($("#hdnFormType").val().indexOf("WD") >=0  || $("#hdnFormType").val().indexOf("WN") >=0){
-             return true;
-        } 
-        
-        return false
-    }
-
     function DeleteImage(pkId) {
-        if ($("#hdnView").val() == "1") return; 
+        if ($("#hdnView").val() == "1") return;
         if (app.Confirm("Are you sure you want to delete the record?", function (e) {
             if (e) {
                 InitAjaxLoading();
                 $.ajax({
-                    url: '/InstructedWorks/IwDeleteImage',
+                    url: '/FrmUCUA/DeleteUCUAWebImage',
                     data: { pkId },
                     type: 'POST',
                     success: function (data) {
                         if (data > 0) {
                             HideAjaxLoading();
-                            app.ShowSuccessMessage("Successfully Deleted")
-                            if (getIsTabForm())
-                                GetImageList($("#hdnPkRefNo").val(), $("#hdnFormType").val());
-                            else
-                                GetImageList($("#hdnPkRefNo").val(), $("#hdnForm").val());
+                            app.ShowSuccessMessage("Successfully Deleted");
+                            debugger
+                            GetImageList($("#PkRefNo").val(), "");
                         }
                         else {
                             HideAjaxLoading();
                             alert("Error in Deleted. Kindly retry later.");
-
                         }
-
                     }
                 });
             }
         }));
     }
-
 </script>

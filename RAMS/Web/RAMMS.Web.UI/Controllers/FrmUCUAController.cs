@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RAMMS.Business.ServiceProvider.Interfaces;
+using RAMMS.Business.ServiceProvider.Services;
 using RAMMS.Domain.Models;
 using RAMMS.DTO;
 using RAMMS.DTO.JQueryModel;
@@ -60,7 +61,7 @@ namespace RAMMS.Web.UI.Controllers
             _webHostEnvironment = webhostenvironment;
         }
         public IActionResult Index()
-        
+
         {
             return View();
         }
@@ -89,7 +90,7 @@ namespace RAMMS.Web.UI.Controllers
             {
                 searchData.filterData.WorkScope = Request.Form["columns[5][search][value]"].ToString();
             }
-            
+
             if (Request.Form.ContainsKey("columns[6][search][value]"))
             {
                 searchData.filterData.ReceivedDtFrom = Request.Form["columns[6][search][value]"].ToString();
@@ -154,7 +155,7 @@ namespace RAMMS.Web.UI.Controllers
         public async Task<IActionResult> SaveFormUCUA(FormUCUAModel frm)
         {
             int refNo = 0;
-           frm.FormUCUA.ActiveYn = true;
+            frm.FormUCUA.ActiveYn = true;
             if (frm.FormUCUA.PkRefNo == 0)
             {
                 frm.FormUCUA = await _formUCUAService.SaveFormUCUA(frm.FormUCUA);
@@ -178,11 +179,11 @@ namespace RAMMS.Web.UI.Controllers
                 string contentType1 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                 return File(content1, contentType1, "FormUCUA" + ".xlsx");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
-            
+
         }
 
         public async Task<IActionResult> DeleteFormUCUA(int id)
@@ -193,84 +194,89 @@ namespace RAMMS.Web.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetUCUAImageList(string Id, string assetgroup, string form)
+        public async Task<IActionResult> GetUCUAImageList(int Id, string assetgroup, string form)
         {
-            DDLookUpDTO ddLookup = new DDLookUpDTO();
-            FormIWImageModel assetsModel = new FormIWImageModel();
-            assetsModel.ImageList = new List<FormIWImageResponseDTO>();
-            assetsModel.ImageTypeList = new List<string>();
-            ddLookup.Type = "Photo Type";
-            ddLookup.TypeCode = "IW";
-            //assetsModel.PhotoType = await _ddLookupService.GetDdLookup(ddLookup);
-            //if (assetsModel.PhotoType.Count() == 0)
+
+            //DDLookUpDTO ddLookup = new DDLookUpDTO();
+            //FormIWImageModel assetsModel = new FormIWImageModel();
+            //assetsModel.ImageList = new List<FormIWImageResponseDTO>();
+            //assetsModel.ImageTypeList = new List<string>();
+            //ddLookup.Type = "Photo Type";
+            //ddLookup.TypeCode = "IW";
+            ////assetsModel.PhotoType = await _ddLookupService.GetDdLookup(ddLookup);
+            ////if (assetsModel.PhotoType.Count() == 0)
+            ////{
+            ////    assetsModel.PhotoType = new[]{ new SelectListItem
+            ////    {
+            ////        Text = "Others",
+            ////        Value = "Others"
+            ////    }};
+            ////}
+            ////ViewBag.PhotoTypeList = await _ddLookupService.GetDdLookup(ddLookup);
+            //assetsModel.ImageList = await _formW1Service.GetImageList(Id);
+            //assetsModel.IwRefNo = Id;
+
+
+            //List<SelectListItem> newDdl = new List<SelectListItem>();
+            //if (form == "FormWCWG")
             //{
-            //    assetsModel.PhotoType = new[]{ new SelectListItem
-            //    {
-            //        Text = "Others",
-            //        Value = "Others"
-            //    }};
+            //assetsModel.FormName = "Form";
+            ////var items = await _ddLookupService.GetDdLookup(ddLookup);
+            //var _formWC = await _formWCService.FindWCByW1ID(int.Parse(Id));
+            //var _formWG = await _formWGService.FindWGByW1ID(int.Parse(Id));
+            //_formWC = _formWC == null ? new FormWCResponseDTO() : _formWC;
+            //_formWG = _formWG == null ? new FormWGResponseDTO() : _formWG;
+
+            //if (!_formWC.SubmitSts)
+            //{
+            //newDdl.Add(new SelectListItem("Form WC", "Form WC"));
+            //assetsModel.FormName = assetsModel.FormName + "WC";
             //}
-            //ViewBag.PhotoTypeList = await _ddLookupService.GetDdLookup(ddLookup);
-            assetsModel.ImageList = await _formW1Service.GetImageList(Id);
-            assetsModel.IwRefNo = Id;
+            //if (!_formWG.SubmitSts)
+            //{
+            //newDdl.Add(new SelectListItem("Form WG", "Form WG"));
+            //assetsModel.FormName = assetsModel.FormName + "WG";
+            //}
+            //ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
+            //assetsModel.IsSubmittedWC = _formWC.SubmitSts;
+            //assetsModel.IsSubmittedWG = _formWG.SubmitSts;
+            //}
+            //else if (form == "FormWDWN")
+            //{
+            //assetsModel.FormName = "Form";
+            ////var items = await _ddLookupService.GetDdLookup(ddLookup);
+            //var _formWD = await _formWDService.FindWDByW1ID(int.Parse(Id));
+            //var _formWN = await _formWNService.FindWNByW1ID(int.Parse(Id));
 
+            //_formWD = _formWD == null ? new FormWDResponseDTO() : _formWD;
+            //_formWN = _formWN == null ? new FormWNResponseDTO() : _formWN;
 
-            List<SelectListItem> newDdl = new List<SelectListItem>();
-            if (form == "FormWCWG")
-            {
-                assetsModel.FormName = "Form";
-                //var items = await _ddLookupService.GetDdLookup(ddLookup);
-                var _formWC = await _formWCService.FindWCByW1ID(int.Parse(Id));
-                var _formWG = await _formWGService.FindWGByW1ID(int.Parse(Id));
-                _formWC = _formWC == null ? new FormWCResponseDTO() : _formWC;
-                _formWG = _formWG == null ? new FormWGResponseDTO() : _formWG;
+            //if (!_formWD.SubmitSts)
+            //{
+            //newDdl.Add(new SelectListItem("Form WD", "Form WD"));
+            //assetsModel.FormName = assetsModel.FormName + "WD";
+            //}
+            //if (!_formWN.SubmitSts)
+            //{
+            //newDdl.Add(new SelectListItem("Form WN", "Form WN"));
+            //assetsModel.FormName = assetsModel.FormName + "WN";
+            //}
+            //ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
+            //assetsModel.IsSubmittedWD = _formWD.SubmitSts;
+            //assetsModel.IsSubmittedWN = _formWN.SubmitSts;
+            //}
+            //else
+            //{
+            //assetsModel.FormName = form;
 
-                if (!_formWC.SubmitSts)
-                {
-                    newDdl.Add(new SelectListItem("Form WC", "Form WC"));
-                    assetsModel.FormName = assetsModel.FormName + "WC";
-                }
-                if (!_formWG.SubmitSts)
-                {
-                    newDdl.Add(new SelectListItem("Form WG", "Form WG"));
-                    assetsModel.FormName = assetsModel.FormName + "WG";
-                }
-                ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
-                assetsModel.IsSubmittedWC = _formWC.SubmitSts;
-                assetsModel.IsSubmittedWG = _formWG.SubmitSts;
-            }
-            else if (form == "FormWDWN")
-            {
-                assetsModel.FormName = "Form";
-                //var items = await _ddLookupService.GetDdLookup(ddLookup);
-                var _formWD = await _formWDService.FindWDByW1ID(int.Parse(Id));
-                var _formWN = await _formWNService.FindWNByW1ID(int.Parse(Id));
+            //ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
+            //}
+            //assetsModel.ImageTypeList = assetsModel.ImageList.Select(c => c.ImageTypeCode).Distinct().ToList();
 
-                _formWD = _formWD == null ? new FormWDResponseDTO() : _formWD;
-                _formWN = _formWN == null ? new FormWNResponseDTO() : _formWN;
+            List<FormUCUAImagesDTO> imageList = new List<FormUCUAImagesDTO>();
+            imageList = _formUCUAService.ImageListWeb(Id);
 
-                if (!_formWD.SubmitSts)
-                {
-                    newDdl.Add(new SelectListItem("Form WD", "Form WD"));
-                    assetsModel.FormName = assetsModel.FormName + "WD";
-                }
-                if (!_formWN.SubmitSts)
-                {
-                    newDdl.Add(new SelectListItem("Form WN", "Form WN"));
-                    assetsModel.FormName = assetsModel.FormName + "WN";
-                }
-                ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
-                assetsModel.IsSubmittedWD = _formWD.SubmitSts;
-                assetsModel.IsSubmittedWN = _formWN.SubmitSts;
-            }
-            else
-            {
-                assetsModel.FormName = form;
-
-                ViewData["FormType"] = (IEnumerable<SelectListItem>)newDdl;
-            }
-            assetsModel.ImageTypeList = assetsModel.ImageList.Select(c => c.ImageTypeCode).Distinct().ToList();
-            return PartialView("~/Views/FrmUCUA/_PhotoSectionPage.cshtml", assetsModel);
+            return PartialView("~/Views/FrmUCUA/_PhotoSectionPage.cshtml", imageList);
         }
 
 
@@ -351,6 +357,133 @@ namespace RAMMS.Web.UI.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+
+        [HttpPost]
+        public async Task<int> ImageUploadedTab(IFormCollection filesCollection, int headerId, string Id, string photoType)
+        {
+            IFormCollection files = Request.ReadFormAsync().Result;
+            if (files != null && files.Count > 0)
+            {
+                List<FormUCUAImagesDTO> lstImages = new List<FormUCUAImagesDTO>();
+                string photo_Type = Regex.Replace(photoType, @"[^a-zA-Z]", "");
+                photoType = photoType.Replace(" ", "");
+
+                var objExistsPhotoType = _formUCUAService.GetExitingPhotoType(headerId).Result;
+                if (objExistsPhotoType == null) { objExistsPhotoType = new List<FormUCUAPhotoTypeDTO>(); }
+
+                string InspRefNum = Regex.Replace(Id, @"[^0-9a-zA-Z]+", "");
+                string wwwPath = this._webHostEnvironment.WebRootPath;
+
+                foreach (var file in files.Files)
+                {
+                    var objSNo = objExistsPhotoType.Where(x => x.Type == photo_Type).FirstOrDefault();
+                    if (objSNo == null) { objSNo = new FormUCUAPhotoTypeDTO() { SNO = 1, Type = photo_Type }; objExistsPhotoType.Add(objSNo); }
+                    else { objSNo.SNO = objSNo.SNO + 1; }
+
+                    string fileName = Path.GetFileName(file.FileName.Replace(" ", "_"));
+                    string strFileUploadDir = Path.Combine("FormUCUA", InspRefNum, photoType);
+                    string strSaveDir = Path.Combine(wwwPath, "Uploads", strFileUploadDir);
+                    string strSysFileName = InspRefNum + "_" + photoType + "_" + objSNo.SNO.ToString("000");
+                    string strUploadFileName = objSNo.SNO.ToString() + "_" + photoType + "_" + fileName;
+                    if (!Directory.Exists(strSaveDir)) { Directory.CreateDirectory(strSaveDir); }
+                    using (FileStream stream = new FileStream(Path.Combine(strSaveDir, strUploadFileName), FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    lstImages.Add(new FormUCUAImagesDTO()
+                    {
+                        ActiveYn = true,
+                        CrBy = _security.UserID,
+                        ModBy = _security.UserID,
+                        CrDt = DateTime.UtcNow,
+                        ModDt = DateTime.UtcNow,
+                        RmmhPkRefNo = headerId,
+                        ImageFilenameSys = strSysFileName,
+                        ImageFilenameUpload = strUploadFileName,
+                        ImageSrno = objSNo.SNO,
+                        ImageTypeCode = photo_Type,
+                        ImageUserFilePath = strFileUploadDir,
+                        SubmitSts = true
+                    });
+
+                }
+                if (lstImages.Count > 0)
+                {
+                    var a = await _formUCUAService.AddMultiImage(lstImages);
+                }
+            }
+            else
+            {
+                return -1;
+            }
+            return 1;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUCUAWebImage(int pkId)
+        {
+            int response = await _formUCUAService.DeleteUCUAWebImage(pkId);
+            return Json(response);
+        }
+        [HttpPost]
+        public async Task<int> ImageUploadedTabWeb(IFormCollection filesCollection, int headerId, string Id, string photoType)
+        {
+            IFormCollection files = Request.ReadFormAsync().Result;
+            if (files != null && files.Count > 0)
+            {
+                List<FormUCUAImagesDTO> lstImages = new List<FormUCUAImagesDTO>();
+                string photo_Type = Regex.Replace(photoType, @"[^a-zA-Z]", "");
+                photoType = photoType.Replace(" ", "");
+                var objExistsPhotoType = _formUCUAService.GetExitingPhotoType(headerId).Result;
+                if (objExistsPhotoType == null) { objExistsPhotoType = new List<FormUCUAPhotoTypeDTO>(); }
+
+                string InspRefNum = Regex.Replace(Id, @"[^0-9a-zA-Z]+", "");
+                string wwwPath = this._webHostEnvironment.WebRootPath;
+
+                foreach (var file in files.Files)
+                {
+                    var objSNo = objExistsPhotoType.Where(x => x.Type == photo_Type).FirstOrDefault();
+                    if (objSNo == null) { objSNo = new FormUCUAPhotoTypeDTO() { SNO = 1, Type = photo_Type }; objExistsPhotoType.Add(objSNo); }
+                    else { objSNo.SNO = objSNo.SNO + 1; }
+
+                    string fileName = Path.GetFileName(file.FileName.Replace(" ", "_"));
+                    string strFileUploadDir = Path.Combine("FormUCUA", InspRefNum, photoType);
+                    string strSaveDir = Path.Combine(wwwPath, "Uploads", strFileUploadDir);
+                    string strSysFileName = InspRefNum + "_" + photoType + "_" + objSNo.SNO.ToString("000");
+                    string strUploadFileName = objSNo.SNO.ToString() + "_" + photoType + "_" + fileName;
+                    if (!Directory.Exists(strSaveDir)) { Directory.CreateDirectory(strSaveDir); }
+                    using (FileStream stream = new FileStream(Path.Combine(strSaveDir, strUploadFileName), FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    lstImages.Add(new FormUCUAImagesDTO()
+                    {
+                        ActiveYn = true,
+                        CrBy = _security.UserID,
+                        ModBy = _security.UserID,
+                        CrDt = DateTime.UtcNow,
+                        ModDt = DateTime.UtcNow,
+                        RmmhPkRefNo = headerId,
+                        ImageFilenameSys = strSysFileName,
+                        ImageFilenameUpload = strUploadFileName,
+                        ImageSrno = objSNo.SNO,
+                        ImageTypeCode = photo_Type,
+                        ImageUserFilePath = strFileUploadDir,
+                        SubmitSts = true
+                    });
+
+                }
+                if (lstImages.Count > 0)
+                {
+                    var a = await _formUCUAService.AddMultiImageWeb(lstImages);
+                }
+            }
+            else
+            {
+                return -1;
+            }
+            return 1;
         }
 
     }

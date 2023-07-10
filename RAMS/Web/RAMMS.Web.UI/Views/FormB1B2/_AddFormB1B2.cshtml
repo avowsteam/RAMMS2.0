@@ -872,7 +872,14 @@
                                         @{
                                             string InspectedbyDt = Model.SerProviderInsDt.HasValue ? Model.SerProviderInsDt.Value.ToString("yyyy-MM-dd") : "";
                                         }
-                                        <input id="txtServiceProviderDate" class="form-control view svalidate {required, Inspected Date}" type="date" value="@InspectedbyDt" @(IsSupervisor ? "" : "disabled='disabled'") />
+                                        @if (isEnggAssistant)
+                                        {
+                                            <input id="txtServiceProviderDate" class="form-control view svalidate {required, Inspected Date}" type="date" value="@InspectedbyDt" />
+                                        }
+                                        else
+                                        {
+                                            <input id="txtServiceProviderDate" class="form-control view svalidate {required, Inspected Date}" type="date" value="@InspectedbyDt" @(IsSupervisor ? "" : "disabled='disabled'") />
+                                        }
                                     </div>
                                     <div class="form-group col-lg-2 float-left">
                                         @Html.Label("Signature", "Signature")
