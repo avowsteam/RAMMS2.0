@@ -14,11 +14,11 @@ using System.Reflection.Emit;
 //using DocumentFormat.OpenXml.Office2010.Word;
 using RAMMS.DTO.Report;
 using static OpenXmlPowerTools.RevisionProcessor;
-using DocumentFormat.OpenXml.InkML;
+//using DocumentFormat.OpenXml.InkML;
 using OpenXmlPowerTools;
 using AutoMapper.Features;
-using DocumentFormat.OpenXml.Presentation;
-using DocumentFormat.OpenXml.Wordprocessing;
+//using DocumentFormat.OpenXml.Presentation;
+//using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
 
 namespace RAMMS.Repository
